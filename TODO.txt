@@ -1,5 +1,12 @@
 
+TODO ITEMS
+==========
 
 - Build javadocs
 - import tests
 - create distribution
+
+DONE ITEMS
+==========
+
+- Add X11 license 
