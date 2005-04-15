@@ -1,0 +1,141 @@
+
+<project name="slf4j" default="usage" basedir="." >
+
+  <property name="tmp.java.source.dir" value="./tmp/src"/>
+  <property name="tmp.javac.dest" value="./tmp/classes"/>
+	
+  <!-- The directory where source files are stored. -->
+  <property name="version" value="1.0"/>
+
+  <!-- Deprecation warning? --> 
+  <property name="deprecation" value="on"/>
+	
+  <property name="SLF4J_STEM" value="org/slf4j"/>
+  
+
+  <!-- ================================================================= -->
+  <!-- Default target                                                    -->
+  <!-- ================================================================= -->
+  <target name="usage">
+    <echo>      
+      These are some of the targets supported by this ANT build scpript:
+      
+      build.core - compile core SLF4J files.
+
+      slf4j-nop.jar - build the jar file of the same name.
+      slf4j-simple.jar - build the jar file of the same name.
+      slf4j-jdk14.jar - build the jar file of the same name.
+      
+    </echo>
+  </target>
+
+  <target name="init">
+    <mkdir dir="tmp"/>
+	<mkdir dir="${tmp.java.source.dir}"/>
+	<mkdir dir="${tmp.javac.dest}"/>
+  </target>
+	
+  <!-- ================================================================= -->
+  <!-- Remove all generated (compiled) class files.                      -->
+  <!-- ================================================================= -->
+  <target name="clean" description="Delete all compiled SLF4J files.">
+    <delete dir="${javac.dest}/org/slf4j" />
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Copy SLF4J files into log4j source tree. This step is necessary for -->
+  <!-- building log4j. However, it needs to be done whenever code in SLF4J -->
+  <!-- changes                                                            -->
+  <!-- ================================================================== -->
+  <target name="copy-into-log4j">	
+  	<!-- delete any stale copy of LoggerFactory.java -->
+ 	<delete><fileset dir="src/java/org/apache/slf4j" includes="LoggerFactory.java"/></delete>
+  	
+   	<!-- copy a filtered version of slf4j to tmp/src -->
+  	<copy todir="src/java">
+  	  <fileset dir="src/filtered-java">
+  	  	<include name="**/*.java"/>
+  	    <exclude name="**/impl/JDK14*.java"/>
+  	  </fileset>
+  	  <filterset><filter token="IMPL" value="Log4j"/></filterset>
+  	</copy>
+  </target>
+
+
+  <target name="julCheck">
+    <available classname="java.util.logging.Logger" property="julPresent">
+    </available>
+
+  	<fail unless="julPresent">
+        Building the SLF4J implementation for JDK 1.4 logging 
+        requires the presence of JDK 1.4 or later.
+  	</fail>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Generic target that can build NOP, Simple and JDK14 implementations -->
+  <!--  as specified by the "jar-name" and "impl" parameters.              -->
+  <!-- =================================================================== -->
+  <target name="slf4j-IMPL.jar" depends="init">
+    
+    <!-- delete all previously existing files in tmp -->
+  	<delete><fileset dir="tmp/" includes="**/*"/></delete>
+
+   	<!-- copy a filtered version of slf4j to tmp/src -->
+  	<copy todir="tmp/src">
+  	  <fileset dir="src/filtered-java">
+  	  	<include name="**/*.java"/>
+  	  </fileset>
+  	  <filterset><filter token="IMPL" value="${IMPL}"/></filterset>
+  	</copy>
+    	
+    <javac srcdir="${tmp.java.source.dir}"
+           destdir="${tmp.javac.dest}"
+           deprecation="on"
+           includes="${SLF4J_STEM}/*.java,
+    	             ${SLF4J_STEM}/impl/MessageFormatter.java, 
+                     ${SLF4J_STEM}/impl/${impl}*.class"
+           debug="${debug}">
+    </javac>
+ 
+    <jar jarfile="${jar-name}" basedir="${tmp.javac.dest}"
+        includes="${SLF4J_STEM}/*.class, 
+                  ${SLF4J_STEM}/impl/MessageFormatter.class, 
+                  ${SLF4J_STEM}/impl/${IMPL}*.class"
+                >
+      <manifest>
+        <attribute name="Manifest-version" value="${version}"/>
+        <section name="org/slf4j/">
+          <attribute name="Implementation-Title" value="${IMPL} implementation"/>
+          <attribute name="Implementation-Version" value="${version}"/>
+          <attribute name="Implementation-Vendor" value="SLF4J.ORG"/>
+        </section>
+      </manifest>
+    </jar>
+   
+  </target>
+
+  <target name="slf4j-nop.jar">
+    <antcall target="slf4j-IMPL.jar">
+      <param name="IMPL" value="NOP"/>
+      <param name="jar-name" value="slf4j-nop.jar"/>
+    </antcall>
+  </target>
+
+  <target name="slf4j-simple.jar">
+    <antcall target="slf4j-IMPL.jar">
+      <param name="IMPL" value="Simple"/>
+      <param name="jar-name" value="slf4j-simple.jar"/>
+    </antcall>
+  </target>
+
+  <target name="slf4j-jdk14.jar" depends="julCheck">
+    <antcall target="slf4j-IMPL.jar">
+      <param name="IMPL" value="JDK14"/>
+      <param name="jar-name" value="slf4j-jdk14.jar"/>
+    </antcall>
+  </target>
+
+  <target name="jar" depends="slf4j-nop.jar, slf4j-simple.jar, slf4j-jdk14.jar"/> 	
+
+</project>
