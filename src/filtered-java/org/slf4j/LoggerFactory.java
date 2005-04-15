@@ -1,6 +1,5 @@
 /* 
  * Copyright (c) 2004-2005 SLF4J.ORG
- * Copyright (c) 2004-2005 QOS.ch
  *
  * All rights reserved.
  * 
