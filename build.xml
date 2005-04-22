@@ -1,13 +1,18 @@
 
 <project name="slf4j" default="usage" basedir="." >
 
+  <!-- The build.properties file defines the path to local files -->
+  <property file="build.properties"/>
+
+  <!-- The directory where source files are stored. -->
+  <property name="version" value="1.0-beta1"/>
+
   <property name="tmp.java.source.dir" value="./tmp/src"/>
   <property name="tmp.javac.dest" value="./tmp/classes"/>
 	
-  <!-- The directory where source files are stored. -->
-  <property name="version" value="1.0"/>
+  <property name="dist.images"  value="dist/images"/>
+  <property name="dist.tmp" value="dist/tmp"/>
 
-  <!-- Deprecation warning? --> 
   <property name="deprecation" value="on"/>
 	
   <property name="SLF4J_STEM" value="org/slf4j"/>
@@ -79,16 +84,16 @@
   <target name="slf4j-IMPL.jar" depends="init">
     
     <!-- delete all previously existing files in tmp -->
-  	<delete><fileset dir="tmp/" includes="**/*"/></delete>
+    <delete><fileset dir="tmp/" includes="**/*"/></delete>
 
-   	<!-- copy a filtered version of slf4j to tmp/src -->
-  	<copy todir="tmp/src">
-  	  <fileset dir="src/filtered-java">
-  	  	<include name="**/*.java"/>
-  	  </fileset>
-  	  <filterset><filter token="IMPL" value="${IMPL}"/></filterset>
-  	</copy>
-    	
+    <!-- copy a filtered version of slf4j to tmp/src -->
+    <copy todir="tmp/src">
+      <fileset dir="src/filtered-java">
+        <include name="**/*.java"/>
+      </fileset>
+      <filterset><filter token="IMPL" value="${IMPL}"/></filterset>
+    </copy>
+    
     <javac srcdir="${tmp.java.source.dir}"
            destdir="${tmp.javac.dest}"
            deprecation="on"
@@ -137,5 +142,106 @@
   </target>
 
   <target name="jar" depends="slf4j-nop.jar, slf4j-simple.jar, slf4j-jdk14.jar"/> 	
+
+  <!-- Build Javadoc -->
+  <target name="javadoc" depends="init">
+    
+    <!-- delete all previously existing files in tmp -->
+    <delete><fileset dir="tmp/" includes="**/*"/></delete>
+
+    <!-- copy a filtered version of slf4j to tmp/src -->
+    <copy todir="tmp/src">
+      <fileset dir="src/filtered-java">
+        <include name="**/*.java"/>
+        <include name="**/package.html"/>
+      </fileset>
+      <filterset><filter token="IMPL" value="NOP"/></filterset>
+    </copy>
+
+
+    <mkdir dir="${javadoc.dest}" />
+    
+    <javadoc sourcepath="${tmp.java.source.dir}"
+             destdir="${javadoc.dest}"
+             packagenames="org.slf4j, org.slf4j.impl"
+             additionalparam="-breakiterator"
+             version="true"
+             protected="true"
+             author="true"
+             use="true"
+             overview="src/docs//overview.html"
+             doctitle="SLF4J version x ${version}"
+             windowtitle="SLF4J Version ${version}"
+             header="&lt;b&gt;SLF4J ${version}&lt;/b&gt;"
+             bottom="Copyright 2004-2005 
+                &lt;a href=http://www.slf4j.org&gt;
+                &lt;b&gt;SLF4J.ORG&lt;b&gt;&lt;a&gt;">
+      
+      <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
+      <link href="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+     
+    </javadoc>
+  </target>
+
+  
+  <target name="site">
+    <ant  dir="${slf4j-site}" antfile="build.xml" target="site"/> 
+  </target>
+
+  <!-- ================================================================= -->
+  <!-- Build a complete distribution. Results go to ${dist.images}       -->
+  <!-- ================================================================= -->
+  <target name="dist" depends="init, clean, javadoc, jar, site">
+
+    <delete verbose="true">
+      <fileset dir=".">
+        <patternset>
+          <include name="**/*.bak"/>
+          <include name="${BSTEM}/**/temp*"/>
+        </patternset>
+      </fileset>
+    </delete>
+    
+    <mkdir  dir="${dist.images}" />
+    
+    <mkdir  dir="${dist.tmp}/slf4j-${version}" />
+    
+    <copy todir="${dist.tmp}/slf4j-${version}">
+      <fileset dir="./"
+               includes="src/**,            
+               build.xml,
+               build.properties.sample,
+               INSTALL.txt,
+               LICENSE.txt,
+      	       slf4j-*.jar"
+
+               excludes="**/*.bak, 
+               **/.#*"
+               />
+    </copy>
+
+    <copy todir="${dist.tmp}/slf4j-${version}">
+      <fileset dir="${slf4j-site}/"
+               includes="docs/**"
+
+               excludes="docs/dist/**,
+                         *.bak, 
+                         **/.#*"
+               />
+    </copy>
+    
+    <tar tarfile="${dist.images}/slf4j-${version}.tar"
+         basedir="${dist.tmp}"
+         includes="slf4j-${version}/**" />
+    
+    <gzip src="${dist.images}/slf4j-${version}.tar"
+          zipfile="${slf4j-site}/docs/dist/slf4j-${version}.tar.gz" />
+    
+    <zip zipfile="${slf4j-site}/docs/dist/slf4j-${version}.zip"
+         basedir="${dist.tmp}"
+         includes="slf4j-${version}/**" />
+
+    <delete dir="${dist.tmp}" />
+  </target>
 
 </project>

@@ -41,7 +41,7 @@ package org.slf4j;
  * The <code>LoggerFactory</code> can produce Loggers for various logging APIs,
  * most notably for log4j, JDK 1.4 logging. Other implemenations such as
  * {@link org.slf4j.impl.NOPLogger NOPLogger} and
- * {@link org.slf4j.impl.DumbLogger DumbLogger} are also supported.
+ * {@link org.slf4j.impl.SimpleLogger SimpleLogger} are also supported.
  *
  * @author Ceki G&uuml;lc&uuml;
  */

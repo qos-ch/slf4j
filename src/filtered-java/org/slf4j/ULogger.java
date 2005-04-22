@@ -44,7 +44,8 @@ public interface ULogger {
 
   /**
    * Is the logger instance enabled for the DEBUG level?
-   * @return 
+   * @return True if this ULogger is enabled for the DEBUG level,
+   * false otherwise.
    */
   public boolean isDebugEnabled();
   
