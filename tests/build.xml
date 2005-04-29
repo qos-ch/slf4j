@@ -145,7 +145,7 @@
 
   <target name="InvokeLog4j1210" depends="build, cleanOutputDir">
     
-    <copy file="input/log4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
+    <copy file="input/log4j1210/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
 
     <junit printsummary="yes" fork="yes" haltonfailure="yes">
       <classpath refid="log4j1210.classpath"/>
