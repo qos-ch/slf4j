@@ -32,10 +32,10 @@
     <pathelement location="../slf4j-jdk14.jar"/>
   </path>
 
-   <path id="log4j.classpath">
+   <path id="log4j1210.classpath">
      <path refid="basic.classpath"/>
-     <fileset dir="..">
-       <include name="log4j-*.jar"/>
+     <fileset dir="lib">
+       <include name="log4j-1.2.10.jar"/>
      </fileset>
   </path>
 
@@ -97,11 +97,6 @@
     <ant  dir=".." antfile="build.xml" target="slf4j-jdk14.jar"/> 
   </target>
 
-  <target name="log4j.jar">
-    <!-- The main build is big enough to have its own properties -->
-    <ant  dir=".." antfile="build.xml" target="log4j.jar" inheritAll="false"/> 
-  </target>
-  
   <!-- ================================================================= -->
   <!-- Run all tests                                                     -->
   <!-- ================================================================= -->  
@@ -111,7 +106,8 @@
   <target name="regression" depends="MessageFormatter,
                                      InvokeNOP,
                                      InvokeSimple,
-                                     InvokeJDK14"
+                                     InvokeJDK14,
+                                     InvokeLog4j1210"
                                      />
 
   <target name="MessageFormatter" depends="build, cleanOutputDir">
@@ -147,14 +143,14 @@
   </target>
 
 
-  <target name="InvokeLog4j" depends="build, log4j.jar, cleanOutputDir">
+  <target name="InvokeLog4j1210" depends="build, cleanOutputDir">
     
-    <copy file="input/slf4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
+    <copy file="input/log4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
 
     <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="log4j.classpath"/>
+      <classpath refid="log4j1210.classpath"/>
       <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.InvokingSLF4" />
+      <test name="org.slf4j.InvokingSLF4J" />
     </junit>
 
     <delete file="${tests.javac.dest}/log4j.xml"/>
