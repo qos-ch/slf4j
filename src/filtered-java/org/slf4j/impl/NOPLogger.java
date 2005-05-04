@@ -49,8 +49,8 @@ public class NOPLogger implements ULogger {
   public final static NOPLogger NOP_LOGGER = new NOPLogger();
   
   /**
-   * There is no point in people creating multiple instances of NullLogger. 
-   * Hence, the private access modifier. 
+   * There is no point in creating multiple instances of NullLogger.
+   * Hence, the private access modifier.
    */
   private NOPLogger() {
   }

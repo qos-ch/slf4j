@@ -56,12 +56,9 @@ public class SimpleLoggerFA implements LoggerFactoryAdapter {
 
 
   /**
-   * Return an appropriate {@link SimpleLogger} instance by name. At this time,
+   * Return an appropriate {@link SimpleLogger} instance by name. 
    * 
    */
-  /**
-   * Return an appropriate {@link SimpleLogger} instance.
-   * */
   public ULogger getLogger(String name) {
     ULogger ulogger = (ULogger) map.get(name);
     if(ulogger == null) {

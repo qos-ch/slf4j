@@ -36,8 +36,8 @@ package org.slf4j;
  * LoggerFactoryAdapter interface is used internally by {@link
  * LoggerFactory}.
  * 
- * <p>Only developers wishing to write new UGLI adapters need to worry
- * about this interface.
+ * <p>Only developers wishing to write new SLF4J adapters need to
+ * worry about this interface.
  * 
  * @author Ceki G&uuml;lc&uuml;
  *
