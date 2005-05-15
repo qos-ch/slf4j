@@ -34,33 +34,35 @@
 package org.slf4j.impl;
 
 import org.slf4j.LoggerFactoryAdapter;
-import org.slf4j.ULogger;
+import org.slf4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
-
 
 /**
+ * JDK14LoggerFA is an implementation of {@link LoggerFactoryAdapter}
+ * returning the appropriate named {@link JDK14Logger} instance.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
 public class JDK14LoggerFA implements LoggerFactoryAdapter {
-  Map map;
+
+  // key: name (String), value: a JDK14Logger;
+  Map loggerMap;
 
   public JDK14LoggerFA() {
-    map = new HashMap();
+    loggerMap = new HashMap();
   }
 
   /* (non-Javadoc)
    * @see org.slf4j.LoggerFactoryAdapter#getLogger(java.lang.String)
    */
-  public ULogger getLogger(String name) {
-    ULogger ulogger = (ULogger) map.get(name);
+  public Logger getLogger(String name) {
+    Logger ulogger = (Logger) loggerMap.get(name);
     if (ulogger == null) {
-      Logger logger = Logger.getLogger(name);
+      java.util.logging.Logger logger = java.util.logging.Logger.getLogger(name);
       ulogger = new JDK14Logger(logger);
-      map.put(name, ulogger);
+     loggerMap.put(name, ulogger);
     }
     return ulogger;
   }
@@ -68,7 +70,7 @@ public class JDK14LoggerFA implements LoggerFactoryAdapter {
   /* (non-Javadoc)
    * @see org.slf4j.LoggerFactoryAdapter#getLogger(java.lang.String, java.lang.String)
    */
-  public ULogger getLogger(String domainName, String subDomainName) {
+  public Logger getLogger(String domainName, String subDomainName) {
     return getLogger(domainName);
   }
 }

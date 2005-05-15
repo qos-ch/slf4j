@@ -34,7 +34,7 @@
 package org.slf4j.impl;
 
 import org.slf4j.LoggerFactoryAdapter;
-import org.slf4j.ULogger;
+import org.slf4j.Logger;
 
 
 /**
@@ -49,10 +49,10 @@ public class NOPLoggerFA implements LoggerFactoryAdapter {
     // nothing to do
   }
   
-  public ULogger getLogger(String name) {
+  public Logger getLogger(String name) {
     return NOPLogger.NOP_LOGGER;
   }
-  public ULogger getLogger(String domainName, String subDomainName) {
+  public Logger getLogger(String domainName, String subDomainName) {
     return NOPLogger.NOP_LOGGER;  
   }  
 }

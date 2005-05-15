@@ -5,7 +5,7 @@
   <property file="build.properties"/>
 
   <!-- The directory where source files are stored. -->
-  <property name="version" value="1.0-beta1"/>
+  <property name="version" value="1.0-beta2"/>
 
   <property name="tmp.java.source.dir" value="./tmp/src"/>
   <property name="tmp.javac.dest" value="./tmp/classes"/>
@@ -169,8 +169,8 @@
              protected="true"
              author="true"
              use="true"
-             overview="src/docs//overview.html"
-             doctitle="SLF4J version x ${version}"
+             overview="src/docs/overview.html"
+             doctitle="SLF4J version ${version}"
              windowtitle="SLF4J Version ${version}"
              header="&lt;b&gt;SLF4J ${version}&lt;/b&gt;"
              bottom="Copyright 2004-2005 

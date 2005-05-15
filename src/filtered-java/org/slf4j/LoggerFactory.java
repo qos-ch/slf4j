@@ -66,19 +66,19 @@ public class LoggerFactory {
     }
   }
 
-  public static ULogger getLogger(String name) {
+  public static Logger getLogger(String name) {
     return adapter.getLogger(name);
   }
 
-  public static ULogger getLogger(String domainName, String subDomainName) {
+  public static Logger getLogger(String domainName, String subDomainName) {
     return adapter.getLogger(domainName, subDomainName);
   }
 
-  public static ULogger getLogger(Class clazz) {
+  public static Logger getLogger(Class clazz) {
     return adapter.getLogger(clazz.getName());
   }
 
-  public static ULogger getLogger(Class clazz, String subDomainName) {
+  public static Logger getLogger(Class clazz, String subDomainName) {
     return adapter.getLogger(clazz.getName(), subDomainName);
   }
 }

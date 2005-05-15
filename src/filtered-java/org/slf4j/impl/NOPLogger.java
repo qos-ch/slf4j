@@ -33,15 +33,15 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.ULogger;
+import org.slf4j.Logger;
 
 
 /**
- * A no operation (NOP) implementation of {@link ULogger}.
+ * A no operation (NOP) implementation of {@link Logger}.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class NOPLogger implements ULogger {
+public class NOPLogger implements Logger {
 
   /**
    * The unique instance of NOPLogger.

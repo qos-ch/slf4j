@@ -45,16 +45,16 @@ package org.slf4j;
 public interface LoggerFactoryAdapter {
   
   /**
-   * Return the appropriate named {@link ULogger} instance.
+   * Return the appropriate named {@link Logger} instance.
    */
-  public ULogger getLogger(String name);
+  public Logger getLogger(String name);
   
   /**
-   * Return a {@link ULogger} instance in <code>domain</code>, <code>subDomain</code>. 
+   * Return a {@link Logger} instance in <code>domain</code>, <code>subDomain</code>. 
    *
    * @param domain
    * @param subDomain
-   * @return ULogger instance
+   * @return Logger instance
    */
-  public ULogger getLogger(String domain, String subDomain);  
+  public Logger getLogger(String domain, String subDomain);  
 }

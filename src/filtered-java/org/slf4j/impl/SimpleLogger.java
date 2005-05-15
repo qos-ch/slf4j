@@ -33,7 +33,7 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.ULogger;
+import org.slf4j.Logger;
 
 
 /**
@@ -58,7 +58,7 @@ import org.slf4j.ULogger;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class SimpleLogger implements ULogger {
+public class SimpleLogger implements Logger {
 
   String loggerName;
   

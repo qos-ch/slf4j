@@ -32,10 +32,10 @@
     <pathelement location="../slf4j-jdk14.jar"/>
   </path>
 
-   <path id="log4j1210.classpath">
+   <path id="nlog4j1212.classpath">
      <path refid="basic.classpath"/>
      <fileset dir="lib">
-       <include name="log4j-1.2.10.jar"/>
+       <include name="nlog4j-1.2.12.jar"/>
      </fileset>
   </path>
 
@@ -143,12 +143,12 @@
   </target>
 
 
-  <target name="InvokeLog4j1210" depends="build, cleanOutputDir">
+  <target name="InvokeNLOG4J1212" depends="build, cleanOutputDir">
     
-    <copy file="input/log4j1210/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
+    <copy file="input/nlog4j1212/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
 
     <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="log4j1210.classpath"/>
+      <classpath refid="nlog4j1212.classpath"/>
       <formatter type="plain" usefile="false"/>
       <test name="org.slf4j.InvokingSLF4J" />
     </junit>

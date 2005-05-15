@@ -32,24 +32,24 @@
  */
 
 package org.slf4j.impl;
-import org.slf4j.ULogger;
+import org.slf4j.Logger;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
- * A wrapper over @{link java.utill.Logger} which conforms to the 
- * {@link ULogger} interface.
+ * A wrapper over {@link java.util.logging.Logger
+ * java.util.logging.Logger} which conforms to the {@link Logger}
+ * interface.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class JDK14Logger implements ULogger {
-  final Logger logger;
+public class JDK14Logger implements Logger {
+  final java.util.logging.Logger logger;
 
   // WARN: JDK14Logger constructor should have only package access so that
   // only JDK14LoggerFA be able to create one.
-  JDK14Logger(Logger logger) {
+  JDK14Logger(java.util.logging.Logger logger) {
     this.logger = logger;
   }
 

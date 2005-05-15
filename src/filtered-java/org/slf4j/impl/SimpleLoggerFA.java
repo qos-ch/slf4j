@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.LoggerFactoryAdapter;
-import org.slf4j.ULogger;
+import org.slf4j.Logger;
 
 
 /**
@@ -59,8 +59,8 @@ public class SimpleLoggerFA implements LoggerFactoryAdapter {
    * Return an appropriate {@link SimpleLogger} instance by name. 
    * 
    */
-  public ULogger getLogger(String name) {
-    ULogger ulogger = (ULogger) map.get(name);
+  public Logger getLogger(String name) {
+    Logger ulogger = (Logger) map.get(name);
     if(ulogger == null) {
       ulogger = new SimpleLogger(name);
       map.put(name, ulogger);
@@ -72,7 +72,7 @@ public class SimpleLoggerFA implements LoggerFactoryAdapter {
    *  (non-Javadoc)
    * @see org.slf4j.LoggerFactoryAdapter#getLogger(java.lang.String, java.lang.String)
    */
-  public ULogger getLogger(String domainName, String subDomainName) {
+  public Logger getLogger(String domainName, String subDomainName) {
     return getLogger(domainName);
   }
   
