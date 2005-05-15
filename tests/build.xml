@@ -107,7 +107,7 @@
                                      InvokeNOP,
                                      InvokeSimple,
                                      InvokeJDK14,
-                                     InvokeLog4j1210"
+                                     InvokeNLOG4J1212"
                                      />
 
   <target name="MessageFormatter" depends="build, cleanOutputDir">
