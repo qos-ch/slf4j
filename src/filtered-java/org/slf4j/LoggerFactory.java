@@ -1,7 +1,3 @@
-/**
- * Copyright QOS.CH
- */
-
 /*
  * Copyright (c) 2004-2005 SLF4J.ORG
  *
