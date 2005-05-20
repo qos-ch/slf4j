@@ -144,9 +144,7 @@
 
 
   <target name="InvokeNLOG4J1212" depends="build, cleanOutputDir">
-    
     <copy file="input/nlog4j1212/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
-
     <junit printsummary="yes" fork="yes" haltonfailure="yes">
       <classpath refid="nlog4j1212.classpath"/>
       <formatter type="plain" usefile="false"/>
@@ -157,5 +155,12 @@
 
   </target>
 
+  <target name="XLoggerBySystemProps" depends="build, slf4j-simple.jar, cleanOutputDir">
+	    <junit printsummary="yes" fork="yes" haltonfailure="yes">
+	      <classpath refid="simple.classpath"/>
+	      <formatter type="plain" usefile="false"/>
+	      <test name="org.slf4j.XLoggerBySystemPropsTest" />
+	    </junit>
+	  </target>
 
 </project>

@@ -1,8 +1,12 @@
-/* 
+/**
+ * Copyright QOS.CH
+ */
+
+/*
  * Copyright (c) 2004-2005 SLF4J.ORG
  *
  * All rights reserved.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to  deal in  the Software without  restriction, including
@@ -12,7 +16,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the  Software and  that both  the above  copyright notice(s)  and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,15 +26,15 @@
  * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
  * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as  contained in  this notice, the  name of a  copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
  *
  */
-
 package org.slf4j;
+
 
 // WARNING
 // WARNING Modifications MUST be made to the original file found at
@@ -49,21 +53,75 @@ public class LoggerFactory {
   static LoggerFactoryAdapter adapter;
 
   // 
-  // WARNING Modify the original in
+  // WARNING Do not modify copies but the original in
   //         $SLF4J_HOME/src/filtered-java/org/slf4j/
-  
+  //
   static {
     String adapterClassStr = "org.slf4j.impl.@IMPL@LoggerFA";
-    System.out.println("SLF4J built for "+adapterClassStr);
-    try {
-      adapter = new org.slf4j.impl.@IMPL@LoggerFA();
-    } catch (Exception e) {
-      // unless there was a problem with the build or the JVM we will never
-      // get exceptions
-      System.err.println(
-        "Could not instantiate instance of class [" + adapterClassStr + "]");
-      e.printStackTrace();
+    System.out.println("SLF4J built for " + adapterClassStr);
+
+    adapter = getFactoryAdapterFromSystemProperties();
+
+    // if could not get an adapter from the system properties,  bind statically
+    if (adapter != null) {
+       System.out.println("However, SLF4J will use ["+adapter.getClass().getName()
+       		+ "] adapter from system properties.");
+    } else {
+      try {
+        adapter = new org.slf4j.impl.@IMPL@LoggerFA();
+      } catch (Exception e) {
+        // unless there was a problem with the build or the JVM we will never
+        // get exceptions
+        reportFailure(
+          "Could not instantiate instance of class [" + adapterClassStr + "]",
+          e);
+      }
     }
+  }
+
+  /**
+   * Fetch the appropriate adapter as intructed by the system propties.
+   * 
+   * @return The appropriate LoggerFactoryAdapter as directed from the 
+   * system properties
+   */
+  private static LoggerFactoryAdapter getFactoryAdapterFromSystemProperties() {
+    String faFactoryClassName = null;
+
+    try {
+      faFactoryClassName = System.getProperty(Constants.LOGGER_FA_FACTORY);
+      if (faFactoryClassName == null) {
+        return null;
+      }
+
+      Class faFactoryClass = Class.forName(faFactoryClassName);
+      Class[] EMPTY_CLASS_ARRAY = {  };
+      java.lang.reflect.Method faFactoryMethod =
+        faFactoryClass.getDeclaredMethod(
+          Constants.FA_FACTORY_METHOD_NAME, EMPTY_CLASS_ARRAY);
+      LoggerFactoryAdapter adapter =
+        (LoggerFactoryAdapter) faFactoryMethod.invoke(null, null);
+      return adapter;
+    } catch (Throwable t) {
+      if (faFactoryClassName == null) {
+        reportFailure(
+          "Failed to fetch " + Constants.LOGGER_FA_FACTORY
+          + " system property.", t);
+      } else {
+        reportFailure(
+          "Failed to fectch LoggerFactoryAdapter using the "
+          + faFactoryClassName + " class.", t);
+      }
+    }
+
+    // we could not get an adapter
+    return null;
+  }
+
+  static void reportFailure(String msg, Throwable t) {
+    System.out.println(msg);
+    System.out.println("Reported exception follows.");
+    t.printStackTrace(System.out);
   }
 
   public static Logger getLogger(String name) {
