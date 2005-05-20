@@ -66,8 +66,7 @@ public class LoggerFactory {
       try {
         adapter = new org.slf4j.impl.@IMPL@LoggerFA();
       } catch (Exception e) {
-        // unless there was a problem with the build or the JVM we will never
-        // get exceptions
+        // we should never get here
         reportFailure(
           "Could not instantiate instance of class [" + adapterClassStr + "]",
           e);
@@ -85,7 +84,7 @@ public class LoggerFactory {
     String faFactoryClassName = null;
 
     try {
-      faFactoryClassName = System.getProperty(Constants.LOGGER_FA_FACTORY);
+      faFactoryClassName = System.getProperty(Constants.LOGGER_FA_FACTORY_PROPERTY);
       if (faFactoryClassName == null) {
         return null;
       }
@@ -101,11 +100,11 @@ public class LoggerFactory {
     } catch (Throwable t) {
       if (faFactoryClassName == null) {
         reportFailure(
-          "Failed to fetch " + Constants.LOGGER_FA_FACTORY
+          "Failed to fetch " + Constants.LOGGER_FA_FACTORY_PROPERTY
           + " system property.", t);
       } else {
         reportFailure(
-          "Failed to fectch LoggerFactoryAdapter using the "
+          "Failed to fetch LoggerFactoryAdapter using the "
           + faFactoryClassName + " class.", t);
       }
     }
@@ -115,11 +114,17 @@ public class LoggerFactory {
   }
 
   static void reportFailure(String msg, Throwable t) {
-    System.out.println(msg);
-    System.out.println("Reported exception follows.");
-    t.printStackTrace(System.out);
+    System.err.println(msg);
+    System.err.println("Reported exception follows.");
+    t.printStackTrace();
   }
 
+  /**
+   * Return a logger named according to the name parameter using the 
+   * previously bound  {@link LoggerFactoryAdapter adapter}.
+   * @param name The name of the logger.
+   * @return logger
+   */
   public static Logger getLogger(String name) {
     return adapter.getLogger(name);
   }

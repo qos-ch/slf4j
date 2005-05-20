@@ -40,9 +40,9 @@ public interface Constants {
 	 * The name of the system property to set in order to instruct
 	 * {@link LoggerFactory} class to use a specific factory adapter.
 	 * <p>
-	 * This constant is currently set to the value "LOGGER_FA_FACTORY".
+	 * This constant is currently set to the value "org.slf4j.factory".
 	 */
-	final public static String LOGGER_FA_FACTORY = "LOGGER_FA_FACTORY";
+	final public static String LOGGER_FA_FACTORY_PROPERTY = "org.slf4j.factory";
 	
 	/**
 	 * Constant used to determined the name of the factory method for
