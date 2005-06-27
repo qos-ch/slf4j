@@ -34,8 +34,8 @@ package org.slf4j;
 
 /**
  * 
- * The main user inteface to logging. It is expected that logging
- * takes places through concerete implemetations of the Logger
+ * The main user interface to logging. It is expected that logging
+ * takes places through concrete implementations of the Logger
  * interface.
  * 
  * @author Ceki G&uuml;lc&uuml;
@@ -50,55 +50,191 @@ public interface Logger {
   public boolean isDebugEnabled();
   
   /**
-   * Log a message object with the DEBUG level. 
-   * @param msg - the message object to be logged
+   * Log a message at the DEBUG level.
+   *
+   * @param msg the message string to be logged
    */
-  public void debug(Object msg);
+  public void debug(String msg);
   
   
   /**
-   * Log a parameterized message object at the DEBUG level. 
+   * Log a message at the DEBUG level according to the specified format
+   * and argument.
    * 
-   * <p>This form is useful in avoiding the superflous object creation
-   * problem when invoking this method while it is disabled.
-   * </p>
-   * @param parameterizedMsg - the parameterized message object
-   * @param param1 - the parameter 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the DEBUG level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
    */
-  public void debug(Object parameterizedMsg, Object param1);
-  
+  public void debug(String format, Object arg);
+
   /**
-   * Log a parameterized message object at the DEBUG level. 
+   * Log a message at the DEBUG level according to the specified format
+   * and arguments.
    * 
-   * <p>This form is useful in avoiding the superflous object creation
-   * problem when invoking this method while it is disabled.
-   * </p>
-   * @param parameterizedMsg - the parameterized message object
-   * @param param1 - the first parameter 
-   * @param param2 - the second parameter 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the DEBUG level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
    */
-  public void debug(String parameterizedMsg, Object param1, Object param2);
-  public void debug(Object msg, Throwable t);
+  public void debug(String format, Object arg1, Object arg2);
 
 
+  /**
+   * Log an exception (throwable) at the DEBUG level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */ 
+  public void debug(String msg, Throwable t);
+  
+
+  /**
+   * Is the logger instance enabled for the INFO level?
+   * @return True if this Logger is enabled for the INFO level,
+   * false otherwise.
+   */
   public boolean isInfoEnabled();
-  public void info(Object msg);
-  public void info(Object parameterizedMsg, Object param1);
-  public void info(String parameterizedMsg, Object param1, Object param2);
-  public void info(Object msg, Throwable t);
 
+  /**
+   * Log a message at the INFO level.
+   *
+   * @param msg the message string to be logged
+   */
+  public void info(String msg);
 
+  /**
+   * Log a message at the INFO level according to the specified format
+   * and argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   */
+  public void info(String format, Object arg);
+
+  /**
+   * Log a message at the INFO level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void info(String format, Object arg1, Object arg2);
+
+  /**
+   * Log an exception (throwable) at the INFO level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log 
+   */
+  public void info(String msg, Throwable t);
+
+  /**
+   * Is the logger instance enabled for the WARN level?
+   * @return True if this Logger is enabled for the WARN level,
+   * false otherwise.
+   */
   public boolean isWarnEnabled();
-  public void warn(Object msg);
-  public void warn(Object parameterizedMsg, Object param1);
-  public void warn(String parameterizedMsg, Object param1, Object param2);
-  public void warn(Object msg, Throwable t);
 
+  /**
+   * Log a message at the WARN level.
+   *
+   * @param msg the message string to be logged
+   */
+  public void warn(String msg);
 
+ /**
+   * Log a message at the WARN level according to the specified format
+   * and argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARN level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   */
+  public void warn(String format, Object arg);
+
+  /**
+   * Log a message at the WARN level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARN level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void warn(String format, Object arg1, Object arg2);
+
+  /**
+   * Log an exception (throwable) at the WARN level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log 
+   */
+  public void warn(String msg, Throwable t);
+
+  /**
+   * Is the logger instance enabled for the ERROR level?
+   * @return True if this Logger is enabled for the ERROR level,
+   * false otherwise.
+   */
   public boolean isErrorEnabled();
-  public void error(Object msg);
-  public void error(Object parameterizedMsg, Object param1);
-  public void error(String parameterizedMsg, Object param1, Object param2);
-  public void error(Object msg, Throwable t);
+
+  /**
+   * Log a message at the ERROR level.
+   *
+   * @param msg the message string to be logged
+   */
+  public void error(String msg);
+
+ /**
+   * Log a message at the ERROR level according to the specified format
+   * and argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the ERROR level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   */
+  public void error(String format, Object arg);
+
+  /**
+   * Log a message at the ERROR level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the ERROR level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void error(String format, Object arg1, Object arg2);
+
+  /**
+   * Log an exception (throwable) at the ERROR level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */
+  public void error(String msg, Throwable t);
 
 }

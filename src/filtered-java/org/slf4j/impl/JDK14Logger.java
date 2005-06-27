@@ -67,7 +67,7 @@ public class JDK14Logger implements Logger {
    * Log a message object with the DEBUG level.
    * @param msg - the message object to be logged
    */
-  public void debug(Object msg) {
+  public void debug(String msg) {
     logger.fine(String.valueOf(msg));
   }
 
@@ -80,7 +80,7 @@ public class JDK14Logger implements Logger {
    * @param parameterizedMsg - the parameterized message object
    * @param param1 - the parameter
    */
-  public void debug(Object parameterizedMsg, Object param1) {
+  public void debug(String parameterizedMsg, Object param1) {
     if (logger.isLoggable(Level.FINE)) {
       if (parameterizedMsg instanceof String) {
         String msgStr = (String) parameterizedMsg;
@@ -118,7 +118,7 @@ public class JDK14Logger implements Logger {
     }
   }
 
-  public void debug(Object msg, Throwable t) {
+  public void debug(String msg, Throwable t) {
     logger.log(Level.FINE, msg.toString(), t);
   }
 
@@ -126,11 +126,11 @@ public class JDK14Logger implements Logger {
     return logger.isLoggable(Level.INFO);
   }
 
-  public void info(Object msg) {
+  public void info(String msg) {
     logger.info(msg.toString());
   }
 
-  public void info(Object parameterizedMsg, Object param1) {
+  public void info(String parameterizedMsg, Object param1) {
     if (logger.isLoggable(Level.INFO)) {
       if (parameterizedMsg instanceof String) {
         String msgStr = (String) parameterizedMsg;
@@ -158,7 +158,7 @@ public class JDK14Logger implements Logger {
     }
   }
 
-  public void info(Object msg, Throwable t) {
+  public void info(String msg, Throwable t) {
     logger.log(Level.INFO, msg.toString(), t);
   }
 
@@ -166,11 +166,11 @@ public class JDK14Logger implements Logger {
     return logger.isLoggable(Level.WARNING);
   }
 
-  public void warn(Object msg) {
+  public void warn(String msg) {
     logger.warning(msg.toString());
   }
 
-  public void warn(Object parameterizedMsg, Object param1) {
+  public void warn(String parameterizedMsg, Object param1) {
     if (logger.isLoggable(Level.WARNING)) {
       if (parameterizedMsg instanceof String) {
         String msgStr = (String) parameterizedMsg;
@@ -198,7 +198,7 @@ public class JDK14Logger implements Logger {
     }
   }
 
-  public void warn(Object msg, Throwable t) {
+  public void warn(String msg, Throwable t) {
     logger.log(Level.WARNING, msg.toString(), t);
   }
 
@@ -206,11 +206,11 @@ public class JDK14Logger implements Logger {
     return logger.isLoggable(Level.SEVERE);
   }
 
-  public void error(Object msg) {
+  public void error(String msg) {
     logger.severe(msg.toString());
   }
 
-  public void error(Object parameterizedMsg, Object param1) {
+  public void error(String parameterizedMsg, Object param1) {
     if (logger.isLoggable(Level.WARNING)) {
       if (parameterizedMsg instanceof String) {
         String msgStr = (String) parameterizedMsg;
@@ -237,7 +237,7 @@ public class JDK14Logger implements Logger {
       }
     }
   }
-  public void error(Object msg, Throwable t) {
+  public void error(String msg, Throwable t) {
     logger.log(Level.SEVERE, msg.toString(), t);
   }
 }

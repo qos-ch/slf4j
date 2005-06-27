@@ -37,20 +37,23 @@ import org.slf4j.Logger;
 
 
 /**
- * A simple implementation that logs messages of level INFO or higher on
- * the console (<code>System.out<code>). 
- * <p>
- * The output includes the relative time in milliseconds, thread name, the level,  
- * logger name, and the message followed by the line separator for the host. 
- * In log4j terms it amounts to the "%r  [%t] %level %logger - %m%n" pattern.
+ * A simple (and direct) implementation that logs messages of level
+ * INFO or higher on the console (<code>System.out<code>).
+ *
+ * <p>The output includes the relative time in milliseconds, thread
+ * name, the level, logger name, and the message followed by the line
+ * separator for the host.  In log4j terms it amounts to the "%r [%t]
+ * %level %logger - %m%n" pattern.  *</p>
+ * 
+ * <p>Sample output follows.</p>
  * <pre>
 176 [main] INFO examples.Sort - Populating an array of 2 elements in reverse order.
 225 [main] INFO examples.SortAlgo - Entered the sort method.
-304 [main] INFO SortAlgo.DUMP - Dump of interger array:
-317 [main] INFO SortAlgo.DUMP - Element [0] = 0
-331 [main] INFO SortAlgo.DUMP - Element [1] = 1
+304 [main] INFO examples.SortAlgo - Dump of interger array:
+317 [main] INFO examples.SortAlgo - Element [0] = 0
+331 [main] INFO examples.SortAlgo - Element [1] = 1
 343 [main] INFO examples.Sort - The next log statement should be an error message.
-346 [main] ERROR SortAlgo.DUMP - Tried to dump an uninitialized array.
+346 [main] ERROR examples.SortAlgo - Tried to dump an uninitialized array.
         at org.log4j.examples.SortAlgo.dump(SortAlgo.java:58)
         at org.log4j.examples.Sort.main(Sort.java:64)
 467 [main] INFO  examples.Sort - Exiting main method.
@@ -83,36 +86,41 @@ public class SimpleLogger implements Logger {
   
   /**
    * Always returns false.
+   * @return always false
    */
   public boolean isDebugEnabled() {
     return false;
   }
 
-  /**
-   * A NOP implementation.
+  /** 
+   * A NOP implementation, as this logger is permanently disabled for
+   * the DEBUG level.
    */
-  public void debug(Object msg) {
+  public void debug(String msg) {
     // NOP
   }
 
-  /**
-   * A NOP implementation.
+  /** 
+   * A NOP implementation, as this logger is permanently disabled for
+   * the DEBUG level.
    */
-  public void debug(Object parameterizedMsg, Object param1) {
+  public void debug(String format, Object param1) {
     // NOP
   }
 
-  /**
-   * A NOP implementation.
+  /** 
+   * A NOP implementation, as this logger is permanently disabled for
+   * the DEBUG level.
    */
-  public void debug(String parameterizedMsg, Object param1, Object param2) {
+  public void debug(String format, Object param1, Object param2) {
     // NOP
   }
 
-  /**
-   * A NOP implementation.
+  /** 
+   * A NOP implementation, as this logger is permanently disabled for
+   * the DEBUG level.
    */
-  public void debug(Object msg, Throwable t) {
+  public void debug(String msg, Throwable t) {
     // NOP
   }
 
@@ -150,24 +158,18 @@ public class SimpleLogger implements Logger {
     }
     System.out.flush();
   }
+
   /**
-   * For parameterized messages, first substitute parameters and then log.
+   * For formatted messages, first substitute arguments and then log.
    * 
    * @param level
-   * @param parameterizedMsg
+   * @param format
    * @param param1
    * @param param2
    */
-  private void parameterizedLog(String level, Object parameterizedMsg, Object param1, Object param2) {
-    if (parameterizedMsg instanceof String) {
-      String msgStr = (String) parameterizedMsg;
-      msgStr = MessageFormatter.format(msgStr, param1, param2);
-      log(level, msgStr, null);
-    } else {
-      // To be failsafe, we handle the case where 'messagePattern' is not
-      // a String. Unless the user makes a mistake, this should not happen.
-      log(level, parameterizedMsg.toString(), null);
-    }
+  private void formatAndLog(String level, String format, Object arg1, Object arg2) {
+    String message = MessageFormatter.format(format, arg1, arg2);
+    log(level, message, null);
   }
   
   /**
@@ -181,8 +183,8 @@ public class SimpleLogger implements Logger {
    * A simple implementation which always logs messages of level INFO according
    * to the format outlined above.
    */
-  public void info(Object msg) {
-    log(INFO_STR, msg.toString(), null);
+  public void info(String msg) {
+    log(INFO_STR, msg, null);
   }
 
   
@@ -190,8 +192,8 @@ public class SimpleLogger implements Logger {
    * Perform single parameter substituion before logging the message of level 
    * INFO according to the format outlined above.
    */
-  public void info(Object parameterizedMsg, Object param1) {
-    parameterizedLog(INFO_STR, parameterizedMsg, param1, null);
+  public void info(String format, Object arg) {
+    formatAndLog(INFO_STR, format, arg, null);
   }
 
   /**
@@ -199,14 +201,14 @@ public class SimpleLogger implements Logger {
    * INFO according to the format outlined above.
    */
   
-  public void info(String parameterizedMsg, Object param1, Object param2) {
-    parameterizedLog(INFO_STR, parameterizedMsg, param1, param2);
+  public void info(String format, Object arg1, Object arg2) {
+    formatAndLog(INFO_STR, format, arg1, arg2);
   }
 
   /** 
    * Log a message of level INFO, including an exception.
    */
-  public void info(Object msg, Throwable t) {
+  public void info(String msg, Throwable t) {
     log(INFO_STR, msg.toString(), t);
   }
 
@@ -221,7 +223,7 @@ public class SimpleLogger implements Logger {
    * A simple implementation which always logs messages of level WARN according
    * to the format outlined above.
   */
-  public void warn(Object msg) {
+  public void warn(String msg) {
     log(WARN_STR, msg.toString(), null);
   }
 
@@ -229,22 +231,22 @@ public class SimpleLogger implements Logger {
    * Perform single parameter substituion before logging the message of level 
    * WARN according to the format outlined above.
    */
-  public void warn(Object parameterizedMsg, Object param1) {
-    parameterizedLog(WARN_STR, parameterizedMsg, param1, null);
+  public void warn(String format, Object arg) {
+    formatAndLog(WARN_STR, format, arg, null);
   }
 
   /**
    * Perform double parameter substituion before logging the message of level 
    * WARN according to the format outlined above.
    */
-  public void warn(String parameterizedMsg, Object param1, Object param2) {
-    parameterizedLog(WARN_STR, parameterizedMsg, param1, param2);
+  public void warn(String format, Object arg1, Object arg2) {
+    formatAndLog(WARN_STR, format, arg1, arg2);
   }
 
   /**
    * Log a message of level WARN, including an exception.
    */
-  public void warn(Object msg, Throwable t) {
+  public void warn(String msg, Throwable t) {
     log(WARN_STR, msg.toString(), t);
   }
 
@@ -259,7 +261,7 @@ public class SimpleLogger implements Logger {
    * A simple implementation which always logs messages of level ERROR acoording
    * to the format outlined above.
    */
-  public void error(Object msg) {
+  public void error(String msg) {
     log(ERROR_STR, msg.toString(), null);
   }
 
@@ -268,22 +270,22 @@ public class SimpleLogger implements Logger {
    * Perform single parameter substituion before logging the message of level 
    * ERROR according to the format outlined above.
    */
-  public void error(Object parameterizedMsg, Object param1) {
-    parameterizedLog(ERROR_STR, parameterizedMsg, param1, null);
+  public void error(String format, Object arg) {
+    formatAndLog(ERROR_STR, format, arg, null);
   }
 
   /**
    * Perform double parameter substituion before logging the message of level 
    * ERROR according to the format outlined above.
    */
-  public void error(String parameterizedMsg, Object param1, Object param2) {
-    parameterizedLog(ERROR_STR, parameterizedMsg, param1, param2);
+  public void error(String format, Object arg1, Object arg2) {
+    formatAndLog(ERROR_STR, format, arg1, arg2);
   }
 
   /** 
    * Log a message of level ERROR, including an exception.
    */
-  public void error(Object msg, Throwable t) {
+  public void error(String msg, Throwable t) {
     log(ERROR_STR, msg.toString(), t);
   }
 

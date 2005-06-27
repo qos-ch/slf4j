@@ -38,8 +38,9 @@ import org.slf4j.Logger;
 
 
 /**
- * NOPLoggerFA is am implementation of {@link LoggerFactoryAdapter}
- * which always returns the unique instance of NOPLogger.
+ * NOPLoggerFA is an trivial implementation of {@link
+ * LoggerFactoryAdapter} which always returns the unique instance of
+ * NOPLogger.
  * 
  * @author Ceki Gulcu
  */
