@@ -70,7 +70,7 @@ public class JDK14Logger implements Logger {
    * @param msg - the message object to be logged
    */
   public void debug(String msg) {
-    logger.fine(String.valueOf(msg));
+    logger.fine(msg);
   }
 
  
@@ -84,9 +84,9 @@ public class JDK14Logger implements Logger {
    * @param format the format string 
    * @param arg  the argument
    */
-  public void debug(String format, Object arg1) {
+  public void debug(String format, Object arg) {
     if (logger.isLoggable(Level.FINE)) {
-      String msgStr = MessageFormatter.format(format, arg1);
+      String msgStr = MessageFormatter.format(format, arg);
       logger.fine(msgStr);
     }
   }
@@ -118,7 +118,7 @@ public class JDK14Logger implements Logger {
    * @param t the exception (throwable) to log
    */
   public void debug(String msg, Throwable t) {
-    logger.log(Level.FINE, msg.toString(), t);
+    logger.log(Level.FINE, msg, t);
   }
 
   /**
@@ -137,7 +137,7 @@ public class JDK14Logger implements Logger {
    * @param msg - the message object to be logged
    */
   public void info(String msg) {
-    logger.info(msg.toString());
+    logger.info(msg);
   }
 
   /**
@@ -150,9 +150,9 @@ public class JDK14Logger implements Logger {
    * @param format the format string 
    * @param arg  the argument
    */
-  public void info(String format, Object arg1) {
+  public void info(String format, Object arg) {
     if (logger.isLoggable(Level.INFO)) {
-      String msgStr = MessageFormatter.format(format, arg1);
+      String msgStr = MessageFormatter.format(format, arg);
       logger.info(msgStr);
     }
   }
@@ -184,7 +184,7 @@ public class JDK14Logger implements Logger {
    * @param t the exception (throwable) to log
    */
   public void info(String msg, Throwable t) {
-    logger.log(Level.INFO, msg.toString(), t);
+    logger.log(Level.INFO, msg, t);
   }
 
   /**
@@ -203,7 +203,7 @@ public class JDK14Logger implements Logger {
    * @param msg - the message object to be logged
    */
   public void warn(String msg) {
-    logger.warning(msg.toString());
+    logger.warning(msg);
   }
 
   /**
@@ -269,7 +269,7 @@ public class JDK14Logger implements Logger {
    * @param msg - the message object to be logged
    */
   public void error(String msg) {
-    logger.severe(msg.toString());
+    logger.severe(msg);
   }
 
   /**
@@ -316,6 +316,6 @@ public class JDK14Logger implements Logger {
    * @param t the exception (throwable) to log
    */
   public void error(String msg, Throwable t) {
-    logger.log(Level.SEVERE, msg.toString(), t);
+    logger.log(Level.SEVERE, msg, t);
   }
 }
