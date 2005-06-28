@@ -39,7 +39,7 @@ import java.util.logging.Level;
 
 /**
  * A wrapper over {@link java.util.logging.Logger
- * java.util.logging.Logger} which conforms to the {@link Logger}
+ * java.util.logging.Logger} in conformance to the {@link Logger}
  * interface.
  * 
  * @author Ceki G&uuml;lc&uuml;
@@ -54,8 +54,10 @@ public class JDK14Logger implements Logger {
   }
 
   /**
-   * Is the logger instance enabled for the DEBUG level?
-   * @return
+   * Is this logger instance enabled for the FINE level?
+   *
+   * @return True if this Logger is enabled for level FINE, false
+   * otherwise.
    */
   public boolean isDebugEnabled() {
     return logger.isLoggable(Level.FINE);
@@ -64,179 +66,255 @@ public class JDK14Logger implements Logger {
   //
 
   /**
-   * Log a message object with the DEBUG level.
+   * Log a message object at level FINE.
    * @param msg - the message object to be logged
    */
   public void debug(String msg) {
     logger.fine(String.valueOf(msg));
   }
 
+ 
   /**
-   * Log a parameterized message object at the DEBUG level.
+   * Log a message at level FINE according to the specified format and
+   * argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for level FINE. </p>
    *
-   * <p>This form is useful in avoiding the superflous object creation
-   * problem when invoking this method while it is disabled.
-   * </p>
-   * @param parameterizedMsg - the parameterized message object
-   * @param param1 - the parameter
+   * @param format the format string 
+   * @param arg  the argument
    */
-  public void debug(String parameterizedMsg, Object param1) {
+  public void debug(String format, Object arg1) {
     if (logger.isLoggable(Level.FINE)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1);
-        logger.fine(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.fine(parameterizedMsg.toString());
-      }
+      String msgStr = MessageFormatter.format(format, arg1);
+      logger.fine(msgStr);
+    }
+  }
+
+
+  /**
+   * Log a message at level FINE according to the specified format and
+   * arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the FINE level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */  
+  public void debug(String format, Object arg1, Object arg2) {
+    if (logger.isLoggable(Level.FINE)) {     
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      logger.fine(msgStr);
     }
   }
 
   /**
-   * Log a parameterized message object at the DEBUG level.
-   *
-   * <p>This form is useful in avoiding the superflous object creation
-   * problem when invoking this method while it is disabled.
-   * </p>
-   * @param parameterizedMsg - the parameterized message object
-   * @param param1 - the first parameter
-   * @param param2 - the second parameter
+   * Log an exception (throwable) at  level FINE with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
    */
-  public void debug(String parameterizedMsg, Object param1, Object param2) {
-    if (logger.isLoggable(Level.FINE)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1, param2);
-        logger.fine(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.fine(parameterizedMsg.toString());
-      }
-    }
-  }
-
   public void debug(String msg, Throwable t) {
     logger.log(Level.FINE, msg.toString(), t);
   }
 
+  /**
+   * Is this logger instance enabled for the INFO level?
+   *
+   * @return True if this Logger is enabled for the INFO level, false
+   * otherwise.
+   */
   public boolean isInfoEnabled() {
     return logger.isLoggable(Level.INFO);
   }
 
+  /**
+   * Log a message object at the INFO level.
+   *
+   * @param msg - the message object to be logged
+   */
   public void info(String msg) {
     logger.info(msg.toString());
   }
 
-  public void info(String parameterizedMsg, Object param1) {
+  /**
+   * Log a message at level INFO according to the specified format and
+   * argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   */
+  public void info(String format, Object arg1) {
     if (logger.isLoggable(Level.INFO)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1);
-        logger.info(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.info(parameterizedMsg.toString());
-      }
+      String msgStr = MessageFormatter.format(format, arg1);
+      logger.info(msgStr);
     }
   }
 
-  public void info(String parameterizedMsg, Object param1, Object param2) {
+
+  /**
+   * Log a message at the INFO level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void info(String format, Object arg1, Object arg2) {
     if (logger.isLoggable(Level.INFO)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1, param2);
-        logger.info(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.info(parameterizedMsg.toString());
-      }
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      logger.info(msgStr);
     }
   }
 
+  /**
+   * Log an exception (throwable) at the INFO level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */
   public void info(String msg, Throwable t) {
     logger.log(Level.INFO, msg.toString(), t);
   }
 
+  /**
+   * Is this logger instance enabled for the WARNING level?
+   *
+   * @return True if this Logger is enabled for the WARNING level,
+   * false otherwise.
+   */
   public boolean isWarnEnabled() {
     return logger.isLoggable(Level.WARNING);
   }
 
+  /**
+   * Log a message object at the WARNING level.
+   *
+   * @param msg - the message object to be logged
+   */
   public void warn(String msg) {
     logger.warning(msg.toString());
   }
 
-  public void warn(String parameterizedMsg, Object param1) {
+  /**
+   * Log a message at the WARNING level according to the specified
+   * format and argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARNING level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   */
+  public void warn(String format, Object arg) {
     if (logger.isLoggable(Level.WARNING)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1);
-        logger.warning(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.warning(parameterizedMsg.toString());
-      }
+      String msgStr = MessageFormatter.format(format, arg);
+      logger.warning(msgStr);
     }
   }
 
-  public void warn(String parameterizedMsg, Object param1, Object param2) {
+
+  /**
+   * Log a message at the WARNING level according to the specified
+   * format and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARNING level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void warn(String format, Object arg1, Object arg2) {
     if (logger.isLoggable(Level.WARNING)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1, param2);
-        logger.warning(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.warning(parameterizedMsg.toString());
-      }
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      logger.warning(msgStr);
     }
   }
 
+  /**
+   * Log an exception (throwable) at the WARNING level with an
+   * accompanying message.
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */
   public void warn(String msg, Throwable t) {
     logger.log(Level.WARNING, msg.toString(), t);
   }
 
+  /**
+   * Is this logger instance enabled for level SEVERE?
+   * 
+   * @return True if this Logger is enabled for level SEVERE, false
+   * otherwise.
+   */
   public boolean isErrorEnabled() {
     return logger.isLoggable(Level.SEVERE);
   }
 
+  /**
+   * Log a message object at the SEVERE level.
+   *
+   * @param msg - the message object to be logged
+   */
   public void error(String msg) {
     logger.severe(msg.toString());
   }
 
-  public void error(String parameterizedMsg, Object param1) {
-    if (logger.isLoggable(Level.WARNING)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1);
-        logger.severe(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.severe(parameterizedMsg.toString());
-      }
+  /**
+   * Log a message at the SEVERE level according to the specified
+   * format and argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the SEVERE level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   */
+  public void error(String format, Object arg) {
+    if (logger.isLoggable(Level.SEVERE)) {
+      String msgStr = MessageFormatter.format(format, arg);
+      logger.severe(msgStr);    
     }
   }
   
-  public void error(String parameterizedMsg, Object param1, Object param2) {
-    if (logger.isLoggable(Level.WARNING)) {
-      if (parameterizedMsg instanceof String) {
-        String msgStr = (String) parameterizedMsg;
-        msgStr = MessageFormatter.format(msgStr, param1, param2);
-        logger.severe(msgStr);
-      } else {
-        // To be failsafe, we handle the case where 'messagePattern' is not
-        // a String. Unless the user makes a mistake, this should not happen.
-        logger.severe(parameterizedMsg.toString());
-      }
+
+  /**
+   * Log a message at the SEVERE level according to the specified
+   * format and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the SEVERE level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void error(String format, Object arg1, Object arg2) {
+    if (logger.isLoggable(Level.SEVERE)) {
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      logger.severe(msgStr);
     }
   }
+
+  /**
+   * Log an exception (throwable) at the SEVERE level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */
   public void error(String msg, Throwable t) {
     logger.log(Level.SEVERE, msg.toString(), t);
   }
