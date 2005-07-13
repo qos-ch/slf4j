@@ -1,17 +1,17 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.LoggerFactoryAdapter;
 import org.slf4j.Logger;
+import org.slf4j.ILoggerFactory;
 
 
 /**
- * NOPLoggerFA is am implementation of {@link LoggerFactoryAdapter}
+ * NOPLoggerFactory is am implementation of {@link ILoggerFactory}
  * which always returns the unique instance of NOPLogger.
  * 
  * @author Ceki Gulcu
  */
-public class XLoggerFA implements LoggerFactoryAdapter {
+public class XLoggerFA implements ILoggerFactory {
   
   public XLoggerFA() {
     // nothing to do

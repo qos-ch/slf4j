@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2004-2005 SLF4J.ORG
+ * Copyright (c) 2004-2005 QOS.ch
  *
  * All rights reserved.
  *
@@ -29,15 +30,43 @@
  * of the copyright holder.
  *
  */
-
 package org.slf4j;
 
-import org.slf4j.impl.XLoggerFA;
+import junit.framework.TestCase;
 
 
-public class XLoggerFAFactory {
+/**
+ * @author ceki
+ */
+public class MarkerTest extends TestCase {
+  static final String BLUE = "BLUE";
+  static final String COMP = "COMP";
 
-	public static ILoggerFactory getInstance() {
-		return new XLoggerFA();
-	}
+  public void testPrimitive() {
+    Marker blue = Marker.getMarker(BLUE);
+    assertEquals(BLUE, blue.getName());
+
+    //assertTrue(blue.isImmutable());
+    assertTrue(blue.matches(blue));
+    assertTrue(blue.matches(BLUE));
+
+    Marker blue2 = Marker.getMarker(BLUE);
+    assertEquals(blue, blue2);
+    //blue.add(blue2);
+  }
+
+  public void testStar() {
+    Marker blue = Marker.getMarker(BLUE);
+    assertEquals(BLUE, blue.getName());
+    Marker star = Marker.getMarker("*");
+
+    //assertTrue(blue.isImmutable());
+    assertTrue(blue.matches("*"));
+    assertTrue(blue.matches(star));
+
+    assertTrue(star.matches("asdasd"));
+    assertTrue(star.matches(star));
+
+    assertTrue(star.matches(blue));
+  }
 }

@@ -33,44 +33,41 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.LoggerFactoryAdapter;
-import org.slf4j.Logger;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.IMarkerFactory;
+import org.slf4j.Marker;
+
 /**
- * JDK14LoggerFA is an implementation of {@link LoggerFactoryAdapter}
- * returning the appropriate named {@link JDK14Logger} instance.
- *
- * @author Ceki G&uuml;lc&uuml;
- */
-public class JDK14LoggerFA implements LoggerFactoryAdapter {
+ * A basic implementation of the {@link IMarkerFactory} implementation 
+ * which creates {@link BasicMarker} instances. <code>BasicMarkerFactory</code> 
+ * keeps track of the marker instances it creates with the help 
+ * of a hashtable.
+ * 
+ * @author Ceki Gulcu
+  */
+public class BasicMarkerFactory implements IMarkerFactory {
 
-  // key: name (String), value: a JDK14Logger;
-  Map loggerMap;
-
-  public JDK14LoggerFA() {
-    loggerMap = new HashMap();
-  }
-
-  /* (non-Javadoc)
-   * @see org.slf4j.LoggerFactoryAdapter#getLogger(java.lang.String)
+  Map markerMap = new HashMap();
+  
+  /**
+   * Manufacture a {@link BasicMarker} instance by name. If the instance has been 
+   * created earlier, return the previously created instance. 
+   * 
+   * @param name the name of the marker to be created
+   * @return a Marker instance
    */
-  public Logger getLogger(String name) {
-    Logger ulogger = (Logger) loggerMap.get(name);
-    if (ulogger == null) {
-      java.util.logging.Logger logger = java.util.logging.Logger.getLogger(name);
-      ulogger = new JDK14Logger(logger);
-     loggerMap.put(name, ulogger);
+  public synchronized Marker getMarker(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("Marker name cannot be null");
     }
-    return ulogger;
-  }
 
-  /* (non-Javadoc)
-   * @see org.slf4j.LoggerFactoryAdapter#getLogger(java.lang.String, java.lang.String)
-   */
-  public Logger getLogger(String domainName, String subDomainName) {
-    return getLogger(domainName);
+    Marker marker = (Marker) markerMap.get(name);
+    if (marker == null) {
+      marker = new BasicMarker(name);
+      markerMap.put(name, marker);
+    }
+    return marker;
   }
 }

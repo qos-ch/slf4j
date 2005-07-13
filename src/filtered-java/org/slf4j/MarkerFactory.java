@@ -29,15 +29,47 @@
  * of the copyright holder.
  *
  */
-
 package org.slf4j;
 
-import org.slf4j.impl.XLoggerFA;
+// WARNING
+// WARNING Modifications MUST be made to the original file found at
+// WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/MarkerFactory.java
+// WARNING
 
 
-public class XLoggerFAFactory {
+/**
+ * A static MarkerFactory bound to a specific {@link IMarkerFactory} instance at
+ * at compile time. 
+ * 
+ * @author Ceki Gulcu
+ */
+public class MarkerFactory {
+  static IMarkerFactory markerFactory;
 
-	public static ILoggerFactory getInstance() {
-		return new XLoggerFA();
-	}
+  // 
+  // WARNING Do not modify copies but the original at
+  //         $SLF4J_HOME/src/filtered-java/org/slf4j/
+  //
+  static {
+    String markerFactoryClassStr = "org.slf4j.impl.@MARKER_FACTORY_IMPL_PREFIX@MarkerFactory";
+    try {
+      markerFactory = new org.slf4j.impl.@MARKER_FACTORY_IMPL_PREFIX@MarkerFactory();
+     } catch (Exception e) {
+       // we should never get here
+       Util.reportFailure(
+           "Could not instantiate instance of class [" + markerFactoryClassStr + "]",
+           e);
+     }
+      
+  }
+  
+  /**
+   * Return a Marker instnace as specified by the name parameter using the 
+   * previously bound  {@link IMakerFactory marker factory instance}.
+   * @param name The name of the Marker.
+   * @return marker
+   */
+  public static Marker getMarker(String name) {
+    return markerFactory.getMarker(name);
+  }
 }

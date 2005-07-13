@@ -31,7 +31,6 @@
  */
 package org.slf4j;
 
-
 // WARNING
 // WARNING Modifications MUST be made to the original file found at
 // WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/LoggerFactory.java
@@ -46,29 +45,29 @@ package org.slf4j;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class LoggerFactory {
-  static LoggerFactoryAdapter adapter;
+  static ILoggerFactory loggerFactory;
 
   // 
   // WARNING Do not modify copies but the original in
   //         $SLF4J_HOME/src/filtered-java/org/slf4j/
   //
   static {
-    String adapterClassStr = "org.slf4j.impl.@IMPL@LoggerFA";
-    System.out.println("SLF4J built for " + adapterClassStr);
+    String loggerFactoryClassStr = "org.slf4j.impl.@IMPL@LoggerFactory";
+    System.out.println("SLF4J built for " + loggerFactoryClassStr);
 
-    adapter = getFactoryAdapterFromSystemProperties();
+    loggerFactory = getFactoryFromSystemProperties();
 
     // if could not get an adapter from the system properties,  bind statically
-    if (adapter != null) {
-       System.out.println("However, SLF4J will use ["+adapter.getClass().getName()
-       		+ "] adapter from system properties.");
+    if (loggerFactory != null) {
+       System.out.println("However, SLF4J will use ["+loggerFactory.getClass().getName()
+       		+ "] adapter factory from system properties.");
     } else {
       try {
-        adapter = new org.slf4j.impl.@IMPL@LoggerFA();
+          loggerFactory = new org.slf4j.impl.@IMPL@LoggerFactory();
       } catch (Exception e) {
         // we should never get here
-        reportFailure(
-          "Could not instantiate instance of class [" + adapterClassStr + "]",
+        Util.reportFailure(
+          "Could not instantiate instance of class [" + loggerFactoryClassStr + "]",
           e);
       }
     }
@@ -77,46 +76,40 @@ public class LoggerFactory {
   /**
    * Fetch the appropriate adapter as intructed by the system propties.
    * 
-   * @return The appropriate LoggerFactoryAdapter as directed from the 
+   * @return The appropriate ILoggerFactory instance as directed from the 
    * system properties
    */
-  private static LoggerFactoryAdapter getFactoryAdapterFromSystemProperties() {
-    String faFactoryClassName = null;
+  private static ILoggerFactory getFactoryFromSystemProperties() {
+    String factoryFactoryClassName = null;
 
     try {
-      faFactoryClassName = System.getProperty(Constants.LOGGER_FA_FACTORY_PROPERTY);
-      if (faFactoryClassName == null) {
+      factoryFactoryClassName = System.getProperty(Constants.LOGGER_FACTORY_FACTORY_METHOD_NAME);
+      if (factoryFactoryClassName == null) {
         return null;
       }
 
-      Class faFactoryClass = Class.forName(faFactoryClassName);
+      Class factoryFactoryClass = Class.forName(factoryFactoryClassName);
       Class[] EMPTY_CLASS_ARRAY = {  };
-      java.lang.reflect.Method faFactoryMethod =
-        faFactoryClass.getDeclaredMethod(
-          Constants.FA_FACTORY_METHOD_NAME, EMPTY_CLASS_ARRAY);
-      LoggerFactoryAdapter adapter =
-        (LoggerFactoryAdapter) faFactoryMethod.invoke(null, null);
-      return adapter;
+      java.lang.reflect.Method factoryFactoryMethod =
+          factoryFactoryClass.getDeclaredMethod(
+          Constants.LOGGER_FACTORY_FACTORY_METHOD_NAME, EMPTY_CLASS_ARRAY);
+      ILoggerFactory loggerFactory =
+        (ILoggerFactory) factoryFactoryMethod.invoke(null, null);
+      return loggerFactory;
     } catch (Throwable t) {
-      if (faFactoryClassName == null) {
-        reportFailure(
-          "Failed to fetch " + Constants.LOGGER_FA_FACTORY_PROPERTY
+      if (factoryFactoryClassName == null) {
+        Util.reportFailure(
+          "Failed to fetch " + Constants.LOGGER_FACTORY_FACTORY_METHOD_NAME
           + " system property.", t);
       } else {
-        reportFailure(
-          "Failed to fetch LoggerFactoryAdapter using the "
-          + faFactoryClassName + " class.", t);
+          Util.reportFailure(
+          "Failed to fetch ILoggerFactory instnace using the "
+          + factoryFactoryClassName + " class.", t);
       }
     }
 
     // we could not get an adapter
     return null;
-  }
-
-  static void reportFailure(String msg, Throwable t) {
-    System.err.println(msg);
-    System.err.println("Reported exception follows.");
-    t.printStackTrace();
   }
 
   /**
@@ -126,18 +119,10 @@ public class LoggerFactory {
    * @return logger
    */
   public static Logger getLogger(String name) {
-    return adapter.getLogger(name);
-  }
-
-  public static Logger getLogger(String domainName, String subDomainName) {
-    return adapter.getLogger(domainName, subDomainName);
+    return loggerFactory.getLogger(name);
   }
 
   public static Logger getLogger(Class clazz) {
-    return adapter.getLogger(clazz.getName());
-  }
-
-  public static Logger getLogger(Class clazz, String subDomainName) {
-    return adapter.getLogger(clazz.getName(), subDomainName);
+    return loggerFactory.getLogger(clazz.getName());
   }
 }

@@ -36,19 +36,20 @@ package org.slf4j;
  * Various constants used in the SLF4J API.
  */
 public interface Constants {
+    
 	/**
 	 * The name of the system property to set in order to instruct
-	 * {@link LoggerFactory} class to use a specific factory adapter.
+	 * {@link LoggerFactory} class to use a specific ILoggerFactory.
 	 * <p>
 	 * This constant is currently set to the value "org.slf4j.factory".
 	 */
-	final public static String LOGGER_FA_FACTORY_PROPERTY = "org.slf4j.factory";
+	final public static String LOGGER_FACTORY_PROPERTY = "org.slf4j.factory";
 	
 	/**
-	 * Constant used to determined the name of the factory method for
-	 * creating factory adapters.
+	 * Constant used to determine the name of the factory method for
+	 * creating logger factories.
 	 * <p>
-	 * This constant current is set to the value "getInstance".
+	 * This constant currently is set to the value "getInstance".
 	 */
-	final public static String FA_FACTORY_METHOD_NAME = "getInstance";
+	final public static String LOGGER_FACTORY_FACTORY_METHOD_NAME = "getInstance";
 }

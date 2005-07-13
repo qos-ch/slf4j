@@ -77,7 +77,7 @@ public class SimpleLogger implements Logger {
   static private String ERROR_STR = "ERROR";
   
   /**
-   * Package access allows only {@link SimpleLoggerFA} to instantiate 
+   * Package access allows only {@link SimpleLoggerFactory} to instantiate 
    * SimpleLogger instances.
    */
   SimpleLogger(String name) {

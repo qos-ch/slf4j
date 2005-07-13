@@ -45,12 +45,12 @@ import java.util.logging.Level;
  
  * @author Ceki G&uuml;lc&uuml;
  */
-public class JDK14Logger implements Logger {
+public class JDK14LoggerAdapter implements Logger {
   final java.util.logging.Logger logger;
 
-  // WARN: JDK14Logger constructor should have only package access so that
-  // only JDK14LoggerFA be able to create one.
-  JDK14Logger(java.util.logging.Logger logger) {
+  // WARN: JDK14LoggerAdapter constructor should have only package access so that
+  // only JDK14LoggerFactory be able to create one.
+  JDK14LoggerAdapter(java.util.logging.Logger logger) {
     this.logger = logger;
   }
 

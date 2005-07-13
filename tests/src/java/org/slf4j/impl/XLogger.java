@@ -51,91 +51,67 @@ public class XLogger implements Logger {
 
   public boolean isDebugEnabled() {  return false; }
 
-  public void debug(Object msg) {
+  public void debug(String msg) {
   }
 
-  public void debug(Object parameterizedMsg, Object param1) {  }
+  public void debug(String parameterizedMsg, Object arg) {  }
 
-  public void debug(String parameterizedMsg, Object param1, Object param2) {  }
+  public void debug(String parameterizedMsg, Object arg1, Object arg2) {  }
 
-  public void debug(Object msg, Throwable t) {  }
+  public void debug(String msg, Throwable t) {  }
 
   public boolean isInfoEnabled() {  return false;
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#info(java.lang.Object)
-   */
-  public void info(Object msg) {
+  public void info(String msg) {
     // NOP
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#info(java.lang.Object, java.lang.Object)
-   */
-  public void info(Object parameterizedMsg, Object param1) {
+  public void info(String format, Object arg) {
     // NOP
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#info(java.lang.Object, java.lang.Object, java.lang.Object)
-   */
-  public void info(String parameterizedMsg, Object param1, Object param2) {
+  public void info(String format, Object arg1, Object arg2) {
     // NOP
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#info(java.lang.Object, java.lang.Throwable)
-   */
-  public void info(Object msg, Throwable t) {
+  public void info(String msg, Throwable t) {
     // NOP
   }
 
-  /* Always returns false.
-   * @see org.slf4j.Logger#isWarnEnabled()
-   */
   public boolean isWarnEnabled() {
     return false;
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#warn(java.lang.Object)
-   */
-  public void warn(Object msg) {
+  public void warn(String msg) {
     // NOP
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#warn(java.lang.Object, java.lang.Object)
-   */
-  public void warn(Object parameterizedMsg, Object param1) {
+  public void warn(String format, Object arg) {
     // NOP
   }
 
-  /* A NOP implementation.
-   * @see org.slf4j.Logger#warn(java.lang.Object, java.lang.Object, java.lang.Object)
-   */
-  public void warn(String parameterizedMsg, Object param1, Object param2) {
+  public void warn(String format, Object arg1, Object arg2) {
     // NOP
   }
 
-  public void warn(Object msg, Throwable t) {
+  public void warn(String msg, Throwable t) {
   }
 
   public boolean isErrorEnabled() {
     return false;
   }
 
-  public void error(Object msg) {
+  public void error(String msg) {
   }
 
-  public void error(Object parameterizedMsg, Object param1) {
+  public void error(String format, Object arg) {
   }
 
-  public void error(String parameterizedMsg, Object param1, Object param2) {
+  public void error(String format, Object arg1, Object arg2) {
   }
 
-  public void error(Object msg, Throwable t) {
+  public void error(String msg, Throwable t) {
   }
 }
 

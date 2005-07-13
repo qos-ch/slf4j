@@ -28,7 +28,7 @@
       slf4j-nop.jar - build the jar file of the same name.
       slf4j-simple.jar - build the jar file of the same name.
       slf4j-jdk14.jar - build the jar file of the same name.
-      
+      jar - all of the above jar files
     </echo>
   </target>
 
@@ -71,13 +71,24 @@
         <include name="**/*.java"/>
       </fileset>
       <filterset><filter token="IMPL" value="${IMPL}"/></filterset>
+      <filterset>
+        <filter token="MARKER_FACTORY_IMPL_PREFIX" 
+                value="Basic"/>
+      </filterset>
     </copy>
+
+    <copy todir="tmp/src">
+      <fileset dir="src/java">
+        <include name="**/*.java"/>
+      </fileset>
+    </copy>
+
     
     <javac srcdir="${tmp.java.source.dir}"
            destdir="${tmp.javac.dest}"
            deprecation="on"
            includes="${SLF4J_STEM}/*.java,
-    	             ${SLF4J_STEM}/impl/MessageFormatter.java, 
+    	               ${SLF4J_STEM}/impl/MessageFormatter.java, 
                      ${SLF4J_STEM}/impl/${impl}*.class"
            debug="${debug}">
     </javac>
@@ -98,6 +109,7 @@
     </jar>
    
   </target>
+
 
   <target name="slf4j-nop.jar">
     <antcall target="slf4j-IMPL.jar">
