@@ -37,16 +37,27 @@ package org.slf4j;
 // WARNING
 
 /**
- * The <code>LoggerFactory</code> can produce Loggers for various logging APIs,
- * most notably for log4j, JDK 1.4 logging. Other implemenations such as
- * {@link org.slf4j.impl.NOPLogger NOPLogger} and
+ * The <code>LoggerFactory</code> is a utility class producing Loggers 
+ * for various logging APIs, most notably for NLOG4J and JDK 1.4 logging. 
+ * Other implemenations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
  * {@link org.slf4j.impl.SimpleLogger SimpleLogger} are also supported.
  *
+ * <p><code>LoggerFactory</code> is essentially a wrapper around an 
+ * {@link ILoggerFactory} instance bound with <code>LoggerFactory</code> 
+ * at compile time.
+ * 
+ * <p>Please note that all methods in <code>LoggerFactory</code> are 
+ * static.
+ * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class LoggerFactory {
+public final class LoggerFactory {
   static ILoggerFactory loggerFactory;
 
+  // private constructor prevents instantiation
+  private LoggerFactory() {
+  }
+  
   // 
   // WARNING Do not modify copies but the original in
   //         $SLF4J_HOME/src/filtered-java/org/slf4j/
@@ -74,7 +85,7 @@ public class LoggerFactory {
   }
 
   /**
-   * Fetch the appropriate adapter as intructed by the system propties.
+   * Fetch the appropriate ILoggerFactory as intructed by the system propties.
    * 
    * @return The appropriate ILoggerFactory instance as directed from the 
    * system properties
@@ -114,7 +125,8 @@ public class LoggerFactory {
 
   /**
    * Return a logger named according to the name parameter using the 
-   * previously bound  {@link LoggerFactoryAdapter adapter}.
+   * statically bound  {@link ILoggerFactory} instance.
+   * 
    * @param name The name of the logger.
    * @return logger
    */
@@ -122,6 +134,13 @@ public class LoggerFactory {
     return loggerFactory.getLogger(name);
   }
 
+  /**
+   * Return a logger named corresponding to the class passed as parameter,
+   * using the statically bound  {@link ILoggerFactory} instance.
+   * 
+   * @param clazz the returned logger will be named after clazz 
+   * @return logger
+   */
   public static Logger getLogger(Class clazz) {
     return loggerFactory.getLogger(clazz.getName());
   }

@@ -34,6 +34,9 @@ package org.slf4j;
 
 
 /**
+ * Implementaitons of this interface are used to manufacture {@link Logger} 
+ * instances.
+ * 
  * ILoggerFactory interface is used internally by {@link
  * LoggerFactory}.
  * 

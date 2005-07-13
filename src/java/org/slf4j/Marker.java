@@ -35,13 +35,47 @@ package org.slf4j;
 
 import java.util.Iterator;
 
+/**
+ * Markers are named objects which can be used to enrich log statements. 
+ * 
+ * <p>Markers can contain child markers which can contain children of their
+ * own.
+ * 
+ * @author Ceki Gulcu
+ */
 public interface Marker {
  
+  /**
+   * Get the name of this Marker.
+   * @return name of marker
+   */ 
   public String getName();
 
+  /**
+   * Add a child Marker to this Marker.
+   * @param child a child marker
+   */
   public void add(Marker child);
+  
+  /**
+   * Remove a child Marker.
+   * @param child the child Marker to remove
+   * @return true if child could be found and removed, false otherwise.
+   */
   public boolean remove(Marker child);
+  
+  /**
+   * Does this marker have children?
+   * @return true if this marker has children, false otherwise.
+   */
   public boolean hasChildren();
+  
+  /**
+   * Returns an Iterator which can be used to iterator over the children of this 
+   * marker. An empty iterator is returned when this marker has no children.
+   * 
+   * @return Iterator over the children of this marker
+   */
   public Iterator iterator();
   
 //  void makeImmutable();

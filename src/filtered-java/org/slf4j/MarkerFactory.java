@@ -38,14 +38,22 @@ package org.slf4j;
 
 
 /**
- * A static MarkerFactory bound to a specific {@link IMarkerFactory} instance at
- * at compile time. 
+ * MarkerFactory is a utility class producing Marker instances as appropriate 
+ * for each logging systems.
+ * 
+ * MarkerFactory is essentially a wrapper around an IMarkerFactory instance 
+ * bound with the MarkerFactory class at compile time. 
+ * 
+ * Please note that all methods in MarkerFactory are static.
  * 
  * @author Ceki Gulcu
  */
 public class MarkerFactory {
   static IMarkerFactory markerFactory;
 
+  private MarkerFactory() {      
+  }
+  
   // 
   // WARNING Do not modify copies but the original at
   //         $SLF4J_HOME/src/filtered-java/org/slf4j/
@@ -59,14 +67,14 @@ public class MarkerFactory {
        Util.reportFailure(
            "Could not instantiate instance of class [" + markerFactoryClassStr + "]",
            e);
-     }
-      
+     }      
   }
   
   /**
    * Return a Marker instnace as specified by the name parameter using the 
-   * previously bound  {@link IMakerFactory marker factory instance}.
-   * @param name The name of the Marker.
+   * previously bound  {@link IMarkerFactory} instance.
+   * 
+   * @param name The name of the {@link Marker} object to return. 
    * @return marker
    */
   public static Marker getMarker(String name) {

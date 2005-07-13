@@ -56,6 +56,14 @@ public interface Logger {
    */
   public void debug(String msg);
   
+
+  /**
+   * Log a message with the specific Marker at the DEBUG level.
+   * 
+   * @param marker The marker specific for this log statement
+   * @param msg the message string to be logged
+   */
+  public void debug(Marker marker, String msg);
   
   /**
    * Log a message at the DEBUG level according to the specified format

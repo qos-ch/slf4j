@@ -27,15 +27,15 @@
     <pathelement location="../slf4j-simple.jar"/>
   </path>
 
-   <path id="jdk14.classpath">
+  <path id="jdk14.classpath">
     <path refid="basic.classpath"/>
     <pathelement location="../slf4j-jdk14.jar"/>
   </path>
 
-   <path id="nlog4j1212.classpath">
+   <path id="nlog4j12x.classpath">
      <path refid="basic.classpath"/>
-     <fileset dir="lib">
-       <include name="nlog4j-1.2.12.jar"/>
+     <fileset dir="./lib/">
+       <include name="nlog4j*.jar"/>
      </fileset>
   </path>
 
@@ -107,7 +107,7 @@
                                      InvokeNOP,
                                      InvokeSimple,
                                      InvokeJDK14,
-                                     InvokeNLOG4J1212"
+                                     InvokeNLOG4J12x"
                                      />
 
   <target name="MessageFormatter" depends="build, cleanOutputDir">
@@ -143,10 +143,10 @@
   </target>
 
 
-  <target name="InvokeNLOG4J1212" depends="build, cleanOutputDir">
-    <copy file="input/nlog4j1212/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
+  <target name="InvokeNLOG4J12x" depends="build, cleanOutputDir">
+    <copy file="input/nlog4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
     <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="nlog4j1212.classpath"/>
+      <classpath refid="nlog4j12x.classpath"/>
       <formatter type="plain" usefile="false"/>
       <test name="org.slf4j.InvokingSLF4J" />
     </junit>
