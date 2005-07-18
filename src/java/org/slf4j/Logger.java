@@ -48,7 +48,8 @@ public interface Logger {
    * false otherwise.
    */
   public boolean isDebugEnabled();
-  
+
+  public boolean isDebugEnabled(Marker marker);
   /**
    * Log a message at the DEBUG level.
    *
@@ -77,6 +78,8 @@ public interface Logger {
    */
   public void debug(String format, Object arg);
 
+  public void debug(Marker marker, String format, Object arg);
+  
   /**
    * Log a message at the DEBUG level according to the specified format
    * and arguments.
@@ -90,6 +93,8 @@ public interface Logger {
    */
   public void debug(String format, Object arg1, Object arg2);
 
+  public void debug(Marker marker, String format, Object arg1, Object arg2);
+ 
 
   /**
    * Log an exception (throwable) at the DEBUG level with an
@@ -100,7 +105,8 @@ public interface Logger {
    */ 
   public void debug(String msg, Throwable t);
   
-
+  public void debug(Marker marker, String msg, Throwable t);
+  
   /**
    * Is the logger instance enabled for the INFO level?
    * @return True if this Logger is enabled for the INFO level,
@@ -108,12 +114,17 @@ public interface Logger {
    */
   public boolean isInfoEnabled();
 
+  public boolean isInfoEnabled(Marker marker);
+  
   /**
    * Log a message at the INFO level.
    *
    * @param msg the message string to be logged
    */
   public void info(String msg);
+  
+  public void info(Marker marker, String msg);
+  
 
   /**
    * Log a message at the INFO level according to the specified format
@@ -149,6 +160,11 @@ public interface Logger {
    */
   public void info(String msg, Throwable t);
 
+  public void info(Marker marker, String format, Object arg);
+  public void info(Marker marker, String format, Object arg1, Object arg2);  
+  public void info(Marker marker, String msg, Throwable t); 
+
+  
   /**
    * Is the logger instance enabled for the WARN level?
    * @return True if this Logger is enabled for the WARN level,
@@ -197,6 +213,12 @@ public interface Logger {
    */
   public void warn(String msg, Throwable t);
 
+  public void warn(Marker marker, String msg); 
+  public void warn(Marker marker, String format, Object arg);
+  public void warn(Marker marker, String format, Object arg1, Object arg2);  
+  public void warn(Marker marker, String msg, Throwable t); 
+  public boolean isWarnEnabled(Marker marker);
+
   /**
    * Is the logger instance enabled for the ERROR level?
    * @return True if this Logger is enabled for the ERROR level,
@@ -244,5 +266,11 @@ public interface Logger {
    * @param t the exception (throwable) to log
    */
   public void error(String msg, Throwable t);
+
+  public void error(Marker marker, String msg); 
+  public void error(Marker marker, String format, Object arg);
+  public void error(Marker marker, String format, Object arg1, Object arg2);  
+  public void error(Marker marker, String msg, Throwable t); 
+  public boolean isErrorEnabled(Marker marker);
 
 }

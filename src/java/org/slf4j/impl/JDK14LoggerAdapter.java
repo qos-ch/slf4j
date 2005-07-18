@@ -1,9 +1,9 @@
-/* 
+/*
  * Copyright (c) 2004-2005 SLF4J.ORG
  * Copyright (c) 2004-2005 QOS.ch
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to  deal in  the Software without  restriction, including
@@ -13,7 +13,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the  Software and  that both  the above  copyright notice(s)  and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -23,7 +23,7 @@
  * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
  * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as  contained in  this notice, the  name of a  copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -32,7 +32,9 @@
  */
 
 package org.slf4j.impl;
+
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 
 import java.util.logging.Level;
 
@@ -42,10 +44,10 @@ import java.util.logging.Level;
  * java.util.logging.Logger} in conformance with the {@link Logger}
  * interface. Note that the logging levels mentioned in this class
  * refer to those defined in the java.util.logging package.
- 
+
  * @author Ceki G&uuml;lc&uuml;
  */
-public class JDK14LoggerAdapter implements Logger {
+public final class JDK14LoggerAdapter implements Logger {
   final java.util.logging.Logger logger;
 
   // WARN: JDK14LoggerAdapter constructor should have only package access so that
@@ -64,6 +66,10 @@ public class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.FINE);
   }
 
+  public boolean isDebugEnabled(Marker marker) {
+    return isDebugEnabled();
+  }
+
   //
 
   /**
@@ -74,15 +80,18 @@ public class JDK14LoggerAdapter implements Logger {
     logger.fine(msg);
   }
 
- 
+  public void debug(Marker marker, String msg) {
+    debug(msg);
+  }
+
   /**
    * Log a message at level FINE according to the specified format and
    * argument.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for level FINE. </p>
    *
-   * @param format the format string 
+   * @param format the format string
    * @param arg  the argument
    */
   public void debug(String format, Object arg) {
@@ -92,34 +101,45 @@ public class JDK14LoggerAdapter implements Logger {
     }
   }
 
+  public void debug(Marker marker, String format, Object arg) {
+    debug(format, arg);
+  }
 
   /**
    * Log a message at level FINE according to the specified format and
    * arguments.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the FINE level. </p>
    *
    * @param format the format string
    * @param arg1  the first argument
    * @param arg2  the second argument
-   */  
+   */
   public void debug(String format, Object arg1, Object arg2) {
-    if (logger.isLoggable(Level.FINE)) {     
+    if (logger.isLoggable(Level.FINE)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
       logger.fine(msgStr);
     }
   }
 
+  public void debug(Marker marker, String format, Object arg1, Object arg2) {
+    debug(format, arg1, arg2);
+  }
+
   /**
    * Log an exception (throwable) at  level FINE with an
-   * accompanying message. 
-   * 
+   * accompanying message.
+   *
    * @param msg the message accompanying the exception
    * @param t the exception (throwable) to log
    */
   public void debug(String msg, Throwable t) {
     logger.log(Level.FINE, msg, t);
+  }
+
+  public void debug(Marker marker, String msg, Throwable t) {
+    debug(msg, t);
   }
 
   /**
@@ -132,6 +152,10 @@ public class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.INFO);
   }
 
+  public final boolean isInfoEnabled(Marker marker) {
+    return isInfoEnabled();
+  }
+
   /**
    * Log a message object at the INFO level.
    *
@@ -141,14 +165,18 @@ public class JDK14LoggerAdapter implements Logger {
     logger.info(msg);
   }
 
+  public void info(Marker marker, String msg) {
+    logger.info(msg);
+  }
+
   /**
    * Log a message at level INFO according to the specified format and
    * argument.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the INFO level. </p>
    *
-   * @param format the format string 
+   * @param format the format string
    * @param arg  the argument
    */
   public void info(String format, Object arg) {
@@ -158,11 +186,10 @@ public class JDK14LoggerAdapter implements Logger {
     }
   }
 
-
   /**
    * Log a message at the INFO level according to the specified format
    * and arguments.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the INFO level. </p>
    *
@@ -179,8 +206,8 @@ public class JDK14LoggerAdapter implements Logger {
 
   /**
    * Log an exception (throwable) at the INFO level with an
-   * accompanying message. 
-   * 
+   * accompanying message.
+   *
    * @param msg the message accompanying the exception
    * @param t the exception (throwable) to log
    */
@@ -188,6 +215,18 @@ public class JDK14LoggerAdapter implements Logger {
     logger.log(Level.INFO, msg, t);
   }
 
+  public void info(Marker marker, String format, Object arg) {
+      info(format, arg);
+    }
+
+    public void info(Marker marker, String format, Object arg1, Object arg2) {
+      info(format, arg1, arg2);
+    }
+
+    public void info(Marker marker, String msg, Throwable t) {
+       info(msg, t);
+    }
+    
   /**
    * Is this logger instance enabled for the WARNING level?
    *
@@ -196,6 +235,10 @@ public class JDK14LoggerAdapter implements Logger {
    */
   public boolean isWarnEnabled() {
     return logger.isLoggable(Level.WARNING);
+  }
+  
+  public boolean isWarnEnabled(Marker marker) {
+      return isWarnEnabled();
   }
 
   /**
@@ -210,11 +253,11 @@ public class JDK14LoggerAdapter implements Logger {
   /**
    * Log a message at the WARNING level according to the specified
    * format and argument.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the WARNING level. </p>
    *
-   * @param format the format string 
+   * @param format the format string
    * @param arg  the argument
    */
   public void warn(String format, Object arg) {
@@ -224,11 +267,10 @@ public class JDK14LoggerAdapter implements Logger {
     }
   }
 
-
   /**
    * Log a message at the WARNING level according to the specified
    * format and arguments.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the WARNING level. </p>
    *
@@ -246,7 +288,7 @@ public class JDK14LoggerAdapter implements Logger {
   /**
    * Log an exception (throwable) at the WARNING level with an
    * accompanying message.
-   * 
+   *
    * @param msg the message accompanying the exception
    * @param t the exception (throwable) to log
    */
@@ -254,9 +296,25 @@ public class JDK14LoggerAdapter implements Logger {
     logger.log(Level.WARNING, msg.toString(), t);
   }
 
+  public void warn(Marker marker, String msg) {
+    warn(msg);
+  }
+
+  public void warn(Marker marker, String format, Object arg) {
+    warn(format, arg);
+  }
+
+  public void warn(Marker marker, String format, Object arg1, Object arg2) {
+    warn(format, arg1, arg2);
+  }
+
+  public void warn(Marker marker, String msg, Throwable t) {
+    warn(msg, t);
+  }
+
   /**
    * Is this logger instance enabled for level SEVERE?
-   * 
+   *
    * @return True if this Logger is enabled for level SEVERE, false
    * otherwise.
    */
@@ -264,6 +322,10 @@ public class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.SEVERE);
   }
 
+  public boolean isErrorEnabled(Marker marker) {
+      return isErrorEnabled();
+    }
+  
   /**
    * Log a message object at the SEVERE level.
    *
@@ -276,25 +338,24 @@ public class JDK14LoggerAdapter implements Logger {
   /**
    * Log a message at the SEVERE level according to the specified
    * format and argument.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the SEVERE level. </p>
    *
-   * @param format the format string 
+   * @param format the format string
    * @param arg  the argument
    */
   public void error(String format, Object arg) {
     if (logger.isLoggable(Level.SEVERE)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.severe(msgStr);    
+      logger.severe(msgStr);
     }
   }
-  
 
   /**
    * Log a message at the SEVERE level according to the specified
    * format and arguments.
-   * 
+   *
    * <p>This form avoids superfluous object creation when the logger
    * is disabled for the SEVERE level. </p>
    *
@@ -311,12 +372,28 @@ public class JDK14LoggerAdapter implements Logger {
 
   /**
    * Log an exception (throwable) at the SEVERE level with an
-   * accompanying message. 
-   * 
+   * accompanying message.
+   *
    * @param msg the message accompanying the exception
    * @param t the exception (throwable) to log
    */
   public void error(String msg, Throwable t) {
     logger.log(Level.SEVERE, msg, t);
+  }
+
+  public void error(Marker marker, String msg) {
+    error(msg);
+  }
+
+  public void error(Marker marker, String format, Object arg) {
+    error(format, arg);
+  }
+
+  public void error(Marker marker, String format, Object arg1, Object arg2) {
+    error(format, arg1, arg2);
+  }
+
+  public void error(Marker marker, String msg, Throwable t) {
+    error(msg, t);
   }
 }
