@@ -36,12 +36,16 @@ package org.slf4j;
 import java.util.Iterator;
 
 /**
- * Markers are named objects which can be used to enrich log statements. 
+ * Markers are named objects used to enrich log statements. Conforming
+ * logging system Implementations of SLF4J determine how information
+ * conveyed by markers are used, if at all. In particular, many
+ * conformant logging systems ignore markers.
  * 
- * <p>Markers can contain child markers which can contain children of their
- * own.
  * 
- * @author Ceki Gulcu
+ * <p>Markers can contain child markers, which in turn can contain
+ * children of their own.
+ *
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public interface Marker {
  
@@ -71,8 +75,9 @@ public interface Marker {
   public boolean hasChildren();
   
   /**
-   * Returns an Iterator which can be used to iterator over the children of this 
-   * marker. An empty iterator is returned when this marker has no children.
+   * Returns an Iterator which can be used to iterate over the
+   * children of this marker. An empty iterator is returned when this
+   * marker has no children.
    * 
    * @return Iterator over the children of this marker
    */

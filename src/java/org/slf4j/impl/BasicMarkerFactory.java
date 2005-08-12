@@ -40,17 +40,27 @@ import org.slf4j.IMarkerFactory;
 import org.slf4j.Marker;
 
 /**
- * A basic implementation of the {@link IMarkerFactory} implementation 
- * which creates {@link BasicMarker} instances. <code>BasicMarkerFactory</code> 
- * keeps track of the marker instances it creates with the help 
- * of a hashtable.
+ * An almost trivial implementation of the {@link IMarkerFactory}
+ * interface which creates {@link BasicMarker} instances.
  * 
+ * <p>Simple logging systems can conform to the SLF4J API by binding
+ * {@link org.slf4j.MarkerFactory} with an instance of this class.
+ *
  * @author Ceki Gulcu
-  */
+ */
 public class BasicMarkerFactory implements IMarkerFactory {
 
   Map markerMap = new HashMap();
   
+  /**
+   * Regular users should <em>not</em> create
+   * <code>BasicMarkerFactory</code> instances. <code>Marker</code>
+   * instances can be obtained using the static {@link
+   * org.slf4j.MarkerFactory#getMarker} method.
+   */
+  public BasicMarkerFactory() {
+  }
+
   /**
    * Manufacture a {@link BasicMarker} instance by name. If the instance has been 
    * created earlier, return the previously created instance. 

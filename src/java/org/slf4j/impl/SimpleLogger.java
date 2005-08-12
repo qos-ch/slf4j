@@ -60,7 +60,7 @@ import org.slf4j.Marker;
 467 [main] INFO  examples.Sort - Exiting main method.
 </pre>
  *
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public class SimpleLogger implements Logger {
   /**
@@ -72,16 +72,19 @@ public class SimpleLogger implements Logger {
   private static String INFO_STR = "INFO";
   private static String WARN_STR = "WARN";
   private static String ERROR_STR = "ERROR";
-  String loggerName;
+  String name;
 
   /**
    * Package access allows only {@link SimpleLoggerFactory} to instantiate
    * SimpleLogger instances.
    */
   SimpleLogger(String name) {
-    this.loggerName = name;
+    this.name = name;
   }
 
+  public String getName() {
+    return name;    
+  }
   /**
    * Always returns false.
    * @return always false
@@ -166,7 +169,7 @@ public class SimpleLogger implements Logger {
     buf.append(level);
     buf.append(" ");
 
-    buf.append(loggerName);
+    buf.append(name);
     buf.append(" - ");
 
     buf.append(message);

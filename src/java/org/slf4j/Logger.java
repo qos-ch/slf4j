@@ -35,12 +35,17 @@ package org.slf4j;
 /**
  * 
  * The main user interface to logging. It is expected that logging
- * takes places through concrete implementations of the Logger
- * interface.
+ * takes place through concrete implementations of this interface.
  * 
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public interface Logger {
+
+
+  /**
+   * Return the name of this <code>Logger</code> instance.
+   */
+  public String getName();
 
   /**
    * Is the logger instance enabled for the DEBUG level?
@@ -49,7 +54,14 @@ public interface Logger {
    */
   public boolean isDebugEnabled();
 
+  /**
+   * Similar to {@link #isDebugEnabled()} method except that the
+   * marker data is also taken into account.
+   * 
+   * @param marker The marker data to take into consideration
+   */
   public boolean isDebugEnabled(Marker marker);
+  
   /**
    * Log a message at the DEBUG level.
    *
@@ -58,14 +70,6 @@ public interface Logger {
   public void debug(String msg);
   
 
-  /**
-   * Log a message with the specific Marker at the DEBUG level.
-   * 
-   * @param marker The marker specific for this log statement
-   * @param msg the message string to be logged
-   */
-  public void debug(Marker marker, String msg);
-  
   /**
    * Log a message at the DEBUG level according to the specified format
    * and argument.
@@ -78,7 +82,7 @@ public interface Logger {
    */
   public void debug(String format, Object arg);
 
-  public void debug(Marker marker, String format, Object arg);
+
   
   /**
    * Log a message at the DEBUG level according to the specified format
@@ -93,9 +97,6 @@ public interface Logger {
    */
   public void debug(String format, Object arg1, Object arg2);
 
-  public void debug(Marker marker, String format, Object arg1, Object arg2);
- 
-
   /**
    * Log an exception (throwable) at the DEBUG level with an
    * accompanying message. 
@@ -104,8 +105,48 @@ public interface Logger {
    * @param t the exception (throwable) to log
    */ 
   public void debug(String msg, Throwable t);
+ 
+  /**
+   * Log a message with the specific Marker at the DEBUG level.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param msg the message string to be logged
+   */
+  public void debug(Marker marker, String msg);
   
+  /**
+   * This method is similar to {@link #debug(String, Object)} method except that the 
+   * marker data is also taken into consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format the format string
+   * @param arg the argument
+   */
+  public void debug(Marker marker, String format, Object arg);
+ 
+ 
+  /**
+   * This method is similar to {@link #debug(String, Object, Object)}
+   * method except that the marker data is also taken into
+   * consideration.
+   *
+   * @param marker the marker data specific to this log statement
+   * @param format  the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void debug(Marker marker, String format, Object arg1, Object arg2);
+  
+  /**
+   * This method is similar to {@link #debug(String, Throwable)} method except that the
+   * marker data is also taken into consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */ 
   public void debug(Marker marker, String msg, Throwable t);
+  
   
   /**
    * Is the logger instance enabled for the INFO level?
@@ -114,6 +155,13 @@ public interface Logger {
    */
   public boolean isInfoEnabled();
 
+  
+  /**
+   * Similar to {@link #isInfoEnabled()} method except that the marker
+   * data is also taken into consideration.
+   *
+   * @param marker The marker data to take into consideration
+   */
   public boolean isInfoEnabled(Marker marker);
   
   /**
@@ -122,8 +170,6 @@ public interface Logger {
    * @param msg the message string to be logged
    */
   public void info(String msg);
-  
-  public void info(Marker marker, String msg);
   
 
   /**
@@ -138,6 +184,7 @@ public interface Logger {
    */
   public void info(String format, Object arg);
 
+  
   /**
    * Log a message at the INFO level according to the specified format
    * and arguments.
@@ -160,8 +207,44 @@ public interface Logger {
    */
   public void info(String msg, Throwable t);
 
+  /**
+   * Log a message with the specific Marker at the INFO level.
+   * 
+   * @param marker The marker specific to this log statement
+   * @param msg the message string to be logged
+   */
+  public void info(Marker marker, String msg);
+  
+  /**
+   * This method is similar to {@link #info(String, Object)} method except that the 
+   * marker data is also taken into consideration.
+   *
+   * @param marker the marker data specific to this log statement
+   * @param format the format string
+   * @param arg the argument
+   */
   public void info(Marker marker, String format, Object arg);
+  
+  /**
+   * This method is similar to {@link #debug(String, Object, Object)}
+   * method except that the marker data is also taken into
+   * consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format  the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
   public void info(Marker marker, String format, Object arg1, Object arg2);  
+  
+  /**
+   * This method is similar to {@link #info(String, Throwable)} method
+   * except that the marker data is also taken into consideration.
+   * 
+   * @param marker the marker data for this log statement
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */ 
   public void info(Marker marker, String msg, Throwable t); 
 
   
@@ -203,7 +286,7 @@ public interface Logger {
    * @param arg2  the second argument
    */
   public void warn(String format, Object arg1, Object arg2);
-
+  
   /**
    * Log an exception (throwable) at the WARN level with an
    * accompanying message. 
@@ -212,12 +295,57 @@ public interface Logger {
    * @param t the exception (throwable) to log 
    */
   public void warn(String msg, Throwable t);
-
-  public void warn(Marker marker, String msg); 
-  public void warn(Marker marker, String format, Object arg);
-  public void warn(Marker marker, String format, Object arg1, Object arg2);  
-  public void warn(Marker marker, String msg, Throwable t); 
+  
+  /**
+   * Similar to {@link #isWarnEnabled()} method except that the marker
+   * data is also taken into consideration.
+   *
+   * @param marker The marker data to take into consideration
+   */
   public boolean isWarnEnabled(Marker marker);
+ 
+  /**
+   * Log a message with the specific Marker at the WARN level.
+   * 
+   * @param marker The marker specific to this log statement
+   * @param msg the message string to be logged
+   */
+  public void warn(Marker marker, String msg); 
+  
+  /**
+   * This method is similar to {@link #warn(String, Object)} method except that the 
+   * marker data is also taken into consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format the format string
+   * @param arg the argument
+   */
+  public void warn(Marker marker, String format, Object arg);
+  
+  /**
+   * This method is similar to {@link #debug(String, Object, Object)}
+   * method except that the marker data is also taken into
+   * consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format  the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void warn(Marker marker, String format, Object arg1, Object arg2);  
+  
+  
+  /**
+   * This method is similar to {@link #warn(String, Throwable)} method
+   * except that the marker data is also taken into consideration.
+   * 
+   * @param marker the marker data for this log statement
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */ 
+  public void warn(Marker marker, String msg, Throwable t); 
+  
+
 
   /**
    * Is the logger instance enabled for the ERROR level?
@@ -225,14 +353,14 @@ public interface Logger {
    * false otherwise.
    */
   public boolean isErrorEnabled();
-
+  
   /**
    * Log a message at the ERROR level.
    *
    * @param msg the message string to be logged
    */
   public void error(String msg);
-
+  
  /**
    * Log a message at the ERROR level according to the specified format
    * and argument.
@@ -267,10 +395,55 @@ public interface Logger {
    */
   public void error(String msg, Throwable t);
 
-  public void error(Marker marker, String msg); 
-  public void error(Marker marker, String format, Object arg);
-  public void error(Marker marker, String format, Object arg1, Object arg2);  
-  public void error(Marker marker, String msg, Throwable t); 
+  /**
+   * Similar to {@link #isErrorEnabled()} method except that the
+   * marker data is also taken into consideration.
+   *
+   * @param marker The marker data to take into consideration
+   */
   public boolean isErrorEnabled(Marker marker);
+  
+  /**
+   * Log a message with the specific Marker at the ERROR level.
+   * 
+   * @param marker The marker specific to this log statement
+   * @param msg the message string to be logged
+   */
+  public void error(Marker marker, String msg); 
+  
+  /**
+   * This method is similar to {@link #error(String, Object)} method except that the 
+   * marker data is also taken into consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format the format string
+   * @param arg the argument
+   */
+  public void error(Marker marker, String format, Object arg);
+  
+  /**
+   * This method is similar to {@link #debug(String, Object, Object)}
+   * method except that the marker data is also taken into
+   * consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format  the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void error(Marker marker, String format, Object arg1, Object arg2);  
+  
+  
+  /**
+   * This method is similar to {@link #error(String, Throwable)}
+   * method except that the marker data is also taken into
+   * consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */ 
+  public void error(Marker marker, String msg, Throwable t);
+  
 
 }

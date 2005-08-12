@@ -42,10 +42,16 @@ import java.util.Vector;
 
 
 /**
- * @author ceki
+ * An almost trivial implementation of the {@link Marker} interface. 
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * <p><code>BasicMarker</code> lets users specify marker
+ * information. However, it does not offer any useful operations on
+ * that information. 
+ *
+ * <p>Simple logging systems which ignore marker data, just return
+ * instances of this class in order to conform to the SLF4J API.
+ *
+ * @author Ceki Gulcu*
  */
 public class BasicMarker implements Marker {
   String name;
@@ -82,9 +88,6 @@ public class BasicMarker implements Marker {
     }
   }
 
-  /**
-   * 
-   */
   public synchronized boolean remove(Marker markerToRemove) {
     if (children == null) {
       return false;

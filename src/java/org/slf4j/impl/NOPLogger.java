@@ -40,7 +40,7 @@ import org.slf4j.Marker;
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
  *
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public final class NOPLogger implements Logger {
   /**
@@ -53,6 +53,13 @@ public final class NOPLogger implements Logger {
    * hence the private access modifier.
    */
   private NOPLogger() {
+  }
+
+  /**
+   * Always returns the string value "NOP".
+   */
+  public String getName() {
+    return "NOP";
   }
 
   /**

@@ -34,22 +34,30 @@ package org.slf4j;
 
 
 /**
- * Implementaitons of this interface are used to manufacture {@link Logger} 
- * instances.
+ * <code>ILoggerFactory</code> instances manufacture {@link Logger}
+ * instances by name.
  * 
- * ILoggerFactory interface is used internally by {@link
- * LoggerFactory}.
+ * <p>Most users retreive {@link Logger} instances through the static
+ * {@link LoggerFactory#getLogger} mehtod. An instance of of this
+ * interface is bound internally with {@link LoggerFactory} compile
+ * time. Only developers of SLF4J conformant logging systems SLF4J
+ * need to worry about this interface. 
  * 
- * <p>Normally, only developers wishing to write new SLF4J adapters need to
- * worry about this interface. However, 
- * 
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  *
  */
 public interface ILoggerFactory {
   
   /**
-   * Return the appropriate named {@link Logger} instance.
+   * Return an appropriate {@link Logger} instance as specified by the
+   * <code>name</code> parameter.
+   * 
+   * <p>Null-valued name arguments are considered invalid.
+   *
+   * <p>Certain extremely simple logging systems, e.g. NOP, may always
+   * return the same logger instance regardless of the requested name.
+   * 
+   * @param name the name of the Logger to return
    */
   public Logger getLogger(String name);
 }

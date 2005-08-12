@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2004-2005 SLF4J.ORG
- * Copyright (c) 2004-2005 QOS.ch
+ * Copyright (c) 2004-2005 SLF4J.ORG Copyright (c) 2004-2005 QOS.ch
  *
  * All rights reserved.
  *
@@ -38,15 +37,20 @@ package org.slf4j;
  * Implementaitons of this interface are used to manufacture {@link Marker}
  * instances.
  *
- *  * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public interface IMarkerFactory {
-    /**
-     * Manufacture a {@link Marker} instance by name. If the instance has been 
-     * created earlier, return the previously created instance. 
-     * 
-     * @param name the name of the marker to be created
-     * @return a Marker instance
-     */
-    Marker getMarker(String name);
+
+  /**
+   * Manufacture a {@link Marker} instance by name. If the instance has been 
+   * created earlier, return the previously created instance. 
+   * 
+   * <p>Null name values are not allowed.
+   *
+   * @param name the name of the marker to be created, null value is
+   * not allowed.
+   *
+   * @return a Marker instance
+   */
+  Marker getMarker(String name);
 }

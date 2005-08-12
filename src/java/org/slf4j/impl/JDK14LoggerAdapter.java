@@ -56,6 +56,10 @@ public final class JDK14LoggerAdapter implements Logger {
     this.logger = logger;
   }
 
+  public String getName() {
+   return logger.getName();
+  }
+  
   /**
    * Is this logger instance enabled for the FINE level?
    *
