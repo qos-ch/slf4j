@@ -39,12 +39,15 @@ package org.slf4j;
  * 
  * <p>Most users retreive {@link Logger} instances through the static
  * {@link LoggerFactory#getLogger} mehtod. An instance of of this
- * interface is bound internally with {@link LoggerFactory} compile
- * time. Only developers of SLF4J conformant logging systems SLF4J
+ * interface is bound internally with {@link LoggerFactory} class at 
+ * compile time. Only developers of SLF4J conformant logging systems 
  * need to worry about this interface. 
  * 
+ * <p>See the section <a href="http://slf4j.org/faq.html#3">Implementing 
+ * the SLF4J API</a> in the FAQ for details on how to make your logging 
+ * system conform to SLF4J.
+ * 
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
- *
  */
 public interface ILoggerFactory {
   

@@ -49,7 +49,7 @@ package org.slf4j;
  * <p>Please note that all methods in <code>LoggerFactory</code> are 
  * static.
  * 
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public final class LoggerFactory {
   static ILoggerFactory loggerFactory;
@@ -144,4 +144,17 @@ public final class LoggerFactory {
   public static Logger getLogger(Class clazz) {
     return loggerFactory.getLogger(clazz.getName());
   }
+  
+  /**
+   * Return the {@link ILoggerFactory} instance in use.
+   * 
+   * <p>Usually, the ILoggerFactory instance is bound with this class 
+   * at compile time.
+   * 
+   * @return the ILoggerFactory instance in use
+   */
+  public static ILoggerFactory getILoggerFactory() {
+    return loggerFactory;
+  }
+  
 }
