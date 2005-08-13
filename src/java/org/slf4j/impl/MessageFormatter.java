@@ -39,7 +39,7 @@ package org.slf4j.impl;
  * See {@link #format(String, Object)} and 
  * {@link #format(String, Object, Object)} for more details.
  *
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public class MessageFormatter {
   static final char DELIM_START = '{';

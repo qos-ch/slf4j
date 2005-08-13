@@ -57,7 +57,6 @@ public class SimpleLoggerFactory implements ILoggerFactory {
 
   /**
    * Return an appropriate {@link SimpleLogger} instance by name. 
-   * 
    */
   public Logger getLogger(String name) {
     Logger ulogger = (Logger) map.get(name);
@@ -67,14 +66,4 @@ public class SimpleLoggerFactory implements ILoggerFactory {
     }
     return ulogger;
   }
-
-  /*
-   *  (non-Javadoc)
-   * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String, java.lang.String)
-   */
-  public Logger getLogger(String domainName, String subDomainName) {
-    return getLogger(domainName);
-  }
-  
-  
 }

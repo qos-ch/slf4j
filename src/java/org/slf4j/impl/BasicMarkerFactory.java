@@ -46,7 +46,7 @@ import org.slf4j.Marker;
  * <p>Simple logging systems can conform to the SLF4J API by binding
  * {@link org.slf4j.MarkerFactory} with an instance of this class.
  *
- * @author Ceki Gulcu
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public class BasicMarkerFactory implements IMarkerFactory {
 

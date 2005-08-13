@@ -226,7 +226,7 @@ public interface Logger {
   public void info(Marker marker, String format, Object arg);
   
   /**
-   * This method is similar to {@link #debug(String, Object, Object)}
+   * This method is similar to {@link #info(String, Object, Object)}
    * method except that the marker data is also taken into
    * consideration.
    * 
@@ -323,7 +323,7 @@ public interface Logger {
   public void warn(Marker marker, String format, Object arg);
   
   /**
-   * This method is similar to {@link #debug(String, Object, Object)}
+   * This method is similar to {@link #warn(String, Object, Object)}
    * method except that the marker data is also taken into
    * consideration.
    * 
@@ -422,7 +422,7 @@ public interface Logger {
   public void error(Marker marker, String format, Object arg);
   
   /**
-   * This method is similar to {@link #debug(String, Object, Object)}
+   * This method is similar to {@link #error(String, Object, Object)}
    * method except that the marker data is also taken into
    * consideration.
    * 
