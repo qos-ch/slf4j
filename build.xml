@@ -7,6 +7,9 @@
   <!-- The directory where source files are stored. -->
   <property name="version" value="1.0-beta6"/>
 
+  <property name="jcl-version" value="1.0.4"/>
+  <property name="jcl-jar" value="jcl-over-slf4j-${jcl-version}.jar"/>
+	
   <property name="tmp.java.source.dir" value="./tmp/src"/>
   <property name="tmp.javac.dest" value="./tmp/classes"/>
 	
@@ -28,6 +31,7 @@
       slf4j-nop.jar - build the jar file of the same name.
       slf4j-simple.jar - build the jar file of the same name.
       slf4j-jdk14.jar - build the jar file of the same name.
+      jcl-over-slf4j.jar - JCL 1.0.4 implemented over SLF4J	
       jar - all of the above jar files
     </echo>
   </target>
@@ -110,7 +114,6 @@
                   ${SLF4J_STEM}/impl/${IMPL}*.class"
                 >
       <manifest>
-        <attribute name="Manifest-version" value="${version}"/>
         <section name="org/slf4j/">
           <attribute name="Implementation-Title" value="${IMPL} implementation"/>
           <attribute name="Implementation-Version" value="${version}"/>
@@ -143,7 +146,7 @@
     </antcall>
   </target>
 
-  <target name="jcl-on-slf4j.jar" depends="slf4j-nop.jar">
+  <target name="jcl-over-slf4j.jar" depends="slf4j-nop.jar">
   
     <antcall target="compile-IMPL">
         <param name="IMPL" value="NOP"/>
@@ -156,13 +159,20 @@
    	       debug="${debug}">
    	 </javac>
    	
-     <jar jarfile="jcl-on-slf4j.jar" basedir="${tmp.javac.dest}"
+     <jar jarfile="${jcl-jar}" basedir="${tmp.javac.dest}"
            includes="${JCL_STEM}/**/*.class">
+     	<manifest>
+     	  <section name="org/apache/commons/logging">
+     	    <attribute name="Implementation-Title" value="JCL over SLF4J"/>
+     	    <attribute name="Implementation-Version" value="${jcl-version}"/>
+     	    <attribute name="Implementation-Vendor" value="SLF4J.ORG"/>
+     	  </section>
+        </manifest>
       </jar>
   </target>
 
 	
-  <target name="jar" depends="slf4j-nop.jar, jcl-on-slf4j.jar, slf4j-simple.jar, slf4j-jdk14.jar"/> 	
+  <target name="jar" depends="slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-simple.jar, slf4j-jdk14.jar"/> 	
 
   <!-- Build Javadoc -->
   <target name="javadoc" depends="init">
@@ -264,6 +274,7 @@
                build.properties.sample,
                INSTALL.txt,
                LICENSE.txt,
+      	       ${jcl-jar},
       	       slf4j-*.jar"
 
                excludes="**/*.bak, 
