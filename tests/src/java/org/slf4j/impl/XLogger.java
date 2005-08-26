@@ -33,6 +33,7 @@
 package org.slf4j.impl;
 
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 
 
 /**
@@ -112,6 +113,195 @@ public class XLogger implements Logger {
   }
 
   public void error(String msg, Throwable t) {
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#getName()
+   */
+  public String getName() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#isDebugEnabled(org.slf4j.Marker)
+   */
+  public boolean isDebugEnabled(Marker marker) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#debug(org.slf4j.Marker, java.lang.String)
+   */
+  public void debug(Marker marker, String msg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#debug(org.slf4j.Marker, java.lang.String, java.lang.Object)
+   */
+  public void debug(Marker marker, String format, Object arg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#debug(org.slf4j.Marker, java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  public void debug(Marker marker, String format, Object arg1, Object arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#debug(org.slf4j.Marker, java.lang.String, java.lang.Throwable)
+   */
+  public void debug(Marker marker, String msg, Throwable t) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#isInfoEnabled(org.slf4j.Marker)
+   */
+  public boolean isInfoEnabled(Marker marker) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#info(org.slf4j.Marker, java.lang.String)
+   */
+  public void info(Marker marker, String msg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#info(org.slf4j.Marker, java.lang.String, java.lang.Object)
+   */
+  public void info(Marker marker, String format, Object arg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#info(org.slf4j.Marker, java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  public void info(Marker marker, String format, Object arg1, Object arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#info(org.slf4j.Marker, java.lang.String, java.lang.Throwable)
+   */
+  public void info(Marker marker, String msg, Throwable t) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#isWarnEnabled(org.slf4j.Marker)
+   */
+  public boolean isWarnEnabled(Marker marker) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#warn(org.slf4j.Marker, java.lang.String)
+   */
+  public void warn(Marker marker, String msg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#warn(org.slf4j.Marker, java.lang.String, java.lang.Object)
+   */
+  public void warn(Marker marker, String format, Object arg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#warn(org.slf4j.Marker, java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  public void warn(Marker marker, String format, Object arg1, Object arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#warn(org.slf4j.Marker, java.lang.String, java.lang.Throwable)
+   */
+  public void warn(Marker marker, String msg, Throwable t) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#isErrorEnabled(org.slf4j.Marker)
+   */
+  public boolean isErrorEnabled(Marker marker) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#error(org.slf4j.Marker, java.lang.String)
+   */
+  public void error(Marker marker, String msg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#error(org.slf4j.Marker, java.lang.String, java.lang.Object)
+   */
+  public void error(Marker marker, String format, Object arg) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#error(org.slf4j.Marker, java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  public void error(Marker marker, String format, Object arg1, Object arg2) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.slf4j.Logger#error(org.slf4j.Marker, java.lang.String, java.lang.Throwable)
+   */
+  public void error(Marker marker, String msg, Throwable t) {
+    // TODO Auto-generated method stub
+    
   }
 }
 

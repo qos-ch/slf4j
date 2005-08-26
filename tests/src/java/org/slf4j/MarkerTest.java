@@ -43,30 +43,20 @@ public class MarkerTest extends TestCase {
   static final String COMP = "COMP";
 
   public void testPrimitive() {
-    Marker blue = Marker.getMarker(BLUE);
+    Marker blue = MarkerFactory.getMarker(BLUE);
     assertEquals(BLUE, blue.getName());
 
     //assertTrue(blue.isImmutable());
-    assertTrue(blue.matches(blue));
-    assertTrue(blue.matches(BLUE));
+    assertEquals("BLUE", blue.getName());
+    
 
-    Marker blue2 = Marker.getMarker(BLUE);
+    Marker blue2 = MarkerFactory.getMarker(BLUE);
     assertEquals(blue, blue2);
     //blue.add(blue2);
   }
 
   public void testStar() {
-    Marker blue = Marker.getMarker(BLUE);
+    Marker blue = MarkerFactory.getMarker(BLUE);
     assertEquals(BLUE, blue.getName());
-    Marker star = Marker.getMarker("*");
-
-    //assertTrue(blue.isImmutable());
-    assertTrue(blue.matches("*"));
-    assertTrue(blue.matches(star));
-
-    assertTrue(star.matches("asdasd"));
-    assertTrue(star.matches(star));
-
-    assertTrue(star.matches(blue));
   }
 }
