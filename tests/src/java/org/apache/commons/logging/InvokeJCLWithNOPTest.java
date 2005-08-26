@@ -37,17 +37,34 @@ package org.apache.commons.logging;
 import junit.framework.TestCase;
 
 
-public class BasicJCLTest extends TestCase {
+public class InvokeJCLWithNOPTest extends TestCase {
 
   public void testIsEnabledAPI() {
-    
-    // assume that we are running over slf4j-simple
-    Log log = LogFactory.getLog(BasicJCLTest.class);
+    // assume that we are running over slf4j-nop
+    Log log = LogFactory.getLog(InvokeJCLWithNOPTest.class);
     assertFalse(log.isTraceEnabled());
     assertFalse(log.isDebugEnabled());
-    assertTrue(log.isInfoEnabled());
-    assertTrue(log.isWarnEnabled());
-    assertTrue(log.isErrorEnabled());
-    assertTrue(log.isFatalEnabled());
+    assertFalse(log.isInfoEnabled());
+    assertFalse(log.isWarnEnabled());
+    assertFalse(log.isErrorEnabled());
+    assertFalse(log.isFatalEnabled());
+  }
+  
+  public void testPrintAPI() {
+    Log log = LogFactory.getLog(InvokeJCLWithNOPTest.class);
+    Exception e = new Exception("just testing");
+    log.trace("trace message");
+    log.debug("debug message");
+    log.info("info  message");
+    log.warn("warn message");
+    log.error("error message");
+    log.fatal("fatal message");
+    
+    log.trace("trace message", e);
+    log.debug("debug message", e);
+    log.info("info  message", e);
+    log.warn("warn message", e);
+    log.error("error message", e);
+    log.fatal("fatal message", e);
   }
 }

@@ -27,6 +27,16 @@
     <pathelement location="../slf4j-simple.jar"/>
   </path>
 
+  <path id="jcl.classpath">
+    <path refid="simple.classpath"/>
+    <fileset dir="../"><include name="jcl-over-slf4j*.jar"/></fileset>
+  </path>
+
+  <path id="jcl-nop.classpath">
+    <path refid="nop.classpath"/>
+    <fileset dir="../"><include name="jcl-over-slf4j*.jar"/></fileset>
+  </path>
+	   	  	
   <path id="jdk14.classpath">
     <path refid="basic.classpath"/>
     <pathelement location="../slf4j-jdk14.jar"/>
@@ -34,9 +44,7 @@
 
    <path id="nlog4j12x.classpath">
      <path refid="basic.classpath"/>
-     <fileset dir="./lib/">
-       <include name="nlog4j*.jar"/>
-     </fileset>
+     <fileset dir="./lib/"><include name="nlog4j*.jar"/></fileset>
   </path>
 
 
@@ -107,7 +115,8 @@
                                      InvokeNOP,
                                      InvokeSimple,
                                      InvokeJDK14,
-                                     InvokeNLOG4J12x"
+                                     InvokeNLOG4J12x,
+  	                                 InvokeJCL"
                                      />
 
   <target name="MessageFormatter" depends="build, cleanOutputDir">
@@ -156,11 +165,27 @@
   </target>
 
   <target name="XLoggerBySystemProps" depends="build, slf4j-simple.jar, cleanOutputDir">
-	    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-	      <classpath refid="simple.classpath"/>
-	      <formatter type="plain" usefile="false"/>
-	      <test name="org.slf4j.XLoggerBySystemPropsTest" />
-	    </junit>
-	  </target>
+    <junit printsummary="yes" fork="yes" haltonfailure="yes">
+      <classpath refid="simple.classpath"/>
+      <formatter type="plain" usefile="false"/>
+      <test name="org.slf4j.XLoggerBySystemPropsTest" />
+    </junit>
+  </target>
 
+  <target name="InvokeJCL" depends="build, slf4j-simple.jar, cleanOutputDir">
+    <junit printsummary="yes" fork="yes" haltonfailure="yes">
+      <classpath refid="jcl.classpath"/>
+      <formatter type="plain" usefile="false"/>
+      <test name="org.apache.commons.logging.InvokeJCLTest" />
+    </junit>
+  </target>
+	
+  <target name="InvokeJCLWithNOP" depends="build, slf4j-simple.jar, cleanOutputDir">
+    <junit printsummary="yes" fork="yes" haltonfailure="yes">
+      <classpath refid="jcl-nop.classpath"/>
+      <formatter type="plain" usefile="false"/>
+      <test name="org.apache.commons.logging.InvokeJCLWithNOPTest" />
+    </junit>
+  </target>
+  
 </project>
