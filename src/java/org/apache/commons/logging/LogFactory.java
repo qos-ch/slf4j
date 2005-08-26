@@ -20,14 +20,9 @@ import org.apache.commons.logging.impl.SLF4FLogFactory;
 
 /**
  * <p>
- * Factory for creating {@link Log}instances, with discovery and configuration
- * features similar to that employed by standard Java APIs such as JAXP.
- * </p>
+ * Factory for creating {@link Log} instances, which always delegates to an instance of
+ * {@link SLF4FLogFactory}.
  * 
- * <p>
- * <strong>IMPLEMENTATION NOTE </strong>- This implementation is heavily based
- * on the SAXParserFactory and DocumentBuilderFactory implementations
- * (corresponding to the JAXP pluggability APIs) found in Apache Xerces.
  * </p>
  * 
  * @author Craig R. McClanahan

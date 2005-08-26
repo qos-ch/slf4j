@@ -30,42 +30,22 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * Concrete subclass of {@link LogFactory}that implements the following
- * algorithm to dynamically select a logging implementation class to instantiate
- * a wrapper for.
- * </p>
- * <ul>
- * <li>Use a factory configuration attribute named
- * <code>org.apache.commons.logging.Log</code> to identify the requested
- * implementation class.</li>
- * <li>Use the <code>org.apache.commons.logging.Log</code> system property to
- * identify the requested implementation class.</li>
- * <li>If <em>Log4J</em> is available, return an instance of
- * <code>org.apache.commons.logging.impl.Log4JLogger</code>.</li>
- * <li>If <em>JDK 1.4 or later</em> is available, return an instance of
- * <code>org.apache.commons.logging.impl.Jdk14Logger</code>.</li>
- * <li>Otherwise, return an instance of
- * <code>org.apache.commons.logging.impl.SimpleLog</code>.</li>
- * </ul>
+ * Concrete subclass of {@link LogFactory} which always delegates to the
+ * {@link LoggerFactory org.slf4j.LoggerFactory} class. 
  * 
  * <p>
- * If the selected {@link Log}implementation class has a
- * <code>setLogFactory()</code> method that accepts a {@link LogFactory}
- * parameter, this method will be called on each newly created instance to
- * identify the associated factory. This makes factory configuration attributes
- * available to the Log instance, if it so desires.
- * </p>
+ * This factory generates instances of {@link SLF4JLog}. It will remember 
+ * previously created instances for the same name, and will 
+ * return them on repeated requests to the
+ * <code>getInstance()</code> method. 
  * 
- * <p>
- * This factory will remember previously created <code>Log</code> instances
- * for the same name, and will return them on repeated requests to the
- * <code>getInstance()</code> method. This implementation ignores any
- * configured attributes.
+ * <p>This implementation ignores any configured attributes.
  * </p>
  * 
  * @author Rod Waldhoff
  * @author Craig R. McClanahan
  * @author Richard A. Sitze
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 
 public class SLF4FLogFactory extends LogFactory {
@@ -94,14 +74,8 @@ public class SLF4FLogFactory extends LogFactory {
   public static final String LOG_PROPERTY = "org.apache.commons.logging.Log";
 
   /**
-   * The deprecated system property used for backwards compatibility with the
-   * old {@link org.apache.commons.logging.LogSource}class.
-   */
-  protected static final String LOG_PROPERTY_OLD = "org.apache.commons.logging.log";
-
-  /**
    * <p>
-   * The name of the {@link Log}interface class.
+   * The name of the {@link Log} interface class.
    * </p>
    */
   private static final String LOG_INTERFACE = "org.apache.commons.logging.Log";
@@ -175,14 +149,6 @@ public class SLF4FLogFactory extends LogFactory {
    * the factory's current set of configuration attributes.
    * </p>
    * 
-   * <p>
-   * <strong>NOTE </strong>- Depending upon the implementation of the
-   * <code>LogFactory</code> you are using, the <code>Log</code> instance
-   * you are returned may or may not be local to the current application, and
-   * may or may not be returned again on a subsequent call with the same name
-   * argument.
-   * </p>
-   * 
    * @param name
    *          Logical name of the <code>Log</code> instance to be returned
    *          (the meaning of this name is only known to the underlying logging
@@ -195,7 +161,8 @@ public class SLF4FLogFactory extends LogFactory {
 
     Log instance = (Log) loggerMap.get(name);
     if (instance == null) {
-      instance = newInstance(name);
+      Logger logger = LoggerFactory.getLogger(name);
+      instance = new SLF4JLog(logger);
       loggerMap.put(name, instance);
     }
     return (instance);
@@ -244,22 +211,4 @@ public class SLF4FLogFactory extends LogFactory {
     }
 
   }
-
-  // ------------------------------------------------------ Protected Methods
-
-  /**
-   * Create and return a new {@link org.apache.commons.logging.Log}instance for
-   * the specified name.
-   * 
-   * @param name
-   *          Name of the new logger
-   * 
-   * @exception LogConfigurationException
-   *              if a new instance cannot be created
-   */
-  protected Log newInstance(String name) throws LogConfigurationException {
-    Logger logger = LoggerFactory.getLogger(name);
-    return new SLF4JLog(logger);
-  }
-
 }

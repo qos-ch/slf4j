@@ -55,6 +55,8 @@ package org.apache.commons.logging;
  * external to the Logging APIs, through whatever mechanism is supported by
  * that system.</p>
  *
+ * <p style="color: #E40; font-weight: bold;">Please note that this interface is identical to that found in JCL 1.0.4.</p>
+ * 
  * @author <a href="mailto:sanders@apache.org">Scott Sanders</a>
  * @author Rod Waldhoff
  * @version $Id: Log.java,v 1.19 2004/06/06 21:16:04 rdonkin Exp $

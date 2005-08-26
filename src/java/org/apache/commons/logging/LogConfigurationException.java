@@ -21,9 +21,11 @@ package org.apache.commons.logging;
  * <p>An exception that is thrown only if a suitable <code>LogFactory</code>
  * or <code>Log</code> instance cannot be created by the corresponding
  * factory methods.</p>
- *
+ * 
+ * <p>In this version of JCL, this exception will never be thrown in practice. However, it is 
+ * included here to ensure total compile time and run time compatibility with the original JCL 1.0.4.
+ * 
  * @author Craig R. McClanahan
- * @version $Revision: 1.6 $ $Date: 2004/02/28 21:46:45 $
  */
 
 public class LogConfigurationException extends RuntimeException {
