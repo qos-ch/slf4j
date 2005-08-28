@@ -33,28 +33,36 @@
 
 package org.slf4j.impl;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.MarkerFactory;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 import org.slf4j.spi.MarkerFactoryBinder;
 
-//WARNING
-//WARNING Modifications MUST be made to the original file found at
-//WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/StaticBinder.java
-//WARNING
-
+/**
+ * 
+ * The binding of {@link LoggerFactory} class with an actual instance of 
+ * {@link ILoggerFactory} is performed using information returned by this class. 
+ * 
+ * This class also contains the information for binding {@link MarkerFactory}
+ * with the appropriate {@link IMarkerFactory} instance.
+ * 
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ */
 public class StaticBinder implements LoggerFactoryBinder, MarkerFactoryBinder {
 
+  /**
+   * The unique instance of this class.
+   */
+  public static final StaticBinder SINGLETON = new StaticBinder();
   
-  // 
-  // WARNING Do not modify copies, instead modify the original in 
-  //         $SLF4J_HOME/src/filtered-java/org/slf4j/
-  //  
+  private StaticBinder() {
+  }
   
   // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
-  String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
+  static final String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
   
-  // package private
   public ILoggerFactory getLoggerFactory() {
     // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
     return new org.slf4j.impl.@IMPL@LoggerFactory();
@@ -64,10 +72,18 @@ public class StaticBinder implements LoggerFactoryBinder, MarkerFactoryBinder {
     return loggerFactoryClassStr;
   }   
   
+  /**
+   * Currently this method always returns an instance of 
+   * {@link BasicMarkerFactory}.
+   */
   public IMarkerFactory getMarkerFactory() {
     return new BasicMarkerFactory();
   }
   
+  /**
+   * Currrently, this method returns the class name of
+   * {@link BasicMarkerFactory}.
+   */
   public String getMarkerFactoryClassStr() {
     return BasicMarkerFactory.class.getName();
   }
