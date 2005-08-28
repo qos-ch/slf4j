@@ -39,63 +39,62 @@ import org.slf4j.impl.Util;
 // WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/MarkerFactory.java
 // WARNING
 
-
 /**
- * MarkerFactory is a utility class producing {@link Marker} instances as appropriate
- * for the logging system currently in use.
+ * MarkerFactory is a utility class producing {@link Marker}instances as
+ * appropriate for the logging system currently in use.
  * 
- * <p>This class is essentially implemented as a wrapper around an {@link IMarkerFactory}
- * instance bound at compile time.
+ * <p>
+ * This class is essentially implemented as a wrapper around an
+ * {@link IMarkerFactory}instance bound at compile time.
  * 
- * <p>Please note that all methods in this class are static.
+ * <p>
+ * Please note that all methods in this class are static.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml; </a>
  */
 public class MarkerFactory {
   static IMarkerFactory markerFactory;
-  static StaticBinder staticBinder = new StaticBinder();
-  
-  private MarkerFactory() {      
+
+  private MarkerFactory() {
   }
-  
+
   // 
   // WARNING Do not modify copies but the original at
   //         $SLF4J_HOME/src/filtered-java/org/slf4j/
   //
   static {
-   
+
     try {
-      markerFactory = staticBinder.getMarkerFactory();
-     } catch (Exception e) {
-       // we should never get here
-       Util.reportFailure(
-           "Could not instantiate instance of class [" + staticBinder.getMarkerFactoryClassStr() + "]",
-           e);
-     }      
+      markerFactory = StaticBinder.SINGLETON.getMarkerFactory();
+    } catch (Exception e) {
+      // we should never get here
+      Util.reportFailure("Could not instantiate instance of class ["
+          + StaticBinder.SINGLETON.getMarkerFactoryClassStr() + "]", e);
+    }
   }
-  
+
   /**
    * Return a Marker instnace as specified by the name parameter using the
    * previously bound {@link IMarkerFactory}instance.
    * 
    * @param name
-   *            The name of the {@link Marker}object to return.
+   *          The name of the {@link Marker}object to return.
    * @return marker
    */
   public static Marker getMarker(String name) {
     return markerFactory.getMarker(name);
   }
-  
+
   /**
-   * Return the {@link IMarkerFactory} instance in use.
+   * Return the {@link IMarkerFactory}instance in use.
    * 
    * <p>
-   * Usually, the IMarkerFactory instance is bound with this class
-   * at compile time.
+   * Usually, the IMarkerFactory instance is bound with this class at compile
+   * time.
    * 
    * @return the IMarkerFactory instance in use
    */
   public static IMarkerFactory getIMarkerFactory() {
-    return  markerFactory;
+    return markerFactory;
   }
 }

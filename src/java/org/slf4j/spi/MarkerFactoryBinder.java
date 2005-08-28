@@ -48,8 +48,8 @@ public interface MarkerFactoryBinder {
    * Return the instance of {@link IMarkerFactory} that 
    * {@link org.slf4j.MarkerFactory} class should bind to.
    * 
-   * @return the instance of {@link ILoggerFactory} that 
-   * {@link org.slf4j.LoggerFactory} class should bind to.
+   * @return the instance of {@link IMarkerFactory} that 
+   * {@link org.slf4j.MarkerFactory} class should bind to.
    */
   public IMarkerFactory getMarkerFactory();
 

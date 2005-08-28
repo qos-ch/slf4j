@@ -59,7 +59,6 @@ import org.slf4j.impl.Util;
  */
 public final class LoggerFactory {
   
-  static StaticBinder staticBinder = new StaticBinder();
   static ILoggerFactory loggerFactory;
 
   // private constructor prevents instantiation
@@ -80,11 +79,11 @@ public final class LoggerFactory {
        		+ "] adapter factory from system properties.");
     } else {
       try { // otherwise bind statically
-          loggerFactory = staticBinder.getLoggerFactory();
+          loggerFactory = StaticBinder.SINGLETON.getLoggerFactory();
       } catch (Exception e) {
         // we should never get here
         Util.reportFailure(
-          "Could not instantiate instance of class [" + staticBinder.getLoggerFactoryClassStr() + "]",
+          "Could not instantiate instance of class [" + StaticBinder.SINGLETON.getLoggerFactoryClassStr() + "]",
           e);
       }
     }
