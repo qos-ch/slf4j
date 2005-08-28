@@ -91,8 +91,10 @@
            destdir="${tmp.javac.dest}"
            deprecation="on"
            includes="${SLF4J_STEM}/*.java,
-    	             ${SLF4J_STEM}/impl/MessageFormatter.java, 
-                     ${SLF4J_STEM}/impl/${impl}*.java"
+    	             ${SLF4J_STEM}/impl/MessageFormatter.java,
+    	             ${SLF4J_STEM}/impl/Util.java
+                     ${SLF4J_STEM}/impl/${impl}*.java
+    	             ${SLF4J_STEM}/spi/*.java"
   	       debug="${debug}">
     </javac>
   	
@@ -110,7 +112,10 @@
     	
     <jar jarfile="${jar-name}" basedir="${tmp.javac.dest}"
         includes="${SLF4J_STEM}/*.class, 
-                  ${SLF4J_STEM}/impl/MessageFormatter.class, 
+    	          ${SLF4J_STEM}/spi/*.class,
+                  ${SLF4J_STEM}/impl/MessageFormatter.class,
+    	          ${SLF4J_STEM}/impl/Util.class,
+    	          ${SLF4J_STEM}/impl/*Binder.class,
                   ${SLF4J_STEM}/impl/${IMPL}*.class"
                 >
       <manifest>

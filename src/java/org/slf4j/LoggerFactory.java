@@ -32,6 +32,8 @@
  */
 package org.slf4j;
 
+
+import org.slf4j.impl.StaticBinder;
 import org.slf4j.impl.SystemPropBinder;
 import org.slf4j.impl.Util;
 
@@ -123,9 +125,4 @@ public final class LoggerFactory {
   public static ILoggerFactory getILoggerFactory() {
     return loggerFactory;
   }
-  
-  public static StaticBinder getStaticBinder() {
-    return staticBinder;
-  }
-  
 }

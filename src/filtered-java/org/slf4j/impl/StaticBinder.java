@@ -31,16 +31,19 @@
  *
  */
 
-package org.slf4j;
+package org.slf4j.impl;
 
+import org.slf4j.ILoggerFactory;
+import org.slf4j.IMarkerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.spi.MarkerFactoryBinder;
 
 //WARNING
 //WARNING Modifications MUST be made to the original file found at
 //WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/StaticBinder.java
 //WARNING
 
-public class StaticBinder implements LoggerFactoryBinder {
+public class StaticBinder implements LoggerFactoryBinder, MarkerFactoryBinder {
 
   
   // 
@@ -51,9 +54,6 @@ public class StaticBinder implements LoggerFactoryBinder {
   // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
   String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
   
-  StaticBinder() {
-  }
-  
   // package private
   public ILoggerFactory getLoggerFactory() {
     // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
@@ -63,5 +63,14 @@ public class StaticBinder implements LoggerFactoryBinder {
   public String getLoggerFactoryClassStr() {
     return loggerFactoryClassStr;
   }   
+  
+  public IMarkerFactory getMarkerFactory() {
+    return new BasicMarkerFactory();
+  }
+  
+  public String getMarkerFactoryClassStr() {
+    return BasicMarkerFactory.class.getName();
+  }
+  
   
 }

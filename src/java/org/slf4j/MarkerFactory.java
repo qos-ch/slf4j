@@ -31,6 +31,7 @@
  */
 package org.slf4j;
 
+import org.slf4j.impl.StaticBinder;
 import org.slf4j.impl.Util;
 
 // WARNING
@@ -52,7 +53,8 @@ import org.slf4j.impl.Util;
  */
 public class MarkerFactory {
   static IMarkerFactory markerFactory;
-
+  static StaticBinder staticBinder = new StaticBinder();
+  
   private MarkerFactory() {      
   }
   
@@ -61,13 +63,13 @@ public class MarkerFactory {
   //         $SLF4J_HOME/src/filtered-java/org/slf4j/
   //
   static {
-    String markerFactoryClassStr = "org.slf4j.impl.@MARKER_FACTORY_IMPL_PREFIX@MarkerFactory";
+   
     try {
-      markerFactory = new org.slf4j.impl.@MARKER_FACTORY_IMPL_PREFIX@MarkerFactory();
+      markerFactory = staticBinder.getMarkerFactory();
      } catch (Exception e) {
        // we should never get here
        Util.reportFailure(
-           "Could not instantiate instance of class [" + markerFactoryClassStr + "]",
+           "Could not instantiate instance of class [" + staticBinder.getMarkerFactoryClassStr() + "]",
            e);
      }      
   }
