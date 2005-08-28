@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<project>
+  <id>slf4j-simple</id>
+  <groupId>org.slf4j</groupId>
+  <name>slf4j-simple</name>
+  <currentVersion>@VERSION@</currentVersion>
+  <package>/org/slf4j</package>
+  <description>
+    See http://www.slf4j.org/ 
+
+    Javadocs for the SimpleLogger are available at 
+    http://www.slf4j.org/api/org/slf4j/impl/SimpleLogger.html 
+
+  </description>
+</project>
+

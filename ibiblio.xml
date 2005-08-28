@@ -1,0 +1,48 @@
+
+<project name="ibiblio-SLF4J" default="bundle" basedir="." >
+
+
+  <property name="version" value="1.0-beta7"/>
+
+	<target name="bundle-IMPL" >
+    
+    <mkdir dir="tmp/ibiblio"/>
+    <delete><fileset dir="tmp/ibiblio" includes="**/*"/></delete>
+    
+    <mkdir dir="tmp/ibiblio"/>
+    <copy file="LICENSE.txt" tofile="tmp/ibiblio/LICENSE.txt"/>
+    <copy file="slf4j-${impl}.jar" tofile="tmp/ibiblio/slf4j-${impl}-${version}.jar"/>
+    
+    <copy file="src/pom/project-${impl}.xml" tofile="tmp/ibiblio/project.xml">
+      <filterset><filter token="VERSION" value="${version}"/></filterset>
+    </copy>
+		
+    <jar jarfile="tmp/slf4j-${impl}-${version}-bundle.jar" basedir="tmp/ibiblio"
+         includes="LICENSE.txt, 
+         project.xml,
+         slf4j-${impl}-${version}.jar"/>
+  </target>
+	
+  <target name="bundle" depends="nop, simple, jdk14">
+    
+  </target>
+  
+  <target name="nop">
+    <antcall target="bundle-IMPL">
+      <param name="impl" value="nop"/>
+    </antcall>
+  </target>
+  
+  <target name="simple">
+    <antcall target="bundle-IMPL">
+      <param name="impl" value="simple"/>
+    </antcall>
+  </target>
+
+  <target name="jdk14">
+    <antcall target="bundle-IMPL">
+      <param name="impl" value="jdk14"/>
+    </antcall>
+  </target>
+
+</project>
