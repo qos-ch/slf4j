@@ -5,7 +5,7 @@
   <property file="build.properties"/>
 
   <!-- The directory where source files are stored. -->
-  <property name="version" value="1.0-beta6"/>
+  <property name="version" value="1.0-beta7"/>
 
   <property name="jcl-version" value="1.0.4"/>
   <property name="jcl-jar" value="jcl-over-slf4j-${jcl-version}.jar"/>
@@ -75,10 +75,6 @@
         <include name="**/*.java"/>
       </fileset>
       <filterset><filter token="IMPL" value="${IMPL}"/></filterset>
-      <filterset>
-        <filter token="MARKER_FACTORY_IMPL_PREFIX" 
-                value="Basic"/>
-      </filterset>
     </copy>
 
     <copy todir="${tmp.java.source.dir}">
