@@ -116,7 +116,9 @@
                                      InvokeSimple,
                                      InvokeJDK14,
                                      InvokeNLOG4J12x,
-  	                                 InvokeJCL"
+  	                                 XLoggerBySystemProps,
+  	                                 InvokeJCL,
+  	                                 InvokeJCLWithNOP"
                                      />
 
   <target name="MessageFormatter" depends="build, cleanOutputDir">
