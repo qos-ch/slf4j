@@ -36,19 +36,19 @@ package org.slf4j.spi;
 import org.slf4j.ILoggerFactory;
 
 /**
- * An internal interface which helps the static {@link LoggerFactory} class 
- * bind with the appropriate {@link ILoggerFactory} instance. 
+ * An internal interface which helps the static {@link org.slf4j.LoggerFactory} 
+ * class bind with the appropriate {@link ILoggerFactory} instance. 
  * 
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public interface LoggerFactoryBinder {
 
   /**
-   * Return the instance of {@link ILoggerFactory} that {@link LoggerFactory} 
-   * should bind to.
+   * Return the instance of {@link ILoggerFactory} that 
+   * {@link org.slf4j.LoggerFactory} class should bind to.
    * 
-   * @return the instance of {@link ILoggerFactory} that {@link LoggerFactory} 
-   * should bind to.
+   * @return the instance of {@link ILoggerFactory} that 
+   * {@link org.slf4j.LoggerFactory} class should bind to.
    */
   public ILoggerFactory getLoggerFactory();
 

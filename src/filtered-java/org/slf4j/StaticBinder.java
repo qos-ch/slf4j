@@ -37,10 +37,10 @@ import org.slf4j.spi.LoggerFactoryBinder;
 
 //WARNING
 //WARNING Modifications MUST be made to the original file found at
-//WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/StaticLoggerFactoryBinder.java
+//WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/StaticBinder.java
 //WARNING
 
-public class StaticLoggerFactoryBinder implements LoggerFactoryBinder {
+public class StaticBinder implements LoggerFactoryBinder {
 
   
   // 
@@ -51,7 +51,7 @@ public class StaticLoggerFactoryBinder implements LoggerFactoryBinder {
   // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
   String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
   
-  StaticLoggerFactoryBinder() {
+  StaticBinder() {
   }
   
   // package private

@@ -1,7 +1,9 @@
 // TOTO
 
-package org.slf4j;
+package org.slf4j.impl;
 
+import org.slf4j.Constants;
+import org.slf4j.ILoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
@@ -10,7 +12,7 @@ import org.slf4j.spi.LoggerFactoryBinder;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-class SystemPropBinder implements LoggerFactoryBinder {
+public class SystemPropBinder implements LoggerFactoryBinder {
   String factoryFactoryClassName = null;
 
   /**

@@ -32,6 +32,9 @@
  */
 package org.slf4j;
 
+import org.slf4j.impl.SystemPropBinder;
+import org.slf4j.impl.Util;
+
 // WARNING
 // WARNING Modifications MUST be made to the original file found at
 // WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/LoggerFactory.java
@@ -54,7 +57,7 @@ package org.slf4j;
  */
 public final class LoggerFactory {
   
-  static StaticLoggerFactoryBinder staticBinder = new StaticLoggerFactoryBinder();
+  static StaticBinder staticBinder = new StaticBinder();
   static ILoggerFactory loggerFactory;
 
   // private constructor prevents instantiation
@@ -121,7 +124,7 @@ public final class LoggerFactory {
     return loggerFactory;
   }
   
-  public static StaticLoggerFactoryBinder getStaticBinder() {
+  public static StaticBinder getStaticBinder() {
     return staticBinder;
   }
   

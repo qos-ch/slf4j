@@ -31,18 +31,18 @@
  *
  */
 
-package org.slf4j;
+package org.slf4j.impl;
 
 
 /**
  *
- * A package internal utility class.
+ * An internal utility class.
  *
  * @author Ceki Gulcu
  */
-class Util {
+public class Util {
     
-  static void reportFailure(String msg, Throwable t) {
+  static public void reportFailure(String msg, Throwable t) {
     System.err.println(msg);
     System.err.println("Reported exception follows.");
     t.printStackTrace();

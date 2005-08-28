@@ -220,6 +220,7 @@
            <title>SLF4J</title>
            <package name="org.slf4j"/>
            <package name="org.slf4j.impl"/>
+           <package name="org.slf4j.spi"/>
         </group>
 
     	 <group>

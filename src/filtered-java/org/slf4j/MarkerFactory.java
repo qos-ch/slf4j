@@ -31,6 +31,8 @@
  */
 package org.slf4j;
 
+import org.slf4j.impl.Util;
+
 // WARNING
 // WARNING Modifications MUST be made to the original file found at
 // WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/MarkerFactory.java
