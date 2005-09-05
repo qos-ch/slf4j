@@ -269,7 +269,8 @@
       <fileset dir="./"
                includes="src/**,            
                build.xml,
-               build.properties.sample,
+               build.properties,
+               local.properties.sample,
                INSTALL.txt,
                LICENSE.txt,
       	       ${jcl.jar},
