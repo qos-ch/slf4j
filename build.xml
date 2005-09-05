@@ -4,11 +4,7 @@
   <!-- The build.properties file defines the path to local files -->
   <property file="build.properties"/>
 
-  <!-- The directory where source files are stored. -->
-  <property name="version" value="1.0-beta7"/>
-
-  <property name="jcl-version" value="1.0.4"/>
-  <property name="jcl-jar" value="jcl-over-slf4j-${jcl-version}.jar"/>
+  <property file="local.properties"/>
 	
   <property name="tmp.java.source.dir" value="./tmp/src"/>
   <property name="tmp.javac.dest" value="./tmp/classes"/>
@@ -160,7 +156,7 @@
    	       debug="${debug}">
    	 </javac>
    	
-     <jar jarfile="${jcl-jar}" basedir="${tmp.javac.dest}"
+     <jar jarfile="${jcl.jar}" basedir="${tmp.javac.dest}"
            includes="${JCL_STEM}/**/*.class">
      	<manifest>
      	  <section name="org/apache/commons/logging">
@@ -276,7 +272,7 @@
                build.properties.sample,
                INSTALL.txt,
                LICENSE.txt,
-      	       ${jcl-jar},
+      	       ${jcl.jar},
       	       slf4j-*.jar"
 
                excludes="**/*.bak, 

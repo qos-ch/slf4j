@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<project>
+  <id>jcl104-over-slf4j</id>
+  <groupId>org.slf4j</groupId>
+  <name>jcl104-over-slf4j</name>
+  <currentVersion>@VERSION@</currentVersion>
+  <package>/org/slf4j</package>
+  <description>
+    See http://www.slf4j.org/ 
+
+    Javadocs for the JCL over SLF4J are available at 
+    http://www.slf4j.org/api/overview-summary.html
+
+  </description>
+</project>
+

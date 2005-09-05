@@ -1,8 +1,7 @@
 
 <project name="ibiblio-SLF4J" default="bundle" basedir="." >
 
-
-  <property name="version" value="1.0-beta7"/>
+  <property file="build.properties"/>
 
 	<target name="bundle-IMPL" >
     
@@ -23,7 +22,7 @@
          slf4j-${impl}-${version}.jar"/>
   </target>
 	
-  <target name="bundle" depends="nop, simple, jdk14">
+  <target name="bundle" depends="nop, simple, jdk14, JCL">
     
   </target>
   
@@ -43,6 +42,25 @@
     <antcall target="bundle-IMPL">
       <param name="impl" value="jdk14"/>
     </antcall>
+  </target>
+
+  <target name="JCL">
+    <mkdir dir="tmp/ibiblio"/>
+    <delete><fileset dir="tmp/ibiblio" includes="**/*"/></delete>
+    
+    <mkdir dir="tmp/ibiblio"/>
+    <copy file="src/docs/ASL.txt" tofile="tmp/ibiblio/LICENSE.txt"/>
+    <copy file="${jcl.jar}" tofile="tmp/ibiblio/jcl${jcl-version}-over-slf4j-${version}.jar"/>
+    
+    <copy file="src/pom/project-JCL-over-SLF4J.xml" tofile="tmp/ibiblio/project.xml">
+      <filterset><filter token="VERSION" value="${version}"/></filterset>
+    </copy>
+		
+    <jar jarfile="tmp/jcl${jcl-version}-over-slf4j-${version}-bundle.jar" basedir="tmp/ibiblio"
+         includes="LICENSE.txt, 
+                   project.xml,
+                   jcl${jcl-version}-over-slf4j-${version}.jar"
+                   />
   </target>
 
 </project>
