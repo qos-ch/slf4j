@@ -45,7 +45,7 @@ import org.slf4j.Marker;
  * interface. Note that the logging levels mentioned in this class
  * refer to those defined in the org.apache.log4j.Level class.
 
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public final class Log4jLoggerAdapter implements Logger {
   final org.apache.log4j.Logger logger;

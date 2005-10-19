@@ -43,7 +43,7 @@ import java.util.logging.Level;
  * interface. Note that the logging levels mentioned in this class
  * refer to those defined in the java.util.logging package.
 
- * @author Ceki G&uuml;lc&uuml;
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public final class JDK14LoggerAdapter implements Logger {
   final java.util.logging.Logger logger;
