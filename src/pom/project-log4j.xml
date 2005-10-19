@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<project>
+  <id>slf4j-log4j</id>
+  <groupId>org.slf4j</groupId>
+  <name>slf4j-log4j</name>
+  <currentVersion>@VERSION@</currentVersion>
+  <package>/org/slf4j</package>
+  <description>
+    See http://www.slf4j.org/ 
+
+    Javadocs for the Log4jLoggerAdapter are available at 
+    http://www.slf4j.org/api/org/slf4j/impl/Log4jLoggerAdapter.html 
+
+  </description>
+</project>
+
