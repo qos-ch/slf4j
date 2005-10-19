@@ -56,16 +56,21 @@ public class StaticBinder implements LoggerFactoryBinder, MarkerFactoryBinder {
    * The unique instance of this class.
    */
   public static final StaticBinder SINGLETON = new StaticBinder();
+  // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
+  private static final String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
+
+  /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
+   * should always be the same object
+   */
+  private final ILoggerFactory loggerFactory;
   
   private StaticBinder() {
+//  Note: @IMPL@ gets substituted at build time by an appropriate Ant task
+    loggerFactory = new org.slf4j.impl.@IMPL@LoggerFactory();
   }
   
-  // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
-  static final String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
-  
   public ILoggerFactory getLoggerFactory() {
-    // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
-    return new org.slf4j.impl.@IMPL@LoggerFactory();
+    return loggerFactory;
   }
   
   public String getLoggerFactoryClassStr() {

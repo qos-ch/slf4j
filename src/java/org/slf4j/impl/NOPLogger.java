@@ -35,6 +35,7 @@ package org.slf4j.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.MarkingLogger;
 
 
 /**
@@ -42,7 +43,7 @@ import org.slf4j.Marker;
  *
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
-public final class NOPLogger implements Logger {
+public final class NOPLogger implements MarkingLogger {
   /**
    * The unique instance of NOPLogger.
    */

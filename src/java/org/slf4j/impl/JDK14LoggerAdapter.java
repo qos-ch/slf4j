@@ -34,8 +34,6 @@
 package org.slf4j.impl;
 
 import org.slf4j.Logger;
-import org.slf4j.Marker;
-
 import java.util.logging.Level;
 
 
@@ -70,10 +68,6 @@ public final class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.FINE);
   }
 
-  public boolean isDebugEnabled(Marker marker) {
-    return isDebugEnabled();
-  }
-
   //
 
   /**
@@ -82,10 +76,6 @@ public final class JDK14LoggerAdapter implements Logger {
    */
   public void debug(String msg) {
     logger.fine(msg);
-  }
-
-  public void debug(Marker marker, String msg) {
-    debug(msg);
   }
 
   /**
@@ -103,10 +93,6 @@ public final class JDK14LoggerAdapter implements Logger {
       String msgStr = MessageFormatter.format(format, arg);
       logger.fine(msgStr);
     }
-  }
-
-  public void debug(Marker marker, String format, Object arg) {
-    debug(format, arg);
   }
 
   /**
@@ -127,11 +113,7 @@ public final class JDK14LoggerAdapter implements Logger {
     }
   }
 
-  public void debug(Marker marker, String format, Object arg1, Object arg2) {
-    debug(format, arg1, arg2);
-  }
-
-  /**
+   /**
    * Log an exception (throwable) at  level FINE with an
    * accompanying message.
    *
@@ -140,10 +122,6 @@ public final class JDK14LoggerAdapter implements Logger {
    */
   public void debug(String msg, Throwable t) {
     logger.log(Level.FINE, msg, t);
-  }
-
-  public void debug(Marker marker, String msg, Throwable t) {
-    debug(msg, t);
   }
 
   /**
@@ -156,9 +134,6 @@ public final class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.INFO);
   }
 
-  public final boolean isInfoEnabled(Marker marker) {
-    return isInfoEnabled();
-  }
 
   /**
    * Log a message object at the INFO level.
@@ -166,10 +141,6 @@ public final class JDK14LoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void info(String msg) {
-    logger.info(msg);
-  }
-
-  public void info(Marker marker, String msg) {
     logger.info(msg);
   }
 
@@ -218,18 +189,6 @@ public final class JDK14LoggerAdapter implements Logger {
   public void info(String msg, Throwable t) {
     logger.log(Level.INFO, msg, t);
   }
-
-  public void info(Marker marker, String format, Object arg) {
-      info(format, arg);
-    }
-
-    public void info(Marker marker, String format, Object arg1, Object arg2) {
-      info(format, arg1, arg2);
-    }
-
-    public void info(Marker marker, String msg, Throwable t) {
-       info(msg, t);
-    }
     
   /**
    * Is this logger instance enabled for the WARNING level?
@@ -241,10 +200,6 @@ public final class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.WARNING);
   }
   
-  public boolean isWarnEnabled(Marker marker) {
-      return isWarnEnabled();
-  }
-
   /**
    * Log a message object at the WARNING level.
    *
@@ -300,22 +255,6 @@ public final class JDK14LoggerAdapter implements Logger {
     logger.log(Level.WARNING, msg.toString(), t);
   }
 
-  public void warn(Marker marker, String msg) {
-    warn(msg);
-  }
-
-  public void warn(Marker marker, String format, Object arg) {
-    warn(format, arg);
-  }
-
-  public void warn(Marker marker, String format, Object arg1, Object arg2) {
-    warn(format, arg1, arg2);
-  }
-
-  public void warn(Marker marker, String msg, Throwable t) {
-    warn(msg, t);
-  }
-
   /**
    * Is this logger instance enabled for level SEVERE?
    *
@@ -326,10 +265,6 @@ public final class JDK14LoggerAdapter implements Logger {
     return logger.isLoggable(Level.SEVERE);
   }
 
-  public boolean isErrorEnabled(Marker marker) {
-      return isErrorEnabled();
-    }
-  
   /**
    * Log a message object at the SEVERE level.
    *
@@ -385,19 +320,4 @@ public final class JDK14LoggerAdapter implements Logger {
     logger.log(Level.SEVERE, msg, t);
   }
 
-  public void error(Marker marker, String msg) {
-    error(msg);
-  }
-
-  public void error(Marker marker, String format, Object arg) {
-    error(format, arg);
-  }
-
-  public void error(Marker marker, String format, Object arg1, Object arg2) {
-    error(format, arg1, arg2);
-  }
-
-  public void error(Marker marker, String msg, Throwable t) {
-    error(msg, t);
-  }
 }

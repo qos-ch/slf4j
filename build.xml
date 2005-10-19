@@ -1,308 +1,318 @@
 
-<project name="slf4j" default="usage" basedir="." >
+<project name="slf4j" default="usage" basedir=".">
 
-  <!-- The build.properties file defines the path to local files -->
-  <property file="build.properties"/>
+	<!-- The build.properties file defines the path to local files -->
+	<property file="build.properties" />
 
-  <property file="local.properties"/>
-	
-  <property name="tmp.java.source.dir" value="./tmp/src"/>
-  <property name="tmp.javac.dest" value="./tmp/classes"/>
-	
-  <property name="dist.images"  value="dist/images"/>
-  <property name="dist.tmp" value="dist/tmp"/>
+	<property file="local.properties" />
 
-  <property name="deprecation" value="on"/>
-	
-  <property name="SLF4J_STEM" value="org/slf4j"/>
-  <property name="JCL_STEM" value="org/apache/commons/logging"/>  
+	<property name="tmp.java.source.dir" value="./tmp/src" />
+	<property name="tmp.javac.dest" value="./tmp/classes" />
 
-  <!-- ================================================================= -->
-  <!-- Default target                                                    -->
-  <!-- ================================================================= -->
-  <target name="usage">
-    <echo>      
+	<property name="dist.images" value="dist/images" />
+	<property name="dist.tmp" value="dist/tmp" />
+
+	<property name="deprecation" value="on" />
+
+	<property name="SLF4J_STEM" value="org/slf4j" />
+	<property name="JCL_STEM" value="org/apache/commons/logging" />
+
+	<!-- ================================================================= -->
+	<!-- Default target                                                    -->
+	<!-- ================================================================= -->
+	<target name="usage">
+		<echo>      
       These are some of the targets supported by this ANT build scpript:
       
       slf4j-nop.jar - build the jar file of the same name.
       slf4j-simple.jar - build the jar file of the same name.
-      slf4j-jdk14.jar - build the jar file of the same name.
+      slf4j-log4j.jar - build the jar fil of the same name.
+	  slf4j-jdk14.jar - build the jar file of the same name.
       jcl-over-slf4j.jar - JCL 1.0.4 implemented over SLF4J	
       jar - all of the above jar files
     </echo>
-  </target>
+	</target>
 
-  <target name="init">
-    <mkdir dir="tmp"/>
-	<mkdir dir="${tmp.java.source.dir}"/>
-	<mkdir dir="${tmp.javac.dest}"/>
-  </target>
-	
-  <!-- ================================================================= -->
-  <!-- Remove all generated (compiled) class files.                      -->
-  <!-- ================================================================= -->
-  <target name="clean" description="Delete all compiled SLF4J files.">
-    <delete dir="${javac.dest}/org/slf4j" />
-  </target>
+	<target name="init">
+		<mkdir dir="tmp" />
+		<mkdir dir="${tmp.java.source.dir}" />
+		<mkdir dir="${tmp.javac.dest}" />
+	</target>
+
+	<path id="regular.classpath">
+	</path>
+
+	<path id="log4j.classpath">
+		<fileset dir="./lib">
+			<include name="log4j*.jar" />
+		</fileset>
+	</path>
+
+	<!-- ================================================================= -->
+	<!-- Remove all generated (compiled) class files.                      -->
+	<!-- ================================================================= -->
+	<target name="clean" description="Delete all compiled SLF4J files.">
+		<delete dir="${javac.dest}/org/slf4j" />
+	</target>
 
 
-  <target name="julCheck">
-    <available classname="java.util.logging.Logger" property="julPresent">
-    </available>
+	<target name="julCheck">
+		<available classname="java.util.logging.Logger" property="julPresent">
+		</available>
 
-  	<fail unless="julPresent">
+		<fail unless="julPresent">
         Building the SLF4J implementation for JDK 1.4 logging 
         requires the presence of JDK 1.4 or later.
   	</fail>
-  </target>
+	</target>
 
-	
-  <!-- =================================================================== -->
-  <!-- Generic target that can build NOP, Simple and JDK14 implementations -->
-  <!--  as specified by the "jar-name" and "impl" parameters.              -->
-  <!-- =================================================================== -->
-  <target name="compile-IMPL" depends="init">
-    <!-- delete all previously existing files in tmp -->
-    <delete><fileset dir="tmp/" includes="**/*"/></delete>
+	<target name="log4jCheck">
+		<available classname="org.apache.log4j.Logger" property="log4jPresent">
+			<classpath refid="log4j.classpath"/>
+		</available>
 
-    <!-- copy a filtered version of slf4j to tmp/src -->
-    <copy todir="${tmp.java.source.dir}">
-      <fileset dir="src/filtered-java">
-        <include name="**/*.java"/>
-      </fileset>
-      <filterset><filter token="IMPL" value="${IMPL}"/></filterset>
-    </copy>
+		<fail unless="log4jPresent">
+        Building the SLF4J implementation for the log4j system 
+        requires the presence of log4j 1.2.x or later.
+  	</fail>
+	</target>
 
-    <copy todir="${tmp.java.source.dir}">
-      <fileset dir="src/java">
-        <include name="**/*.java"/>
-      </fileset>
-    </copy>
-    
-    <javac srcdir="${tmp.java.source.dir}"
-           destdir="${tmp.javac.dest}"
-           deprecation="on"
-           includes="${SLF4J_STEM}/*.java,
+
+	<!-- =================================================================== -->
+	<!-- Generic target that can build NOP, Simple and JDK14 implementations -->
+	<!--  as specified by the "jar-name" and "impl" parameters.              -->
+	<!-- =================================================================== -->
+	<target name="compile-IMPL" depends="init">
+		<!-- delete all previously existing files in tmp -->
+		<delete>
+			<fileset dir="tmp/" includes="**/*" />
+		</delete>
+
+		<!-- copy a filtered version of slf4j to tmp/src -->
+		<copy todir="${tmp.java.source.dir}">
+			<fileset dir="src/filtered-java">
+				<include name="**/*.java" />
+			</fileset>
+			<filterset>
+				<filter token="IMPL" value="${IMPL}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${tmp.java.source.dir}">
+			<fileset dir="src/java">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" deprecation="on" includes="${SLF4J_STEM}/*.java,
     	             ${SLF4J_STEM}/impl/MessageFormatter.java,
     	             ${SLF4J_STEM}/impl/Util.java
                      ${SLF4J_STEM}/impl/${impl}*.java
-    	             ${SLF4J_STEM}/spi/*.java"
-  	       debug="${debug}">
-    </javac>
-  	
- </target>
-  	
-  <!-- =================================================================== -->
-  <!-- Generic target that can build NOP, Simple and JDK14 implementations -->
-  <!--  as specified by the "jar-name" and "impl" parameters.              -->
-  <!-- =================================================================== -->
-  <target name="slf4j-IMPL.jar" depends="init">
- 
-    <antcall target="compile-IMPL">
-      <param name="IMPL" value="${IMPL}"/>
-    </antcall>
-    	
-    <jar jarfile="${jar-name}" basedir="${tmp.javac.dest}"
-        includes="${SLF4J_STEM}/*.class, 
+    	             ${SLF4J_STEM}/spi/*.java" debug="${debug}">
+			 <classpath refid="${IMPL.CLASSPATH}"/>
+		</javac>
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Generic target that can build NOP, Simple and JDK14 implementations -->
+	<!--  as specified by the "jar-name" and "impl" parameters.              -->
+	<!-- =================================================================== -->
+	<target name="slf4j-IMPL.jar" depends="init">
+
+		<antcall target="compile-IMPL">
+			<param name="IMPL" value="${IMPL}" />
+		</antcall>
+
+		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="${SLF4J_STEM}/*.class, 
     	          ${SLF4J_STEM}/spi/*.class,
                   ${SLF4J_STEM}/impl/MessageFormatter.class,
     	          ${SLF4J_STEM}/impl/Util.class,
     	          ${SLF4J_STEM}/impl/*Binder.class,
-                  ${SLF4J_STEM}/impl/${IMPL}*.class"
-                >
-      <manifest>
-        <section name="org/slf4j/">
-          <attribute name="Implementation-Title" value="${IMPL} implementation"/>
-          <attribute name="Implementation-Version" value="${version}"/>
-          <attribute name="Implementation-Vendor" value="SLF4J.ORG"/>
-        </section>
-      </manifest>
-    </jar>
-   
-  </target>
+                  ${SLF4J_STEM}/impl/${IMPL}*.class">
+			<manifest>
+				<section name="org/slf4j/">
+					<attribute name="Implementation-Title" value="${IMPL} implementation" />
+					<attribute name="Implementation-Version" value="${version}" />
+					<attribute name="Implementation-Vendor" value="SLF4J.ORG" />
+				</section>
+			</manifest>
+		</jar>
+
+	</target>
 
 
-  <target name="slf4j-nop.jar">
-    <antcall target="slf4j-IMPL.jar">
-      <param name="IMPL" value="NOP"/>
-      <param name="jar-name" value="slf4j-nop.jar"/>
-    </antcall>
-  </target>
+	<target name="slf4j-nop.jar">
+		<antcall target="slf4j-IMPL.jar">
+			<param name="IMPL" value="NOP" />
+			<param name="jar-name" value="slf4j-nop.jar" />
+			<param name="IMPL.CLASSPATH" value="regular.classpath" />
+		</antcall>
+	</target>
 
-  <target name="slf4j-simple.jar">
-    <antcall target="slf4j-IMPL.jar">
-      <param name="IMPL" value="Simple"/>
-      <param name="jar-name" value="slf4j-simple.jar"/>
-    </antcall>
-  </target>
+	<target name="slf4j-simple.jar">
+		<antcall target="slf4j-IMPL.jar">
+			<param name="IMPL" value="Simple" />
+			<param name="jar-name" value="slf4j-simple.jar" />
+			<param name="IMPL.CLASSPATH" value="regular.classpath" />
+		</antcall>
+	</target>
 
-  <target name="slf4j-jdk14.jar" depends="julCheck">
-    <antcall target="slf4j-IMPL.jar">
-      <param name="IMPL" value="JDK14"/>
-      <param name="jar-name" value="slf4j-jdk14.jar"/>
-    </antcall>
-  </target>
+	<target name="slf4j-log4j.jar" depends="log4jCheck">
+		<antcall target="slf4j-IMPL.jar">
+			<param name="IMPL" value="Log4j" />
+			<param name="jar-name" value="slf4j-log4j.jar" />
+			<param name="IMPL.CLASSPATH" value="log4j.classpath" />
+		</antcall>
+	</target>
 
-  <target name="jcl-over-slf4j.jar" depends="slf4j-nop.jar">
-  
-    <antcall target="compile-IMPL">
-        <param name="IMPL" value="NOP"/>
-    </antcall>
-  	
-  	<javac srcdir="${tmp.java.source.dir}"
-   	       destdir="${tmp.javac.dest}"
-   	       deprecation="on"
-   	       includes="${JCL_STEM}/**/*.java"
-   	       debug="${debug}">
-   	 </javac>
-   	
-     <jar jarfile="${jcl.jar}" basedir="${tmp.javac.dest}"
-           includes="${JCL_STEM}/**/*.class">
-     	<manifest>
-     	  <section name="org/apache/commons/logging">
-     	    <attribute name="Implementation-Title" value="JCL over SLF4J"/>
-     	    <attribute name="Implementation-Version" value="${jcl-version}"/>
-     	    <attribute name="Implementation-Vendor" value="SLF4J.ORG"/>
-     	  </section>
-        </manifest>
-      </jar>
-  </target>
+	<target name="slf4j-jdk14.jar" depends="julCheck">
+		<antcall target="slf4j-IMPL.jar">
+			<param name="IMPL" value="JDK14" />
+			<param name="jar-name" value="slf4j-jdk14.jar" />
+			<param name="IMPL.CLASSPATH" value="regular.classpath" />
+		</antcall>
+	</target>
 
-	
-  <target name="jar" depends="slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-simple.jar, slf4j-jdk14.jar"/> 	
+	<target name="jcl-over-slf4j.jar" depends="slf4j-nop.jar">
 
-  <!-- Build Javadoc -->
-  <target name="javadoc" depends="init">
-    
-    <!-- delete all previously existing files in tmp -->
-    <delete><fileset dir="tmp/" includes="**/*"/></delete>
+		<antcall target="compile-IMPL">
+			<param name="IMPL" value="NOP" />
+			<param name="IMPL.CLASSPATH" value="regular.classpath" />
+		</antcall>
 
-    <!-- copy a filtered version of slf4j to tmp/src -->
-    <copy todir="tmp/src">
-      <fileset dir="src/filtered-java">
-        <include name="**/*.java"/>
-      </fileset>
-      <filterset><filter token="IMPL" value="NOP"/></filterset>
-      <filterset><filter token="MARKER_FACTORY_IMPL_PREFIX" 
-                         value="Basic"/>
-      </filterset>
-    </copy>
+		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" deprecation="on" includes="${JCL_STEM}/**/*.java" debug="${debug}">
+		</javac>
 
-    <copy todir="tmp/src">
-      <fileset dir="src/java">
-        <include name="**/*.java"/>
-        <include name="**/*.html"/>
-      </fileset>
-    </copy>
+		<jar jarfile="${jcl.jar}" basedir="${tmp.javac.dest}" includes="${JCL_STEM}/**/*.class">
+			<manifest>
+				<section name="org/apache/commons/logging">
+					<attribute name="Implementation-Title" value="JCL over SLF4J" />
+					<attribute name="Implementation-Version" value="${jcl-version}" />
+					<attribute name="Implementation-Vendor" value="SLF4J.ORG" />
+				</section>
+			</manifest>
+		</jar>
+	</target>
 
-    <mkdir dir="${javadoc.dest}" />
-    
-    <javadoc destdir="${javadoc.dest}"
-             packagenames="org.slf4j.*, org.apache.commons.logging.*"
-             additionalparam="-breakiterator"
-             version="true"
-             protected="true"
-             author="true"
-             use="true"
-             overview="src/docs/overview.html"
-             doctitle="SLF4J version ${version}"
-             windowtitle="SLF4J Version ${version}"
-             >
 
-    	<sourcepath>
-          <path path="${tmp.java.source.dir}"/>
-    	</sourcepath>
-    	
-        <group>
-           <title>SLF4J</title>
-           <package name="org.slf4j"/>
-           <package name="org.slf4j.impl"/>
-           <package name="org.slf4j.spi"/>
-        </group>
+	<target name="jar" depends="slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-simple.jar, slf4j-jdk14.jar" />
 
-    	 <group>
-    	   <title>Jakarta Commons Logging (implemented over SLF4J)</title>
-    	   <package name="org.apache.commons.logging"/>
-    	   <package name="org.apache.commons.logging.impl"/>
-    	 </group>
+	<!-- Build Javadoc -->
+	<target name="javadoc" depends="init">
 
-        	
-    	<header>
+		<!-- delete all previously existing files in tmp -->
+		<delete>
+			<fileset dir="tmp/" includes="**/*" />
+		</delete>
+
+		<!-- copy a filtered version of slf4j to tmp/src -->
+		<copy todir="tmp/src">
+			<fileset dir="src/filtered-java">
+				<include name="**/*.java" />
+			</fileset>
+			<filterset>
+				<filter token="IMPL" value="NOP" />
+			</filterset>
+			<filterset>
+				<filter token="MARKER_FACTORY_IMPL_PREFIX" value="Basic" />
+			</filterset>
+		</copy>
+
+		<copy todir="tmp/src">
+			<fileset dir="src/java">
+				<include name="**/*.java" />
+				<include name="**/*.html" />
+			</fileset>
+		</copy>
+
+		<mkdir dir="${javadoc.dest}" />
+
+		<javadoc destdir="${javadoc.dest}" packagenames="org.slf4j.*, org.apache.commons.logging.*" additionalparam="-breakiterator" version="true" protected="true" author="true" use="true" overview="src/docs/overview.html" doctitle="SLF4J version ${version}" windowtitle="SLF4J Version ${version}">
+
+			 <classpath refid="log4j.classpath"/>
+			
+			<sourcepath>
+				<path path="${tmp.java.source.dir}" />
+			</sourcepath>
+
+			<group>
+				<title>SLF4J</title>
+				<package name="org.slf4j" />
+				<package name="org.slf4j.impl" />
+				<package name="org.slf4j.spi" />
+			</group>
+
+			<group>
+				<title>Jakarta Commons Logging (implemented over SLF4J)</title>
+				<package name="org.apache.commons.logging" />
+				<package name="org.apache.commons.logging.impl" />
+			</group>
+
+
+			<header>
           &lt;b&gt;SLF4J ${version}&lt;/b&gt;&lt;br/&gt;
         </header>
-    	<footer>
+			<footer>
       	   Copyright 2004-2005  
       	   &lt;a href="http://www.slf4j.org"&gt;&lt;b&gt;SLF4J.ORG&lt;/b&gt;&lt;/a&gt;
     	   &lt;br/&gt;
     		
       	</footer>
-    	<bottom>
+			<bottom>
     		&lt;small/&gt;Jakarta Commons Logging is copyrighted by the Apache Software Foundation&lt;small/&gt;.
     	</bottom>
-    </javadoc>
-  </target>
+		</javadoc>
+	</target>
 
-  
-  <target name="site">
-    <ant  dir="${slf4j-site}" antfile="build.xml" target="site"/> 
-  </target>
 
-  <!-- ================================================================= -->
-  <!-- Build a complete distribution. Results go to ${dist.images}       -->
-  <!-- ================================================================= -->
-  <target name="dist" depends="init, clean, javadoc, jar, site">
+	<target name="site">
+		<ant dir="${slf4j-site}" antfile="build.xml" target="site" />
+	</target>
 
-    <delete verbose="true">
-      <fileset dir=".">
-        <patternset>
-          <include name="**/*.bak"/>
-          <include name="${BSTEM}/**/temp*"/>
-        </patternset>
-      </fileset>
-    </delete>
-    
-    <mkdir  dir="${dist.images}" />
-    
-    <mkdir  dir="${dist.tmp}/slf4j-${version}" />
-    
-    <copy todir="${dist.tmp}/slf4j-${version}">
-      <fileset dir="./"
-               includes="src/**,            
+	<!-- ================================================================= -->
+	<!-- Build a complete distribution. Results go to ${dist.images}       -->
+	<!-- ================================================================= -->
+	<target name="dist" depends="init, clean, javadoc, jar, site">
+
+		<delete verbose="true">
+			<fileset dir=".">
+				<patternset>
+					<include name="**/*.bak" />
+					<include name="${BSTEM}/**/temp*" />
+				</patternset>
+			</fileset>
+		</delete>
+
+		<mkdir dir="${dist.images}" />
+
+		<mkdir dir="${dist.tmp}/slf4j-${version}" />
+
+		<copy todir="${dist.tmp}/slf4j-${version}">
+			<fileset dir="./" includes="src/**,            
                build.xml,
                build.properties,
                local.properties.sample,
                INSTALL.txt,
                LICENSE.txt,
       	       ${jcl.jar},
-      	       slf4j-*.jar"
+      	       slf4j-*.jar" excludes="**/*.bak, 
+               **/.#*" />
+		</copy>
 
-               excludes="**/*.bak, 
-               **/.#*"
-               />
-    </copy>
-
-    <copy todir="${dist.tmp}/slf4j-${version}">
-      <fileset dir="${slf4j-site}/"
-               includes="docs/**"
-
-               excludes="docs/dist/**,
+		<copy todir="${dist.tmp}/slf4j-${version}">
+			<fileset dir="${slf4j-site}/" includes="docs/**" excludes="docs/dist/**,
                          *.bak, 
-                         **/.#*"
-               />
-    </copy>
-    
-    <tar tarfile="${dist.images}/slf4j-${version}.tar"
-         basedir="${dist.tmp}"
-         includes="slf4j-${version}/**" />
-    
-    <gzip src="${dist.images}/slf4j-${version}.tar"
-          zipfile="${slf4j-site}/docs/dist/slf4j-${version}.tar.gz" />
-    
-    <zip zipfile="${slf4j-site}/docs/dist/slf4j-${version}.zip"
-         basedir="${dist.tmp}"
-         includes="slf4j-${version}/**" />
+                         **/.#*" />
+		</copy>
 
-    <delete dir="${dist.tmp}" />
-  </target>
+		<tar tarfile="${dist.images}/slf4j-${version}.tar" basedir="${dist.tmp}" includes="slf4j-${version}/**" />
+
+		<gzip src="${dist.images}/slf4j-${version}.tar" zipfile="${slf4j-site}/docs/dist/slf4j-${version}.tar.gz" />
+
+		<zip zipfile="${slf4j-site}/docs/dist/slf4j-${version}.zip" basedir="${dist.tmp}" includes="slf4j-${version}/**" />
+
+		<delete dir="${dist.tmp}" />
+	</target>
 
 </project>

@@ -1,59 +1,72 @@
-<project name="testing-SLF4J" default="usage" basedir="." >
+<project name="testing-SLF4J" default="usage" basedir=".">
 
-  <property name="tests.source.home" value="./src/java/"/>
-  <property name="tests.javac.dest" value="classes"/>
+	<property name="tests.source.home" value="./src/java/" />
+	<property name="tests.javac.dest" value="classes" />
 
-  <property name="version" value="1.0"/>
-  <property name="deprecation" value="on"/>
-   
-  <path id="basic.classpath">
-    <pathelement location="${tests.source.home}"/>
-    <pathelement location="${tests.javac.dest}"/>
-    <pathelement location="${jakarta-oro.jar}"/>
-  </path>
+	<property name="version" value="1.0" />
+	<property name="deprecation" value="on" />
 
-  <path id="compile.classpath">
-    <path refid="basic.classpath"/>
-    <pathelement location="../slf4j-simple.jar"/>
-  </path>
-  
-  <path id="nop.classpath">
-    <path refid="basic.classpath"/>
-    <pathelement location="../slf4j-nop.jar"/>
-  </path>
+	<path id="basic.classpath">
+		<pathelement location="${tests.source.home}" />
+		<pathelement location="${tests.javac.dest}" />
+		<pathelement location="${jakarta-oro.jar}" />
+	</path>
 
-  <path id="simple.classpath">
-    <path refid="basic.classpath"/>
-    <pathelement location="../slf4j-simple.jar"/>
-  </path>
+	<path id="compile.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-simple.jar" />
+	</path>
 
-  <path id="jcl.classpath">
-    <path refid="simple.classpath"/>
-    <fileset dir="../"><include name="jcl-over-slf4j*.jar"/></fileset>
-  </path>
+	<path id="nop.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-nop.jar" />
+	</path>
 
-  <path id="jcl-nop.classpath">
-    <path refid="nop.classpath"/>
-    <fileset dir="../"><include name="jcl-over-slf4j*.jar"/></fileset>
-  </path>
-	   	  	
-  <path id="jdk14.classpath">
-    <path refid="basic.classpath"/>
-    <pathelement location="../slf4j-jdk14.jar"/>
-  </path>
+	<path id="simple.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-simple.jar" />
+	</path>
 
-   <path id="nlog4j12x.classpath">
-     <path refid="basic.classpath"/>
-     <fileset dir="./lib/"><include name="nlog4j*.jar"/></fileset>
-  </path>
+	<path id="jcl.classpath">
+		<path refid="simple.classpath" />
+		<fileset dir="../">
+			<include name="jcl104-over-slf4j.jar" />
+		</fileset>
+	</path>
+
+	<path id="jcl-nop.classpath">
+		<path refid="nop.classpath" />
+		<fileset dir="../">
+			<include name="jcl104-over-slf4j.jar" />
+		</fileset>
+	</path>
+
+	<path id="jdk14.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-jdk14.jar" />
+	</path>
+
+	<path id="nlog4j12x.classpath">
+		<path refid="basic.classpath" />
+		<fileset dir="./lib/">
+			<include name="nlog4j*.jar" />
+		</fileset>
+	</path>
+
+	<path id="log4j12x.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-log4j.jar" />
+		<fileset dir="../lib/">
+			<include name="log4j*.jar" />
+		</fileset>
+	</path>
 
 
-
-  <!-- ================================================================= -->
-  <!-- Default target                                                    -->
-  <!-- ================================================================= -->
-  <target name="usage">
-    <echo>      
+	<!-- ================================================================= -->
+	<!-- Default target                                                    -->
+	<!-- ================================================================= -->
+	<target name="usage">
+		<echo>      
       These are some of the targets supported by this ANT build scpript:
       
       build - compile all project files, if a certain library is missing, 
@@ -62,132 +75,148 @@
       runAll - run all available tests
       
     </echo>
-  </target>
+	</target>
 
-  <target name="init">
-    <mkdir dir="${tests.javac.dest}"/>
-    <mkdir dir="output"/>
-  </target>
+	<target name="init">
+		<mkdir dir="${tests.javac.dest}" />
+		<mkdir dir="output" />
+	</target>
 
-  <target name="clean">
-    <delete>
-      <fileset dir="${tests.javac.dest}" includes="**"/>
-    </delete>
-  </target>
+	<target name="clean">
+		<delete>
+			<fileset dir="${tests.javac.dest}" includes="**" />
+		</delete>
+	</target>
 
-  <target name="cleanOutputDir">
-    <delete>
-      <fileset dir="output" includes="**"/>
-    </delete>
-  </target>
+	<target name="cleanOutputDir">
+		<delete>
+			<fileset dir="output" includes="**" />
+		</delete>
+	</target>
 
-  <target name="build" depends="init, slf4j-simple.jar">
-    <javac srcdir="${tests.source.home}"
-           destdir="${tests.javac.dest}" 
-           includes="**/*.java"
-	   deprecation="${deprecation}"
-	   debug="on">
-      <classpath refid="compile.classpath"/>
-    </javac>
-  </target>
+	<target name="build" depends="init, slf4j-simple.jar">
+		<javac srcdir="${tests.source.home}" destdir="${tests.javac.dest}" includes="**/*.java" deprecation="${deprecation}" debug="on">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
 
-  <target name="slf4j-nop.jar">
-    <!-- Invoke build.xml located one directory up -->
-    <ant  dir=".." antfile="build.xml" target="slf4j-nop.jar"/> 
-  </target>
+	<target name="slf4j-nop.jar">
+		<!-- Invoke build.xml located one directory up -->
+		<ant dir=".." antfile="build.xml" target="slf4j-nop.jar" />
+	</target>
 
-  <target name="slf4j-simple.jar">
-    <!-- Invoke build.xml located one directory up -->
-    <ant  dir=".." antfile="build.xml" target="slf4j-simple.jar"/> 
-  </target>
+	<target name="slf4j-simple.jar">
+		<!-- Invoke build.xml located one directory up -->
+		<ant dir=".." antfile="build.xml" target="slf4j-simple.jar" />
+	</target>
 
-  <target name="slf4j-jdk14.jar">
-    <ant  dir=".." antfile="build.xml" target="slf4j-jdk14.jar"/> 
-  </target>
+	<target name="slf4j-jdk14.jar">
+		<ant dir=".." antfile="build.xml" target="slf4j-jdk14.jar" />
+	</target>
 
-  <!-- ================================================================= -->
-  <!-- Run all tests                                                     -->
-  <!-- ================================================================= -->  
-  <target name="runAll" depends="regression"/>
-  
+	<target name="slf4j-log4j.jar">
+		<ant dir=".." antfile="build.xml" target="slf4j-log4j.jar" />
+	</target>
 
-  <target name="regression" depends="MessageFormatter,
+	<target name="jcl-over-slf4j.jar">
+		<ant dir=".." antfile="build.xml" target="jcl-over-slf4j.jar" />
+	</target>
+	
+	<!-- ================================================================= -->
+	<!-- Run all tests                                                     -->
+	<!-- ================================================================= -->
+	<target name="runAll" depends="regression" />
+
+
+	<target name="regression" depends="MessageFormatter,
                                      InvokeNOP,
                                      InvokeSimple,
                                      InvokeJDK14,
+		                             InvokeLog4j12x,
                                      InvokeNLOG4J12x,
   	                                 XLoggerBySystemProps,
   	                                 InvokeJCL,
-  	                                 InvokeJCLWithNOP"
-                                     />
+  	                                 InvokeJCLWithNOP" />
 
-  <target name="MessageFormatter" depends="build, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="compile.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.impl.MessageFormatterTest" />
-    </junit>
-  </target> 
+	<target name="MessageFormatter" depends="build, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="compile.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.impl.MessageFormatterTest" />
+		</junit>
+	</target>
 
-  <target name="InvokeNOP" depends="build, slf4j-nop.jar, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="nop.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.InvokingSLF4J" />
-    </junit>
-  </target>
+	<target name="InvokeNOP" depends="build, slf4j-nop.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="nop.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
+	</target>
 
-  <target name="InvokeSimple" depends="build, slf4j-simple.jar, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="simple.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.InvokingSLF4J" />
-    </junit>
-  </target>
+	<target name="InvokeSimple" depends="build, slf4j-simple.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="simple.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
+	</target>
 
-  <target name="InvokeJDK14" depends="build, slf4j-jdk14.jar, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="jdk14.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.InvokingSLF4J" />
-    </junit>
-  </target>
+	<target name="InvokeJDK14" depends="build, slf4j-jdk14.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="jdk14.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
+	</target>
 
 
-  <target name="InvokeNLOG4J12x" depends="build, cleanOutputDir">
-    <copy file="input/nlog4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml"/>
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="nlog4j12x.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.InvokingSLF4J" />
-    </junit>
+	<target name="InvokeLog4j12x" depends="build, cleanOutputDir">
+		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="log4j12x.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
 
-    <delete file="${tests.javac.dest}/log4j.xml"/>
+		<delete file="${tests.javac.dest}/log4j.xml" />
 
-  </target>
+	</target>
 
-  <target name="XLoggerBySystemProps" depends="build, slf4j-simple.jar, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="simple.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.slf4j.XLoggerBySystemPropsTest" />
-    </junit>
-  </target>
+	<target name="InvokeNLOG4J12x" depends="build, cleanOutputDir">
+		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="nlog4j12x.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
 
-  <target name="InvokeJCL" depends="build, slf4j-simple.jar, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="jcl.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.apache.commons.logging.InvokeJCLTest" />
-    </junit>
-  </target>
-	
-  <target name="InvokeJCLWithNOP" depends="build, slf4j-simple.jar, cleanOutputDir">
-    <junit printsummary="yes" fork="yes" haltonfailure="yes">
-      <classpath refid="jcl-nop.classpath"/>
-      <formatter type="plain" usefile="false"/>
-      <test name="org.apache.commons.logging.InvokeJCLWithNOPTest" />
-    </junit>
-  </target>
-  
+		<delete file="${tests.javac.dest}/log4j.xml" />
+
+	</target>
+
+	<target name="XLoggerBySystemProps" depends="build, slf4j-simple.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="simple.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.XLoggerBySystemPropsTest" />
+		</junit>
+	</target>
+
+	<target name="InvokeJCL" depends="build, jcl-over-slf4j.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="jcl.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.apache.commons.logging.InvokeJCLTest" />
+		</junit>
+	</target>
+
+	<target name="InvokeJCLWithNOP" depends="build, slf4j-simple.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="jcl-nop.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.apache.commons.logging.InvokeJCLWithNOPTest" />
+		</junit>
+	</target>
+
 </project>

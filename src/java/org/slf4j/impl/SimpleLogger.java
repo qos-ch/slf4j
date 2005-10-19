@@ -33,8 +33,8 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.MarkingLogger;
 
 
 /**
@@ -62,7 +62,7 @@ import org.slf4j.Marker;
  *
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
-public class SimpleLogger implements Logger {
+public class SimpleLogger implements MarkingLogger {
   /**
    * Mark the time when this class gets loaded into memory.
    */
