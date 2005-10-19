@@ -61,9 +61,9 @@ public final class Log4jLoggerAdapter implements Logger {
   }
   
   /**
-   * Is this logger instance enabled for the FINE level?
+   * Is this logger instance enabled for the DEBUG level?
    *
-   * @return True if this Logger is enabled for level FINE, false
+   * @return True if this Logger is enabled for level DEBUG, false
    * otherwise.
    */
   public boolean isDebugEnabled() {
@@ -72,7 +72,7 @@ public final class Log4jLoggerAdapter implements Logger {
 
 
   /**
-   * Log a message object at level FINE.
+   * Log a message object at level DEBUG.
    * @param msg - the message object to be logged
    */
   public void debug(String msg) {
@@ -80,11 +80,11 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message at level FINE according to the specified format and
+   * Log a message at level DEBUG according to the specified format and
    * argument.
    *
    * <p>This form avoids superfluous object creation when the logger
-   * is disabled for level FINE. </p>
+   * is disabled for level DEBUG. </p>
    *
    * @param format the format string
    * @param arg  the argument
@@ -97,11 +97,11 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message at level FINE according to the specified format and
+   * Log a message at level DEBUG according to the specified format and
    * arguments.
    *
    * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the FINE level. </p>
+   * is disabled for the DEBUG level. </p>
    *
    * @param format the format string
    * @param arg1  the first argument
@@ -115,7 +115,7 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log an exception (throwable) at  level FINE with an
+   * Log an exception (throwable) at  level DEBUG with an
    * accompanying message.
    *
    * @param msg the message accompanying the exception
@@ -195,9 +195,9 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Is this logger instance enabled for the WARNING level?
+   * Is this logger instance enabled for the WARN level?
    *
-   * @return True if this Logger is enabled for the WARNING level,
+   * @return True if this Logger is enabled for the WARN level,
    * false otherwise.
    */
   public boolean isWarnEnabled() {
@@ -205,7 +205,7 @@ public final class Log4jLoggerAdapter implements Logger {
   }
   
   /**
-   * Log a message object at the WARNING level.
+   * Log a message object at the WARN level.
    *
    * @param msg - the message object to be logged
    */
@@ -214,11 +214,11 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message at the WARNING level according to the specified
+   * Log a message at the WARN level according to the specified
    * format and argument.
    *
    * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the WARNING level. </p>
+   * is disabled for the WARN level. </p>
    *
    * @param format the format string
    * @param arg  the argument
@@ -231,11 +231,11 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message at the WARNING level according to the specified
+   * Log a message at the WARN level according to the specified
    * format and arguments.
    *
    * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the WARNING level. </p>
+   * is disabled for the WARN level. </p>
    *
    * @param format the format string
    * @param arg1  the first argument
@@ -249,7 +249,7 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log an exception (throwable) at the WARNING level with an
+   * Log an exception (throwable) at the WARN level with an
    * accompanying message.
    *
    * @param msg the message accompanying the exception
@@ -260,9 +260,9 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Is this logger instance enabled for level SEVERE?
+   * Is this logger instance enabled for level ERROR?
    *
-   * @return True if this Logger is enabled for level SEVERE, false
+   * @return True if this Logger is enabled for level ERROR, false
    * otherwise.
    */
   public boolean isErrorEnabled() {
@@ -270,7 +270,7 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message object at the SEVERE level.
+   * Log a message object at the ERROR level.
    *
    * @param msg - the message object to be logged
    */
@@ -279,11 +279,11 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message at the SEVERE level according to the specified
+   * Log a message at the ERROR level according to the specified
    * format and argument.
    *
    * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the SEVERE level. </p>
+   * is disabled for the ERROR level. </p>
    *
    * @param format the format string
    * @param arg  the argument
@@ -296,11 +296,11 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log a message at the SEVERE level according to the specified
+   * Log a message at the ERROR level according to the specified
    * format and arguments.
    *
    * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the SEVERE level. </p>
+   * is disabled for the ERROR level. </p>
    *
    * @param format the format string
    * @param arg1  the first argument
@@ -314,7 +314,7 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
-   * Log an exception (throwable) at the SEVERE level with an
+   * Log an exception (throwable) at the ERROR level with an
    * accompanying message.
    *
    * @param msg the message accompanying the exception

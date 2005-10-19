@@ -40,12 +40,12 @@ import org.slf4j.impl.Util;
 // WARNING
 
 /**
- * MarkerFactory is a utility class producing {@link Marker}instances as
+ * MarkerFactory is a utility class producing {@link Marker} instances as
  * appropriate for the logging system currently in use.
  * 
  * <p>
  * This class is essentially implemented as a wrapper around an
- * {@link IMarkerFactory}instance bound at compile time.
+ * {@link IMarkerFactory} instance bound at compile time.
  * 
  * <p>
  * Please note that all methods in this class are static.
