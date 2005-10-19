@@ -26,7 +26,8 @@
       
       slf4j-nop.jar - build the jar file of the same name.
       slf4j-simple.jar - build the jar file of the same name.
-      slf4j-log4j.jar - build the jar fil of the same name.
+      slf4j-log4j12.jar - build the jar file of the same name.
+      slf4j-log4j13.jar - build the jar file of the same name.
 	  slf4j-jdk14.jar - build the jar file of the same name.
       jcl-over-slf4j.jar - JCL 1.0.4 implemented over SLF4J	
       jar - all of the above jar files
@@ -42,9 +43,16 @@
 	<path id="regular.classpath">
 	</path>
 
-	<path id="log4j.classpath">
+	<path id="log4j12.classpath">
 		<fileset dir="./lib">
-			<include name="log4j*.jar" />
+			<include name="log4j-1.2*.jar" />
+		</fileset>
+	</path>
+
+
+	<path id="log4j13.classpath">
+		<fileset dir="./lib">
+			<include name="log4j-1.3*.jar" />
 		</fileset>
 	</path>
 
@@ -66,14 +74,25 @@
   	</fail>
 	</target>
 
-	<target name="log4jCheck">
-		<available classname="org.apache.log4j.Logger" property="log4jPresent">
-			<classpath refid="log4j.classpath"/>
+	<target name="log4j12Check">
+		<available classname="org.apache.log4j.Logger" property="log4j12Present">
+			<classpath refid="log4j12.classpath" />
 		</available>
 
-		<fail unless="log4jPresent">
+		<fail unless="log4j12Present">
         Building the SLF4J implementation for the log4j system 
-        requires the presence of log4j 1.2.x or later.
+        requires the presence of log4j 1.2.x.
+  	</fail>
+	</target>
+
+	<target name="log4j13Check">
+		<available classname="org.apache.log4j.Logger" property="log4j13Present">
+			<classpath refid="log4j13.classpath" />
+		</available>
+
+		<fail unless="log4j13Present">
+        Building the SLF4J implementation for the log4j system 
+        requires the presence of log4j 1.2.x.
   	</fail>
 	</target>
 
@@ -108,8 +127,8 @@
     	             ${SLF4J_STEM}/impl/MessageFormatter.java,
     	             ${SLF4J_STEM}/impl/Util.java
                      ${SLF4J_STEM}/impl/${impl}*.java
-    	             ${SLF4J_STEM}/spi/*.java" debug="${debug}">
-			 <classpath refid="${IMPL.CLASSPATH}"/>
+    	             ${SLF4J_STEM}/spi/*.java" debug="on">
+			<classpath refid="${IMPL.CLASSPATH}" />
 		</javac>
 
 	</target>
@@ -158,11 +177,19 @@
 		</antcall>
 	</target>
 
-	<target name="slf4j-log4j.jar" depends="log4jCheck">
+	<target name="slf4j-log4j12.jar" depends="log4j12Check">
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="Log4j" />
-			<param name="jar-name" value="slf4j-log4j.jar" />
-			<param name="IMPL.CLASSPATH" value="log4j.classpath" />
+			<param name="jar-name" value="slf4j-log4j12.jar" />
+			<param name="IMPL.CLASSPATH" value="log4j12.classpath" />
+		</antcall>
+	</target>
+
+	<target name="slf4j-log4j13.jar" depends="log4j13Check">
+		<antcall target="slf4j-IMPL.jar">
+			<param name="IMPL" value="Log4j" />
+			<param name="jar-name" value="slf4j-log4j13.jar" />
+			<param name="IMPL.CLASSPATH" value="log4j13.classpath" />
 		</antcall>
 	</target>
 
@@ -196,7 +223,8 @@
 	</target>
 
 
-	<target name="jar" depends="slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-simple.jar, slf4j-jdk14.jar" />
+	<target name="jar" depends="slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-log4j12.jar, slf4j-log4j13.jar, 
+		                        slf4j-simple.jar, slf4j-jdk14.jar" />
 
 	<!-- Build Javadoc -->
 	<target name="javadoc" depends="init">
@@ -230,8 +258,8 @@
 
 		<javadoc destdir="${javadoc.dest}" packagenames="org.slf4j.*, org.apache.commons.logging.*" additionalparam="-breakiterator" version="true" protected="true" author="true" use="true" overview="src/docs/overview.html" doctitle="SLF4J version ${version}" windowtitle="SLF4J Version ${version}">
 
-			 <classpath refid="log4j.classpath"/>
-			
+			<classpath refid="log4j12.classpath" />
+
 			<sourcepath>
 				<path path="${tmp.java.source.dir}" />
 			</sourcepath>

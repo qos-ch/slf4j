@@ -55,13 +55,22 @@
 
 	<path id="log4j12x.classpath">
 		<path refid="basic.classpath" />
-		<pathelement location="../slf4j-log4j.jar" />
-		<fileset dir="../lib/">
-			<include name="log4j*.jar" />
-		</fileset>
+		<pathelement location="../slf4j-log4j12.jar" />
+		<pathelement location="../lib/log4j-1.2.9.jar" />
 	</path>
 
-
+	<path id="log4j1212.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-log4j12.jar" />
+		<pathelement location="./lib/log4j-1.2.12.jar" />
+	</path>
+		
+	<path id="log4j13alpha6.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-log4j13.jar" />
+    	<pathelement location="../lib/log4j-1.3alpha-6.jar" />
+	</path>
+	
 	<!-- ================================================================= -->
 	<!-- Default target                                                    -->
 	<!-- ================================================================= -->
@@ -72,7 +81,7 @@
       build - compile all project files, if a certain library is missing, 
               then the compilation of its dependents are skipped.
 
-      runAll - run all available tests
+      all - run all available tests
       
     </echo>
 	</target>
@@ -114,10 +123,15 @@
 		<ant dir=".." antfile="build.xml" target="slf4j-jdk14.jar" />
 	</target>
 
-	<target name="slf4j-log4j.jar">
-		<ant dir=".." antfile="build.xml" target="slf4j-log4j.jar" />
+	<target name="slf4j-log4j12.jar">
+		<ant dir=".." antfile="build.xml" target="slf4j-log4j12.jar" />
 	</target>
 
+	
+	<target name="slf4j-log4j13.jar">
+		<ant dir=".." antfile="build.xml" target="slf4j-log4j13.jar" />
+	</target>
+		
 	<target name="jcl-over-slf4j.jar">
 		<ant dir=".." antfile="build.xml" target="jcl-over-slf4j.jar" />
 	</target>
@@ -125,14 +139,15 @@
 	<!-- ================================================================= -->
 	<!-- Run all tests                                                     -->
 	<!-- ================================================================= -->
-	<target name="runAll" depends="regression" />
-
+	<target name="all" depends="regression" />
 
 	<target name="regression" depends="MessageFormatter,
                                      InvokeNOP,
                                      InvokeSimple,
-                                     InvokeJDK14,
+		                             InvokeJDK14,
 		                             InvokeLog4j12x,
+		                             InvokeLog4j1212,
+		                             InvokeLog4j13alpha6,
                                      InvokeNLOG4J12x,
   	                                 XLoggerBySystemProps,
   	                                 InvokeJCL,
@@ -171,18 +186,37 @@
 	</target>
 
 
-	<target name="InvokeLog4j12x" depends="build, cleanOutputDir">
+	<target name="InvokeLog4j12x" depends="build, slf4j-log4j12.jar, cleanOutputDir">
 		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
 			<classpath refid="log4j12x.classpath" />
 			<formatter type="plain" usefile="false" />
 			<test name="org.slf4j.InvokingSLF4J" />
 		</junit>
-
 		<delete file="${tests.javac.dest}/log4j.xml" />
-
 	</target>
 
+	<target name="InvokeLog4j1212" depends="build, slf4j-log4j12.jar, cleanOutputDir">
+		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="log4j1212.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
+		<delete file="${tests.javac.dest}/log4j.xml" />
+	</target>
+
+			
+	<target name="InvokeLog4j13alpha6" depends="build, slf4j-log4j13.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="log4j13alpha6.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
+		<delete file="${tests.javac.dest}/log4j.xml" />
+	</target>
+
+	<!-- NLOG4J -->
 	<target name="InvokeNLOG4J12x" depends="build, cleanOutputDir">
 		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
@@ -190,9 +224,7 @@
 			<formatter type="plain" usefile="false" />
 			<test name="org.slf4j.InvokingSLF4J" />
 		</junit>
-
 		<delete file="${tests.javac.dest}/log4j.xml" />
-
 	</target>
 
 	<target name="XLoggerBySystemProps" depends="build, slf4j-simple.jar, cleanOutputDir">

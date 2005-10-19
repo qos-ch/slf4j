@@ -68,8 +68,20 @@ public class InvokingSLF4J extends TestCase {
   }
   
   public void test2() {
+    Exception e = new Exception("This is a test exception.");
     Logger logger = LoggerFactory.getLogger("test2");
     logger.debug("Hello world 1.");
+    logger.debug("Hello world {}", new Integer(1));
+    logger.debug("Hello world 1", e);
     logger.info("Hello world 2.");
+    logger.info("Hello world {}", new Integer(2)); 
+    logger.warn("Hello world 3.");
+    logger.warn("Hello world 3.", e);
+    logger.warn("Hello world {}", new Integer(3)); 
+    logger.error("Hello world 4.");
+    logger.error("Hello world {}", new Integer(3)); 
+    logger.error("Hello world 4.", e);
+
+    
   }
 }
