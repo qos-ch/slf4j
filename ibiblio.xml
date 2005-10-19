@@ -25,7 +25,7 @@
          slf4j-${impl}-${version}.jar" />
 	</target>
 
-	<target name="bundle" depends="nop, simple, log4j, jdk14, JCL">
+	<target name="bundle" depends="nop, simple, log4j12, log4j13, jdk14, JCL">
 
 	</target>
 
@@ -47,12 +47,18 @@
 		</antcall>
 	</target>
 
-	<target name="log4j">
+	<target name="log4j12">
 		<antcall target="bundle-IMPL">
-			<param name="impl" value="log4j" />
+			<param name="impl" value="log4j12" />
 		</antcall>
 	</target>
 
+	<target name="log4j13">
+		<antcall target="bundle-IMPL">
+			<param name="impl" value="log4j13" />
+		</antcall>
+	</target>
+				
 
 	<target name="JCL">
 		<mkdir dir="tmp/ibiblio" />

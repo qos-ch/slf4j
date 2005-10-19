@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
 <project>
-  <id>slf4j-log4j</id>
+  <id>slf4j-log4j12</id>
   <groupId>org.slf4j</groupId>
-  <name>slf4j-log4j</name>
+  <name>slf4j-log4j12</name>
   <currentVersion>@VERSION@</currentVersion>
   <package>/org/slf4j</package>
   <description>
