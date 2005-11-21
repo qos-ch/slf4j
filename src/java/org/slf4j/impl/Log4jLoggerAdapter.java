@@ -48,7 +48,13 @@ import org.slf4j.Logger;
  */
 public final class Log4jLoggerAdapter implements Logger {
   final org.apache.log4j.Logger logger;
-
+  
+  /**
+   * Following the pattern discussed in pages 162 through 168 of 
+   * "The complete log4j manual".
+   */
+  final static String FQCN = Log4jLoggerAdapter.class.getName();
+  
   // WARN: Log4jLoggerAdapter constructor should have only package access so that
   // only Log4jLoggerFactory be able to create one.
   Log4jLoggerAdapter(org.apache.log4j.Logger logger) {
@@ -75,7 +81,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void debug(String msg) {
-    logger.debug(msg);
+    logger.log(FQCN, Level.DEBUG, msg, null);
   }
 
   /**
@@ -91,7 +97,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void debug(String format, Object arg) {
     if (logger.isDebugEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.debug(msgStr);
+      logger.log(FQCN, Level.DEBUG, msgStr, null);
     }
   }
 
@@ -109,7 +115,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void debug(String format, Object arg1, Object arg2) {
     if (logger.isDebugEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.debug(msgStr);
+      logger.log(FQCN, Level.DEBUG, msgStr, null);
     }
   }
 
@@ -121,7 +127,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param t the exception (throwable) to log
    */
   public void debug(String msg, Throwable t) {
-    logger.debug(msg, t);
+    logger.log(FQCN, Level.DEBUG, msg, t);
   }
 
   /**
@@ -140,7 +146,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void info(String msg) {
-    logger.info(msg);
+    logger.log(FQCN, Level.INFO, msg, null);
   }
 
   /**
@@ -156,7 +162,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void info(String format, Object arg) {
     if (logger.isInfoEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.info(msgStr);
+      logger.log(FQCN, Level.INFO, msgStr, null);
     }
   }
 
@@ -174,7 +180,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void info(String format, Object arg1, Object arg2) {
     if (logger.isInfoEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.info(msgStr);
+      logger.log(FQCN, Level.INFO, msgStr, null);
     }
   }
 
@@ -186,7 +192,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param t the exception (throwable) to log
    */
   public void info(String msg, Throwable t) {
-    logger.info(msg, t);
+    logger.log(FQCN, Level.INFO, msg, t);
   }
 
   /**
@@ -205,7 +211,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void warn(String msg) {
-    logger.warn(msg);
+    logger.log(FQCN, Level.WARN, msg, null);
   }
 
   /**
@@ -221,7 +227,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void warn(String format, Object arg) {
     if (logger.isEnabledFor(Level.WARN)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.warn(msgStr);
+      logger.log(FQCN, Level.WARN, msgStr, null);
     }
   }
 
@@ -239,7 +245,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void warn(String format, Object arg1, Object arg2) {
     if (logger.isEnabledFor(Level.WARN)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.warn(msgStr);
+      logger.log(FQCN, Level.WARN, msgStr, null);
     }
   }
 
@@ -251,7 +257,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param t the exception (throwable) to log
    */
   public void warn(String msg, Throwable t) {
-    logger.warn(msg, t);
+    logger.log(FQCN, Level.WARN, msg, t);
   }
 
   /**
@@ -270,7 +276,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void error(String msg) {
-    logger.error(msg);
+    logger.log(FQCN, Level.ERROR, msg, null);
   }
 
   /**
@@ -286,7 +292,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void error(String format, Object arg) {
     if (logger.isEnabledFor(Level.ERROR)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.error(msgStr);
+      logger.log(FQCN, Level.ERROR, msgStr, null);
     }
   }
 
@@ -304,7 +310,7 @@ public final class Log4jLoggerAdapter implements Logger {
   public void error(String format, Object arg1, Object arg2) {
     if (logger.isEnabledFor(Level.ERROR)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.error(msgStr);
+      logger.log(FQCN, Level.ERROR, msgStr, null);
     }
   }
 
@@ -316,6 +322,6 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param t the exception (throwable) to log
    */
   public void error(String msg, Throwable t) {
-    logger.error(msg, t);
+    logger.log(FQCN, Level.ERROR, msg, t);
   }
 }

@@ -65,11 +65,23 @@
 		<pathelement location="../slf4j-log4j12.jar" />
 		<pathelement location="./lib/log4j-1.2.12.jar" />
 	</path>
-		
+
+	<path id="compatA.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-log4j13.jar" />
+		<pathelement location="./lib/log4j-1.2.12.jar" />
+	</path>
+
+	<path id="compatB.classpath">
+		<path refid="basic.classpath" />
+		<pathelement location="../slf4j-log4j12.jar" />
+		<pathelement location="../lib/log4j-1.3alpha-7.jar" />
+	</path>
+			
 	<path id="log4j13alpha7.classpath">
 		<path refid="basic.classpath" />
 		<pathelement location="../slf4j-log4j13.jar" />
-    	<pathelement location="./lib/log4j-1.3alpha-7.jar" />
+    	<pathelement location="../lib/log4j-1.3alpha-7.jar" />
 	</path>
 	
 	<!-- ================================================================= -->
@@ -188,7 +200,7 @@
 
 
 	<target name="InvokeLog4j12x" depends="build, slf4j-log4j12.jar, cleanOutputDir">
-		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
+		<copy file="input/log4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
 			<classpath refid="log4j12x.classpath" />
 			<formatter type="plain" usefile="false" />
@@ -198,7 +210,7 @@
 	</target>
 
 	<target name="InvokeLog4j1212" depends="build, slf4j-log4j12.jar, cleanOutputDir">
-		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
+		<copy file="input/log4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
 			<classpath refid="log4j1212.classpath" />
 			<formatter type="plain" usefile="false" />
@@ -209,6 +221,7 @@
 
 			
 	<target name="InvokeLog4j13alpha7" depends="build, slf4j-log4j13.jar, cleanOutputDir">
+		<copy file="input/log4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
 			<classpath refid="log4j13alpha7.classpath" />
 			<formatter type="plain" usefile="false" />
@@ -217,18 +230,27 @@
 		<delete file="${tests.javac.dest}/log4j.xml" />
 	</target>
 
-	<target name="CompatibilityLog4j" depends="build, slf4j-log4j13.jar, cleanOutputDir">
+	<target name="CompatibilityA" depends="build, slf4j-log4j13.jar, cleanOutputDir">
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
-			<classpath refid="log4j1212.classpath" />
+			<classpath refid="compatA.classpath" />
 			<formatter type="plain" usefile="false" />
 			<test name="org.slf4j.InvokingSLF4J" />
 		</junit>
 		<delete file="${tests.javac.dest}/log4j.xml" />
 	</target>
-	
+
+	<target name="CompatibilityB" depends="build, slf4j-log4j12.jar, cleanOutputDir">
+		<junit printsummary="yes" fork="yes" haltonfailure="yes">
+			<classpath refid="compatB.classpath" />
+			<formatter type="plain" usefile="false" />
+			<test name="org.slf4j.InvokingSLF4J" />
+		</junit>
+		<delete file="${tests.javac.dest}/log4j.xml" />
+	</target>
+			
 	<!-- NLOG4J -->
 	<target name="InvokeNLOG4J12x" depends="build, cleanOutputDir">
-		<copy file="input/log4j12x/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
+		<copy file="input/log4j/basic.xml" tofile="${tests.javac.dest}/log4j.xml" />
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
 			<classpath refid="nlog4j12x.classpath" />
 			<formatter type="plain" usefile="false" />
