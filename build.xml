@@ -97,7 +97,17 @@
   	</fail>
 	</target>
 
+	<target name="test-compile.jar" depends="init">
+		<antcall target="compile-IMPL">
+			<param name="IMPL" value="Simple" />
+			<param name="IMPL.CLASSPATH" value="regular.classpath" />
+		</antcall>
 
+		<jar jarfile="test-compile.jar" basedir="${tmp.javac.dest}" 
+			 includes="${SLF4J_STEM}/**/*Binder.class">
+		</jar>
+	</target>
+		
 	<target name="compile.jar" depends="init">
 		<antcall target="compile-IMPL">
 			<param name="IMPL" value="Simple" />
@@ -105,7 +115,7 @@
 		</antcall>
 
 		<jar jarfile="compile.jar" basedir="${tmp.javac.dest}" 
-			 includes="${SLF4J_STEM}/**/*.class">
+			 includes="${SLF4J_STEM}/impl/Static*Binder.class">
 		</jar>
 	</target>
 
