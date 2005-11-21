@@ -160,8 +160,7 @@
 		                             InvokeLog4j12x,
 		                             InvokeLog4j1212,
 		                             InvokeLog4j13alpha7,
-                                     InvokeNLOG4J12x,
-  	                                 XLoggerBySystemProps,
+                                     InvokeNLOG4J12x,  	                                 
   	                                 InvokeJCL,
   	                                 InvokeJCLWithNOP" />
 

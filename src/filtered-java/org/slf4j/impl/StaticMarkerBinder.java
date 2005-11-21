@@ -53,7 +53,9 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
    * The unique instance of this class.
    */
   public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
-
+  
+  final IMarkerFactory markerFactory = new BasicMarkerFactory();
+  
   private StaticMarkerBinder() {
   }
   
@@ -62,7 +64,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
    * {@link BasicMarkerFactory}.
    */
   public IMarkerFactory getMarkerFactory() {
-    return new BasicMarkerFactory();
+    return markerFactory;
   }
   
   /**

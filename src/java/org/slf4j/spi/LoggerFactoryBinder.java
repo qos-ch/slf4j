@@ -58,7 +58,7 @@ public interface LoggerFactoryBinder {
    * 
    * <p>This method allows the developer to intterogate this binder's intention 
    * which may be different from the {@link ILoggerFactory} instance it is able to 
-   * yields in practice. The discrepency should only occur in case of errors.
+   * yield in practice. The discrepency should only occur in case of errors.
    * 
    * @return the class name of the intended {@link ILoggerFactory} instance
    */

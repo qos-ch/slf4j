@@ -42,9 +42,9 @@ package org.slf4j.impl;
  */
 public class Util {
     
-  static public void reportFailure(String msg, Throwable t) {
+  static final public void reportFailure(String msg, Throwable t) {
     System.err.println(msg);
-    System.err.println("Reported exception follows.");
+    System.err.println("Reported exception:");
     t.printStackTrace();
   }
 }

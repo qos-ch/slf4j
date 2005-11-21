@@ -32,9 +32,7 @@
  */
 package org.slf4j;
 
-
 import org.slf4j.impl.StaticLoggerBinder;
-import org.slf4j.impl.SystemPropBinder;
 import org.slf4j.impl.Util;
 
 // WARNING
@@ -43,59 +41,46 @@ import org.slf4j.impl.Util;
 // WARNING
 
 /**
- * The <code>LoggerFactory</code> is a utility class producing Loggers 
- * for various logging APIs, most notably for NLOG4J and JDK 1.4 logging. 
- * Other implemenations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
+ * The <code>LoggerFactory</code> is a utility class producing Loggers for
+ * various logging APIs, most notably for NLOG4J and JDK 1.4 logging. Other
+ * implemenations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
  * {@link org.slf4j.impl.SimpleLogger SimpleLogger} are also supported.
- *
- * <p><code>LoggerFactory</code> is essentially a wrapper around an 
- * {@link ILoggerFactory} instance bound with <code>LoggerFactory</code> 
- * at compile time.
  * 
- * <p>Please note that all methods in <code>LoggerFactory</code> are 
- * static.
+ * <p>
+ * <code>LoggerFactory</code> is essentially a wrapper around an
+ * {@link ILoggerFactory} instance bound with <code>LoggerFactory</code> at
+ * compile time.
+ * 
+ * <p>
+ * Please note that all methods in <code>LoggerFactory</code> are static.
  * 
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public final class LoggerFactory {
-  
+
   static ILoggerFactory loggerFactory;
 
   // private constructor prevents instantiation
   private LoggerFactory() {
   }
-  
-  // 
-  // WARNING Do not modify copies but the original in
-  //         $SLF4J_HOME/src/filtered-java/org/slf4j/
-  //
-  static {
-    
-    loggerFactory = new SystemPropBinder().getLoggerFactory();
 
-    // if could get an adapter from the system properties, bind dynamically 
-    if (loggerFactory != null) {
-       System.out.println("However, SLF4J will use ["+loggerFactory.getClass().getName()
-       		+ "] adapter factory from system properties.");
-    } else {
-      try { // otherwise bind statically
-          loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
-      } catch (Exception e) {
-        // we should never get here
-        Util.reportFailure(
-          "Could not instantiate instance of class [" + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]",
-          e);
-      }
+
+  static {
+    try { 
+      loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
+    } catch (Exception e) {
+      // we should never get here
+      Util.reportFailure("Failed to instantiate logger ["
+          + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]", e);
     }
   }
 
-
-
   /**
-   * Return a logger named according to the name parameter using the 
-   * statically bound  {@link ILoggerFactory} instance.
+   * Return a logger named according to the name parameter using the statically
+   * bound {@link ILoggerFactory} instance.
    * 
-   * @param name The name of the logger.
+   * @param name
+   *          The name of the logger.
    * @return logger
    */
   public static Logger getLogger(String name) {
@@ -103,21 +88,22 @@ public final class LoggerFactory {
   }
 
   /**
-   * Return a logger named corresponding to the class passed as parameter,
-   * using the statically bound  {@link ILoggerFactory} instance.
+   * Return a logger named corresponding to the class passed as parameter, using
+   * the statically bound {@link ILoggerFactory} instance.
    * 
-   * @param clazz the returned logger will be named after clazz 
+   * @param clazz
+   *          the returned logger will be named after clazz
    * @return logger
    */
   public static Logger getLogger(Class clazz) {
     return loggerFactory.getLogger(clazz.getName());
   }
-  
+
   /**
    * Return the {@link ILoggerFactory} instance in use.
    * 
-   * <p>Usually, the ILoggerFactory instance is bound with this class 
-   * at compile time.
+   * <p>ILoggerFactory instance is bound with this class at compile
+   * time.
    * 
    * @return the ILoggerFactory instance in use
    */

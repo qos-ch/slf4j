@@ -155,13 +155,12 @@
 			<param name="IMPL" value="${IMPL}" />
 		</antcall>
 
-		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="${SLF4J_STEM}/Constants.class, 
+		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="
 			      ${SLF4J_STEM}/ILoggerFactory.class,
 			      ${SLF4J_STEM}/Logger*.class,
 			      ${SLF4J_STEM}/spi/LoggerFactoryBinder.class,
                   ${SLF4J_STEM}/impl/MessageFormatter.class,
     	          ${SLF4J_STEM}/impl/Util.class,
-			      ${SLF4J_STEM}/impl/SystemPropBinder.class,
 		          ${SLF4J_STEM}/impl/StaticLoggerBinder.class,
                   ${SLF4J_STEM}/impl/${IMPL}*.class">
 			<manifest>

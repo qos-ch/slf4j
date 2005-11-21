@@ -59,11 +59,11 @@ public class SimpleLoggerFactory implements ILoggerFactory {
    * Return an appropriate {@link SimpleLogger} instance by name. 
    */
   public Logger getLogger(String name) {
-    Logger ulogger = (Logger) map.get(name);
-    if(ulogger == null) {
-      ulogger = new SimpleLogger(name);
-      map.put(name, ulogger);
+    Logger slogger = (Logger) map.get(name);
+    if(slogger == null) {
+      slogger = new SimpleLogger(name);
+      map.put(name, slogger);
     }
-    return ulogger;
+    return slogger;
   }
 }
