@@ -42,40 +42,20 @@ import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
  * 
- * The binding of {@link LoggerFactory} class with an actual instance of 
- * {@link ILoggerFactory} is performed using information returned by this class. 
- * 
- * This class also contains the information for binding {@link MarkerFactory}
- * with the appropriate {@link IMarkerFactory} instance.
+ * The binding of {@link MarkerFactory} class with an actual instance of 
+ * {@link IMarkerFactory} is performed using information returned by this class. 
  * 
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
-public class StaticBinder implements LoggerFactoryBinder, MarkerFactoryBinder {
+public class StaticMarkerBinder implements MarkerFactoryBinder {
 
   /**
    * The unique instance of this class.
    */
-  public static final StaticBinder SINGLETON = new StaticBinder();
-  // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
-  private static final String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
+  public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
-  /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
-   * should always be the same object
-   */
-  private final ILoggerFactory loggerFactory;
-  
-  private StaticBinder() {
-//  Note: @IMPL@ gets substituted at build time by an appropriate Ant task
-    loggerFactory = new org.slf4j.impl.@IMPL@LoggerFactory();
+  private StaticMarkerBinder() {
   }
-  
-  public ILoggerFactory getLoggerFactory() {
-    return loggerFactory;
-  }
-  
-  public String getLoggerFactoryClassStr() {
-    return loggerFactoryClassStr;
-  }   
   
   /**
    * Currently this method always returns an instance of 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2004-2005 SLF4J.ORG
+ * Copyright (c) 2004-2005 QOS.ch
  *
  * All rights reserved.
  *
@@ -32,90 +33,47 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.Logger;
-
+import org.slf4j.LoggerFactory;
+import org.slf4j.MarkerFactory;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.IMarkerFactory;
+import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
- * A NOP Logger implementation.
+ * 
+ * The binding of {@link LoggerFactory} class with an actual instance of 
+ * {@link ILoggerFactory} is performed using information returned by this class. 
+ * 
+ * This class also contains the information for binding {@link MarkerFactory}
+ * with the appropriate {@link IMarkerFactory} instance.
+ * 
+ * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
-public class XLogger implements Logger {
+public class StaticLoggerBinder implements LoggerFactoryBinder {
 
   /**
-   * The unique instance of NOPLogger.
+   * The unique instance of this class.
    */
-  public final static XLogger X_LOGGER = new XLogger();
+  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  // Note: @IMPL@ gets substituted at build time by an appropriate Ant task
+  private static final String loggerFactoryClassStr ="org.slf4j.impl.@IMPL@LoggerFactory";
+
+  /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
+   * should always be the same object
+   */
+  private final ILoggerFactory loggerFactory;
   
+  private StaticLoggerBinder() {
+//  Note: @IMPL@ gets substituted at build time by an appropriate Ant task
+    loggerFactory = new org.slf4j.impl.@IMPL@LoggerFactory();
+  }
   
-  private XLogger() { }
+  public ILoggerFactory getLoggerFactory() {
+    return loggerFactory;
+  }
   
-
-  public boolean isDebugEnabled() {  return false; }
-
-  public void debug(String msg) {
-  }
-
-  public void debug(String parameterizedMsg, Object arg) {  }
-
-  public void debug(String parameterizedMsg, Object arg1, Object arg2) {  }
-
-  public void debug(String msg, Throwable t) {  }
-
-  public boolean isInfoEnabled() {  return false;
-  }
-
-  public void info(String msg) {
-    // NOP
-  }
-
-  public void info(String format, Object arg) {
-    // NOP
-  }
-
-  public void info(String format, Object arg1, Object arg2) {
-    // NOP
-  }
-
-  public void info(String msg, Throwable t) {
-    // NOP
-  }
-
-  public boolean isWarnEnabled() {
-    return false;
-  }
-
-  public void warn(String msg) {
-    // NOP
-  }
-
-  public void warn(String format, Object arg) {
-    // NOP
-  }
-
-  public void warn(String format, Object arg1, Object arg2) {
-    // NOP
-  }
-
-  public void warn(String msg, Throwable t) {
-  }
-
-  public boolean isErrorEnabled() {
-    return false;
-  }
-
-  public void error(String msg) {
-  }
-
-  public void error(String format, Object arg) {
-  }
-
-  public void error(String format, Object arg1, Object arg2) {
-  }
-
-  public void error(String msg, Throwable t) {
-  }
-
-  public String getName() {
-    return "XLogger";
-  }
+  public String getLoggerFactoryClassStr() {
+    return loggerFactoryClassStr;
+  }   
 }
-

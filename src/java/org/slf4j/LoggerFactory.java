@@ -33,7 +33,7 @@
 package org.slf4j;
 
 
-import org.slf4j.impl.StaticBinder;
+import org.slf4j.impl.StaticLoggerBinder;
 import org.slf4j.impl.SystemPropBinder;
 import org.slf4j.impl.Util;
 
@@ -79,11 +79,11 @@ public final class LoggerFactory {
        		+ "] adapter factory from system properties.");
     } else {
       try { // otherwise bind statically
-          loggerFactory = StaticBinder.SINGLETON.getLoggerFactory();
+          loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
       } catch (Exception e) {
         // we should never get here
         Util.reportFailure(
-          "Could not instantiate instance of class [" + StaticBinder.SINGLETON.getLoggerFactoryClassStr() + "]",
+          "Could not instantiate instance of class [" + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]",
           e);
       }
     }

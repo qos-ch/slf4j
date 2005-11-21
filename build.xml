@@ -25,6 +25,7 @@
       These are some of the targets supported by this ANT build scpript:
       
       slf4j-nop.jar - build the jar file of the same name.
+	  slf4j-mnop.jar - build the jar file of the same name.
       slf4j-simple.jar - build the jar file of the same name.
       slf4j-log4j12.jar - build the jar file of the same name.
       slf4j-log4j13.jar - build the jar file of the same name.
@@ -97,6 +98,17 @@
 	</target>
 
 
+	<target name="compile.jar" depends="init">
+		<antcall target="compile-IMPL">
+			<param name="IMPL" value="Simple" />
+			<param name="IMPL.CLASSPATH" value="regular.classpath" />
+		</antcall>
+
+		<jar jarfile="compile.jar" basedir="${tmp.javac.dest}" 
+			 includes="${SLF4J_STEM}/impl/Static*Binder.class">
+		</jar>
+	</target>
+
 	<!-- =================================================================== -->
 	<!-- Generic target that can build NOP, Simple and JDK14 implementations -->
 	<!--  as specified by the "jar-name" and "impl" parameters.              -->
@@ -133,11 +145,40 @@
 
 	</target>
 
-	<!-- =================================================================== -->
-	<!-- Generic target that can build NOP, Simple and JDK14 implementations -->
-	<!--  as specified by the "jar-name" and "impl" parameters.              -->
-	<!-- =================================================================== -->
+	<!-- ====================================================================== -->
+	<!-- Generic target that can build NOP, Simple, log4j and JDK14             -->
+	<!-- implementations as specified by the "jar-name" and "impl" parameters.  -->
+	<!-- ====================================================================== -->
 	<target name="slf4j-IMPL.jar" depends="init">
+
+		<antcall target="compile-IMPL">
+			<param name="IMPL" value="${IMPL}" />
+		</antcall>
+
+		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="${SLF4J_STEM}/Constants.class, 
+			      ${SLF4J_STEM}/ILoggerFactory.class,
+			      ${SLF4J_STEM}/Logger*.class,
+			      ${SLF4J_STEM}/spi/LoggerFactoryBinder.class,
+                  ${SLF4J_STEM}/impl/MessageFormatter.class,
+    	          ${SLF4J_STEM}/impl/Util.class,
+			      ${SLF4J_STEM}/impl/SystemPropBinder.class,
+		          ${SLF4J_STEM}/impl/StaticLoggerBinder.class,
+                  ${SLF4J_STEM}/impl/${IMPL}*.class">
+			<manifest>
+				<section name="org/slf4j/">
+					<attribute name="Implementation-Title" value="${IMPL} implementation" />
+					<attribute name="Implementation-Version" value="${version}" />
+					<attribute name="Implementation-Vendor" value="SLF4J.ORG" />
+				</section>
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Generic target that can build MNOP, MSimple implementations as      -->
+	<!-- specified by the "jar-name" and "impl" parameters.              -->
+	<!-- =================================================================== -->
+	<target name="slf4j-MIMPL.jar" depends="init">
 
 		<antcall target="compile-IMPL">
 			<param name="IMPL" value="${IMPL}" />
@@ -223,7 +264,7 @@
 	</target>
 
 
-	<target name="jar" depends="slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-log4j12.jar, slf4j-log4j13.jar, 
+	<target name="jar" depends="compile.jar, slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-log4j12.jar, slf4j-log4j13.jar, 
 		                        slf4j-simple.jar, slf4j-jdk14.jar" />
 
 	<!-- Build Javadoc -->

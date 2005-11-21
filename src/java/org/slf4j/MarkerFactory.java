@@ -31,7 +31,7 @@
  */
 package org.slf4j;
 
-import org.slf4j.impl.StaticBinder;
+import org.slf4j.impl.StaticMarkerBinder;
 import org.slf4j.impl.Util;
 
 // WARNING
@@ -65,11 +65,11 @@ public class MarkerFactory {
   static {
 
     try {
-      markerFactory = StaticBinder.SINGLETON.getMarkerFactory();
+      markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
     } catch (Exception e) {
       // we should never get here
       Util.reportFailure("Could not instantiate instance of class ["
-          + StaticBinder.SINGLETON.getMarkerFactoryClassStr() + "]", e);
+          + StaticMarkerBinder.SINGLETON.getMarkerFactoryClassStr() + "]", e);
     }
   }
 

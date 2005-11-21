@@ -14,8 +14,7 @@
 
 	<path id="compile.classpath">
 		<path refid="basic.classpath" />
-		<pathelement location="../slf4j-simple.jar" />
-		<pathelement location="../jcl104-over-slf4j.jar" />
+		<pathelement location="../classes/" />
 	</path>
 
 	<path id="nop.classpath">

@@ -33,7 +33,8 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkingLogger;
 
 
 /**
@@ -61,7 +62,7 @@ import org.slf4j.Logger;
  *
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
-public class SimpleLogger implements Logger {
+public class MSimpleLogger implements MarkingLogger {
   /**
    * Mark the time when this class gets loaded into memory.
    */
@@ -77,7 +78,7 @@ public class SimpleLogger implements Logger {
    * Package access allows only {@link SimpleLoggerFactory} to instantiate
    * SimpleLogger instances.
    */
-  SimpleLogger(String name) {
+  MSimpleLogger(String name) {
     this.name = name;
   }
 
@@ -92,6 +93,14 @@ public class SimpleLogger implements Logger {
     return false;
   }
 
+  /**
+   * Always returns false.
+   * @return always false
+   */
+  public boolean isDebugEnabled(Marker marker) {
+    return false;
+  }
+  
   /**
    * A NOP implementation, as this logger is permanently disabled for
    * the DEBUG level.
@@ -122,6 +131,21 @@ public class SimpleLogger implements Logger {
    */
   public void debug(String msg, Throwable t) {
     // NOP
+  }
+
+  public void debug(Marker marker, String msg) {
+  }
+
+  public void debug(Marker marker, String format, Object arg) {
+    debug(format, arg);
+  }
+
+  public void debug(Marker marker, String format, Object arg1, Object arg2) {
+    debug(format, arg1, arg2);
+  }
+
+  public void debug(Marker marker, String msg, Throwable t) {
+    debug(msg, t);
   }
 
   /**
@@ -181,6 +205,13 @@ public class SimpleLogger implements Logger {
   }
 
   /**
+   * Always returns true.
+   */
+  public boolean isInfoEnabled(Marker marker) {
+    return true;
+  }
+  
+  /**
    * A simple implementation which always logs messages of level INFO according
    * to the format outlined above.
    */
@@ -211,6 +242,22 @@ public class SimpleLogger implements Logger {
     log(INFO_STR, msg.toString(), t);
   }
 
+  public void info(Marker marker, String msg) {
+    info(msg);
+  }
+
+  public void info(Marker marker, String format, Object arg) {
+    info(format, arg);
+  }
+
+  public void info(Marker marker, String format, Object arg1, Object arg2) {
+    info(format, arg1, arg2);
+  }
+
+  public void info(Marker marker, String msg, Throwable t) {
+    info(msg, t);
+  }
+
   /**
    * Always returns true.
    */
@@ -218,6 +265,13 @@ public class SimpleLogger implements Logger {
     return true;
   }
   
+  /**
+   * Always returns true.
+   */
+  public boolean isWarnEnabled(Marker marker) {
+    return true;
+  }
+
   /**
    * A simple implementation which always logs messages of level WARN according
    * to the format outlined above.
@@ -249,10 +303,33 @@ public class SimpleLogger implements Logger {
     log(WARN_STR, msg.toString(), t);
   }
 
+  public void warn(Marker marker, String msg) {
+    warn(msg);
+  }
+
+  public void warn(Marker marker, String format, Object arg) {
+    warn(format, arg);
+  }
+
+  public void warn(Marker marker, String format, Object arg1, Object arg2) {
+    warn(format, arg1, arg2);
+  }
+
+  public void warn(Marker marker, String msg, Throwable t) {
+    warn(msg, t);
+  }
+
   /**
    * Always returns true.
    */
   public boolean isErrorEnabled() {
+    return true;
+  }
+
+  /**
+   * Always returns true.
+   */
+  public boolean isErrorEnabled(Marker marker) {
     return true;
   }
 
@@ -287,4 +364,19 @@ public class SimpleLogger implements Logger {
     log(ERROR_STR, msg.toString(), t);
   }
 
+  public void error(Marker marker, String msg) {
+    error(msg);
+  }
+
+  public void error(Marker marker, String format, Object arg) {
+    error(format, arg);
+  }
+
+  public void error(Marker marker, String format, Object arg1, Object arg2) {
+    error(format, arg1, arg2);
+  }
+
+  public void error(Marker marker, String msg, Throwable t) {
+    error(msg, t);
+  }
 }

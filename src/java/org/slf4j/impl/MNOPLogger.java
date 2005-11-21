@@ -34,6 +34,8 @@
 package org.slf4j.impl;
 
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkingLogger;
 
 
 /**
@@ -41,136 +43,111 @@ import org.slf4j.Logger;
  *
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
-public class NOPLogger implements Logger {
+public final class MNOPLogger extends NOPLogger implements MarkingLogger {
   /**
-   * The unique instance of NOPLogger.
+   * The unique instance of MNOPLogger.
    */
-  public static final NOPLogger NOP_LOGGER = new NOPLogger();
+  public static final MNOPLogger MNOP_LOGGER = new MNOPLogger();
 
   /**
-   * There is no point in creating multiple instances of NOPLOgger, 
-   * except by derived classes, hence the protected  access for the constructor.
+   * There is no point in creating multiple instances of NullLogger,
+   * hence the private access modifier.
    */
-  protected NOPLogger() {
+  private MNOPLogger() {
   }
 
   /**
-   * Always returns the string value "NOP".
+   * Always returns the string value "MNOP".
    */
   public String getName() {
-    return "NOP";
+    return "MNOP";
+  }
+
+ 
+  /** A NOP implementation. */
+  public void debug(Marker marker, String msg) {
+  }
+
+  /** A NOP implementation. */
+  public void debug(Marker marker, String format, Object arg) {
+  }
+
+  /** A NOP implementation. */
+  public void debug(Marker marker, String format, Object arg1, Object arg2) {
+  }
+
+  /** A NOP implementation. */
+  public void debug(Marker marker, String msg, Throwable t) {
   }
 
   /**
    * Always returns false.
    * @return always false
    */
-  final public boolean isDebugEnabled() {
+  public boolean isDebugEnabled(Marker marker) {
+    return false;
+  }
+
+ 
+  /** A NOP implementation. */
+  public void info(Marker marker, String msg) {
+  }
+
+  /** A NOP implementation. */
+  public void info(Marker marker, String format, Object arg) {
+  }
+
+  /** A NOP implementation. */
+  public void info(Marker marker, String format, Object arg1, Object arg2) {
+  }
+
+  /** A NOP implementation. */
+  public void info(Marker marker, String msg, Throwable t) {
+  }
+
+  public boolean isInfoEnabled(Marker marker) {
+    return false;
+  }
+
+   /** A NOP implementation. */
+  public void warn(Marker marker, String msg) {
+  }
+
+  /** A NOP implementation. */
+  public void warn(Marker marker, String format, Object arg) {
+  }
+
+  /** A NOP implementation. */
+  public void warn(Marker marker, String format, Object arg1, Object arg2) {
+  }
+
+  /** A NOP implementation. */
+  public void warn(Marker marker, String msg, Throwable t) {
+  }
+
+  /** Always false. */
+  public boolean isWarnEnabled(Marker marker) {
     return false;
   }
 
   /** A NOP implementation. */
-  final public void debug(String msg) {
-    // NOP
-  }
-
-  /** A NOP implementation.  */
-  final public void debug(String format, Object arg) {
-    // NOP
-  }
-
-  /** A NOP implementation.  */
-  public final void debug(String format, Object arg1, Object arg2) {
-    // NOP
+  public void error(Marker marker, String msg) {
   }
 
   /** A NOP implementation. */
-  final public void debug(String msg, Throwable t) {
-    // NOP
+  public void error(Marker marker, String format, Object arg) {
   }
 
-  /**
-   * Always returns false.
-   * @return always false
-   */
-  final public boolean isInfoEnabled() {
-    // NOP
+  /** A NOP implementation. */
+  public final void error(Marker marker, String format, Object arg1, Object arg2) {
+  }
+
+  /** A NOP implementation. */
+  public void error(Marker marker, String msg, Throwable t) {
+  }
+
+  /** A NOP implementation. */
+  public final boolean isErrorEnabled(Marker marker) {
     return false;
-  }
-
-
-  /** A NOP implementation. */
-  final public void info(String msg) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final  public void info(String format, Object arg1) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void info(String format, Object arg1, Object arg2) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void info(String msg, Throwable t) {
-    // NOP
-  }
-
-
-  /**
-   * Always returns false.
-   * @return always false
-   */
-  final public boolean isWarnEnabled() {
-    return false;
-  }
-
-  /** A NOP implementation. */
-  final public void warn(String msg) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void warn(String format, Object arg1) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void warn(String format, Object arg1, Object arg2) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void warn(String msg, Throwable t) {
-    // NOP
-  }
-
-
-  /** A NOP implementation. */
-  final public boolean isErrorEnabled() {
-    return false;
-  }
-
-  /** A NOP implementation. */
-  final public void error(String msg) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void error(String format, Object arg1) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void error(String format, Object arg1, Object arg2) {
-    // NOP
-  }
-
-  /** A NOP implementation. */
-  final public void error(String msg, Throwable t) {
-    // NOP
   }
 }
