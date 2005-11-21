@@ -36,7 +36,6 @@ package org.slf4j.impl;
 
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
 
 
 /**
@@ -133,10 +132,6 @@ public final class Log4jLoggerAdapter implements Logger {
    */
   public boolean isInfoEnabled() {
     return logger.isInfoEnabled();
-  }
-
-  public final boolean isInfoEnabled(Marker marker) {
-    return isInfoEnabled();
   }
 
   /**
@@ -275,7 +270,7 @@ public final class Log4jLoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void error(String msg) {
-    logger.equals(msg);
+    logger.error(msg);
   }
 
   /**
