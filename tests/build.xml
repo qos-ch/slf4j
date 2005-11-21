@@ -15,6 +15,7 @@
 	<path id="compile.classpath">
 		<path refid="basic.classpath" />
 		<pathelement location="../test-compile.jar" />
+		<pathelement location="../jcl104-over-slf4j.jar" />
 	</path>
 
 	<path id="nop.classpath">
