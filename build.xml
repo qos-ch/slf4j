@@ -104,7 +104,7 @@
 		</antcall>
 
 		<jar jarfile="test-compile.jar" basedir="${tmp.javac.dest}" 
-			 includes="${SLF4J_STEM}/**/*Binder.class">
+			 includes="${SLF4J_STEM}/**/*.class">
 		</jar>
 	</target>
 		
