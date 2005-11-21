@@ -273,7 +273,8 @@
 	</target>
 
 
-	<target name="jar" depends="compile.jar, slf4j-nop.jar, jcl-over-slf4j.jar, slf4j-log4j12.jar, slf4j-log4j13.jar, 
+	<target name="jar" depends="compile.jar, test-compile.jar, slf4j-nop.jar, jcl-over-slf4j.jar, 
+		                        slf4j-log4j12.jar, slf4j-log4j13.jar, 
 		                        slf4j-simple.jar, slf4j-jdk14.jar" />
 
 	<!-- Build Javadoc -->
