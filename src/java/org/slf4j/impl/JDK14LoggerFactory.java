@@ -41,7 +41,7 @@ import java.util.Map;
 
 /**
  * JDK14LoggerFactory is an implementation of {@link ILoggerFactory}
- * returning the appropriate named {@link JDK14LoggerAdapter} instance.
+ * returning the appropriately named {@link JDK14LoggerAdapter} instance.
  *
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */

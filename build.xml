@@ -13,7 +13,9 @@
 	<property name="dist.tmp" value="dist/tmp" />
 
 	<property name="deprecation" value="on" />
-
+	<property name="target" value="1.2" />
+	<property name="source" value="1.2" />
+		
 	<property name="SLF4J_STEM" value="org/slf4j" />
 	<property name="JCL_STEM" value="org/apache/commons/logging" />
 
@@ -30,6 +32,7 @@
       slf4j-log4j12.jar - build the jar file of the same name.
       slf4j-log4j13.jar - build the jar file of the same name.
 	  slf4j-jdk14.jar - build the jar file of the same name.
+      slf4j-jcl.jar - build the jar file of the same name.
       jcl-over-slf4j.jar - JCL 1.0.4 implemented over SLF4J	
       jar - all of the above jar files
     </echo>
@@ -44,6 +47,13 @@
 	<path id="regular.classpath">
 	</path>
 
+
+	<path id="jcl.classpath">
+		<fileset dir="./lib">
+			<include name="commons-logging-1.0.4.jar" />
+		</fileset>
+	</path>
+	
 	<path id="log4j12.classpath">
 		<fileset dir="./lib">
 			<include name="log4j-1.2*.jar" />
@@ -57,6 +67,12 @@
 		</fileset>
 	</path>
 
+	<path id="javadoc.classpath">
+		<path refid="jcl.classpath" />
+		<path refid="log4j12.classpath" />
+	</path>
+
+	
 	<!-- ================================================================= -->
 	<!-- Remove all generated (compiled) class files.                      -->
 	<!-- ================================================================= -->
@@ -139,16 +155,20 @@
 			</filterset>
 		</copy>
 
-		<copy todir="${tmp.java.source.dir}">
-			<fileset dir="src/java">
+		<copy todir="${tmp.java.source.dir}/${SLF4J_STEM}">
+			<fileset dir="./src/java/${SLF4J_STEM}">
 				<include name="**/*.java" />
 			</fileset>
 		</copy>
 
-		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" deprecation="on" includes="${SLF4J_STEM}/*.java,
+		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
+			   deprecation="on"
+			   target="${target}"
+		       source="${source}"
+		       includes="${SLF4J_STEM}/*.java,
     	             ${SLF4J_STEM}/impl/MessageFormatter.java,
     	             ${SLF4J_STEM}/impl/Util.java
-                     ${SLF4J_STEM}/impl/${impl}*.java
+                     ${SLF4J_STEM}/impl/${IMPL}*.java
     	             ${SLF4J_STEM}/spi/*.java" debug="on">
 			<classpath refid="${IMPL.CLASSPATH}" />
 		</javac>
@@ -163,6 +183,7 @@
 
 		<antcall target="compile-IMPL">
 			<param name="IMPL" value="${IMPL}" />
+			<param name="IMPL.CLASSPATH" value="${IMPL.CLASSPATH}" />
 		</antcall>
 
 		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="
@@ -251,6 +272,14 @@
 		</antcall>
 	</target>
 
+	<target name="slf4j-jcl.jar" depends="julCheck">
+		<antcall target="slf4j-IMPL.jar">
+			<param name="IMPL" value="JCL" />
+			<param name="jar-name" value="slf4j-jcl.jar" />
+			<param name="IMPL.CLASSPATH" value="jcl.classpath" />
+		</antcall>
+	</target>
+				
 	<target name="jcl-over-slf4j.jar" depends="slf4j-nop.jar">
 
 		<antcall target="compile-IMPL">
@@ -258,7 +287,11 @@
 			<param name="IMPL.CLASSPATH" value="regular.classpath" />
 		</antcall>
 
-		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" deprecation="on" includes="${JCL_STEM}/**/*.java" debug="${debug}">
+		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
+			   deprecation="on" 
+			   target="${target}"
+			   source="${source}"   
+			   includes="${JCL_STEM}/**/*.java" debug="${debug}">
 		</javac>
 
 		<jar jarfile="${jcl.jar}" basedir="${tmp.javac.dest}" includes="${JCL_STEM}/**/*.class">
@@ -275,7 +308,7 @@
 
 	<target name="jar" depends="compile.jar, test-compile.jar, slf4j-nop.jar, jcl-over-slf4j.jar, 
 		                        slf4j-log4j12.jar, slf4j-log4j13.jar, 
-		                        slf4j-simple.jar, slf4j-jdk14.jar" />
+		                        slf4j-simple.jar, slf4j-jdk14.jar, slf4j-jcl.jar" />
 
 	<!-- Build Javadoc -->
 	<target name="javadoc" depends="init">
@@ -298,8 +331,8 @@
 			</filterset>
 		</copy>
 
-		<copy todir="tmp/src">
-			<fileset dir="src/java">
+		<copy todir="tmp/src/${SLF4J_STEM}">
+			<fileset dir="src/java/${SLF4J_STEM}">
 				<include name="**/*.java" />
 				<include name="**/*.html" />
 			</fileset>
@@ -307,10 +340,20 @@
 
 		<mkdir dir="${javadoc.dest}" />
 
-		<javadoc destdir="${javadoc.dest}" packagenames="org.slf4j.*, org.apache.commons.logging.*" additionalparam="-breakiterator" version="true" protected="true" author="true" use="true" overview="src/docs/overview.html" doctitle="SLF4J version ${version}" windowtitle="SLF4J Version ${version}">
+		<javadoc destdir="${javadoc.dest}" 
+			     packagenames="org.slf4j.*" 
+			     additionalparam="-breakiterator" 
+			     version="true" 
+			     protected="true" 
+			     author="true" use="true" 
+			     overview="src/docs/overview.html" 
+			     doctitle="SLF4J version ${version}" windowtitle="SLF4J Version ${version}">
 
-			<classpath refid="log4j12.classpath" />
+			<classpath refid="javadoc.classpath" />
 
+			<link href="http://jakarta.apache.org/commons/logging/apidocs/"/>
+			<link href="http://logging.apache.org/log4j/docs/api/"/>
+			
 			<sourcepath>
 				<path path="${tmp.java.source.dir}" />
 			</sourcepath>
@@ -322,24 +365,16 @@
 				<package name="org.slf4j.spi" />
 			</group>
 
-			<group>
-				<title>Jakarta Commons Logging (implemented over SLF4J)</title>
-				<package name="org.apache.commons.logging" />
-				<package name="org.apache.commons.logging.impl" />
-			</group>
-
-
-			<header>
-          &lt;b&gt;SLF4J ${version}&lt;/b&gt;&lt;br/&gt;
-        </header>
-			<footer>
+			<header>&lt;b&gt;SLF4J ${version}&lt;/b&gt;&lt;br/&gt;</header>
+			
+		<footer>
       	   Copyright 2004-2005  
       	   &lt;a href="http://www.slf4j.org"&gt;&lt;b&gt;SLF4J.ORG&lt;/b&gt;&lt;/a&gt;
     	   &lt;br/&gt;
-    		
       	</footer>
-			<bottom>
-    		&lt;small/&gt;Jakarta Commons Logging is copyrighted by the Apache Software Foundation&lt;small/&gt;.
+			
+		<bottom>
+    		&lt;small/&gt;SLF4J is hosted by &lt;a href="http://www.qos.ch"&gt;Qos.ch&lt;a/&gt; &lt;small/&gt;
     	</bottom>
 		</javadoc>
 	</target>

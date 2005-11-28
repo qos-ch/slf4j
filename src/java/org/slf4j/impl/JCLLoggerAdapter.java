@@ -44,14 +44,13 @@ import org.slf4j.Logger;
  * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
  */
 public final class JCLLoggerAdapter implements Logger {
-  final Log logger;
+  final Log log;
   final String name;
   
   // WARN: JCLLoggerAdapter constructor should have only package access so
-  // that
-  // only JCLLoggerFactory be able to create one.
-  JCLLoggerAdapter(Log logger, String name) {
-    this.logger = logger;
+  // that only JCLLoggerFactory be able to create one.
+  JCLLoggerAdapter(Log log, String name) {
+    this.log = log;
     this.name = name;
   }
 
@@ -61,11 +60,10 @@ public final class JCLLoggerAdapter implements Logger {
 
   /**
    * Delegates to the {@link Log#isDebugEnabled} method of the underlying
-   * {@link Log} instance.
-   * 
+   * {@link Log} instance. 
    */
   public boolean isDebugEnabled() {
-    return logger.isDebugEnabled();
+    return log.isDebugEnabled();
   }
 
   //
@@ -77,7 +75,7 @@ public final class JCLLoggerAdapter implements Logger {
    * @param msg - the message object to be logged
    */
   public void debug(String msg) {
-    logger.debug(msg);
+    log.debug(msg);
   }
 
   /**
@@ -95,9 +93,9 @@ public final class JCLLoggerAdapter implements Logger {
    *          the argument
    */
   public void debug(String format, Object arg) {
-    if (logger.isDebugEnabled()) {
+    if (log.isDebugEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.debug(msgStr);
+      log.debug(msgStr);
     }
   }
 
@@ -118,9 +116,9 @@ public final class JCLLoggerAdapter implements Logger {
    *          the second argument
    */
   public void debug(String format, Object arg1, Object arg2) {
-    if (logger.isDebugEnabled()) {
+    if (log.isDebugEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.debug(msgStr);
+      log.debug(msgStr);
     }
   }
 
@@ -134,85 +132,235 @@ public final class JCLLoggerAdapter implements Logger {
    *          the exception (throwable) to log
    */
   public void debug(String msg, Throwable t) {
-      logger.debug(msg, t);
+      log.debug(msg, t);
   }
 
+  /**
+   * Delegates to the {@link Log#isInfoEnabled} method of the underlying
+   * {@link Log} instance. 
+   */
   public boolean isInfoEnabled() {
-    return logger.isInfoEnabled();
+    return log.isInfoEnabled();
   }
 
+  /**
+   * Delegates to the {@link Log#debug(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * @param msg - the message object to be logged
+   */
   public void info(String msg) {
-    logger.info(msg);
+    log.info(msg);
   }
+
+  /**
+   * Delegates to the {@link Log#info(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level INFO.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
+   */
 
   public void info(String format, Object arg) {
-    if (logger.isInfoEnabled()) {
+    if (log.isInfoEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.info(msgStr);
+      log.info(msgStr);
     }
   }
-
+  /**
+   * Delegates to the {@link Log#info(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level INFO.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
+   */
   public void info(String format, Object arg1, Object arg2) {
-    if (logger.isInfoEnabled()) {
+    if (log.isInfoEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.info(msgStr);
+      log.info(msgStr);
     }
   }
 
+  /**
+   * Delegates to the {@link Log#info(java.lang.Object, java.lang.Throwable)} method of 
+   * the underlying {@link Log} instance.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
+   */
   public void info(String msg, Throwable t) {
-    logger.info(msg, t);
+    log.info(msg, t);
   }
 
+  /**
+   * Delegates to the {@link Log#isWarnEnabled} method of the underlying
+   * {@link Log} instance. 
+   */
   public boolean isWarnEnabled() {
-    return logger.isWarnEnabled();
+    return log.isWarnEnabled();
   }
 
+  /**
+   * Delegates to the {@link Log#warn(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * @param msg - the message object to be logged
+   */
   public void warn(String msg) {
-    logger.warn(msg);
+    log.warn(msg);
   }
 
+  /**
+   * Delegates to the {@link Log#warn(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level WARN.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
+   */
   public void warn(String format, Object arg) {
-    if (logger.isWarnEnabled()) {
+    if (log.isWarnEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.warn(msgStr);
+      log.warn(msgStr);
     }
   }
-
+  
+  /**
+   * Delegates to the {@link Log#warn(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level WARN.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
+   */
   public void warn(String format, Object arg1, Object arg2) {
-    if (logger.isWarnEnabled()) {
+    if (log.isWarnEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.warn(msgStr);
+      log.warn(msgStr);
     }
   }
 
+  /**
+   * Delegates to the {@link Log#warn(java.lang.Object, java.lang.Throwable)} method of 
+   * the underlying {@link Log} instance.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
+   */
+  
   public void warn(String msg, Throwable t) {
-    logger.warn(msg, t);
+    log.warn(msg, t);
   }
 
+
+  /**
+   * Delegates to the {@link Log#isErrorEnabled} method of the underlying
+   * {@link Log} instance. 
+   */
   public boolean isErrorEnabled() {
-    return logger.isErrorEnabled();
+    return log.isErrorEnabled();
   }
 
+  /**
+   * Delegates to the {@link Log#error(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * @param msg - the message object to be logged
+   */
   public void error(String msg) {
-    logger.error(msg);
+    log.error(msg);
   }
 
+  /**
+   * Delegates to the {@link Log#error(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level ERROR.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
+   */
   public void error(String format, Object arg) {
-    if (logger.isErrorEnabled()) {
+    if (log.isErrorEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.error(msgStr);
+      log.error(msgStr);
     }
   }
-
+  
+  /**
+   * Delegates to the {@link Log#error(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level ERROR.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
+   */
   public void error(String format, Object arg1, Object arg2) {
-    if (logger.isErrorEnabled()) {
+    if (log.isErrorEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.error(msgStr);
+      log.error(msgStr);
     }
   }
 
+  /**
+   * Delegates to the {@link Log#error(java.lang.Object, java.lang.Throwable)} method of 
+   * the underlying {@link Log} instance.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
+   */
+  
   public void error(String msg, Throwable t) {
-    logger.error(msg, t);
+    log.error(msg, t);
   }
 
 }
