@@ -284,11 +284,13 @@
 				
 	<target name="jcl-over-slf4j.jar" depends="slf4j-nop.jar">
 
-		<antcall target="compile-IMPL">
-			<param name="IMPL" value="NOP" />
-			<param name="IMPL.CLASSPATH" value="regular.classpath" />
-		</antcall>
-
+		<copy todir="${tmp.java.source.dir}/${JCL_STEM}">
+		  <fileset dir="./src/java/${JCL_STEM}">
+		    <include name="**/*.java" />
+	      </fileset>
+		</copy>
+		 
+		
 		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
 			   deprecation="on" 
 			   target="${target}"
