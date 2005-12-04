@@ -12,6 +12,7 @@
 	<property name="dist.images" value="dist/images" />
 	<property name="dist.tmp" value="dist/tmp" />
 
+	<property name="debug" value="on" />
 	<property name="deprecation" value="on" />
 	<property name="target" value="1.2" />
 	<property name="source" value="1.2" />
@@ -169,7 +170,8 @@
     	             ${SLF4J_STEM}/impl/MessageFormatter.java,
     	             ${SLF4J_STEM}/impl/Util.java
                      ${SLF4J_STEM}/impl/${IMPL}*.java
-    	             ${SLF4J_STEM}/spi/*.java" debug="on">
+    	             ${SLF4J_STEM}/spi/*.java" 
+			         debug="${debug}">
 			<classpath refid="${IMPL.CLASSPATH}" />
 		</javac>
 
