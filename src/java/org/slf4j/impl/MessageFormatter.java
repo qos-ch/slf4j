@@ -59,39 +59,12 @@ public class MessageFormatter {
    * @param argument The argument to be inserted instead of the formatting element
    * @return The formatted message
    */
-  public static String format(String messagePattern, Object argument) {
-    int j = messagePattern.indexOf(DELIM_START);
-    int len = messagePattern.length();
-    char escape = 'x';
-
-    // if there are no { characters or { is the last character of the messsage
-    // then we just return messagePattern
-    if (j == -1 || (j+1 == len)) {
-      return messagePattern;
-    } else {
-      if(j+1 == len) {
-      }
-      
-      char delimStop = messagePattern.charAt(j + 1);
-      if (j > 0) {
-        escape = messagePattern.charAt(j - 1);
-      }
-      if ((delimStop != DELIM_STOP) || (escape == '\\')) {
-        // invalid DELIM_START/DELIM_STOP pair or espace character is
-        // present
-        return messagePattern;
-      } else {
-        StringBuffer sbuf = new StringBuffer(len + 20);
-        sbuf.append(messagePattern.substring(0, j));
-        sbuf.append(argument);
-        sbuf.append(messagePattern.substring(j + 2));
-        return sbuf.toString();
-      }
-    }
-  }
-
+  public static String format(String messagePattern, Object arg) {
+    return arrayFormat(messagePattern, new Object[] {arg});   
+   }
+  
   /**
-   * /**
+   *
    * Performs a two argument substitution for the 'messagePattern' passed as
    * parameter.
    * <p>
@@ -107,13 +80,22 @@ public class MessageFormatter {
    * @return The formatted message
    */
   public static String format(String messagePattern, Object arg1, Object arg2) {
+   return arrayFormat(messagePattern, new Object[] {arg1, arg2});   
+  }
+  
+  public static String arrayFormat(String messagePattern, Object[] argArray) {
+    if(messagePattern == null) {
+      return null;
+    }
     int i = 0;
     int len = messagePattern.length();
     int j = messagePattern.indexOf(DELIM_START);
-
+    
+    char escape = 'x';
+    
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
 
-    for (int L = 0; L < 2; L++) {
+    for (int L = 0; L < argArray.length; L++) {
       j = messagePattern.indexOf(DELIM_START, i);
 
       if (j == -1 || (j+1 == len)) {
@@ -126,14 +108,24 @@ public class MessageFormatter {
         }
       } else {
         char delimStop = messagePattern.charAt(j + 1);
-        if ((delimStop != DELIM_STOP)) {
+        if (j > 0) {
+          escape = messagePattern.charAt(j - 1);
+        }
+        
+        if(escape == '\\') {
+          sbuf.append(messagePattern.substring(i, j));
+          sbuf.append(DELIM_START);
+          i = j + 1;
+        } else if ((delimStop != DELIM_STOP)) {
           // invalid DELIM_START/DELIM_STOP pair
           sbuf.append(messagePattern.substring(i, messagePattern.length()));
           return sbuf.toString();
+        } else {
+          // normal case
+          sbuf.append(messagePattern.substring(i, j));
+          sbuf.append(argArray[L]);
+          i = j + 2;
         }
-        sbuf.append(messagePattern.substring(i, j));
-        sbuf.append((L == 0) ? arg1 : arg2);
-        i = j + 2;
       }
     }
     // append the characters following the second {} pair.
