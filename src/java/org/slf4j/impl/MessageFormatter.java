@@ -91,11 +91,14 @@ public class MessageFormatter {
     int len = messagePattern.length();
     int j = messagePattern.indexOf(DELIM_START);
     
-    char escape = 'x';
+  
     
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
 
     for (int L = 0; L < argArray.length; L++) {
+      
+      char escape = 'x';
+      
       j = messagePattern.indexOf(DELIM_START, i);
 
       if (j == -1 || (j+1 == len)) {
@@ -113,7 +116,8 @@ public class MessageFormatter {
         }
         
         if(escape == '\\') {
-          sbuf.append(messagePattern.substring(i, j));
+          L--; // DELIM_START was escaped, thus should not be incremented
+          sbuf.append(messagePattern.substring(i, j-1));
           sbuf.append(DELIM_START);
           i = j + 1;
         } else if ((delimStop != DELIM_STOP)) {

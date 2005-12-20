@@ -44,6 +44,14 @@ import junit.framework.TestCase;
  */
 public class MessageFormatterTest extends TestCase {
   
+  public void testNull() {
+    String result;
+    Integer i3 = new Integer(3);
+    
+    result = MessageFormatter.format(null, i3);
+    assertEquals(null, result);
+  }
+  
   public void test1Param() {
     String result;
     Integer i3 = new Integer(3);
@@ -67,13 +75,13 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Incorrect {subst", result);
     
     result = MessageFormatter.format("Escaped \\{} subst", i3);
-    assertEquals("Escaped \\{} subst", result);
+    assertEquals("Escaped {} subst", result);
 
     result = MessageFormatter.format("\\{Escaped", i3);
-    assertEquals("\\{Escaped", result);
+    assertEquals("{Escaped", result);
 
     result = MessageFormatter.format("\\{}Escaped", i3);
-    assertEquals("\\{}Escaped", result);
+    assertEquals("{}Escaped", result);
   }
   
   public void test2Param() {
@@ -89,7 +97,28 @@ public class MessageFormatterTest extends TestCase {
     
     result = MessageFormatter.format("{}{}", i1, i2);
     assertEquals("12", result);
+    
     result = MessageFormatter.format("Val1={}, Val2={", i1, i2);
     assertEquals("Val1=1, Val2={", result);
+
+    result = MessageFormatter.format("Value {} is larger than \\{}", i1, i2);
+    assertEquals("Value 1 is larger than {}", result);
+    
+    result = MessageFormatter.format("Value {} is larger than \\{} tail", i1, i2);
+    assertEquals("Value 1 is larger than {} tail", result);    
+
+    result = MessageFormatter.format("Value {} is larger than \\{", i1, i2);
+    assertEquals("Value 1 is larger than \\{", result);  
+    
+    result = MessageFormatter.format("Value {} is larger than \\{tail", i1, i2);
+    assertEquals("Value 1 is larger than {tail", result);  
+  
+    
+    result = MessageFormatter.format("Value \\{} is larger than {}", i1, i2);
+    assertEquals("Value {} is larger than 1", result);    
+
+  
   }
+  
+
 }
