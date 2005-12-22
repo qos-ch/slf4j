@@ -89,11 +89,11 @@ public class MessageFormatterTest extends TestCase {
     Integer i1 = new Integer(1);
     Integer i2 = new Integer(2);
     
-    result = MessageFormatter.format("Value {} is larger than {}.", i1, i2);
-    assertEquals("Value 1 is larger than 2.", result);
+    result = MessageFormatter.format("Value {} is smaller than {}.", i1, i2);
+    assertEquals("Value 1 is smaller than 2.", result);
     
-    result = MessageFormatter.format("Value {} is larger than {}", i1, i2);
-    assertEquals("Value 1 is larger than 2", result);
+    result = MessageFormatter.format("Value {} is smaller than {}", i1, i2);
+    assertEquals("Value 1 is smaller than 2", result);
     
     result = MessageFormatter.format("{}{}", i1, i2);
     assertEquals("12", result);
@@ -101,24 +101,53 @@ public class MessageFormatterTest extends TestCase {
     result = MessageFormatter.format("Val1={}, Val2={", i1, i2);
     assertEquals("Val1=1, Val2={", result);
 
-    result = MessageFormatter.format("Value {} is larger than \\{}", i1, i2);
-    assertEquals("Value 1 is larger than {}", result);
+    result = MessageFormatter.format("Value {} is smaller than \\{}", i1, i2);
+    assertEquals("Value 1 is smaller than {}", result);
     
-    result = MessageFormatter.format("Value {} is larger than \\{} tail", i1, i2);
-    assertEquals("Value 1 is larger than {} tail", result);    
+    result = MessageFormatter.format("Value {} is smaller than \\{} tail", i1, i2);
+    assertEquals("Value 1 is smaller than {} tail", result);    
 
-    result = MessageFormatter.format("Value {} is larger than \\{", i1, i2);
-    assertEquals("Value 1 is larger than \\{", result);  
+    result = MessageFormatter.format("Value {} is smaller than \\{", i1, i2);
+    assertEquals("Value 1 is smaller than \\{", result);  
     
-    result = MessageFormatter.format("Value {} is larger than \\{tail", i1, i2);
-    assertEquals("Value 1 is larger than {tail", result);  
+    result = MessageFormatter.format("Value {} is smaller than \\{tail", i1, i2);
+    assertEquals("Value 1 is smaller than {tail", result);  
   
     
-    result = MessageFormatter.format("Value \\{} is larger than {}", i1, i2);
-    assertEquals("Value {} is larger than 1", result);    
-
-  
+    result = MessageFormatter.format("Value \\{} is smaller than {}", i1, i2);
+    assertEquals("Value {} is smaller than 1", result);    
   }
   
+  public void testArray() {
+    String result;
+    Integer i1 = new Integer(1);
+    Integer i2 = new Integer(2);
+    Integer i3 = new Integer(3);
+    
+    Integer[] ia = new Integer[] {i1, i2, i3};
+
+    result = MessageFormatter.arrayFormat("Value {} is smaller than {} and {}.", ia);
+    assertEquals("Value 1 is smaller than 2 and 3.", result);
+    
+    result = MessageFormatter.arrayFormat("{}{}{}", ia);
+    assertEquals("123", result);
+    
+    result = MessageFormatter.arrayFormat("Value {} is smaller than {}.", ia);
+    assertEquals("Value 1 is smaller than 2.", result);
+    
+    result = MessageFormatter.arrayFormat("Value {} is smaller than {}", ia);
+    assertEquals("Value 1 is smaller than 2", result);
+   
+    result = MessageFormatter.arrayFormat("Val={}, {, Val={}", ia);
+    assertEquals("Val=1, {, Val={}", result);
+   
+    result = MessageFormatter.arrayFormat("Val={}, \\{, Val={}", ia);
+    assertEquals("Val=1, {, Val=2", result);
+   
+    
+    result = MessageFormatter.arrayFormat("Val1={}, Val2={", ia);
+    assertEquals("Val1=1, Val2={", result);
+    
+  }
 
 }
