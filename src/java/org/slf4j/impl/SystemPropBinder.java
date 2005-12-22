@@ -40,7 +40,7 @@ import org.slf4j.spi.LoggerFactoryBinder;
  * Allows for dynamic binding as specified by information contained
  * in the {@link Constants#LOGGER_FACTORY_PROPERTY} java system property.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class SystemPropBinder implements LoggerFactoryBinder {
   String factoryFactoryClassName = null;

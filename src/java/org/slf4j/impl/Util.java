@@ -38,7 +38,7 @@ package org.slf4j.impl;
  *
  * An internal utility class.
  *
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class Util {
     

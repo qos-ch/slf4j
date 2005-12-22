@@ -39,7 +39,7 @@ import org.slf4j.Logger;
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class NOPLogger implements Logger {
   /**

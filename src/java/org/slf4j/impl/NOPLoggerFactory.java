@@ -42,7 +42,7 @@ import org.slf4j.ILoggerFactory;
  * ILoggerFactory} which always returns the unique instance of
  * NOPLogger.
  * 
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class NOPLoggerFactory implements ILoggerFactory {
   

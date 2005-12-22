@@ -41,7 +41,7 @@ import org.slf4j.MarkingLogger;
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public final class MNOPLogger extends NOPLogger implements MarkingLogger {
   /**

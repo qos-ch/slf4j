@@ -44,7 +44,7 @@ import org.slf4j.Logger;
  * Log4jLoggerFactory is an implementation of {@link ILoggerFactory}
  * returning the appropriate named {@link Log4jLoggerAdapter} instance.
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class Log4jLoggerFactory implements ILoggerFactory {
 

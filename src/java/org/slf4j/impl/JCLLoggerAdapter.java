@@ -41,7 +41,7 @@ import org.slf4j.Logger;
  * org.apache.commons.logging.Log} in conformance with the {@link Logger}
  * interface.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public final class JCLLoggerAdapter implements Logger {
   final Log log;

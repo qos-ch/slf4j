@@ -59,7 +59,7 @@ import org.slf4j.Logger;
 467 [main] INFO  examples.Sort - Exiting main method.
 </pre>
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class SimpleLogger implements Logger {
   /**

@@ -51,7 +51,7 @@ import java.util.Vector;
  * <p>Simple logging systems which ignore marker data, just return
  * instances of this class in order to conform to the SLF4J API.
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class BasicMarker implements Marker {
   String name;
