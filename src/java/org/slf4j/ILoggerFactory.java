@@ -38,7 +38,7 @@ package org.slf4j;
  * instances by name.
  * 
  * <p>Most users retreive {@link Logger} instances through the static
- * {@link LoggerFactory#getLogger} mehtod. An instance of of this
+ * {@link LoggerFactory#getLogger(String)} method. An instance of of this
  * interface is bound internally with {@link LoggerFactory} class at 
  * compile time. Only developers of SLF4J conformant logging systems 
  * need to worry about this interface. 
