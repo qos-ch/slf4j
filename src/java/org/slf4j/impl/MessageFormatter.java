@@ -35,11 +35,10 @@ package org.slf4j.impl;
 
 
 /**
- * Formats messages according to very simple rules. 
- * See {@link #format(String, Object)} and 
+ * Formats messages according to very simple rules. See {@link #format(String, Object)} and 
  * {@link #format(String, Object, Object)} for more details.
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class MessageFormatter {
   static final char DELIM_START = '{';
@@ -54,6 +53,13 @@ public class MessageFormatter {
    * <p>
    * The {} pair is called the formatting element. It serves to designate the
    * location where the argument needs to be inserted within the pattern.
+   * <p>
+   * In the rare case where you need to place the '{' or '}' in the message pattern 
+   * but do not want them to be interpreted as a formatting element, then you can
+   * espace the '{' character with '\', that is the backslash character. Only the
+   * first '{' should be escaped. For example, 
+   * <code>MessageFormatter.format("File name is \\{{}}.", "App folder.zip");</code>
+   * will return the string "File name is {App folder.zip}.".
    * 
    * @param messagePattern The message pattern which will be parsed and formatted
    * @param argument The argument to be inserted instead of the formatting element
@@ -70,10 +76,19 @@ public class MessageFormatter {
    * <p>
    * For example, <code>MessageFormatter.format("Hi {}. My name is {}.", 
    * "there", "David");</code> will return the string "Hi there. My name is David.".
+   * 
    * <p>
    * The '{}' pair is called a formatting element. It serves to designate the
    * location where the arguments need to be inserted within the message pattern.
    * 
+   * <p>
+   * In the rare case where you need to place the '{' or '}' in the message pattern 
+   * but do not want them to be interpreted as a formatting element, then you can
+   * espace the '{' character with '\', that is the backslash character. Only the
+   * first '{' should be escaped. For example, 
+   * <code>MessageFormatter.format("File name is \\{{}}.", "App folder.zip");</code>
+   * will return the string "File name is {App folder.zip}.".
+  
    * @param messagePattern The message pattern which will be parsed and formatted
    * @param arg1 The first argument to replace the first formatting element
    * @param arg2 The second argument to replace the second formatting element
@@ -83,6 +98,15 @@ public class MessageFormatter {
    return arrayFormat(messagePattern, new Object[] {arg1, arg2});   
   }
   
+  /**
+   * Same principle as the {@link #format(String, Object)} and 
+   * {@link #format(String, Object, Object)} methods except that
+   * any number of arguments can be passed in an array.
+   * 
+   * @param messagePattern
+   * @param argArray
+   * @return
+   */
   public static String arrayFormat(String messagePattern, Object[] argArray) {
     if(messagePattern == null) {
       return null;

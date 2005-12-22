@@ -82,6 +82,9 @@ public class MessageFormatterTest extends TestCase {
 
     result = MessageFormatter.format("\\{}Escaped", i3);
     assertEquals("{}Escaped", result);
+    
+    result = MessageFormatter.format("File name is \\{{}}.", "App folder.zip");
+    assertEquals("File name is {App folder.zip}.", result);
   }
   
   public void test2Param() {
@@ -148,6 +151,7 @@ public class MessageFormatterTest extends TestCase {
     result = MessageFormatter.arrayFormat("Val1={}, Val2={", ia);
     assertEquals("Val1=1, Val2={", result);
     
+
   }
 
 }
