@@ -35,7 +35,7 @@ package org.slf4j;
 /**
  * Various constants used in the SLF4J API.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public interface Constants {
     

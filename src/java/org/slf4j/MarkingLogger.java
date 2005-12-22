@@ -36,7 +36,7 @@ package org.slf4j;
  * 
  * Extension of the {@link Logger} interface adding {@link Marker} support.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public interface MarkingLogger extends Logger {
 

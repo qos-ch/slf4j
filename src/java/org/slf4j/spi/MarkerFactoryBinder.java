@@ -40,7 +40,7 @@ import org.slf4j.IMarkerFactory;
  * An internal interface which helps the static {@link org.slf4j.MarkerFactory} 
  * class bind with the appropriate {@link IMarkerFactory} instance. 
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public interface MarkerFactoryBinder {
 

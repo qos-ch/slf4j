@@ -39,7 +39,7 @@ import org.slf4j.ILoggerFactory;
  * An internal interface which helps the static {@link org.slf4j.LoggerFactory} 
  * class bind with the appropriate {@link ILoggerFactory} instance. 
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public interface LoggerFactoryBinder {
 

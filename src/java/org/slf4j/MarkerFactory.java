@@ -50,7 +50,7 @@ import org.slf4j.impl.Util;
  * <p>
  * Please note that all methods in this class are static.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml; </a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class MarkerFactory {
   static IMarkerFactory markerFactory;

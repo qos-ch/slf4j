@@ -44,7 +44,7 @@ import java.util.Iterator;
  * <p>Markers can contain child markers, which in turn  can contain children 
  * of their own.
  *
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public interface Marker {
  

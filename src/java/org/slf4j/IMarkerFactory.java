@@ -41,7 +41,7 @@ package org.slf4j;
  * the SLF4J API</a> in the FAQ for details on how to make your logging 
  * system conform to SLF4J.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public interface IMarkerFactory {
 
