@@ -119,6 +119,16 @@ public final class Log4jLoggerAdapter implements Logger {
     }
   }
   
+  /**
+   * Log a message at level DEBUG according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the DEBUG level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
   public void debug(String format, Object[] argArray) {
     if (logger.isDebugEnabled()) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
@@ -192,6 +202,23 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
+   * Log a message at level INFO according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void info(String format, Object[] argArray) {
+    if (logger.isInfoEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.INFO, msgStr, null);
+    }
+  }
+
+  /**
    * Log an exception (throwable) at the INFO level with an
    * accompanying message.
    *
@@ -257,6 +284,24 @@ public final class Log4jLoggerAdapter implements Logger {
   }
 
   /**
+   * Log a message at level WARN according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARN level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void warn(String format, Object[] argArray) {
+    if (logger.isEnabledFor(Level.WARN)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.WARN, msgStr, null);
+    }
+  }
+
+  
+  /**
    * Log an exception (throwable) at the WARN level with an
    * accompanying message.
    *
@@ -321,6 +366,25 @@ public final class Log4jLoggerAdapter implements Logger {
     }
   }
 
+  /**
+   * Log a message at level ERROR according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the ERROR level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void error(String format, Object[] argArray) {
+    if (logger.isEnabledFor(Level.ERROR)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.ERROR, msgStr, null);
+    }
+  }
+
+  
+  
   /**
    * Log an exception (throwable) at the ERROR level with an
    * accompanying message.

@@ -84,9 +84,12 @@ public class NOPLogger implements Logger {
     // NOP
   }
 
-  final public void debug(String format, Object[] argArray) {
+  /** A NOP implementation.  */
+  public final void debug(String format, Object[] argArray) {
     // NOP
   }
+  
+  
   
   /** A NOP implementation. */
   final public void debug(String msg, Throwable t) {
@@ -117,6 +120,12 @@ public class NOPLogger implements Logger {
   final public void info(String format, Object arg1, Object arg2) {
     // NOP
   }
+  
+  /** A NOP implementation.  */
+  public final void info(String format, Object[] argArray) {
+    // NOP
+  }
+
 
   /** A NOP implementation. */
   final public void info(String msg, Throwable t) {
@@ -146,6 +155,12 @@ public class NOPLogger implements Logger {
   final public void warn(String format, Object arg1, Object arg2) {
     // NOP
   }
+  
+  /** A NOP implementation.  */
+  public final void warn(String format, Object[] argArray) {
+    // NOP
+  }
+
 
   /** A NOP implementation. */
   final public void warn(String msg, Throwable t) {
@@ -172,6 +187,12 @@ public class NOPLogger implements Logger {
   final public void error(String format, Object arg1, Object arg2) {
     // NOP
   }
+  
+  /** A NOP implementation.  */
+  public final void error(String format, Object[] argArray) {
+    // NOP
+  }
+
 
   /** A NOP implementation. */
   final public void error(String msg, Throwable t) {

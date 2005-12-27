@@ -177,6 +177,18 @@ public class SimpleLogger implements Logger {
     String message = MessageFormatter.format(format, arg1, arg2);
     log(level, message, null);
   }
+  
+  /**
+   * For formatted messages, first substitute arguments and then log.
+   * 
+   * @param level
+   * @param format
+   * @param argArray
+   */
+  private void formatAndLog(String level, String format, Object[] argArray) {
+    String message = MessageFormatter.arrayFormat(format, argArray);
+    log(level, message, null);
+  }
 
   /**
    * Always returns true.
@@ -208,6 +220,15 @@ public class SimpleLogger implements Logger {
   public void info(String format, Object arg1, Object arg2) {
     formatAndLog(INFO_STR, format, arg1, arg2);
   }
+
+  /**
+   * Perform double parameter substituion before logging the message of level
+   * INFO according to the format outlined above.
+   */
+  public void info(String format, Object[] argArray) {
+    formatAndLog(INFO_STR, format, argArray);
+  }
+
 
   /**
    * Log a message of level INFO, including an exception.
@@ -248,6 +269,14 @@ public class SimpleLogger implements Logger {
   }
 
   /**
+   * Perform double parameter substituion before logging the message of level
+   * WARN according to the format outlined above.
+   */
+  public void warn(String format, Object[] argArray) {
+    formatAndLog(WARN_STR, format, argArray);
+  }
+
+  /**
    * Log a message of level WARN, including an exception.
    */
   public void warn(String msg, Throwable t) {
@@ -285,6 +314,15 @@ public class SimpleLogger implements Logger {
     formatAndLog(ERROR_STR, format, arg1, arg2);
   }
 
+  /**
+   * Perform double parameter substituion before logging the message of level
+   * ERROR according to the format outlined above.
+   */
+  public void error(String format, Object[] argArray) {
+    formatAndLog(ERROR_STR, format, argArray);
+  }
+
+  
   /**
    * Log a message of level ERROR, including an exception.
    */

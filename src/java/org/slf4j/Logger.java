@@ -97,7 +97,7 @@ public interface Logger {
    * is disabled for the DEBUG level. </p>
    *
    * @param format the format string
-   * @param argArray  an array of arguments
+   * @param argArray an array of arguments
    */
   public void debug(String format, Object[] argArray);
   
@@ -154,6 +154,18 @@ public interface Logger {
   public void info(String format, Object arg1, Object arg2);
 
   /**
+   * Log a message at the INFO level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void info(String format, Object[] argArray);
+  
+  /**
    * Log an exception (throwable) at the INFO level with an
    * accompanying message. 
    * 
@@ -188,6 +200,19 @@ public interface Logger {
    */
   public void warn(String format, Object arg);
 
+  
+  /**
+   * Log a message at the WARN level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARN level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void warn(String format, Object[] argArray);
+  
   /**
    * Log a message at the WARN level according to the specified format
    * and arguments.
@@ -250,6 +275,18 @@ public interface Logger {
    */
   public void error(String format, Object arg1, Object arg2);
 
+  /**
+   * Log a message at the ERROR level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the ERROR level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void error(String format, Object[] argArray);
+  
   /**
    * Log an exception (throwable) at the ERROR level with an
    * accompanying message. 

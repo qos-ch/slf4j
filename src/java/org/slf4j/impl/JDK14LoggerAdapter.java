@@ -114,6 +114,16 @@ public final class JDK14LoggerAdapter implements Logger {
   }
 
   
+  /**
+   * Log a message at level FINE according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the FINE level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
   public void debug(String format, Object[] argArray) {
     if (logger.isLoggable(Level.FINE)) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
@@ -186,6 +196,25 @@ public final class JDK14LoggerAdapter implements Logger {
       logger.info(msgStr);
     }
   }
+  
+  /**
+   * Log a message at level INFO according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void info(String format, Object[] argArray) {
+    if (logger.isLoggable(Level.INFO)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.info(msgStr);
+    }
+  }
+  
+
 
   /**
    * Log an exception (throwable) at the INFO level with an
@@ -253,6 +282,23 @@ public final class JDK14LoggerAdapter implements Logger {
   }
 
   /**
+   * Log a message at level WARNING according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the WARNING level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void warn(String format, Object[] argArray) {
+    if (logger.isLoggable(Level.WARNING)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.warning(msgStr);
+    }
+  }
+  
+  /**
    * Log an exception (throwable) at the WARNING level with an
    * accompanying message.
    *
@@ -317,6 +363,24 @@ public final class JDK14LoggerAdapter implements Logger {
     }
   }
 
+  
+  /**
+   * Log a message at level INFO according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the INFO level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void error(String format, Object[] argArray) {
+    if (logger.isLoggable(Level.SEVERE)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.severe(msgStr);
+    }
+  }
+  
   /**
    * Log an exception (throwable) at the SEVERE level with an
    * accompanying message.

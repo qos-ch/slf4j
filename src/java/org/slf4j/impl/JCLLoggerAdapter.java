@@ -121,13 +121,27 @@ public final class JCLLoggerAdapter implements Logger {
       log.debug(msgStr);
     }
   }
+  
 
+  /**
+   * Delegates to the {@link Log#debug(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level DEBUG.
+   * </p>
+   * 
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
   public void debug(String format, Object[] argArray) {
     if (log.isDebugEnabled()) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
       log.debug(msgStr);
     }
   }
+  
   /**
    * Delegates to the {@link Log#debug(java.lang.Object, java.lang.Throwable)} method of 
    * the underlying {@link Log} instance.
@@ -204,6 +218,26 @@ public final class JCLLoggerAdapter implements Logger {
   }
 
   /**
+   * Delegates to the {@link Log#info(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level INFO.
+   * </p>
+   * 
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void info(String format, Object[] argArray) {
+    if (log.isInfoEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      log.info(msgStr);
+    }
+  }
+  
+  
+  /**
    * Delegates to the {@link Log#info(java.lang.Object, java.lang.Throwable)} method of 
    * the underlying {@link Log} instance.
    * 
@@ -277,6 +311,26 @@ public final class JCLLoggerAdapter implements Logger {
       log.warn(msgStr);
     }
   }
+  
+  /**
+   * Delegates to the {@link Log#warn(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level WARN.
+   * </p>
+   * 
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void warn(String format, Object[] argArray) {
+    if (log.isWarnEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      log.warn(msgStr);
+    }
+  }
+  
 
   /**
    * Delegates to the {@link Log#warn(java.lang.Object, java.lang.Throwable)} method of 
@@ -355,6 +409,26 @@ public final class JCLLoggerAdapter implements Logger {
     }
   }
 
+  /**
+   * Delegates to the {@link Log#error(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level ERROR.
+   * </p>
+   * 
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void error(String format, Object[] argArray) {
+    if (log.isErrorEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      log.error(msgStr);
+    }
+  }
+  
+  
   /**
    * Delegates to the {@link Log#error(java.lang.Object, java.lang.Throwable)} method of 
    * the underlying {@link Log} instance.
