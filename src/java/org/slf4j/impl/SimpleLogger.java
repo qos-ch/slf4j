@@ -108,6 +108,7 @@ public class SimpleLogger implements Logger {
     // NOP
   }
 
+  
   /**
    * A NOP implementation, as this logger is permanently disabled for
    * the DEBUG level.
@@ -116,6 +117,10 @@ public class SimpleLogger implements Logger {
     // NOP
   }
 
+  public void debug(String format, Object[] argArray) {
+    // NOP
+  }
+  
   /**
    * A NOP implementation, as this logger is permanently disabled for
    * the DEBUG level.

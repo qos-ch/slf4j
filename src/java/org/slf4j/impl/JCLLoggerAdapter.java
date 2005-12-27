@@ -122,6 +122,12 @@ public final class JCLLoggerAdapter implements Logger {
     }
   }
 
+  public void debug(String format, Object[] argArray) {
+    if (log.isDebugEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      log.debug(msgStr);
+    }
+  }
   /**
    * Delegates to the {@link Log#debug(java.lang.Object, java.lang.Throwable)} method of 
    * the underlying {@link Log} instance.

@@ -113,6 +113,14 @@ public final class JDK14LoggerAdapter implements Logger {
     }
   }
 
+  
+  public void debug(String format, Object[] argArray) {
+    if (logger.isLoggable(Level.FINE)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.fine(msgStr);
+    }
+  }
+  
    /**
    * Log an exception (throwable) at  level FINE with an
    * accompanying message.

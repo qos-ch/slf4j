@@ -57,7 +57,9 @@ public class XLogger implements Logger {
   public void debug(String parameterizedMsg, Object arg) {  }
 
   public void debug(String parameterizedMsg, Object arg1, Object arg2) {  }
+  public void debug(String parameterizedMsg, Object[] arg) {  }
 
+  
   public void debug(String msg, Throwable t) {  }
 
   public boolean isInfoEnabled() {  return false;

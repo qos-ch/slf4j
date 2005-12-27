@@ -84,6 +84,10 @@ public class NOPLogger implements Logger {
     // NOP
   }
 
+  final public void debug(String format, Object[] argArray) {
+    // NOP
+  }
+  
   /** A NOP implementation. */
   final public void debug(String msg, Throwable t) {
     // NOP

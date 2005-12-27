@@ -118,6 +118,13 @@ public final class Log4jLoggerAdapter implements Logger {
       logger.log(FQCN, Level.DEBUG, msgStr, null);
     }
   }
+  
+  public void debug(String format, Object[] argArray) {
+    if (logger.isDebugEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.DEBUG, msgStr, null);
+    }
+  }
 
   /**
    * Log an exception (throwable) at  level DEBUG with an

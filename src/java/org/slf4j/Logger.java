@@ -90,6 +90,18 @@ public interface Logger {
   public void debug(String format, Object arg1, Object arg2);
 
   /**
+   * Log a message at the DEBUG level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the DEBUG level. </p>
+   *
+   * @param format the format string
+   * @param argArray  an array of arguments
+   */
+  public void debug(String format, Object[] argArray);
+  
+  /**
    * Log an exception (throwable) at the DEBUG level with an
    * accompanying message. 
    * 

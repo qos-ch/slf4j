@@ -125,6 +125,10 @@ public class MSimpleLogger implements MarkingLogger {
     // NOP
   }
 
+  public void debug(String format, Object[] argArray) {
+    // NOP
+  }
+  
   /**
    * A NOP implementation, as this logger is permanently disabled for
    * the DEBUG level.
