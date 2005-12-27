@@ -78,13 +78,14 @@ public class InvokingSLF4J extends TestCase {
     logger.debug("val={} val={}", i1, i2);
     logger.debug("val={} val={} val={}", new Object[]{i1, i2, i3});
     
-    logger.debug("Hello world 1", e);
-    
+    logger.debug("Hello world 2", e);
     logger.info("Hello world 2.");
-    logger.info("Hello world {}", new Integer(2)); 
+ 
+    
     logger.warn("Hello world 3.");
-    logger.warn("Hello world 3.", e);
-    logger.warn("Hello world {}", new Integer(3)); 
+    logger.warn("Hello world 3", e);
+ 
+  
     logger.error("Hello world 4.");
     logger.error("Hello world {}", new Integer(3)); 
     logger.error("Hello world 4.", e);

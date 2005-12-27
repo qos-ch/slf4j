@@ -77,6 +77,9 @@ public class XLogger implements Logger {
     // NOP
   }
 
+  public void info(String format, Object[] arg) {
+    // NOP
+  }
   public void info(String msg, Throwable t) {
     // NOP
   }
@@ -97,6 +100,9 @@ public class XLogger implements Logger {
     // NOP
   }
 
+  public void warn(String format, Object[] arg) {
+  }
+  
   public void warn(String msg, Throwable t) {
   }
 
@@ -111,6 +117,9 @@ public class XLogger implements Logger {
   }
 
   public void error(String format, Object arg1, Object arg2) {
+  }
+
+  public void error(String format, Object[] arg) {
   }
 
   public void error(String msg, Throwable t) {
