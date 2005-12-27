@@ -101,7 +101,7 @@ public class MessageFormatter {
    * 
    * @param messagePattern The message pattern which will be parsed and formatted
    * @param argArray An array of arguments to be substituted in place of formatting anchors
-   * @return
+   * @return The formatted message
    */
   public static String arrayFormat(String messagePattern, Object[] argArray) {
     if(messagePattern == null) {
