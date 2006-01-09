@@ -306,7 +306,7 @@ public final class JDK14LoggerAdapter implements Logger {
    * @param t the exception (throwable) to log
    */
   public void warn(String msg, Throwable t) {
-    logger.log(Level.WARNING, msg.toString(), t);
+    logger.log(Level.WARNING, msg, t);
   }
 
   /**
