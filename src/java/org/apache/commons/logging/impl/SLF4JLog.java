@@ -73,7 +73,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String}  
    */
   public void trace(Object message) {
-    logger.debug(message.toString());
+    logger.debug(String.valueOf(message));
   }
 
   /**
@@ -84,7 +84,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void trace(Object message, Throwable t) {
-    logger.debug(message.toString(), t);
+    logger.debug(String.valueOf(message), t);
   }
 
   /**
@@ -94,7 +94,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String} 
    */
   public void debug(Object message) {
-    logger.debug(message.toString());
+    logger.debug(String.valueOf(message));
   }
 
   /**
@@ -105,7 +105,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void debug(Object message, Throwable t) {
-    logger.debug(message.toString(), t);
+    logger.debug(String.valueOf(message), t);
   }
 
   /**
@@ -115,7 +115,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String} 
    */
   public void info(Object message) {
-    logger.info(message.toString());
+    logger.info(String.valueOf(message));
   }
 
   /**
@@ -126,7 +126,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void info(Object message, Throwable t) {
-    logger.info(message.toString(), t);
+    logger.info(String.valueOf(message), t);
   }
 
   /**
@@ -136,7 +136,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String}  
    */
   public void warn(Object message) {
-    logger.warn(message.toString());
+    logger.warn(String.valueOf(message));
   }
 
   /**
@@ -147,7 +147,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void warn(Object message, Throwable t) {
-    logger.warn(message.toString(), t);
+    logger.warn(String.valueOf(message), t);
   }
 
   /**
@@ -157,7 +157,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String}  
    */
   public void error(Object message) {
-    logger.error(message.toString());
+    logger.error(String.valueOf(message));
   }
 
   /**
@@ -168,7 +168,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void error(Object message, Throwable t) {
-    logger.error(message.toString(), t);
+    logger.error(String.valueOf(message), t);
   }
 
 
@@ -180,7 +180,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String}  
    */
   public void fatal(Object message) {
-    logger.error(message.toString());
+    logger.error(String.valueOf(message));
   }
 
   /**
@@ -191,7 +191,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void fatal(Object message, Throwable t) {
-    logger.error(message.toString(), t);
+    logger.error(String.valueOf(message), t);
   }
 
 }
