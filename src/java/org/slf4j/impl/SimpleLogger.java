@@ -234,7 +234,7 @@ public class SimpleLogger implements Logger {
    * Log a message of level INFO, including an exception.
    */
   public void info(String msg, Throwable t) {
-    log(INFO_STR, msg.toString(), t);
+    log(INFO_STR, msg, t);
   }
 
   /**
@@ -249,7 +249,7 @@ public class SimpleLogger implements Logger {
    * to the format outlined above.
   */
   public void warn(String msg) {
-    log(WARN_STR, msg.toString(), null);
+    log(WARN_STR, msg, null);
   }
 
   /**
@@ -280,7 +280,7 @@ public class SimpleLogger implements Logger {
    * Log a message of level WARN, including an exception.
    */
   public void warn(String msg, Throwable t) {
-    log(WARN_STR, msg.toString(), t);
+    log(WARN_STR, msg, t);
   }
 
   /**
@@ -295,7 +295,7 @@ public class SimpleLogger implements Logger {
    * to the format outlined above.
    */
   public void error(String msg) {
-    log(ERROR_STR, msg.toString(), null);
+    log(ERROR_STR, msg, null);
   }
 
   /**
@@ -327,7 +327,7 @@ public class SimpleLogger implements Logger {
    * Log a message of level ERROR, including an exception.
    */
   public void error(String msg, Throwable t) {
-    log(ERROR_STR, msg.toString(), t);
+    log(ERROR_STR, msg, t);
   }
 
 }
