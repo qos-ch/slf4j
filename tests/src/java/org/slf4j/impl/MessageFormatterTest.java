@@ -44,26 +44,50 @@ import junit.framework.TestCase;
  */
 public class MessageFormatterTest extends TestCase {
   
+  Integer i1 = new Integer(1);
+  Integer i2 = new Integer(2);
+  Integer i3 = new Integer(3);
+  
   public void testNull() {
     String result;
-    Integer i3 = new Integer(3);
-    
-    result = MessageFormatter.format(null, i3);
+    result = MessageFormatter.format(null, i1);
     assertEquals(null, result);
   }
   
+  public void testNullParam() {
+    String result;
+    
+    result = MessageFormatter.format("Value is {}.", null);
+    assertEquals("Value is null.", result);
+    
+    result = MessageFormatter.format("Val1 is {}, val2 is {}.", null, null);
+    assertEquals("Val1 is null, val2 is null.", result);
+    
+    result = MessageFormatter.format("Val1 is {}, val2 is {}.", i1, null);
+    assertEquals("Val1 is 1, val2 is null.", result);
+    
+    result = MessageFormatter.format("Val1 is {}, val2 is {}.", null, i2);
+    assertEquals("Val1 is null, val2 is 2.", result);
+ 
+    result = MessageFormatter.arrayFormat("Val1 is {}, val2 is {}, val3 is {}", new Integer[]{null, null, null});
+    assertEquals("Val1 is null, val2 is null, val3 is null", result);
+    
+    result = MessageFormatter.arrayFormat("Val1 is {}, val2 is {}, val3 is {}", new Integer[]{null, i2, i3});
+    assertEquals("Val1 is null, val2 is 2, val3 is 3", result);
+    
+    result = MessageFormatter.arrayFormat("Val1 is {}, val2 is {}, val3 is {}", new Integer[]{null, null, i3});
+    assertEquals("Val1 is null, val2 is null, val3 is 3", result);
+  }
+  
+  
   public void test1Param() {
     String result;
-    Integer i3 = new Integer(3);
     
     result = MessageFormatter.format("Value is {}.", i3);
     assertEquals("Value is 3.", result);
 
     result = MessageFormatter.format("Value is {", i3);
     assertEquals("Value is {", result);
-    
-    result = MessageFormatter.format("Value is {}.", null);
-    assertEquals("Value is null.", result);
 
     result = MessageFormatter.format("{} is larger than 2.", i3);
     assertEquals("3 is larger than 2.", result);
@@ -89,8 +113,7 @@ public class MessageFormatterTest extends TestCase {
   
   public void test2Param() {
     String result;
-    Integer i1 = new Integer(1);
-    Integer i2 = new Integer(2);
+
     
     result = MessageFormatter.format("Value {} is smaller than {}.", i1, i2);
     assertEquals("Value 1 is smaller than 2.", result);
@@ -123,10 +146,7 @@ public class MessageFormatterTest extends TestCase {
   
   public void testArray() {
     String result;
-    Integer i1 = new Integer(1);
-    Integer i2 = new Integer(2);
-    Integer i3 = new Integer(3);
-    
+
     Integer[] ia = new Integer[] {i1, i2, i3};
 
     result = MessageFormatter.arrayFormat("Value {} is smaller than {} and {}.", ia);
