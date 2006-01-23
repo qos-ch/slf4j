@@ -32,23 +32,37 @@
  */
 package org.slf4j.impl;
 
-import org.slf4j.Constants;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
- * Allows for dynamic binding as specified by information contained
- * in the {@link Constants#LOGGER_FACTORY_PROPERTY} java system property.
+ * Allows for dynamic binding as specified by information contained in the
+ * {@link Constants#LOGGER_FACTORY_PROPERTY} java system property.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
 public class SystemPropBinder implements LoggerFactoryBinder {
+
+  /**
+   * The name of the system property to set in order to instruct
+   * {@link LoggerFactory} class to use a specific ILoggerFactory.
+   */
+  final public static String LOGGER_FACTORY_PROPERTY = "org.slf4j.factory";
+
+  /**
+   * Constant used to determine the name of the factory method for creating
+   * logger factories.
+   */
+  final public static String LOGGER_FACTORY_FACTORY_METHOD_NAME = "getInstance";
+
   String factoryFactoryClassName = null;
 
   /**
-   * Fetch the appropriate ILoggerFactory as instructed by the system properties.
+   * Fetch the appropriate ILoggerFactory as instructed by the system
+   * properties.
    * 
    * Constants.LOGGER_FACTORY_FACTORY_METHOD_NAME
+   * 
    * @return The appropriate ILoggerFactory instance as directed from the system
    *         properties
    */
@@ -62,7 +76,7 @@ public class SystemPropBinder implements LoggerFactoryBinder {
       Class factoryFactoryClass = Class.forName(getLoggerFactoryClassStr());
       Class[] EMPTY_CLASS_ARRAY = {};
       java.lang.reflect.Method factoryFactoryMethod = factoryFactoryClass
-          .getDeclaredMethod(Constants.LOGGER_FACTORY_FACTORY_METHOD_NAME,
+          .getDeclaredMethod(LOGGER_FACTORY_FACTORY_METHOD_NAME,
               EMPTY_CLASS_ARRAY);
       ILoggerFactory loggerFactory = (ILoggerFactory) factoryFactoryMethod
           .invoke(null, null);
@@ -80,11 +94,9 @@ public class SystemPropBinder implements LoggerFactoryBinder {
   public String getLoggerFactoryClassStr() {
     if (factoryFactoryClassName == null) {
       try {
-        factoryFactoryClassName = System
-            .getProperty(Constants.LOGGER_FACTORY_PROPERTY);
+        factoryFactoryClassName = System.getProperty(LOGGER_FACTORY_PROPERTY);
       } catch (Exception e) {
-        Util.reportFailure("Failed to fetch "
-            + Constants.LOGGER_FACTORY_PROPERTY
+        Util.reportFailure("Failed to fetch " + LOGGER_FACTORY_PROPERTY
             + " system property.", e);
       }
     }

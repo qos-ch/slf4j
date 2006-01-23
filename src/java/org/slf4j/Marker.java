@@ -49,6 +49,17 @@ import java.util.Iterator;
 public interface Marker {
  
   /**
+   * This constant symbolizes any marker, including a null marker.
+   */
+  public static final String ANY_MARKER = "*";
+  
+  /**
+   * This constant symbolizes any non-null marker.
+   */
+  public static final String ANY_NON_NULL_MARKER = "+";
+  
+  
+  /**
    * Get the name of this Marker.
    * @return name of marker
    */ 
