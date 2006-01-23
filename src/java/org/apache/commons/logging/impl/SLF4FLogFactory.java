@@ -73,24 +73,12 @@ public class SLF4FLogFactory extends LogFactory {
    */
   public static final String LOG_PROPERTY = "org.apache.commons.logging.Log";
 
-  /**
-   * <p>
-   * The name of the {@link Log} interface class.
-   * </p>
-   */
-  private static final String LOG_INTERFACE = "org.apache.commons.logging.Log";
-
   // ----------------------------------------------------- Instance Variables
 
   /**
    * Configuration attributes.
    */
   protected Hashtable attributes = new Hashtable();
-
-  /**
-   * Name of the class implementing the Log interface.
-   */
-  private String logClassName;
 
   // --------------------------------------------------------- Public Methods
 
