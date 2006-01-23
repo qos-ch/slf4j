@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 public class XLoggerBySystemPropsTest extends TestCase {
 
 	public void testBasic() {
-		System.setProperty(Constants.LOGGER_FACTORY_PROPERTY, "org.slf4j.XLoggerFAFactory");
+		System.setProperty(LOGGER_FACTORY_PROPERTY, "org.slf4j.XLoggerFAFactory");
 		
 		Logger logger = LoggerFactory.getLogger("foo");
 		if(! (logger instanceof XLogger)) {
