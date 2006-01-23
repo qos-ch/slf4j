@@ -43,10 +43,10 @@ import org.slf4j.Logger;
  * <p>The output includes the relative time in milliseconds, thread
  * name, the level, logger name, and the message followed by the line
  * separator for the host.  In log4j terms it amounts to the "%r [%t]
- * %level %logger - %m%n" pattern.  *</p>
+ * %level %logger - %m%n" pattern. </p>
  *
  * <p>Sample output follows.</p>
- * <pre>
+<pre>
 176 [main] INFO examples.Sort - Populating an array of 2 elements in reverse order.
 225 [main] INFO examples.SortAlgo - Entered the sort method.
 304 [main] INFO examples.SortAlgo - Dump of interger array:
