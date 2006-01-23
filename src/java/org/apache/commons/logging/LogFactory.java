@@ -28,7 +28,7 @@ import org.apache.commons.logging.impl.SLF4FLogFactory;
  * @author Craig R. McClanahan
  * @author Costin Manolache
  * @author Richard A. Sitze
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a> 
+ * @author Ceki G&uuml;lc&uuml; 
  */
 
 public abstract class LogFactory {

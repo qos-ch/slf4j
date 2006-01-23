@@ -39,7 +39,7 @@ import java.util.Iterator;
  * Markers are named objects used to enrich log statements. Conforming
  * logging system Implementations of SLF4J determine how information
  * conveyed by markers are used, if at all. In particular, many
- * conformant logging systems may ignore marker data.
+ * conforming logging systems ignore marker data.
  * 
  * <p>Markers can contain child markers, which in turn  can contain children 
  * of their own.
@@ -49,12 +49,12 @@ import java.util.Iterator;
 public interface Marker {
  
   /**
-   * This constant symbolizes any marker, including a null marker.
+   * This constant represents any marker, including a null marker.
    */
   public static final String ANY_MARKER = "*";
   
   /**
-   * This constant symbolizes any non-null marker.
+   * This constant represents any non-null marker.
    */
   public static final String ANY_NON_NULL_MARKER = "+";
   

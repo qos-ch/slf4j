@@ -37,7 +37,7 @@ import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
  * Allows for dynamic binding as specified by information contained in the
- * {@link Constants#LOGGER_FACTORY_PROPERTY} java system property.
+ * {@link #LOGGER_FACTORY_PROPERTY} java system property.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -45,7 +45,7 @@ public class SystemPropBinder implements LoggerFactoryBinder {
 
   /**
    * The name of the system property to set in order to instruct
-   * {@link LoggerFactory} class to use a specific ILoggerFactory.
+   * {@link org.slf4j.LoggerFactory} class to use a specific ILoggerFactory.
    */
   final public static String LOGGER_FACTORY_PROPERTY = "org.slf4j.factory";
 
@@ -61,7 +61,6 @@ public class SystemPropBinder implements LoggerFactoryBinder {
    * Fetch the appropriate ILoggerFactory as instructed by the system
    * properties.
    * 
-   * Constants.LOGGER_FACTORY_FACTORY_METHOD_NAME
    * 
    * @return The appropriate ILoggerFactory instance as directed from the system
    *         properties

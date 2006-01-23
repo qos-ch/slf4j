@@ -45,7 +45,7 @@ import org.slf4j.spi.MarkerFactoryBinder;
  * The binding of {@link MarkerFactory} class with an actual instance of 
  * {@link IMarkerFactory} is performed using information returned by this class. 
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class StaticMarkerBinder implements MarkerFactoryBinder {
 
@@ -68,7 +68,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
   }
   
   /**
-   * Currrently, this method returns the class name of
+   * Currently, this method returns the class name of
    * {@link BasicMarkerFactory}.
    */
   public String getMarkerFactoryClassStr() {

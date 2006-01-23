@@ -35,15 +35,10 @@ package org.slf4j;
 import org.slf4j.impl.StaticLoggerBinder;
 import org.slf4j.impl.Util;
 
-// WARNING
-// WARNING Modifications MUST be made to the original file found at
-// WARNING $SLF4J_HOME/src/filtered-java/org/slf4j/LoggerFactory.java
-// WARNING
-
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
  * various logging APIs, most notably for NLOG4J and JDK 1.4 logging. Other
- * implemenations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
+ * implementations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
  * {@link org.slf4j.impl.SimpleLogger SimpleLogger} are also supported.
  * 
  * <p>
@@ -54,7 +49,7 @@ import org.slf4j.impl.Util;
  * <p>
  * Please note that all methods in <code>LoggerFactory</code> are static.
  * 
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 public final class LoggerFactory {
 

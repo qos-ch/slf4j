@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * @author Rod Waldhoff
  * @author Craig R. McClanahan
  * @author Richard A. Sitze
- * @author <a href="http://www.qos.ch/log4j/">Ceki G&uuml;lc&uuml;</a>
+ * @author Ceki G&uuml;lc&uuml;
  */
 
 public class SLF4FLogFactory extends LogFactory {
