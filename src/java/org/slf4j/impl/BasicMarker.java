@@ -103,4 +103,24 @@ public class BasicMarker implements Marker {
     // could not find markerToRemove
     return false;
   }
+  
+  public boolean contains(Marker other) {
+    if(other == null) {
+      throw new IllegalArgumentException("Other cannot be null");
+    }
+    
+    if(this == other) {
+      return true;
+    }
+    
+    if (hasChildren()) {
+      for(int i = 0; i < children.size(); i++) {
+        Marker child = (Marker) children.get(i);
+        if(child.contains(other)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }

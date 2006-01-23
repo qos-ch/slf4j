@@ -93,6 +93,16 @@ public interface Marker {
    */
   public Iterator iterator();
   
+  /**
+   * Does this marker contain the 'other' marker? Marker A is defined to 
+   * contain marker B, if A == B or if B is a child of A. 
+   * 
+   * @param other The marker to test for inclusion.
+   * @throws IllegalArgumentException if 'other' is null
+   * @return Whether this marker contains the other marker.
+   */
+  public boolean contains(Marker other);
+  
 //  void makeImmutable();
 //  public boolean isImmutable();
 }
