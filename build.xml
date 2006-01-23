@@ -372,13 +372,11 @@
 			<header>&lt;b&gt;SLF4J ${version}&lt;/b&gt;&lt;br/&gt;</header>
 			
 		<footer>
-      	   Copyright 2004-2005  
-      	   &lt;a href="http://www.slf4j.org"&gt;&lt;b&gt;SLF4J.ORG&lt;/b&gt;&lt;/a&gt;
-    	   &lt;br/&gt;
+      	   Copyright 2004-2006 SLF4J.ORG, QOS.ch
       	</footer>
 			
 		<bottom>
-    		&lt;small/&gt;SLF4J is hosted by &lt;a href="http://www.qos.ch"&gt;Qos.ch&lt;a/&gt; &lt;small/&gt;
+    		
     	</bottom>
 		</javadoc>
 	</target>
