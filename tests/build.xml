@@ -133,8 +133,8 @@
 	<!-- ================================================================= -->
 	<target name="all" depends="regression" />
 
-	<target name="regression" depends="MessageFormatter,
-                                     InvokeNOP,
+	<target name="regression" depends="AllRegular,
+		                             InvokeNOP,
                                      InvokeSimple,
 		                             InvokeJDK14,
 		                             InvokeJCL,
@@ -145,11 +145,11 @@
   	                                 InvokeJCLWithSimple,
   	                                 InvokeJCLWithNOP" />
 
-	<target name="MessageFormatter" depends="build, cleanOutputDir">
+	<target name="AllRegular" depends="build, cleanOutputDir">
 		<junit printsummary="yes" fork="yes" haltonfailure="yes">
 			<classpath refid="compile.classpath" />
 			<formatter type="plain" usefile="false" />
-			<test name="org.slf4j.impl.MessageFormatterTest" />
+			<test name="org.slf4j.AllRegularTest" />
 		</junit>
 	</target>
 

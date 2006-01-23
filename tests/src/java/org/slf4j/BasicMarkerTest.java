@@ -34,29 +34,61 @@ package org.slf4j;
 
 import junit.framework.TestCase;
 
+import org.slf4j.impl.BasicMarkerFactory;
+
 
 /**
  * @author ceki
  */
-public class MarkerTest extends TestCase {
-  static final String BLUE = "BLUE";
-  static final String COMP = "COMP";
-
-  public void testPrimitive() {
-    Marker blue = MarkerFactory.getMarker(BLUE);
-    assertEquals(BLUE, blue.getName());
-
-    //assertTrue(blue.isImmutable());
-    assertEquals("BLUE", blue.getName());
+public class BasicMarkerTest extends TestCase {
+  static final String BLUE_STR = "BLUE";
+  static final String RED_STR = "RED";
+  static final String GREEN_STR = "GREEN";
+  static final String COMP_STR = "COMP";
+  static final String MULTI_COMP_STR = "MULTI_COMP";
+  
+  final Marker blue;
+  final Marker red;
+  final Marker green;
+  final Marker comp;
+  final Marker multiComp;
+  
+  public BasicMarkerTest() {
+    IMarkerFactory factory = new BasicMarkerFactory();
     
-
-    Marker blue2 = MarkerFactory.getMarker(BLUE);
+    blue = factory.getMarker(BLUE_STR);
+    red = factory.getMarker(RED_STR);
+    green = factory.getMarker(GREEN_STR);
+    comp = factory.getMarker(COMP_STR);
+    comp.add(blue);
+    
+    multiComp = factory.getMarker(MULTI_COMP_STR);
+    multiComp.add(green);
+    multiComp.add(comp);
+    
+  }
+  public void testPrimitive() {
+    assertEquals(BLUE_STR, blue.getName());
+    assertTrue(blue.contains(blue));
+    
+    Marker blue2 = MarkerFactory.getMarker(BLUE_STR);
+    assertEquals(BLUE_STR, blue2.getName());
     assertEquals(blue, blue2);
-    //blue.add(blue2);
+    assertTrue(blue.contains(blue2));
+    assertTrue(blue2.contains(blue));
   }
 
-  public void testStar() {
-    Marker blue = MarkerFactory.getMarker(BLUE);
-    assertEquals(BLUE, blue.getName());
+  public void testComposite() {
+    comp.add(blue);
+    assertTrue(comp.contains(comp));
+    assertTrue(comp.contains(blue));
   }
+
+  public void testMultiComposite() {
+    assertTrue(multiComp.contains(comp));
+    assertTrue(multiComp.contains(blue));
+    assertTrue(multiComp.contains(green));
+    assertFalse(multiComp.contains(red));
+  }
+
 }
