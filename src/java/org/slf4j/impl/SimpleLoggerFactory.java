@@ -48,6 +48,13 @@ import org.slf4j.ILoggerFactory;
  */
 public class SimpleLoggerFactory implements ILoggerFactory {
 
+
+  /**
+   * A default instance of SimpleLoggerFactory. This default instance may be used
+   * to retrieve a simple logger as a last-resort fallback logger. 
+   */
+  public final static SimpleLoggerFactory INSTANCE = new SimpleLoggerFactory();
+  
   Map map;
   
   public SimpleLoggerFactory() {
