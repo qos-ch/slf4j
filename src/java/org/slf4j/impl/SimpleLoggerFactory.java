@@ -51,7 +51,10 @@ public class SimpleLoggerFactory implements ILoggerFactory {
 
   /**
    * A default instance of SimpleLoggerFactory. This default instance may be used
-   * to retrieve a simple logger as a last-resort fallback logger. 
+   * to retrieve a simple logger as a last-resort fallback logger. This instance 
+   * is designed to be used by a very specific group of users, namely for those 
+   * developing fully-fledged logging systems (e.g. log4j or logback). It is not 
+   * intended for end-users of the SLF4J API.
    */
   public final static SimpleLoggerFactory INSTANCE = new SimpleLoggerFactory();
   
