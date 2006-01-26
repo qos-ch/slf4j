@@ -6,10 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 
 /**
- * This class serves as base for adapters for logging systems lacking Marker
- * support. In this implementation, methods taking marker data simply invoke the
- * corresponding method without the Marker argument, ignoring Marker data in the
- * process.
+ * This class serves as base for adapters or native implementations of logging systems 
+ * lacking Marker support. In this implementation, methods taking marker data 
+ * simply invoke the corresponding method without the Marker argument, ignoring 
+ * any Marker data passed as argument.
  * 
  * @author Ceki Gulcu
  */
