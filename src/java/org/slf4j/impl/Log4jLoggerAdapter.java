@@ -46,7 +46,7 @@ import org.slf4j.Logger;
 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class Log4jLoggerAdapter extends MarkerIgnoringAdapterBase {
+public final class Log4jLoggerAdapter extends MarkerIgnoringBase {
   final org.apache.log4j.Logger logger;
   
   /**

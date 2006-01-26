@@ -35,7 +35,7 @@ package org.slf4j.impl;
 /**
  * A NOP Logger implementation.
  */
-public class XLogger extends MarkerIgnoringAdapterBase {
+public class XLogger extends MarkerIgnoringBase {
 
   /**
    * The unique instance of NOPLogger.

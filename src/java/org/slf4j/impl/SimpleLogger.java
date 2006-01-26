@@ -58,7 +58,7 @@ package org.slf4j.impl;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class SimpleLogger extends MarkerIgnoringAdapterBase {
+public class SimpleLogger extends MarkerIgnoringBase {
   /**
    * Mark the time when this class gets loaded into memory.
    */
