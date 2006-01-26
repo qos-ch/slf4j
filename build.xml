@@ -194,7 +194,7 @@
 			      ${SLF4J_STEM}/spi/LoggerFactoryBinder.class,
                   ${SLF4J_STEM}/impl/MessageFormatter.class,
     	          ${SLF4J_STEM}/impl/Util.class,
-			      ${SLF4J_STEM}/impl/WrappingLoggerAdapter.class,
+			      ${SLF4J_STEM}/impl/MarkerIgnoringBase.class,
 		          ${SLF4J_STEM}/impl/StaticLoggerBinder.class,
                   ${SLF4J_STEM}/impl/${IMPL}*.class">
 			<manifest>
