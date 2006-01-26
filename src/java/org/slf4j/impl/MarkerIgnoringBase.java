@@ -13,7 +13,7 @@ import org.slf4j.Marker;
  * 
  * @author Ceki Gulcu
  */
-abstract class MarkerIgnoringBase implements Logger {
+public abstract class MarkerIgnoringBase implements Logger {
 
   public boolean isDebugEnabled(Marker marker) {
     return isDebugEnabled();
