@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 /**
  * A NOP Logger implementation.
  */
-public class XLogger implements Logger {
+public class XLogger extends WrappingLoggerAdapter {
 
   /**
    * The unique instance of NOPLogger.
