@@ -47,6 +47,7 @@ public class BasicMarkerTest extends TestCase {
   static final String COMP_STR = "COMP";
   static final String MULTI_COMP_STR = "MULTI_COMP";
   
+  final IMarkerFactory factory;
   final Marker blue;
   final Marker red;
   final Marker green;
@@ -54,7 +55,7 @@ public class BasicMarkerTest extends TestCase {
   final Marker multiComp;
   
   public BasicMarkerTest() {
-    IMarkerFactory factory = new BasicMarkerFactory();
+    factory = new BasicMarkerFactory();
     
     blue = factory.getMarker(BLUE_STR);
     red = factory.getMarker(RED_STR);
@@ -71,7 +72,7 @@ public class BasicMarkerTest extends TestCase {
     assertEquals(BLUE_STR, blue.getName());
     assertTrue(blue.contains(blue));
     
-    Marker blue2 = MarkerFactory.getMarker(BLUE_STR);
+    Marker blue2 = factory.getMarker(BLUE_STR);
     assertEquals(BLUE_STR, blue2.getName());
     assertEquals(blue, blue2);
     assertTrue(blue.contains(blue2));

@@ -41,7 +41,7 @@ import org.slf4j.Logger;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class NOPLogger implements Logger {
+public class NOPLogger extends WrappingLoggerAdapter {
   /**
    * The unique instance of NOPLogger.
    */

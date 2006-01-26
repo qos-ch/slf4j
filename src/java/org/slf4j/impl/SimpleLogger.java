@@ -33,9 +33,6 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.Logger;
-
-
 /**
  * A simple (and direct) implementation that logs messages of level
  * INFO or higher on the console (<code>System.out<code>).
@@ -49,7 +46,7 @@ import org.slf4j.Logger;
 <pre>
 176 [main] INFO examples.Sort - Populating an array of 2 elements in reverse order.
 225 [main] INFO examples.SortAlgo - Entered the sort method.
-304 [main] INFO examples.SortAlgo - Dump of interger array:
+304 [main] INFO examples.SortAlgo - Dump of integer array:
 317 [main] INFO examples.SortAlgo - Element [0] = 0
 331 [main] INFO examples.SortAlgo - Element [1] = 1
 343 [main] INFO examples.Sort - The next log statement should be an error message.
@@ -61,7 +58,7 @@ import org.slf4j.Logger;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class SimpleLogger implements Logger {
+public class SimpleLogger extends WrappingLoggerAdapter {
   /**
    * Mark the time when this class gets loaded into memory.
    */
@@ -206,7 +203,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform single parameter substituion before logging the message of level
+   * Perform single parameter substitution before logging the message of level
    * INFO according to the format outlined above.
    */
   public void info(String format, Object arg) {
@@ -214,7 +211,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform double parameter substituion before logging the message of level
+   * Perform double parameter substitution before logging the message of level
    * INFO according to the format outlined above.
    */
   public void info(String format, Object arg1, Object arg2) {
@@ -222,7 +219,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform double parameter substituion before logging the message of level
+   * Perform double parameter substitution before logging the message of level
    * INFO according to the format outlined above.
    */
   public void info(String format, Object[] argArray) {
@@ -253,7 +250,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform single parameter substituion before logging the message of level
+   * Perform single parameter substitution before logging the message of level
    * WARN according to the format outlined above.
    */
   public void warn(String format, Object arg) {
@@ -261,7 +258,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform double parameter substituion before logging the message of level
+   * Perform double parameter substitution before logging the message of level
    * WARN according to the format outlined above.
    */
   public void warn(String format, Object arg1, Object arg2) {
@@ -269,7 +266,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform double parameter substituion before logging the message of level
+   * Perform double parameter substitution before logging the message of level
    * WARN according to the format outlined above.
    */
   public void warn(String format, Object[] argArray) {
@@ -291,7 +288,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * A simple implementation which always logs messages of level ERROR acoording
+   * A simple implementation which always logs messages of level ERROR according
    * to the format outlined above.
    */
   public void error(String msg) {
@@ -299,7 +296,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform single parameter substituion before logging the message of level
+   * Perform single parameter substitution before logging the message of level
    * ERROR according to the format outlined above.
    */
   public void error(String format, Object arg) {
@@ -307,7 +304,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform double parameter substituion before logging the message of level
+   * Perform double parameter substitution before logging the message of level
    * ERROR according to the format outlined above.
    */
   public void error(String format, Object arg1, Object arg2) {
@@ -315,7 +312,7 @@ public class SimpleLogger implements Logger {
   }
 
   /**
-   * Perform double parameter substituion before logging the message of level
+   * Perform double parameter substitution before logging the message of level
    * ERROR according to the format outlined above.
    */
   public void error(String format, Object[] argArray) {

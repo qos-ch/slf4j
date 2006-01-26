@@ -43,7 +43,7 @@ import org.slf4j.Logger;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class JCLLoggerAdapter implements Logger {
+public final class JCLLoggerAdapter extends WrappingLoggerAdapter {
   final Log log;
   final String name;
   

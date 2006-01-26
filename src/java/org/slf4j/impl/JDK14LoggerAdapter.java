@@ -45,7 +45,7 @@ import java.util.logging.Level;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class JDK14LoggerAdapter implements Logger {
+public final class JDK14LoggerAdapter extends WrappingLoggerAdapter {
   final java.util.logging.Logger logger;
 
   // WARN: JDK14LoggerAdapter constructor should have only package access so that
