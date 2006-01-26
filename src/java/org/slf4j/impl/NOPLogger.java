@@ -41,7 +41,7 @@ import org.slf4j.Logger;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class NOPLogger extends WrappingLoggerAdapter {
+public class NOPLogger extends MarkerIgnoringAdapterBase {
   /**
    * The unique instance of NOPLogger.
    */

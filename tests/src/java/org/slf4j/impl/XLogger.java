@@ -32,13 +32,10 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.Logger;
-
-
 /**
  * A NOP Logger implementation.
  */
-public class XLogger extends WrappingLoggerAdapter {
+public class XLogger extends MarkerIgnoringAdapterBase {
 
   /**
    * The unique instance of NOPLogger.

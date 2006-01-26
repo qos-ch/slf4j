@@ -58,7 +58,7 @@ package org.slf4j.impl;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class SimpleLogger extends WrappingLoggerAdapter {
+public class SimpleLogger extends MarkerIgnoringAdapterBase {
   /**
    * Mark the time when this class gets loaded into memory.
    */
