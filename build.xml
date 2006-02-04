@@ -114,6 +114,9 @@
   	</fail>
 	</target>
 
+	<!-- test-compile.jar is useful during testing of SLF4J itself. 
+	     The actual binding is the Simple binding.
+	 -->
 	<target name="test-compile.jar" depends="init">
 		<antcall target="compile-IMPL">
 			<param name="IMPL" value="Simple" />
@@ -126,6 +129,10 @@
 		</jar>
 	</target>
 		
+	<!-- compile.jar is useful during development of SLF4J itself. It contains
+	  .class files for java files which cannot be compiled without prior 
+	  filtering. The actual binding is the Simple binding.
+	--> 
 	<target name="compile.jar" depends="init">
 		<antcall target="compile-IMPL">
 			<param name="IMPL" value="Simple" />
