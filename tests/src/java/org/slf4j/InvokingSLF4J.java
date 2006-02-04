@@ -48,16 +48,10 @@ public class InvokingSLF4J extends TestCase {
     super(arg0);
   }
 
-  /*
-   * @see TestCase#setUp()
-   */
   protected void setUp() throws Exception {
     super.setUp();
   }
 
-  /*
-   * @see TestCase#tearDown()
-   */
   protected void tearDown() throws Exception {
     super.tearDown();
   }
@@ -104,7 +98,15 @@ public class InvokingSLF4J extends TestCase {
     logger.info(null, e);
     logger.warn(null, e);
     logger.error(null, e);
-    
+  }
+  
+  public void testMarker() {
+    Logger logger = LoggerFactory.getLogger("testMarker");
+    Marker blue = MarkerFactory.getMarker("BLUE");
+    logger.debug(blue, "hello");
+    logger.info(blue, "hello");
+    logger.warn(blue, "hello");
+    logger.error(blue, "hello");
     
   }
 }
