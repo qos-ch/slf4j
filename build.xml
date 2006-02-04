@@ -199,13 +199,15 @@
 		<jar jarfile="${jar-name}" 
 			 index="true" 
 			 basedir="${tmp.javac.dest}" 
-			 includes="${SLF4J_STEM}/ILoggerFactory.class,
+			 includes="${SLF4J_STEM}/I*.class,
 			      ${SLF4J_STEM}/Logger*.class,
-			      ${SLF4J_STEM}/spi/LoggerFactoryBinder.class,
+			      ${SLF4J_STEM}/Marker*.class,
+			      ${SLF4J_STEM}/spi/*FactoryBinder.class,
                   ${SLF4J_STEM}/impl/MessageFormatter.class,
     	          ${SLF4J_STEM}/impl/Util.class,
 			      ${SLF4J_STEM}/impl/MarkerIgnoringBase.class,
-		          ${SLF4J_STEM}/impl/StaticLoggerBinder.class,
+			      ${SLF4J_STEM}/impl/BasicMarker*.class,
+		          ${SLF4J_STEM}/impl/Static*Binder.class,
                   ${SLF4J_STEM}/impl/${IMPL}*.class">
 			<manifest>
 				<section name="org/slf4j/">
