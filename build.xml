@@ -120,7 +120,8 @@
 			<param name="IMPL.CLASSPATH" value="regular.classpath" />
 		</antcall>
 
-		<jar jarfile="test-compile.jar" basedir="${tmp.javac.dest}" 
+		<jar jarfile="test-compile.jar" 
+			 basedir="${tmp.javac.dest}" 
 			 includes="${SLF4J_STEM}/**/*.class">
 		</jar>
 	</target>
@@ -188,8 +189,10 @@
 			<param name="IMPL.CLASSPATH" value="${IMPL.CLASSPATH}" />
 		</antcall>
 
-		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="
-			      ${SLF4J_STEM}/ILoggerFactory.class,
+		<jar jarfile="${jar-name}" 
+			 index="true" 
+			 basedir="${tmp.javac.dest}" 
+			 includes="${SLF4J_STEM}/ILoggerFactory.class,
 			      ${SLF4J_STEM}/Logger*.class,
 			      ${SLF4J_STEM}/spi/LoggerFactoryBinder.class,
                   ${SLF4J_STEM}/impl/MessageFormatter.class,
@@ -206,34 +209,6 @@
 			</manifest>
 		</jar>
 	</target>
-
-	<!-- =================================================================== -->
-	<!-- Generic target that can build MNOP, MSimple implementations as      -->
-	<!-- specified by the "jar-name" and "impl" parameters.              -->
-	<!-- =================================================================== -->
-	<target name="slf4j-MIMPL.jar" depends="init">
-
-		<antcall target="compile-IMPL">
-			<param name="IMPL" value="${IMPL}" />
-		</antcall>
-
-		<jar jarfile="${jar-name}" basedir="${tmp.javac.dest}" includes="${SLF4J_STEM}/*.class, 
-    	          ${SLF4J_STEM}/spi/*.class,
-                  ${SLF4J_STEM}/impl/MessageFormatter.class,
-    	          ${SLF4J_STEM}/impl/Util.class,
-    	          ${SLF4J_STEM}/impl/*Binder.class,
-                  ${SLF4J_STEM}/impl/${IMPL}*.class">
-			<manifest>
-				<section name="org/slf4j/">
-					<attribute name="Implementation-Title" value="${IMPL} implementation" />
-					<attribute name="Implementation-Version" value="${version}" />
-					<attribute name="Implementation-Vendor" value="SLF4J.ORG" />
-				</section>
-			</manifest>
-		</jar>
-
-	</target>
-
 
 	<target name="slf4j-nop.jar">
 		<antcall target="slf4j-IMPL.jar">
@@ -299,7 +274,10 @@
 			   includes="${JCL_STEM}/**/*.java" debug="${debug}">
 		</javac>
 
-		<jar jarfile="${jcl.jar}" basedir="${tmp.javac.dest}" includes="${JCL_STEM}/**/*.class">
+		<jar jarfile="${jcl.jar}" 
+			index="true"
+			basedir="${tmp.javac.dest}" 
+			includes="${JCL_STEM}/**/*.class">
 			<manifest>
 				<section name="org/apache/commons/logging">
 					<attribute name="Implementation-Title" value="JCL over SLF4J" />
