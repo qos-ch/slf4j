@@ -108,5 +108,14 @@ public class InvokingSLF4J extends TestCase {
     logger.warn(blue, "hello");
     logger.error(blue, "hello");
     
+    logger.debug(blue, "hello {}", "world");
+    logger.info(blue, "hello {}", "world");
+    logger.warn(blue, "hello {}", "world");
+    logger.error(blue, "hello {}", "world");
+
+    logger.debug(blue, "hello {} and {} ", "world", "universe");
+    logger.info(blue, "hello {} and {} ", "world", "universe");
+    logger.warn(blue, "hello {} and {} ", "world", "universe");
+    logger.error(blue, "hello {} and {} ", "world", "universe");
   }
 }
