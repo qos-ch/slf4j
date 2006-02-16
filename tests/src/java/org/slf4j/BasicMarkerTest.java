@@ -79,11 +79,20 @@ public class BasicMarkerTest extends TestCase {
     assertTrue(blue2.contains(blue));
   }
 
+  public void testPrimitiveByName() {
+    assertTrue(blue.contains(BLUE_STR));
+  }
+ 
   public void testComposite() {
-    comp.add(blue);
     assertTrue(comp.contains(comp));
     assertTrue(comp.contains(blue));
   }
+  
+  public void testCompositeByName() {
+    assertTrue(comp.contains(COMP_STR));
+    assertTrue(comp.contains(BLUE_STR));
+  }
+ 
 
   public void testMultiComposite() {
     assertTrue(multiComp.contains(comp));
@@ -91,5 +100,15 @@ public class BasicMarkerTest extends TestCase {
     assertTrue(multiComp.contains(green));
     assertFalse(multiComp.contains(red));
   }
+  
+  public void testMultiCompositeByName() {
+    assertTrue(multiComp.contains(COMP_STR));
+    assertTrue(multiComp.contains(BLUE_STR));
+    assertTrue(multiComp.contains(GREEN_STR));
+    assertFalse(multiComp.contains(RED_STR));
+  }
+ 
+ 
 
+ 
 }
