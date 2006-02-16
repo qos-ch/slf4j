@@ -57,4 +57,12 @@ public interface IMarkerFactory {
    * @return a Marker instance
    */
   Marker getMarker(String name);
+  
+  /**
+   * Checks if the marker with the name already exists. If name is null, then false 
+   * is returned.
+   * 
+   * @return true id the marker exists, false otherwise. 
+   */
+  boolean exists(String name);
 }

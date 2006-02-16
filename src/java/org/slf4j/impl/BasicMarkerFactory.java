@@ -75,9 +75,20 @@ public class BasicMarkerFactory implements IMarkerFactory {
 
     Marker marker = (Marker) markerMap.get(name);
     if (marker == null) {
-      marker = new BasicMarker(name);
+      marker = new BasicMarker(name, this);
       markerMap.put(name, marker);
     }
     return marker;
   }
+  
+  /**
+   * Does the name marked already exist?
+   */
+  public synchronized boolean exists(String name) {
+    if (name == null) {
+      return false;
+    }
+    return markerMap.containsKey(name);
+  }
+  
 }
