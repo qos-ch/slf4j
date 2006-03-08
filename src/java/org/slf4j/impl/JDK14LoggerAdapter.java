@@ -173,7 +173,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
    *          the message object to be logged
    */
   public void info(String msg) {
-    logger.info(msg);
+    log(Level.INFO, msg, null);
   }
 
   /**
@@ -448,6 +448,17 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
     log(Level.SEVERE, msg, t);
   }
 
+  
+  /**
+   * Log the message at the specified level with the specified
+   * throwable if any. This method creates a LogRecord and fills
+   * in caller date before calling this instance's JDK14 logger. 
+   * 
+   * See bug report #13 for more details.
+   * @param level
+   * @param msg
+   * @param t
+   */
   private void log(Level level, String msg, Throwable t) {
     LogRecord record = new LogRecord(level, msg);
     record.setThrown(t);
@@ -459,7 +470,12 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
   static String SELF = JDK14LoggerAdapter.class.getName();
   static String SUPER = MarkerIgnoringBase.class.getName();
 
-  private final void fillCallerData(LogRecord record) {
+  /**
+   * Fill in caller data if possible. 
+   * 
+   * @param record The record to update
+   */
+  final private void fillCallerData(LogRecord record) {
     StackTraceElement[] steArray = new Throwable().getStackTrace();
 
     int selfIndex = -1;
