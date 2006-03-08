@@ -35,7 +35,7 @@ package org.slf4j.impl;
 
 /**
  * A simple (and direct) implementation that logs messages of level
- * INFO or higher on the console (<code>System.out<code>).
+ * INFO or higher on the console (<code>System.err<code>).
  *
  * <p>The output includes the relative time in milliseconds, thread
  * name, the level, logger name, and the message followed by the line
@@ -154,11 +154,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     buf.append(LINE_SEPARATOR);
 
-    System.out.print(buf.toString());
+    System.err.print(buf.toString());
     if (t != null) {
-      t.printStackTrace(System.out);
+      t.printStackTrace(System.err);
     }
-    System.out.flush();
+    System.err.flush();
   }
 
   /**
