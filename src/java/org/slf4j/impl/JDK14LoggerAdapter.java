@@ -33,36 +33,37 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.Logger;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
+import org.slf4j.Logger;
 
 /**
- * A wrapper over {@link java.util.logging.Logger
- * java.util.logging.Logger} in conformance with the {@link Logger}
- * interface. Note that the logging levels mentioned in this class
- * refer to those defined in the java.util.logging package.
+ * A wrapper over {@link java.util.logging.Logger java.util.logging.Logger} in
+ * conformity with the {@link Logger} interface. Note that the logging levels
+ * mentioned in this class refer to those defined in the java.util.logging
+ * package.
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @author Peter Royal
  */
 public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
   final java.util.logging.Logger logger;
 
-  // WARN: JDK14LoggerAdapter constructor should have only package access so that
-  // only JDK14LoggerFactory be able to create one.
+  // WARN: JDK14LoggerAdapter constructor should have only package access so
+  // that only JDK14LoggerFactory be able to create one.
   JDK14LoggerAdapter(java.util.logging.Logger logger) {
     this.logger = logger;
   }
 
   public String getName() {
-   return logger.getName();
+    return logger.getName();
   }
-  
+
   /**
    * Is this logger instance enabled for the FINE level?
-   *
-   * @return True if this Logger is enabled for level FINE, false
-   * otherwise.
+   * 
+   * @return True if this Logger is enabled for level FINE, false otherwise.
    */
   public boolean isDebugEnabled() {
     return logger.isLoggable(Level.FINE);
@@ -72,248 +73,288 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
 
   /**
    * Log a message object at level FINE.
-   * @param msg - the message object to be logged
+   * 
+   * @param msg -
+   *          the message object to be logged
    */
   public void debug(String msg) {
-    logger.fine(msg);
+    log(Level.FINE, msg, null);
   }
 
   /**
-   * Log a message at level FINE according to the specified format and
-   * argument.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for level FINE. </p>
-   *
-   * @param format the format string
-   * @param arg  the argument
+   * Log a message at level FINE according to the specified format and argument.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for level FINE.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
    */
   public void debug(String format, Object arg) {
     if (logger.isLoggable(Level.FINE)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.fine(msgStr);
+      log(Level.FINE, msgStr, null);
     }
   }
 
   /**
    * Log a message at level FINE according to the specified format and
    * arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the FINE level. </p>
-   *
-   * @param format the format string
-   * @param arg1  the first argument
-   * @param arg2  the second argument
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the FINE level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
    */
   public void debug(String format, Object arg1, Object arg2) {
     if (logger.isLoggable(Level.FINE)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.fine(msgStr);
+      log(Level.FINE, msgStr, null);
     }
   }
 
-  
   /**
    * Log a message at level FINE according to the specified format and
    * arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the FINE level. </p>
-   *
-   * @param format the format string
-   * @param argArray an array of arguments
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the FINE level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param argArray
+   *          an array of arguments
    */
   public void debug(String format, Object[] argArray) {
     if (logger.isLoggable(Level.FINE)) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.fine(msgStr);
+      log(Level.FINE, msgStr, null);
     }
   }
-  
-   /**
-   * Log an exception (throwable) at  level FINE with an
-   * accompanying message.
-   *
-   * @param msg the message accompanying the exception
-   * @param t the exception (throwable) to log
+
+  /**
+   * Log an exception (throwable) at level FINE with an accompanying message.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
    */
   public void debug(String msg, Throwable t) {
-    logger.log(Level.FINE, msg, t);
+    log(Level.FINE, msg, t);
   }
 
   /**
    * Is this logger instance enabled for the INFO level?
-   *
-   * @return True if this Logger is enabled for the INFO level, false
-   * otherwise.
+   * 
+   * @return True if this Logger is enabled for the INFO level, false otherwise.
    */
   public boolean isInfoEnabled() {
     return logger.isLoggable(Level.INFO);
   }
 
-
   /**
    * Log a message object at the INFO level.
-   *
-   * @param msg - the message object to be logged
+   * 
+   * @param msg -
+   *          the message object to be logged
    */
   public void info(String msg) {
     logger.info(msg);
   }
 
   /**
-   * Log a message at level INFO according to the specified format and
-   * argument.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the INFO level. </p>
-   *
-   * @param format the format string
-   * @param arg  the argument
+   * Log a message at level INFO according to the specified format and argument.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the INFO level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
    */
   public void info(String format, Object arg) {
     if (logger.isLoggable(Level.INFO)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.info(msgStr);
+      log(Level.INFO, msgStr, null);
     }
   }
 
   /**
-   * Log a message at the INFO level according to the specified format
-   * and arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the INFO level. </p>
-   *
-   * @param format the format string
-   * @param arg1  the first argument
-   * @param arg2  the second argument
+   * Log a message at the INFO level according to the specified format and
+   * arguments.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the INFO level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
    */
   public void info(String format, Object arg1, Object arg2) {
     if (logger.isLoggable(Level.INFO)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.info(msgStr);
+      log(Level.INFO, msgStr, null);
     }
   }
-  
+
   /**
    * Log a message at level INFO according to the specified format and
    * arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the INFO level. </p>
-   *
-   * @param format the format string
-   * @param argArray an array of arguments
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the INFO level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param argArray
+   *          an array of arguments
    */
   public void info(String format, Object[] argArray) {
     if (logger.isLoggable(Level.INFO)) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.info(msgStr);
+      log(Level.INFO, msgStr, null);
     }
   }
-  
-
 
   /**
-   * Log an exception (throwable) at the INFO level with an
-   * accompanying message.
-   *
-   * @param msg the message accompanying the exception
-   * @param t the exception (throwable) to log
+   * Log an exception (throwable) at the INFO level with an accompanying
+   * message.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
    */
   public void info(String msg, Throwable t) {
-    logger.log(Level.INFO, msg, t);
+    log(Level.INFO, msg, t);
   }
-    
+
   /**
    * Is this logger instance enabled for the WARNING level?
-   *
-   * @return True if this Logger is enabled for the WARNING level,
-   * false otherwise.
+   * 
+   * @return True if this Logger is enabled for the WARNING level, false
+   *         otherwise.
    */
   public boolean isWarnEnabled() {
     return logger.isLoggable(Level.WARNING);
   }
-  
+
   /**
    * Log a message object at the WARNING level.
-   *
-   * @param msg - the message object to be logged
+   * 
+   * @param msg -
+   *          the message object to be logged
    */
   public void warn(String msg) {
-    logger.warning(msg);
+    log(Level.WARNING, msg, null);
   }
 
   /**
-   * Log a message at the WARNING level according to the specified
-   * format and argument.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the WARNING level. </p>
-   *
-   * @param format the format string
-   * @param arg  the argument
+   * Log a message at the WARNING level according to the specified format and
+   * argument.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the WARNING level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
    */
   public void warn(String format, Object arg) {
     if (logger.isLoggable(Level.WARNING)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.warning(msgStr);
+      log(Level.WARNING, msgStr, null);
     }
   }
 
   /**
-   * Log a message at the WARNING level according to the specified
-   * format and arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the WARNING level. </p>
-   *
-   * @param format the format string
-   * @param arg1  the first argument
-   * @param arg2  the second argument
+   * Log a message at the WARNING level according to the specified format and
+   * arguments.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the WARNING level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
    */
   public void warn(String format, Object arg1, Object arg2) {
     if (logger.isLoggable(Level.WARNING)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.warning(msgStr);
+      log(Level.WARNING, msgStr, null);
     }
   }
 
   /**
    * Log a message at level WARNING according to the specified format and
    * arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the WARNING level. </p>
-   *
-   * @param format the format string
-   * @param argArray an array of arguments
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the WARNING level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param argArray
+   *          an array of arguments
    */
   public void warn(String format, Object[] argArray) {
     if (logger.isLoggable(Level.WARNING)) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.warning(msgStr);
+      log(Level.WARNING, msgStr, null);
     }
   }
-  
+
   /**
-   * Log an exception (throwable) at the WARNING level with an
-   * accompanying message.
-   *
-   * @param msg the message accompanying the exception
-   * @param t the exception (throwable) to log
+   * Log an exception (throwable) at the WARNING level with an accompanying
+   * message.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
    */
   public void warn(String msg, Throwable t) {
-    logger.log(Level.WARNING, msg, t);
+    log(Level.WARNING, msg, t);
   }
 
   /**
    * Is this logger instance enabled for level SEVERE?
-   *
-   * @return True if this Logger is enabled for level SEVERE, false
-   * otherwise.
+   * 
+   * @return True if this Logger is enabled for level SEVERE, false otherwise.
    */
   public boolean isErrorEnabled() {
     return logger.isLoggable(Level.SEVERE);
@@ -321,75 +362,128 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
 
   /**
    * Log a message object at the SEVERE level.
-   *
-   * @param msg - the message object to be logged
+   * 
+   * @param msg -
+   *          the message object to be logged
    */
   public void error(String msg) {
-    logger.severe(msg);
+    log(Level.SEVERE, msg, null);
   }
 
   /**
-   * Log a message at the SEVERE level according to the specified
-   * format and argument.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the SEVERE level. </p>
-   *
-   * @param format the format string
-   * @param arg  the argument
+   * Log a message at the SEVERE level according to the specified format and
+   * argument.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the SEVERE level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
    */
   public void error(String format, Object arg) {
     if (logger.isLoggable(Level.SEVERE)) {
       String msgStr = MessageFormatter.format(format, arg);
-      logger.severe(msgStr);
+      log(Level.SEVERE, msgStr, null);
     }
   }
 
   /**
-   * Log a message at the SEVERE level according to the specified
-   * format and arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the SEVERE level. </p>
-   *
-   * @param format the format string
-   * @param arg1  the first argument
-   * @param arg2  the second argument
+   * Log a message at the SEVERE level according to the specified format and
+   * arguments.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the SEVERE level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
    */
   public void error(String format, Object arg1, Object arg2) {
     if (logger.isLoggable(Level.SEVERE)) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.severe(msgStr);
+      log(Level.SEVERE, msgStr, null);
     }
   }
 
-  
   /**
    * Log a message at level INFO according to the specified format and
    * arguments.
-   *
-   * <p>This form avoids superfluous object creation when the logger
-   * is disabled for the INFO level. </p>
-   *
-   * @param format the format string
-   * @param argArray an array of arguments
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the INFO level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param argArray
+   *          an array of arguments
    */
   public void error(String format, Object[] argArray) {
     if (logger.isLoggable(Level.SEVERE)) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.severe(msgStr);
+      log(Level.SEVERE, msgStr, null);
     }
   }
-  
+
   /**
-   * Log an exception (throwable) at the SEVERE level with an
-   * accompanying message.
-   *
-   * @param msg the message accompanying the exception
-   * @param t the exception (throwable) to log
+   * Log an exception (throwable) at the SEVERE level with an accompanying
+   * message.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
    */
   public void error(String msg, Throwable t) {
-    logger.log(Level.SEVERE, msg, t);
+    log(Level.SEVERE, msg, t);
   }
 
+  private void log(Level level, String msg, Throwable t) {
+    LogRecord record = new LogRecord(level, msg);
+    record.setThrown(t);
+    fillCallerData(record);
+    logger.log(record);
+
+  }
+
+  static String SELF = JDK14LoggerAdapter.class.getName();
+  static String SUPER = MarkerIgnoringBase.class.getName();
+
+  private final void fillCallerData(LogRecord record) {
+    StackTraceElement[] steArray = new Throwable().getStackTrace();
+
+    int selfIndex = -1;
+    for (int i = 0; i < steArray.length; i++) {
+      final String className = steArray[i].getClassName();
+      if (className.equals(SELF) || className.equals(SUPER)) {
+        selfIndex = i;
+        break;
+      }
+    }
+
+    int found = -1;
+    for (int i = selfIndex + 1; i < steArray.length; i++) {
+      final String className = steArray[i].getClassName();
+      if (!(className.equals(SELF) || className.equals(SUPER))) {
+        found = i;
+        break;
+      }
+    }
+
+    if (found != -1) {
+      StackTraceElement ste = steArray[found];
+      record.setSourceClassName(ste.getClassName());
+      record.setSourceMethodName(ste.getMethodName());
+    }
+  }
 }
