@@ -36,6 +36,33 @@ public abstract class LogFactory {
   static LogFactory logFactory = new SLF4FLogFactory();
 
   /**
+   * The name of the property used to identify the LogFactory implementation
+   * class name.
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String FACTORY_PROPERTY =
+      "org.apache.commons.logging.LogFactory";
+
+  /**
+   * The fully qualified class name of the fallback <code>LogFactory</code>
+   * implementation class to use, if no other can be found. 
+   * 
+   * <p>This property is not used but preserved here for compatibility.
+   */
+  public static final String FACTORY_DEFAULT =
+      "org.apache.commons.logging.impl.SLF4FLogFactory";
+
+  /**
+   * The name of the properties file to search for. 
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String FACTORY_PROPERTIES =
+      "commons-logging.properties";
+
+  
+  /**
    * Protected constructor that is not available for public use.
    */
   protected LogFactory() {
