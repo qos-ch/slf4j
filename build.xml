@@ -274,8 +274,7 @@
 		    <include name="**/*.java" />
 	      </fileset>
 		</copy>
-		 
-		
+
 		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
 			   deprecation="on" 
 			   target="${target}"
@@ -283,10 +282,18 @@
 			   includes="${JCL_STEM}/**/*.java" debug="${debug}">
 		</javac>
 
+		<!-- copy SPI file into META-INF -->
+		<copy todir="${tmp.javac.dest}/META-INF">
+	  	  <fileset dir="./src/resources/JCL/META-INF">
+		    <include name="**/*" />
+		  </fileset>
+		</copy>
+			
 		<jar jarfile="${jcl.jar}" 
 			index="true"
 			basedir="${tmp.javac.dest}" 
-			includes="${JCL_STEM}/**/*.class">
+			includes="${JCL_STEM}/**/*.class,
+			          META-INF/**/*">
 			<manifest>
 				<section name="org/apache/commons/logging">
 					<attribute name="Implementation-Title" value="JCL over SLF4J" />
