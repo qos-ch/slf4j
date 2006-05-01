@@ -461,7 +461,6 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
    */
   private void log(Level level, String msg, Throwable t) {
     LogRecord record = new LogRecord(level, msg);
-    record.set
     record.setLoggerName(getName());
     record.setThrown(t);
     fillCallerData(record);
