@@ -460,6 +460,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
    * @param t
    */
   private void log(Level level, String msg, Throwable t) {
+    // millis and thread are filled by the constructor
     LogRecord record = new LogRecord(level, msg);
     record.setLoggerName(getName());
     record.setThrown(t);
@@ -499,6 +500,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase {
 
     if (found != -1) {
       StackTraceElement ste = steArray[found];
+      // setting the class name has the side effect of setting
+      // the needToInferCaller variable to false.
       record.setSourceClassName(ste.getClassName());
       record.setSourceMethodName(ste.getMethodName());
     }
