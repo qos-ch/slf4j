@@ -165,8 +165,16 @@ public class SLF4FLogFactory extends LogFactory {
    * to objects in that class loader would prevent garbage collection.
    */
   public void release() {
-    throw new UnsupportedOperationException("SLF4J bound commons-logging does not need to implement release().");
-  }
+    // This method is never called by jcl-over-slf4j classes. However,
+    // in certain deployment scenarios, in particular if jcl104-over-slf4j.jar is
+    // in the the web-app class loader and the official commons-logging.jar is
+    // deployed in some parent class loader (e.g. commons/lib), then it is possible 
+    // for the parent class loader to mask the classes shipping in 
+    // jcl104-over-slf4j.jar.
+    System.out.println("WARN: The method "+SLF4FLogFactory.class+"#release() was invoked.");
+    System.out.println("WARN: Please see http://www.slf4j.org/codes.html for an explanation.");
+    System.out.flush(); 
+   }
 
   /**
    * Remove any configuration attribute associated with the specified name. If
