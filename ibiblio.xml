@@ -13,6 +13,7 @@
 		<mkdir dir="tmp/ibiblio" />
 		<copy file="LICENSE.txt" tofile="tmp/ibiblio/LICENSE.txt" />
 		<copy file="slf4j-${impl}.jar" tofile="tmp/ibiblio/slf4j-${impl}-${version}.jar" />
+		<copy file="slf4j-${impl}-sources.jar" tofile="tmp/ibiblio/slf4j-${impl}-${version}-sources.jar" />
 
 		<copy file="src/pom/project-${impl}.xml" tofile="tmp/ibiblio/project.xml">
 			<filterset>
@@ -20,9 +21,11 @@
 			</filterset>
 		</copy>
 
-		<jar jarfile="tmp/slf4j-${impl}-${version}-bundle.jar" basedir="tmp/ibiblio" includes="LICENSE.txt, 
-         project.xml,
-         slf4j-${impl}-${version}.jar" />
+		<jar jarfile="tmp/slf4j-${impl}-${version}-bundle.jar" basedir="tmp/ibiblio" 
+			includes="LICENSE.txt, 
+                      project.xml,
+                      slf4j-${impl}-${version}.jar,
+		              slf4j-${impl}-${version}-sources.jar" />
 	</target>
 
 	<target name="bundle" depends="nop, simple, log4j12, log4j13, jdk14, jcl, JOS">

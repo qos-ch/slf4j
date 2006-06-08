@@ -110,7 +110,7 @@
 
 		<fail unless="log4j13Present">
         Building the SLF4J implementation for the log4j system 
-        requires the presence of log4j 1.2.x.
+        requires the presence of log4j 1.3.x.
   	</fail>
 	</target>
 
@@ -217,12 +217,35 @@
 				</section>
 			</manifest>
 		</jar>
+		
+		
+		<jar jarfile="${sourcejar-name}" index="true" 
+		     basedir="tmp/src" 
+		     includes="${SLF4J_STEM}/I*.java, 
+		               ${SLF4J_STEM}/Logger*.java, 
+		               ${SLF4J_STEM}/Marker*.java, 
+		               ${SLF4J_STEM}/spi/*FactoryBinder.java, 
+		               ${SLF4J_STEM}/impl/MessageFormatter.java, 
+		               ${SLF4J_STEM}/impl/Util.java, 
+		               ${SLF4J_STEM}/impl/MarkerIgnoringBase.java, 
+		               ${SLF4J_STEM}/impl/BasicMarker*.java, 
+		               ${SLF4J_STEM}/impl/Static*Binder.java, 
+		               ${SLF4J_STEM}/impl/${IMPL}*.java"> 
+		  <manifest> 
+		    <section name="org/slf4j/"> 
+		      <attribute name="Implementation-Title" value="${IMPL} implementation" /> 
+		      <attribute name="Implementation-Version" value="${version}" /> 
+		      <attribute name="Implementation-Vendor" value="SLF4J.ORG" /> 
+		    </section> 
+		  </manifest> 
+		</jar>
 	</target>
 
 	<target name="slf4j-nop.jar">
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="NOP" />
 			<param name="jar-name" value="slf4j-nop.jar" />
+			<param name="sourcejar-name" value="slf4j-nop-sources.jar" />
 			<param name="IMPL.CLASSPATH" value="regular.classpath" />
 		</antcall>
 	</target>
@@ -231,6 +254,7 @@
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="Simple" />
 			<param name="jar-name" value="slf4j-simple.jar" />
+			<param name="sourcejar-name" value="slf4j-simple-sources.jar" />
 			<param name="IMPL.CLASSPATH" value="regular.classpath" />
 		</antcall>
 	</target>
@@ -239,6 +263,7 @@
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="Log4j" />
 			<param name="jar-name" value="slf4j-log4j12.jar" />
+			<param name="sourcejar-name" value="slf4j-log4j12-sources.jar" />
 			<param name="IMPL.CLASSPATH" value="log4j12.classpath" />
 		</antcall>
 	</target>
@@ -247,6 +272,7 @@
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="Log4j" />
 			<param name="jar-name" value="slf4j-log4j13.jar" />
+			<param name="sourcejar-name" value="slf4j-log4j13-sources.jar" />
 			<param name="IMPL.CLASSPATH" value="log4j13.classpath" />
 		</antcall>
 	</target>
@@ -255,6 +281,7 @@
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="JDK14" />
 			<param name="jar-name" value="slf4j-jdk14.jar" />
+			<param name="sourcejar-name" value="slf4j-jdk14-sources.jar" />
 			<param name="IMPL.CLASSPATH" value="regular.classpath" />
 		</antcall>
 	</target>
@@ -263,6 +290,7 @@
 		<antcall target="slf4j-IMPL.jar">
 			<param name="IMPL" value="JCL" />
 			<param name="jar-name" value="slf4j-jcl.jar" />
+			<param name="sourcejar-name" value="slf4j-jcl-sources.jar" />
 			<param name="IMPL.CLASSPATH" value="jcl.classpath" />
 		</antcall>
 	</target>
