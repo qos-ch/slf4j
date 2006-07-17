@@ -46,6 +46,7 @@
 	</target>
 
 	<path id="regular.classpath">
+		<!-- nothing to be defined -->
 	</path>
 
 
@@ -114,46 +115,114 @@
   	</fail>
 	</target>
 
-	<!-- test-compile.jar is useful during testing of SLF4J itself. 
-	     The actual binding is the Simple binding.
-	 -->
-	<target name="test-compile.jar" depends="init">
-		<antcall target="compile-IMPL">
-			<param name="IMPL" value="Simple" />
-			<param name="IMPL.CLASSPATH" value="regular.classpath" />
-		</antcall>
-
-		<jar jarfile="test-compile.jar" 
-			 basedir="${tmp.javac.dest}" 
-			 includes="${SLF4J_STEM}/**/*.class">
-		</jar>
-	</target>
+	<!-- =================================================================== -->
+	<!-- slf4j-test.jar is used during testing of SLF4J. It contains         -->
+	
+	<!-- =================================================================== -->
+	
+	<target name="slf4j-test.jar" depends="init">
+		<antcall target="compile4test"/>
 		
-	<!-- compile.jar is useful during development of SLF4J itself. It contains
-	  .class files for java files which cannot be compiled without prior 
-	  filtering. The actual binding is the Simple binding.
-	--> 
-	<target name="compile.jar" depends="init">
-		<antcall target="compile-IMPL">
-			<param name="IMPL" value="Simple" />
-			<param name="IMPL.CLASSPATH" value="regular.classpath" />
-		</antcall>
-
-		<jar jarfile="compile.jar" basedir="${tmp.javac.dest}" 
-			 includes="${SLF4J_STEM}/impl/Static*Binder.class">
+		<jar jarfile="slf4j-test.jar" basedir="${tmp.javac.dest}" 
+			 includes="${SLF4J_STEM}/LoggerFactory.class,
+			           ${SLF4J_STEM}/MarkerFactory.class,
+			           ${SLF4J_STEM}/impl/*.class,
+			           ${SLF4J_STEM}/impl/BasicMarkerFactory.class,
+			           ${SLF4J_STEM}/impl/JDK*.class">
 		</jar>
 	</target>
 
+ 	<target name="pre-compile" depends="init">
+   	   <!-- delete all previously existing files in tmp -->
+		<delete>
+			<fileset dir="tmp/" includes="**/*" />
+		</delete>
+
+		<copy todir="${tmp.java.source.dir}/${SLF4J_STEM}">
+			<fileset dir="./src/java/${SLF4J_STEM}">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+    </target>
+	
+	<!-- =================================================================== -->
+	<!-- Compile all available classes. Used for internal purposes.          -->
+	<!-- =================================================================== -->
+	<target name="compile4test" depends="init">
+		<echo>Compile core</echo>
+			
+		<antcall target="pre-compile"/>
+		<antcall target="filter-sources">
+		  <param name="IMPL" value="Simple" />
+		</antcall>
+					
+		
+		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
+						   deprecation="on"
+						   target="${target}"
+					       source="${source}"
+					       includes="${SLF4J_STEM}/LoggerFactory.java,
+			                         ${SLF4J_STEM}/MarkerFactory.java,
+			                         ${SLF4J_STEM}/impl/JDK*.java,
+			                         ${SLF4J_STEM}/impl/SystemPropBinder.java
+						             ${SLF4J_STEM}/impl/Simple*.java,
+							         ${SLF4J_STEM}/impl/Static*.java" 
+			
+						   excludes="${SLF4J_STEM}/XXX.java"
+						         debug="${debug}">
+					</javac>
+		</target>
+		
+	
+	<!-- =================================================================== -->
+	<!-- Compile core API classes without implementaiton                     -->
+	<!-- =================================================================== -->
+	<target name="compile-core" depends="init">
+		<echo>Compile core</echo>
+		
+		<antcall target="pre-compile"/>
+				
+		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
+					   deprecation="on"
+					   target="${target}"
+				       source="${source}"
+				       includes="${SLF4J_STEM}/*.java,
+		    	             ${SLF4J_STEM}/impl/MessageFormatter.java,
+			                 ${SLF4J_STEM}/impl/MarkerIgnoringBase.java,
+		    	             ${SLF4J_STEM}/impl/Util.java
+		    	             ${SLF4J_STEM}/spi/*.java" 
+					   excludes="${SLF4J_STEM}/LoggerFactory.java,
+			                     ${SLF4J_STEM}/MarkerFactory.java,
+			                     ${SLF4J_STEM}/impl/Static*.java"
+					         debug="${debug}">
+				</javac>
+	</target>
+	
+	<!-- ================================================================= -->
+	<!-- Copy filtered verson of source files using the ${IMPL} variable   -->
+	<!-- ================================================================= -->
+	<target name="filter-sources" depends="init">
+		<copy todir="${tmp.java.source.dir}">
+			<fileset dir="src/filtered-java">
+				<include name="**/*.java" />
+			</fileset>
+			<filterset>
+				<filter token="IMPL" value="${IMPL}" />
+			</filterset>
+		</copy>
+	</target>		
+	
 	<!-- =================================================================== -->
 	<!-- Generic target that can build NOP, Simple and JDK14 implementations -->
 	<!--  as specified by the "jar-name" and "impl" parameters.              -->
 	<!-- =================================================================== -->
 	<target name="compile-IMPL" depends="init">
-		<!-- delete all previously existing files in tmp -->
-		<delete>
-			<fileset dir="tmp/" includes="**/*" />
-		</delete>
+		<antcall target="compile-core"/>
 
+		<antcall target="filter-sources">
+		  <param name="IMPL" value="${IMPL}" />
+		</antcall>
+			
 		<!-- copy a filtered version of slf4j to tmp/src -->
 		<copy todir="${tmp.java.source.dir}">
 			<fileset dir="src/filtered-java">
@@ -163,28 +232,49 @@
 				<filter token="IMPL" value="${IMPL}" />
 			</filterset>
 		</copy>
-
-		<copy todir="${tmp.java.source.dir}/${SLF4J_STEM}">
-			<fileset dir="./src/java/${SLF4J_STEM}">
-				<include name="**/*.java" />
-			</fileset>
-		</copy>
-
+		
 		<javac srcdir="${tmp.java.source.dir}" destdir="${tmp.javac.dest}" 
 			   deprecation="on"
 			   target="${target}"
 		       source="${source}"
-		       includes="${SLF4J_STEM}/*.java,
-    	             ${SLF4J_STEM}/impl/MessageFormatter.java,
-    	             ${SLF4J_STEM}/impl/Util.java
-                     ${SLF4J_STEM}/impl/${IMPL}*.java
-    	             ${SLF4J_STEM}/spi/*.java" 
+		       includes="${SLF4J_STEM}/LoggerFactory.java,
+			         ${SLF4J_STEM}/MarkerFactory.java,
+                     ${SLF4J_STEM}/impl/${IMPL}*.java" 
 			         debug="${debug}">
 			<classpath refid="${IMPL.CLASSPATH}" />
 		</javac>
 
 	</target>
 
+	<target name="slf4j-core.jar" depends="init, compile-core">
+		<antcall target="compile-core"/>
+		
+		<jar jarfile="slf4j-core.jar" 
+			 index="true" 
+			 basedir="${tmp.javac.dest}" 
+			 includes="${SLF4J_STEM}/**/*.class">
+			<manifest>
+				<section name="org/slf4j/">
+					<attribute name="Implementation-Title" value="SLF4J Core API" />
+					<attribute name="Implementation-Version" value="${version}" />
+					<attribute name="Implementation-Vendor" value="SLF4J.ORG" />
+				</section>
+			</manifest>
+		</jar>
+		
+		<jar jarfile="slf4j-core-source.jar" index="true" 
+		     basedir="tmp/src" 
+		     includes="${SLF4J_STEM}/**/*.java"> 
+		  <manifest> 
+		    <section name="org/slf4j/"> 
+		      <attribute name="Implementation-Title" value="SLF4J core API sources" /> 
+		      <attribute name="Implementation-Version" value="${version}" /> 
+		      <attribute name="Implementation-Vendor" value="SLF4J.ORG" /> 
+		    </section> 
+		  </manifest> 
+		</jar>
+	</target>
+	
 	<!-- ====================================================================== -->
 	<!-- Generic target that can build NOP, Simple, log4j and JDK14             -->
 	<!-- implementations as specified by the "jar-name" and "impl" parameters.  -->
@@ -199,13 +289,8 @@
 		<jar jarfile="${jar-name}" 
 			 index="true" 
 			 basedir="${tmp.javac.dest}" 
-			 includes="${SLF4J_STEM}/I*.class,
-			      ${SLF4J_STEM}/Logger*.class,
-			      ${SLF4J_STEM}/Marker*.class,
-			      ${SLF4J_STEM}/spi/*FactoryBinder.class,
-                  ${SLF4J_STEM}/impl/MessageFormatter.class,
-    	          ${SLF4J_STEM}/impl/Util.class,
-			      ${SLF4J_STEM}/impl/MarkerIgnoringBase.class,
+			 includes="${SLF4J_STEM}/LoggerFactory.class,
+			      ${SLF4J_STEM}/MarkerFactory.class,
 			      ${SLF4J_STEM}/impl/BasicMarker*.class,
 		          ${SLF4J_STEM}/impl/Static*Binder.class,
                   ${SLF4J_STEM}/impl/${IMPL}*.class">
@@ -217,7 +302,6 @@
 				</section>
 			</manifest>
 		</jar>
-		
 		
 		<jar jarfile="${sourcejar-name}" index="true" 
 		     basedir="tmp/src" 
@@ -333,7 +417,7 @@
 	</target>
 
 
-	<target name="jar" depends="compile.jar, test-compile.jar, slf4j-nop.jar, jcl-over-slf4j.jar, 
+	<target name="jar" depends="slf4j-core.jar, slf4j-test.jar, slf4j-nop.jar, jcl-over-slf4j.jar, 
 		                        slf4j-log4j12.jar, slf4j-log4j13.jar, 
 		                        slf4j-simple.jar, slf4j-jdk14.jar, slf4j-jcl.jar" />
 
@@ -428,14 +512,17 @@
 		<mkdir dir="${dist.tmp}/slf4j-${version}" />
 
 		<copy todir="${dist.tmp}/slf4j-${version}">
-			<fileset dir="./" includes="src/**,            
+			<fileset dir="./" 
+				     includes="src/**,            
                build.xml,
                build.properties,
                local.properties.sample,
                INSTALL.txt,
                LICENSE.txt,
       	       ${jcl.jar},
-      	       slf4j-*.jar" excludes="**/*.bak, 
+      	       slf4j-*.jar" 
+			excludes="**/*.bak,
+			   slf4j-test*.jar,
                **/.#*" />
 		</copy>
 

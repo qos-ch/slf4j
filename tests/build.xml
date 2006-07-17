@@ -10,11 +10,12 @@
 		<pathelement location="${tests.source.home}" />
 		<pathelement location="${tests.javac.dest}" />
 		<pathelement location="${jakarta-oro.jar}" />
+		<pathelement location="../slf4j-core.jar" />
 	</path>
 
 	<path id="compile.classpath">
 		<path refid="basic.classpath" />
-		<pathelement location="../test-compile.jar" />
+		<pathelement location="../slf4j-test.jar" />
 		<pathelement location="../jcl104-over-slf4j.jar" />
 	</path>
 
