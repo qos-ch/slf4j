@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j</artifactId>
+	<version>1.1.0</version>
+	<packaging>pom</packaging>
+	<name>SLF4J</name>
+
+
+	<url>http://www.slf4j.org</url>
+
+	<organization>
+		<name>QOS.ch</name>
+		<url>http://www.qos.ch</url>
+	</organization>
+	<inceptionYear>2005</inceptionYear>
+
+	<modules>
+		<module>slf4j-api</module>
+	</modules>
+
+	<dependencies>
+			<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<dependencyManagement>
+    <dependencies>
+    </dependencies>
+   
+	</dependencyManagement>
+
+	<build>
+
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+	 
+      <plugin>
+      	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+        	<aggregate>true</aggregate>
+					<links>
+						<link>
+							http://java.sun.com/j2se/1.5.0/docs/api
+						</link>
+					</links>
+				</configuration>
+      </plugin>
+      
+      <plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<descriptors>
+						<descriptor>
+							src/main/assembly/source.xml
+						</descriptor>
+					</descriptors>
+					<finalName>
+						logback-${project.version}
+					</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<outputDirectory>target/site/dist/</outputDirectory>
+				</configuration>
+			</plugin>
+			
+    </plugins>
+
+	</reporting>
+	
+
+</project>
