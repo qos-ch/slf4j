@@ -1,3 +1,0 @@
-
-slf4j-site=../site
-javadoc.dest=${slf4j-site}/docs/api
