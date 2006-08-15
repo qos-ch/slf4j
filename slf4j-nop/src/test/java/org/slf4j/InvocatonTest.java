@@ -42,9 +42,9 @@ import junit.framework.TestCase;
  * @author Ceki Gulcu
  *
  */
-public class InvokingSLF4J extends TestCase {
+public class InvocatonTest extends TestCase {
 
-  public InvokingSLF4J (String arg0) {
+  public InvocatonTest (String arg0) {
     super(arg0);
   }
 
