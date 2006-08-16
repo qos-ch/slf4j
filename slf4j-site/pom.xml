@@ -16,7 +16,7 @@
 	<packaging>jar</packaging>
 	<name>SLF4J Site</name>
 
-	<url>http://logback.qos.ch</url>
+	<url>http://www.slf4j.org</url>
 
 	<organization>
 		<name>QOS.ch</name>

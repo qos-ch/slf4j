@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="Logback Main Site">
+<project name="SLF4J Main Site">
 
   <skin>
-    <groupId>ch.qos.logback</groupId>
-    <artifactId>lb-skin</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-skin</artifactId>
+    <version>1.1.0</version>
   </skin>
   
   <publishDate position="navigation-bottom" format="dd-MM-yyyy"/>
 
   <bannerLeft>
-    <name>${project.name}</name>
-    <src>/images/logos/lblogo.jpg</src>
+    <name>SLF4J</name>
+    <src>/images/logos/slf4j-logo.jpg</src>
   </bannerLeft>
 
-  <body>
-  	<!--
-    <links>
-      <item name="Core Module" href="http://logback.qos.ch/core/" />      
-      <item name="Classic Module" href="http://logback.qos.ch/classic/"/>
-      <item name="Access Module" href="http://logback.qos.ch/access/"/>
-    </links>
-    -->
-
-    <menu name="${project.name}">
-      <item name="Introduction" href="index.html"/>
-      <item name="News" href="news.html" />
-      <item name="Download" href="download.html" />
-      <item name="Documentation" href="documentation.html" />
-      <item name="Mailing Lists" href="mailinglist.html" />
-      <item name="Source Repository" href="repos.html" />
-      <item name="Bug Report" href="bugreport.html"/>
-      <item name="License" href="license.html" />      
+  <body>  
+    <menu name="SLF4J project">
+      <item name="Introduction"   href="index.html"/>
+      <item name="News"           href="news.html"/>
+      <item name="Documentation"  href="docs.html"/>
+      <item name="License"        href="license.html"/>
+      <item name="Download"       href="download.html"/>
+      <item name="Source Repositories" href="svn.html"/>
+      <item name="Mailing Lists"   href="mailing-lists.html"/>
+      <item name="Bug Reporting"   href="bug-reporting.html"/>      
     </menu>
+   <menu name="Native implementations">
+     <item name="Logback" href="http://logback.qos.ch/XXX"/>   
+     <item name="NLOG4J" href="http://www.slf4j.org/nlog4j/"/>   
+     <item name="x4juli" href="http://www.x4juli.org/"/>   
+   </menu>
+   <menu name="Wrapped implementations">
+     <item name="JDK14"   href="apidocs/org/slf4j/impl/JDK14LoggerAdapter.html"/>    
+     <item name="Log4j"   href="apidocs/org/slf4j/impl/Log4jLoggerAdapter.html"/>    
+     <item name="Simple"   href="apidocs/org/slf4j/impl/SimpleLogger.html"/>     
+     <item name="Simple-Log"   href="http://simple-log.dev.java.net/"/>
+   </menu>
   </body>
 </project>

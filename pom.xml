@@ -27,6 +27,7 @@
     <module>slf4j-log4j12</module>
     <module>slf4j-jcl</module>
     <module>jcl104-over-slf4j</module>
+    <module>slf4j-site</module>
 	</modules>
 
 	<dependencies>

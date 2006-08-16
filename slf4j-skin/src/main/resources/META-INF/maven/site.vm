@@ -230,44 +230,9 @@
 #end
 
 #macro ( poweredByLogo $poweredBy )
-    #if( $poweredBy )
-        #foreach ($item in $poweredBy)
-            #if( $item.href )
-                #set ( $href = $PathTool.calculateLink( $item.href, $relativePath ) )
-                #set ( $href = $href.replaceAll( "\\", "/" ) )
-            #else
-                #set ( $href="http://www.qos.ch/" )
-            #end
 
-            #if( $item.name )
-                #set ( $name = $item.name )
-            #else
-                #set ( $name = $i18n.getString( "site-renderer", $locale, "template.builtby" )  )
-                #set ( $name = "${name}"  )
-            #end
+ <br/>
 
-            #if( $item.img )
-                #set ( $img = $item.img )
-            #else
-                #set ( $img = "images/logos/qosLogo.png" )
-            #end
-
-            <a href="$href" title="$name" id="poweredBy">
-              #set ( $img = $PathTool.calculateLink( $img, $relativePath ) )
-              #set ( $img = $img.replaceAll( "\\", "/" ) )
-              <img alt="$name" src="$img" />
-            </a>
-        #end
-        #if( $poweredBy.isEmpty() )
-          <a href="http://www.qos.ch/" title="QOS.ch" id="poweredBy">
-          	<img alt="QOS.ch" src="$relativePath/images/logos/qosLogo.png"></img>
-        	</a>
-        #end
-    #else
-        <a href="http://www.qos.ch/" title="QOS.ch" id="poweredBy">
-          <img alt="QOS.ch" src="$relativePath/images/logos/qosLogo.png"></img>
-        </a>
-    #end
 #end
 
 <html>
