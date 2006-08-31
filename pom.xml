@@ -68,6 +68,30 @@
 				</configuration>
 			</plugin>		
 	
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+        	<aggregate>true</aggregate>
+					<links>
+						<link>
+							http://java.sun.com/j2se/1.5.0/docs/api
+						</link>
+					</links>
+          <groups>
+            <group>
+              <title>SLF4J packages</title>
+              <packages>org.slf4j.*</packages>
+            </group>
+            <group>
+              <title>Jakarta Commons Logging packages</title>
+              <packages>org.apache.commons.*</packages>
+            </group>
+          </groups>
+        </configuration>
+      </plugin>
+
     </plugins>
 
 	</build>
@@ -79,31 +103,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>
-					maven-project-info-reports-plugin
-				</artifactId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<reportSets>
-					<reportSet>
-						<reports>
-						</reports>
-					</reportSet>
+					<reportSet><reports></reports></reportSet>
 				</reportSets>
-			</plugin>
-	 
-      <plugin>
-      	<groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-        	<aggregate>true</aggregate>
-					<links>
-						<link>
-							http://java.sun.com/j2se/1.5.0/docs/api
-						</link>
-					</links>
-				</configuration>
-      </plugin>
+			</plugin>	    
       
       <plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -114,9 +121,7 @@
 							src/main/assembly/source.xml
 						</descriptor>
 					</descriptors>
-					<finalName>
-						logback-${project.version}
-					</finalName>
+					<finalName>slf4j-${project.version}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 					<outputDirectory>target/site/dist/</outputDirectory>
 				</configuration>
