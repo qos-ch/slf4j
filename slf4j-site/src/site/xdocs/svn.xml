@@ -29,25 +29,18 @@
   <h2>Web Access</h2>
 
   <p>If you just wish to browse around or download a few individual
-  files, the best tool is the web-based ViewCVS interface for CVS
-  repositories and ViewCVS interface for Subversion or go straight to
-  the public repositories at:
+  files, the best tool is the web-based ViewVC interface for
+  Subversion repositories:
   </p>
 
   <table cellspacing="6">
     <tr>
       <td>For SLF4J </td>
-      <td><a href="http://svn.slf4j.org/viewcvs/slf4j/trunk/">
-      http://svn.slf4j.org/viewcvs/slf4j/trunk/</a>
+      <td><a href="http://svn.slf4j.org/viewvc/slf4j/trunk/">
+      http://svn.slf4j.org/viewvc/slf4j/trunk/</a>
       </td>
     </tr>
 
-    <tr>
-      <td>For NLOG4J </td>
-      <td><a href="http://svn.slf4j.org/viewcvs/nlog4j/trunk/">
-      http://svn.slf4j.org/viewcvs/nlog4j/trunk/</a>
-      </td>
-    </tr>
   </table>
 
   <h2>Checking out a read-only copy</h2>
@@ -60,11 +53,6 @@
   <p>To check out the SLF4j module, issue the following command: </p>
 
   <pre class="cmd">svn checkout <b>http://svn.slf4j.org/repos/slf4j/trunk</b></pre>
-
-
-  <p>To check out the NLOG4J module, issue the following command: </p>
-
-  <pre class="cmd">svn checkout <b>http://svn.slf4j.org/repos/nlog4j/trunk</b></pre>
 
   <p>Note that anonymous access allows read-only access only. For
   read-write access please contact the <a

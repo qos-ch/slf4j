@@ -22,8 +22,6 @@
       </includes>
     </fileSet>
 
-
-
     <fileSet>
       <directory>slf4j-jdk14/</directory>
       <outputDirectory>slf4j-jdk14/</outputDirectory>
@@ -32,8 +30,39 @@
       </includes>
     </fileSet>
 
-		
-		<!-- Module Source directories -->
+    <fileSet>
+      <directory>slf4j-log4j12/</directory>
+      <outputDirectory>slf4j-log4j12/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <directory>slf4j-nop/</directory>
+      <outputDirectory>slf4j-nop/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <directory>slf4j-simple/</directory>
+      <outputDirectory>slf4j-simple/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <directory>jcl104-over-slf4j/</directory>
+      <outputDirectory>jcl104-over-slf4j/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+		<!-- Module Source directories (includes tests) -->
 		<fileSet>
 			<directory>slf4j-api/src/</directory>
 			<outputDirectory>slf4j-api/src/</outputDirectory>
@@ -44,28 +73,97 @@
       </excludes>
     </fileSet>
 		
+    <fileSet>
+      <directory>slf4j-jcl/src/</directory>
+			<outputDirectory>slf4j-jcl/src/</outputDirectory>    
+    </fileSet>
+
+    <fileSet>
+      <directory>slf4j-jdk14/src/</directory>
+			<outputDirectory>slf4j-jdk14/src/</outputDirectory>    
+    </fileSet>
+
+    <fileSet>
+      <directory>slf4j-log4j12/src/</directory>
+			<outputDirectory>slf4j-log4j12/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>slf4j-nop/src/</directory>
+			<outputDirectory>slf4j-nop/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>slf4j-jcl/src/</directory>
+			<outputDirectory>slf4j-jcl/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>jcl104-over-slf4j/src/</directory>
+			<outputDirectory>jcl104-over-slf4j/src/</outputDirectory>    
+    </fileSet>
+
 		<!-- Module JARs -->
 		<fileSet>
 			<directory>slf4j-api/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-api-${project.version}.jar</include>
+				<include>slf4j-api-${project.version}*.jar</include>
 			</includes>
 		</fileSet>
 
-		<!-- Module Source JARs -->
 		<fileSet>
-			<directory>slf4j-api/target/</directory>
+			<directory>slf4j-jcl/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-api-${project.version}-sources.jar</include>
+				<include>slf4j-jcl-${project.version}*.jar</include>
 			</includes>
 		</fileSet>
+
+    <fileSet>
+			<directory>slf4j-jdk14/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>slf4j-jdk14-${project.version}*.jar</include>
+			</includes>
+		</fileSet>
+
+    <fileSet>
+			<directory>slf4j-log4j12/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>slf4j-log4j12-${project.version}*.jar</include>
+			</includes>
+		</fileSet>
+
+    <fileSet>
+			<directory>slf4j-nop/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>slf4j-nop-${project.version}*.jar</include>
+			</includes>
+		</fileSet>
+
+    <fileSet>
+			<directory>slf4j-simple/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>slf4j-simple-${project.version}*.jar</include>
+			</includes>    
+		</fileSet>
 		
+    <fileSet>
+			<directory>jcl104-over-slf4j/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>jcl104-over-slf4j-${project.version}*.jar</include>
+			</includes>    
+		</fileSet>
+
 		<!-- Website -->
 		<fileSet>
 			<directory>target/site</directory>
 			<outputDirectory>/site</outputDirectory>
+      <excludes>
+        <exclude>dist/*</exclude>
+      </excludes>
 		</fileSet>
 		
 		<!-- Parent files -->

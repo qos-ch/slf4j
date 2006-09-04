@@ -14,7 +14,7 @@
   following license.
   </p>
 
-  <p class="source">
+  <div class="source">
  Copyright (c) 2004-2005 SLF4J.ORG
  Copyright (c) 2004-2005 QOS.ch
 
@@ -44,7 +44,7 @@
  shall not be used in advertising or otherwise to promote the sale, use
  or other dealings in this Software without prior written authorization
  of the copyright holder.
-  </p>
+  </div>
   
   <p>These terms are <em>identical</em> to those of the X11 License,
   which is a simple, permissive non-copyleft free software license,

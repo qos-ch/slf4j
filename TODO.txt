@@ -2,9 +2,9 @@
 TODO ITEMS
 ==========
 
-- Build javadocs
-- import tests
-- create distribution
+- FAQ using maven
+- javadoc aggregation
+- support for log4j 1.3
 
 DONE ITEMS
 ==========

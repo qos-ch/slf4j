@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<document>
+
+<faqs title="Frequently Asked Questions about SLF4J">
+
+   <part id="Generalities">
+    <title>Generalities</title>
+
+    <text>
+      <p>This section contains general questions about SLF4J.</p>
+    </text>
+
+    <faq>
+      <question>
+        <title>What is SLF4J?</title>
+      </question>
+      <answer>
+        <p>SLF4J is a simple facade for logging systems allowing the
+        end-user to plug-in the desired logging system at deployment
+        time.
+        </p>
+      </answer>
+    </faq>
+    
+    <faq>
+      <question>
+        <title>When should SLF4J be used?</title>
+      </question>
+      <answer>
+        <p>In short, libraries and other embedded components should
+        consider SLF4J for their logging needs because libraries
+        cannot afford to impose their choice of logging system on the
+        end-user. On the other hand, it does not necessarily make
+        sense for stand-alone applications to use SLF4J. Stand-alone
+        applications can invoke the logging system of their choice
+        directly.
+        </p>
+
+        <p>SLF4J is only a facade, meaning that it does not provide a
+        complete logging solution. Operations such as configuring
+        appenders or setting logging levels cannot be performed with
+        SLF4J. Thus, at same point in time, any non-trivial
+        application will need to directly invoke the underlying
+        logging system. In other words, complete independence from the
+        API underlying logging system is not possible for a
+        stand-alone application. Nevertheless, SLF4J reduces the
+        impact of this dependence to near-painless levels.
+        </p>
+
+        <p>Suppose that your CRM application uses log4j for its
+        logging. However, one of your important clients request that
+        logging be performed through JDK 1.4 logging. If your
+        application is riddled with thousands of direct log4j calls,
+        migration to JDK 1.4 would be a long and error-prone
+        process. Had you been invoking SLF4J API instead of log4j, the
+        migration could be completed in a matter of minutes instead of
+        hours.
+        </p>
+
+        <p>SLF4J lets component developers to defer the choice of the
+        logging system to the end-user but eventually a choice needs
+        to be made.
+        </p>
+
+      </answer>
+    </faq>
+
+   </part>
+</faqs>

@@ -28,7 +28,6 @@
     </menu>
    <menu name="Native implementations">
      <item name="Logback" href="http://logback.qos.ch/"/>   
-     <item name="NLOG4J" href="http://www.slf4j.org/nlog4j/"/>   
      <item name="x4juli" href="http://www.x4juli.org/"/>   
    </menu>
    <menu name="Wrapped implementations">

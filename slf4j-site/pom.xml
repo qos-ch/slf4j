@@ -13,7 +13,7 @@
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-site</artifactId>
 	<version>${parent.version}</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<name>SLF4J Site</name>
 
 	<url>http://www.slf4j.org</url>
@@ -25,18 +25,6 @@
 	<inceptionYear>2005</inceptionYear>
 	
 	<build>
-		<resources>
-			<resource>
-				<directory>src/site/xdocTemplates</directory>
-				<!-- 
-					We're saving filtered xdocs in a temporary folder
-					and telling the site plug in to get the xdocs there.
-				-->
-				<targetPath>generated-site</targetPath>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-
 	</build>
 
 	<reporting>
@@ -45,9 +33,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<configuration>
-					<xdocDirectory>
-						${project.build.outputDirectory}/generated-site
-					</xdocDirectory>
+					<xdocDirectory>src/site/xdocs</xdocDirectory>
 					<outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
 				</configuration>
 			</plugin>
