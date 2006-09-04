@@ -110,29 +110,5 @@
 
    </p>
 
-   <h1>NLOG4J lists</h1>
-
-   <h3>nlog4j-dev list:</h3>
-
-   <p>
-     <b>Medium Traffic</b>
-     <a href="http://slf4j.org/mailman/listinfo/nlog4j-dev">Subscribe</a> |
-     <a href="http://slf4j.org/mailman/options/nlog4j-dev">Unsubscribe</a>
-     <br/>
-     <b>Archives:</b> 
-     <a href="http://www.slf4j.org/pipermail/nlog4j-dev/">Pipermail</a> |
-     <a href="http://www.mail-archive.com/nlog4j-dev%40slf4j.org/">MailArchive</a>
-   </p>
-
-
-   <p>This is the list where participating developers of the nlog4j
-   framework meet and discuss issues, code changes/additions,
-   etc. Subscribers to this list get notices of each and every code
-   change, build results, testing notices, etc. Since NLOG4J does not
-   have a users list, you <em>can</em> send mail to this list with
-   usage questions or configuration problems.
-   </p>
-
-
 </body>
 </document>

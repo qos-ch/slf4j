@@ -21,7 +21,7 @@
 
   <p>Logging API implementations can either choose to implement the
   the SLF4J interfaces directly, e.g. <a
-  href="http://www.slf4j.org/nlog4j/">NLOG4J</a> or <a
+  href="http://logback.qos.ch">logback</a> or <a
   href="api/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>. Alternatively,
   it is possible (and rather easy) to write SLF4J adapters for the
   given API implementation, e.g. <a

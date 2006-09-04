@@ -60,9 +60,6 @@
     <li>
       <a href="http://bugzilla.slf4j.org/query.cgi?product=SLF4J">Search for <b>SLF4J</b> bugs</a>
     </li>
-    <li>
-      <a href="http://bugzilla.slf4j.org/query.cgi?product=NLOG4J">Search for <b>NLOG4J</b> bugs</a>
-    </li>
   </ul>
   <h2>Reporting with Bugzilla</h2>
   
@@ -79,10 +76,6 @@
     <li><a
     href="http://bugzilla.slf4j.org/enter_bug.cgi?product=SLF4J">Report
     new <b>SLF4J</b> bug</a>
-    </li>
-    <li><a
-    href="http://bugzilla.slf4j.org/enter_bug.cgi?product=NLOG4J">Report
-    new <b>NLOG4J</b> bug</a>
     </li>
   </ul>
 
