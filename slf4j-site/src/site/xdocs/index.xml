@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<document>
+
+  <properties>
+    <author email="ceki at qos ddoott ch ">Ceki Gulcu</author>
+    <title>Home</title>
+  </properties>
+
+
+<body>
+
+  <h1>Simple Logging Facade for Java (SLF4J)</h1>
+
+  <p>The Simple Logging Facade for Java or (SLF4J) is intended to
+  serve as a simple facade for various logging APIs allowing to the
+  end-user to plug in the desired implementation at
+  <em>deployment</em> time.  SLF4J also allows for a <a
+  href="manual.html#gradual">gradual migration path</a> away from
+  Jakarta Commons Logging (JCL).
+  </p>
+
+  <p>Logging API implementations can either choose to implement the
+  the SLF4J interfaces directly, e.g. <a
+  href="http://logback.qos.ch">logback</a> or <a
+  href="api/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>. Alternatively,
+  it is possible (and rather easy) to write SLF4J adapters for the
+  given API implementation, e.g. <a
+  href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4jLoggerAdapter</a>
+  or <a
+  href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14LoggerAdapter</a>..
+  </p>
+
+  <h2>Simplicity</h2>
+
+  <p>The SLF4J interfaces and their various adapters are simple and
+  straightforward. Most developers familiar with the Java language
+  should be able to read and fully understand the code in less than
+  one hour.
+  </p>
+
+  <p>SLF4J does not rely on any special class loader machinery. In
+  fact, the binding between SLF4J and a given logging API
+  implementation is performed <em>statically</em> at compile
+  time. Each binding is hardwired to use one and only specific logging
+  API implementation. Each binding corresponds to one jar file. At
+  deployment time, you simply drop the binding of your choice, that is
+  a jar file, onto the appropriate class path location. As a
+  consequence of this simple approach, SLF4J suffers from none of the
+  class loader problems or memory leaks observed with Jakarta Commons
+  Logging (JCL).
+  </p>
+
+  <p>We hope that simplicity of the SLF4J interfaces and the deployment
+  model will make it easy for developers of other logging APIs to
+  conform to the SLF4J model.
+  </p>
+
+</body>
+</document>
+
