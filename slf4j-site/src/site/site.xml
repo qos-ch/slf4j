@@ -12,6 +12,7 @@
   <bannerLeft>
     <name>SLF4J</name>
     <src>/images/logos/slf4j-logo.jpg</src>
+    <href>http://www.slf4j.org/</href>
   </bannerLeft>
 
   <body>  
@@ -26,7 +27,7 @@
       <item name="Bug Reporting"   href="bug-reporting.html"/>      
     </menu>
    <menu name="Native implementations">
-     <item name="Logback" href="http://logback.qos.ch/XXX"/>   
+     <item name="Logback" href="http://logback.qos.ch/"/>   
      <item name="NLOG4J" href="http://www.slf4j.org/nlog4j/"/>   
      <item name="x4juli" href="http://www.x4juli.org/"/>   
    </menu>
