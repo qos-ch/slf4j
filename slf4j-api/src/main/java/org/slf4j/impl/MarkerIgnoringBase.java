@@ -144,4 +144,7 @@ public abstract class MarkerIgnoringBase implements Logger {
     error(msg, t);
   }
 
+  public String toString() {
+	  return this.getClass().getName()+"("+getName()+")";
+  }
 }
