@@ -1,0 +1,15 @@
+<?xml version="1.0"?><project>
+  <parent>
+    <artifactId>slf4j</artifactId>
+    <groupId>org.slf4j</groupId>
+    <version>1.1.0</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-archetype</artifactId>
+  <name>Archetype - slf4j-archetype</name>
+	<version>${parent.version}</version>
+
+  <url>http://www.slf4j.org</url>
+</project>

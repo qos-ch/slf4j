@@ -1,0 +1,13 @@
+
+<archetype>
+  <id>slf4j-archetype</id>
+  <sources>
+    <source>src/main/java/LoggerFactory.java</source>
+    <source>src/main/java/MarkerFactory.java</source>
+    <source>src/main/java/impl/StaticLoggerBinder.java</source>
+    <source>src/main/java/impl/StaticMarkerBinder.java</source>
+  </sources>
+  <testSources>
+    <source>src/test/java/InvocationTest.java</source>
+  </testSources>
+</archetype>

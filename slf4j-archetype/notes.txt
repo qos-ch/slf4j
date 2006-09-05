@@ -1,0 +1,1 @@
+mvn archetype:create -DgroupId=org.slf4j -DartifactId=slf4j-archetype -DarchetypeArtifactId=maven-archetype-archetype
