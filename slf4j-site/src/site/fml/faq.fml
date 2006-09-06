@@ -505,6 +505,11 @@ logger.debug("The new entry is {}.", entry); </p>
      </question>
 
      <answer>
+       <p>Please note that all new development effort in NLOG4J is now
+       redirected into <a href="http://logback.qos.ch">logback</a>,
+       the proposed sucessor of log4j.
+       </p>
+
        <p>NLOG4J is almost identical to log4j. NLOG4J natively supports
        the SLF4J API while vanilla log4j is supported through a
        wrapper, i.e <em>slf4j-log4j12.jar</em> or
@@ -550,53 +555,61 @@ logger.debug("The new entry is {}.", entry); </p>
       </question>
 
       <answer>
-        <p>We suggest that the <code>Logger</code> class in your
-        framework directly implement the <a
-        href="api/org/slf4j/Logger.html"><code>org.slf4j.Logger</code></a>
-        interface.
+
+        <p>Adding supporting for the SLF4J is suprisingly
+        easy. Essentialy, you coping an existing binding and tailoring
+        it a little (as explained below) does the trick.
         </p>
 
-        <p>We further recommend that your framework copy the SLF4J
-        java source files (.java files) into your source tree. This
-        can be accomplished by checking out SLF4J files from its
-        source code repository using Subversion, more on this later.
+        <p>If you are a Maven2 user, you can use the
+        slf4j-archetype. Invoke the following command to create a new
+        module called <em>slf4j-MY</em> with much of the plumbing
+        alredy in place. </p>
+        
+        <p class="source">mvn archetype:create -DgroupId=org.slf4j -DartifactId=slf4j-MY \
+    -DarchetypeGroupId=org.slf4j -DarchetypeArtifactId=slf4j-archetype -DarchetypeVersion=1.1.0</p>
+
+        <p>At this stage, assuming your logging system has notion of a
+        logger, called say <code>MyLogger</code>, you need to provide
+        an adapter for <code>MyLogger</code> to
+        <code>org.slf4j.Logger</code> interface. Refer to slf4j-jcl,
+        slf4j-jdk14, and slf4j-log4j12 modules for examples of
+        adapters.
         </p>
 
-        <p>Client code will only refer to <a
-        href="api/org/slf4j/LoggerFactory.html">LoggerFactory</a> to
-        retreive org.slf4j.Logger instances, your framework needs to
-        instruct <code>LoggerFactory</code> to return your framework's
-        <code>Logger</code> instances. This step is usually reffered
-        to as binding SLF4J with your framework. In recent versions of
-        SLF4J, the binding information has been isolated into a small
-        class named <a
-        href="api/org/slf4j/impl/StaticLoggerBinder.html">StaticLoggerBinder</a>.
+        <p>Once you have written an appropriate adapter, say
+        <code>MyLoggerAdapter</code>, you need to provide a factory
+        class implementing the <code>org.slf4j.ILoggerFactory</code>
+        interface. This factory should return instances
+        <code>MyLoggerAdapter</code>. Let <code>MyLoggerFactory</code>
+        be the name of your factory class.
         </p>
 
-     
-        <p>With the static binding approach we recommend, your
-        framework's copy of <code>StaticBinder</code> class needs to
-        be customized before compile time. You should be able to
-        easily adapt NLOG4J's copy of <a
-        href="http://svn.slf4j.org/viewcvs/nlog4j/trunk/src/java/org/slf4j/impl/StaticLoggerBinder.java?view=markup">StaticLoggerBinder.java</a>
-        to your framework. Note that you do not need to change any
-        other classes to ensure correct binding.
+        <p>Once you have the adapter, namely
+        <code>MyLoggerAdapter</code>, and a factory, namely
+        <code>MyLoggerFactory</code>, the last remaining step is to
+        modify the <code>StaticLoggerBinder</code> class so that it
+        reurns an new instance of <code>MyLoggerFactory</code>. You
+        will also need to modify the
+        <code>loggerFactoryClassStr</code> variable.
         </p>
+        
+        <p>That's it. You don't need to modify any other files.</p>
 
+        <p>In summary, to create an SLF4J binding for your logging
+        system, follow these steps:</p>
 
-       <p>Just as importantly, adapting SLF4J to your system can be an
-       entirely automated process. Thus, when there are small changes
-       to the SLF4J API, you can update to the latest SLF4J version
-       without needing to edit any java files. For example, NLOG4J
-       uses an entirely automated build procedure to synchronize with
-       SLF4J changes.
-       </p>
-
-       <p>For a complete example of an automated build file, please
-       refer to the <a
-       href="http://svn.slf4j.org/viewcvs/nlog4j/trunk/slf4j.xml?view=markup">slf4j.xml</a>
-       build file in the NLOG4J project.
-       </p>
+        <ol>
+          <li>start with a copy of an existing module, or create a new
+          binding using slf4j-archetype as discussed above</li>
+          <li>create an adapter between your logging system and
+          <code>org.slf4j.Logger</code> interface
+          </li>
+          <li>create a factory for the adapter created in the previous step,</li>
+          <li>>modify <code>StaticLoggerBinder</code> class to use the
+          factory you created in the previous step</li>
+        </ol>
+         
       </answer>
     </faq>
 

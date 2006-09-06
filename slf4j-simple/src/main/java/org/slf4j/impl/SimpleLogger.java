@@ -326,5 +326,4 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public void error(String msg, Throwable t) {
     log(ERROR_STR, msg, t);
   }
-
 }

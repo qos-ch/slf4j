@@ -14,7 +14,7 @@
   <p>The Simple Logging Facade for Java or (SLF4J) is intended to
   serve as a simple facade for various logging APIs allowing to the
   end-user to plug in the desired implementation at
-  <em>deployment</em> time.  SLF4J also allows for a <a
+  <em>deployment</em> time. SLF4J also allows for a <a
   href="manual.html#gradual">gradual migration path</a> away from
   Jakarta Commons Logging (JCL).
   </p>
@@ -40,11 +40,11 @@
 
   <p>SLF4J does not rely on any special class loader machinery. In
   fact, the binding between SLF4J and a given logging API
-  implementation is performed <em>statically</em> at compile
-  time. Each binding is hardwired to use one and only specific logging
-  API implementation. Each binding corresponds to one jar file. At
-  deployment time, you simply drop the binding of your choice, that is
-  a jar file, onto the appropriate class path location. As a
+  implementation is performed <em>statically</em> at compile time of
+  each binding. Each binding is hardwired to use one and only specific
+  logging API implementation. Each binding corresponds to one jar
+  file. In your code, you simply drop the binding of your choice, that
+  is a jar file, onto the appropriate class path location. As a
   consequence of this simple approach, SLF4J suffers from none of the
   class loader problems or memory leaks observed with Jakarta Commons
   Logging (JCL).

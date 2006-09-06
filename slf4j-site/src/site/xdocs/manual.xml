@@ -61,11 +61,30 @@
         logging, JCL and LOGBack, respectively.
         </p>
 
+        <p>SLF4J supports multiple logging systems, namely, NOP,
+        Simple, log4j version 1.2, log4j version 1.3, JDK 1.4 logging,
+        JCL and logback. The SLF4J distribution ships with several jar
+        files <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+        <em>slf4j-log4j12.jar</em>, <em>slf4j-log4j13.jar</em>,
+        <em>slf4j-jdk14.jar</em> and <em>slf4j-jcl.jar</em>. Each of
+        these jar files is hardwired <em>at compile-time</em> to use
+        just one implementation, that is NOP, Simple, log4j version
+        1.2, log4j version 1.3, JDK 1.4 logging, JCL and logback,
+        respectively. As of version SLF4J 1.1.0, all of the bindings
+        shipped with SLF4J depend on <em>slf4j-api.jar</em> which must
+        be present on the class path for the binding to function
+        properly.
+        </p>
+
+        <h2>Small applications</h2>
+
         <p>Small applications where configuring a fully-fledged
         logging systems can be somewhat of an overkill can drop in
         <em>slf4j-simple.jar</em> instead of a binding for the
         fully-fledged logging system.
         </p>
+
+        <h2>Libraries</h2>
 
         <p>Authors of widely-distributed components and libraries may
         code against the SLF4J interface in order to avoid imposing an
@@ -98,25 +117,26 @@
         logging APIs to conform to the SLF4J model.
         </p>
 
-        <h2>Built-in support in LOGBack</h2>
+        <h2>Built-in support in logback</h2>
 
-        <p>The <code>Logger</code> class in LOGBack directly
+        <p>The <code>Logger</code> class in logback directly
         implements SLF4J's <code>Logger</code> interface. Moreover,
-        LOGBack makes extensive use of SLF4J internally.
+        logback makes extensive use of SLF4J internally.
         </p>
-        
-        <p>LOGBack's built-in support for SLF4J means that the adapter
-        for  does not need to wrap LOGBack objects in order to
-        make them conform to SLF4J's <code>Logger</code> interface. A
-        LOGBack <code>Logger</code> <em>is</em> a
+
+        <p>Logback's built-in (a.k.a. native) support for SLF4J means
+        that the adapter for does not need to wrap logback objects in
+        order to make them conform to SLF4J's <code>Logger</code>
+        interface. A logback
+        <code>ch.qos.logback.classic.Logger</code> <em>is</em> a
         <code>org.slf4j.Logger</code>. Thus, using SLF4J in
-        conjunction with LOGBack involves strictly zero memory overhead
-        and near-zero computational overhead.
+        conjunction with logback involves strictly zero memory and
+        computational overhead.
         </p>
-      
+
 
         <a name="gradual"><h2>Gradual migration to SLF4J from Jakarta
-        Commons Logging (JCL)</h2></a>
+        Commons Logging (JCL) and/or log4j</h2></a>
         
         <h2><em>jcl104-over-slf4j.jar</em></h2>
 
@@ -140,6 +160,16 @@
         logging system can be any of NOP, simple, jdk14 logging, log4j
         or LOGBack. Any existing dependency on commons-logging
         therefore becomes less of an issue.
+        </p>
+
+        <h2><em>log4j-over-slf4j.jar</em></h2>
+
+        <p>If migrating log4j logging calls to SLF4J is not something
+        you particularly relish, just drop in our implementation of
+        log4j over SLF4J, i.e. <em>log4j-over-slf4j.jar</em>, on your
+        class path. All logging calls made to the log4j API will be
+        redirected to SLF4J which in turn will deletage to the
+        underlying logging system.
         </p>
 
         <h2><em>slf4j-jcl.jar</em></h2>
@@ -185,8 +215,12 @@
         will cause SLF4J to delegate the choice of the logging system
         to JCL, resulting in an infinite loop.
         </p>
+        
+        <p>For very similar reasons, <em>log4j-over-slf4j.jar</em> and
+        <em>slf4j-log4j12.jar</em> cannot be deployed simultaneously.
+        </p>
 
-         <a name="summary"><h2>Summary</h2></a>
+        <a name="summary"><h2>Summary</h2></a>
 
         <table class="ls" cellspacing="4" cellpadding="4">
           <tr>
@@ -228,21 +262,26 @@
             </td>
 
             <td>SLF4J supports popular logging systems, namely log4j,
-            JDK 1.4 logging, Simple logging and NOP.
+            JDK 1.4 logging, Simple logging and NOP whereas x4juli and
+            logback logging systems support the SLF4J API natively.
             </td>
+
           </tr>
 
           <tr>
             <td>Easy migration path</td>
-            <td>The implementation of JCL over SLF4J will allow your
-            project to migrate to SLF4J piecemeal, without breaking
-            compatibility with existing software, while enhancing the
-            reliability of your software at the same time.
 
-            <p>In existing applications where JCL is a requirement,
-            the JCL binding will allow parts of that application to
-            switch to SLF4J without having any impact on the larger
-            application.</p>
+            <td>
+              <p>The implementation of JCL over SLF4J, i.e
+              <em>jcl104-over-slf4j.jar</em>, will allow your project
+              to migrate to SLF4J piecemeal, without breaking
+              compatibility with existing software using
+              JCL. Similarly, the implementation of log4j's client
+              interface over SLF4J, i.e <em>log4j-over-slf4j.jar</em>,
+              will allow your project to migrate to SLF4J one class at
+              a time, without breaking compatibility with existing
+              legacy logging calls to the log4j API.
+              </p>
             </td>
           </tr>
 

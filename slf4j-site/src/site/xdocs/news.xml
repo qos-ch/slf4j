@@ -10,36 +10,29 @@
 
   <h1>SLF4J News</h1>
 
-  <p>You can receive SLF4J and NLOG4J related announcements by
-  subscribing to the <a
-  href="http://www.slf4j.org/mailman/listinfo/announce">SLF4J
+  <p>You can receive SLF4J related announcements by subscribing to the
+  <a href="http://www.slf4j.org/mailman/listinfo/announce">SLF4J
   announce</a> mailing list.
   </p>
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>July 25th, 2006 - Release of SLF4J 1.1.0</h3>
+  <h3>September 7th, 2006 - Release of SLF4J 1.1.0-RC1</h3>
 
-  <p>Release 1.1.0 is a relatively important 
-  only.</p>
+  <p>Release 1.1.0-RC1 is a relatively important release with a
+  refactoring of the way class files are organized in jar files. In
+  previous releases, each binding was self-contained in a single jar
+  file. In this release, each and every binding depends on
+  <em>slf4j-api.jar</em> which contains the bulk of the classes
+  required to use SLF4J, except for one or two adapter classes.  Only
+  the adapter classes are now shipped with each specific binding jar
+  as appropriate for the underlying logging system..
+  </p>
 
-  <ul>
-
-    <li>Fixed <a
-    href="http://bugzilla.slf4j.org/show_bug.cgi?id=22">bug number
-    22</a> reported by Bjorn Danielsson. This version of the SLF4J API
-    will no longer systematically throw an exception when the
-    <code>o.a.c.l.impl.SLF4FLogFactory#release()</code> method is
-    invoked. Instead, the <code>release()</code> method will issue a
-    <a href="http://www.slf4j.org/codes.html">warning</a>.
-
-    </li>
-
-  </ul>
-
-
+  <p>This release is built using Maven instead of Ant. As for the java
+  code, it has not been changed.</p>
+    
   <hr noshade="noshade" size="1"/>
-
 
   <h3>June 8th, 2006 - Release of SLF4J 1.0.2</h3>
 
