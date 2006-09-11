@@ -62,6 +62,14 @@
       </includes>
     </fileSet>
 
+    <fileSet>
+      <directory>log4j-over-slf4j/</directory>
+      <outputDirectory>log4j-over-slf4j/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
 		<!-- Module Source directories (includes tests) -->
 		<fileSet>
 			<directory>slf4j-api/src/</directory>
@@ -98,6 +106,10 @@
     <fileSet>
       <directory>jcl104-over-slf4j/src/</directory>
 			<outputDirectory>jcl104-over-slf4j/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>log4j-over-slf4j/src/</directory>
+			<outputDirectory>log4j-over-slf4j/src/</outputDirectory>    
     </fileSet>
 
 		<!-- Module JARs -->
@@ -154,6 +166,13 @@
 			<outputDirectory>/</outputDirectory>
 			<includes>
 				<include>jcl104-over-slf4j-${project.version}*.jar</include>
+			</includes>    
+		</fileSet>
+    <fileSet>
+			<directory>log4j-over-slf4j/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>log4j-over-slf4j-${project.version}*.jar</include>
 			</includes>    
 		</fileSet>
 

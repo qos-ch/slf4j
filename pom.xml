@@ -4,8 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j</artifactId>
-	<version>1.1.0</version>
+	<artifactId>slf4j-parent</artifactId>
+  <version>1.1.0-beta0</version>
+
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
 
@@ -26,9 +27,10 @@
     <module>slf4j-log4j12</module>
     <module>slf4j-jcl</module>
     <module>jcl104-over-slf4j</module>
+    <module>log4j-over-slf4j</module>
     <module>slf4j-site</module>
-
     <module>slf4j-archetype</module>
+
   </modules>
 
 	<dependencies>
@@ -96,12 +98,18 @@
           <groups>
             <group>
               <title>SLF4J packages</title>
-              <packages>org.slf4j.*</packages>
+              <packages>org.slf4j:org.slf4j.*</packages>
             </group>
             <group>
               <title>Jakarta Commons Logging packages</title>
               <packages>org.apache.commons.*</packages>
             </group>
+
+            <group>
+              <title>Apache log4j</title>
+              <packages>org.apache.log4j</packages>
+            </group>
+
           </groups>
         </configuration>
       </plugin>
@@ -145,5 +153,11 @@
 
 	</reporting>
 	
+	<distributionManagement>
+		<site>
+			<id>pixie</id>
+			<url>scp://pixie/var/www/www.slf4j.org/htdocs/</url>
+		</site>
+	</distributionManagement>
 
 </project>

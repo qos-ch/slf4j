@@ -1,8 +1,8 @@
 <?xml version="1.0"?><project>
   <parent>
-    <artifactId>slf4j</artifactId>
+    <artifactId>slf4j-parent</artifactId>
     <groupId>org.slf4j</groupId>
-    <version>1.1.0</version>
+		<version>1.1.0-beta0</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
