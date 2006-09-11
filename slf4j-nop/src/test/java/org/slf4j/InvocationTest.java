@@ -42,9 +42,9 @@ import junit.framework.TestCase;
  * @author Ceki Gulcu
  *
  */
-public class InvocatonTest extends TestCase {
+public class InvocationTest extends TestCase {
 
-  public InvocatonTest (String arg0) {
+  public InvocationTest (String arg0) {
     super(arg0);
   }
 
