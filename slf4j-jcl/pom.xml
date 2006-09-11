@@ -2,8 +2,8 @@
 
 	<parent>
 		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j</artifactId>
-		<version>1.1.0</version>
+		<artifactId>slf4j-parent</artifactId>
+		<version>$parent-version</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
