@@ -15,6 +15,9 @@
 	<name>SLF4J Simple Binding</name>
 
 	<url>http://www.slf4j.org</url>
+		<description>
+		The slf4j Simple binding
+	</description>
 
   <dependencies>
 	  <dependency>

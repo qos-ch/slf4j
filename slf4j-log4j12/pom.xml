@@ -19,6 +19,10 @@
 
 	<url>http://www.slf4j.org</url>
 
+	<description>
+		The slf4j log4j-12 binding
+	</description>
+	
   <dependencies>
 	  <dependency>
       <groupId>org.slf4j</groupId>

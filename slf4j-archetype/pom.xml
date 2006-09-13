@@ -9,7 +9,12 @@
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-archetype</artifactId>
   <name>Archetype - slf4j-archetype</name>
+	<packaging>jar</packaging>
 	<version>${parent.version}</version>
 
   <url>http://www.slf4j.org</url>
+
+	<description>
+		The slf4j Archetype
+	</description>	
 </project>

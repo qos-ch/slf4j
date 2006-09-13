@@ -15,6 +15,9 @@
 	<name>JCL Implemented Over SLF4J</name>
 
 	<url>http://www.slf4j.org</url>
+	<description>
+		JCL implementation over SLF4J
+	</description>
 
   <dependencies>
     <dependency>

@@ -18,6 +18,9 @@
 	<name>SLF4J JDK14 Binding</name>
 
 	<url>http://www.slf4j.org</url>
+	<description>
+		The slf4j JDK14 binding
+	</description>
 
   <dependencies>
 	  <dependency>

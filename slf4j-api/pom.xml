@@ -19,12 +19,7 @@
 
 	<url>http://www.slf4j.org</url>
 	<description>
-		<!-- 
-			Never _never_ let Eclipse's auto format function add
-			a line return in the description.
-			The generated jar will contain a corrupt MANIFEST file.
-		-->
-		Logback: the generic, reliable, fast and flexible logging library for Java.
+		The slf4j API
 	</description>
 
 	<dependencies>

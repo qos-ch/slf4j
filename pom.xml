@@ -153,6 +153,13 @@
 
 	</reporting>
 	
+	  
+  <scm>
+		<connection>http://svn.slf4j.org/repos/slf4j/trunk</connection>
+		<developerConnection>scm:svn:https://svn.slf4j.org/repos/slf4j/trunk</developerConnection>
+		<url>http://svn.slf4j.org/viewvc/slf4j/trunk/</url>
+	</scm>
+	
 	<distributionManagement>
 		<site>
 			<id>pixie</id>

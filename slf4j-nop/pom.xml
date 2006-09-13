@@ -18,6 +18,9 @@
 	<name>SLF4J NOP Binding</name>
 
 	<url>http://www.slf4j.org</url>
+		<description>
+		The slf4j NOP binding
+	</description>
 
   <dependencies>
 	  <dependency>
