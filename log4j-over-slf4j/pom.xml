@@ -3,14 +3,14 @@
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-		<version>1.1.0-beta0</version>
+    <version>1.0-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>log4j-over-slf4j</artifactId>
-	<version>${parent.version}</version>
+	<version>${aversion}</version>
 	<packaging>jar</packaging>
 	<name>Log4j Implemented Over SLF4J</name>
 

@@ -2,7 +2,7 @@
   <parent>
     <artifactId>slf4j-parent</artifactId>
     <groupId>org.slf4j</groupId>
-		<version>1.1.0-beta0</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -10,7 +10,7 @@
   <artifactId>slf4j-archetype</artifactId>
   <name>Archetype - slf4j-archetype</name>
 	<packaging>jar</packaging>
-	<version>${parent.version}</version>
+	<version>${aversion}</version>
 
   <url>http://www.slf4j.org</url>
 

@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */ 
+ */
 
 package org.apache.log4j;
 
@@ -29,16 +29,16 @@ import java.util.Hashtable;
  */
 public class Log4jLoggerFactory {
 
-	private static Hashtable log4jLoggers = new Hashtable();
+  private static Hashtable log4jLoggers = new Hashtable();
 
-	public static Logger getLogger(String name) {
-		if (log4jLoggers.containsKey(name)) {
-			return (org.apache.log4j.Logger) log4jLoggers.get(name);
-		} else {
-			Logger log4jLogger = new Logger(name);
-			log4jLoggers.put(name, log4jLogger);
-			return log4jLogger;
-		}
-	}
+  public static synchronized Logger getLogger(String name) {
+    if (log4jLoggers.containsKey(name)) {
+      return (org.apache.log4j.Logger) log4jLoggers.get(name);
+    } else {
+      Logger log4jLogger = new Logger(name);
+      log4jLoggers.put(name, log4jLogger);
+      return log4jLogger;
+    }
+  }
 
 }

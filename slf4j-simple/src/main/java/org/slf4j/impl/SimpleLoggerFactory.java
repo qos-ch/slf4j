@@ -39,7 +39,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.ILoggerFactory;
 
-
 /**
  * An implementation of {@link ILoggerFactory} which always returns
  * {@link SimpleLogger} instances.
@@ -48,31 +47,33 @@ import org.slf4j.ILoggerFactory;
  */
 public class SimpleLoggerFactory implements ILoggerFactory {
 
-
   /**
-   * A default instance of SimpleLoggerFactory. This default instance may be used
-   * to retrieve a simple logger as a last-resort fallback logger. This instance 
-   * is designed to be used by a very specific group of users, namely for those 
-   * developing fully-fledged logging systems (e.g. log4j or logback). It is not 
-   * intended for end-users of the SLF4J API.
+   * A default instance of SimpleLoggerFactory. This default instance may be
+   * used to retrieve a simple logger as a last-resort fallback logger. This
+   * instance is designed to be used by a very specific group of users, namely
+   * for those developing fully-fledged logging systems (e.g. log4j or logback).
+   * It is not intended for end-users of the SLF4J API.
    */
   public final static SimpleLoggerFactory INSTANCE = new SimpleLoggerFactory();
-  
-  Map map;
-  
+
+  Map loggerMap;
+
   public SimpleLoggerFactory() {
-    map = new HashMap();
+    loggerMap = new HashMap();
   }
 
-
   /**
-   * Return an appropriate {@link SimpleLogger} instance by name. 
+   * Return an appropriate {@link SimpleLogger} instance by name.
    */
   public Logger getLogger(String name) {
-    Logger slogger = (Logger) map.get(name);
-    if(slogger == null) {
-      slogger = new SimpleLogger(name);
-      map.put(name, slogger);
+    Logger slogger = null;
+    // protect against concurrent access of the loggerMap
+    synchronized (this) {
+      slogger = (Logger) loggerMap.get(name);
+      if (slogger == null) {
+        slogger = new SimpleLogger(name);
+        loggerMap.put(name, slogger);
+      }
     }
     return slogger;
   }

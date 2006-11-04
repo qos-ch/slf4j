@@ -17,9 +17,31 @@
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>September 7th, 2006 - Release of SLF4J 1.1.0-RC1</h3>
+  <h3>November 4th, 2006 - Release of SLF4J 1.1.0-RC0</h3>
 
-  <p>Release 1.1.0-RC1 is a relatively important release with a
+  <p>Given that release 1.1.0-beta0 consisted mainly of
+  packaging-related changes which seem to work well, this release is
+  marked as RC0.</p>
+
+  <p>Fixed the JDK 1.5 dependency for the SLF4J build, as reported by
+  Boris Unkel in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=28">bug number
+  28</a>.  SLF4J now explicitly declares a dependency on JDK 1.4 in
+  its pom.xml file.
+  </p>
+
+  <p>Fixed an incorrect reference to the logback project in slf4j-api
+  pom file. This bug was reported by Boris Unkel in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=29">bug number
+  29</a>.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>September 7th, 2006 - Release of SLF4J 1.1.0-beta0</h3>
+
+  <p>Release 1.1.0-beta0 is a relatively important release with a
   refactoring of the way class files are organized in jar files. In
   previous releases, each binding was self-contained in a single jar
   file. In this release, each and every binding depends on

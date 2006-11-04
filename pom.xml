@@ -5,13 +5,16 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-  <version>1.1.0-beta0</version>
+	<version>1.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
 
-
 	<url>http://www.slf4j.org</url>
+
+  <properties>
+    <aversion>1.1.0-RC0</aversion>
+  </properties>
 
 	<organization>
 		<name>QOS.ch</name>
@@ -41,6 +44,8 @@
       <scope>test</scope>
 		</dependency>
 	</dependencies>
+
+ 
 	
 	<dependencyManagement>
     <dependencies/>
@@ -118,6 +123,15 @@
 
 	</build>
 
+  <profiles>
+    <profile>
+      <id>skipTests</id>     
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+      </properties>
+    </profile>
+  </profiles>
+
 
 	<reporting>
 		<plugins>
@@ -135,14 +149,14 @@
 			</plugin>	    
       
       <plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.1</version>
-				<configuration>
-					<descriptors>
-						<descriptor>
-							src/main/assembly/source.xml
-						</descriptor>
-					</descriptors>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <descriptors>
+            <descriptor>
+              src/main/assembly/source.xml
+            </descriptor>
+          </descriptors>
 					<finalName>slf4j-${project.version}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 					<outputDirectory>target/site/dist/</outputDirectory>

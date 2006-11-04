@@ -1,5 +1,5 @@
 
-VERSION=1.1.0-beta0
+VERSION=1.1.0-RC0
 echo $VERSION
 
 MVN=/java/maven-2.0.4/bin/mvn

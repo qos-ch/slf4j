@@ -41,9 +41,9 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * Log4jLoggerFactory is an implementation of {@link ILoggerFactory}
- * returning the appropriate named {@link Log4jLoggerAdapter} instance.
- *
+ * Log4jLoggerFactory is an implementation of {@link ILoggerFactory} returning
+ * the appropriate named {@link Log4jLoggerAdapter} instance.
+ * 
  * @author Ceki G&uuml;lc&uuml;
  */
 public class Log4jLoggerFactory implements ILoggerFactory {
@@ -55,15 +55,21 @@ public class Log4jLoggerFactory implements ILoggerFactory {
     loggerMap = new HashMap();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
    */
   public Logger getLogger(String name) {
-    Logger slf4jLogger = (Logger) loggerMap.get(name);
-    if (slf4jLogger == null) {
-      org.apache.log4j.Logger logger = LogManager.getLogger(name);
-      slf4jLogger = new Log4jLoggerAdapter(logger);
-     loggerMap.put(name, slf4jLogger);
+    Logger slf4jLogger = null;
+    // protect against concurrent access of loggerMap
+    synchronized (this) {
+      slf4jLogger = (Logger) loggerMap.get(name);
+      if (slf4jLogger == null) {
+        org.apache.log4j.Logger logger = LogManager.getLogger(name);
+        slf4jLogger = new Log4jLoggerAdapter(logger);
+        loggerMap.put(name, slf4jLogger);
+      }
     }
     return slf4jLogger;
   }

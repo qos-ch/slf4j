@@ -40,9 +40,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * JDK14LoggerFactory is an implementation of {@link ILoggerFactory}
- * returning the appropriately named {@link JDK14LoggerAdapter} instance.
- *
+ * JDK14LoggerFactory is an implementation of {@link ILoggerFactory} returning
+ * the appropriately named {@link JDK14LoggerAdapter} instance.
+ * 
  * @author Ceki G&uuml;lc&uuml;
  */
 public class JDK14LoggerFactory implements ILoggerFactory {
@@ -54,15 +54,22 @@ public class JDK14LoggerFactory implements ILoggerFactory {
     loggerMap = new HashMap();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
    */
-  public Logger getLogger(String name) {
-    Logger ulogger = (Logger) loggerMap.get(name);
-    if (ulogger == null) {
-      java.util.logging.Logger logger = java.util.logging.Logger.getLogger(name);
-      ulogger = new JDK14LoggerAdapter(logger);
-     loggerMap.put(name, ulogger);
+  public synchronized Logger getLogger(String name) {
+    Logger ulogger = null;
+    // protect against concurrent access of loggerMap
+    synchronized (this) {
+      ulogger = (Logger) loggerMap.get(name);
+      if (ulogger == null) {
+        java.util.logging.Logger logger = java.util.logging.Logger
+            .getLogger(name);
+        ulogger = new JDK14LoggerAdapter(logger);
+        loggerMap.put(name, ulogger);
+      }
     }
     return ulogger;
   }

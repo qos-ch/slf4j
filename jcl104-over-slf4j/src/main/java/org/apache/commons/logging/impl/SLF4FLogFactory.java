@@ -31,15 +31,15 @@ import org.slf4j.LoggerFactory;
 /**
  * <p>
  * Concrete subclass of {@link LogFactory} which always delegates to the
- * {@link LoggerFactory org.slf4j.LoggerFactory} class. 
+ * {@link LoggerFactory org.slf4j.LoggerFactory} class.
  * 
  * <p>
- * This factory generates instances of {@link SLF4JLog}. It will remember 
- * previously created instances for the same name, and will 
- * return them on repeated requests to the
- * <code>getInstance()</code> method. 
+ * This factory generates instances of {@link SLF4JLog}. It will remember
+ * previously created instances for the same name, and will return them on
+ * repeated requests to the <code>getInstance()</code> method.
  * 
- * <p>This implementation ignores any configured attributes.
+ * <p>
+ * This implementation ignores any configured attributes.
  * </p>
  * 
  * @author Rod Waldhoff
@@ -146,12 +146,15 @@ public class SLF4FLogFactory extends LogFactory {
    *              if a suitable <code>Log</code> instance cannot be returned
    */
   public Log getInstance(String name) throws LogConfigurationException {
-
-    Log instance = (Log) loggerMap.get(name);
-    if (instance == null) {
-      Logger logger = LoggerFactory.getLogger(name);
-      instance = new SLF4JLog(logger);
-      loggerMap.put(name, instance);
+    Log instance = null;
+    // protect against concurrent access of loggerMap
+    synchronized (this) {
+      instance = (Log) loggerMap.get(name);
+      if (instance == null) {
+        Logger logger = LoggerFactory.getLogger(name);
+        instance = new SLF4JLog(logger);
+        loggerMap.put(name, instance);
+      }
     }
     return (instance);
 
@@ -166,15 +169,19 @@ public class SLF4FLogFactory extends LogFactory {
    */
   public void release() {
     // This method is never called by jcl-over-slf4j classes. However,
-    // in certain deployment scenarios, in particular if jcl104-over-slf4j.jar is
+    // in certain deployment scenarios, in particular if jcl104-over-slf4j.jar
+    // is
     // in the the web-app class loader and the official commons-logging.jar is
-    // deployed in some parent class loader (e.g. commons/lib), then it is possible 
-    // for the parent class loader to mask the classes shipping in 
+    // deployed in some parent class loader (e.g. commons/lib), then it is
+    // possible
+    // for the parent class loader to mask the classes shipping in
     // jcl104-over-slf4j.jar.
-    System.out.println("WARN: The method "+SLF4FLogFactory.class+"#release() was invoked.");
-    System.out.println("WARN: Please see http://www.slf4j.org/codes.html for an explanation.");
-    System.out.flush(); 
-   }
+    System.out.println("WARN: The method " + SLF4FLogFactory.class
+        + "#release() was invoked.");
+    System.out
+        .println("WARN: Please see http://www.slf4j.org/codes.html for an explanation.");
+    System.out.flush();
+  }
 
   /**
    * Remove any configuration attribute associated with the specified name. If
