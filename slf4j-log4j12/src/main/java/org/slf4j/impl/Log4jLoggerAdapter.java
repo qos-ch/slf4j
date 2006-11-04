@@ -42,7 +42,9 @@ import org.slf4j.Logger;
  * A wrapper over {@link org.apache.log4j.Logger
  * org.apache.log4j.Logger} in conformance with the {@link Logger}
  * interface. Note that the logging levels mentioned in this class
- * refer to those defined in the {@link org.apache.log4j.Level} class.
+ * refer to those defined in the 
+ * <a href="http://logging.apache.org/log4j/docs/api/org/apache/log4j/Level.html"><code>org.apache.log4j.Level</code></a>
+ * class.
 
  * @author Ceki G&uuml;lc&uuml;
  */

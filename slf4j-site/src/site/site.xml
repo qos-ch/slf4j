@@ -4,7 +4,7 @@
   <skin>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-skin</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.0-RC0</version>
   </skin>
   
   <publishDate position="navigation-bottom" format="dd-MM-yyyy"/>

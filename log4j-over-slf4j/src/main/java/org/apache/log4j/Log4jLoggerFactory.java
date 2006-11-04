@@ -27,7 +27,7 @@ import java.util.Hashtable;
  * 
  * @author S&eacute;bastien Pennec
  */
-public class Log4jLoggerFactory {
+class Log4jLoggerFactory {
 
   private static Hashtable log4jLoggers = new Hashtable();
 

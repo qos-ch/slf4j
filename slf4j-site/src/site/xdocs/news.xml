@@ -19,15 +19,15 @@
 
   <h3>November 4th, 2006 - Release of SLF4J 1.1.0-RC0</h3>
 
-  <p>Given that release 1.1.0-beta0 consisted mainly of
-  packaging-related changes which seem to work well, this release is
-  marked as RC0.</p>
+  <p>This release consists of bug fixes. Moreover, since the major
+  packaging related changes in 1.1.0-beta0 seem to work well, this
+  release is marked as RC0.</p>
 
   <p>Fixed the JDK 1.5 dependency for the SLF4J build, as reported by
   Boris Unkel in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=28">bug number
-  28</a>.  SLF4J now explicitly declares a dependency on JDK 1.4 in
-  its pom.xml file.
+  28</a>. SLF4J now explicitly declares a dependency on JDK 1.4 in its
+  pom.xml file.
   </p>
 
   <p>Fixed an incorrect reference to the logback project in slf4j-api
@@ -36,6 +36,13 @@
   29</a>.
   </p>
 
+  <p>Fixed a syncroisation problem in factories of almost all SLF4J
+  bindings. This bug was reported independenly by Howard M. Lewis Ship
+  and Boris Unkel in bug reports <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=26">26</a> and
+  respectively <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=26">27</a>.
+  </p>
 
   <hr noshade="noshade" size="1"/>
 

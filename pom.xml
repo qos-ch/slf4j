@@ -157,7 +157,7 @@
               src/main/assembly/source.xml
             </descriptor>
           </descriptors>
-					<finalName>slf4j-${project.version}</finalName>
+					<finalName>slf4j-${aversion}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 					<outputDirectory>target/site/dist/</outputDirectory>
 				</configuration>

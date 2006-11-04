@@ -41,12 +41,14 @@ import junit.framework.TestCase;
  * that belongs to the log4j-over-slf4j package
  *
  * @author S&eacute;bastien Pennec
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class InvokeLog4jTest extends TestCase {
 
   public void testIsEnabledAPI() {
     // assume that we are running over slf4j-simple
     Logger log = Logger.getLogger(InvokeLog4jTest.class.getName());
+    assertFalse(log.isTraceEnabled());
     assertFalse(log.isDebugEnabled());
     assertTrue(log.isInfoEnabled());
     assertTrue(log.isWarnEnabled());
