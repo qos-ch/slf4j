@@ -117,7 +117,7 @@
 			<directory>slf4j-api/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-api-${project.version}*.jar</include>
+				<include>slf4j-api-${aversion}*.jar</include>
 			</includes>
 		</fileSet>
 
@@ -125,7 +125,7 @@
 			<directory>slf4j-jcl/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-jcl-${project.version}*.jar</include>
+				<include>slf4j-jcl-${aversion}*.jar</include>
 			</includes>
 		</fileSet>
 
@@ -133,7 +133,7 @@
 			<directory>slf4j-jdk14/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-jdk14-${project.version}*.jar</include>
+				<include>slf4j-jdk14-${aversion}*.jar</include>
 			</includes>
 		</fileSet>
 
@@ -141,7 +141,7 @@
 			<directory>slf4j-log4j12/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-log4j12-${project.version}*.jar</include>
+				<include>slf4j-log4j12-${aversion}*.jar</include>
 			</includes>
 		</fileSet>
 
@@ -149,7 +149,7 @@
 			<directory>slf4j-nop/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-nop-${project.version}*.jar</include>
+				<include>slf4j-nop-${aversion}*.jar</include>
 			</includes>
 		</fileSet>
 
@@ -157,7 +157,7 @@
 			<directory>slf4j-simple/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>slf4j-simple-${project.version}*.jar</include>
+				<include>slf4j-simple-${aversion}*.jar</include>
 			</includes>    
 		</fileSet>
 		
@@ -165,14 +165,14 @@
 			<directory>jcl104-over-slf4j/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>jcl104-over-slf4j-${project.version}*.jar</include>
+				<include>jcl104-over-slf4j-${aversion}*.jar</include>
 			</includes>    
 		</fileSet>
     <fileSet>
 			<directory>log4j-over-slf4j/target/</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>log4j-over-slf4j-${project.version}*.jar</include>
+				<include>log4j-over-slf4j-${aversion}*.jar</include>
 			</includes>    
 		</fileSet>
 
