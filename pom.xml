@@ -168,7 +168,7 @@
 	
 	  
   <scm>
-		<connection>http://svn.slf4j.org/repos/slf4j/trunk</connection>
+		<connection>scm:svn:http://svn.slf4j.org/repos/slf4j/trunk</connection>
 		<developerConnection>scm:svn:https://svn.slf4j.org/repos/slf4j/trunk</developerConnection>
 		<url>http://svn.slf4j.org/viewvc/slf4j/trunk/</url>
 	</scm>
@@ -178,6 +178,12 @@
 			<id>pixie</id>
 			<url>scp://pixie/var/www/www.slf4j.org/htdocs/</url>
 		</site>
+
+    <repository>
+      <id>pixie</id>
+      <url>scp://pixie/var/mvnrepo/</url>
+    </repository>
+
 	</distributionManagement>
 
 </project>
