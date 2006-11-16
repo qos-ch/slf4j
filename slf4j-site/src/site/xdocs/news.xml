@@ -17,6 +17,22 @@
 
   <hr noshade="noshade" size="1"/>
 
+  <h3>November 16th, 2006 - Release of SLF4J 1.1.0-RC1</h3>
+
+  <p>This release consists of packaging related bug fix in addition to
+  minor documentation changes.  
+  </p> 
+  
+  <p>Contrary to RC0, RC1 no longer uses SNAPSHOT versions for the
+  slf4j-parent pom. The solution to <a
+  href="http://ceki.blogspot.com/2006/11/solution-to-maven2-version-number.html">Maven
+  version problem</a> does not work for public projects such as SLF4J
+  because SNAPHOTs are not allowed on ibiblio.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
   <h3>November 4th, 2006 - Release of SLF4J 1.1.0-RC0</h3>
 
   <p>This release consists of bug fixes. Moreover, since the major

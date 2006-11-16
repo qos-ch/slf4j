@@ -5,16 +5,12 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.1.0-RC1</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
 
 	<url>http://www.slf4j.org</url>
-
-  <properties>
-    <aversion>1.1.0-RC0</aversion>
-  </properties>
 
 	<organization>
 		<name>QOS.ch</name>
@@ -156,12 +152,21 @@
               src/main/assembly/source.xml
             </descriptor>
           </descriptors>
-					<finalName>slf4j-${aversion}</finalName>
+					<finalName>slf4j-${project.version}</finalName>
 					<appendAssemblyId>false</appendAssemblyId>
 					<outputDirectory>target/site/dist/</outputDirectory>
 				</configuration>
 			</plugin>
-			
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+          <javadocDir>target/site/apidocs/</javadocDir>
+          <linkJavadoc>true</linkJavadoc>
+        </configuration>
+      </plugin>
     </plugins>
 
 	</reporting>

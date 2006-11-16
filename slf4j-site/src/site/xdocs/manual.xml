@@ -49,18 +49,6 @@
 
       <h2>Swapping implementations at deployment time</h2>
 
-        <p>SLF4J currently supports multiple implementations, namely,
-        NOP, Simple, log4j version 1.2, log4j version 1.3, NLOG4J, JDK
-        1.4 logging, JCL and LOGBack. The SLF4J distribution ships
-        with several jar files <em>slf4j-nop.jar</em>,
-        <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>,
-        <em>slf4j-log4j13.jar</em>, <em>slf4j-jdk14.jar</em> and
-        <em>slf4j-jcl.jar</em>. Each of these jar files is hardwired
-        <em>at compile-time</em> to use just one implementation, that
-        is NOP, Simple, log4j version 1.2, log4j version 1.3, JDK 1.4
-        logging, JCL and LOGBack, respectively.
-        </p>
-
         <p>SLF4J supports multiple logging systems, namely, NOP,
         Simple, log4j version 1.2, log4j version 1.3, JDK 1.4 logging,
         JCL and logback. The SLF4J distribution ships with several jar
@@ -69,17 +57,17 @@
         <em>slf4j-jdk14.jar</em> and <em>slf4j-jcl.jar</em>. Each of
         these jar files is hardwired <em>at compile-time</em> to use
         just one implementation, that is NOP, Simple, log4j version
-        1.2, log4j version 1.3, JDK 1.4 logging, JCL and logback,
-        respectively. As of version SLF4J 1.1.0, all of the bindings
-        shipped with SLF4J depend on <em>slf4j-api.jar</em> which must
-        be present on the class path for the binding to function
-        properly.
+        1.2, log4j version 1.3, JDK 1.4 logging, and repectively
+        JCL. <span style="color:#D22">As of version SLF4J 1.1.0, all of the
+        bindings shipped with SLF4J depend on <em>slf4j-api.jar</em>
+        which must be present on the class path for the binding to
+        function properly.</span>
         </p>
 
         <h2>Small applications</h2>
 
         <p>Small applications where configuring a fully-fledged
-        logging systems can be somewhat of an overkill can drop in
+        logging systems can be somewhat of an overkill, can drop in
         <em>slf4j-simple.jar</em> instead of a binding for the
         fully-fledged logging system.
         </p>

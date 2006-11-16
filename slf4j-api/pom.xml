@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1.0-RC1</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-api</artifactId>
-	<version>${aversion}</version>
+	<version>${parent.version}</version>
 	<packaging>jar</packaging>
 	<name>SLF4J API Module</name>
 

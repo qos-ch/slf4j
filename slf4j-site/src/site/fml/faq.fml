@@ -154,14 +154,14 @@
         <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>,
         <em>slf4j-log4j13.jar</em> and <em>slf4j-jdk14.jar</em>. These
         files ship with the <a href="download.html">official SLF4J
-        distribution.</a>
+        distribution</a>. Please note that all binding depend on
+        <em>slf4j-api.jar</em>.
         </p>
         
-        <p>The binding for NLOG4J ships with the <a
-        href="http://www.slf4j.org/nlog4j/download.html">NLOG4J
-        distribution</a>. If you use NLOG4J, you don't need to load
-        SLF4J because NLOG4J 1.2.10 and later already contain the
-        SLF4J interfaces and classes.
+        <p>The binding for logback-classic ships with the <a
+        href="http://logback.qos.ch/download.html">logback
+        distribution</a>. However, as with all other bindings, the
+        logback-classic binding requires <em>slf4j-api.jar</em>.
         </p>
       </answer>
     </faq>
@@ -476,6 +476,7 @@ logger.debug("The new entry is {}.", entry); </p>
 
     </faq>
 
+  <!--
    <faq id="log4j_12_vs_13">  
      <question>
        What is the difference between
@@ -498,6 +499,7 @@ logger.debug("The new entry is {}.", entry); </p>
        </p>
       </answer>
    </faq>
+
 
    <faq id="nlog4j_or_log4j">  
      <question>
@@ -543,6 +545,8 @@ logger.debug("The new entry is {}.", entry); </p>
        </p>
      </answer>
    </faq>   
+-->
+
   </part>
 
   <part>
