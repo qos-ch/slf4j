@@ -26,7 +26,6 @@
     <module>slf4j-log4j12</module>
     <module>slf4j-jcl</module>
     <module>jcl104-over-slf4j</module>
-    <module>log4j-over-slf4j</module>
     <module>slf4j-site</module>
     <module>slf4j-archetype</module>
 
@@ -163,7 +162,7 @@
         <artifactId>maven-jxr-plugin</artifactId>
         <configuration>
           <aggregate>true</aggregate>
-          <javadocDir>target/site/apidocs/</javadocDir>
+          <javadocDir>target/site/api/</javadocDir>
           <linkJavadoc>true</linkJavadoc>
         </configuration>
       </plugin>

@@ -11,13 +11,13 @@
 
   <h2>Latest official SLF4J version</h2>
 
-  <p>Download version 1.1.0-RC0 including <i>full source code</i>,
+  <p>Download version 1.1.0-RC1 including <i>full source code</i>,
   class files and documentation as
   </p>
 
   <ul>
-    <li><a href="dist/slf4j-1.1.0-RC0.tar.gz"><b>slf4j-1.1.0-RC0.tar.gz</b></a> </li>
-    <li><a href="dist/slf4j-1.1.0-RC0.zip"><b>slf4j-1.1.0-RC0.zip</b></a> </li>
+    <li><a href="dist/slf4j-1.1.0-RC1.tar.gz"><b>slf4j-1.1.0-RC1.tar.gz</b></a> </li>
+    <li><a href="dist/slf4j-1.1.0-RC1.zip"><b>slf4j-1.1.0-RC1.zip</b></a> </li>
     
   </ul>  
 
