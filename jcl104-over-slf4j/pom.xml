@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-    <version>1.1.0-RC1</version>
+    <version>1.1.0</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -27,5 +27,24 @@
       <scope>provided</scope>
 		</dependency>
   </dependencies>
+
+  <build>
+		<plugins>
+			<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+          <archive>
+            <manifestEntries>
+              <!-- <Name>org/apache/commons/logging</Name> -->
+              <Implementation-Title>JCL over SLF4J</Implementation-Title>
+              <Implementation-Version>104</Implementation-Version>
+              <Implementation-Vendor>SLF4J.ORG</Implementation-Vendor>
+            </manifestEntries>
+          </archive>
+        </configuration>
+			</plugin>
+    </plugins>
+  </build>
 
 </project>
