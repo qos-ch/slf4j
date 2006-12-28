@@ -124,7 +124,7 @@
 
 
         <a name="gradual"><h2>Gradual migration to SLF4J from Jakarta
-        Commons Logging (JCL) and/or log4j</h2></a>
+        Commons Logging (JCL)</h2></a>
         
         <h2><em>jcl104-over-slf4j.jar</em></h2>
 
@@ -146,18 +146,8 @@
         the underlying logging system will be done by SLF4J instead of
         JCL but without the class loader headaches. The underlying
         logging system can be any of NOP, simple, jdk14 logging, log4j
-        or LOGBack. Any existing dependency on commons-logging
+        or logback. Any existing dependency on commons-logging
         therefore becomes less of an issue.
-        </p>
-
-        <h2><em>log4j-over-slf4j.jar</em></h2>
-
-        <p>If migrating log4j logging calls to SLF4J is not something
-        you particularly relish, just drop in our implementation of
-        log4j over SLF4J, i.e. <em>log4j-over-slf4j.jar</em>, on your
-        class path. All logging calls made to the log4j API will be
-        redirected to SLF4J which in turn will deletage to the
-        underlying logging system.
         </p>
 
         <h2><em>slf4j-jcl.jar</em></h2>
@@ -204,10 +194,6 @@
         to JCL, resulting in an infinite loop.
         </p>
         
-        <p>For very similar reasons, <em>log4j-over-slf4j.jar</em> and
-        <em>slf4j-log4j12.jar</em> cannot be deployed simultaneously.
-        </p>
-
         <a name="summary"><h2>Summary</h2></a>
 
         <table class="ls" cellspacing="4" cellpadding="4">
@@ -264,11 +250,7 @@
               <em>jcl104-over-slf4j.jar</em>, will allow your project
               to migrate to SLF4J piecemeal, without breaking
               compatibility with existing software using
-              JCL. Similarly, the implementation of log4j's client
-              interface over SLF4J, i.e <em>log4j-over-slf4j.jar</em>,
-              will allow your project to migrate to SLF4J one class at
-              a time, without breaking compatibility with existing
-              legacy logging calls to the log4j API.
+              JCL.
               </p>
             </td>
           </tr>

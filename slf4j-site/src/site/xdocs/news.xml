@@ -17,6 +17,31 @@
 
   <hr noshade="noshade" size="1"/>
 
+  <h3>December 21st, 2006 - Release of SLF4J 1.1.0 (final)</h3>
+
+  <p>This release consists of minor bug fixes and documentation
+  changes. More importantly, the log4j-over-slf4j module has been
+  moved to the logback project, under the name <a
+  href="http://logback.qos.ch/bridge.html">log4j-bridge</a>.
+  </p> 
+
+   <p>Added the file "org.apache.commons.logging.LogFactory" under
+   META-INF/services directory which went missing in the 1.1.0 series
+   of SLF4J. This fixes a compatibility problem with Apache Axis which
+   uses its own discovery mechanism, namely, commons-discovery version
+   0.2. The problem was reported in bug <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=31">report 31</a>
+   by Martin Gilday.
+  </p>
+
+  <p>The file jcl104-over-slf4j.jar had various entries missing in its
+  MANIFEST.MF file, as reported by Boris Unkel in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=30">bug number
+  30</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
   <h3>November 16th, 2006 - Release of SLF4J 1.1.0-RC1</h3>
 
   <p>This release consists of packaging related bug fix in addition to

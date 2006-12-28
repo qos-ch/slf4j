@@ -5,7 +5,7 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.1.0-RC1</version>
+	<version>1.2-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
@@ -26,6 +26,7 @@
     <module>slf4j-log4j12</module>
     <module>slf4j-jcl</module>
     <module>jcl104-over-slf4j</module>
+    <module>slf4j-skin</module>
     <module>slf4j-site</module>
     <module>slf4j-archetype</module>
 
