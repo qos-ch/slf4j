@@ -1,0 +1,12 @@
+Implementation-Title: slf4j-log4j12
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: slf4j.log4j12
+Bundle-Name: slf4j-log4j12
+Bundle-Vendor: SLF4J.ORG
+Require-Bundle: slf4j.api;visibility:=reexport
+Export-Package: org.slf4j, org.slf4j.impl
+Import-Package: org.apache.log4j,
+  org.slf4j.spi,
+  org.slf4j.impl
+Bundle-ClassPath: .,
+ target/classes/
