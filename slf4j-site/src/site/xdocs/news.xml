@@ -30,7 +30,7 @@
    of SLF4J. This fixes a compatibility problem with Apache Axis which
    uses its own discovery mechanism, namely, commons-discovery version
    0.2. The problem was reported in bug <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=331">report 31</a>
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=33">report 33</a>
    by David Varnes.
   </p>
 
