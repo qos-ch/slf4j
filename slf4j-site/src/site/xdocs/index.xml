@@ -55,6 +55,34 @@
   conform to the SLF4J model.
   </p>
 
+  <h3>Projects depending on SLF4j</h3>
+
+  <p>Here is a short list of projects currently depending on SLF4J (in
+  alphabetical order):
+  </p>
+
+  <ul>
+    <li><a href="http://directory.apache.org/">Apache Directory</a></li>
+    <li><a href="http://incubator.apache.org/graffito/">Apache Graffito</a></li>
+    <li><a href=" http://jackrabbit.apache.org/">Apache Jackrabbit</a></li>
+    <li><a href="http://mina.apache.org/">Apache Mina</a></li>
+    <li><a href="http://apogee.nuxeo.org/">Apogee</a></li>
+    <li><a href="http://ha-jdbc.sourceforge.net/">HA-JDBC: High-Availability JDBC</a></li> 
+    <li><a href="http://jetty.mortbay.org/">Jetty v6</a></li>
+    <li><a href="http://www.liferay.com/web/guest/home">LIFERAY</a></li>
+    <li><a href="http://www.unidata.ucar.edu/software/netcdf-java/">NetCDF</a></li>
+    <li><a href="http://proximity.abstracthorizon.org/index.html">Proximity</a></li>
+    <li><a href="http://www.quickfixj.org/">QuickFIX/J</a></li>
+    <li><a href="http://smsj.sourceforge.net/dependencies.html">SMSJ</a></li>
+
+  </ul>
+
+  <!--
+  <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    <li><a href=""></a></li>
+    -->
+
 </body>
 </document>
 
