@@ -2,11 +2,11 @@
 TODO ITEMS
 ==========
 
-- FAQ using maven
-- javadoc aggregation
+- FAQ using maven.
+- javadoc aggregation.
 - support for log4j 1.3
 
 DONE ITEMS
 ==========
   
-- Add X11 license 
+- Add X11 license. 
