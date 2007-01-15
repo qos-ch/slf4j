@@ -2,7 +2,6 @@
 TODO ITEMS
 ==========
 
-
 - FAQ using maven.
 - javadoc aggregation.
 - support for log4j 1.3
