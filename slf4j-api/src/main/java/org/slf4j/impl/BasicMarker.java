@@ -33,13 +33,12 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.IMarkerFactory;
-import org.slf4j.Marker;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+
+import org.slf4j.Marker;
 
 
 /**
@@ -55,13 +54,14 @@ import java.util.Vector;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class BasicMarker implements Marker {
+
+  private static final long serialVersionUID = 1803952589649545191L;
+  
   final String name;
   List children;
-  final IMarkerFactory factory;
   
-  BasicMarker(String name, IMarkerFactory factory) {
+  BasicMarker(String name) {
     this.name = name;
-    this.factory = factory;
   }
 
   public String getName() {
@@ -128,15 +128,7 @@ public class BasicMarker implements Marker {
   }
   
   public boolean contains(String name) {
-    if(name == null) {
-      return false;
-    }
-    if(factory.exists(name)) {
-      Marker other = factory.getMarker(name);
-      return contains(other);     
-    } else {
-      return false;
-    }
+    throw new UnsupportedOperationException("This method has been deprecated.");
   }
 
 }

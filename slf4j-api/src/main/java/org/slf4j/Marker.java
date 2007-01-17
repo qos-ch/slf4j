@@ -33,6 +33,7 @@
 
 package org.slf4j;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -46,7 +47,7 @@ import java.util.Iterator;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public interface Marker {
+public interface Marker extends Serializable {
  
   /**
    * This constant represents any marker, including a null marker.
@@ -112,6 +113,8 @@ public interface Marker {
    * 
    * @param other The marker to test for inclusion.
    * @return Whether this marker contains the other marker.
+   * 
+   * @deprecated <span style="color:red">This method will be removed in SLF4J version 1.4</span>
    */
   public boolean contains(String name);
   
