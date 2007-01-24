@@ -17,7 +17,7 @@
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>January 24th, 2006 - Release of SLF4J 1.2-RC0</h3>
+  <h3>January 24th, 2006 - Release of SLF4J 1.2</h3>
 
   <p>This release includes several modifications to make SLF4J
   an <a href="http://www.osgi.org/">OSGi</a>-friendly framework. 
