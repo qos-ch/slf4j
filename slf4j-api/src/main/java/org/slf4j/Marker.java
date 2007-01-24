@@ -33,6 +33,7 @@
 
 package org.slf4j;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /**
@@ -46,7 +47,7 @@ import java.util.Iterator;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
-public interface Marker {
+public interface Marker extends Serializable {
  
   /**
    * This constant represents any marker, including a null marker.

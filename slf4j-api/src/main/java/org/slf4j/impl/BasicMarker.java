@@ -38,7 +38,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.slf4j.IMarkerFactory;
 import org.slf4j.Marker;
 
 
@@ -55,13 +54,14 @@ import org.slf4j.Marker;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class BasicMarker implements Marker {
+
+  private static final long serialVersionUID = 1803952589649545191L;
+
   final String name;
   List children;
-  final IMarkerFactory factory;
   
-  BasicMarker(String name, IMarkerFactory factory) {
+  BasicMarker(String name) {
     this.name = name;
-    this.factory = factory;
   }
 
   public String getName() {
@@ -127,16 +127,28 @@ public class BasicMarker implements Marker {
     return false;
   }
   
+  /**
+   * This method is mainly used with Expression Evaluators.
+   */
   public boolean contains(String name) {
     if(name == null) {
-      return false;
+      throw new IllegalArgumentException("Other cannot be null");
     }
-    if(factory.exists(name)) {
-      Marker other = factory.getMarker(name);
-      return contains(other);     
-    } else {
-      return false;
+    
+    if (this.name.equals(name)) {
+      return true;
     }
+    
+    if (hasChildren()) {
+      for(int i = 0; i < children.size(); i++) {
+        Marker child = (Marker) children.get(i);
+        if(child.contains(name)) {
+          return true;
+        }
+      }     
+    }
+    
+    return false;
   }
 
 }

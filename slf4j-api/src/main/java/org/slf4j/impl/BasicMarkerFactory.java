@@ -75,7 +75,7 @@ public class BasicMarkerFactory implements IMarkerFactory {
 
     Marker marker = (Marker) markerMap.get(name);
     if (marker == null) {
-      marker = new BasicMarker(name, this);
+      marker = new BasicMarker(name);
       markerMap.put(name, marker);
     }
     return marker;
