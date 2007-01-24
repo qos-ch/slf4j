@@ -17,6 +17,18 @@
 
   <hr noshade="noshade" size="1"/>
 
+  <h3>January 24th, 2006 - Release of SLF4J 1.2-RC0</h3>
+
+  <p>This release includes several modifications to make SLF4J
+  an <a href="http://www.osgi.org/">OSGi</a>-friendly framework. 
+  The modules' MANIFEST.MF files now include
+  OSGi metadata. Regarding these improvements, and OSGi in general, the
+  SLF4J project is happy to welcome John E. Conlon  as a new committer.
+  </p> 
+  
+  <p>Marker objects are now Serializable.
+  </p>
+  
   <h3>December 21st, 2006 - Release of SLF4J 1.1.0 (final)</h3>
 
   <p>This release consists of minor bug fixes and documentation
