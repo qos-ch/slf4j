@@ -6,5 +6,3 @@ Bundle-Vendor: SLF4J.ORG
 Export-Package: org.slf4j;partial=true;mandatory:=partial,
   org.slf4j.spi,
   org.slf4j.impl;partial=true;mandatory:=partial
-Bundle-ClassPath: .,
- target/classes/
