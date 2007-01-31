@@ -5,5 +5,4 @@ Bundle-Name: slf4j-nop
 Bundle-Vendor: SLF4J.ORG
 Require-Bundle: slf4j.api;visibility:=reexport
 Export-Package: org.slf4j, org.slf4j.impl
-Import-Package: org.slf4j.spi, org.slf4j.impl
-Bundle-ClassPath: ., target/classes/
+Import-Package: org.slf4j.spi
