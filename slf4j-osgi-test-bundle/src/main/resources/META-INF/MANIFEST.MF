@@ -1,0 +1,7 @@
+Implementation-Title: slf4j-osgi.test.bundle
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: slf4j.osgi.test.bundle
+Bundle-Name: slf4j-osgi-test-bundle
+Bundle-Vendor: SLF4J.ORG
+Import-Package: org.osgi.framework,org.slf4j;version="[1.3,1.4)"
+Bundle-Activator: org.slf4j.osgi.test.Activator
