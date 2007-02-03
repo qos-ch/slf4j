@@ -35,6 +35,16 @@
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- To get org.apache.commons.logging package for
+		 commons logging testing.-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl104-over-slf4j</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<dependency>
       		<groupId>org.apache.felix</groupId>
       		<artifactId>org.osgi.core</artifactId>

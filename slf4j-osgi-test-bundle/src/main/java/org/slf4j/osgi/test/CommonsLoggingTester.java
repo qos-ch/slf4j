@@ -1,0 +1,114 @@
+/* 
+ * Copyright (c) 2004-2005 SLF4J.ORG
+ * 
+ * All rights reserved.
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to  deal in  the Software without  restriction, including
+ * without limitation  the rights to  use, copy, modify,  merge, publish,
+ * distribute, and/or sell copies of  the Software, and to permit persons
+ * to whom  the Software is furnished  to do so, provided  that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the  Software and  that both  the above  copyright notice(s)  and this
+ * permission notice appear in supporting documentation.
+ * 
+ * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF  THIRD PARTY  RIGHTS. IN  NO EVENT  SHALL THE  COPYRIGHT  HOLDER OR
+ * HOLDERS  INCLUDED IN  THIS  NOTICE BE  LIABLE  FOR ANY  CLAIM, OR  ANY
+ * SPECIAL INDIRECT  OR CONSEQUENTIAL DAMAGES, OR  ANY DAMAGES WHATSOEVER
+ * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * 
+ * Except as  contained in  this notice, the  name of a  copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ *
+ */
+
+package org.slf4j.osgi.test;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * <code>CommonsLoggingTester</code> tests org.apache.commons.logging functionality.
+ * 
+ * @author John Conlon
+ */
+public class CommonsLoggingTester {
+
+	boolean testCommonslogging() throws Exception {
+		testIsEnabledAPI();
+		testPrintAPI();
+		return true;
+	}
+
+	public void testIsEnabledAPI() {
+		// assume that we are running over slf4j-simple
+		Log log = LogFactory.getLog(CommonsLoggingTester.class);
+		assertFalse("Trace was enabled", log.isTraceEnabled());
+		assertFalse("Debug was enabled", log.isDebugEnabled());
+		assertTrue("Info was not enabled", log.isInfoEnabled());
+		assertTrue("Warn was not enabled", log.isWarnEnabled());
+		assertTrue("Error was not enabled", log.isErrorEnabled());
+		assertTrue("Fatal was not enabled", log.isFatalEnabled());
+	}
+
+	private void assertFalse(String failureMessage, boolean value) {
+		if (value) {
+			throw new IllegalStateException(failureMessage);
+		}
+	}
+
+	private void assertTrue(String failureMessage, boolean value) {
+		if (!value) {
+			throw new IllegalStateException(failureMessage);
+		}
+	}
+
+	public void testPrintAPI() {
+		Log log = LogFactory.getLog(CommonsLoggingTester.class);
+		Exception e = new Exception("just testing");
+
+		log.trace(null);
+		log.trace("trace message");
+
+		log.debug(null);
+		log.debug("debug message");
+
+		log.info(null);
+		log.info("info  message");
+
+		log.warn(null);
+		log.warn("warn message");
+
+		log.error(null);
+		log.error("error message");
+
+		log.fatal(null);
+		log.fatal("fatal message");
+
+		log.trace(null, e);
+		log.trace("trace message", e);
+
+		log.debug(null, e);
+		log.debug("debug message", e);
+
+		log.info(null, e);
+		log.info("info  message", e);
+
+		log.warn(null, e);
+		log.warn("warn message", e);
+
+		log.error(null, e);
+		log.error("error message", e);
+
+		log.fatal(null, e);
+		log.fatal("fatal message", e);
+	}
+}

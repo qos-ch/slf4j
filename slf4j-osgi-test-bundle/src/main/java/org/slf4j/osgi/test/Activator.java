@@ -40,6 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
+import org.slf4j.osgi.test.service.Probe;
+
+import java.util.Hashtable;
 
 /**
  * <code>Activator</code> implements a simple bundle to test OSGi slf4j
@@ -68,6 +71,11 @@ public class Activator implements BundleActivator, ServiceListener {
 	public void start(BundleContext bundleContext) throws Exception {
 		log.info("Starting to listen for service events.");
 		bundleContext.addServiceListener(this);
+		
+		Probe probe = new ProbeImpl();
+		Hashtable props = new Hashtable();
+		props.put("description", "Service for testing slf4j components.");
+		bundleContext.registerService(Probe.class.getName(),probe, props);
 
 		test1();
 		test2();
