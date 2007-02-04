@@ -63,6 +63,10 @@ public class JDK14LoggerFactory implements ILoggerFactory {
     Logger ulogger = null;
     // protect against concurrent access of loggerMap
     synchronized (this) {
+      // the root logger is called "" in JUL
+      if(name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
+        name = "";
+      }
       ulogger = (Logger) loggerMap.get(name);
       if (ulogger == null) {
         java.util.logging.Logger logger = java.util.logging.Logger

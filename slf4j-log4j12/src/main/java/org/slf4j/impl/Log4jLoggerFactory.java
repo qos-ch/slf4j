@@ -64,10 +64,15 @@ public class Log4jLoggerFactory implements ILoggerFactory {
     Logger slf4jLogger = null;
     // protect against concurrent access of loggerMap
     synchronized (this) {
-      slf4jLogger = (Logger) loggerMap.get(name);
+        slf4jLogger = (Logger) loggerMap.get(name);
       if (slf4jLogger == null) {
-        org.apache.log4j.Logger logger = LogManager.getLogger(name);
-        slf4jLogger = new Log4jLoggerAdapter(logger);
+        org.apache.log4j.Logger log4jLogger;
+        if(name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
+           log4jLogger = LogManager.getRootLogger();
+        } else {
+          log4jLogger = LogManager.getLogger(name);
+        }
+        slf4jLogger = new Log4jLoggerAdapter(log4jLogger);
         loggerMap.put(name, slf4jLogger);
       }
     }

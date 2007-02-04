@@ -43,6 +43,12 @@ public interface Logger {
 
 
   /**
+   * Case insensitive string constant used to retrieve the name of the root logger.
+   * @since 1.3
+   */
+  final public String ROOT_LOGGER_NAME = "ROOT";
+  
+  /**
    * Return the name of this <code>Logger</code> instance.
    */
   public String getName();
