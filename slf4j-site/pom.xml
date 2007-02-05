@@ -33,7 +33,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
 				<configuration>
-					<xdocDirectory>src/site/xdocs</xdocDirectory>
 					<outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
 				</configuration>
 			</plugin>

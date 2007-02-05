@@ -6,7 +6,7 @@ html {
 body {
   background-color: #fff;
   font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
-  color:#564b47;  
+  color: #000;  
   padding:0px;
   margin:0px;
   font-size: small;
@@ -22,7 +22,7 @@ p, h2, pre {
 
 
 a { 
- color: navy;
+ color: #0000CC;
  /*font-size: smaller;*/
  background-color:transparent;
  text-decoration: none; 
@@ -40,11 +40,10 @@ a {
   padding-bottom: 0.5ex;
   padding-top: 0.5ex;
   padding-left: 1ex;
-  /*white-space: pre;*/
+  white-space: pre;
 }
 
 pre { 
- color: #564b47;
  background-color:transparent;
  font-family: Courier, Monaco, Monospace;
 }
@@ -55,31 +54,29 @@ pre {
  font-size: 10px;
 }
 
-h1 {
+h1, h2, h3, h4 {
+  color: #333;
 }
 
 h2 {
   padding-top:10px; 
-  color: #564b47;
   background-color: transparent;
-	font-weight: 900;
-	font-size: x-large;
+  font-weight: 900;
+  font-size: x-large;
 }
 
 h3 {
   padding-top:10px; 
-	color: #564b47;
-	background-color: transparent;
-	font-weight: normal;
-	font-size: large;
+  background-color: transparent;
+  font-weight: normal;
+  font-size: large;
 }
 
 h4 {
   padding-top:5px; 
-	color: navy;
-	background-color: transparent;	
-	font-weight: large;
-	font-size: normal;
+  background-color: transparent;	
+  font-weight: large;
+  font-size: normal;
 }
 
 .footer {
@@ -89,8 +86,6 @@ h4 {
   padding:0px;
   margin:0px
 }
-
-
 
 strong { 
   /*font-size: 13px;*/
@@ -130,7 +125,7 @@ strong {
   margin: 0px; 
   padding: 2px; 
   border: solid 1px #FFFFFF; 
-  color: #0066cc; 
+  color: #0000CC; 
   text-decoration: none;
 }
 
@@ -145,7 +140,7 @@ p.menu_header {
 
 #left a:hover, #right a:hover {
   border: solid 1px #FFFFFF; 
-  background-color: #0066cc; 
+  background-color: #3333CC; 
   color: #ffffff;
 }
 
@@ -258,4 +253,12 @@ code {
   padding-right: 1ex;
   margin-left: 3em;
   margin-right: 3em;
+}
+
+table.bodyTable tr.a {
+	background-color: #ddd;
+}
+
+table.bodyTable tr.b {
+	background-color: #eee;
 }

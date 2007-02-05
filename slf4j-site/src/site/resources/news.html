@@ -29,8 +29,12 @@ prefix='';
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>January 24th, 2006 - Release of SLF4J 1.2</h3>
-
+  <h3>Fabruary xx, 2007 - Release of SLF4J 1.3</h3>
+  <p>This release consists of rearrangement of packages, while transparent to the end-user, make 
+  SLF4J even more OSGi friendly. In particular, the <code>org.slf4j</code> is 
+  entirely contained within <em>slf4j-api.jar</em> whereas the <code>org.slf4j.impl</code> package is entirely contained within each binding. </p>
+  <p>It is now possible to obtain the root logger of the underlying logging implementation by requesting a logger named &quot;ROOT&quot;. This feature was requested by Sebastien Davids in <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=35">bug report 35</a>. </p>
+  <h3>January 24th, 2007 - Release of SLF4J 1.2</h3>
   <p>This release includes several modifications to make SLF4J
   an <a href="http://www.osgi.org/">OSGi</a>-friendly framework. 
   The modules' MANIFEST.MF files now include
@@ -153,7 +157,7 @@ prefix='';
 
   <p>Release 1.0.1 is a maintenance release containing bug fixes only.
 
-    <ul>
+  <ul>
 
     <li>Fixed <a
     href="http://bugzilla.slf4j.org/show_bug.cgi?id=20">bug number
@@ -169,7 +173,7 @@ prefix='';
     version 0.2. The bug was reported by Dave Wallace.
     </li>
 
-    </ul>
+  </ul>
   </p>
 
   

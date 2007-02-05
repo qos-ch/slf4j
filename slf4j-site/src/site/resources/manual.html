@@ -62,35 +62,32 @@ prefix='';
       <h2>Swapping implementations at deployment time</h2>
 
         <p>SLF4J supports multiple logging systems, namely, NOP,
-        Simple, log4j version 1.2, log4j version 1.3, JDK 1.4 logging,
+        Simple, log4j version 1.2, JDK 1.4 logging,
         JCL and logback. The SLF4J distribution ships with several jar
         files <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
         <em>slf4j-log4j12.jar</em>, <em>slf4j-log4j13.jar</em>,
         <em>slf4j-jdk14.jar</em> and <em>slf4j-jcl.jar</em>. Each of
         these jar files is hardwired <em>at compile-time</em> to use
         just one implementation, that is NOP, Simple, log4j version
-        1.2, log4j version 1.3, JDK 1.4 logging, and repectively
-        JCL. <span style="color:#D22">As of version SLF4J 1.1.0, all of the
+        1.2, JDK 1.4 logging, and repectively
+        JCL. <span style="color:#D22">As of SLF4J version  1.1.0, all of the
         bindings shipped with SLF4J depend on <em>slf4j-api.jar</em>
         which must be present on the class path for the binding to
-        function properly.</span>
-        </p>
+        function properly.</span>        </p>
 
         <h2>Small applications</h2>
 
         <p>Small applications where configuring a fully-fledged
         logging systems can be somewhat of an overkill, can drop in
-        <em>slf4j-simple.jar</em> instead of a binding for the
-        fully-fledged logging system.
-        </p>
+        <em> <em>slf4j-api.jar+</em>slf4j-simple.jar</em> instead of a binding for a
+        fully-fledged logging system.        </p>
 
         <h2>Libraries</h2>
 
         <p>Authors of widely-distributed components and libraries may
         code against the SLF4J interface in order to avoid imposing an
-        logging API implementation on the end-user.  At deployment
-        time, the end-user may choose the desired logging API
-        implementation by inserting the corresponding jar file in her
+        logging system on the end-user.  At deployment
+        time, the end-user may choose the desired logging system by inserting the corresponding jar file in her
         classpath. This stupid, simple and robust approach avoids many
         of the painful bugs associated with dynamic discovery
         processes.
@@ -119,8 +116,8 @@ prefix='';
 
         <h2>Built-in support in logback</h2>
 
-        <p>The <code>Logger</code> class in logback directly
-        implements SLF4J's <code>Logger</code> interface. Moreover,
+        <p>The <code>ch.qos.logback.classic.Logger</code> class in logback directly
+        implements SLF4J's <code>org.slf4j.Logger</code> interface. Moreover,
         logback makes extensive use of SLF4J internally.
         </p>
 
@@ -188,15 +185,13 @@ prefix='';
         API, a decision which can be deferred to a later time.
         </p>
         
-        <p>On the other hand, <em>slf4j-jcl.jar</em> is useful after
-        you have already adopted the SLF4J API for your component
+        <p>On the other hand, <em>slf4j-jcl.jar</em> is useful <strong>after</strong>        you have already adopted the SLF4J API for your component
         which needs to be embedded in a larger application environment
         where JCL is a formal requirement. Your software component can
         still use SLF4J API without disrupting the larger
         application. Indeed, <em>slf4j-jcl.jar</em> will delegate all
         logging decisions to JCL so that the dependency on SLF4J API
-        by your component will be transparent to the larger whole.
-        </p>
+        by your component will be transparent to the larger whole.        </p>
 
         <p>Please note that <em>jcl104-over-slf4j.jar</em> and
         <em>slf4j-jcl.jar</em> cannot be deployed at the same
@@ -208,13 +203,13 @@ prefix='';
         
         <a name="summary"><h2>Summary</h2></a>
 
-        <table class="ls" cellspacing="4" cellpadding="4">
+        <table  class="bodyTable" cellspacing="4" cellpadding="4">
           <tr>
             <th align="left">Advantage</th>
             <th align="left">Description</th>
           </tr>
 
-          <tr>
+          <tr  class="a">
             <td>Swappable logging API implementations</td>
             <td>The desired logging API can be plugged in at
             deployment time by inserting the appropriate jar file on
@@ -223,8 +218,8 @@ prefix='';
           </tr>
 
 
-          <tr>
-            <td>Fail-safe operation</td>
+          <tr class="b">
+            <td>Fail-fast operation</td>
             <td>Assuming the appropriate jar file is available on the
             classpath, under no circumstances will SLF4J cause your
             application to fail. SLF4J's simple and robust design
@@ -243,7 +238,7 @@ prefix='';
           </tr>
 
        
-          <tr>
+          <tr class="a">
             <td>Adapter implementations for popular logging systems
             </td>
 
@@ -254,7 +249,7 @@ prefix='';
 
           </tr>
 
-          <tr>
+          <tr class="b">
             <td>Easy migration path</td>
 
             <td>
@@ -267,7 +262,7 @@ prefix='';
             </td>
           </tr>
 
-          <tr>
+          <tr class="a">
             <td>Support for formated log messages</td>
 
             <td>All SLF4J adapters support formated log messages with
@@ -275,7 +270,7 @@ prefix='';
           </tr>
 
          
-        </table>
+  </table>
 
 
 </div>
