@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="SLF4J Main Site">
 
-  <skin>
+  <!--<skin>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-skin</artifactId>
     <version>1.3-SNAPSHOT</version>
-  </skin>
+  </skin>-->
   
   <publishDate position="navigation-bottom" format="dd-MM-yyyy"/>
 
