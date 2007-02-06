@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-		<version>1.3-SNAPSHOT</version>
+		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,7 @@
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-osgi-test-bundle</artifactId>
 	<version>${parent.version}</version>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 	<name>SLF4J Testing Bundle</name>
 	
 	<url>http://www.slf4j.org</url>
@@ -56,25 +56,21 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
 				<configuration>
-					<archive>
-						<manifestEntries>
-							<Bundle-Version>
-								1.3.0.SNAPSHOT
-							</Bundle-Version>
-							<Bundle-Description>
-								${project.description}
-							</Bundle-Description>
-							<Implementation-Version>
-								${project.version}
-							</Implementation-Version>
-						</manifestEntries>
-						<manifestFile>
-							src/main/resources/META-INF/MANIFEST.MF
-						</manifestFile>
-					</archive>
+					<instructions>
+						<Export-Package>
+							org.slf4j.osgi.test.service
+						</Export-Package>
+						<Private-Package>org.slf4j.osgi.test</Private-Package>
+						<Import-Package>
+							org.osgi.framework,org.slf4j;version="[1.3,1.4)"
+						</Import-Package>
+						<Bundle-Activator>org.slf4j.osgi.test.Activator</Bundle-Activator>
+						<DynamicImport-Package>org.apache.commons.logging</DynamicImport-Package>
+					</instructions>
 				</configuration>
 			</plugin>
 		</plugins>
