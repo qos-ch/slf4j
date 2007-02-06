@@ -42,6 +42,7 @@
     	<plugin>
     		<groupId>org.apache.felix</groupId>
     		<artifactId>maven-bundle-plugin</artifactId>
+    		<version>0.9.0-incubator-SNAPSHOT</version>
     		<extensions>true</extensions>
     		<configuration>
     			<instructions>
