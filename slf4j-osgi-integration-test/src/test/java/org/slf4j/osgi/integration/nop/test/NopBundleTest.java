@@ -47,7 +47,7 @@ import org.springframework.osgi.test.ConfigurableBundleCreatorTests;
 
 /**
  * 
- * <code>NopBundleTest</code>  starts up an OSGi environment (equinox,
+ * <code>JdkBundleTest</code>  starts up an OSGi environment (equinox,
  * knopflerfish, or felix according to the profile selected) and installs the
  * slf4j.osgi.test.bundle, the slf4j.nop bundle and the bundles they depend on. 
  * 
@@ -92,19 +92,19 @@ public class NopBundleTest extends ConfigurableBundleCreatorTests implements Int
 	 */
 	protected String[] getBundleLocations() {
 		return new String[] {
-				localMavenArtifact("org.springframework.osgi",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME,
 						"aopalliance.osgi", "1.0-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME,
 						"spring-context", "2.1-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi", "spring-beans",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-beans",
 						"2.1-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME,
 						"spring-osgi-core", "1.0-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi", "spring-aop",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
-						localMavenArtifact("org.slf4j", "slf4j-nop", VERSION),
-						localMavenArtifact("org.slf4j", "slf4j-osgi-test-bundle",
-								VERSION) };
+						localMavenArtifact(SLF4J_GROUP_ID, NOP_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
+						localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
+								SLF4J_VERSION_UNDER_TEST) };
 	}
 
 	/**
@@ -143,8 +143,8 @@ public class NopBundleTest extends ConfigurableBundleCreatorTests implements Int
 			}
 		}
 
-		assertTrue(symNames.contains(SLF4J_NOP));
-		assertTrue(symNames.contains(SLF4J_OSGI_TEST));
+		assertTrue(symNames.contains(NOP_BINDING_BUNDLE_SYM_NAME));
+		assertTrue(symNames.contains(TEST_BUNDLE_SYM_NAME));
 
 	}
 	

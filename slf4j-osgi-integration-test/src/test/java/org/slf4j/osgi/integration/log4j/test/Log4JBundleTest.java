@@ -101,19 +101,19 @@ public class Log4JBundleTest extends ConfigurableBundleCreatorTests implements I
 	 */
 	protected String[] getBundleLocations() {
 		return new String[] {
-				localMavenArtifact("org.springframework.osgi",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME,
 						"aopalliance.osgi", "1.0-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME,
 						"spring-context", "2.1-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi", "spring-beans",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-beans",
 						"2.1-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME,
 						"spring-osgi-core", "1.0-SNAPSHOT"),
-				localMavenArtifact("org.springframework.osgi", "spring-aop",
+				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
-				localMavenArtifact("org.slf4j", "slf4j-log4j12", VERSION),
-				localMavenArtifact("org.slf4j", "slf4j-osgi-test-bundle",
-						VERSION) };
+				localMavenArtifact(SLF4J_GROUP_ID, LOG4J12_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
+				localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
+						SLF4J_VERSION_UNDER_TEST) };
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class Log4JBundleTest extends ConfigurableBundleCreatorTests implements I
 			}
 		}
 
-		assertTrue(symNames.contains(SLF4J_LOG4J));
-		assertTrue(symNames.contains(SLF4J_OSGI_TEST));
+		assertTrue(symNames.contains(LOG4J_BINDING_BUNDLE_SYM_NAME));
+		assertTrue(symNames.contains(TEST_BUNDLE_SYM_NAME));
 
 	}
 

@@ -32,18 +32,42 @@
 package org.slf4j.osgi.integration;
 
 public interface IntegrationTestConstants {
+    
+    /**
+     * Versions of this release.
+     */
+    public static final String SLF4J_VERSION_UNDER_TEST = "1.3.0-SNAPSHOT";
+    
+    public static final String SLF4J_GROUP_ID = "org.slf4j";
+    
+    public static final String SPRINGFRAMEWORK_OSGI_GROUP_NAME = "org.springframework.osgi";
+    
 
-	public static final String SLF4J_NOP = "org.slf4j.slf4j-nop";
+    public static final String JCL104_ADAPTER_BUNDLE_ARTIFACT_ID = "jcl104-over-slf4j";
 
-	public static final String SLF4J_OSGI_TEST = "org.slf4j.slf4j-osgi-test-bundle";
+    public static final String JDK14_BINDING_BUNDLE_ARTIFACT_ID = "slf4j-jdk14";
 
-	public static final String SLF4J_LOG4J = "org.slf4j.slf4j-log4j12";
+    public static final String SIMPLE_BINDING_BUNDLE_ARTIFACT_ID = "slf4j-simple";
+
+    public static final String LOG4J12_BINDING_BUNDLE_ARTIFACT_ID = "slf4j-log4j12";
+
+    public static final String NOP_BINDING_BUNDLE_ARTIFACT_ID = "slf4j-nop";
+
+    public static final String TEST_BUNDLE_ARTIFACT_ID = "slf4j-osgi-test-bundle";
+
+    
+    public static final String TEST_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+TEST_BUNDLE_ARTIFACT_ID;
+    
+	public static final String NOP_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+NOP_BINDING_BUNDLE_ARTIFACT_ID;
+   
+	public static final String LOG4J_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+LOG4J12_BINDING_BUNDLE_ARTIFACT_ID;
 	
-	public static final String SLF4J_SIMPLE = "org.slf4j.slf4j-simple";
+	public static final String SIMPLE_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+SIMPLE_BINDING_BUNDLE_ARTIFACT_ID;
+    
+    public static final String JDK_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+JDK14_BINDING_BUNDLE_ARTIFACT_ID;
 	
-	public static final String SLF4J_JCL = "org.slf4j.jcl104-over-slf4j";
-
-
-	
-	public static final String VERSION = "1.3.0-SNAPSHOT";
+	public static final String JCL_ADAPTER_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+JCL104_ADAPTER_BUNDLE_ARTIFACT_ID;
+   
+    
+    
 }

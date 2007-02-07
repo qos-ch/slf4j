@@ -30,7 +30,7 @@
  *
  */
 
-package org.slf4j.osgi.integration.simple.test;
+package org.slf4j.osgi.integration.jdk.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,32 +42,31 @@ import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.osgi.integration.IntegrationTestConstants;
-import org.slf4j.osgi.integration.nop.test.NopBundleTest;
 import org.slf4j.osgi.test.service.Probe;
 import org.springframework.osgi.test.ConfigurableBundleCreatorTests;
 
 /**
  * 
- * <code>SimpleBundleTest</code> starts up an OSGi environment (equinox,
+ * <code>JdkBundleTest</code>  starts up an OSGi environment (equinox,
  * knopflerfish, or felix according to the profile selected) and installs the
- * slf4j.osgi.test.bundle, the slf4j.simple bundle and the bundles they depend
- * on.
+ * slf4j.osgi.test.bundle, the slf4j.jdk bundle and the bundles they depend on. 
  * 
- * The test classes in this project will be turned into a virtual bundle which
- * is also installed and the tests are then run inside the OSGi runtime.
+ * The test classes in this project will be turned into a virtual bundle which is 
+ * also installed and the tests are then run inside the OSGi runtime.
  * 
- * The tests have access to a BundleContext, which we use to test that all
- * bundles have been started.
+ * The tests have access to a BundleContext, which we use to test that all bundles have
+ * been started.
  * 
  * 
  * @author John Conlon
  */
-public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements IntegrationTestConstants{
+public class JdkBundleTest extends ConfigurableBundleCreatorTests implements IntegrationTestConstants{
+
+
 
 	
 
-	
-	/**
+    /**
 	 * The manifest to use for the "virtual bundle" created out of the test
 	 * classes and resources in this project
 	 * 
@@ -76,9 +75,9 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 	 * such use cases that doesn't require duplication of the entire manifest...
 	 */
 	protected String getManifestLocation() {
-		return "classpath:org/slf4j/osgi/integration/simple/test/MANIFEST.MF";
+		return "classpath:org/slf4j/osgi/integration/jdk/test/MANIFEST.MF";
 	}
-
+	
 	/**
 	 * The location of the packaged OSGi bundles to be installed for this test.
 	 * Values are Spring resource paths. The bundles we want to use are part of
@@ -91,7 +90,7 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 	 * automatically included so they do not need to be specified here.
 	 * 
 	 * Our test bundles are using package import and export versions to keep
-	 * these other logging bundles from getting mixed up with our test bundles.
+	 * these other logging bundles from getting mixed up with our test bundles. 
 	 */
 	protected String[] getBundleLocations() {
 		return new String[] {
@@ -105,10 +104,9 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 						"spring-osgi-core", "1.0-SNAPSHOT"),
 				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
-				localMavenArtifact(SLF4J_GROUP_ID, SIMPLE_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
-				localMavenArtifact(SLF4J_GROUP_ID, JCL104_ADAPTER_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
-				localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
-						SLF4J_VERSION_UNDER_TEST) };
+						localMavenArtifact(SLF4J_GROUP_ID, JDK14_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
+						localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
+								SLF4J_VERSION_UNDER_TEST) };
 	}
 
 	/**
@@ -125,8 +123,8 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 	 * Makes sure our bundles are in the OSGi runtime and their state is Active.
 	 * 
 	 */
-	public void testSlf4jNopBundles() {
-		Logger log = LoggerFactory.getLogger(SimpleBundleTest.class);
+	public void testSlf4jNopBundleIntegration() {
+		Logger log = LoggerFactory.getLogger(JdkBundleTest.class);
 		assertNotNull(log);
 		BundleContext context = getBundleContext();
 		List symNames = new ArrayList();
@@ -147,30 +145,31 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 			}
 		}
 
-		assertTrue(symNames.contains(SIMPLE_BINDING_BUNDLE_SYM_NAME));
+		assertTrue(symNames.contains(JDK_BINDING_BUNDLE_SYM_NAME));
 		assertTrue(symNames.contains(TEST_BUNDLE_SYM_NAME));
-		assertTrue(symNames.contains(JCL_ADAPTER_BUNDLE_SYM_NAME));
 
 	}
-
-	public void testProbeService() {
-		Logger log = LoggerFactory.getLogger(NopBundleTest.class);
+	
+	public void testProbeService(){
+		Logger log = LoggerFactory.getLogger(JdkBundleTest.class);
 		log.debug("Testing probe");
 		BundleContext context = getBundleContext();
-		ServiceReference ref = context.getServiceReference(Probe.class.getName());
-		assertNotNull("Service Reference is null", ref);
-		Probe probe = null;
-
-		probe = (Probe) context.getService(ref);
-		assertNotNull("Cannot find the probe service", probe);
+		ServiceReference ref = context.getServiceReference( Probe.class.getName() );
+		assertNotNull( "Service Reference is null", ref );
+		Probe probe = ( Probe ) context.getService( ref );
+		assertNotNull( "Cannot find the probe service", probe );
 
 		try {
 			probe.testCommonslogging();
+			fail("Expected exception while testing commons logging.");
+		} catch (Throwable t){
+			log.debug("Failed to execute the probe.testCommonsLogging. "+t);
 
-		} catch (Throwable t) {
-			fail("Failed to execute the probe.testCommonsLogging. "+t);
 		}
-		context.ungetService(ref);
+
+		context.ungetService( ref );
+
+		log.debug("Tested probe.");
 	}
 
 }
