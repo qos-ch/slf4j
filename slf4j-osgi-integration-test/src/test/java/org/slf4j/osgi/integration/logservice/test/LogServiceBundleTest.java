@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2004-2005 SLF4J.ORG
+ * Copyright (c) 2004-2005 QOS.ch
  * 
  * All rights reserved.
  * 
@@ -30,7 +30,7 @@
  *
  */
 
-package org.slf4j.osgi.integration.simple.test;
+package org.slf4j.osgi.integration.logservice.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +39,11 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
+import org.osgi.service.log.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.osgi.integration.IntegrationTestConstants;
 import org.slf4j.osgi.integration.nop.test.NopBundleTest;
-import org.slf4j.osgi.test.service.Probe;
 import org.springframework.osgi.test.ConfigurableBundleCreatorTests;
 
 /**
@@ -62,7 +62,7 @@ import org.springframework.osgi.test.ConfigurableBundleCreatorTests;
  * 
  * @author John Conlon
  */
-public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements IntegrationTestConstants{
+public class LogServiceBundleTest extends ConfigurableBundleCreatorTests implements IntegrationTestConstants{
 
 	
 
@@ -76,7 +76,7 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 	 * such use cases that doesn't require duplication of the entire manifest...
 	 */
 	protected String getManifestLocation() {
-		return "classpath:org/slf4j/osgi/integration/simple/test/MANIFEST.MF";
+		return "classpath:org/slf4j/osgi/integration/logservice/test/MANIFEST.MF";
 	}
 
 	/**
@@ -105,10 +105,11 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 						"spring-osgi-core", "1.0-SNAPSHOT"),
 				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
-				localMavenArtifact(SLF4J_GROUP_ID, SIMPLE_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
-				localMavenArtifact(SLF4J_GROUP_ID, JCL104_ADAPTER_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
-				localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
-						SLF4J_VERSION_UNDER_TEST) };
+                localMavenArtifact( "org.osgi", "org.osgi.compendium", "4.0" ),
+				localMavenArtifact(SLF4J_GROUP_ID, 
+                    SIMPLE_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
+				localMavenArtifact(SLF4J_GROUP_ID, 
+                    LOGSERVICE_ADAPTER_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST) };
 	}
 
 	/**
@@ -125,8 +126,8 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 	 * Makes sure our bundles are in the OSGi runtime and their state is Active.
 	 * 
 	 */
-	public void testSlf4jNopBundles() {
-		Logger log = LoggerFactory.getLogger(SimpleBundleTest.class);
+	public void testSlf4jLogServiceBundles() {
+		Logger log = LoggerFactory.getLogger(LogServiceBundleTest.class);
 		assertNotNull(log);
 		BundleContext context = getBundleContext();
 		List symNames = new ArrayList();
@@ -148,29 +149,39 @@ public class SimpleBundleTest extends ConfigurableBundleCreatorTests implements 
 		}
 
 		assertTrue(symNames.contains(SIMPLE_BINDING_BUNDLE_SYM_NAME));
-		assertTrue(symNames.contains(TEST_BUNDLE_SYM_NAME));
-		assertTrue(symNames.contains(JCL_ADAPTER_BUNDLE_SYM_NAME));
+		assertTrue(symNames.contains(LOGSERVICE_ADAPTER_BUNDLE_SYM_NAME));
 
 	}
 
-	public void testProbeService() {
+	public void testLogService() {
 		Logger log = LoggerFactory.getLogger(NopBundleTest.class);
-		log.debug("Testing probe");
+		log.debug("Testing LogSerivce");
 		BundleContext context = getBundleContext();
-		ServiceReference ref = context.getServiceReference(Probe.class.getName());
+		ServiceReference ref = context.getServiceReference(LogService.class.getName());
 		assertNotNull("Service Reference is null", ref);
-		Probe probe = null;
+        LogService logService = null;
 
-		probe = (Probe) context.getService(ref);
-		assertNotNull("Cannot find the probe service", probe);
+        logService = (LogService) context.getService(ref);
+		assertNotNull("Cannot find the probe service", logService);
 
-		try {
-			probe.testCommonslogging();
-
-		} catch (Throwable t) {
-			fail("Failed to execute the probe.testCommonsLogging. "+t);
-		}
+        exerciseLogService( logService);
+        exerciseLogService( logService,ref);
+		
 		context.ungetService(ref);
 	}
+    
+    private void exerciseLogService(LogService logService, ServiceReference ref){
+        logService.log(ref, LogService.LOG_DEBUG, "Loaded bundles" );
+        logService.log(ref, LogService.LOG_INFO, "Found LogService. " );
+        logService.log(ref, LogService.LOG_WARNING, "Found LogService. " );
+        logService.log(ref, LogService.LOG_ERROR, "Found LogService. ", new Exception("just a test.") );
+    }
+    
+    private void exerciseLogService(LogService logService){
+        logService.log(LogService.LOG_DEBUG, "Loaded bundles" );
+        logService.log(LogService.LOG_INFO, "Found LogService. " );
+        logService.log(LogService.LOG_WARNING, "Found LogService. " );
+        logService.log(LogService.LOG_ERROR, "Found LogService. ", new Exception("just a test.") );
+    }
 
 }

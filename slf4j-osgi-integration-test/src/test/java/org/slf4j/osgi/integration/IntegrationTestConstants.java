@@ -44,6 +44,8 @@ public interface IntegrationTestConstants {
     
 
     public static final String JCL104_ADAPTER_BUNDLE_ARTIFACT_ID = "jcl104-over-slf4j";
+    
+    public static final String LOGSERVICE_ADAPTER_BUNDLE_ARTIFACT_ID = "osgi-over-slf4j";
 
     public static final String JDK14_BINDING_BUNDLE_ARTIFACT_ID = "slf4j-jdk14";
 
@@ -67,6 +69,8 @@ public interface IntegrationTestConstants {
     public static final String JDK_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+JDK14_BINDING_BUNDLE_ARTIFACT_ID;
 	
 	public static final String JCL_ADAPTER_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+JCL104_ADAPTER_BUNDLE_ARTIFACT_ID;
+    
+    public static final String LOGSERVICE_ADAPTER_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+LOGSERVICE_ADAPTER_BUNDLE_ARTIFACT_ID;
    
     
     
