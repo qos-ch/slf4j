@@ -120,20 +120,27 @@ public class LogServiceImpl implements LogService {
 	 *      int, java.lang.String)
 	 */
 	public void log(ServiceReference sr, int level, String message) {
-		String output = createMessage(sr, message);
-
+		
 		switch (level) {
 		case LOG_DEBUG:
-			delegate.debug(output);
+			if(delegate.isDebugEnabled()){
+				delegate.debug(createMessage(sr, message));
+			}
 			break;
 		case LOG_ERROR:
-			delegate.error(output);
+			if(delegate.isErrorEnabled()){
+				delegate.error(createMessage(sr, message));
+			}
 			break;
 		case LOG_INFO:
-			delegate.info(output);
+			if(delegate.isInfoEnabled()){
+				delegate.info(createMessage(sr, message));
+			}
 			break;
 		case LOG_WARNING:
-			delegate.warn(output);
+			if(delegate.isWarnEnabled()){
+				delegate.warn(createMessage(sr, message));
+			}
 			break;
 		default:
 			break;
@@ -166,20 +173,27 @@ public class LogServiceImpl implements LogService {
 	 */
 	public void log(ServiceReference sr, int level, String message,
 			Throwable exception) {
-		String output = createMessage(sr, message);
 
 		switch (level) {
 		case LOG_DEBUG:
-			delegate.debug(output, exception);
+			if(delegate.isDebugEnabled()){
+				delegate.debug(createMessage(sr, message), exception);
+			}
 			break;
 		case LOG_ERROR:
-			delegate.error(output, exception);
+			if(delegate.isErrorEnabled()){
+				delegate.error(createMessage(sr, message), exception);
+			}
 			break;
 		case LOG_INFO:
-			delegate.info(output, exception);
+			if(delegate.isInfoEnabled()){
+				delegate.info(createMessage(sr, message), exception);
+			}
 			break;
 		case LOG_WARNING:
-			delegate.warn(output, exception);
+			if(delegate.isWarnEnabled()){
+				delegate.warn(createMessage(sr, message), exception);
+			}
 			break;
 		default:
 			break;
