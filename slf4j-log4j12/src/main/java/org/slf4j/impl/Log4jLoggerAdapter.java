@@ -36,6 +36,8 @@ package org.slf4j.impl;
 
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.spi.LocationAwareLogger;
 
 
 /**
@@ -48,7 +50,7 @@ import org.slf4j.Logger;
 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class Log4jLoggerAdapter extends MarkerIgnoringBase {
+public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger {
   final org.apache.log4j.Logger logger;
   
   /**
@@ -396,5 +398,26 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase {
    */
   public void error(String msg, Throwable t) {
     logger.log(FQCN, Level.ERROR, msg, t);
+  }
+
+  public void log(Marker marker, String callerFQCN, int level, String msg, Throwable t) {
+    Level log4jLevel;
+    switch(level) {
+    case LocationAwareLogger.DEBUG_INT: 
+      log4jLevel = Level.DEBUG;
+      break;
+    case LocationAwareLogger.INFO_INT: 
+      log4jLevel = Level.INFO;
+      break;
+    case LocationAwareLogger.WARN_INT: 
+      log4jLevel = Level.WARN;
+      break;
+    case LocationAwareLogger.ERROR_INT: 
+      log4jLevel = Level.ERROR;
+      break;
+    default:
+      throw new IllegalStateException("Level number "+level+" is not recognized.");
+    }
+    logger.log(callerFQCN, log4jLevel, msg, t);
   }
 }

@@ -27,6 +27,7 @@ import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * <p>
@@ -152,7 +153,11 @@ public class SLF4FLogFactory extends LogFactory {
       instance = (Log) loggerMap.get(name);
       if (instance == null) {
         Logger logger = LoggerFactory.getLogger(name);
-        instance = new SLF4JLog(logger);
+        if(logger instanceof LocationAwareLogger) {
+          instance = new SLF4JLocationAwareLog((LocationAwareLogger) logger);
+        } else {
+          instance = new SLF4JLog(logger);
+        }
         loggerMap.put(name, instance);
       }
     }
