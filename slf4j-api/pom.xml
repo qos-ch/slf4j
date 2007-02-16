@@ -1,65 +1,62 @@
-<project 
-  xmlns="http://maven.apache.org/POM/4.0.0" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
-	<parent>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-parent</artifactId>
+
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
     <version>1.3.0-SNAPSHOT</version>
-	</parent>
-	
-	<modelVersion>4.0.0</modelVersion>
+  </parent>
 
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-api</artifactId>
-	<version>${parent.version}</version>
-	<packaging>jar</packaging>
-	<name>SLF4J API Module</name>
+  <modelVersion>4.0.0</modelVersion>
 
-	<url>http://www.slf4j.org</url>
-	<description>
-		The slf4j API
-	</description>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-api</artifactId>
+  <version>${parent.version}</version>
+  <packaging>jar</packaging>
+  <name>SLF4J API Module</name>
 
-	<dependencies>
-	
-	</dependencies>
+  <url>http://www.slf4j.org</url>
+  <description>The slf4j API</description>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>once</forkMode>
-					<reportFormat>plain</reportFormat>
-					<trimStackTrace>false</trimStackTrace>
-					<excludes>
-						<exclude>**/AllTest.java</exclude>
-						<exclude>**/PackageTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+  <dependencies>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-        		<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>bundle-test-jar</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-	
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkMode>once</forkMode>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/AllTest.java</exclude>
+            <exclude>**/PackageTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bundle-test-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
 
-	</build>
+  </build>
 
 
 
