@@ -125,6 +125,14 @@
         <maven.test.skip>true</maven.test.skip>
       </properties>
     </profile>
+     <profile>
+      <id>osgi</id>
+      <modules>
+         <module>osgi-over-slf4j</module>
+	 <module>slf4j-osgi-test-bundle</module>
+	 <module>slf4j-osgi-integration-test</module>
+      </modules>
+    </profile>
   </profiles>
 
   <pluginRepositories>
