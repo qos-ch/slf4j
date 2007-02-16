@@ -32,8 +32,8 @@
  */
 package org.slf4j;
 
+import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
-import org.slf4j.impl.Util;
 
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for

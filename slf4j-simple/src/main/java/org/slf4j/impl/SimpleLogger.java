@@ -33,6 +33,9 @@
 
 package org.slf4j.impl;
 
+import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.MessageFormatter;
+
 /**
  * A simple (and direct) implementation that logs messages of level
  * INFO or higher on the console (<code>System.err<code>).

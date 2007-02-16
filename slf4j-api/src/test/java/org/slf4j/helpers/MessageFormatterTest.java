@@ -31,9 +31,9 @@
  *
  */
 
-package org.slf4j.impl;
+package org.slf4j.helpers;
 
-import org.slf4j.impl.MessageFormatter;
+import org.slf4j.helpers.MessageFormatter;
 
 import junit.framework.TestCase;
 

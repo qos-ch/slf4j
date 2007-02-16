@@ -34,7 +34,7 @@ package org.slf4j;
 
 import junit.framework.TestCase;
 
-import org.slf4j.impl.BasicMarkerFactory;
+import org.slf4j.helpers.BasicMarkerFactory;
 
 
 /**

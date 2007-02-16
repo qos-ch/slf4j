@@ -37,6 +37,8 @@ package org.slf4j.impl;
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
 

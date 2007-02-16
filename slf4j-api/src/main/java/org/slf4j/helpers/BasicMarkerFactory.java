@@ -31,7 +31,7 @@
  *
  */
 
-package org.slf4j.impl;
+package org.slf4j.helpers;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -31,8 +31,8 @@
  */
 package org.slf4j;
 
+import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticMarkerBinder;
-import org.slf4j.impl.Util;
 
 /**
  * MarkerFactory is a utility class producing {@link Marker} instances as
