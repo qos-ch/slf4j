@@ -129,9 +129,47 @@
       <id>osgi</id>
       <modules>
          <module>osgi-over-slf4j</module>
-	 <module>slf4j-osgi-test-bundle</module>
-	 <module>slf4j-osgi-integration-test</module>
+         <module>slf4j-osgi-test-bundle</module>
+         <module>slf4j-osgi-integration-test</module>
       </modules>
+
+      <repositories>
+        <repository>
+          <id>m2apache.snapshots</id>
+          <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+
+        <repository>
+          <id>springframework.org</id>
+          <name>Springframework Maven SNAPSHOT Repository</name>
+          <url>http://static.springframework.org/maven2-snapshots/</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <id>apache.snapshots</id>
+          <name>Apache Snapshot Plugin Repository</name>
+          <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled> 
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+
     </profile>
   </profiles>
 
@@ -144,8 +182,8 @@
         <enabled>false</enabled>
       </releases>
       <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
+        <enabled>true</enabled> 
+     </snapshots>
     </pluginRepository>
   </pluginRepositories>
   
