@@ -79,6 +79,9 @@ public final class LoggerFactory {
    * @return logger
    */
   public static Logger getLogger(String name) {
+    if(loggerFactory == null) {
+      throw new IllegalStateException("Logging factory cannot be null. See also http://www.slf4j.org/codes.html#null_LF");
+    }
     return loggerFactory.getLogger(name);
   }
 
@@ -91,6 +94,9 @@ public final class LoggerFactory {
    * @return logger
    */
   public static Logger getLogger(Class clazz) {
+    if(loggerFactory == null) {
+      throw new IllegalStateException("Logging factory cannot be null. See also http://www.slf4j.org/codes.html#null_LF");
+    }
     return loggerFactory.getLogger(clazz.getName());
   }
 
