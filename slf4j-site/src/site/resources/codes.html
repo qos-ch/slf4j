@@ -26,45 +26,52 @@ prefix='';
     </center>
     
 
-    <message ref="release">
+    <a name="release">
+    </a>
 
-      <title>The method
+    <h3>The method
       <code>o.a.commons.logging.impl.SLF4FLogFactory#release</code>
-      was invoked.</title>
+      was invoked.
+    </h3>
 
-      <explanation>
-        <p>Given the structure of the commons-logging API, in
-        particular as implemented by SLF4J, the
-        <code>o.a.commons.logging.impl.SLF4FLogFactory#release()</code>
-        method should never be called. However, depending on the
-        deployment of <em>commons-logging.jar</em> files in your
-        servlet container, <code>release()</code> may be unexpectedly
-        invoked by a copy of
-        <code>org.apache.commons.logging.LogFactory</code> class
-        shipping with <em>commons-logging.jar</em>.
-        </p>
+    <p>Given the structure of the commons-logging API, in particular
+    as implemented by SLF4J, the
+    <code>o.a.commons.logging.impl.SLF4FLogFactory#release()</code>
+    method should never be called. However, depending on the
+    deployment of <em>commons-logging.jar</em> files in your servlet
+    container, <code>release()</code> may be unexpectedly invoked by a
+    copy of <code>org.apache.commons.logging.LogFactory</code> class
+    shipping with <em>commons-logging.jar</em>.
+    </p>
 
-        <p>This is a relatively common occurrence with recent versions
-        of Tomcat, especially if you place
-        <em>jcl104-over-slf4j.jar</em> in <em>WEB-INF/lib</em>
-        directory of your web-application instead of
-        <em>$TOMCAT_HOME/common/lib</em> where $TOMCAT_HOME stands for
-        the directory where Tomcat is installed. In order to fully
-        benefit from the stability offered by
-        <em>jcl104-over-slf4j.jar</em>, we recommend that you place
-        <em>jcl104-over-slf4j.jar</em> in
-        <em>$TOMCAT_HOME/common/lib</em> without placing a copy in
-        your web-applications.
-        </p>
+    <p>This is a relatively common occurrence with recent versions of
+    Tomcat, especially if you place <em>jcl104-over-slf4j.jar</em> in
+    <em>WEB-INF/lib</em> directory of your web-application instead of
+    <em>$TOMCAT_HOME/common/lib</em> where $TOMCAT_HOME stands for the
+    directory where Tomcat is installed. In order to fully benefit
+    from the stability offered by <em>jcl104-over-slf4j.jar</em>, we
+    recommend that you place <em>jcl104-over-slf4j.jar</em> in
+    <em>$TOMCAT_HOME/common/lib</em> without placing a copy in your
+    web-applications.
+    </p>
 
-        <p>Please also see <a
-        href="http://bugzilla.slf4j.org/show_bug.cgi?id=22">bug
-        #22</a>.</p>
-        
-      </explanation>
+    <p>Please also see <a
+    href="http://bugzilla.slf4j.org/show_bug.cgi?id=22">bug
+    #22</a>.</p>
+    
+    <a name="null_LF">
+    </a>
+    
+    <h3>Logging factory cannot be null</h3>
 
-    </message>
-
+    <p>This error is reported when the <code>LoggerFactory</code>
+    class could not find an appropriate binding, indicating that no
+    appropriate SLF4J binding could be found. Placing one of
+    <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> should prove to be an effective
+    remedy.
+    </p>
 
 
 </div>
