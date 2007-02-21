@@ -1,7 +1,7 @@
-Implementation-Title: slf4j-nop
+Implementation-Title: slf4j-jdk14
 Bundle-ManifestVersion: 2
-Bundle-SymbolicName: slf4j.nop
-Bundle-Name: slf4j-nop
+Bundle-SymbolicName: slf4j.jdk14
+Bundle-Name: slf4j-jdk14
 Bundle-Vendor: SLF4J.ORG
 Require-Bundle: slf4j.api;visibility:=reexport
 Export-Package: org.slf4j, org.slf4j.impl

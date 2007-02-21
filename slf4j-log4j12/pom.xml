@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+        <version>1.3.0-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -40,24 +40,19 @@
   <build>
     <plugins>
     	<plugin>
-    		<groupId>org.apache.felix</groupId>
-    		<artifactId>maven-bundle-plugin</artifactId>
-    		<version>0.9.0-incubator-SNAPSHOT</version>
-    		<extensions>true</extensions>
-    		<configuration>
-    			<instructions>
-    				<Export-Package>
-    					org.slf4j;version=1.3, org.slf4j.spi;version=1.3
-    				</Export-Package>
-    				<Private-Package>
-    					org.slf4j.impl, org.slf4j.helpers
-    				</Private-Package>
-    				<Import-Package>org.apache.log4j, !org.slf4j.*</Import-Package>
-    			</instructions>
-    		</configuration>
-    	</plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <configuration>
+                <archive>
+                  <manifestEntries>
+                    <Bundle-Version>${project.version}</Bundle-Version>
+                    <Implementation-Version>${project.version}</Implementation-Version>
+                  </manifestEntries>
+                  <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                </archive>
+              </configuration>			
+          </plugin>
     </plugins>
   </build>
-
 
 </project>
