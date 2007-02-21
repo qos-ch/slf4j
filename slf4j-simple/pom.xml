@@ -11,7 +11,7 @@
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-simple</artifactId>
 	<version>${parent.version}</version>
-	<packaging>bundle</packaging>
+	<packaging>jar</packaging>
 	<name>SLF4J Simple Binding</name>
 
 	<url>http://www.slf4j.org</url>
