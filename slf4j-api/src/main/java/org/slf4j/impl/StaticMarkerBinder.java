@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2004-2005 SLF4J.ORG
+ * Copyright (c) 2004-2005 QOS.ch
  *
  * All rights reserved.
  *
@@ -29,61 +30,48 @@
  * of the copyright holder.
  *
  */
-package org.slf4j;
 
-import org.slf4j.helpers.Util;
-import org.slf4j.impl.StaticMarkerBinder;
+package org.slf4j.impl;
+
+import org.slf4j.IMarkerFactory;
+import org.slf4j.MarkerFactory;
+import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
- * MarkerFactory is a utility class producing {@link Marker} instances as
- * appropriate for the logging system currently in use.
  * 
- * <p>
- * This class is essentially implemented as a wrapper around an
- * {@link IMarkerFactory} instance bound at compile time.
+ * The binding of {@link MarkerFactory} class with an actual instance of 
+ * {@link IMarkerFactory} is performed using information returned by this class. 
  * 
- * <p>
- * Please note that all methods in this class are static.
+ * This class is meant to provide a dummy StaticMarkerBinder to the slf4j-api module.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class MarkerFactory {
-  static IMarkerFactory markerFactory;
-
-  private MarkerFactory() {
-  }
-
-  static {
-    try {
-      markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
-    } catch (Exception e) {
-      // we should never get here
-      Util.reportFailure("Could not instantiate instance of class ["
-          + StaticMarkerBinder.SINGLETON.getMarkerFactoryClassStr() + "]", e);
-    }
-  }
+public class StaticMarkerBinder implements MarkerFactoryBinder {
 
   /**
-   * Return a Marker instance as specified by the name parameter using the
-   * previously bound {@link IMarkerFactory}instance.
-   * 
-   * @param name
-   *          The name of the {@link Marker} object to return.
-   * @return marker
+   * The unique instance of this class.
    */
-  public static Marker getMarker(String name) {
-    return markerFactory.getMarker(name);
-  }
+  public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
-  /**
-   * Return the {@link IMarkerFactory}instance in use.
-   * 
-   * <p>The IMarkerFactory instance is usually bound with this class at 
-   * compile time.
-   * 
-   * @return the IMarkerFactory instance in use
-   */
-  public static IMarkerFactory getIMarkerFactory() {
-    return markerFactory;
+  private StaticMarkerBinder() {
   }
+  
+  /**
+   * Currently this method always returns an instance of 
+   * {@link BasicMarkerFactory}.
+   */
+  public IMarkerFactory getMarkerFactory() {
+    return null;
+  }
+  
+  /**
+   * Currently, this method returns the class name of
+   * {@link BasicMarkerFactory}.
+   */
+  public String getMarkerFactoryClassStr() {
+    return BasicMarkerFactory.class.getName();
+  }
+  
+  
 }

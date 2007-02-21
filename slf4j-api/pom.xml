@@ -67,7 +67,7 @@
         </executions>
         <configuration>
           <tasks>
-            <echo>Removing slf4j-api's dummy StaticLoggerBinder</echo>
+            <echo>Removing slf4j-api's dummy StaticLoggerBinder and StaticMarkerBinder</echo>
             <delete dir="target/classes/org/slf4j/impl"/>
           </tasks>
         </configuration>
