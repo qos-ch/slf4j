@@ -6,3 +6,4 @@ Bundle-Vendor: SLF4J.ORG
 Export-Package: org.slf4j
   org.slf4j.spi,
   org.slf4j.helpers
+Require-Bundle: org.slf4j.impl

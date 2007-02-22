@@ -39,7 +39,8 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Bundle-Version>${project.version}</Bundle-Version>
+              <Bundle-Version>${project_version_for_osgi}</Bundle-Version>
+              <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
             </manifestEntries>
             <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>

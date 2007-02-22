@@ -45,18 +45,19 @@
 
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-              <configuration>
-                <archive>
-                  <manifestEntries>
-                    <Bundle-Version>${project.version}</Bundle-Version>
-                    <Implementation-Version>${project.version}</Implementation-Version>
-                  </manifestEntries>
-                  <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-                </archive>
-              </configuration>			
-          </plugin>
-		</plugins>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Bundle-Version>${project_version_for_osgi}</Bundle-Version>
+              <Bundle-Description>${project.description}</Bundle-Description>
+              <Implementation-Version>${project.version}</Implementation-Version>
+            </manifestEntries>
+            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>			
+      </plugin>
+    </plugins>
   </build>
 
 </project>

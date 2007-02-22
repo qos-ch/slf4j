@@ -18,6 +18,10 @@
 	</organization>
 	<inceptionYear>2005</inceptionYear>
 
+  <properties>
+    <project_version_for_osgi>1.3.0.SNAPSHOT</project_version_for_osgi>
+  </properties>
+
 	<modules>
 		<module>slf4j-api</module>
     <module>slf4j-simple</module>
