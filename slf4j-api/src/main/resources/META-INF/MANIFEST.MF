@@ -3,7 +3,5 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: slf4j.api
 Bundle-Name: slf4j-api
 Bundle-Vendor: SLF4J.ORG
-Export-Package: org.slf4j
-  org.slf4j.spi,
-  org.slf4j.helpers
+Export-Package: org.slf4j, org.slf4j.spi, org.slf4j.helpers
 Require-Bundle: org.slf4j.impl
