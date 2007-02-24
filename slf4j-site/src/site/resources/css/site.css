@@ -145,7 +145,7 @@ p.menu_header {
 }
 
 #content {
-  margin: 0px 15em 0px 16em;
+  margin: 0px 17em 0px 17em;
   padding: 0px;
   background-color: #ffffff;  
 }
@@ -213,6 +213,10 @@ table.bodyTable tr.b {
 
 .deftitle {
 	font-weight: bold;
+}
+
+.big {
+  font-size: 130%;
 }
 
 .green {
