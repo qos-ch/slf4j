@@ -36,7 +36,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Bundle-Version>${project_version_for_osgi}</Bundle-Version>
+              <Bundle-Version>${pv4osgi}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
             </manifestEntries>
