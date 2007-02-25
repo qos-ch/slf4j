@@ -42,7 +42,8 @@ public interface IntegrationTestConstants {
     
     public static final String SPRINGFRAMEWORK_OSGI_GROUP_NAME = "org.springframework.osgi";
     
-
+    public static final String API_BUNDLE_ARTIFACT_ID = "slf4j-api";
+    
     public static final String JCL104_ADAPTER_BUNDLE_ARTIFACT_ID = "jcl104-over-slf4j";
     
     public static final String LOGSERVICE_ADAPTER_BUNDLE_ARTIFACT_ID = "osgi-over-slf4j";
@@ -60,15 +61,15 @@ public interface IntegrationTestConstants {
     
     public static final String TEST_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+TEST_BUNDLE_ARTIFACT_ID;
     
-	public static final String NOP_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+NOP_BINDING_BUNDLE_ARTIFACT_ID;
+	public static final String NOP_BINDING_BUNDLE_SYM_NAME = "slf4j.nop";
    
-	public static final String LOG4J_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+LOG4J12_BINDING_BUNDLE_ARTIFACT_ID;
+	public static final String LOG4J_BINDING_BUNDLE_SYM_NAME = "slf4j.log4j12";
 	
-	public static final String SIMPLE_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+SIMPLE_BINDING_BUNDLE_ARTIFACT_ID;
+	public static final String SIMPLE_BINDING_BUNDLE_SYM_NAME ="slf4j.simple";
     
-    public static final String JDK_BINDING_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+JDK14_BINDING_BUNDLE_ARTIFACT_ID;
+    public static final String JDK_BINDING_BUNDLE_SYM_NAME = "slf4j.jdk14";
 	
-	public static final String JCL_ADAPTER_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+JCL104_ADAPTER_BUNDLE_ARTIFACT_ID;
+	public static final String JCL_ADAPTER_BUNDLE_SYM_NAME = "jcl104.over.slf4j";
     
     public static final String LOGSERVICE_ADAPTER_BUNDLE_SYM_NAME = SLF4J_GROUP_ID+'.'+LOGSERVICE_ADAPTER_BUNDLE_ARTIFACT_ID;
    

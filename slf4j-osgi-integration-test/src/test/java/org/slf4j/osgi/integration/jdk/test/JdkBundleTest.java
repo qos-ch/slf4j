@@ -104,8 +104,9 @@ public class JdkBundleTest extends ConfigurableBundleCreatorTests implements Int
 						"spring-osgi-core", "1.0-SNAPSHOT"),
 				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
-						localMavenArtifact(SLF4J_GROUP_ID, JDK14_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
-						localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
+				localMavenArtifact(SLF4J_GROUP_ID, API_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
+				localMavenArtifact(SLF4J_GROUP_ID, JDK14_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
+				localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
 								SLF4J_VERSION_UNDER_TEST) };
 	}
 

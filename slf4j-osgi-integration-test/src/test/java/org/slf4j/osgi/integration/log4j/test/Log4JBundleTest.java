@@ -111,6 +111,7 @@ public class Log4JBundleTest extends ConfigurableBundleCreatorTests implements I
 						"spring-osgi-core", "1.0-SNAPSHOT"),
 				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
+				localMavenArtifact(SLF4J_GROUP_ID, API_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
 				localMavenArtifact(SLF4J_GROUP_ID, LOG4J12_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
 				localMavenArtifact(SLF4J_GROUP_ID, TEST_BUNDLE_ARTIFACT_ID,
 						SLF4J_VERSION_UNDER_TEST) };

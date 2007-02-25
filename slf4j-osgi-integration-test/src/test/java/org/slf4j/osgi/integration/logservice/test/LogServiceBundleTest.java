@@ -106,6 +106,7 @@ public class LogServiceBundleTest extends ConfigurableBundleCreatorTests impleme
 				localMavenArtifact(SPRINGFRAMEWORK_OSGI_GROUP_NAME, "spring-aop",
 						"2.1-SNAPSHOT"),
                 localMavenArtifact( "org.osgi", "org.osgi.compendium", "4.0" ),
+                localMavenArtifact(SLF4J_GROUP_ID, API_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
 				localMavenArtifact(SLF4J_GROUP_ID, 
                     SIMPLE_BINDING_BUNDLE_ARTIFACT_ID, SLF4J_VERSION_UNDER_TEST),
 				localMavenArtifact(SLF4J_GROUP_ID, 
