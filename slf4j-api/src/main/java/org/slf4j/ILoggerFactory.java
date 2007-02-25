@@ -32,12 +32,7 @@ package org.slf4j;
  * <p>Most users retrieve {@link Logger} instances through the static
  * {@link LoggerFactory#getLogger(String)} method. An instance of of this
  * interface is bound internally with {@link LoggerFactory} class at 
- * compile time. Only developers of SLF4J conforming logging systems 
- * need to worry about this interface. 
- * 
- * <p>See the section <a href="http://slf4j.org/faq.html#3">Implementing 
- * the SLF4J API</a> in the FAQ for details on how to make your logging 
- * system conform to SLF4J.
+ * compile time. 
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -46,6 +41,9 @@ public interface ILoggerFactory {
   /**
    * Return an appropriate {@link Logger} instance as specified by the
    * <code>name</code> parameter.
+   * <p>
+   * If the name parameter is equal to the string value "NULL" (case insensitive), 
+   * then the root logger of the underlying logging system is returned.
    * 
    * <p>Null-valued name arguments are considered invalid.
    *

@@ -26,11 +26,11 @@ package org.slf4j;
 
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
-
+ 
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
- * various logging APIs, most notably for NLOG4J and JDK 1.4 logging. Other
- * implementations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
+ * various logging APIs, most notably for log4j, logback and JDK 1.4 logging. 
+ * Other implementations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
  * {@link org.slf4j.impl.SimpleLogger SimpleLogger} are also supported.
  * 
  * <p>

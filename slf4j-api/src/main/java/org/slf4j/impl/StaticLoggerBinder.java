@@ -34,7 +34,7 @@ import org.slf4j.ILoggerFactory;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class StaticLoggerBinder {
+public class StaticLoggerBinder { 
 
   /**
    * The unique instance of this class.
