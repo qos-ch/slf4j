@@ -70,6 +70,22 @@
       </includes>
     </fileSet>
 
+    <fileSet>
+      <directory>slf4j-site/</directory>
+      <outputDirectory>slf4j-site/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <directory>slf4j-archetype/</directory>
+      <outputDirectory>slf4j-archetype/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
 		<!-- Module Source directories (includes tests) -->
 		<fileSet>
 			<directory>slf4j-api/src/</directory>
@@ -100,6 +116,10 @@
 			<outputDirectory>slf4j-nop/src/</outputDirectory>    
     </fileSet>
     <fileSet>
+      <directory>slf4j-simple/src/</directory>
+      <outputDirectory>slf4j-simple/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
       <directory>slf4j-jcl/src/</directory>
 			<outputDirectory>slf4j-jcl/src/</outputDirectory>    
     </fileSet>
@@ -110,6 +130,15 @@
     <fileSet>
       <directory>log4j-over-slf4j/src/</directory>
 			<outputDirectory>log4j-over-slf4j/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>slf4j-site/src/</directory>
+			<outputDirectory>slf4j-site/src/</outputDirectory>    
+    </fileSet>
+
+    <fileSet>
+      <directory>slf4j-archetype/src/</directory>
+			<outputDirectory>slf4j-archetype/src/</outputDirectory>    
     </fileSet>
 
 		<!-- Module JARs -->

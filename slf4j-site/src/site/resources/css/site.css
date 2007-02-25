@@ -20,6 +20,10 @@ p, h2, pre {
  /*padding: 5px 20px 5px 20px; */
 }
 
+p.rm {
+ padding-top: 0px;
+ padding-bottom: 0px; 
+}
 
 a { 
  color: #0000CC;

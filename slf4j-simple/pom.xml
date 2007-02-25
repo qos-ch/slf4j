@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.0</version>
   </parent>
 	
 	<modelVersion>4.0.0</modelVersion>
@@ -27,6 +27,13 @@
 
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
     <plugins>		
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -34,7 +41,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Bundle-Version>${project_version_for_osgi}</Bundle-Version>
+              <Bundle-Version>${pv4osgi}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
             </manifestEntries>

@@ -311,12 +311,14 @@ prefix='';
        </dt>
        
        <dd>
-         <p>As a library author built with Maven2, you might want to
-         test your application using a binding, say slf4j-simple or
-         slf4j-log4j12, without exporting that dependency to your
-         users. But first, since your library's code depends on the
-         SLF4J API you will need to declare slf4j-api as a
-         compile-time (default scope) dependency.
+         <p>As an author of a library built with Maven2, you might
+         want to test your application using a binding, say
+         slf4j-log4j12 or logback-classic, without forcing log4j or
+         logback-classic as a dependency on your users. As of SLF4J
+         version 1.3, this quite very easy to accomplish. But first,
+         since your library's code depends on the SLF4J API you will
+         need to declare slf4j-api as a compile-time (default scope)
+         dependency.
        </p>
        <p>&nbsp;</p>         
        <p class="source">&lt;dependency&gt;
@@ -327,9 +329,9 @@ prefix='';
 
        <p>&nbsp;</p>         
 
-       <p>Limiting the transitivity of the binding you are using for
-       your test is as easy as declaring the scope of the dependency
-       as "test".  Here is an example:</p>
+       <p>Limiting the transitivity of the SLF4J binding used in your
+       tests can be easily accomplished by declaring the scope of the
+       SLF4J-binding dependency as "test".  Here is an example:</p>
 
        <p>&nbsp;</p>         
 
@@ -340,7 +342,10 @@ prefix='';
   <b>&lt;scope&gt;test&lt;/scope&gt;</b>
 &lt;/dependency&gt;</p>
 
-     
+        <p>Thus, as far as your users are concerned you are exporting
+        slf4j-api as a transitive dependency of your library, but not
+        any SLF4J-binding or an underlying logging system.
+        </p>
 
        </dd>
 
