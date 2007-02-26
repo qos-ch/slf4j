@@ -52,13 +52,13 @@ prefix='';
   <p>SLF4J does not rely on any special class loader machinery. In
   fact, the binding between SLF4J and a given logging API
   implementation is performed <em>statically</em> at compile time of
-  each binding. Each binding is hardwired to use one and only one specific
-  logging API implementation. Each binding corresponds to one jar
-  file. In your code, you simply drop the binding of your choice, that
-  is a jar file, onto the appropriate class path location. As a
-  consequence of this simple approach, SLF4J suffers from none of the
-  class loader problems or memory leaks observed with Jakarta Commons
-  Logging (JCL).
+  each binding. Each binding is hardwired to use one and only one
+  specific logging API implementation. Each binding corresponds to one
+  jar file. In your code, in addition to <em>slf4j-api.jar</em>, you
+  simply drop the binding of your choice, that is a jar file, onto the
+  appropriate class path location. As a consequence of this simple
+  approach, SLF4J suffers from none of the class loader problems or
+  memory leaks observed with Jakarta Commons Logging (JCL).
   </p>
 
   <p>We hope that simplicity of the SLF4J interfaces and the deployment
@@ -68,8 +68,8 @@ prefix='';
 
   <h3>Projects depending on SLF4j</h3>
 
-  <p>Here is a short list of projects currently depending on SLF4J (in
-  alphabetical order):
+  <p>Here is a non-exhaustive list of projects currently depending on
+  SLF4J, in alphabetical order:
   </p>
 
   <ul>

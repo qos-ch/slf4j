@@ -22,8 +22,9 @@ prefix='';
 
   <h1>SLF4J News</h1>
 
-  <p>You can receive SLF4J related announcements by subscribing to the
-  <a href="http://www.slf4j.org/mailman/listinfo/announce">SLF4J
+  <p>Please note that you can receive SLF4J related announcements by
+  subscribing to the <a
+  href="http://www.slf4j.org/mailman/listinfo/announce">SLF4J
   announce</a> mailing list.
   </p>
 
@@ -35,16 +36,19 @@ prefix='';
   projects. More specifically, the
   <code>org.slf4j.LoggerFactory</code> class is now packaged within
   the <em>slf4j-api.jar</em> file instead of the various slf4j
-  bindings. It follows that client code needs to depend on only
+  bindings. <b>It follows that client code needs to depend on only
   slf4j-api in order to compile, while the various slf4j bindings are
-  only needed as runtime dependencies. See also the <a
-  href="faq.html#maven2">Maven2-related FAQ entry</a>.
+  only needed as runtime dependencies.</b> See also the <a
+  href="faq.html#maven2">Maven2-related FAQ entry</a>. Given the
+  practical significance of this change, we highly recommend that
+  library-authors upgrade to version 1.3 at their earliest
+  convenience.
   </p>
   
-  <p><a href="http://bugzilla.slf4j.org/show_bug.cgi?id=23">Bug
-  number 23</a> has been fixed, at the cost of minor and backward
-  compatible changes. In other words, jcl104-over-slf4j now
-  preserves caller location information.
+  <p><a href="http://bugzilla.slf4j.org/show_bug.cgi?id=23">Bug number
+  23</a> has been fixed, at the cost of minor and backward compatible
+  changes. In other words, jcl104-over-slf4j now preserves caller
+  location information.
   </p>
   
   <p>It is now possible to obtain the root logger of the underlying
