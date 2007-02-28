@@ -36,7 +36,7 @@ public interface IntegrationTestConstants {
     /**
      * Versions of this release.
      */
-    public static final String SLF4J_VERSION_UNDER_TEST = "1.3.0-SNAPSHOT";
+    public static final String SLF4J_VERSION_UNDER_TEST = "1.3.1-SNAPSHOT";
     
     public static final String SLF4J_GROUP_ID = "org.slf4j";
     
