@@ -41,9 +41,10 @@ public interface ILoggerFactory {
   /**
    * Return an appropriate {@link Logger} instance as specified by the
    * <code>name</code> parameter.
-   * <p>
-   * If the name parameter is equal to the string value "NULL" (case insensitive), 
-   * then the root logger of the underlying logging system is returned.
+   * 
+   * <p>If the name parameter is equal to {@link Logger#ROOT_LOGGER_NAME}, that is 
+   * the string value "ROOT" (case insensitive), then the root logger of the 
+   * underlying logging system is returned.
    * 
    * <p>Null-valued name arguments are considered invalid.
    *
