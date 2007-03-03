@@ -13,17 +13,10 @@
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-site</artifactId>
 	<version>${parent.version}</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name>SLF4J Site</name>
 
 	<url>http://www.slf4j.org</url>
-
-	<organization>
-		<name>QOS.ch</name>
-		<url>http://www.qos.ch</url>
-	</organization>
-	<inceptionYear>2005</inceptionYear>
-	
 
 	<build>
 		<resources>
