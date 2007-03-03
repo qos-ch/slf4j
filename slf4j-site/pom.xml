@@ -24,8 +24,21 @@
 	</organization>
 	<inceptionYear>2005</inceptionYear>
 	
+
 	<build>
+		<resources>
+			<resource>
+				<directory>src/site/pages</directory>
+				<!-- 
+					We're saving filtered html docs in a temporary folder
+					and telling the site plug in to get the docs there.
+				-->
+        <targetPath>../../../target/site</targetPath>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
+
 
 	<reporting>
 		<plugins>
