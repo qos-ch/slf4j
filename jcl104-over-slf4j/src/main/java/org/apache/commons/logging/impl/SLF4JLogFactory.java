@@ -49,7 +49,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  */
 
-public class SLF4FLogFactory extends LogFactory {
+public class SLF4JLogFactory extends LogFactory {
 
   // ----------------------------------------------------------- Constructors
 
@@ -62,7 +62,7 @@ public class SLF4FLogFactory extends LogFactory {
   /**
    * Public no-arguments constructor required by the lookup mechanism.
    */
-  public SLF4FLogFactory() {
+  public SLF4JLogFactory() {
     loggerMap = new HashMap();
   }
 
@@ -181,7 +181,7 @@ public class SLF4FLogFactory extends LogFactory {
     // possible
     // for the parent class loader to mask the classes shipping in
     // jcl104-over-slf4j.jar.
-    System.out.println("WARN: The method " + SLF4FLogFactory.class
+    System.out.println("WARN: The method " + SLF4JLogFactory.class
         + "#release() was invoked.");
     System.out
         .println("WARN: Please see http://www.slf4j.org/codes.html for an explanation.");

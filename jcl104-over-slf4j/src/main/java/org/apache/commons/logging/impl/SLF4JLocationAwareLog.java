@@ -171,7 +171,6 @@ public class SLF4JLocationAwareLog implements Log {
    */
   public void error(Object message, Throwable t) {
     logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), t);
-    logger.error(String.valueOf(message), t);
   }
 
 

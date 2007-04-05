@@ -16,12 +16,12 @@
 
 package org.apache.commons.logging;
 
-import org.apache.commons.logging.impl.SLF4FLogFactory;
+import org.apache.commons.logging.impl.SLF4JLogFactory;
 
 /**
  * <p>
  * Factory for creating {@link Log} instances, which always delegates to an instance of
- * {@link SLF4FLogFactory}.
+ * {@link SLF4JLogFactory}.
  * 
  * </p>
  * 
@@ -33,7 +33,7 @@ import org.apache.commons.logging.impl.SLF4FLogFactory;
 
 public abstract class LogFactory {
 
-  static LogFactory logFactory = new SLF4FLogFactory();
+  static LogFactory logFactory = new SLF4JLogFactory();
 
   /**
    * The name of the property used to identify the LogFactory implementation
@@ -51,7 +51,7 @@ public abstract class LogFactory {
    * <p>This property is not used but preserved here for compatibility.
    */
   public static final String FACTORY_DEFAULT =
-      "org.apache.commons.logging.impl.SLF4FLogFactory";
+      "org.apache.commons.logging.impl.SLF4JLogFactory";
 
   /**
    * The name of the properties file to search for. 
