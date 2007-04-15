@@ -121,6 +121,7 @@ strong {
   border: 1px solid #cccccc;
   /*  background-color: #ffcc99; */
   background-color: #ffffff;
+  font-size: 80%;
 }
 
 #left a, #right a {
@@ -163,6 +164,7 @@ p.menu_header {
   padding: 0px;
   background-color: #ffffff;    
   border: 1px solid #cccccc;
+  font-size: 80%;
 }
 
 #left img {
