@@ -57,4 +57,16 @@ public interface IMarkerFactory {
    * @return true id the marker exists, false otherwise. 
    */
   boolean exists(String name);
+  
+  /**
+   * Detach an existing marker.
+   * <p>
+   * Note that after a marker is detached, there might still be "dangling" references
+   * to the detached marker.
+   * 
+   * 
+   * @param name The name of the marker to detach
+   * @return whether the marker  could be detached or not
+   */
+  boolean detachMarker(String name);
 }

@@ -81,5 +81,12 @@ public class BasicMarkerFactory implements IMarkerFactory {
     }
     return markerMap.containsKey(name);
   }
+
+  public boolean detachMarker(String name) {
+    if(name == null) {
+      return false;
+    }
+    return (markerMap.remove(name) != null);
+  }
   
 }
