@@ -138,8 +138,32 @@ public class BasicMarker implements Marker {
         }
       }     
     }
-    
     return false;
   }
 
+  private static String OPEN = "[ ";
+  private static String CLOSE = " ]";
+  private static String SEP = ", ";
+
+  public String toString() {
+      
+    if (!this.hasChildren()) {
+      return this.getName();
+    }
+    
+    Iterator it = this.iterator();
+    Marker child;
+    StringBuffer sb = new StringBuffer(this.getName());
+    sb.append(' ').append(OPEN);
+    while(it.hasNext()) {
+      child = (Marker)it.next();
+      sb.append(child.getName());
+      if (it.hasNext()) {
+        sb.append(SEP);
+      }
+    }
+    sb.append(CLOSE);
+      
+    return sb.toString();  
+  }
 }
