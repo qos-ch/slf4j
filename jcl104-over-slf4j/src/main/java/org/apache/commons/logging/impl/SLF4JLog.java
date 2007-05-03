@@ -56,7 +56,7 @@ public class SLF4JLog implements Log {
    * <code>org.slf4j.Logger</code> instance.
    */
   public boolean isTraceEnabled() {
-    return logger.isDebugEnabled();
+    return logger.isTraceEnabled();
   }
 
   /**
@@ -73,7 +73,7 @@ public class SLF4JLog implements Log {
    * @param message the message to log. Converted to {@link String}  
    */
   public void trace(Object message) {
-    logger.debug(String.valueOf(message));
+    logger.trace(String.valueOf(message));
   }
 
   /**
@@ -84,7 +84,7 @@ public class SLF4JLog implements Log {
    * @param t the exception to log
    */
   public void trace(Object message, Throwable t) {
-    logger.debug(String.valueOf(message), t);
+    logger.trace(String.valueOf(message), t);
   }
 
   /**

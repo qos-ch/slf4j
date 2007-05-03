@@ -70,6 +70,89 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
   public String getName() {
    return logger.getName();
   }
+
+  /**
+   * Is this logger instance enabled for the TRACE level?
+   *
+   * @return True if this Logger is enabled for level TRACE, false
+   * otherwise.
+   */
+  public boolean isTraceEnabled() {
+    return logger.isTraceEnabled();
+  }
+
+
+  /**
+   * Log a message object at level TRACE.
+   * @param msg - the message object to be logged
+   */
+  public void trace(String msg) {
+    logger.log(FQCN, Level.DEBUG, msg, null);
+  }
+
+  /**
+   * Log a message at level TRACE according to the specified format and
+   * argument.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for level TRACE. </p>
+   *
+   * @param format the format string
+   * @param arg  the argument
+   */
+  public void trace(String format, Object arg) {
+    if (logger.isTraceEnabled()) {
+      String msgStr = MessageFormatter.format(format, arg);
+      logger.log(FQCN, Level.TRACE, msgStr, null);
+    }
+  }
+
+  /**
+   * Log a message at level TRACE according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the TRACE level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   */
+  public void trace(String format, Object arg1, Object arg2) {
+    if (logger.isTraceEnabled()) {
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      logger.log(FQCN, Level.TRACE, msgStr, null);
+    }
+  }
+  
+  /**
+   * Log a message at level TRACE according to the specified format and
+   * arguments.
+   *
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the TRACE level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void trace(String format, Object[] argArray) {
+    if (logger.isTraceEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.TRACE, msgStr, null);
+    }
+  }
+
+  /**
+   * Log an exception (throwable) at  level TRACE with an
+   * accompanying message.
+   *
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   */
+  public void trace(String msg, Throwable t) {
+    logger.log(FQCN, Level.TRACE, msg, t);
+  }
+
   
   /**
    * Is this logger instance enabled for the DEBUG level?
@@ -405,6 +488,9 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
   public void log(Marker marker, String callerFQCN, int level, String msg, Throwable t) {
     Level log4jLevel;
     switch(level) {
+    case LocationAwareLogger.TRACE_INT: 
+      log4jLevel = Level.TRACE;
+      break;
     case LocationAwareLogger.DEBUG_INT: 
       log4jLevel = Level.DEBUG;
       break;

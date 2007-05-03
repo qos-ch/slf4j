@@ -47,11 +47,163 @@ public interface Logger {
   public String getName();
 
   /**
+   * Is the logger instance enabled for the TRACE level?
+   * @return True if this Logger is enabled for the TRACE level,
+   * false otherwise.
+   * 
+   * @since 1.4
+   */
+  public boolean isTraceEnabled();
+    
+
+  /**
+   * Log a message at the TRACE level.
+   *
+   * @param msg the message string to be logged
+   * @since 1.4
+   */
+  public void trace(String msg);
+
+  
+  /**
+   * Log a message at the TRACE level according to the specified format
+   * and argument.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the TRACE level. </p>
+   *
+   * @param format the format string 
+   * @param arg  the argument
+   * 
+   * @since 1.4
+   */
+  public void trace(String format, Object arg);
+
+
+   
+  /**
+   * Log a message at the TRACE level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the TRACE level. </p>
+   *
+   * @param format the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   * 
+   * @since 1.4
+   */
+  public void trace(String format, Object arg1, Object arg2);
+
+  /**
+   * Log a message at the TRACE level according to the specified format
+   * and arguments.
+   * 
+   * <p>This form avoids superfluous object creation when the logger
+   * is disabled for the TRACE level. </p>
+   *
+   * @param format the format string
+   * @param argArray an array of arguments
+   * 
+   * @since 1.4
+   */
+  public void trace(String format, Object[] argArray);
+  
+  /**
+   * Log an exception (throwable) at the TRACE level with an
+   * accompanying message. 
+   * 
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   * 
+   * @since 1.4
+   */ 
+  public void trace(String msg, Throwable t);
+ 
+  
+  /**
+   * Similar to {@link #isTraceEnabled()} method except that the
+   * marker data is also taken into account.
+   * 
+   * @param marker The marker data to take into consideration
+   * 
+   * @since 1.4
+   */
+  public boolean isTraceEnabled(Marker marker);
+  
+  /**
+   * Log a message with the specific Marker at the TRACE level.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param msg the message string to be logged
+   * 
+   * @since 1.4
+   */
+  public void trace(Marker marker, String msg);
+  
+  /**
+   * This method is similar to {@link #trace(String, Object)} method except that the 
+   * marker data is also taken into consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param format the format string
+   * @param arg the argument
+   * 
+   * @since 1.4
+   */
+  public void trace(Marker marker, String format, Object arg);
+ 
+ 
+  /**
+   * This method is similar to {@link #trace(String, Object, Object)}
+   * method except that the marker data is also taken into
+   * consideration.
+   *
+   * @param marker the marker data specific to this log statement
+   * @param format  the format string
+   * @param arg1  the first argument
+   * @param arg2  the second argument
+   * 
+   * @since 1.4
+   */
+  public void trace(Marker marker, String format, Object arg1, Object arg2);
+
+  /**
+   * This method is similar to {@link #trace(String, Object[])}
+   * method except that the marker data is also taken into
+   * consideration.
+   *
+   * @param marker the marker data specific to this log statement
+   * @param format  the format string
+   * @param argArray an array of arguments
+   * 
+   * @since 1.4
+   */
+  public void trace(Marker marker, String format, Object[] argArray);
+
+  
+  /**
+   * This method is similar to {@link #trace(String, Throwable)} method except that the
+   * marker data is also taken into consideration.
+   * 
+   * @param marker the marker data specific to this log statement
+   * @param msg the message accompanying the exception
+   * @param t the exception (throwable) to log
+   * 
+   * @since 1.4
+   */ 
+  public void trace(Marker marker, String msg, Throwable t);
+
+  
+  /**
    * Is the logger instance enabled for the DEBUG level?
    * @return True if this Logger is enabled for the DEBUG level,
    * false otherwise.
+   * 
    */
   public boolean isDebugEnabled();
+  
   
   /**
    * Log a message at the DEBUG level.
@@ -60,7 +212,7 @@ public interface Logger {
    */
   public void debug(String msg);
   
-
+  
   /**
    * Log a message at the DEBUG level according to the specified format
    * and argument.

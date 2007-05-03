@@ -38,6 +38,30 @@ import org.slf4j.Marker;
  */
 public abstract class MarkerIgnoringBase implements Logger {
 
+  public boolean isTraceEnabled(Marker marker) {
+    return isTraceEnabled();
+  }
+  
+  public void trace(Marker marker, String msg) {
+    debug(msg);
+  }
+
+  public void trace(Marker marker, String format, Object arg) {
+    debug(format, arg);
+  }
+
+  public void trace(Marker marker, String format, Object arg1, Object arg2) {
+    debug(format, arg1, arg2);
+  }
+
+  public void trace(Marker marker, String format, Object[] argArray) {
+    debug(format, argArray);
+  }
+
+  public void trace(Marker marker, String msg, Throwable t) {
+    debug(msg, t);
+  }
+  
   public boolean isDebugEnabled(Marker marker) {
     return isDebugEnabled();
   }

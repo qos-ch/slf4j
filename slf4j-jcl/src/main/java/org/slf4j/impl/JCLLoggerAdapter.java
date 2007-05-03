@@ -61,6 +61,104 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
   }
 
   /**
+   * Delegates to the {@link Log#isTraceEnabled} method of the underlying
+   * {@link Log} instance. 
+   */
+  public boolean isTraceEnabled() {
+    return log.isTraceEnabled();
+  }
+
+  //
+
+  /**
+   * Delegates to the {@link Log#trace(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * @param msg - the message object to be logged
+   */
+  public void trace(String msg) {
+    log.trace(msg);
+  }
+
+  /**
+   * Delegates to the {@link Log#trace(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level TRACE.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
+   */
+  public void trace(String format, Object arg) {
+    if (log.isDebugEnabled()) {
+      String msgStr = MessageFormatter.format(format, arg);
+      log.trace(msgStr);
+    }
+  }
+
+  /**
+   * Delegates to the {@link Log#trace(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level TRACE.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
+   */
+  public void trace(String format, Object arg1, Object arg2) {
+    if (log.isDebugEnabled()) {
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      log.trace(msgStr);
+    }
+  }
+  
+
+  /**
+   * Delegates to the {@link Log#trace(java.lang.Object)} method of the underlying
+   * {@link Log} instance.
+   * 
+   * <p>
+   * However, this form avoids superfluous object creation when the logger is disabled
+   * for level TRACE.
+   * </p>
+   * 
+   * @param format the format string
+   * @param argArray an array of arguments
+   */
+  public void trace(String format, Object[] argArray) {
+    if (log.isDebugEnabled()) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      log.trace(msgStr);
+    }
+  }
+  
+  /**
+   * Delegates to the {@link Log#trace(java.lang.Object, java.lang.Throwable)} method of 
+   * the underlying {@link Log} instance.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
+   */
+  public void trace(String msg, Throwable t) {
+      log.trace(msg, t);
+  }
+
+  
+  /**
    * Delegates to the {@link Log#isDebugEnabled} method of the underlying
    * {@link Log} instance. 
    */

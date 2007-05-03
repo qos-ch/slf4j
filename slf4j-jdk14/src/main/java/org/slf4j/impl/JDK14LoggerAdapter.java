@@ -65,6 +65,102 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
   }
 
   /**
+   * Is this logger instance enabled for the FINEST level?
+   * 
+   * @return True if this Logger is enabled for level FINEST, false otherwise.
+   */
+  public boolean isTraceEnabled() {
+    return logger.isLoggable(Level.FINEST);
+  }
+
+  /**
+   * Log a message object at level FINEST.
+   * 
+   * @param msg -
+   *          the message object to be logged
+   */
+  public void trace(String msg) {
+    log(SELF, Level.FINEST, msg, null);
+  }
+
+  /**
+   * Log a message at level FINEST according to the specified format and argument.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for level FINEST.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg
+   *          the argument
+   */
+  public void trace(String format, Object arg) {
+    if (logger.isLoggable(Level.FINEST)) {
+      String msgStr = MessageFormatter.format(format, arg);
+      log(SELF, Level.FINEST, msgStr, null);
+    }
+  }
+
+  /**
+   * Log a message at level FINEST according to the specified format and
+   * arguments.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the FINEST level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param arg1
+   *          the first argument
+   * @param arg2
+   *          the second argument
+   */
+  public void trace(String format, Object arg1, Object arg2) {
+    if (logger.isLoggable(Level.FINEST)) {
+      String msgStr = MessageFormatter.format(format, arg1, arg2);
+      log(SELF, Level.FINEST, msgStr, null);
+    }
+  }
+
+  /**
+   * Log a message at level FINEST according to the specified format and
+   * arguments.
+   * 
+   * <p>
+   * This form avoids superfluous object creation when the logger is disabled
+   * for the FINEST level.
+   * </p>
+   * 
+   * @param format
+   *          the format string
+   * @param argArray
+   *          an array of arguments
+   */
+  public void trace(String format, Object[] argArray) {
+    if (logger.isLoggable(Level.FINEST)) {
+      String msgStr = MessageFormatter.arrayFormat(format, argArray);
+      log(SELF, Level.FINEST, msgStr, null);
+    }
+  }
+
+  /**
+   * Log an exception (throwable) at level FINEST with an accompanying message.
+   * 
+   * @param msg
+   *          the message accompanying the exception
+   * @param t
+   *          the exception (throwable) to log
+   */
+  public void trace(String msg, Throwable t) {
+    log(SELF, Level.FINEST, msg, t);
+  }
+
+  
+  /**
    * Is this logger instance enabled for the FINE level?
    * 
    * @return True if this Logger is enabled for level FINE, false otherwise.
@@ -72,8 +168,6 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
   public boolean isDebugEnabled() {
     return logger.isLoggable(Level.FINE);
   }
-
-  //
 
   /**
    * Log a message object at level FINE.
@@ -513,6 +607,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
   public void log(Marker marker, String callerFQCN, int level, String message, Throwable t) {
     Level julLevel;
     switch(level) {
+    case LocationAwareLogger.TRACE_INT: 
+      julLevel = Level.FINEST;
+      break;
       case LocationAwareLogger.DEBUG_INT: 
         julLevel = Level.FINE;
         break;

@@ -54,11 +54,11 @@ public class SLF4JLocationAwareLog implements Log {
   }
 
   /**
-   * Delegates to the <code>isDebugEnabled<code> method of the wrapped 
+   * Delegates to the <code>isTraceEnabled<code> method of the wrapped 
    * <code>org.slf4j.Logger</code> instance.
    */
   public boolean isTraceEnabled() {
-    return logger.isDebugEnabled();
+    return logger.isTraceEnabled();
   }
 
   /**
@@ -75,7 +75,7 @@ public class SLF4JLocationAwareLog implements Log {
    * @param message the message to log. Converted to {@link String}  
    */
   public void trace(Object message) {
-    logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null);
+    logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null);
   }
 
   /**
@@ -86,7 +86,7 @@ public class SLF4JLocationAwareLog implements Log {
    * @param t the exception to log
    */
   public void trace(Object message, Throwable t) {
-    logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), t);
+    logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), t);
   }
 
   /**

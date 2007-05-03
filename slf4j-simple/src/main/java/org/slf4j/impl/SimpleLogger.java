@@ -84,6 +84,53 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public String getName() {
     return name;    
   }
+ 
+  /**
+   * Always returns false.
+   * @return always false
+   */
+  public boolean isTraceEnabled() {
+    return false;
+  }
+
+  /**
+   * A NOP implementation, as this logger is permanently disabled for
+   * the TRACE level.
+   */
+  public void trace(String msg) {
+    // NOP
+  }
+
+  /**
+   * A NOP implementation, as this logger is permanently disabled for
+   * the TRACE level.
+   */
+  public void trace(String format, Object param1) {
+    // NOP
+  }
+
+  
+  /**
+   * A NOP implementation, as this logger is permanently disabled for
+   * the TRACE level.
+   */
+  public void trace(String format, Object param1, Object param2) {
+    // NOP
+  }
+
+  public void trace(String format, Object[] argArray) {
+    // NOP
+  }
+  
+  /**
+   * A NOP implementation, as this logger is permanently disabled for
+   * the TRACE level.
+   */
+  public void trace(String msg, Throwable t) {
+    // NOP
+  }
+
+  
   /**
    * Always returns false.
    * @return always false
