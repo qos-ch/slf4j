@@ -47,6 +47,9 @@ public final class LoggerFactory {
 
   static ILoggerFactory loggerFactory;
 
+  static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
+  static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
+    
   // private constructor prevents instantiation
   private LoggerFactory() {
   }
@@ -55,6 +58,14 @@ public final class LoggerFactory {
   static {
     try { 
       loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
+    } catch(NoClassDefFoundError ncde) {
+      String msg = ncde.getMessage();
+      if(msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
+        Util.reportFailure("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
+        Util.reportFailure("See "+NO_STATICLOGGERBINDER_URL+" for further details.");
+        
+      } 
+      throw ncde;
     } catch (Exception e) {
       // we should never get here
       Util.reportFailure("Failed to instantiate logger ["
@@ -72,7 +83,7 @@ public final class LoggerFactory {
    */
   public static Logger getLogger(String name) {
     if(loggerFactory == null) {
-      throw new IllegalStateException("Logging factory implementation cannot be null. See also http://www.slf4j.org/codes.html#null_LF");
+      throw new IllegalStateException("Logging factory implementation cannot be null. See also "+NULL_LF_URL);
     }
     return loggerFactory.getLogger(name);
   }

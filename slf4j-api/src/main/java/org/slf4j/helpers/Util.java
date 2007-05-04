@@ -38,4 +38,8 @@ public class Util {
     System.err.println("Reported exception:");
     t.printStackTrace();
   }
+  
+  static final public void reportFailure(String msg) {
+    System.err.println("SLF4J: " +msg);
+  }
 }
