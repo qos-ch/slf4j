@@ -1,6 +1,11 @@
 
 document.write('<p class="menu_header">SLF4J-related buzz</p>');
 
+http://blog.lukas-vlcek.com/2007/05/jakarta-commons-logging-and-slf4j.html
+
+document.write('<p class="rm small"><a href="http://blog.lukas-vlcek.com/2007/05/jakarta-commons-logging-and-slf4j.html">JCL and SLF4J</a>');
+document.write('</p>');
+
 
 document.write('<p class="rm small"><a href="http://hohonuuli.blogspot.com/2007/04/sl4j-code-template-for-netbeans-i-use.html">Code Template for Netbeans</a>');
 document.write('</p>');

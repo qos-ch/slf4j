@@ -69,10 +69,26 @@ prefix='';
     appropriate SLF4J binding could be found. Placing one of
     <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
     <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
-    <em>logback-classic.jar</em> should prove to be an effective
-    remedy.
+    <em>logback-classic.jar</em> on the class path should prove to be
+    an effective remedy.
     </p>
 
+     <a name="StaticLoggerBinder">
+    </a>
+    
+    <h3>Failed to load class
+    <code>org.slf4j.impl.StaticLoggerBinder</code></h3>
+    
+    <p>This error is reported when the
+    <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
+    loaded into memory.  This happens when no appropriate SLF4J
+    binding could be found on the class path. Placing one of
+    <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> on the class path should solve the
+    problem.
+    </p>
+    
 
 </div>
 </body>
