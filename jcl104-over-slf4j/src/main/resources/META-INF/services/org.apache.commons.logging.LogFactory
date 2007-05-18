@@ -1,4 +1,4 @@
-org.apache.commons.logging.impl.SLF4FLogFactory
+org.apache.commons.logging.impl.SLF4JLogFactory
 
 # Axis gets at JCL through its own mechanism as defined by Commons Discovery, which
 # in turn follows the instructions found at: 
