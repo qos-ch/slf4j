@@ -52,7 +52,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    */
   public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
   // Note: JCL gets substituted at build time by an appropriate Ant task
-  private static final String loggerFactoryClassStr = ${IMPL}LoggerFactory.class.getName();
+  private static final String loggerFactoryClassStr = NOPLoggerFactory.class.getName();
 
   /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
    * should always be the same object
@@ -60,7 +60,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   private final ILoggerFactory loggerFactory;
   
   private StaticLoggerBinder() {
-    loggerFactory = new ${IMPL}LoggerFactory();
+    loggerFactory = new NOPLoggerFactory();
   }
   
   public ILoggerFactory getLoggerFactory() {

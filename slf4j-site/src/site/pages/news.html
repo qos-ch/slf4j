@@ -34,10 +34,20 @@ prefix='';
 
 
   <p>In response to many user requests over time, the TRACE level has
-  been added to <a href="">org.slf4j.Logger</a> interface. Please also
-  see the <a href="">FAQ entry discussing</a> the TRACE level.
+  been added to <a
+  href="api/org/slf4j/Logger.html">org.slf4j.Logger</a>
+  interface. Please also see the <a href="faq.html#trace">FAQ entry
+  discussing</a> the TRACE level.
   </p>
 
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=47">bug
+  47</a> as reported by Terry Todd.  In previous a SLF4J release the
+  <code>org.apache.commons.logging.impl.SLF4FLogFactory</code> class
+  was renamed as <code>SLF4JLogFactory</code>. The
+  <em>META-INF/services/org.apache.commons.logging.LogFactory</em>
+  resource file had not reflected this change. It does now.
+  </p>
 
   <hr noshade="noshade" size="1"/>
 

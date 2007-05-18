@@ -34,7 +34,7 @@
 package org.slf4j.impl;
 
 import org.slf4j.Logger;
-
+import org.slf4j.helpers.MarkerIgnoringBase;
 
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
@@ -59,6 +59,39 @@ public class NOPLogger extends MarkerIgnoringBase {
    */
   public String getName() {
     return "NOP";
+  }
+
+ /**
+   * Always returns false.
+   * @return always false
+   */
+  final public boolean isTraceEnabled() {
+    return false;
+  }
+
+  /** A NOP implementation. */
+  final public void trace(String msg) {
+    // NOP
+  }
+
+  /** A NOP implementation.  */
+  final public void trace(String format, Object arg) {
+    // NOP
+  }
+
+  /** A NOP implementation.  */
+  public final void trace(String format, Object arg1, Object arg2) {
+    // NOP
+  }
+
+  /** A NOP implementation.  */
+  public final void trace(String format, Object[] argArray) {
+    // NOP
+  }
+  
+  /** A NOP implementation. */
+  final public void trace(String msg, Throwable t) {
+    // NOP
   }
 
   /**

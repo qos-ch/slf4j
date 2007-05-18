@@ -775,7 +775,7 @@ logger.debug("The new entry is {}.", entry);</p>
         alredy in place.</p>
         
         <p class="source">mvn archetype:create -DgroupId=org.slf4j -DartifactId=slf4j-MY \
-    -DarchetypeGroupId=org.slf4j -DarchetypeArtifactId=slf4j-archetype -DarchetypeVersion=1.1.0</p>
+    -DarchetypeGroupId=org.slf4j -DarchetypeArtifactId=slf4j-archetype -DarchetypeVersion=${project.version}</p>
 
         <p>At this stage, assuming your logging system has notion of a
         logger, called say <code>MyLogger</code>, you need to provide

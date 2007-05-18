@@ -5,7 +5,7 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.4.0-SNAPSHOT</version>
+	<version>1.4.0</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
@@ -46,9 +46,24 @@
 	</dependencies>
 
  
-	<dependencyManagement>
-    <dependencies/>
-	</dependencyManagement>
+ <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.13</version>
+      </dependency>
+
+   </dependencies>
+ </dependencyManagement>
+
 
 	<build>
 		<plugins>
