@@ -49,6 +49,16 @@ prefix='';
   resource file had not reflected this change. It does now.
   </p>
 
+
+  <p>Eric Yung <a
+  href="http://www.slf4j.org/pipermail/user/2007-April/000327.html">reported</a>
+  that Apache commons-configuration access certain commons-logging
+  classes, namely <code>org.apache.commons.logging.impl.NoOpLog</code>
+  and SimpleLog, directly. Following Eric's suggestion,
+  jcl104-over-slf4j now includes the aforementioned classes.
+  </p>
+  
+
   <hr noshade="noshade" size="1"/>
 
   <h3>April 15th, 2007 - Release of SLF4J 1.3.1</h3>
