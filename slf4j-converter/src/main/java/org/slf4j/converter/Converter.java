@@ -187,7 +187,7 @@ public class Converter {
     while (itFile.hasNext()) {
       File currentFile = itFile.next();
       File newFile = new File(currentFile.getAbsolutePath()+"new");
-      logger.info("reading file " + currentFile.getAbsolutePath());
+      //logger.info("reading file " + currentFile.getAbsolutePath());
       try {
         boolean isEmpty = false;
         writer.initFileWriter(newFile);

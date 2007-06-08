@@ -1,7 +1,7 @@
 package org.slf4j.converter;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,9 +11,12 @@ public abstract class AbstractMatcher {
 
   protected Logger logger;
 
-  protected HashMap<Pattern, String> rulesMap;
+  protected TreeMap<PatternWrapper, String> rulesMap;
 
   protected Writer writer;
+
+  public AbstractMatcher() {
+  }
 
   public static AbstractMatcher getMatcherImpl() {
     // TODO criterias
@@ -25,23 +28,32 @@ public abstract class AbstractMatcher {
   }
 
   public void matches(String text) {
+    PatternWrapper patternWrapper;
     Pattern pattern;
     Matcher matcher;
     String replacement;
     Iterator rulesIter = rulesMap.keySet().iterator();
     boolean found = false;
-    while (rulesIter.hasNext()) {      
-      pattern = (Pattern) rulesIter.next();
-      matcher = pattern.matcher(text);//
-      if (matcher.find()) {        
-        logger.info("found " + text);
-        replacement = (String) rulesMap.get(pattern);
-        writer.rewrite(matcher, replacement);        
-        found = true;  
+    while (rulesIter.hasNext()) {
+      patternWrapper = (PatternWrapper) rulesIter.next();
+      pattern = patternWrapper.getPattern();      
+      matcher = pattern.matcher(text);
+      if (matcher.matches()) {
+        logger.info("match " + text);
+        replacement = (String) rulesMap.get(patternWrapper);
+        writer.rewrite(matcher, replacement);
+        found = true;
         break;
-      }      
+      } 
+//      else if (matcher.find()) {
+//        logger.info("found " + text + " pattern " + pattern.toString());
+//        replacement = (String) rulesMap.get(patternWrapper);
+//        writer.rewrite(matcher, replacement);
+//        found = true;
+//        break;
+//      }
     }
-    if(!found){
+    if (!found) {
       writer.write(text);
     }
   }
