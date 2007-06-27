@@ -98,7 +98,7 @@ public final class LoggerFactory {
    */
   public static Logger getLogger(Class clazz) {
     if(loggerFactory == null) {
-      throw new IllegalStateException("Logging factory implementation cannot be null. See also http://www.slf4j.org/codes.html#null_LF");
+      throw new IllegalStateException("Logging factory implementation cannot be null. See also "+NULL_LF_URL);
     }
     return loggerFactory.getLogger(clazz.getName());
   }
