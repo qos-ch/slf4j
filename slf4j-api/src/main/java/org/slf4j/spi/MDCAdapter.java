@@ -1,6 +1,13 @@
 package org.slf4j.spi;
 
-public interface MappedDiagnosticContext {
+/**
+ * This interface abstracts the service offered by various MDC
+ * implementations.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ * @since 1.4.1
+ */
+public interface MDCAdapter {
 
   /**
    * Put a context value (the <code>val</code> parameter) as identified with

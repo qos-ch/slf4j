@@ -25,56 +25,69 @@
 package org.slf4j;
 
 import org.slf4j.helpers.Util;
-import org.slf4j.impl.StaticMarkerBinder;
+import org.slf4j.impl.StaticMDCBinder;
+import org.slf4j.spi.MDCAdapter;
 
 /**
- * MDC class serves as an abstraction for the underlying logging system's 
+ * MDC class serves as an abstraction of the underlying logging system's 
  * MDC implementation. At this time, only log4j and logback offer MDC
- * functionality. For other systems, this class defaults to nop (empty)
- * implemnetation.
+ * functionality. For other systems, this SLF4J defaults to nop (empty)
+ * implementation.
  * 
- * <p>
- * Please note that all methods in this class are static.
+ * <p>Please note that all methods in this class are static.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MDC {
-  static IMarkerFactory markerFactory;
+  static MDCAdapter mdcAdapter;
 
   private MDC() {
   }
 
   static {
     try {
-      markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
+      mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
     } catch (Exception e) {
       // we should never get here
       Util.reportFailure("Could not instantiate instance of class ["
-          + StaticMarkerBinder.SINGLETON.getMarkerFactoryClassStr() + "]", e);
+          + StaticMDCBinder.SINGLETON.getMDCAdapterClassStr() + "]", e);
     }
   }
 
+  
   /**
-   * Return a Marker instance as specified by the name parameter using the
-   * previously bound {@link IMarkerFactory}instance.
-   * 
-   * @param name
-   *          The name of the {@link Marker} object to return.
-   * @return marker
+   * Put a context value (the <code>val</code> parameter) as identified with
+   * the <code>key</code> parameter into the current thread's context map. This 
+   * method delegates all  work to the MDC of the underlying logging system.
    */
-  public static Marker getMarker(String name) {
-    return markerFactory.getMarker(name);
+  public static void put(String key, String val) {
+    mdcAdapter.put(key, val);
   }
 
   /**
-   * Return the {@link IMarkerFactory}instance in use.
+   * Get the context identified by the <code>key</code> parameter. 
+   * This method delegates all  work to the MDC of the underlying logging system.
    * 
-   * <p>The IMarkerFactory instance is usually bound with this class at 
-   * compile time.
-   * 
-   * @return the IMarkerFactory instance in use
+   * @return the string value identified by the <code>key</code> parameter.
    */
-  public static IMarkerFactory getIMarkerFactory() {
-    return markerFactory;
+  public static String get(String key) {
+    return mdcAdapter.get(key);
   }
+
+  /**
+   * Remove the the context identified by the <code>key</code> parameter using 
+   * the underlying system's MDC implementation.
+   */
+  public static void remove(String key) {
+    mdcAdapter.remove(key);
+  }
+
+  /**
+   * Clear all entries in the MDC of the underlying implementation.
+   */
+  public void clear() {
+    mdcAdapter.clear();
+  }
+  
+ 
 }

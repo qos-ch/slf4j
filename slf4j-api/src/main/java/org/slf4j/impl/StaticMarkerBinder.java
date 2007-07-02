@@ -34,7 +34,9 @@ import org.slf4j.spi.MarkerFactoryBinder;
  * The binding of {@link MarkerFactory} class with an actual instance of 
  * {@link IMarkerFactory} is performed using information returned by this class. 
  * 
- * This class is meant to provide a dummy StaticMarkerBinder to the slf4j-api module.
+ * This class is meant to provide a *dummy* StaticMarkerBinder to the slf4j-api module. 
+ * Real implementations are found in  each SLF4J binding project, e.g. slf4j-nop, 
+ * slf4j-log4j12 etc.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
