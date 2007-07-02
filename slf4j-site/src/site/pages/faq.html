@@ -173,7 +173,7 @@ prefix='';
         <p>SLF4J is only a facade, meaning that it does not provide a
         complete logging solution. Operations such as configuring
         appenders or setting logging levels cannot be performed with
-        SLF4J. Thus, at same point in time, any non-trivial
+        SLF4J. Thus, at some point in time, any non-trivial
         application will need to directly invoke the underlying
         logging system. In other words, complete independence from the
         API underlying logging system is not possible for a
@@ -352,7 +352,7 @@ prefix='';
         <p>SLF4J bindings for <a
         href="api/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>,
         <a href="api/org/slf4j/impl/NOPLogger.html">NOPLogger</a>, <a
-        href="api/org/slf4j/impl/Log4jLoggerAdapter.html">LoggerLoggerAdapter</a>
+        href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4jLoggerAdapter</a>
         and <a
         href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14LoggerAdapter</a>
         are contained within the files <em>slf4j-nop.jar</em>,
@@ -607,7 +607,7 @@ logger.debug("The entry is {}.", entry);</p>
         <p>After evaluting whether to log or not, and only if the
         decision is affirmative, will the logger implementation format
         the message and replace the '{}' pair with the string value of
-        <code>entry</code>. In other words, tis form does not incur
+        <code>entry</code>. In other words, this form does not incur
         the cost of parameter construction in case the log statement
         is disabled.
        </p>
