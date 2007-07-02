@@ -87,7 +87,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
    * @param msg - the message object to be logged
    */
   public void trace(String msg) {
-    logger.log(FQCN, Level.DEBUG, msg, null);
+    logger.log(FQCN, Level.TRACE, msg, null);
   }
 
   /**
