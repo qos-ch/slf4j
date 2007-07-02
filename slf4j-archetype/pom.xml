@@ -2,7 +2,7 @@
   <parent>
     <artifactId>slf4j-parent</artifactId>
     <groupId>org.slf4j</groupId>
-    <version>1.4.0</version>
+    <version>1.4.1-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
