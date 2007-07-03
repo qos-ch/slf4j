@@ -39,6 +39,9 @@ import org.slf4j.spi.MDCAdapter;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MDC {
+
+  static final String NULL_MDCA_URL = "http://www.slf4j.org/codes.html#null_MDCA";
+  static final String NO_STATIC_MDC_BINDER_URL = "http://www.slf4j.org/codes.html#no_static_mdc_binder";
   static MDCAdapter mdcAdapter;
 
   private MDC() {
@@ -47,9 +50,17 @@ public class MDC {
   static {
     try {
       mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
+    } catch(NoClassDefFoundError ncde) {
+      String msg = ncde.getMessage();
+      if(msg != null && msg.indexOf("org/slf4j/impl/StaticMDCBinder") != -1) {
+        Util.reportFailure("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
+        Util.reportFailure("See "+NO_STATIC_MDC_BINDER_URL+" for further details.");
+        
+      } 
+      throw ncde;
     } catch (Exception e) {
       // we should never get here
-      Util.reportFailure("Could not instantiate instance of class ["
+      Util.reportFailure("Could not bind with an instance of class ["
           + StaticMDCBinder.SINGLETON.getMDCAdapterClassStr() + "]", e);
     }
   }
@@ -61,6 +72,9 @@ public class MDC {
    * method delegates all  work to the MDC of the underlying logging system.
    */
   public static void put(String key, String val) {
+    if(mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+    }
     mdcAdapter.put(key, val);
   }
 
@@ -71,6 +85,9 @@ public class MDC {
    * @return the string value identified by the <code>key</code> parameter.
    */
   public static String get(String key) {
+    if(mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+    }
     return mdcAdapter.get(key);
   }
 
@@ -79,13 +96,19 @@ public class MDC {
    * the underlying system's MDC implementation.
    */
   public static void remove(String key) {
+    if(mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+    }
     mdcAdapter.remove(key);
   }
 
   /**
    * Clear all entries in the MDC of the underlying implementation.
    */
-  public void clear() {
+  public static void clear() {
+    if(mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+    }
     mdcAdapter.clear();
   }
   

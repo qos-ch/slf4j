@@ -118,4 +118,11 @@ public class InvocationTest extends TestCase {
     logger.warn(blue, "hello {} and {} ", "world", "universe");
     logger.error(blue, "hello {} and {} ", "world", "universe");
   }
+  
+  public void testMDC() {
+    MDC.put("k", "v");
+    MDC.remove("k");
+    assertNull(MDC.get("k"));
+    MDC.clear();
+  }
 }

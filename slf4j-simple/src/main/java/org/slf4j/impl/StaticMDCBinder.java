@@ -24,46 +24,35 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.IMarkerFactory;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MarkerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.helpers.NOPMakerAdapter;
+import org.slf4j.spi.MDCAdapter;
+
 
 /**
- * The binding of {@link LoggerFactory} class with an actual instance of 
- * {@link ILoggerFactory} is performed using information returned by this class. 
- * 
- * <p>
- * This class also contains the information for binding {@link MarkerFactory}
- * with the appropriate {@link IMarkerFactory} instance.
- * 
+ * This implementation is bound to {@link NOPMakerAdapter}.
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
-public class StaticLoggerBinder implements LoggerFactoryBinder {
+public class StaticMDCBinder {
 
+  
   /**
    * The unique instance of this class.
    */
-  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-  // Note: JCL gets substituted at build time by an appropriate Ant task
-  private static final String loggerFactoryClassStr = SimpleLoggerFactory.class.getName();
+  public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
-  /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
-   * should always be the same object
+  private StaticMDCBinder() {
+  }
+  
+  /**
+   * Currently this method always returns an instance of 
+   * {@link StaticMDCBinder}.
    */
-  private final ILoggerFactory loggerFactory;
-  
-  private StaticLoggerBinder() {
-//  Note: JCL gets substituted at build time by an appropriate Ant task
-    loggerFactory = new SimpleLoggerFactory();
+  public MDCAdapter getMDCA() {
+     return new NOPMakerAdapter();
   }
   
-  public ILoggerFactory getLoggerFactory() {
-    return loggerFactory;
+  public String  getMDCAdapterClassStr() {
+    return NOPMakerAdapter.class.getName();
   }
-  
-  public String getLoggerFactoryClassStr() {
-    return loggerFactoryClassStr;
-  }   
 }

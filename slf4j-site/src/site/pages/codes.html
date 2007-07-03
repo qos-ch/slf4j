@@ -20,9 +20,8 @@ prefix='';
 <div id="content">
 
     <center>
-      <h2>SLF4J warning or error messages and their meanings</h2>
-      <h3>Ceki  G&#252;lc&#252; <br/>
-      created May 2006, last updated on May 2006</h3>
+      <h2>SLF4J warning or error messages and their meanings</h2>     
+      
     </center>
     
 
@@ -47,7 +46,7 @@ prefix='';
     <p>This is a relatively common occurrence with recent versions of
     Tomcat, especially if you place <em>jcl104-over-slf4j.jar</em> in
     <em>WEB-INF/lib</em> directory of your web-application instead of
-    <em>$TOMCAT_HOME/common/lib</em> where $TOMCAT_HOME stands for the
+    <em>$TOMCAT_HOME/common/lib</em>, where $TOMCAT_HOME stands for the
     directory where Tomcat is installed. In order to fully benefit
     from the stability offered by <em>jcl104-over-slf4j.jar</em>, we
     recommend that you place <em>jcl104-over-slf4j.jar</em> in
@@ -59,19 +58,7 @@ prefix='';
     href="http://bugzilla.slf4j.org/show_bug.cgi?id=22">bug
     #22</a>.</p>
     
-    <a name="null_LF">
-    </a>
-    
-    <h3>Logging factory implementation cannot be null</h3>
-
-    <p>This error is reported when the <code>LoggerFactory</code>
-    class could not find an appropriate binding, indicating that no
-    appropriate SLF4J binding could be found. Placing one of
-    <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
-    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
-    <em>logback-classic.jar</em> on the class path should prove to be
-    an effective remedy.
-    </p>
+ 
 
      <a name="StaticLoggerBinder">
     </a>
@@ -82,13 +69,51 @@ prefix='';
     <p>This error is reported when the
     <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
     loaded into memory.  This happens when no appropriate SLF4J
-    binding could be found on the class path. Placing one of
+    binding could be found on the class path. Placing one (and only
+    one) of <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> on the class path should solve the
+    problem.
+    </p>
+
+   <a name="null_LF">
+    </a>
+    
+    <h3>Logging factory implementation cannot be null</h3>
+
+    <p>This error is reported when the <code>LoggerFactory</code>
+    class could not find an appropriate binding. Placing one (and only
+    one) of <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> on the class path should prove to be
+    an effective remedy.
+    </p>
+
+    <a name="no_static_mdc_binder">
+    </a>
+    
+    <h3>Failed to load class "org.slf4j.impl.StaticMDCBinder".</h3>
+    
+    <p>This error indicates that appropriate SLF4J binding could be
+    found on the class path. Placing one (and only one) of
     <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
     <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
     <em>logback-classic.jar</em> on the class path should solve the
     problem.
     </p>
+
+    <a name="null_MDCA">
+    </a>
     
+    <h3>MDCAdapter cannot be null</h3>
+
+    <p>This error is reported when <code>org.slf4j.MDC</code> class
+    has not been initialized correctly. Same cause and remedy as the
+    previously listed item.
+    </p>
+
+
+
 
 </div>
 </body>
