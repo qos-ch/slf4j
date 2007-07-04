@@ -123,8 +123,13 @@ public class InvocationTest extends TestCase {
     MDC.put("k", "v");
     assertNotNull(MDC.get("k"));
     assertEquals("v", MDC.get("k"));
+    
     MDC.remove("k");
     assertNull(MDC.get("k"));
+    
+    MDC.put("k1", "v1");
+    assertEquals("v1", MDC.get("k1"));
     MDC.clear();
+    assertNull(MDC.get("k1"));
   }
 }

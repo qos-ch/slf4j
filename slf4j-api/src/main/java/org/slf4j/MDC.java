@@ -29,12 +29,29 @@ import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
 
 /**
- * MDC class serves as an abstraction of the underlying logging system's 
- * MDC implementation. At this time, only log4j and logback offer MDC
- * functionality. For other systems, this SLF4J defaults to nop (empty)
- * implementation.
+ * This class hides and serves as a substitute for the underlying logging 
+ * system's MDC implementation. 
  * 
- * <p>Please note that all methods in this class are static.
+ * <p>
+ * If the underlying logging system offers MDC 
+ * functionality, then SLF4J's MDC, i.e. this class, will delegate to 
+ * the underlying system's MDC. Note that at this time, only two logging 
+ * systems, namely log4j and logback, offer MDC functionality. If the 
+ * undelying system  does not support MDC, then SLF4J will silently 
+ * drop MDC information.
+ * 
+ * <p>
+ * Thus, as a SLF4J user, you can take advantage of MDC in 
+ * the presence of log4j or logback, but without forcing 
+ * log4j or logback as dependencies upon your users.
+ * 
+ * <p>
+ * For more information on MDC please see the 
+ * <a href="http://logback.qos.ch/manual/mdc.html">chapter on 
+ * MDC</a> in the logback manual.
+ * 
+ * <p>
+ * Please note that all methods in this class are static.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
