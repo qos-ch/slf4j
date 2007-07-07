@@ -129,5 +129,13 @@ public class MDC {
     mdcAdapter.clear();
   }
   
- 
+  /**
+   * Returns the MDCAdapter instance currently in use.
+   * 
+   * @return the MDcAdapter instance currently in use.
+   * @since 1.4.2
+   */
+  public static MDCAdapter getMDCAdapter() {
+    return mdcAdapter;
+  }
 }
