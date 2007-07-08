@@ -54,6 +54,7 @@ import org.slf4j.spi.MDCAdapter;
  * Please note that all methods in this class are static.
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @since 1.4.1
  */
 public class MDC {
 

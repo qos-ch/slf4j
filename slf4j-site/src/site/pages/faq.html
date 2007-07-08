@@ -553,15 +553,25 @@ debug(String msg, Throwable t);</p>
         accompanying message as a good a thing (TM).
        </p>
 
-      <table border="0">
-
-        <tr>
-          <td align="right">
-            <a href="#top">[top]</a></td></tr></table><hr />
         </dd>
+
+        <table border="0">
+          <tr>
+            <td align="right">
+              <a href="#top">[top]</a>
+            </td>
+          </tr>
+        </table>
+
+        <hr />
+
         
         <dt><a name="logging_performance"> What is the fastest way of
         (not) logging?</a></dt><dd>
+
+        <p>SLF4J supports an advanced feature called parameterized
+        logging which can significantly boost logging performance for
+        <em>disabled</em> logging statement.</p>
 
         <p> For some Logger <code>logger</code>, writing,</p>
         <p class="source">logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));</p>
@@ -592,95 +602,139 @@ debug(String msg, Throwable t);</p>
        less than 1% of the time it takes to actually log a statement.
        </p>
 
-	
-
-        <p><b>Better alternative based on format messages</b></p>
+       <p><b>Better alternative based on parameterized
+        messages</b></p>
         
         <p>There exists a very convenient alternative based on message
         formats. Assuming <code>entry</code> is an object, you can write:
        </p>
         
         
-        <p class="source">Object entry = new SomeObject();
+       <p class="source">Object entry = new SomeObject();
 logger.debug("The entry is {}.", entry);</p>
         
-        <p>After evaluting whether to log or not, and only if the
-        decision is affirmative, will the logger implementation format
-        the message and replace the '{}' pair with the string value of
-        <code>entry</code>. In other words, this form does not incur
-        the cost of parameter construction in case the log statement
-        is disabled.
+       <p>After evaluting whether to log or not, and only if the
+       decision is affirmative, will the logger implementation format
+       the message and replace the '{}' pair with the string value of
+       <code>entry</code>. In other words, this form does not incur
+       the cost of parameter construction in case the log statement is
+       disabled.
        </p>
-        
-        <p>The following two lines will yield the exact same
-        output. However, the second form will outperform the first
-        form by a factor of at least 30, in case of a
-        <em>disabled</em> logging statement.
+       
+ 
+       <p>The following two lines will yield the exact same
+       output. However, the second form will outperform the first
+       form by a factor of at least 30, in case of a
+       <em>disabled</em> logging statement.
        </p>
-        
+       
         <p class="source">logger.debug("The new entry is "+entry+".");
 logger.debug("The new entry is {}.", entry);</p>
    
    
-        <p>A two argument variant is also availalble. For example, you can
-        write:</p>
+        <p>A two argument variant is also availalble. For example, you
+        can write:</p>
+        
         
         <p class="source">logger.debug("The new entry is {}. It replaces {}.", entry, oldEntry);</p>
 
-        <p>If three or more arguments need to be passed, an
-        <code>Object[]</code> variant is also availalble. For example,
-        you can write:</p>
-        
+        <p></p>  
+        <p>If three or more arguments need to be passed, you can make
+        use of the <code>Object[]</code> variant. For example, you can
+        write:</p>
+
+        <p>        </p>
         <p class="source">logger.debug("Value {} was inserted between {} and {}.", 
              new Object[] {newVal, below, above});</p>
         
+        <p></p>             
+        <p>SLF4J uses its own message formatting implementation which
+        differs from that of the Java platform. This is justified by
+        the fact that SLF4J's implementation performs several orders
+        of magnitude faster but at the cost of being non-standard and
+        less flexible.
+        </p>
+
+        <p>
+        </p>
+
+        </dd>
 
         
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr /></dd><dt><a name="string_contents">
-      How can I log the string contents of a single (possibly
-      complex) object?
-      </a></dt><dd>
-        <p>
-        In relatively rare cases where the message to be logged is the
-        string form of an object, then the parameterized printing
-        method of the appropriate level can be used. Assuming
-        <code>complexObject</code> is an object of certain complexity,
-        for a log statement of level DEBUG, you can write:
-       </p>
+        <table border="0">
+          <tr>
+            <td align="right">
+              <a href="#top">[top]</a>
+            </td>
+          </tr>
+        </table>
+        <hr />
+             
+        <dt><a name="string_contents">
+        How can I log the string contents of a single (possibly
+        complex) object?
+        </a>
+        
+        <dd>
+          <p> In relatively rare cases where the message to be logged
+          is the string form of an object, then the parameterized
+          printing method of the appropriate level can be
+          used. Assuming <code>complexObject</code> is an object of
+          certain complexity, for a log statement of level DEBUG, you
+          can write:
+          </p>
 
-        <p class="source">logger.debug("{}", complexObject);</p>
-
-
-        <p>The logging system will invoke
-        <code>complexObject.toString()</code> method only after it has
-        ascertained that the log statement was enabled. Otherwise, the
-        cost of <code>complexObject.toString()</code> conversion will
-        be advantageously avoided.
-       </p>
-
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr /></dd><dt><a name="fatal">
-      Why doesn't the <code>org.slf4j.Logger</code> interface
-      have methods for the FATAL level?
-      </a></dt><dd>
-        <p>From the stand point of a logging system, the distinction
-        between a fatal error and an error is usually not very
-        useful. Most programmers exit the application when a fatal
-        error is encountered. However, a logging library cannot (and
-        should not) decide on its own to terminate an application. The
-        initiative to exit the application must be left to the
-        developer.
-       </p>
+          <p class="source">logger.debug("{}", complexObject);</p>
 
 
-        <p>Thus, the most the FATAL level can do is to
-        <em>highlight</em> a given error as the cause for application
-        to crash. However, errors are by definition exceptional events
-        that merit attention. If a given situation causes errors to be
-        logged, the causes should be attended to as soon as
-        possible. However, if the "error" is actually a normal
-        situation which cannot be prevented but merits being aware of,
-        then it should be marked as WARN, not ERROR.
-       </p>
+          <p>The logging system will invoke
+          <code>complexObject.toString()</code> method only after it
+          has ascertained that the log statement was
+          enabled. Otherwise, the cost of
+          <code>complexObject.toString()</code> conversion will be
+          advantageously avoided.
+          </p>
+        </dd>
+
+        <table border="0">
+          <tr>
+            <td align="right">
+              <a href="#top">[top]</a>
+            </td>
+          </tr>
+        </table>
+        
+        <hr />
+
+
+        <dt><a name="fatal"> Why doesn't the
+        <code>org.slf4j.Logger</code> interface have methods for the
+        FATAL level?
+        </a>
+        </dt>
+
+        <dd>
+        
+          <p>From the stand point of a logging system, the distinction
+          between a fatal error and an error is usually not very
+          useful. Most programmers exit the application when a fatal
+          error is encountered. However, a logging library cannot (and
+          should not) decide on its own to terminate an
+          application. The initiative to exit the application must be
+          left to the developer.
+          </p>
+
+
+          <p>Thus, the most the FATAL level can do is to
+          <em>highlight</em> a given error as the cause for
+          application to crash. However, errors are by definition
+          exceptional events that merit attention. If a given
+          situation causes errors to be logged, the causes should be
+          attended to as soon as possible. However, if the "error" is
+          actually a normal situation which cannot be prevented but
+          merits being aware of, then it should be marked as WARN, not
+          ERROR.
+          </p>
         
         <p>Assuming the ERROR level designates exceptional situations
         meriting close attention, we are inclined to believe that the
@@ -823,7 +877,7 @@ logger.debug("The new entry is {}.", entry);</p>
       the <code>Marker</code> interface?
       </a></dt><dd>
         <p>Markers consitute a revolutionary concept which is
-        supported by LOGBack but not other existing logging
+        supported by logback but not other existing logging
         systems. Consequently, SLF4J confromant logging systems are
         allowed to ignore marker data passed by the user.
        </p>
@@ -900,13 +954,24 @@ logger.debug("The new entry is {}.", entry);</p>
         hardly the behavior expected by the user.
        </p>
 
-        <p>In summary, except for classes with few members
-        <em>and</em> instantiated very frequently, logger members
-        should be instance variables.
+        <p>In summary, logger members should be instance variables,
+        except for classes with few members <em>and</em> instantiated
+        very (very!) frequently.
        </p>
 
+      </dd>
 
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table></dd></dl></div>
+
+      <table border="0">
+        <tr>
+          <td align="right">
+            <a href="#top">[top]</a>
+          </td>
+        </tr>
+      </table>
+
+      </dl>
+      </div>
 </div>
 </body>
 </html>

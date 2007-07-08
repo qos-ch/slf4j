@@ -3,10 +3,13 @@ document.write('<p class="menu_header">SLF4J Project</p>');
 document.write('<p><a href="index.html">Introduction</a>');
 document.write('<a href="news.html">News</a>');
 document.write('<a href="docs.html">Documentation</a>');
+document.write('<a href="license.html">License</a>');
 document.write('<a href="download.html">Download</a>');
+
 document.write('<a href="svn.html">Source Repository</a>');
 document.write('<a href="mailing-lists.html">Mailing Lists</a>');
 document.write('<a href="bug-reporting.html">Bug Reporting</a>');
+
 document.write('<p class="menu_header">Native implementations</p>');
 document.write('<a href="http://logback.qos.ch/">Logback</a>');
 document.write('<a href="http://www.x4juli.org">x4juli</a>');

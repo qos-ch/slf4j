@@ -86,10 +86,13 @@ h4 {
 .footer {
   text-align: right;
   color: #564b47;
-  background-color: #90897a;
+  background-color: #fff;
   padding:0px;
-  margin:0px
+  border-top:  1px solid #CCCCCC;
+  margin-top: 3ex;
+	font-size: smaller;
 }
+
 
 strong { 
   /*font-size: 13px;*/
