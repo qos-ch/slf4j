@@ -11,8 +11,8 @@ public class JCLMatcher extends AbstractMatcher {
    private static PatternWrapper p1 =  new PatternWrapper("1",Pattern.compile("import\\s*+org.apache.commons.logging.Log;"));
    private static PatternWrapper p2 =  new PatternWrapper("2",Pattern.compile("(Log)(\\s+\\w+\\s*+=\\s*+)(LogFactory.getFactory\\(\\).getInstance\\()(\\w+)(.class\\);)"));
    private static PatternWrapper p3 =  new PatternWrapper("3",Pattern.compile("(Log)(\\s+\\w+\\s*+=\\s*+)(LogFactory.getLog\\()(\\w+)(.class\\);)"));
-   private static PatternWrapper p4 =  new PatternWrapper("4",Pattern.compile("(LogFactory.getFactory\\(\\).getInstance\\()(\\w+)(.class\\);)"));
-   private static PatternWrapper p5 =  new PatternWrapper("5",Pattern.compile("(LogFactory.getLog\\()(\\w+)(.class\\);)"));
+   private static PatternWrapper p4 =  new PatternWrapper("4",Pattern.compile("(\\w+\\s*+=\\s*+)(LogFactory.getFactory\\(\\).getInstance\\()(\\w+)(.class\\);)"));
+   private static PatternWrapper p5 =  new PatternWrapper("5",Pattern.compile("(\\w+\\s*+=\\s*+)(LogFactory.getLog\\()(\\w+)(.class\\);)"));
    private static PatternWrapper p6 =  new PatternWrapper("6",Pattern.compile("(Log)(\\s+(\\w+)\\s*;)"));
 //   private static PatternWrapper p8 = new PatternWrapper("8",Pattern.compile("fatal\\("));
 //   private static PatternWrapper p9 = new PatternWrapper("9",Pattern.compile("isFatalEnabled\\("));
@@ -23,7 +23,7 @@ public class JCLMatcher extends AbstractMatcher {
    static{
 	   r2.addReplacement("3", "LoggerFactory.getLogger(");
    }
-   private static ReplacementWrapper r3 = new ReplacementWrapper("1","LoggerFactory.getLogger(");
+   private static ReplacementWrapper r3 = new ReplacementWrapper("2","LoggerFactory.getLogger(");
    private static ReplacementWrapper r4 = new ReplacementWrapper("1", "Logger");
    
    
