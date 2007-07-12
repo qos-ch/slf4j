@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.4.2</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -37,13 +37,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-		</dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>0.9.8-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
+	</dependency>
   </dependencies>
 
 
@@ -62,16 +56,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-		  <target>1.5</target>
-		</configuration>
-	  </plugin>
-    
     </plugins>
   </build>
 
