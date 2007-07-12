@@ -44,7 +44,7 @@ public class LoggerTest extends TestCase {
     context.stop();
     appender = null;
     context = null;
-    logbackLogger = null;
+    logbackLogger = null; 
     log4jLogger = null;
     super.tearDown();
   }

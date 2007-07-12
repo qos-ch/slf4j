@@ -20,8 +20,6 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
-import ch.qos.logback.classic.Level;
-
 /**
  * <p>
  * This class is a minimal implementation of the origianl
@@ -119,7 +117,7 @@ public class Category {
   }
 
   public boolean isEnabledFor(Level l) {
-    switch (l.levelInt) {
+    switch (l.level) {
     case Level.TRACE_INT:
       return lbLogger.isTraceEnabled();
     case Level.DEBUG_INT:

@@ -3,9 +3,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
-    <groupId>ch.qos.logback</groupId>
-    <artifactId>logback-parent</artifactId>
-    <version>0.9.8-SNAPSHOT</version>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.4.2-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -38,6 +38,12 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
 		</dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>0.9.8-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 
@@ -51,13 +57,20 @@
             <id>bundle-test-jar</id>
             <phase>package</phase>
             <goals>
-              <goal>jar</goal>
-              <goal>test-jar</goal>
+              <goal>jar</goal>           
             </goals>
           </execution>
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+		  <target>1.5</target>
+		</configuration>
+	  </plugin>
     
     </plugins>
   </build>

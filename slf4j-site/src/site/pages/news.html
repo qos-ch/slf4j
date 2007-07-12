@@ -32,11 +32,17 @@ prefix='';
 
   <h3>July 9th, 2007 - Release of SLF4J 1.4.2</h3>
 
-  <p>The log4j-over-slf4j project has been moved
+  <p>With the addition of MDC support in version 1.4.1, the
+  log4j-over-slf4j module has been moved back into SLF4J. Originally,
+  this module was part of SLF4J and was moved into logback due to the
+  lack of MDC support in SLF4J. With version 1.4.2, log4j-over-slf4j
+  returns to its original home. Note that the previous name of the
+  module was "log4j-bridge".
+  </p>
 
   <p>Addition of the <code>getMDCAdapter</code> method to
   org.slf4j.MDC class. This allows access to the actual MDC
-  implementation which can occasionally come in handly.
+  implementation which can on occasion come in very handy.
   </p>
 
   <hr noshade="noshade" size="1"/>

@@ -29,7 +29,8 @@ import java.util.Hashtable;
  */
 class Log4jLoggerFactory {
 
-  private static Hashtable<String, Logger> log4jLoggers = new Hashtable<String, Logger>();
+  // String, Logger
+  private static Hashtable log4jLoggers = new Hashtable();
 
   public static synchronized Logger getLogger(String name) {
     if (log4jLoggers.containsKey(name)) {
