@@ -1,4 +1,4 @@
-package test.org.apache.log4j;
+package test;
 
 public class DummyObject {
 

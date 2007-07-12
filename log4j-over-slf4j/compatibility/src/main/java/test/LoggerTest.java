@@ -1,4 +1,4 @@
-package org.apache.log4j;
+package test;
 
 import junit.framework.TestCase;
 
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import org.apache.log4j.Level;
 
 /**
  * A class that tests the invocation of the org.apache.log4j.Logger class that

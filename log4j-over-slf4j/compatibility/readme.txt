@@ -1,8 +1,3 @@
-#--------------------------#
-|                          |
-|   Log4j-bridge Read-me   |
-|                          |
-#--------------------------#
 
 This directory is used to test the module against various log4j calls. 
 Two test cases simulate the typical calls that one can find in an application 
@@ -18,5 +13,5 @@ once in the compatibility directory will launch the tests:
 
 ant all
 
-To obtain more information about the use of the log4j-bridge module, 
-please visit http://logback.qos.ch/bridge.html
+To obtain more information about the use of the log4j-over-slf4j module, 
+please visit http://www..slf4j.org/log4j-over-slf4j.html
