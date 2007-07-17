@@ -26,8 +26,8 @@ prefix='';
     <p>Recent versions of SLF4J ship with a module called
     <em>log4j-over-slf4j</em>.  It allows log4j users to migrate
     existing applications to SLF4J without changing <em>a single line
-    of code</em> by replacing the <em>log4j.jar</em> file with
-    <em>log4j-over-slf4j.jar</em>, as described below.
+    of code</em> but simply by replacing the <em>log4j.jar</em> file
+    with <em>log4j-over-slf4j.jar</em>, as described below.
     </p>
     
     <h3>How does it work?</h3>
@@ -60,7 +60,7 @@ prefix='';
     log4j.properties file to logback, the <a
     href="http://logback.qos.ch/translator/">log4j translator</a>
     might be of help. For configuring logback, please refer to <a
-    href="manual/index.html">the manual</a>.
+    href="http://logback.qos.ch/manual/index.html">its manual</a>.
     </p>
 
     <p>We are happy to report that several applications are
@@ -90,10 +90,11 @@ prefix='';
     be negligible, in the order of a few <em>nanoseconds</em>. There
     is a memory overhead corresponding to an entry in a hashmap per
     logger, which should be usually acceptable even for very large
-    applications consisting of several thousand loggers.  Moreover,
-    given that logback is both much faster and more memory-efficient,
-    the gains made by using logback should compensate for the overhead
-    of using log4j-over-slf4j instead of log4j directly.
+    applications consisting of several thousand loggers.  Moreover, if
+    you choose logback as your underlying logging system, and given
+    that logback is both much faster and more memory-efficient than
+    log4j, the gains made by using logback should compensate for the
+    overhead of using log4j-over-slf4j instead of log4j directly.
     </p>
 	
 	
