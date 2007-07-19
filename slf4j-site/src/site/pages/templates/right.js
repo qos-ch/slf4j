@@ -1,7 +1,10 @@
 
 document.write('<p class="menu_header">SLF4J-related buzz</p>');
 
-http://blog.lukas-vlcek.com/2007/05/jakarta-commons-logging-and-slf4j.html
+
+
+document.write('<p class="rm small"><a href="http://day-to-day-stuff.blogspot.com/2007/07/no-more-commons-logging.html">VERSION 99.0</a>');
+document.write('</p>');
 
 document.write('<p class="rm small"><a href="http://blog.lukas-vlcek.com/2007/05/jakarta-commons-logging-and-slf4j.html">JCL and SLF4J</a>');
 document.write('</p>');
