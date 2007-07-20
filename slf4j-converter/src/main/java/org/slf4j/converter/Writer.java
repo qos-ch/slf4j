@@ -11,56 +11,67 @@ import org.slf4j.LoggerFactory;
 
 public class Writer {
 
-  Logger logger;
+	Logger logger;
 
-  BufferedWriter bwriter;
+	BufferedWriter bwriter;
 
-  public Writer() {
-    logger = LoggerFactory.getLogger(Writer.class);
-  }
+	boolean isFirstLine;
 
-  public void initFileWriter(File file) {
-    try {
-      FileWriter fileWriter = new FileWriter(file);
-      bwriter = new BufferedWriter(fileWriter);
-    } catch (IOException exc) {
-      logger.error("error creating filewriter " + file.getAbsolutePath());
-    }
-  }
+	public Writer() {
+		logger = LoggerFactory.getLogger(Writer.class);
+	}
 
-  public void closeFileWriter() {
-    if (bwriter != null) {
-      try {
-        bwriter.flush();
-        bwriter.close();
-      } catch (IOException e) {
-        logger.error("error closing filewriter " + bwriter.toString());
-      }
-    }
-  }
+	public void initFileWriter(File file) {
+		try {
+			FileWriter fileWriter = new FileWriter(file);
+			bwriter = new BufferedWriter(fileWriter);
+			isFirstLine = true;
+		} catch (IOException exc) {
+			logger.error("error creating filewriter " + file.getAbsolutePath());
+		}
+	}
 
-  public void rewrite(Matcher matcher, String replacement) {
-    String text = matcher.replaceAll(replacement);    
-    if (bwriter != null) {
-      try {
-        bwriter.newLine();
-        bwriter.write(text);
-        logger.info("new entry "+text);
-      } catch (IOException exc) {
-        logger.error("error writing file " + bwriter.toString());
-      }
-    }
-  }
+	public void closeFileWriter() {
+		if (bwriter != null) {
+			try {
+				bwriter.flush();
+				bwriter.close();
+			} catch (IOException e) {
+				logger.error("error closing filewriter " + bwriter.toString());
+			}
+		}
+	}
 
-  public void write(String text) {
-    if (bwriter != null) {
-      try {
-        bwriter.newLine();
-        bwriter.write(text);
-      } catch (IOException exc) {
-        logger.error("error writing file " + bwriter.toString());
-      }
-    }
-  }
+	public void rewrite(Matcher matcher, String replacement) {
+		String text = matcher.replaceAll(replacement);
+		if (bwriter != null) {
+			try {
+				if (!isFirstLine) {
+					bwriter.newLine();
+				} else {
+					isFirstLine = false;
+				}
+				bwriter.write(text);
+				logger.info("new entry " + text);
+			} catch (IOException exc) {
+				logger.error("error writing file " + bwriter.toString());
+			}
+		}
+	}
+
+	public void write(String text) {
+		if (bwriter != null) {
+			try {
+				if (!isFirstLine) {
+					bwriter.newLine();
+				} else {
+					isFirstLine = false;
+				}
+				bwriter.write(text);
+			} catch (IOException exc) {
+				logger.error("error writing file " + bwriter.toString());
+			}
+		}
+	}
 
 }
