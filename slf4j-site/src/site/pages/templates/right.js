@@ -2,6 +2,8 @@
 document.write('<p class="menu_header">SLF4J-related buzz</p>');
 
 
+document.write('<p class="rm small"><a href="http://thecodist.com/fiche/thecodist/article/the-open-source-frameworks-i-use">Frameworks I use</a>');
+document.write('</p>');
 
 document.write('<p class="rm small"><a href="http://day-to-day-stuff.blogspot.com/2007/07/no-more-commons-logging.html">VERSION 99.0</a>');
 document.write('</p>');
