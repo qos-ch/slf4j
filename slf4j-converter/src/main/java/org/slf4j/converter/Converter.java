@@ -99,16 +99,16 @@ public class Converter {
 	private File initDestination() {
 		System.out.println("dest " + destination);
 		File fileDest = new File(destination);
-		if (!fileDest.isDirectory()) {
-			System.out.println("dest path is not a valid source directory");
-			return null;
-		}
 		if (fileDest.exists()) {
 			if (delDestination) {
 				delete(fileDest);
 			} else {
 				System.out.println("Destination file already exists");
 			}
+		}
+		else if (!fileDest.mkdir()) {
+			System.out.println("dest path is not a valid source directory");
+			return null;
 		}
 		return fileDest;
 	}
@@ -139,7 +139,6 @@ public class Converter {
 		String curentFileName = fsource.getAbsolutePath().substring(
 				source.length());
 		File fdest = new File(destination + "/" + curentFileName);
-		;
 		if (fsource.isDirectory()) {
 			File[] files = fsource.listFiles();
 			fdest.mkdir();
