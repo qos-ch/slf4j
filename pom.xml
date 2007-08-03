@@ -34,7 +34,7 @@
     <module>log4j-over-slf4j</module>
     <module>slf4j-site</module>
     <module>slf4j-archetype</module>
-
+    <module>slf4j-converter</module>
   </modules>
 
 	<dependencies>
