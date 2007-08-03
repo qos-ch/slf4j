@@ -6,19 +6,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Writer {
 
-	Logger logger;
 
 	BufferedWriter bwriter;
 
 	boolean isFirstLine;
 
 	public Writer() {
-		logger = LoggerFactory.getLogger(Writer.class);
 	}
 
 	public void initFileWriter(File file) {
@@ -27,7 +23,7 @@ public class Writer {
 			bwriter = new BufferedWriter(fileWriter);
 			isFirstLine = true;
 		} catch (IOException exc) {
-			logger.error("error creating filewriter " + file.getAbsolutePath());
+			System.out.println("error creating filewriter " + file.getAbsolutePath());
 		}
 	}
 
@@ -37,7 +33,7 @@ public class Writer {
 				bwriter.flush();
 				bwriter.close();
 			} catch (IOException e) {
-				logger.error("error closing filewriter " + bwriter.toString());
+				System.out.println("error closing filewriter " + bwriter.toString());
 			}
 		}
 	}
@@ -52,9 +48,9 @@ public class Writer {
 					isFirstLine = false;
 				}
 				bwriter.write(text);
-				logger.info("new entry " + text);
+				System.out.println("new entry " + text);
 			} catch (IOException exc) {
-				logger.error("error writing file " + bwriter.toString());
+				System.out.println("error writing file " + bwriter.toString());
 			}
 		}
 	}
@@ -68,8 +64,9 @@ public class Writer {
 					isFirstLine = false;
 				}
 				bwriter.write(text);
+				System.out.println("new entry " + text);
 			} catch (IOException exc) {
-				logger.error("error writing file " + bwriter.toString());
+				System.out.println("error writing file " + bwriter.toString());
 			}
 		}
 	}

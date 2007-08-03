@@ -3,13 +3,11 @@ package org.slf4j.converter;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import org.slf4j.LoggerFactory;
 
 public class JCLMatcher extends AbstractMatcher {
 
 	public JCLMatcher() {
 		super();
-		logger = LoggerFactory.getLogger(JCLMatcher.class);
 		initRules();
 	}
 

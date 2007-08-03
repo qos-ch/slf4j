@@ -12,11 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Converter {
-	private Logger logger;
 
 	private List<File> javaFiles;
 
@@ -27,6 +24,12 @@ public class Converter {
 	private String source;
 
 	private String destination;
+	
+	private boolean delDestination;
+	
+	private int conversionType; 
+	
+	private boolean commentConversion;
 
 	/**
 	 * @param args
@@ -34,31 +37,45 @@ public class Converter {
 	public static void main(String[] args) {
 
 		Converter converter = new Converter();
-		converter.init();
-
-		converter.getPaths();
-		File fileSource = converter.initSource();
-		File fileDest = converter.initDestination();
-		converter.copy(fileSource);
-		converter.selectFiles(fileDest);
-		converter.convert(converter.javaFiles);
+		
+		int params = args.length;
+		String param;
+		for(int i=0; i<params; i++){
+			param = args[i];
+			if(param.startsWith("src=")){
+				converter.source = param.substring(4);
+			}
+			else if(param.startsWith("dest=")){
+				converter.destination = param.substring(5);
+			}
+			else if(param.startsWith("del=")){
+				converter.delDestination = Boolean.parseBoolean(param.substring(4));
+			}
+			else if(param.startsWith("all=")){
+				converter.commentConversion = Boolean.parseBoolean(param.substring(4));
+			}
+		}
+		
+		converter.conversionType = Constant.JCL_TO_SLF4J;
+		if(converter.init()){
+			File fileSource = converter.initSource();
+			File fileDest = converter.initDestination();
+			converter.copy(fileSource);
+			converter.selectFiles(fileDest);
+			converter.convert(converter.javaFiles);
+		}
 	}
 
-	public void init() {
-		logger = LoggerFactory.getLogger(Converter.class);
-		matcher = AbstractMatcher.getMatcherImpl();
-		writer = new Writer();
-		matcher.setWriter(writer);
+	public boolean init() {
+		matcher = AbstractMatcher.getMatcherImpl(conversionType);
+		if(matcher==null){
+			return false;
+		}
+		matcher.setCommentConversion(commentConversion);
+		writer = new Writer();		
+		return true;
 	}
 
-	/**
-	 * 
-	 * 
-	 */
-	private void getPaths() {
-		source = "/Users/jean-noelcharpin/dev/slf4j/slf4j-converter/jcl";
-		destination = "/Users/jean-noelcharpin/dev/slf4j/slf4j-converter/witness";
-	}
 
 	/**
 	 * 
@@ -67,7 +84,7 @@ public class Converter {
 	private File initSource() {
 		File fileSource = new File(source);
 		if (!fileSource.isDirectory()) {
-			logger.info("source path is not a valid source directory");
+			System.out.println("source path is not a valid source directory");
 		}
 		return fileSource;
 	}
@@ -78,7 +95,7 @@ public class Converter {
 	 */
 	private File initDestination() {
 		File fileDest = new File(destination);
-		if (fileDest.exists()) {
+		if (fileDest.exists() && delDestination) {
 			delete(fileDest);
 		}
 		fileDest.mkdir();
@@ -98,9 +115,7 @@ public class Converter {
 				}
 			}
 			fdest.delete();
-			// logger.info("Deleting " + fdest.getName());
 		} else {
-			// logger.info("Deleting " + fdest.getName());
 			fdest.delete();
 		}
 	}
@@ -114,9 +129,7 @@ public class Converter {
 				source.length());
 		File fdest = new File(destination + "/" + curentFileName);
 		if (fsource.isDirectory()) {
-			// logger.info("Current directory " + fsource.getAbsolutePath());
 			fdest.mkdir();
-			// logger.info("New directory " + fdest.getAbsolutePath());
 			File[] files = fsource.listFiles();
 			if (files != null) {
 				for (int i = 0; i < files.length; i++) {
@@ -128,6 +141,11 @@ public class Converter {
 		}
 	}
 
+	/**
+	 * 
+	 * @param fsource
+	 * @param fdest
+	 */
 	private void copy(File fsource, File fdest) {
 		try {
 			FileInputStream fis = new FileInputStream(fsource);
@@ -136,17 +154,16 @@ public class Converter {
 			FileChannel channelDest = fos.getChannel();
 			if (channelSource.isOpen() && channelDest.isOpen()) {
 				channelSource.transferTo(0, channelSource.size(), channelDest);
-				// logger.info("file " + fsource.getName() + " transfered");
 				channelSource.close();
 				channelDest.close();
 			} else {
-				logger.error("error copying file " + fsource.getAbsolutePath());
+				System.out.println("error copying file " + fsource.getAbsolutePath());
 			}
 
 		} catch (FileNotFoundException exc) {
-			logger.error(exc.toString());
+			System.out.println(exc.toString());
 		} catch (IOException e) {
-			logger.error(e.toString());
+			System.out.println(e.toString());
 		}
 	}
 
@@ -169,7 +186,6 @@ public class Converter {
 		} else {
 			if (file.getName().endsWith(".java")) {
 				javaFiles.add(file);
-				// logger.info("Adding java file " + file.getAbsolutePath());
 			}
 		}
 		return javaFiles;
@@ -183,29 +199,37 @@ public class Converter {
 		Iterator<File> itFile = lstFiles.iterator();
 		while (itFile.hasNext()) {
 			File currentFile = itFile.next();
-			File newFile = new File(currentFile.getAbsolutePath() + "new");
-			// logger.info("reading file " + currentFile.getAbsolutePath());
-			try {
-				boolean isEmpty = false;
-				writer.initFileWriter(newFile);
-				FileReader freader = new FileReader(currentFile);
-				BufferedReader breader = new BufferedReader(freader);
-				String line;
-				while (!isEmpty) {
-					line = breader.readLine();
-					if (line != null) {
-						// logger.info("reading line " + line);
-						matcher.matches(line);
-					} else {
-						isEmpty = true;
-						writer.closeFileWriter();
-						copy(newFile, currentFile);
-						delete(newFile);
-					}
+			convert(currentFile);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 */
+	private void convert(File file){
+		File newFile = new File(file.getAbsolutePath() + "new");
+		try {
+			boolean isEmpty = false;
+			writer.initFileWriter(newFile);
+			FileReader freader = new FileReader(file);
+			BufferedReader breader = new BufferedReader(freader);
+			String line;
+			String newLine;
+			while (!isEmpty) {
+				line = breader.readLine();
+				if (line != null) {
+					newLine = matcher.replace(line);
+					writer.write(newLine);
+				} else {
+					isEmpty = true;
+					writer.closeFileWriter();
+					copy(newFile, file);
+					delete(newFile);
 				}
-			} catch (IOException exc) {
-				logger.error("error reading file " + exc);
 			}
+		} catch (IOException exc) {
+			System.out.println("error reading file " + exc);
 		}
 	}
 }
