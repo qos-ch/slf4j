@@ -58,8 +58,6 @@ public abstract class AbstractMatcher {
 							replacementBuffer.append(replacementText);
 						} 
 						else if (group > 0) {
-						System.out.println("conserving group " + group + " : "
-						 + matcher.group(group));
 						replacementBuffer.append(matcher.group(group));
 						}
 					}

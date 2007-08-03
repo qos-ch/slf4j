@@ -48,7 +48,7 @@ public class Writer {
 					isFirstLine = false;
 				}
 				bwriter.write(text);
-				System.out.println("new entry " + text);
+				//System.out.println("new entry " + text);
 			} catch (IOException exc) {
 				System.out.println("error writing file " + bwriter.toString());
 			}
@@ -64,7 +64,7 @@ public class Writer {
 					isFirstLine = false;
 				}
 				bwriter.write(text);
-				System.out.println("new entry " + text);
+				//System.out.println("new entry " + text);
 			} catch (IOException exc) {
 				System.out.println("error writing file " + bwriter.toString());
 			}

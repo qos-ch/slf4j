@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class Converter {
 
 	private List<File> javaFiles;
@@ -24,11 +23,11 @@ public class Converter {
 	private String source;
 
 	private String destination;
-	
+
 	private boolean delDestination;
-	
-	private int conversionType; 
-	
+
+	private int conversionType;
+
 	private boolean commentConversion;
 
 	/**
@@ -37,54 +36,58 @@ public class Converter {
 	public static void main(String[] args) {
 
 		Converter converter = new Converter();
-		
-		int params = args.length;
-		String param;
-		for(int i=0; i<params; i++){
-			param = args[i];
-			if(param.startsWith("src=")){
-				converter.source = param.substring(4);
+
+		if (args.length > 0) {
+			converter.source = args[0];
+			converter.destination = converter.source + "/converted";
+			if (args.length > 1) {
+				converter.destination = args[1];
 			}
-			else if(param.startsWith("dest=")){
-				converter.destination = param.substring(5);
+			if (args.length > 2) {
+				converter.delDestination = Boolean.parseBoolean(args[2]);
 			}
-			else if(param.startsWith("del=")){
-				converter.delDestination = Boolean.parseBoolean(param.substring(4));
-			}
-			else if(param.startsWith("all=")){
-				converter.commentConversion = Boolean.parseBoolean(param.substring(4));
-			}
+		} else {
+			converter.source = new File("").getAbsolutePath();
+			converter.destination = new File(converter.source + "/converted")
+					.getAbsolutePath();
 		}
-		
+
 		converter.conversionType = Constant.JCL_TO_SLF4J;
-		if(converter.init()){
+		if (converter.init()) {
 			File fileSource = converter.initSource();
 			File fileDest = converter.initDestination();
-			converter.copy(fileSource);
-			converter.selectFiles(fileDest);
-			converter.convert(converter.javaFiles);
+			if (fileSource != null && fileDest != null) {
+				converter.copy(fileSource);
+				converter.selectFiles(fileDest);
+				converter.convert(converter.javaFiles);
+			}
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean init() {
 		matcher = AbstractMatcher.getMatcherImpl(conversionType);
-		if(matcher==null){
+		if (matcher == null) {
 			return false;
 		}
 		matcher.setCommentConversion(commentConversion);
-		writer = new Writer();		
+		writer = new Writer();
 		return true;
 	}
-
 
 	/**
 	 * 
 	 * @return
 	 */
 	private File initSource() {
+		System.out.println("source " + source);
 		File fileSource = new File(source);
 		if (!fileSource.isDirectory()) {
 			System.out.println("source path is not a valid source directory");
+			return null;
 		}
 		return fileSource;
 	}
@@ -94,11 +97,19 @@ public class Converter {
 	 * @return
 	 */
 	private File initDestination() {
+		System.out.println("dest " + destination);
 		File fileDest = new File(destination);
-		if (fileDest.exists() && delDestination) {
-			delete(fileDest);
+		if (!fileDest.isDirectory()) {
+			System.out.println("dest path is not a valid source directory");
+			return null;
 		}
-		fileDest.mkdir();
+		if (fileDest.exists()) {
+			if (delDestination) {
+				delete(fileDest);
+			} else {
+				System.out.println("Destination file already exists");
+			}
+		}
 		return fileDest;
 	}
 
@@ -128,9 +139,10 @@ public class Converter {
 		String curentFileName = fsource.getAbsolutePath().substring(
 				source.length());
 		File fdest = new File(destination + "/" + curentFileName);
+		;
 		if (fsource.isDirectory()) {
-			fdest.mkdir();
 			File[] files = fsource.listFiles();
+			fdest.mkdir();
 			if (files != null) {
 				for (int i = 0; i < files.length; i++) {
 					copy(files[i]);
@@ -157,7 +169,8 @@ public class Converter {
 				channelSource.close();
 				channelDest.close();
 			} else {
-				System.out.println("error copying file " + fsource.getAbsolutePath());
+				System.out.println("error copying file "
+						+ fsource.getAbsolutePath());
 			}
 
 		} catch (FileNotFoundException exc) {
@@ -202,12 +215,12 @@ public class Converter {
 			convert(currentFile);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param file
 	 */
-	private void convert(File file){
+	private void convert(File file) {
 		File newFile = new File(file.getAbsolutePath() + "new");
 		try {
 			boolean isEmpty = false;
