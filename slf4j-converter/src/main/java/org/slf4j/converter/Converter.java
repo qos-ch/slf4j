@@ -7,10 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 
 public class Converter {
 
@@ -22,95 +25,80 @@ public class Converter {
 
 	private String source;
 
-	private String destination;
-
-	private boolean delDestination;
-
 	private int conversionType;
 
 	private boolean commentConversion;
 
 	/**
 	 * @param args
+	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		Converter converter = new Converter();
 
 		if (args.length > 0) {
 			converter.source = args[0];
-			converter.destination = converter.source + "/converted";
-			if (args.length > 1) {
-				converter.destination = args[1];
-			}
-			if (args.length > 2) {
-				converter.delDestination = Boolean.parseBoolean(args[2]);
-			}
 		} else {
-			converter.source = new File("").getAbsolutePath();
-			converter.destination = new File(converter.source + "/converted")
-					.getAbsolutePath();
+			// converter.source = new File("").getAbsolutePath();
+			JFileChooser selector = new JFileChooser();
+			selector.setDialogTitle("Source folder selector");
+			selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int res = selector.showOpenDialog(null);
+			if (res == JFileChooser.APPROVE_OPTION) {
+				File folder = selector.getSelectedFile();
+				converter.source = folder.getAbsolutePath();
+			} else {
+				return;
+			}
 		}
 
 		converter.conversionType = Constant.JCL_TO_SLF4J;
 		if (converter.init()) {
-			File fileSource = converter.initSource();
-			File fileDest = converter.initDestination();
-			if (fileSource != null && fileDest != null) {
-				converter.copy(fileSource);
-				converter.selectFiles(fileDest);
-				converter.convert(converter.javaFiles);
-			}
+			converter.convert(converter.javaFiles);
 		}
 	}
 
 	/**
 	 * 
 	 * @return
+	 * @throws IOException
 	 */
-	public boolean init() {
+	public boolean init() throws IOException {
 		matcher = AbstractMatcher.getMatcherImpl(conversionType);
 		if (matcher == null) {
 			return false;
 		}
 		matcher.setCommentConversion(commentConversion);
 		writer = new Writer();
-		return true;
-	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private File initSource() {
-		System.out.println("source " + source);
 		File fileSource = new File(source);
 		if (!fileSource.isDirectory()) {
 			System.out.println("source path is not a valid source directory");
-			return null;
-		}
-		return fileSource;
-	}
+			return false;
+		} else {
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					System.in));
+			System.out
+					.println("RUNNING CONVERTER WILL REPLACE JAVA FILES CONTAINED IN "
+							+ source + ", DO YOU WANT TO CONTINUE Y / N ?");
+			String response = in.readLine();
+			if (response.equalsIgnoreCase("N")) {
+				return false;
+			}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private File initDestination() {
-		System.out.println("dest " + destination);
-		File fileDest = new File(destination);
-		if (fileDest.exists()) {
-			if (delDestination) {
-				delete(fileDest);
-			} else {
-				System.out.println("Destination file already exists");
+			selectFiles(fileSource);
+
+			if (javaFiles.size() > 1000) {
+				System.out.println("THERE IS " + javaFiles.size()
+						+ " FILES TO CONVERT, DO YOU WANT TO CONTINUE Y / N ?");
+				if (response.equalsIgnoreCase("N")) {
+					return false;
+				}
 			}
 		}
-		else if (!fileDest.mkdir()) {
-			System.out.println("dest path is not a valid source directory");
-			return null;
-		}
-		return fileDest;
+		return true;
 	}
 
 	/**
@@ -128,27 +116,6 @@ public class Converter {
 			fdest.delete();
 		} else {
 			fdest.delete();
-		}
-	}
-
-	/**
-	 * 
-	 * @param fsource
-	 */
-	private void copy(File fsource) {
-		String curentFileName = fsource.getAbsolutePath().substring(
-				source.length());
-		File fdest = new File(destination + "/" + curentFileName);
-		if (fsource.isDirectory()) {
-			File[] files = fsource.listFiles();
-			fdest.mkdir();
-			if (files != null) {
-				for (int i = 0; i < files.length; i++) {
-					copy(files[i]);
-				}
-			}
-		} else {
-			copy(fsource, fdest);
 		}
 	}
 
