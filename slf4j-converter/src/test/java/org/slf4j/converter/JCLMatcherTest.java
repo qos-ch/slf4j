@@ -23,8 +23,8 @@ public class JCLMatcherTest extends TestCase {
 		assertEquals(jclMatcher.replace("Log mylog4 = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"),"Logger mylog4 = LoggerFactory.getLogger(MyClass.class);//logger instanciation");
 		assertEquals(jclMatcher.replace("Log myLog6;//logger declaration"),"Logger myLog6;//logger declaration");
 		assertEquals(jclMatcher.replace("//log7=LogFactory.getFactory().getInstance(MyClass.class);"),"//log7=LoggerFactory.getLogger(MyClass.class);");
-		assertEquals(jclMatcher.replace("log8 =LogFactory.getFactory().getInstance(MyClass.class);"),"log8 =LoggerFactory.getLogger(MyClass.class);");
-		assertEquals(jclMatcher.replace("myLog9 = LogFactory.getLog(MyClass.class);"),"myLog9 = LoggerFactory.getLogger(MyClass.class);");
+		assertEquals(jclMatcher.replace(" log8 =LogFactory.getFactory().getInstance(MyClass.class);")," log8 =LoggerFactory.getLogger(MyClass.class);");
+		assertEquals(jclMatcher.replace(" myLog9 = LogFactory.getLog(MyClass.class);")," myLog9 = LoggerFactory.getLogger(MyClass.class);");
 		assertEquals(jclMatcher.replace("private Log mylog10;"),"private Logger mylog10;");
 		assertEquals(jclMatcher.replace("protected final Log myLog11;"),"protected final Logger myLog11;");
 		assertEquals(jclMatcher.replace("public static final Log myLog12;"),"public static final Logger myLog12;");
@@ -32,6 +32,10 @@ public class JCLMatcherTest extends TestCase {
 		assertEquals(jclMatcher.replace("public static final Log myLog14;System.out.println(\"Log\");"),"public static final Logger myLog14;System.out.println(\"Log\");");
 		assertEquals(jclMatcher.replace("System.out.println(\"\");public static final Log myLog15;System.out.println(\"Log\")  ;System.out.println(\"Log2\");"),"System.out.println(\"\");public static final Logger myLog15;System.out.println(\"Log\")  ;System.out.println(\"Log2\");");
 		assertEquals(jclMatcher.replace("((Pojo)pojo.getPojo()).get(\"pojo\",pojo);public static final Log myLog16;"),"((Pojo)pojo.getPojo()).get(\"pojo\",pojo);public static final Logger myLog16;");
+		assertEquals(jclMatcher.replace("protected Log log ="), "protected Logger log =");
+		assertEquals(jclMatcher.replace("	    LogFactory.getLog(MyComponent.class);"), "	    LoggerFactory.getLogger(MyComponent.class);");
+		assertEquals(jclMatcher.replace("protected Log log "), "protected Logger log ");
+		assertEquals(jclMatcher.replace(" =	    LogFactory.getFactory().getInstance(MyComponent.class);"), " =	    LoggerFactory.getLogger(MyComponent.class);");
 	}
 	
 
