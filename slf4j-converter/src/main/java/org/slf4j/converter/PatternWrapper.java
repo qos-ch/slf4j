@@ -1,28 +1,30 @@
 package org.slf4j.converter;
 
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class PatternWrapper implements Comparable {
-
-	private String index;
+public class PatternWrapper  {
 
 	private Pattern pattern;
+	
+	private HashMap<Integer, String> replacementMap;
 
-	public PatternWrapper(String index, Pattern pattern) {
-		this.index = index;
+	public PatternWrapper(Pattern pattern) {
 		this.pattern = pattern;
+		this.replacementMap = new HashMap<Integer, String>();
 	}
 
-	public String getIndex() {
-		return index;
-	}
 
 	public Pattern getPattern() {
 		return pattern;
 	}
 
-	public int compareTo(Object o) {
-		String oIndex = ((PatternWrapper) o).index;
-		return this.index.compareTo(oIndex);
+	public void addReplacement(Integer groupIndex, String replacement) {
+		replacementMap.put(groupIndex, replacement);
+	}	
+	
+	public String getReplacement(int groupIndex) {
+		return replacementMap.get(new Integer(groupIndex));
 	}
+	
 }

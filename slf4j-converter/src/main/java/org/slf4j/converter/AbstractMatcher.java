@@ -1,14 +1,14 @@
 package org.slf4j.converter;
 
 import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public abstract class AbstractMatcher {
 
-	protected TreeMap<PatternWrapper, ReplacementWrapper> rulesMap;
+	protected ArrayList<PatternWrapper> rules;
 
 	protected boolean commentConversion = true;
 
@@ -39,18 +39,16 @@ public abstract class AbstractMatcher {
 			Pattern pattern;
 			Matcher matcher;
 			String replacementText;
-			ReplacementWrapper replacementWrapper;
-			Iterator rulesIter = rulesMap.keySet().iterator();
+			Iterator rulesIter = rules.iterator();
 			while (rulesIter.hasNext()) {
 				patternWrapper = (PatternWrapper) rulesIter.next();
 				pattern = patternWrapper.getPattern();
 				matcher = pattern.matcher(text);
 				if (matcher.matches()) {
 					System.out.println("matching " + text);
-					replacementWrapper = rulesMap.get(patternWrapper);
 					StringBuffer replacementBuffer = new StringBuffer();
 					for (int group = 0; group <= matcher.groupCount(); group++) {
-						replacementText = replacementWrapper.getReplacement(group);
+						replacementText = patternWrapper.getReplacement(group);
 						if (replacementText != null) {
 							System.out.println("replacing group " + group + " : "
 								+ matcher.group(group) + " with "
