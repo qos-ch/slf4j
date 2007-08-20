@@ -30,7 +30,11 @@ public interface MDCAdapter {
 
   /**
    * Remove the the context identified by the <code>key</code> parameter. 
-   * The <code>key</code> parameter cannot be null.
+   * The <code>key</code> parameter cannot be null. 
+   * 
+   * <p>
+   * This method does nothing if there is no previous value 
+   * associated with <code>key</code>.
    */
   public void remove(String key);
 
