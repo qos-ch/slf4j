@@ -130,7 +130,8 @@ public class MDC {
   /**
    * Remove the the context identified by the <code>key</code> parameter using
    * the underlying system's MDC implementation. The  <code>key</code> parameter 
-   * cannot be null.
+   * cannot be null. This method does nothing if there is no previous value 
+   * associated with <code>key</code>.
    * 
    * @throws IllegalArgumentException in case the "key" parameter is null
    */
