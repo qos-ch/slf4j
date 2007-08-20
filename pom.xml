@@ -33,7 +33,6 @@
     <module>jcl104-over-slf4j</module>
     <module>log4j-over-slf4j</module>
     <module>slf4j-site</module>
-    <module>slf4j-archetype</module>
     <module>slf4j-converter</module>
   </modules>
 
@@ -67,6 +66,12 @@
 
 
 	<build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
