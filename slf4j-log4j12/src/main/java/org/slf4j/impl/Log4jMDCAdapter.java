@@ -8,7 +8,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
 
   public void clear() {
     Map map = org.apache.log4j.MDC.getContext();
-    if(map != null) {
+    if (map != null) {
       map.clear();
     }
   }
@@ -17,6 +17,18 @@ public class Log4jMDCAdapter implements MDCAdapter {
     return (String) org.apache.log4j.MDC.get(key);
   }
 
+  /**
+   * Put a context value (the <code>val</code> parameter) as identified with
+   * the <code>key</code> parameter into the current thread's context map. The
+   * <code>key</code> parameter cannot be null. Log4j does <em>not</em> 
+   * support null for the <code>val</code> parameter.
+   * 
+   * <p>
+   * This method delegates all work to log4j's MDC.
+   * 
+   * @throws IllegalArgumentException
+   *           in case the "key" or <b>"val"</b> parameter is null
+   */
   public void put(String key, String val) {
     org.apache.log4j.MDC.put(key, val);
   }

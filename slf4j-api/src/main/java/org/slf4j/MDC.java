@@ -29,26 +29,25 @@ import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
 
 /**
- * This class hides and serves as a substitute for the underlying logging 
- * system's MDC implementation. 
+ * This class hides and serves as a substitute for the underlying logging
+ * system's MDC implementation.
  * 
  * <p>
- * If the underlying logging system offers MDC 
- * functionality, then SLF4J's MDC, i.e. this class, will delegate to 
- * the underlying system's MDC. Note that at this time, only two logging 
- * systems, namely log4j and logback, offer MDC functionality. If the 
- * undelying system  does not support MDC, then SLF4J will silently 
- * drop MDC information.
+ * If the underlying logging system offers MDC functionality, then SLF4J's MDC,
+ * i.e. this class, will delegate to the underlying system's MDC. Note that at
+ * this time, only two logging systems, namely log4j and logback, offer MDC
+ * functionality. If the undelying system does not support MDC, then SLF4J will
+ * silently drop MDC information.
  * 
  * <p>
- * Thus, as a SLF4J user, you can take advantage of MDC in 
- * the presence of log4j or logback, but without forcing 
- * log4j or logback as dependencies upon your users.
+ * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j
+ * or logback, but without forcing log4j or logback as dependencies upon your
+ * users.
  * 
  * <p>
- * For more information on MDC please see the 
- * <a href="http://logback.qos.ch/manual/mdc.html">chapter on 
- * MDC</a> in the logback manual.
+ * For more information on MDC please see the <a
+ * href="http://logback.qos.ch/manual/mdc.html">chapter on MDC</a> in the
+ * logback manual.
  * 
  * <p>
  * Please note that all methods in this class are static.
@@ -68,13 +67,15 @@ public class MDC {
   static {
     try {
       mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
-    } catch(NoClassDefFoundError ncde) {
+    } catch (NoClassDefFoundError ncde) {
       String msg = ncde.getMessage();
-      if(msg != null && msg.indexOf("org/slf4j/impl/StaticMDCBinder") != -1) {
-        Util.reportFailure("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
-        Util.reportFailure("See "+NO_STATIC_MDC_BINDER_URL+" for further details.");
-        
-      } 
+      if (msg != null && msg.indexOf("org/slf4j/impl/StaticMDCBinder") != -1) {
+        Util
+            .reportFailure("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
+        Util.reportFailure("See " + NO_STATIC_MDC_BINDER_URL
+            + " for further details.");
+
+      }
       throw ncde;
     } catch (Exception e) {
       // we should never get here
@@ -83,39 +84,64 @@ public class MDC {
     }
   }
 
-  
   /**
    * Put a context value (the <code>val</code> parameter) as identified with
-   * the <code>key</code> parameter into the current thread's context map. This 
-   * method delegates all  work to the MDC of the underlying logging system.
+   * the <code>key</code> parameter into the current thread's context map.
+   * The <code>key</code> parameter cannot be null. The code>val</code> parameter 
+   * can be null only if the underlying implementation supports it.
+   * 
+   * <p>
+   * This method delegates all work to the MDC of the underlying logging system.
+   * 
+   * @throws IllegalArgumentException in case the "key" parameter is null
    */
-  public static void put(String key, String val) {
-    if(mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+  public static void put(String key, String val) throws IllegalArgumentException {
+    if (key == null) {
+      throw new IllegalArgumentException("key parameter cannot be null");
+    }
+    if (mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "
+          + NULL_MDCA_URL);
     }
     mdcAdapter.put(key, val);
   }
 
   /**
-   * Get the context identified by the <code>key</code> parameter. 
-   * This method delegates all  work to the MDC of the underlying logging system.
+   * Get the context identified by the <code>key</code> parameter. The 
+   * <code>key</code> parameter cannot be null.
+   * 
+   * <p>This method delegates all work to the MDC of the underlying logging system. 
    * 
    * @return the string value identified by the <code>key</code> parameter.
+   * @throws IllegalArgumentException in case the "key" parameter is null
    */
-  public static String get(String key) {
-    if(mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+  public static String get(String key) throws IllegalArgumentException {
+    if (key == null) {
+      throw new IllegalArgumentException("key parameter cannot be null");
+    }
+    
+    if (mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "
+          + NULL_MDCA_URL);
     }
     return mdcAdapter.get(key);
   }
 
   /**
-   * Remove the the context identified by the <code>key</code> parameter using 
-   * the underlying system's MDC implementation.
+   * Remove the the context identified by the <code>key</code> parameter using
+   * the underlying system's MDC implementation. The  <code>key</code> parameter 
+   * cannot be null.
+   * 
+   * @throws IllegalArgumentException in case the "key" parameter is null
    */
-  public static void remove(String key) {
-    if(mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+  public static void remove(String key) throws IllegalArgumentException {
+    if (key == null) {
+      throw new IllegalArgumentException("key parameter cannot be null");
+    }
+    
+    if (mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "
+          + NULL_MDCA_URL);
     }
     mdcAdapter.remove(key);
   }
@@ -124,12 +150,13 @@ public class MDC {
    * Clear all entries in the MDC of the underlying implementation.
    */
   public static void clear() {
-    if(mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "+NULL_MDCA_URL);
+    if (mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "
+          + NULL_MDCA_URL);
     }
     mdcAdapter.clear();
   }
-  
+
   /**
    * Returns the MDCAdapter instance currently in use.
    * 
