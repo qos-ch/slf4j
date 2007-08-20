@@ -823,15 +823,7 @@ logger.debug("The new entry is {}.", entry);</p>
         it a little (as explained below) does the trick.
        </p>
 
-        <p>If you are a Maven2 user, you can use the
-        slf4j-archetype. Invoke the following command to create a new
-        module called <em>slf4j-MY</em> with much of the plumbing
-        alredy in place.</p>
-        
-        <p class="source">mvn archetype:create -DgroupId=org.slf4j -DartifactId=slf4j-MY \
-    -DarchetypeGroupId=org.slf4j -DarchetypeArtifactId=slf4j-archetype -DarchetypeVersion=${project.version}</p>
-
-        <p>At this stage, assuming your logging system has notion of a
+        <p>Assuming your logging system has notion of a
         logger, called say <code>MyLogger</code>, you need to provide
         an adapter for <code>MyLogger</code> to
         <code>org.slf4j.Logger</code> interface. Refer to slf4j-jcl,
@@ -856,14 +848,15 @@ logger.debug("The new entry is {}.", entry);</p>
         <code>loggerFactoryClassStr</code> variable.
        </p>
         
-        <p>That's it. You don't need to modify any other files.</p>
+        <p>For Marker or MDC support, you could use the one of the
+        existing NOP implementations.
+        </p>
 
         <p>In summary, to create an SLF4J binding for your logging
         system, follow these steps:</p>
 
         <ol>
-          <li>start with a copy of an existing module, or create a new
-          binding using slf4j-archetype as discussed above</li>
+          <li>start with a copy of an existing module,
           <li>create an adapter between your logging system and
           <code>org.slf4j.Logger</code> interface
          </li>

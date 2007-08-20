@@ -78,6 +78,7 @@
       </includes>
     </fileSet>
 
+    <!--
     <fileSet>
       <directory>slf4j-archetype/</directory>
       <outputDirectory>slf4j-archetype/</outputDirectory>
@@ -85,6 +86,7 @@
         <include>pom.xml</include>
       </includes>
     </fileSet>
+    -->
 
 		<!-- Module Source directories (includes tests) -->
 		<fileSet>
@@ -136,10 +138,12 @@
 			<outputDirectory>slf4j-site/src/</outputDirectory>    
     </fileSet>
 
+    <!--
     <fileSet>
       <directory>slf4j-archetype/src/</directory>
 			<outputDirectory>slf4j-archetype/src/</outputDirectory>    
     </fileSet>
+    -->
 
 		<!-- Module JARs -->
 		<fileSet>
