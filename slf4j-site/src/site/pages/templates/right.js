@@ -1,6 +1,10 @@
 
 document.write('<p class="menu_header">SLF4J-related buzz</p>');
 
+document.write('<p class="rm small"><a href="http://blog.emmanuelbernard.com/2007/08/innovation-in-log-space-yawn.html">Innovation in the Log space</a>');
+document.write('</p>');
+
+
 
 document.write('<p class="rm small"><a href="http://thecodist.com/fiche/thecodist/article/the-open-source-frameworks-i-use">Frameworks I use</a>');
 document.write('</p>');
