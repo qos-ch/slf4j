@@ -36,11 +36,11 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Bundle-Version>${pv4osgi}</Bundle-Version>
+              <Bundle-Version>${project.version}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
             </manifestEntries>
-            <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>			
       </plugin>
