@@ -7,7 +7,8 @@ import junit.framework.TestCase;
 public class JCLMatcherTest extends TestCase {
 
   public void testConversion() throws IOException {
-    AbstractMatcher jclMatcher = AbstractMatcher.getMatcherImpl(1);
+    AbstractMatcher jclMatcher = AbstractMatcher
+        .getMatcherImpl(Constant.JCL_TO_SLF4J);
     jclMatcher.setCommentConversion(true);
 
     assertEquals(jclMatcher
