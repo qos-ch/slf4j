@@ -1,6 +1,18 @@
 
 document.write('<p class="menu_header">SLF4J-related buzz</p>');
 
+document.write('<p class="rm small"><a href="http://bsnyderblog.blogspot.com/2007/08/my-soapbox-for-slf4j.html">SLF4J soapbox</a>');
+document.write('</p>');
+
+document.write('<p class="rm small"><a href="http://weblogs.java.net/blog/schaefa/archive/2007/08/to_the_hell_wit_1.html">JDK logging</a>');
+document.write('</p>');
+
+document.write('<p class="rm small"><a href="http://www.almaer.com/blog/archives/001563.html">oh wait!</a>');
+document.write('</p>');
+
+document.write('<p class="rm small"><a href="http://stephan.reposita.org/archives/2007/08/28/open-comment-to-dion-on-slf4j/">Open comment</a>');
+document.write('</p>');
+
 
 document.write('<p class="rm small"><a href="http://tapestryjava.blogspot.com/2007/08/so-long-commons-logging-hello-slf4j.html">Hello SLF4J</a>');
 document.write('</p>');
