@@ -23,8 +23,8 @@ public class PatternWrapper  {
 		replacementMap.put(groupIndex, replacement);
 	}	
 	
-	public String getReplacement(int groupIndex) {
-		return replacementMap.get(new Integer(groupIndex));
+	public String getReplacement(Integer groupIndex) {
+		return replacementMap.get(groupIndex);
 	}
 	
 }
