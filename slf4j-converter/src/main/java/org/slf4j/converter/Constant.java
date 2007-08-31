@@ -3,6 +3,8 @@ package org.slf4j.converter;
 public class Constant {
 
   public final static int JCL_TO_SLF4J = 1;
+  
+  public final static int LOG4J_TO_SLF4J = 2;
 
   public final static String LINE_COMMENT = "//";
 
@@ -22,6 +24,6 @@ public class Constant {
 
   public final static Integer INDEX_5 = new Integer(5);
 
-  public final static int NB_FILES_MAX = 1000;
+  public final static int NB_FILES_MAX = 1;
 
 }

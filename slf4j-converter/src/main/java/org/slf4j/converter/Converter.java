@@ -27,10 +27,11 @@ public class Converter {
 
   private int conversionType;
 
-  private boolean commentConversion;
-
   /**
+   * Run JCL to SLF4J conversion
+   * 
    * @param args
+   *          source folder directory optional
    * @throws IOException
    * @throws IOException
    */
@@ -41,7 +42,6 @@ public class Converter {
     if (args.length > 0) {
       converter.source = args[0];
     } else {
-      // converter.source = new File("").getAbsolutePath();
       JFileChooser selector = new JFileChooser();
       selector.setDialogTitle("Source folder selector");
       selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -61,8 +61,11 @@ public class Converter {
   }
 
   /**
+   * Ask for concrete matcher implementation depending on the conversion mode
+   * Ask for user confirmation to convert the selected source directory if valid
+   * Ask for user confirmation in case of number of files to convert > 1000
    * 
-   * @return
+   * @return true if init operation complete
    * @throws IOException
    */
   public boolean init() throws IOException {
@@ -70,7 +73,7 @@ public class Converter {
     if (matcher == null) {
       return false;
     }
-    matcher.setCommentConversion(commentConversion);
+
     writer = new Writer();
 
     File fileSource = new File(source);
@@ -89,9 +92,10 @@ public class Converter {
 
       selectFiles(fileSource);
 
-      if (javaFiles.size() > 1000) {
+      if (javaFiles.size() > Constant.NB_FILES_MAX) {
         System.out.println("THERE IS " + javaFiles.size()
             + " FILES TO CONVERT, DO YOU WANT TO CONTINUE Y / N ?");
+        response = in.readLine();
         if (response.equalsIgnoreCase("N")) {
           return false;
         }
@@ -101,6 +105,7 @@ public class Converter {
   }
 
   /**
+   * delete a file
    * 
    * @param fdest
    */
@@ -119,6 +124,7 @@ public class Converter {
   }
 
   /**
+   * copy a file from source to destination
    * 
    * @param fsource
    * @param fdest
@@ -145,6 +151,7 @@ public class Converter {
   }
 
   /**
+   * Select java files to be converted
    * 
    * @param file
    * @return
@@ -169,6 +176,7 @@ public class Converter {
   }
 
   /**
+   * Convert a list of files
    * 
    * @param lstFiles
    */
@@ -181,6 +189,8 @@ public class Converter {
   }
 
   /**
+   * Convert the specified file Read each line and ask matcher implementation
+   * for conversion Rewrite the line returned by matcher
    * 
    * @param file
    */
@@ -196,7 +206,7 @@ public class Converter {
       while (!isEmpty) {
         line = breader.readLine();
         if (line != null) {
-          newLine = matcher.replace(line);
+          newLine = matcher.getReplacement(line);
           writer.write(newLine);
         } else {
           isEmpty = true;

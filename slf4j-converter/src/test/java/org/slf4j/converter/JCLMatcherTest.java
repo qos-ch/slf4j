@@ -6,78 +6,132 @@ import junit.framework.TestCase;
 
 public class JCLMatcherTest extends TestCase {
 
-  public void testConversion() throws IOException {
-     
+  public void testImportReplacement() {
     JCLMatcher jclMatcher = new JCLMatcher();
-    jclMatcher.setCommentConversion(true);
-
+    // LogFactory import replacement
     assertEquals(jclMatcher
-        .replace("import org.apache.commons.logging.LogFactory;"),
+        .getReplacement("import org.apache.commons.logging.LogFactory;"),
         "import org.slf4j.LoggerFactory;");
-    assertEquals(jclMatcher.replace("import org.apache.commons.logging.Log;"),
+    // Log import replacement
+    assertEquals(jclMatcher
+        .getReplacement("import org.apache.commons.logging.Log;"),
         "import org.slf4j.Logger;");
+  }
+
+  public void testLogFactoryGetLogReplacement() {
+    JCLMatcher jclMatcher = new JCLMatcher();
+    // Logger declaration and instanciation without modifier
     assertEquals(jclMatcher
-        .replace("Log l = LogFactory.getLog(MyClass.class);"),
+        .getReplacement("Log l = LogFactory.getLog(MyClass.class);"),
         "Logger l = LoggerFactory.getLogger(MyClass.class);");
+    // Logger declaration and instanciation with one modifier
     assertEquals(jclMatcher
-        .replace("public Log mylog=LogFactory.getLog(MyClass.class);"),
+        .getReplacement("public Log mylog=LogFactory.getLog(MyClass.class);"),
         "public Logger mylog=LoggerFactory.getLogger(MyClass.class);");
+    // Logger declaration and instanciation with two modifier
     assertEquals(
         jclMatcher
-            .replace("public static Log mylog1 = LogFactory.getLog(MyClass.class);"),
+            .getReplacement("public static Log mylog1 = LogFactory.getLog(MyClass.class);"),
         "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);");
+    // Logger declaration and instanciation with two modifier and comment at the
+    // end of line
     assertEquals(
         jclMatcher
-            .replace("Log log3=LogFactory.getFactory().getInstance(MyClass.class);"),
-        "Logger log3=LoggerFactory.getLogger(MyClass.class);");
+            .getReplacement("public static Log mylog1 = LogFactory.getLog(MyClass.class); //logger instanciation and declaration"),
+        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class); //logger instanciation and declaration");
+    // Logger instanciation without declaration and comment at the end of line
     assertEquals(
         jclMatcher
-            .replace("Log mylog4 = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"),
-        "Logger mylog4 = LoggerFactory.getLogger(MyClass.class);//logger instanciation");
-    assertEquals(jclMatcher.replace("Log myLog6;//logger declaration"),
-        "Logger myLog6;//logger declaration");
+            .getReplacement(" myLog = LogFactory.getLog(MyClass.class);//logger instanciation"),
+        " myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation");
+    // commented Logger declaration and instanciation with two modifier
+    assertEquals(
+        jclMatcher
+            .getReplacement("//public static Log mylog1 = LogFactory.getLog(MyClass.class);"),
+        "//public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);");
+    // commented Logger instanciation without declaration
+    assertEquals(
+        jclMatcher
+            .getReplacement("// myLog = LogFactory.getLog(MyClass.class);//logger instanciation"),
+        "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation");
+  }
+
+  public void testLogFactoryGetFactoryReplacement() {
+    JCLMatcher jclMatcher = new JCLMatcher();
+    // Logger declaration and instanciation without modifier
+    assertEquals(
+        jclMatcher
+            .getReplacement("Log l = LogFactory.getFactory().getInstance(MyClass.class);"),
+        "Logger l = LoggerFactory.getLogger(MyClass.class);");
+    // Logger declaration and instanciation with one modifier
+    assertEquals(
+        jclMatcher
+            .getReplacement("public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);"),
+        "public Logger mylog=LoggerFactory.getLogger(MyClass.class);");
+    // Logger declaration and instanciation with modifiers
+    assertEquals(
+        jclMatcher
+            .getReplacement("public static Log mylog1 = LogFactory.getFactory().getInstance(MyClass.class);"),
+        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);");
+    // Logger declaration and instanciation with two modifier and comment at the
+    // end of line
+    assertEquals(
+        jclMatcher
+            .getReplacement("public static Log mylog1 = LogFactory.getFactory().getInstance(MyClass.class); //logger instanciation and declaration"),
+        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class); //logger instanciation and declaration");
+    // Logger instanciation without declaration and comment at the end of line
+    assertEquals(
+        jclMatcher
+            .getReplacement(" myLog = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"),
+        " myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation");
+    // commented Logger declaration and instanciation with two modifier
+    assertEquals(
+        jclMatcher
+            .getReplacement("//public static Log mylog1 = LogFactory.getFactory().getInstance(MyClass.class);"),
+        "//public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);");
+    // commented Logger instanciation without declaration
+    assertEquals(
+        jclMatcher
+            .getReplacement("// myLog = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"),
+        "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation");
+  }
+
+  public void testLogDeclarationReplacement() throws IOException {
+    JCLMatcher jclMatcher = new JCLMatcher();
+    // simple Logger declaration
+    assertEquals(jclMatcher.getReplacement("Log mylog;"), "Logger mylog;");
+    // Logger declaration with a modifier
+    assertEquals(jclMatcher.getReplacement("private Log mylog;"),
+        "private Logger mylog;");
+    // Logger declaration with modifiers
+    assertEquals(jclMatcher.getReplacement("public static final Log myLog;"),
+        "public static final Logger myLog;");
+    // Logger declaration with modifiers and comment at the end of line
     assertEquals(jclMatcher
-        .replace("//log7=LogFactory.getFactory().getInstance(MyClass.class);"),
-        "//log7=LoggerFactory.getLogger(MyClass.class);");
-    assertEquals(jclMatcher
-        .replace(" log8 =LogFactory.getFactory().getInstance(MyClass.class);"),
-        " log8 =LoggerFactory.getLogger(MyClass.class);");
-    assertEquals(jclMatcher
-        .replace(" myLog9 = LogFactory.getLog(MyClass.class);"),
-        " myLog9 = LoggerFactory.getLogger(MyClass.class);");
-    assertEquals(jclMatcher.replace("private Log mylog10;"),
-        "private Logger mylog10;");
-    assertEquals(jclMatcher.replace("protected final Log myLog11;"),
-        "protected final Logger myLog11;");
-    assertEquals(jclMatcher.replace("public static final Log myLog12;"),
-        "public static final Logger myLog12;");
-    assertEquals(
-        jclMatcher
-            .replace("System.out.println(\"Log\") ;System.out.println(\"Log2\");  public static final Log myLog13;"),
-        "System.out.println(\"Log\") ;System.out.println(\"Log2\");  public static final Logger myLog13;");
-    assertEquals(
-        jclMatcher
-            .replace("public static final Log myLog14;System.out.println(\"Log\");"),
-        "public static final Logger myLog14;System.out.println(\"Log\");");
-    assertEquals(
-        jclMatcher
-            .replace("System.out.println(\"\");public static final Log myLog15;System.out.println(\"Log\")  ;System.out.println(\"Log2\");"),
-        "System.out.println(\"\");public static final Logger myLog15;System.out.println(\"Log\")  ;System.out.println(\"Log2\");");
-    assertEquals(
-        jclMatcher
-            .replace("((Pojo)pojo.getPojo()).get(\"pojo\",pojo);public static final Log myLog16;"),
-        "((Pojo)pojo.getPojo()).get(\"pojo\",pojo);public static final Logger myLog16;");
-    assertEquals(jclMatcher.replace("protected Log log ="),
+        .getReplacement("public Log myLog;//logger declaration"),
+        "public Logger myLog;//logger declaration");
+    // commented Logger declaration
+    assertEquals(jclMatcher.getReplacement("//private Log myLog;"),
+        "//private Logger myLog;");
+  }
+
+  public void testMultiLineReplacement() throws IOException {
+    JCLMatcher jclMatcher = new JCLMatcher();
+    // Logger declaration on a line
+    assertEquals(jclMatcher.getReplacement("protected Log log ="),
         "protected Logger log =");
+    // Logger instanciation on the next line
     assertEquals(jclMatcher
-        .replace("	    LogFactory.getLog(MyComponent.class);"),
-        "	    LoggerFactory.getLogger(MyComponent.class);");
-    assertEquals(jclMatcher.replace("protected Log log "),
+        .getReplacement(" LogFactory.getLog(MyComponent.class);"),
+        " LoggerFactory.getLogger(MyComponent.class);");
+    // Logger declaration on a line
+    assertEquals(jclMatcher.getReplacement("protected Log log "),
         "protected Logger log ");
+    // Logger instanciation on the next line
     assertEquals(
         jclMatcher
-            .replace(" =	    LogFactory.getFactory().getInstance(MyComponent.class);"),
-        " =	    LoggerFactory.getLogger(MyComponent.class);");
+            .getReplacement(" = LogFactory.getFactory().getInstance(MyComponent.class);"),
+        " = LoggerFactory.getLogger(MyComponent.class);");
   }
 
 }

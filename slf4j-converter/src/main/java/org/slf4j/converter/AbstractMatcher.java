@@ -5,84 +5,61 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class runs Pattern matching with java.util.regex 
+ * using Patterns defined in concretes implementations
+ * 
+ * @author jean-noelcharpin
+ * 
+ */
 public abstract class AbstractMatcher {
 
-  protected ArrayList<PatternWrapper> rules;
-
-  protected boolean commentConversion = true;
+  protected ArrayList<ConversionRule> rules;
 
   protected boolean blockComment = false;
 
   public AbstractMatcher() {
   }
 
+  /**
+   * Return matcher implementation depending on the conversion mode
+   * @param conversionType
+   * @return AbstractMatcher implementation
+   */
   public static AbstractMatcher getMatcherImpl(int conversionType) {
-    if (conversionType == Constant.JCL_TO_SLF4J) {
+    switch(conversionType){
+    case Constant.JCL_TO_SLF4J :
       return new JCLMatcher();
+    case Constant.LOG4J_TO_SLF4J :
+      return new Log4jMatcher();
+    default :  
+      return null;
     }
-    return null;
   }
-
-  public void setCommentConversion(boolean commentConversion) {
-    this.commentConversion = commentConversion;
-  }
+  
 
   /**
-   * 
+   * Check if the specified text is matching one of the conversion rules
+   * If a rule is resolved, ask for replacement
+   * If no rule can be applied the text is returned without change 
    * @param text
+   * @return String 
    */
-  public String replace(String text) {
-    if (isTextConvertible(text)) {
-      PatternWrapper patternWrapper;
-      Pattern pattern;
-      Matcher matcher;
-      String replacementText;
-      Iterator rulesIter = rules.iterator();
-      while (rulesIter.hasNext()) {
-        patternWrapper = (PatternWrapper) rulesIter.next();
-        pattern = patternWrapper.getPattern();
-        matcher = pattern.matcher(text);
-        if (matcher.matches()) {
-          System.out.println("matching " + text);
-          StringBuffer replacementBuffer = new StringBuffer();
-          for (int group = 0; group <= matcher.groupCount(); group++) {
-            replacementText = patternWrapper.getReplacement(group);
-            if (replacementText != null) {
-              System.out.println("replacing group " + group + " : "
-                  + matcher.group(group) + " with " + replacementText);
-              replacementBuffer.append(replacementText);
-            } else if (group > 0) {
-              replacementBuffer.append(matcher.group(group));
-            }
-          }
-          return replacementBuffer.toString();
-        }
+  public String getReplacement(String text) {
+    ConversionRule conversionRule;
+    Pattern pattern;
+    Matcher matcher;
+    Iterator rulesIter = rules.iterator();
+    while (rulesIter.hasNext()) {
+      conversionRule = (ConversionRule) rulesIter.next();
+      pattern = conversionRule.getPattern();
+      matcher = pattern.matcher(text);
+      if (matcher.matches()) {
+        System.out.println("matching " + text);
+        return conversionRule.replace(matcher);
       }
     }
     return text;
-  }
-
-  /**
-   * 
-   * @param text
-   * @return
-   */
-  private boolean isTextConvertible(String text) {
-    boolean isConvertible = true;
-    if (text.trim().length() == 0) {
-      isConvertible = false;
-    } else if (commentConversion) {
-      isConvertible = true;
-    } else if (blockComment || text.startsWith(Constant.LINE_COMMENT)) {
-      isConvertible = false;
-    } else if (text.startsWith(Constant.BLOCK_COMMENT_START)) {
-      blockComment = true;
-      isConvertible = false;
-    }
-    if (text.endsWith(Constant.BLOCK_COMMENT_END)) {
-      blockComment = false;
-    }
-    return isConvertible;
   }
 
   protected abstract void initRules();
