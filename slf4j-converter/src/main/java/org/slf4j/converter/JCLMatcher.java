@@ -18,66 +18,66 @@ public class JCLMatcher extends AbstractMatcher {
 
   protected void initRules() {
     // matching : import org.apache.commons.logging.LogFactory;
-    ConversionRule cr0 = new ConversionRule(Pattern
-        .compile("import\\s*+org.apache.commons.logging.LogFactory;"));
-    cr0.addReplacement(Constant.INDEX_0, "import org.slf4j.LoggerFactory;");
+    SingleConversionRule cr0 = new SingleConversionRule(Pattern
+        .compile("import\\s*+org.apache.commons.logging.LogFactory;"),
+        "import org.slf4j.LoggerFactory;");
 
     // matching : import org.apache.commons.logging.Log;
-    ConversionRule cr1 = new ConversionRule(Pattern
-        .compile("import\\s*+org.apache.commons.logging.Log;"));
-    cr1.addReplacement(Constant.INDEX_0, "import org.slf4j.Logger;");
+    SingleConversionRule cr1 = new SingleConversionRule(Pattern
+        .compile("import\\s*+org.apache.commons.logging.Log;"), 
+        "import org.slf4j.Logger;");
 
     // matching declaration and instanciation : protected Log myLog =
     // LogFactory.getFactory().getInstance(MyClass.class); //comment or other
     // instruction
-    ConversionRule cr2 = new ConversionRule(
+    MultiGroupConversionRule cr2 = new MultiGroupConversionRule(
         Pattern
             .compile("((\\w*+\\W*+)*)(Log)(\\s+\\w+\\s*+=\\s*+)(LogFactory.getFactory\\(\\).getInstance\\()(\\w+)(.class\\);)((\\w*+\\W*+)*)"));
-    cr2.addReplacement(Constant.INDEX_3, "Logger");
-    cr2.addReplacement(Constant.INDEX_2, "");
-    cr2.addReplacement(Constant.INDEX_5, "LoggerFactory.getLogger(");
+    cr2.addReplacement(3, "Logger");
+    cr2.addReplacement(2, "");
+    cr2.addReplacement(5, "LoggerFactory.getLogger(");
 
     // matching declaration and instanciation : protected static Log myLog =
     // LogFactory.getLog(MyClass.class); //comment or other instruction
-    ConversionRule cr3 = new ConversionRule(
+    MultiGroupConversionRule cr3 = new MultiGroupConversionRule(
         Pattern
             .compile("((\\w*+\\W*+)*)(Log)(\\s+\\w+\\s*+=\\s*+)(LogFactory.getLog\\()(\\w+)(.class\\);)((\\w*+\\W*+)*)"));
-    cr3.addReplacement(Constant.INDEX_3, "Logger");
-    cr3.addReplacement(Constant.INDEX_2, "");
-    cr3.addReplacement(Constant.INDEX_5, "LoggerFactory.getLogger(");
+    cr3.addReplacement(2, "");
+    cr3.addReplacement(3, "Logger");
+    cr3.addReplacement(5, "LoggerFactory.getLogger(");
 
     // matching instanciation without declaration : myLog =
     // LogFactory.getFactory().getInstance(MyClass.class); //comment or other
     // instruction
-    ConversionRule cr4 = new ConversionRule(
+    MultiGroupConversionRule cr4 = new MultiGroupConversionRule(
         Pattern
             .compile("((\\w*+\\W*+)*)(\\w+\\s*+=\\s*+)(LogFactory.getFactory\\(\\).getInstance\\()(\\w+)(.class\\);)((\\w*+\\W*+)*)"));
-    cr4.addReplacement(Constant.INDEX_4, "LoggerFactory.getLogger(");
-    cr4.addReplacement(Constant.INDEX_2, "");
+    cr4.addReplacement(4, "LoggerFactory.getLogger(");
+    cr4.addReplacement(2, "");
 
     // matching instanciation without declaration : myLog =
     // LogFactory.getLog(MyClass.class); //comment or other instruction
-    ConversionRule cr5 = new ConversionRule(
+    MultiGroupConversionRule cr5 = new MultiGroupConversionRule(
         Pattern
             .compile("((\\w*+\\W*+)*)(\\w+\\s*+=\\s*+)(LogFactory.getLog\\()(\\w+)(.class\\);)((\\w*+\\W*+)*)"));
-    cr5.addReplacement(Constant.INDEX_4, "LoggerFactory.getLogger(");
-    cr5.addReplacement(Constant.INDEX_2, "");
+    cr5.addReplacement(4, "LoggerFactory.getLogger(");
+    cr5.addReplacement(2, "");
 
     // matching declaration without instanciation : public static final Log
     // myLog //comment or other instruction
-    ConversionRule cr6 = new ConversionRule(Pattern
+    MultiGroupConversionRule cr6 = new MultiGroupConversionRule(Pattern
         .compile("((\\w*+\\W*+)*)(Log)(\\s*+\\w+\\s*+;)((\\w*+\\W*+)*)"));
-    cr6.addReplacement(Constant.INDEX_3, "Logger");
-    cr6.addReplacement(Constant.INDEX_2, "");
+    cr6.addReplacement(3, "Logger");
+    cr6.addReplacement(2, "");
 
     // matching incomplete instanciation : protected Log log =
-    ConversionRule cr7 = new ConversionRule(Pattern
+    MultiGroupConversionRule cr7 = new MultiGroupConversionRule(Pattern
         .compile("((\\w*+\\W*+)*)(Log)(\\s+\\w+\\s*+=*\\s*+)"));
     cr7.addReplacement(Constant.INDEX_3, "Logger");
     cr7.addReplacement(Constant.INDEX_2, "");
 
     // matching incomlete instanciation : LogFactory.getLog(MyComponent.class);
-    ConversionRule cr8 = new ConversionRule(
+    MultiGroupConversionRule cr8 = new MultiGroupConversionRule(
         Pattern
             .compile("((\\w*+\\W*+)*)(LogFactory.getLog\\()(\\w+)(.class\\);)((\\w*+\\W*+)*)"));
     cr8.addReplacement(Constant.INDEX_3, "LoggerFactory.getLogger(");
@@ -85,7 +85,7 @@ public class JCLMatcher extends AbstractMatcher {
 
     // matching incomlete instanciation :
     // LogFactory.getFactory().getInstance(MyComponent.class);
-    ConversionRule cr9 = new ConversionRule(
+    MultiGroupConversionRule cr9 = new MultiGroupConversionRule(
         Pattern
             .compile("((\\w*+\\W*+)*)(LogFactory.getFactory\\(\\).getInstance\\()(\\w+)(.class\\);)((\\w*+\\W*+)*)"));
     cr9.addReplacement(Constant.INDEX_3, "LoggerFactory.getLogger(");

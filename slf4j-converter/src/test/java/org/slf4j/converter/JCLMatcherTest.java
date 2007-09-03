@@ -9,13 +9,11 @@ public class JCLMatcherTest extends TestCase {
   public void testImportReplacement() {
     JCLMatcher jclMatcher = new JCLMatcher();
     // LogFactory import replacement
-    assertEquals(jclMatcher
-        .getReplacement("import org.apache.commons.logging.LogFactory;"),
-        "import org.slf4j.LoggerFactory;");
+    assertEquals("import org.slf4j.LoggerFactory;", jclMatcher
+        .getReplacement("import org.apache.commons.logging.LogFactory;"));
     // Log import replacement
-    assertEquals(jclMatcher
-        .getReplacement("import org.apache.commons.logging.Log;"),
-        "import org.slf4j.Logger;");
+    assertEquals("import org.slf4j.Logger;", jclMatcher
+        .getReplacement("import org.apache.commons.logging.Log;"));
   }
 
   public void testLogFactoryGetLogReplacement() {
