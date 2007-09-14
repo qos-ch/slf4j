@@ -1,19 +1,16 @@
 package org.slf4j.converter;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
-
-import javax.swing.JFileChooser;
 
 public class Converter {
 
@@ -22,10 +19,8 @@ public class Converter {
   private AbstractMatcher matcher;
 
   private Writer writer;
-
-  private String source;
-
-  private int conversionType;
+  
+  private File fileSource;
 
   /**
    * Run JCL to SLF4J conversion
@@ -39,25 +34,8 @@ public class Converter {
 
     Converter converter = new Converter();
 
-    if (args.length > 0) {
-      converter.source = args[0];
-    } else {
-      JFileChooser selector = new JFileChooser();
-      selector.setDialogTitle("Source folder selector");
-      selector.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-      int res = selector.showOpenDialog(null);
-      if (res == JFileChooser.APPROVE_OPTION) {
-        File folder = selector.getSelectedFile();
-        converter.source = folder.getAbsolutePath();
-      } else {
-        return;
-      }
-    }
+    new ConverterFrame(converter);
 
-    converter.conversionType = Constant.JCL_TO_SLF4J;
-    if (converter.init()) {
-      converter.convert(converter.javaFiles);
-    }
   }
 
   /**
@@ -68,7 +46,7 @@ public class Converter {
    * @return true if init operation complete
    * @throws IOException
    */
-  public boolean init() throws IOException {
+  public boolean init(String source, int conversionType) {
     matcher = AbstractMatcher.getMatcherImpl(conversionType);
     if (matcher == null) {
       return false;
@@ -76,32 +54,12 @@ public class Converter {
 
     writer = new Writer();
 
-    File fileSource = new File(source);
+    fileSource = new File(source);
     if (!fileSource.isDirectory()) {
-      System.out.println("source path is not a valid source directory");
       return false;
     } else {
-      BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-      System.out
-          .println("RUNNING CONVERTER WILL REPLACE JAVA FILES CONTAINED IN "
-              + source + ", DO YOU WANT TO CONTINUE Y / N ?");
-      String response = in.readLine();
-      if (response.equalsIgnoreCase("N")) {
-        return false;
-      }
-
-      selectFiles(fileSource);
-
-      if (javaFiles.size() > Constant.NB_FILES_MAX) {
-        System.out.println("THERE IS " + javaFiles.size()
-            + " FILES TO CONVERT, DO YOU WANT TO CONTINUE Y / N ?");
-        response = in.readLine();
-        if (response.equalsIgnoreCase("N")) {
-          return false;
-        }
-      }
+      return true;
     }
-    return true;
   }
 
   /**
@@ -173,6 +131,14 @@ public class Converter {
       }
     }
     return javaFiles;
+  }
+
+  public void convert() {
+    convert(javaFiles);
+  }
+  
+  public int selectFiles(){
+    return selectFiles(fileSource).size();
   }
 
   /**

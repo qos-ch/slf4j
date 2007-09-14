@@ -34,6 +34,7 @@ public class PackageTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TrivialMatcherTest.class);
     suite.addTestSuite(JCLMatcherTest.class);
+    suite.addTestSuite(AternativeApproach.class);
     return suite;
   }
 }
