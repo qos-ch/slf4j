@@ -19,8 +19,8 @@ public class JCLMatcherTest extends TestCase {
   public void testLogFactoryGetLogReplacement() {
     JCLMatcher jclMatcher = new JCLMatcher();
     // Logger declaration and instanciation without modifier
-    assertEquals("Logger l = LoggerFactory.getLogger(MyClass.class);",
-        jclMatcher.getReplacement("Log l = LogFactory.getLog(MyClass.class);"));
+    assertEquals("  Logger   l = LoggerFactory.getLogger(MyClass.class);",
+        jclMatcher.getReplacement("  Log   l = LogFactory.getLog(MyClass.class);"));
     // Logger declaration and instanciation with one modifier
     assertEquals(
         "public Logger mylog=LoggerFactory.getLogger(MyClass.class);",

@@ -11,10 +11,6 @@ public class TrivialMatcherTest  extends TestCase {
     TrivialMatcher trivialMatcher = new TrivialMatcher();
     trivialMatcher.initRules();
     
-    //
-    //assertEquals("no replacement for this text, it remains the same!", 
-    //    simpleMatcher.getReplacement("no replacement for this text, it remains the same!"));
-    
     // "import org.slf4j.converter" -- > simple replacement with an unique capturing group
     assertEquals("simple replacement with an unique capturing group", 
         trivialMatcher.getReplacement("import org.slf4j.converter"));
