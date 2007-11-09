@@ -35,6 +35,8 @@ public class PackageTest extends TestCase {
     suite.addTestSuite(TrivialMatcherTest.class);
     suite.addTestSuite(JCLMatcherTest.class);
     suite.addTestSuite(AternativeApproach.class);
+    suite.addTestSuite(Log4jMatcherTest.class);
+    suite.addTestSuite(NoConversionTest.class);
     return suite;
   }
 }

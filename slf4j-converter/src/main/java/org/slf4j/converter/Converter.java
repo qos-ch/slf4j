@@ -19,8 +19,10 @@ public class Converter {
   private AbstractMatcher matcher;
 
   private Writer writer;
-  
+
   private File fileSource;
+
+  private List<ConversionException> exception;
 
   /**
    * Run JCL to SLF4J conversion
@@ -34,8 +36,8 @@ public class Converter {
 
     Converter converter = new Converter();
 
-    new ConverterFrame(converter);
-
+    ConverterFrame frame = new ConverterFrame(converter);
+    frame.setVisible(true);
   }
 
   /**
@@ -49,13 +51,16 @@ public class Converter {
   public boolean init(String source, int conversionType) {
     matcher = AbstractMatcher.getMatcherImpl(conversionType);
     if (matcher == null) {
+      addException(new ConversionException(ConversionException.NOT_IMPLEMENTED));
       return false;
     }
 
-    writer = new Writer();
+    writer = new Writer(this);
 
     fileSource = new File(source);
     if (!fileSource.isDirectory()) {
+      addException(new ConversionException(
+          ConversionException.INVALID_DIRECTORY));
       return false;
     } else {
       return true;
@@ -98,13 +103,14 @@ public class Converter {
         channelSource.close();
         channelDest.close();
       } else {
-        System.out.println("error copying file " + fsource.getAbsolutePath());
+        addException(new ConversionException(ConversionException.FILE_COPY,
+            fsource.getAbsolutePath()));
       }
 
     } catch (FileNotFoundException exc) {
-      System.out.println(exc.toString());
+      addException(new ConversionException(exc.toString()));
     } catch (IOException e) {
-      System.out.println(e.toString());
+      addException(new ConversionException(e.toString()));
     }
   }
 
@@ -136,8 +142,8 @@ public class Converter {
   public void convert() {
     convert(javaFiles);
   }
-  
-  public int selectFiles(){
+
+  public int selectFiles() {
     return selectFiles(fileSource).size();
   }
 
@@ -182,7 +188,25 @@ public class Converter {
         }
       }
     } catch (IOException exc) {
-      System.out.println("error reading file " + exc);
+      addException(new ConversionException(exc.toString()));
+    }
+  }
+
+  public void addException(ConversionException exc) {
+    if (exception == null) {
+      exception = new ArrayList<ConversionException>();
+    }
+    exception.add(exc);
+  }
+
+  public void printException() {
+    if (exception != null) {
+      Iterator iterator = exception.iterator();
+      while (iterator.hasNext()) {
+        ConversionException exc = (ConversionException) iterator.next();
+        exc.print();
+      }
+      exception = null;
     }
   }
 }

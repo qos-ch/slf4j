@@ -1,7 +1,5 @@
 package org.slf4j.converter;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
 
 public class JCLMatcherTest extends TestCase {
@@ -20,7 +18,8 @@ public class JCLMatcherTest extends TestCase {
     JCLMatcher jclMatcher = new JCLMatcher();
     // Logger declaration and instanciation without modifier
     assertEquals("  Logger   l = LoggerFactory.getLogger(MyClass.class);",
-        jclMatcher.getReplacement("  Log   l = LogFactory.getLog(MyClass.class);"));
+        jclMatcher
+            .getReplacement("  Log   l = LogFactory.getLog(MyClass.class);"));
     // Logger declaration and instanciation with one modifier
     assertEquals(
         "public Logger mylog=LoggerFactory.getLogger(MyClass.class);",
@@ -94,7 +93,7 @@ public class JCLMatcherTest extends TestCase {
             .getReplacement("// myLog = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"));
   }
 
-  public void testLogDeclarationReplacement() throws IOException {
+  public void testLogDeclarationReplacement() {
     JCLMatcher jclMatcher = new JCLMatcher();
     // simple Logger declaration
     assertEquals("Logger mylog;", jclMatcher.getReplacement("Log mylog;"));
@@ -113,7 +112,7 @@ public class JCLMatcherTest extends TestCase {
         .getReplacement("//private Log myLog;"));
   }
 
-  public void testMultiLineReplacement() throws IOException {
+  public void testMultiLineReplacement() {
     JCLMatcher jclMatcher = new JCLMatcher();
     // Logger declaration on a line
     assertEquals("protected Logger log =", jclMatcher

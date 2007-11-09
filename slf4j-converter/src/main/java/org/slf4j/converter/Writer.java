@@ -8,11 +8,14 @@ import java.util.regex.Matcher;
 
 public class Writer {
 
+  Converter converter;
+  
   BufferedWriter bwriter;
 
   boolean isFirstLine;
 
-  public Writer() {
+  public Writer(Converter converter) {
+    this.converter = converter;
   }
 
   public void initFileWriter(File file) {
@@ -20,8 +23,8 @@ public class Writer {
       FileWriter fileWriter = new FileWriter(file);
       bwriter = new BufferedWriter(fileWriter);
       isFirstLine = true;
-    } catch (IOException exc) {
-      System.out.println("error creating filewriter " + file.getAbsolutePath());
+    } catch (Exception exc) {
+      converter.addException(new ConversionException(exc.toString(),file.getAbsolutePath()));
     }
   }
 
@@ -31,7 +34,7 @@ public class Writer {
         bwriter.flush();
         bwriter.close();
       } catch (IOException e) {
-        System.out.println("error closing filewriter " + bwriter.toString());
+        converter.addException(new ConversionException(e.toString()));
       }
     }
   }
@@ -46,9 +49,8 @@ public class Writer {
           isFirstLine = false;
         }
         bwriter.write(text);
-        // System.out.println("new entry " + text);
       } catch (IOException exc) {
-        System.out.println("error writing file " + bwriter.toString());
+        converter.addException(new ConversionException(exc.toString()));
       }
     }
   }
@@ -62,9 +64,8 @@ public class Writer {
           isFirstLine = false;
         }
         bwriter.write(text);
-        // System.out.println("new entry " + text);
       } catch (IOException exc) {
-        System.out.println("error writing file " + bwriter.toString());
+        converter.addException(new ConversionException(exc.toString()));
       }
     }
   }
