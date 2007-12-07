@@ -1,6 +1,9 @@
 
 document.write('<p class="menu_header">SLF4J-related buzz</p>');
 
+document.write('<p class="rm small"><a href="http://jnassef.blogspot.com/2007/10/commons-logging-may-be-harmful-to-your.html">JCL harmful to your health</a>');
+document.write('</p>');
+
 document.write('<p class="rm small"><a href="http://bsnyderblog.blogspot.com/2007/08/my-soapbox-for-slf4j.html">SLF4J soapbox</a>');
 document.write('</p>');
 
@@ -25,7 +28,7 @@ document.write('</p>');
 document.write('<p class="rm small"><a href="http://thecodist.com/fiche/thecodist/article/the-open-source-frameworks-i-use">Frameworks I use</a>');
 document.write('</p>');
 
-document.write('<p class="rm small"><a href="http://day-to-day-stuff.blogspot.com/2007/07/no-more-commons-logging.html">VERSION 99.0</a>');
+document.write('<p class="rm small"><a href="http://day-to-day-stuff.blogspot.com/2007/07/no-more-commons-logging.html"><b>VERSION 99.0</b></a>');
 document.write('</p>');
 
 document.write('<p class="rm small"><a href="http://blog.lukas-vlcek.com/2007/05/jakarta-commons-logging-and-slf4j.html">JCL and SLF4J</a>');
