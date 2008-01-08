@@ -36,7 +36,7 @@ import org.slf4j.spi.MarkerFactoryBinder;
  * 
  * This class is meant to provide a *dummy* StaticMarkerBinder to the slf4j-api module. 
  * Real implementations are found in  each SLF4J binding project, e.g. slf4j-nop, 
- * slf4j-log4j12 etc.
+ * slf4j-simple, slf4j-log4j12 etc.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -48,6 +48,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
   public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
   private StaticMarkerBinder() {
+    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
   
   /**
@@ -55,7 +56,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
    * {@link BasicMarkerFactory}.
    */
   public IMarkerFactory getMarkerFactory() {
-    return null;
+    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
   
   /**
@@ -63,7 +64,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
    * {@link BasicMarkerFactory}.
    */
   public String getMarkerFactoryClassStr() {
-    return BasicMarkerFactory.class.getName();
+    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
   
   

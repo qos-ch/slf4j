@@ -44,13 +44,14 @@ public class StaticLoggerBinder {
   public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
   private StaticLoggerBinder() {
+    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
 
   public ILoggerFactory getLoggerFactory() {
-    return null;
+    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
 
   public String getLoggerFactoryClassStr() {
-    return StaticLoggerBinder.class.getName();
+    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
 }
