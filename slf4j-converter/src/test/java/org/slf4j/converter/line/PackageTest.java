@@ -22,7 +22,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter;
+package org.slf4j.converter.line;
+
+import org.slf4j.converter.line.JCLRuleSetTest;
+import org.slf4j.converter.line.Log4jRuleSetTest;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -32,7 +35,10 @@ public class PackageTest extends TestCase {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(AternativeApproach.class);
+    suite.addTestSuite(TrivialMatcherTest.class);
+    suite.addTestSuite(JCLRuleSetTest.class);
+    suite.addTestSuite(Log4jRuleSetTest.class);
+    suite.addTestSuite(NoConversionTest.class);
     return suite;
   }
 }

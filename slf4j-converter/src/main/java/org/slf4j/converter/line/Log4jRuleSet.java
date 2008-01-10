@@ -1,17 +1,15 @@
-package org.slf4j.converter;
+package org.slf4j.converter.line;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
-public class Log4jMatcher extends AbstractMatcher {
 
-  public Log4jMatcher(){
-    super();
-    initRules();
-  }
+public class Log4jRuleSet implements RuleSet {
+
+  private ArrayList<ConversionRule> conversionRuleList;
   
-  @Override
-  protected void initRules() {
+  public Log4jRuleSet() {
     SingleConversionRule cr0 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.log4j.LogManager;"),
         "import org.slf4j.LoggerFactory;");
@@ -26,11 +24,15 @@ public class Log4jMatcher extends AbstractMatcher {
     SingleConversionRule cr3 = new SingleConversionRule(Pattern
         .compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
 
-    rules = new ArrayList<ConversionRule>();
-    rules.add(cr0);
-    rules.add(cr1);
-    rules.add(cr2);
-    rules.add(cr3);
+    conversionRuleList = new ArrayList<ConversionRule>();
+    conversionRuleList.add(cr0);
+    conversionRuleList.add(cr1);
+    conversionRuleList.add(cr2);
+    conversionRuleList.add(cr3);
+  }
+
+  public Iterator<ConversionRule> iterator() {
+    return conversionRuleList.iterator();
   }
 
 }

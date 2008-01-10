@@ -1,4 +1,8 @@
-package org.slf4j.converter;
+package org.slf4j.converter.line;
+
+import org.slf4j.converter.line.JCLRuleSet;
+import org.slf4j.converter.line.LineConverter;
+import org.slf4j.converter.line.Log4jRuleSet;
 
 import junit.framework.TestCase;
 
@@ -10,22 +14,23 @@ public class NoConversionTest extends TestCase {
    */
   public void testJclOverLog4jConversion() {
     // running jcl to slf4j conversion
-    JCLMatcher jclMatcher = new JCLMatcher();
+    //JCLMatcher jclMatcher = 
+    LineConverter jclLineConverter = new LineConverter(new JCLRuleSet());
     // no changes on log4j.LogManager import
-    assertEquals("import org.apache.log4j.LogManager;", jclMatcher
+    assertEquals("import org.apache.log4j.LogManager;", jclLineConverter
         .getReplacement("import org.apache.log4j.LogManager;"));
     // no changes on log4j.Logger import
-    assertEquals("import org.apache.log4j.Logger;", jclMatcher
+    assertEquals("import org.apache.log4j.Logger;", jclLineConverter
         .getReplacement("import org.apache.log4j.Logger;"));
     // no changes on Logger instanciation using LogManager
     assertEquals(
         "Logger log = LogManager.getLogger(MyClass.class);",
-        jclMatcher
+        jclLineConverter
             .getReplacement("Logger log = LogManager.getLogger(MyClass.class);"));
     // no changes on Logger instanciation using Logger.getLogger
     assertEquals(
         "public static Logger mylog1 = Logger.getLogger(MyClass.class);",
-        jclMatcher
+        jclLineConverter
             .getReplacement("public static Logger mylog1 = Logger.getLogger(MyClass.class);"));
   }
 
@@ -35,22 +40,23 @@ public class NoConversionTest extends TestCase {
    */
   public void testLog4jOverJclConversion() {
     // running log4j to slf4j conversion
-    Log4jMatcher log4jMatcher = new Log4jMatcher();
+    LineConverter log4jConverter = new LineConverter(new Log4jRuleSet());
+    
     // no changes on LogFactory import
-    assertEquals("import org.apache.commons.logging.LogFactory;", log4jMatcher
+    assertEquals("import org.apache.commons.logging.LogFactory;", log4jConverter
         .getReplacement("import org.apache.commons.logging.LogFactory;"));
     // no changes on Log import
-    assertEquals("import org.apache.commons.logging.Log;", log4jMatcher
+    assertEquals("import org.apache.commons.logging.Log;", log4jConverter
         .getReplacement("import org.apache.commons.logging.Log;"));
     // no changes on Log instanciation using Logfactory.getLog
     assertEquals(
         "public static Log mylog1 = LogFactory.getLog(MyClass.class);",
-        log4jMatcher
+        log4jConverter
             .getReplacement("public static Log mylog1 = LogFactory.getLog(MyClass.class);"));
     // no changes on log instanciation using LogFactory.getFactory().getInstance
     assertEquals(
         "public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);",
-        log4jMatcher
+        log4jConverter
             .getReplacement("public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);"));
 
   }

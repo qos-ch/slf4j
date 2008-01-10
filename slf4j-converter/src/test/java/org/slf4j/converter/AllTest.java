@@ -33,7 +33,8 @@ public class AllTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(org.slf4j.converter.PackageTest.suite());
-
+    suite.addTest(org.slf4j.converter.line.PackageTest.suite());
+    
     return suite;
   }
 }

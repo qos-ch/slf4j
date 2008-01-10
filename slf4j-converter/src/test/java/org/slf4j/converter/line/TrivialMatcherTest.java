@@ -1,19 +1,21 @@
-package org.slf4j.converter;
+package org.slf4j.converter.line;
+
+import org.slf4j.converter.line.LineConverter;
 
 import junit.framework.TestCase;
 
 public class TrivialMatcherTest extends TestCase {
 
   public void testSimpleReplacement() {
-    TrivialMatcher trivialMatcher = new TrivialMatcher();
-    trivialMatcher.initRules();
+    LineConverter trivialLC = new LineConverter(new TrivialMatcher());
+
 
     // "import org.slf4j.converter" -- > simple replacement with an unique
     // capturing group
     assertEquals("simple replacement with an unique capturing group",
-        trivialMatcher.getReplacement("import org.slf4j.converter"));
+        trivialLC.getReplacement("import org.slf4j.converter"));
 
-    assertEquals("1st group second group 4th group", trivialMatcher
+    assertEquals("1st group second group 4th group", trivialLC
         .getReplacement("first group second group third group 4th group"));
 
   }

@@ -4,17 +4,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.regex.Matcher;
 
 public class Writer {
 
-  Converter converter;
-  
+  ProjectConverter converter;
+
   BufferedWriter bwriter;
 
   boolean isFirstLine;
 
-  public Writer(Converter converter) {
+  public Writer(ProjectConverter converter) {
     this.converter = converter;
   }
 
@@ -24,7 +23,8 @@ public class Writer {
       bwriter = new BufferedWriter(fileWriter);
       isFirstLine = true;
     } catch (Exception exc) {
-      converter.addException(new ConversionException(exc.toString(),file.getAbsolutePath()));
+      converter.addException(new ConversionException(exc.toString(), file
+          .getAbsolutePath()));
     }
   }
 
@@ -35,22 +35,6 @@ public class Writer {
         bwriter.close();
       } catch (IOException e) {
         converter.addException(new ConversionException(e.toString()));
-      }
-    }
-  }
-
-  public void rewrite(Matcher matcher, String replacement) {
-    String text = matcher.replaceAll(replacement);
-    if (bwriter != null) {
-      try {
-        if (!isFirstLine) {
-          bwriter.newLine();
-        } else {
-          isFirstLine = false;
-        }
-        bwriter.write(text);
-      } catch (IOException exc) {
-        converter.addException(new ConversionException(exc.toString()));
       }
     }
   }

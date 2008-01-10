@@ -22,10 +22,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter;
+package org.slf4j.converter.line;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * This class represents a conversion rule It uses a Pattern and defines for
@@ -34,14 +35,17 @@ import java.util.regex.Pattern;
  * @author jean-noelcharpin
  * 
  */
-public class SingleConversionRule implements ConversionRule {
+public class MultiGroupConversionRule implements ConversionRule {
+ 
+  // It is extremely unlikely to encounter more than 10 groups in one of 
+  // our conversion reg-expressions
+  final private static int MAX_GROUPS = 10;
 
-  final  private Pattern pattern;
-  final private String replacementText ;
+  private Pattern pattern;
+  private String[] replacementTable = new String[MAX_GROUPS];
 
-  public SingleConversionRule(Pattern pattern, String replacementText) {
+  public MultiGroupConversionRule(Pattern pattern) {
     this.pattern = pattern;
-    this.replacementText = replacementText;
   }
 
   /* (non-Javadoc)
@@ -51,12 +55,37 @@ public class SingleConversionRule implements ConversionRule {
     return pattern;
   }
 
+  public void addReplacement(int groupIndex, String replacement) {
+    if(groupIndex == 0) {
+      throw new IllegalArgumentException("regex groups start at 1, not zero");
+    }
+    replacementTable[groupIndex] = replacement;
+  }
 
+  /* (non-Javadoc)
+   * @see org.slf4j.converter.ConversionRule#getReplacement(java.lang.Integer)
+   */
+  public String getReplacement(int groupIndex) {
+    return  replacementTable[groupIndex];
+  }
 
   /* (non-Javadoc)
    * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
    */
   public String replace(Matcher matcher) {
-    return replacementText;
+    StringBuffer replacementBuffer = new StringBuffer();
+    String replacementText;
+    
+    for (int group = 1; group <= matcher.groupCount(); group++) {
+      replacementText = getReplacement(group);
+      if (replacementText != null) {
+        System.out.println("replacing group " + group + " : "
+            + matcher.group(group) + " with " + replacementText);
+        replacementBuffer.append(replacementText);
+      } else  {
+        replacementBuffer.append(matcher.group(group));
+      }
+    }
+    return replacementBuffer.toString();
   }
 }

@@ -22,11 +22,8 @@ import javax.swing.JTextArea;
 
 public class ConverterFrame extends JFrame implements ActionListener {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-  private Converter converter;
+  private static final long serialVersionUID = -1535809047324769347L;
+
   private JButton butCancel;
   private JButton butNext;
   private JComboBox combo;
@@ -37,10 +34,9 @@ public class ConverterFrame extends JFrame implements ActionListener {
 
   private String conversionMode[] = { "JCL to SLF4J", "Log4J to SLF4J" };
 
-  public ConverterFrame(Converter parent) {
-    this.converter = parent;
+  public ConverterFrame() {
     buildFrame();
-    
+
     ConverterStream printStream = new ConverterStream(System.out);
     printStream.setOut(console);
     System.setOut(printStream);
@@ -50,7 +46,7 @@ public class ConverterFrame extends JFrame implements ActionListener {
     setTitle("SLF4J CONVERTER");
     // setIconImage()
     setLocationRelativeTo(null);
-    this.setPreferredSize(new Dimension(512,384));
+    this.setPreferredSize(new Dimension(512, 384));
     setResizable(false);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -60,8 +56,8 @@ public class ConverterFrame extends JFrame implements ActionListener {
   private void buildComponents() {
     principalPan = new JPanel();
     principalPan.setLayout(new BorderLayout());
-    
-    conversionPan = new JPanel(new GridLayout(2,2,10,10));
+
+    conversionPan = new JPanel(new GridLayout(2, 2, 10, 10));
     JLabel lab = new JLabel("Conversion Mode");
     conversionPan.add(lab);
 
@@ -71,19 +67,19 @@ public class ConverterFrame extends JFrame implements ActionListener {
     butCancel = new JButton("Cancel");
     butCancel.addActionListener(this);
     conversionPan.add(butCancel);
-    
+
     butNext = new JButton("Next");
     butNext.addActionListener(this);
     conversionPan.add(butNext);
- 
-    consolePan = new JScrollPane(); 
-    console  = new JTextArea();
+
+    consolePan = new JScrollPane();
+    console = new JTextArea();
     console.setEditable(false);
     console.setLineWrap(true);
     console.setMargin(new Insets(5, 5, 5, 5));
     consolePan.setViewportView(console);
-    
-    principalPan.add(conversionPan,BorderLayout.NORTH);
+
+    principalPan.add(conversionPan, BorderLayout.NORTH);
     principalPan.add(consolePan, BorderLayout.CENTER);
     setContentPane(principalPan);
     pack();
@@ -97,7 +93,6 @@ public class ConverterFrame extends JFrame implements ActionListener {
     }
   }
 
-  
   private void showFolderSelector() {
     JFileChooser selector = new JFileChooser();
     selector.setDialogTitle("Source folder selector");
@@ -105,48 +100,39 @@ public class ConverterFrame extends JFrame implements ActionListener {
     int res = selector.showOpenDialog(this);
     if (res == JFileChooser.APPROVE_OPTION) {
       File folder = selector.getSelectedFile();
-      if (!converter.init(folder.getAbsolutePath(), combo.getSelectedIndex())) {
-        showException();
-      } else {
-        showConfirmDialog(converter.selectFiles(), folder.getAbsolutePath());
-      }
+      ProjectConverter converter = new ProjectConverter(combo
+          .getSelectedIndex());
+      showConfirmDialog(converter, folder);
     }
   }
 
-  
-  private void showConfirmDialog(int nbFiles, String folder) {
+  private void showConfirmDialog(ProjectConverter converter, File folder) {
     int reponse = JOptionPane.showConfirmDialog(null,
-        "RUNNING CONVERTER WILL REPLACE "+nbFiles+" JAVA FILES INTO "+folder, "CONVERSION CONFIRMATION",
-        JOptionPane.YES_NO_OPTION);
+        "RUNNING CONVERTER WILL REPLACE JAVA FILES INTO " + folder,
+        "CONVERSION CONFIRMATION", JOptionPane.YES_NO_OPTION);
     if (reponse == JOptionPane.YES_OPTION) {
-      converter.convert();
-      showException();
+      converter.convertProject(folder);
+      converter.printException();
     } else {
       dispose();
     }
   }
-  
-  
-  private void showException(){
-    converter.printException();
-  }
-  
-  private class ConverterStream extends PrintStream{
+
+  private class ConverterStream extends PrintStream {
 
     JTextArea console;
-    
+
     public ConverterStream(OutputStream out) {
       super(out);
     }
-    
-    public void setOut(JTextArea console){
+
+    public void setOut(JTextArea console) {
       this.console = console;
     }
-    
-    public void println(String string){
+
+    public void println(String string) {
       console.setText(console.getText() + string + "\n");
     }
   }
-  
 
 }

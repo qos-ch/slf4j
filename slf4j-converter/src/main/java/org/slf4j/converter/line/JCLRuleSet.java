@@ -1,7 +1,9 @@
-package org.slf4j.converter;
+package org.slf4j.converter.line;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Pattern;
+
 
 /**
  * This class represents JCL to SLF4J conversion rules
@@ -9,14 +11,11 @@ import java.util.regex.Pattern;
  * @author jean-noelcharpin
  * 
  */
-public class JCLMatcher extends AbstractMatcher {
+public class JCLRuleSet implements RuleSet {
 
-  public JCLMatcher() {
-    super();
-    initRules();
-  }
-
-  protected void initRules() {
+  private ArrayList<ConversionRule> conversionRuleList;
+  
+  public JCLRuleSet() {
     // matching : import org.apache.commons.logging.LogFactory;
     SingleConversionRule cr0 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.commons.logging.LogFactory;"),
@@ -41,12 +40,17 @@ public class JCLMatcher extends AbstractMatcher {
         .compile("LogFactory.getLog\\("),"LoggerFactory.getLogger(");
     
 
-    rules = new ArrayList<ConversionRule>();
-    rules.add(cr0);
-    rules.add(cr1);
-    rules.add(cr2);
-    rules.add(cr3);
-    rules.add(cr4);
-    rules.add(cr5);
+    conversionRuleList = new ArrayList<ConversionRule>();
+    conversionRuleList.add(cr0);
+    conversionRuleList.add(cr1);
+    conversionRuleList.add(cr2);
+    conversionRuleList.add(cr3);
+    conversionRuleList.add(cr4);
+    conversionRuleList.add(cr5);
+  }
+
+
+  public Iterator<ConversionRule> iterator() {
+    return conversionRuleList.iterator();
   }
 }

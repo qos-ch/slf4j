@@ -22,14 +22,22 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter;
+package org.slf4j.converter.line;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Pattern;
 
-class TrivialMatcher extends AbstractMatcher{
+import org.slf4j.converter.line.ConversionRule;
+import org.slf4j.converter.line.MultiGroupConversionRule;
+import org.slf4j.converter.line.RuleSet;
+import org.slf4j.converter.line.SingleConversionRule;
+
+class TrivialMatcher implements RuleSet {
  
-  protected void initRules() {
+  private ArrayList<ConversionRule> conversionRuleList;
+  
+  public TrivialMatcher() {
     //simple rule no capturing group is defined, we use default capturing group which is group zero
     SingleConversionRule cr = new SingleConversionRule(Pattern.compile("import org.slf4j.converter"), 
         "simple replacement with an unique capturing group");
@@ -44,9 +52,14 @@ class TrivialMatcher extends AbstractMatcher{
     cr1.addReplacement(3, "");
     //no replacement for the third group it will remains the same
     
-    rules = new ArrayList<ConversionRule>();
-    rules.add(cr);
-    rules.add(cr1);
+    conversionRuleList = new ArrayList<ConversionRule>();
+    conversionRuleList.add(cr);
+    conversionRuleList.add(cr1);
   }
+
+  public Iterator<ConversionRule> iterator() {
+    return conversionRuleList.iterator();
+  }
+  
   
 }

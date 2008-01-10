@@ -3,6 +3,8 @@ package org.slf4j.converter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.converter.line.MultiGroupConversionRule;
+
 import junit.framework.TestCase;
 
 public class AternativeApproach extends TestCase {
