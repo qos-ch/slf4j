@@ -1,0 +1,18 @@
+
+
+- if a method declares multipe loggers on the same line, the conversion will not be complete. Example:
+
+
+  public void someMethod(Log l1, Log l2) {
+   ...
+  }
+
+  will be converted as 
+
+  public void someMethod(Log l1, Logger l2) {
+   ...
+  }
+
+
+  
+- the FATAL level is not supported
