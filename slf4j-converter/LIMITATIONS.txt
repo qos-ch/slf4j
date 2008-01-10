@@ -1,4 +1,5 @@
 
+The slf4j-converter aims to 
 
 - if a method declares multipe loggers on the same line, the conversion will not be complete. Example:
 
@@ -15,4 +16,7 @@
 
 
   
-- the FATAL level is not supported
+- the FATAL level is not supported. 
+
+  This is limitation is not deemed serious because there are usually
+  very few log statements bearing the FATAL level. 

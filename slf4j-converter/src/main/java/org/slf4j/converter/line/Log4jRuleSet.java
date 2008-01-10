@@ -10,13 +10,17 @@ public class Log4jRuleSet implements RuleSet {
   private ArrayList<ConversionRule> conversionRuleList;
   
   public Log4jRuleSet() {
+  
     SingleConversionRule cr0 = new SingleConversionRule(Pattern
+        .compile("import\\s*+org.apache.log4j.Logger;"),
+        "import org.slf4j.Logger;",
+        "import org.slf4j.LoggerFactory;");
+    
+    SingleConversionRule cr1 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.log4j.LogManager;"),
         "import org.slf4j.LoggerFactory;");
 
-    SingleConversionRule cr1 = new SingleConversionRule(Pattern
-        .compile("import\\s*+org.apache.log4j.Logger;"),
-        "import org.slf4j.Logger;");
+  
 
     SingleConversionRule cr2 = new SingleConversionRule(Pattern
         .compile("Logger.getLogger\\("), "LoggerFactory.getLogger(");

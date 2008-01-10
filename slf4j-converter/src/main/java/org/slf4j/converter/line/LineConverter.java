@@ -23,11 +23,12 @@ public  class LineConverter {
    * @param text
    * @return String
    */
-  public String getReplacement(String text) {
+  public String[] getReplacement(String text) {
     ConversionRule conversionRule;
     Pattern pattern;
     Matcher matcher;
     Iterator<ConversionRule> conversionRuleIterator = ruleSet.iterator();
+    String additionalLine = null;
     while (conversionRuleIterator.hasNext()) {
       conversionRule = conversionRuleIterator.next();
       pattern = conversionRule.getPattern();
@@ -36,8 +37,16 @@ public  class LineConverter {
         System.out.println("matching " + text);
         String replacementText = conversionRule.replace(matcher);
         text = matcher.replaceAll(replacementText);
+        if(conversionRule.getAdditionalLine() != null) {
+          additionalLine = conversionRule.getAdditionalLine();
+        }
       }
     }
-    return text;
+    
+    if(additionalLine == null) {
+      return new String[] {text};
+    } else {
+      return new String[] {text, additionalLine};
+    }
   }
 }

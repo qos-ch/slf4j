@@ -39,12 +39,18 @@ public class SingleConversionRule implements ConversionRule {
 
   final  private Pattern pattern;
   final private String replacementText ;
-
+  final private String additionalLine;
+  
   public SingleConversionRule(Pattern pattern, String replacementText) {
-    this.pattern = pattern;
-    this.replacementText = replacementText;
+    this(pattern, replacementText, null);
   }
 
+  public SingleConversionRule(Pattern pattern, String replacementText, String additionalLine) {
+    this.pattern = pattern;
+    this.replacementText = replacementText;
+    this.additionalLine = additionalLine;
+  }
+  
   /* (non-Javadoc)
    * @see org.slf4j.converter.ConversionRule#getPattern()
    */
@@ -60,4 +66,9 @@ public class SingleConversionRule implements ConversionRule {
   public String replace(Matcher matcher) {
     return replacementText;
   }
+
+  public String getAdditionalLine() {
+    return additionalLine;
+  }
+
 }

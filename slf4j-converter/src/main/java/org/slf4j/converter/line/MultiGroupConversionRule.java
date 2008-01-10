@@ -88,4 +88,8 @@ public class MultiGroupConversionRule implements ConversionRule {
     }
     return replacementBuffer.toString();
   }
+
+  public String getAdditionalLine() {
+    return null;
+  }
 }
