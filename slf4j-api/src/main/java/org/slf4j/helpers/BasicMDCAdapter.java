@@ -38,6 +38,8 @@ import java.util.Set;
    * 
    * @author Ceki Gulcu
    * @author Maarten Bosteels
+   * 
+   * @since 1.5.0
    */
   public class BasicMDCAdapter implements MDCAdapter {
 
