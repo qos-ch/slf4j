@@ -11,28 +11,39 @@ public class Log4jRuleSet implements RuleSet {
   
   public Log4jRuleSet() {
   
-    SingleConversionRule cr0 = new SingleConversionRule(Pattern
+    
+    SingleConversionRule crImport0 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.log4j.Logger;"),
         "import org.slf4j.Logger;",
         "import org.slf4j.LoggerFactory;");
     
-    SingleConversionRule cr1 = new SingleConversionRule(Pattern
+    SingleConversionRule crImport1 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.log4j.LogManager;"),
         "import org.slf4j.LoggerFactory;");
 
+    SingleConversionRule crImport2 = new SingleConversionRule(Pattern
+        .compile("import\\s*+org.apache.log4j.*;"),
+        "import org.slf4j.Logger;",
+        "import org.slf4j.LoggerFactory;");
+
+    SingleConversionRule crImportMDC = new SingleConversionRule(Pattern
+        .compile("import\\s*+org.apache.log4j.MDC;"),
+        "import org.slf4j.MDC;");
   
 
-    SingleConversionRule cr2 = new SingleConversionRule(Pattern
+    SingleConversionRule crFactory0 = new SingleConversionRule(Pattern
         .compile("Logger.getLogger\\("), "LoggerFactory.getLogger(");
 
-    SingleConversionRule cr3 = new SingleConversionRule(Pattern
+    SingleConversionRule crFactory1 = new SingleConversionRule(Pattern
         .compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
 
     conversionRuleList = new ArrayList<ConversionRule>();
-    conversionRuleList.add(cr0);
-    conversionRuleList.add(cr1);
-    conversionRuleList.add(cr2);
-    conversionRuleList.add(cr3);
+    conversionRuleList.add(crImport0);
+    conversionRuleList.add(crImport1);
+    conversionRuleList.add(crImport2);
+    conversionRuleList.add(crImportMDC);
+    conversionRuleList.add(crFactory0);
+    conversionRuleList.add(crFactory1);
   }
 
   public Iterator<ConversionRule> iterator() {

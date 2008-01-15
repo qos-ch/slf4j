@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.converter.line.LineConverter;
 import org.slf4j.converter.line.RuleSet;
 
 public class ProjectConverter {
 
-  private LineConverter lineConverter;
+  private RuleSet ruleSet;
   private List<ConversionException> exception;
 
   public static void main(String[] args) throws IOException {
@@ -29,11 +28,10 @@ public class ProjectConverter {
    * @throws IOException
    */
   public ProjectConverter(int conversionType) {
-    RuleSet ruleSet = RuleSetFactory.getMatcherImpl(conversionType);
+    ruleSet = RuleSetFactory.getMatcherImpl(conversionType);
     if (ruleSet == null) {
       addException(new ConversionException(ConversionException.NOT_IMPLEMENTED));
     }
-    lineConverter = new LineConverter(ruleSet);
   }
 
 
@@ -65,9 +63,8 @@ public class ProjectConverter {
    */
   private void convertFile(File file) {
     try {
-      InplaceFileConverter fc = new InplaceFileConverter(lineConverter);
-      byte[] ba = fc.readFile(file);
-      fc.convert(file, ba);
+      InplaceFileConverter fc = new InplaceFileConverter(ruleSet);
+      fc.convert(file);
     } catch (IOException exc) {
       addException(new ConversionException(exc.toString()));
     }

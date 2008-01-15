@@ -18,20 +18,20 @@ public class NoConversionTest extends TestCase {
     LineConverter jclLineConverter = new LineConverter(new JCLRuleSet());
     // no changes on log4j.LogManager import
     assertEquals("import org.apache.log4j.LogManager;", jclLineConverter
-        .getReplacement("import org.apache.log4j.LogManager;"));
+        .getOneLineReplacement("import org.apache.log4j.LogManager;"));
     // no changes on log4j.Logger import
     assertEquals("import org.apache.log4j.Logger;", jclLineConverter
-        .getReplacement("import org.apache.log4j.Logger;"));
+        .getOneLineReplacement("import org.apache.log4j.Logger;"));
     // no changes on Logger instanciation using LogManager
     assertEquals(
         "Logger log = LogManager.getLogger(MyClass.class);",
         jclLineConverter
-            .getReplacement("Logger log = LogManager.getLogger(MyClass.class);"));
+            .getOneLineReplacement("Logger log = LogManager.getLogger(MyClass.class);"));
     // no changes on Logger instanciation using Logger.getLogger
     assertEquals(
         "public static Logger mylog1 = Logger.getLogger(MyClass.class);",
         jclLineConverter
-            .getReplacement("public static Logger mylog1 = Logger.getLogger(MyClass.class);"));
+            .getOneLineReplacement("public static Logger mylog1 = Logger.getLogger(MyClass.class);"));
   }
 
   /**
@@ -44,20 +44,20 @@ public class NoConversionTest extends TestCase {
     
     // no changes on LogFactory import
     assertEquals("import org.apache.commons.logging.LogFactory;", log4jConverter
-        .getReplacement("import org.apache.commons.logging.LogFactory;"));
+        .getOneLineReplacement("import org.apache.commons.logging.LogFactory;"));
     // no changes on Log import
     assertEquals("import org.apache.commons.logging.Log;", log4jConverter
-        .getReplacement("import org.apache.commons.logging.Log;"));
+        .getOneLineReplacement("import org.apache.commons.logging.Log;"));
     // no changes on Log instanciation using Logfactory.getLog
     assertEquals(
         "public static Log mylog1 = LogFactory.getLog(MyClass.class);",
         log4jConverter
-            .getReplacement("public static Log mylog1 = LogFactory.getLog(MyClass.class);"));
+            .getOneLineReplacement("public static Log mylog1 = LogFactory.getLog(MyClass.class);"));
     // no changes on log instanciation using LogFactory.getFactory().getInstance
     assertEquals(
         "public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);",
         log4jConverter
-            .getReplacement("public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);"));
+            .getOneLineReplacement("public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);"));
 
   }
 }

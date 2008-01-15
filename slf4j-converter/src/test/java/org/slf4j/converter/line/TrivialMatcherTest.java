@@ -13,10 +13,10 @@ public class TrivialMatcherTest extends TestCase {
     // "import org.slf4j.converter" -- > simple replacement with an unique
     // capturing group
     assertEquals("simple replacement with an unique capturing group",
-        trivialLC.getReplacement("import org.slf4j.converter"));
+        trivialLC.getOneLineReplacement("import org.slf4j.converter"));
 
     assertEquals("1st group second group 4th group", trivialLC
-        .getReplacement("first group second group third group 4th group"));
+        .getOneLineReplacement("first group second group third group 4th group"));
 
   }
 

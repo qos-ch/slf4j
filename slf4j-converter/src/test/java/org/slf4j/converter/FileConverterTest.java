@@ -6,7 +6,6 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.slf4j.converter.line.EmptyRuleSet;
-import org.slf4j.converter.line.LineConverter;
 
 public class FileConverterTest extends TestCase {
 
@@ -27,8 +26,7 @@ public class FileConverterTest extends TestCase {
 
   
   public void XtestNOP() throws IOException {
-    InplaceFileConverter fc = new InplaceFileConverter(new LineConverter(new EmptyRuleSet()));
-    byte[] ba = fc.readFile(new File("c:/varargs.txt"));
-    fc.convert(new File("c:/varargs.txt"), ba);
+    InplaceFileConverter fc = new InplaceFileConverter(new EmptyRuleSet());
+    fc.convert(new File("c:/varargs.txt"));
   }
 }

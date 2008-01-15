@@ -5,13 +5,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
-import java.io.Writer;
 
 import org.slf4j.converter.line.LineConverter;
+import org.slf4j.converter.line.RuleSet;
 
 public class InplaceFileConverter {
 
@@ -19,12 +20,12 @@ public class InplaceFileConverter {
   final LineConverter lineConverter;
   final String lineTerminator;
 
-  InplaceFileConverter(LineConverter lineConverter) {
-    this.lineConverter = lineConverter;
+  InplaceFileConverter(RuleSet ruleSet) {
+    this.lineConverter = new LineConverter(ruleSet);
     lineTerminator = System.getProperty("line.separator");
   }
 
-  byte[] readFile(File file) throws IOException {
+  private byte[] readIntoByteArray(File file) throws IOException {
     FileInputStream fis = new FileInputStream(file);
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     int n = 0;
@@ -35,30 +36,48 @@ public class InplaceFileConverter {
     }
     fis.close();
     return baos.toByteArray();
-
   }
 
-  void convert(File file, byte[] input) throws IOException {
+  void convert(File file) throws IOException {
+    byte[] originalBytes = readIntoByteArray(file);
+    byte[] convertedBytes = convertIntoTempByteArray(originalBytes);
+    if (lineConverter.atLeastOneMatchOccured()) {
+      System.out.println("Converting ["+file+"]");
+      writeConvertedBytesIntoFile(file, convertedBytes);
+    } else {
+      System.out.println("Not replacing ["+file+"]");
+    }
+  }
+
+  private void writeConvertedBytesIntoFile(File file, byte[] convertedBytes) throws IOException {
+    FileOutputStream fos = new FileOutputStream(file);
+    fos.write(convertedBytes);
+    fos.flush();
+    fos.close();
+  }
+
+  private byte[] convertIntoTempByteArray(byte[] input) throws IOException {
     ByteArrayInputStream bais = new ByteArrayInputStream(input);
     Reader reader = new InputStreamReader(bais);
     BufferedReader breader = new BufferedReader(reader);
-    FileWriter fileWriter = new FileWriter(file);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
     while (true) {
       String line = breader.readLine();
       if (line != null) {
         String[] replacement = lineConverter.getReplacement(line);
-        writeReplacement(fileWriter, replacement);
+        writeReplacement(baos, replacement);
       } else {
-        fileWriter.close();
         break;
       }
     }
+    return baos.toByteArray();
   }
 
-  void writeReplacement(Writer writer, String[] replacement) throws IOException {
+  private  void writeReplacement(OutputStream os, String[] replacement)
+      throws IOException {
     for (int i = 0; i < replacement.length; i++) {
-      writer.write(replacement[i]);
-      writer.write(lineTerminator);
+      os.write(replacement[i].getBytes());
+      os.write(lineTerminator.getBytes());
     }
   }
 }
