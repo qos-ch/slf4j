@@ -1,5 +1,3 @@
-package org.slf4j.spi;
-
 /* 
  * Copyright (c) 2004-2007 QOS.ch
  * All rights reserved.
@@ -24,6 +22,7 @@ package org.slf4j.spi;
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+package org.slf4j.spi;
 
 /**
  * This interface abstracts the service offered by various MDC
