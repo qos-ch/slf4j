@@ -121,9 +121,21 @@ public class InvocationTest extends TestCase {
   
   public void testMDC() {
     MDC.put("k", "v");
-    assertNull(MDC.get("k"));
+    assertNotNull(MDC.get("k"));
+    assertEquals("v", MDC.get("k"));
+
     MDC.remove("k");
     assertNull(MDC.get("k"));
+
+    MDC.put("k1", "v1");
+    assertEquals("v1", MDC.get("k1"));
     MDC.clear();
+    assertNull(MDC.get("k1"));
+
+    try {
+      MDC.put(null, "x");
+      fail("null keys are invalid");
+    } catch (IllegalArgumentException e) {
+    }
   }
 }
