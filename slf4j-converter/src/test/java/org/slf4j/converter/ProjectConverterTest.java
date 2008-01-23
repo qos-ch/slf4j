@@ -11,7 +11,7 @@ public class ProjectConverterTest extends TestCase {
   }
   
   
-  public void testBarracuda() {
+  public void XtestBarracuda() {
     ProjectConverter pc = new ProjectConverter(Constant.LOG4J_TO_SLF4J);
     File projectFolder = new File("c:/home/ceki//Varia/Barracuda");
     pc.convertProject(projectFolder);
