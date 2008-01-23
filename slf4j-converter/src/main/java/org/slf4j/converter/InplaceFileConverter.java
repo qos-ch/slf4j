@@ -45,7 +45,7 @@ public class InplaceFileConverter {
       System.out.println("Converting ["+file+"]");
       writeConvertedBytesIntoFile(file, convertedBytes);
     } else {
-      System.out.println("Not replacing ["+file+"]");
+      System.out.println("Not touching ["+file+"]");
     }
   }
 
