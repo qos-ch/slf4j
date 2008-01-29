@@ -80,7 +80,7 @@ public class MessageFormatterTest extends TestCase {
   }
   
   
-  public void test1Param() {
+  public void testOneParameter() {
     String result;
     
     result = MessageFormatter.format("Value is {}.", i3);
@@ -98,6 +98,9 @@ public class MessageFormatterTest extends TestCase {
     result = MessageFormatter.format("Incorrect {subst", i3);
     assertEquals("Incorrect {subst", result);
     
+    result = MessageFormatter.format("Value is \\{bla} {}", i3);
+    assertEquals("Value is {bla} 3", result);
+    
     result = MessageFormatter.format("Escaped \\{} subst", i3);
     assertEquals("Escaped {} subst", result);
 
@@ -109,9 +112,13 @@ public class MessageFormatterTest extends TestCase {
     
     result = MessageFormatter.format("File name is \\{{}}.", "App folder.zip");
     assertEquals("File name is {App folder.zip}.", result);
+    
+    // escaping the escape character
+    result = MessageFormatter.format("File name is C:\\\\{}.", "App folder.zip");
+    assertEquals("File name is C:\\App folder.zip.", result);
   }
   
-  public void test2Param() {
+  public void testTwoParameters() {
     String result;
 
     
