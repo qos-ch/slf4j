@@ -3,14 +3,13 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.4.4-SNAPSHOT</version>
+    <version>1.5.0-M0</version>
   </parent>
 	
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-simple</artifactId>
-	<version>${parent.version}</version>
 	<packaging>jar</packaging>
 	<name>SLF4J Simple Binding</name>
 
