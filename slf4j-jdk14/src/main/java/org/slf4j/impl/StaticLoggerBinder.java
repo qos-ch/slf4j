@@ -34,18 +34,12 @@
 package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
-import org.slf4j.IMarkerFactory;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MarkerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
  * The binding of {@link LoggerFactory} class with an actual instance of 
  * {@link ILoggerFactory} is performed using information returned by this class. 
- * 
- * <p>
- * This class also contains the information for binding {@link MarkerFactory}
- * with the appropriate {@link IMarkerFactory} instance.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
