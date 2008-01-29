@@ -30,6 +30,31 @@ prefix='';
 
   <hr noshade="noshade" size="1"/>
 
+  <h3>February xxth, 2008 - Release of SLF4J 1.6.0</h3>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=61">bug
+  61</a> reported by Christopher Sahnwaldt. It is now possible to
+  place a backslash in front of a formatting anchor, by escaping the
+  backslash. For example, the call to
+  <code>MessageFormatter.format("C:\\\\{}", "foo")</code> will now
+  correctly return "C:\\foo". The backslash character needs to be
+  escaped in Java, which leads to four backslashes.
+  </p>
+
+ 
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=63">bug
+  63</a> reported by Maarten Bosteels. SLF4J now supports MDC for
+  <code>java.util.logging</code> package.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=64">bug
+  64</a> reported by Michal Bernhard. The log4j binding will now alert
+  the user if she uses SLF4J with a version of log4j earlier than 1.2.12.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
   <h3>August 20th, 2007 - Release of SLF4J 1.4.3</h3>
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=60">bug

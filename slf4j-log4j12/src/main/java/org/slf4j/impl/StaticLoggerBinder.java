@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2004-2005 SLF4J.ORG
- * Copyright (c) 2004-2005 QOS.ch
+ * Copyright (c) 2004-2008 QOS.ch
  *
  * All rights reserved.
  *
@@ -33,6 +32,7 @@
 
 package org.slf4j.impl;
 
+import org.apache.log4j.Level;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
@@ -58,8 +58,12 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   private final ILoggerFactory loggerFactory;
   
   private StaticLoggerBinder() {
-//  Note: JCL gets substituted at build time by an appropriate Ant task
     loggerFactory = new Log4jLoggerFactory();
+    try {
+      Level level = Level.TRACE;
+    } catch(NoSuchFieldError nsfe) {
+      throw new Error("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version", nsfe);
+    }
   }
   
   public ILoggerFactory getLoggerFactory() {
