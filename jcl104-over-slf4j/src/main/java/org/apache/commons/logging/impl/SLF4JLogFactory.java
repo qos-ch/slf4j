@@ -184,7 +184,7 @@ public class SLF4JLogFactory extends LogFactory {
     System.out.println("WARN: The method " + SLF4JLogFactory.class
         + "#release() was invoked.");
     System.out
-        .println("WARN: Please see http://www.slf4j.org/codes.html for an explanation.");
+        .println("WARN: Please see http://www.slf4j.org/codes.html#release for an explanation.");
     System.out.flush();
   }
 
