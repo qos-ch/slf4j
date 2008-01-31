@@ -28,12 +28,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * </p>
  * 
  * <p>
- * Log4j's <code>debug()</code>, <code>info()</code>, <code>warn()</code>,
- * <code>error()</code> printing methods are directly mapped to their logback
- * equivalents. Log4j's <code>trace()</code> printing method is mapped to
- * logback's <code>debug()</code> method with a TRACE marker. Log4j's
- * <code>fatal()</code> printing method is mapped to logback's
- * <code>error()</code> method with a FATAL marker.
+ * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>, 
+ * <code>warn()</code>, <code>error()</code> printing methods are directly 
+ * mapped to their logback equivalents. Log4j's <code>fatal()</code> 
+ * printing method is mapped to logback's <code>error()</code> method 
+ * with a FATAL marker.
  * 
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
@@ -46,7 +45,6 @@ public class Category {
   private org.slf4j.Logger lbLogger;
   private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
   
-  private static Marker TRACE_MARKER = MarkerFactory.getMarker("TRACE");
   private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 
   Category(String name) {
@@ -112,6 +110,13 @@ public class Category {
     return lbLogger.isWarnEnabled();
   }
   
+  /**
+   * Delegates to {@link ch.qos.logback.classic.Logger#isErrorEnabled} method in logback
+   */
+  public boolean isErrorEnabled() {
+    return lbLogger.isErrorEnabled();
+  }
+  
   public boolean isEnabledFor(Priority p) {
     return isEnabledFor(Level.toLevel(p.level));
   }
@@ -135,42 +140,20 @@ public class Category {
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#isErrorEnabled} method of logback
-   */
-  public boolean isErrorEnabled() {
-    return lbLogger.isErrorEnabled();
-  }
-
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String)} method of logback, 
-   * in addition, the call is marked with a marker named "TRACE".
+   * Delegates to {@link ch.qos.logback.classic.Logger#trace(String)} method in logback.
    */
   public void trace(Object message) {
-    lbLogger.debug(TRACE_MARKER, convertToString(message));
+    // casting to String as SLF4J only accepts String instances, not Object
+    // instances.
+    lbLogger.trace(convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String,Throwable)} 
-   * method of logback in addition, the call is marked with a marker named "TRACE".
+   * Delegates to {@link ch.qos.logback.classic.Logger#trace(String,Throwable)} 
+   * method in logback.
    */
   public void trace(Object message, Throwable t) {
-    lbLogger.debug(TRACE_MARKER, convertToString(message), t);
-  }
-  
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String,Object)} 
-   * method of logback in addition, the call is marked with a marker named "TRACE".
-   */
-  public void trace(Object message, Object o) {
-    lbLogger.debug(TRACE_MARKER, convertToString(message), o);
-  }
-
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String,Object,Object)} 
-   * method of logback in addition, the call is marked with a marker named "TRACE".
-   */
-  public void trace(String message, Object arg1, Object arg2) {
-    lbLogger.debug(TRACE_MARKER, message, arg1, arg2);
+    lbLogger.trace(convertToString(message), t);
   }
   
   /**
@@ -192,22 +175,6 @@ public class Category {
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String,Object)} 
-   * method of logback.
-   */
-  public void debug(Object message, Object o) {
-    lbLogger.debug(convertToString(message), o);
-  }
-  
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String,Object,Object)} 
-   * method of logback.
-   */
-  public void debug(String message, Object arg1, Object arg2) {
-    lbLogger.debug(message, arg1, arg2);
-  }
-  
-  /**
    * Delegates to {@link ch.qos.logback.classic.Logger#info(String)} 
    * method of logback.
    */
@@ -224,22 +191,6 @@ public class Category {
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#info(String,Object)} 
-   * method of logback.
-   */
-  public void info(Object message, Object o) {
-    lbLogger.info(convertToString(message), o);
-  }  
-  
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#info(String,Object,Object)} 
-   * method of logback.
-   */
-  public void info(String message, Object arg1, Object arg2) {
-    lbLogger.info(message, arg1, arg2);
-  }
-  
-  /**
    * Delegates to {@link ch.qos.logback.classic.Logger#warn(String)} 
    * method of logback.
    */
@@ -255,21 +206,6 @@ public class Category {
     lbLogger.warn(convertToString(message), t);
   }
 
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#warn(String,Object)} 
-   * method of logback.
-   */
-  public void warn(Object message, Object o) {
-    lbLogger.warn(convertToString(message), o);
-  }
-  
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#warn(String,Object,Object)} 
-   * method of logback.
-   */
-  public void warn(String message, Object arg1, Object arg2) {
-    lbLogger.warn(message, arg1, arg2);
-  }
   
   /**
    * Delegates to {@link ch.qos.logback.classic.Logger#error(String)} 
@@ -288,22 +224,6 @@ public class Category {
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String,Object)} 
-   * method of logback.
-   */
-  public void error(Object message, Object o) {
-    lbLogger.error(convertToString(message), o);
-  }
-  
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String,Object,Object)} 
-   * method of logback.
-   */
-  public void error(String message, Object arg1, Object arg2) {
-    lbLogger.error(message, arg1, arg2);
-  }
-  
-  /**
    * Delegates to {@link ch.qos.logback.classic.Logger#error(String)} 
    * method of logback.
    */
@@ -319,22 +239,6 @@ public class Category {
     lbLogger.error(FATAL_MARKER, convertToString(message), t);
   }
 
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String,Object)} 
-   * method of logback in addition, the call is marked with a marker named "FATAL".
-   */
-  public void fatal(Object message, Object o) {
-    lbLogger.error(FATAL_MARKER, convertToString(message), o);
-  } 
-  
-  /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String,Object,Object)} 
-   * method of logback in addition, the call is marked with a marker named "FATAL".
-   */
-  public void fatal(String message, Object arg1, Object arg2) {
-    lbLogger.error(FATAL_MARKER, message, arg1, arg2);
-  } 
-  
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
     int levelInt = priorityToLevelInt(p);
     if(locationAwareLogger != null) {
