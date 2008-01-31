@@ -22,16 +22,16 @@ import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * <p>
- * This class is a minimal implementation of the origianl
- * org.apache.log4j.Logger class delegating all calls to a
- * {@link org.slf4j.Logger.Logger} instance.
+ * This class is a minimal implementation of the original
+ * <code>org.apache.log4j.Logger</code> class by delegation of all calls 
+ * to a {@link org.slf4j.Logger.Logger} instance.
  * </p>
  * 
  * <p>
  * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>, 
  * <code>warn()</code>, <code>error()</code> printing methods are directly 
- * mapped to their logback equivalents. Log4j's <code>fatal()</code> 
- * printing method is mapped to logback's <code>error()</code> method 
+ * mapped to their SLF4J equivalents. Log4j's <code>fatal()</code> 
+ * printing method is mapped to SLF4J's <code>error()</code> method 
  * with a FATAL marker.
  * 
  * @author S&eacute;bastien Pennec
@@ -42,16 +42,16 @@ public class Category {
 
   private String name;
 
-  private org.slf4j.Logger lbLogger;
+  private org.slf4j.Logger slf4jLogger;
   private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
   
   private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 
   Category(String name) {
     this.name = name;
-    lbLogger = LoggerFactory.getLogger(name);
-    if(lbLogger instanceof LocationAwareLogger) {
-      locationAwareLogger = (LocationAwareLogger) lbLogger;
+    slf4jLogger = LoggerFactory.getLogger(name);
+    if(slf4jLogger instanceof LocationAwareLogger) {
+      locationAwareLogger = (LocationAwareLogger) slf4jLogger;
     }
   }
 
@@ -69,7 +69,7 @@ public class Category {
    * @return
    */
   public static Logger getRootLogger() {
-    return getLogger("root");
+    return getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
   }
 
   /**
@@ -82,161 +82,175 @@ public class Category {
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#isTraceEnabled} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
+   * method of SLF4J.
    */
   public boolean isTraceEnabled() {
-    return lbLogger.isTraceEnabled();
+    return slf4jLogger.isTraceEnabled();
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#isDebugEnabled} method of logback
+   * Delegates to {@link org.slf4j.Logger#isDebugEnabled} method in  SLF4J
    */
   public boolean isDebugEnabled() {
-    return lbLogger.isDebugEnabled();
+    return slf4jLogger.isDebugEnabled();
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#isInfoEnabled} method of logback
+   * Delegates to {@link org.slf4j.Logger#isInfoEnabled} method in  SLF4J
    */
   public boolean isInfoEnabled() {
-    return lbLogger.isInfoEnabled();
+    return slf4jLogger.isInfoEnabled();
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#isWarnEnabled} method of logback
+   * Delegates to {@link org.slf4j.Logger#isWarnEnabled} method in  SLF4J
    */
   public boolean isWarnEnabled() {
-    return lbLogger.isWarnEnabled();
+    return slf4jLogger.isWarnEnabled();
   }
   
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#isErrorEnabled} method in logback
+   * Delegates to {@link org.slf4j.Logger#isErrorEnabled} method in SLF4J
    */
   public boolean isErrorEnabled() {
-    return lbLogger.isErrorEnabled();
+    return slf4jLogger.isErrorEnabled();
   }
   
+  /**
+   * Delegates to {@link #isEnabledFor(Level)}.
+   * 
+   * @param p the priority to check against
+   * @return true if this logger is enabled for the given priority, false otehrwise.
+   */
   public boolean isEnabledFor(Priority p) {
     return isEnabledFor(Level.toLevel(p.level));
   }
 
+  /**
+   * Determines whether the level passes as parameter is enabled in
+   * the underlying SLF4J logger. Each log4j level is mapped directly to
+   * its SLF4J equivalent, except for FATAL which is mapped as ERROR. 
+   * 
+   * @param l the level to check against
+   * @return true if this logger is enabled for the given level, false otehrwise.
+   */
   public boolean isEnabledFor(Level l) {
     switch (l.level) {
     case Level.TRACE_INT:
-      return lbLogger.isTraceEnabled();
+      return slf4jLogger.isTraceEnabled();
     case Level.DEBUG_INT:
-      return lbLogger.isDebugEnabled();
+      return slf4jLogger.isDebugEnabled();
     case Level.INFO_INT:
-      return lbLogger.isInfoEnabled();
+      return slf4jLogger.isInfoEnabled();
     case Level.WARN_INT:
-      return lbLogger.isWarnEnabled();
+      return slf4jLogger.isWarnEnabled();
     case Level.ERROR_INT:
-      return lbLogger.isErrorEnabled();
+      return slf4jLogger.isErrorEnabled();
     case Priority.FATAL_INT:
-      return lbLogger.isErrorEnabled();
+      return slf4jLogger.isErrorEnabled();
     }
     return false;
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#trace(String)} method in logback.
+   * Delegates to {@link org.slf4j.Logger#trace(String)} method in SLF4J.
    */
   public void trace(Object message) {
     // casting to String as SLF4J only accepts String instances, not Object
     // instances.
-    lbLogger.trace(convertToString(message));
+    slf4jLogger.trace(convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#trace(String,Throwable)} 
-   * method in logback.
+   * Delegates to {@link org.slf4j.Logger#trace(String,Throwable)} 
+   * method in SLF4J.
    */
   public void trace(Object message, Throwable t) {
-    lbLogger.trace(convertToString(message), t);
+    slf4jLogger.trace(convertToString(message), t);
   }
   
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String)} method of
-   * logback.
+   * Delegates to {@link org.slf4j.Logger#debug(String)} method of
+   * SLF4J.
    */
   public void debug(Object message) {
     // casting to String as SLF4J only accepts String instances, not Object
     // instances.
-    lbLogger.debug(convertToString(message));
+    slf4jLogger.debug(convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#debug(String,Throwable)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#debug(String,Throwable)} 
+   * method in SLF4J.
    */
   public void debug(Object message, Throwable t) {
-    lbLogger.debug(convertToString(message), t);
+    slf4jLogger.debug(convertToString(message), t);
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#info(String)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#info(String)} 
+   * method in SLF4J.
    */
   public void info(Object message) {
-    lbLogger.info(convertToString(message));
+    slf4jLogger.info(convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#info(String,Throwable)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#info(String,Throwable)} 
+   * method in SLF4J.
    */
   public void info(Object message, Throwable t) {
-    lbLogger.info(convertToString(message), t);
+    slf4jLogger.info(convertToString(message), t);
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#warn(String)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#warn(String)} 
+   * method in SLF4J.
    */
   public void warn(Object message) {
-    lbLogger.warn(convertToString(message));
+    slf4jLogger.warn(convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#warn(String,Throwable)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#warn(String,Throwable)} 
+   * method in SLF4J.
    */
   public void warn(Object message, Throwable t) {
-    lbLogger.warn(convertToString(message), t);
+    slf4jLogger.warn(convertToString(message), t);
   }
 
   
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#error(String)} 
+   * method in SLF4J.
    */
   public void error(Object message) {
-    lbLogger.error(convertToString(message));
+    slf4jLogger.error(convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String,Throwable)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} 
+   * method in SLF4J.
    */
   public void error(Object message, Throwable t) {
-    lbLogger.error(convertToString(message), t);
+    slf4jLogger.error(convertToString(message), t);
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String)} 
-   * method of logback.
+   * Delegates to {@link org.slf4j.Logger#error(String)} 
+   * method in SLF4J.
    */
   public void fatal(Object message) {
-    lbLogger.error(FATAL_MARKER, convertToString(message));
+    slf4jLogger.error(FATAL_MARKER, convertToString(message));
   }
 
   /**
-   * Delegates to {@link ch.qos.logback.classic.Logger#error(String,Throwable)} 
-   * method of logback in addition, the call is marked with a marker named "FATAL".
+   * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} 
+   * method in SLF4J. In addition, the call is marked with a marker named "FATAL".
    */
   public void fatal(Object message, Throwable t) {
-    lbLogger.error(FATAL_MARKER, convertToString(message), t);
+    slf4jLogger.error(FATAL_MARKER, convertToString(message), t);
   }
 
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
@@ -248,7 +262,7 @@ public class Category {
         locationAwareLogger.log(null, FQCN, levelInt, null, t); 
       }
     } else {
-      throw new UnsupportedOperationException("The logger ["+lbLogger+"] does not seem to be location aware.");
+      throw new UnsupportedOperationException("The logger ["+slf4jLogger+"] does not seem to be location aware.");
     }
    
   }
