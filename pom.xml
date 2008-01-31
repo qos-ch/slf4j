@@ -5,7 +5,7 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.5.0-M0</version>
+	<version>1.5.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
@@ -114,7 +114,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <destDir>/target/site/api</destDir>
         	<aggregate>true</aggregate>
 					<links>
 						<link>

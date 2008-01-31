@@ -52,6 +52,27 @@ prefix='';
   the user if she uses SLF4J with a version of log4j earlier than 1.2.12.
   </p>
 
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=65">bug
+  65</a> reported by Ben Gidley. Superfluous
+  &gt;vesion>$parent.version}&gt;/vesion> lines have been removed from
+  pom.xml files. These lines reportedly confuse certain Maven
+  repositories.
+  </p>
+
+  <p>In org.apache.log4j.Category class as implemented in the
+  log4j-over-slf4j module, calls to the trace() printing method are
+  now correctly mapped to SLF4J's trace() printing method (instead of
+  debug()). Superflous printing methods with the signature
+  <code>xxxx(Object, Object)</code> and <code>xxxx(String, Object,
+  Object)</code> have been removed.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=67">bug
+  67</a> reported by Chris Custine.  The manifest file for
+  jcl104-over-slf4j now correctly declares version 1.0.4 for the
+  exported JCL packages.
+  </p>
+
 
   <hr noshade="noshade" size="1"/>
 
