@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: jcl104.over.slf4j
 Bundle-Name: jcl104-over-slf4j
 Bundle-Vendor: SLF4J.ORG
-Export-Package: org.apache.commons.logging, 
-  org.apache.commons.logging.impl
+Export-Package: org.apache.commons.logging;version=1.0.4, 
+  org.apache.commons.logging.impl;version=1.0.4
 Import-Package: org.slf4j;version=${project.version}, org.slf4j.spi;version=${project.version}
