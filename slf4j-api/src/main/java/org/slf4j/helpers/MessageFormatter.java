@@ -59,7 +59,8 @@ package org.slf4j.helpers;
 public class MessageFormatter {
   static final char DELIM_START = '{';
   static final char DELIM_STOP = '}';
-
+  private static final char ESCAPE_CHAR = '\\';
+  
   /**
    * Performs single argument substitution for the 'messagePattern' passed as
    * parameter.
@@ -186,7 +187,7 @@ public class MessageFormatter {
       return false;
     }
     char potentialEscape = messagePattern.charAt(delimeterStartIndex - 1);
-    if (potentialEscape == '\\') {
+    if (potentialEscape == ESCAPE_CHAR) {
       return true;
     } else {
       return false;
@@ -195,7 +196,7 @@ public class MessageFormatter {
 
   static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
     if (delimeterStartIndex >= 2
-        && messagePattern.charAt(delimeterStartIndex - 2) == '\\') {
+        && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
       return true;
     } else {
       return false;
