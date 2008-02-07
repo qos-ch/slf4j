@@ -86,7 +86,7 @@ public class NewJFrame extends JFrame implements ActionListener {
       constrainAll();
       addAllComponentsToContextPane();
       pack();
-      this.setSize(800, 400);
+      this.setSize(700, 400);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -125,7 +125,7 @@ public class NewJFrame extends JFrame implements ActionListener {
 
     slh.placeBelow(migrationLabel, folderLabel, 0, BASIC_PADDING * 5);
     slh.placeToTheRight(folderLabel, folderTextField);
-    slh.placeToTheRight(folderTextField, browseButton);
+    slh.placeToTheRight(folderTextField, browseButton, BASIC_PADDING, - BASIC_PADDING/2);
 
     slh.placeBelow(folderLabel, warningLabel, 0, BASIC_PADDING * 3);
 
