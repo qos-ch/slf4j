@@ -108,7 +108,14 @@ prefix='';
       FATAL level?  </a></li>
 
       <li><a href="#trace">Why was the TRACE level introduced only in
-        SLF4J version 1.4.0?  </a></li></ol>
+        SLF4J version 1.4.0?  </a></li>
+
+      <li><a href="#i18n">Does the SLF4J logging API support I18N
+      (internationalization)? </a></li>
+
+        
+    </ol>
+
 
 
       <b>Implementing the SLF4J API</b>
@@ -805,6 +812,55 @@ logger.debug("The new entry is {}.", entry);</p>
         </table>
 
       </dd>
+
+      <dt>
+        <a name="i18n">Does the SLF4J logging API support I18N
+        (internationalization)?
+        </a>
+      </dt>
+        
+      <dd>
+        <p>No. SLF4J does not offer any particular support for
+        I18N. However, nothing prevents you from implementing i18n
+        support around the SLF4J API.</p>
+
+        <p>As suggested by Sebastien Davids in <a
+        href="http://bugzilla.slf4j.org/show_bug.cgi?id=50">bug report
+        50</a>, a possible pattern might be:</p>
+
+        <p class="source">
+class MyClass {
+
+  ResourceBundle bundle = ResourceBundle.getBundle("my.package.messages");
+  Logger logger =  LoggerFactory.getLogger(MyClass.class);
+
+  void method() {
+     if (logger.isWarnEnabled()) {
+       MessageFormat format = new MessageFormat(bundle.getString("<b>my_message_key</b>"));
+       logger.warn(format.format(new Object[] { new Date(), 1 }));
+     }
+  }
+}</p>
+
+      <p>Where <code>my_message_key</code> is defined as</p>
+      <p class="source"><b>my_message_key</b>=my text to be i18n {1,date,short} {0,number,00}</p>
+
+      
+
+        
+      </dd>
+
+      
+
+      <table border="0">
+        <tr>
+          <td align="right">
+            <a href="#top">[top]</a>
+          </td>
+        </tr>
+      </table>
+
+
     </dl>
   </div>
 

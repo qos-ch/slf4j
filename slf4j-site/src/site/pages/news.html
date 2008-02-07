@@ -62,7 +62,7 @@ prefix='';
   <p>In org.apache.log4j.Category class as implemented in the
   log4j-over-slf4j module, calls to the trace() printing method are
   now correctly mapped to SLF4J's trace() printing method (instead of
-  debug()). Superflous printing methods with the signature
+  debug()). Superfluous printing methods with the signature
   <code>xxxx(Object, Object)</code> and <code>xxxx(String, Object,
   Object)</code> have been removed.
   </p>
@@ -71,6 +71,21 @@ prefix='';
   67</a> reported by Chris Custine.  The manifest file for
   jcl104-over-slf4j now correctly declares version 1.0.4 for the
   exported JCL packages.
+  </p>
+
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=69">bug
+  69</a> reported by Joern Huxhorn, who graciously supplied the fix as
+  well as a test case. The <code>add</code> method in
+  <code>BasicMarker</code> class now corectly prevents multiple
+  addition of the same child. Moreover, the <code>remove</code> method
+  now correcty removes the specified child marker.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=41">bug
+  41</a> reported by Sebastian Davids. The manifest files of various
+  projects now mention J2SE-1.3 as the required execution
+  envirionment.
   </p>
 
 
