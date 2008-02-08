@@ -1,6 +1,5 @@
 package org.slf4j.converter;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -59,6 +58,8 @@ public class NewJFrame extends JFrame implements ActionListener {
   private JCheckBox awareCheckBox;
   private JLabel awareLabel;
 
+  
+  private JLabel otherLabel;
   JFileChooser fileChooser;
   
   public static void main(String[] args) {
@@ -105,6 +106,9 @@ public class NewJFrame extends JFrame implements ActionListener {
     createAwareLabel();
     createWarningLabel();
     createFileChooser();
+    
+    otherLabel = new JLabel();
+    otherLabel.setText("xxxx");
   }
 
   /**
@@ -134,6 +138,7 @@ public class NewJFrame extends JFrame implements ActionListener {
 
     slh.placeBelow(awareCheckBox, migrateButton, 0, BASIC_PADDING * 3);
 
+    slh.placeBelow(migrateButton, otherLabel, 0, BASIC_PADDING * 2);
   }
 
   private void addAllComponentsToContextPane() {
@@ -150,6 +155,8 @@ public class NewJFrame extends JFrame implements ActionListener {
     getContentPane().add(awareLabel);
 
     getContentPane().add(warningLabel);
+    
+    getContentPane().add(otherLabel);
   }
 
   private void createButtonGroup() {
@@ -243,6 +250,12 @@ public class NewJFrame extends JFrame implements ActionListener {
       if(errorList.size() > 0) {
         showDialogBox(errorList);
       } else {
+        
+        XSelector xs = new XSelector();
+        xs.jlabel = otherLabel;
+        File folder = new File( folderTextField.getText());
+        xs.selectJavaFilesInFolder(folder);
+        
         System.out.println("do migration");
       }
     } else if (BROWSE_COMMAND.equals(e.getActionCommand())) {
