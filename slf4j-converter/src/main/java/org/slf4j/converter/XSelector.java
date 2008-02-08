@@ -4,17 +4,24 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XSelector {
+public class XSelector implements Runnable {
 
   private List<File> javaFileList = new ArrayList<File>();
 
   javax.swing.JLabel jlabel;
   
+  File folder;
   
+  public void run() {
+    selectFiles(folder);
+  }
   
   public List<File> selectJavaFilesInFolder(File folder) {
     if(folder.isDirectory()) {
-      selectFiles(folder);
+      this.folder = folder;
+      Thread t = new Thread(this);
+      t.setDaemon(true);
+      t.start();
       return javaFileList;
     } else {
       throw new IllegalArgumentException("["+folder+"] is not a directory");
@@ -22,10 +29,8 @@ public class XSelector {
   }
   
   private void selectFiles(File file) {
-    System.out.println(file.getAbsolutePath());
+    System.out.println(file);
     if (file.isDirectory()) {
-      jlabel.setText(file.getAbsolutePath());
-      
       File[] files = file.listFiles();
       if (files != null) {
         for (int i = 0; i < files.length; i++) {
@@ -40,4 +45,6 @@ public class XSelector {
 
     }
   }
+
+
 }

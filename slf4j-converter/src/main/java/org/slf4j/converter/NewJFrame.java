@@ -255,8 +255,6 @@ public class NewJFrame extends JFrame implements ActionListener {
         xs.jlabel = otherLabel;
         File folder = new File( folderTextField.getText());
         xs.selectJavaFilesInFolder(folder);
-        
-        System.out.println("do migration");
       }
     } else if (BROWSE_COMMAND.equals(e.getActionCommand())) {
       showFileChooser();
