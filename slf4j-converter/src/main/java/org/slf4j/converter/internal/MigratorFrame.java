@@ -40,10 +40,11 @@ public class MigratorFrame extends JFrame implements ActionListener {
   private static final int FOLDER_COLUMNS = 40;
   private static final String MIGRATE_COMMAND = "MIGRATE_COMMAND";
   private static final String BROWSE_COMMAND = "BROWSE_COMMAND";
-  
+  static final String EXIT_COMMAND = "EXIT_COMMAND";
+
   static final int X_SIZE = 700;
   static final int Y_SIZE = 400;
-  
+
   private SpringLayout layoutManager = new SpringLayout();
   private SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager,
       BASIC_PADDING);
@@ -56,7 +57,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
   private JTextField folderTextField;
   private JLabel warningLabel;
-  private JButton migrateButton;
+  JButton migrateButton;
   private JButton browseButton;
   private JLabel folderLabel;
 
@@ -66,7 +67,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
   JLabel otherLabel;
   JProgressBar progressBar;
   private JFileChooser fileChooser;
-  
+
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
@@ -82,8 +83,6 @@ public class MigratorFrame extends JFrame implements ActionListener {
     initGUI();
   }
 
-  
-  
   private void initGUI() {
     try {
       setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -113,11 +112,11 @@ public class MigratorFrame extends JFrame implements ActionListener {
     createAwareLabel();
     createWarningLabel();
     createFileChooser();
-    
+
     otherLabel = new JLabel();
     otherLabel.setText("");
     createProgressBar();
-    
+
   }
 
   /**
@@ -138,7 +137,8 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
     slh.placeBelow(migrationLabel, folderLabel, 0, BASIC_PADDING * 5);
     slh.placeToTheRight(folderLabel, folderTextField);
-    slh.placeToTheRight(folderTextField, browseButton, BASIC_PADDING, - BASIC_PADDING/2);
+    slh.placeToTheRight(folderTextField, browseButton, BASIC_PADDING,
+        -BASIC_PADDING / 2);
 
     slh.placeBelow(folderLabel, warningLabel, 0, BASIC_PADDING * 3);
 
@@ -148,9 +148,8 @@ public class MigratorFrame extends JFrame implements ActionListener {
     slh.placeBelow(awareCheckBox, migrateButton, 0, BASIC_PADDING * 3);
 
     slh.placeBelow(migrateButton, otherLabel, 0, BASIC_PADDING * 2);
-    
-    
-    slh.placeBelow(otherLabel, progressBar, 0, BASIC_PADDING * 2);
+
+    slh.placeBelow(otherLabel, progressBar, 0, BASIC_PADDING);
   }
 
   private void addAllComponentsToContextPane() {
@@ -167,7 +166,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
     getContentPane().add(awareLabel);
 
     getContentPane().add(warningLabel);
-    
+
     getContentPane().add(otherLabel);
     getContentPane().add(progressBar);
   }
@@ -249,84 +248,90 @@ public class MigratorFrame extends JFrame implements ActionListener {
     migrateButton.setActionCommand(MIGRATE_COMMAND);
   }
 
-  
   private void createFileChooser() {
     fileChooser = new JFileChooser();
     fileChooser.setDialogTitle("Source folder selector");
     fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
   }
-  
+
   private void createProgressBar() {
     progressBar = new JProgressBar(0, 1);
-    progressBar.setPreferredSize(new java.awt.Dimension((int) (X_SIZE*0.8), 5));
+    progressBar
+        .setPreferredSize(new java.awt.Dimension((int) (X_SIZE * 0.8), 5));
     progressBar.setVisible(false);
   }
-  
+
   public void disableInput() {
     radioJCL.setEnabled(false);
     radioLog4j.setEnabled(false);
-   
+
     browseButton.setEnabled(false);
-   
+
     folderTextField.setEnabled(false);
     awareCheckBox.setEnabled(false);
     migrateButton.setText("Migration in progress");
     migrateButton.setEnabled(false);
-    
+
   }
+
   public void actionPerformed(ActionEvent e) {
-   
+
     if (MIGRATE_COMMAND.equals(e.getActionCommand())) {
-      
+
       List<String> errorList = doSanityAnalysis();
-      if(errorList.size() > 0) {
+      if (errorList.size() > 0) {
         showDialogBox(errorList);
       } else {
-      
-        File projectFolder = new File( folderTextField.getText());
-        ConversionTask task = new ConversionTask(projectFolder, this, Constant.EMPTY_RULE_SET);
+
+        File projectFolder = new File(folderTextField.getText());
+        ConversionTask task = new ConversionTask(projectFolder, this,
+            Constant.EMPTY_RULE_SET);
         task.launch();
       }
     } else if (BROWSE_COMMAND.equals(e.getActionCommand())) {
       showFileChooser();
+    } else if (EXIT_COMMAND.equals(e.getActionCommand())) {
+      this.dispose();
     }
   }
-  
+
   void showFileChooser() {
     int returnVal = fileChooser.showOpenDialog(this);
-    if(returnVal == JFileChooser.APPROVE_OPTION) {
-      File selectedFile = fileChooser.getSelectedFile(); 
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      File selectedFile = fileChooser.getSelectedFile();
       System.out.println(selectedFile);
       folderTextField.setText(selectedFile.getAbsolutePath());
     }
   }
-  
+
   List<String> doSanityAnalysis() {
 
     List<String> errorList = new ArrayList<String>();
     if (!radioJCL.isSelected() && !radioLog4j.isSelected()) {
-      errorList.add("Please select the migration type (JCL to SLF4J or log4j to SLF4J)");
+      errorList
+          .add("Please select the migration type (JCL to SLF4J or log4j to SLF4J)");
     }
-    
+
     String folder = folderTextField.getText();
-    
+
     if (folder == null || folder.length() == 0) {
       errorList.add("Please select the folder of the project to migrate");
-    } else if(!isDirectory(folder)) {
-      errorList.add("["+folder +"] does not look like a valid folder");
+    } else if (!isDirectory(folder)) {
+      errorList.add("[" + folder + "] does not look like a valid folder");
     }
-    
-    if(!awareCheckBox.isSelected()) {
-      errorList.add("Cannot initiate migration unless you acknowledge<p>that files will be modified without creating backup files");
+
+    if (!awareCheckBox.isSelected()) {
+      errorList
+          .add("Cannot initiate migration unless you acknowledge<p>that files will be modified without creating backup files");
     }
     return errorList;
   }
-  
+
   void showDialogBox(List<String> errorList) {
     StringBuffer buf = new StringBuffer();
     buf.append("<html>");
     int i = 1;
-    for(String msg: errorList) {
+    for (String msg : errorList) {
       buf.append("<p>");
       buf.append(i);
       buf.append(". ");
@@ -335,17 +340,17 @@ public class MigratorFrame extends JFrame implements ActionListener {
       i++;
     }
     buf.append("</html>");
-    
-    JOptionPane.showMessageDialog(this,
-        buf.toString(), "",
+
+    JOptionPane.showMessageDialog(this, buf.toString(), "",
         JOptionPane.ERROR_MESSAGE);
   }
+
   boolean isDirectory(String filename) {
-    if(filename == null) {
+    if (filename == null) {
       return false;
     }
     File file = new File(filename);
-    if(file.exists() && file.isDirectory()) {
+    if (file.exists() && file.isDirectory()) {
       return true;
     } else {
       return false;

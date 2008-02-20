@@ -24,7 +24,7 @@ public class ProgressListenerImpl implements ProgressListener {
   public void onMigrationBegin() {
     frame.disableInput();
   }
-  
+
   public void onDirectory(File file) {
     String abbreviatedName = getShortName(file);
     frame.otherLabel.setText("<html><p>Searching folder [" + abbreviatedName
@@ -33,7 +33,16 @@ public class ProgressListenerImpl implements ProgressListener {
 
   public void onDone() {
     frame.progressBar.setVisible(false);
-    frame.otherLabel.setText("<html><font color='BLUE'>Scanned " + addFileCount + " java files, "+inplaceConversionCount+" files were modified.</font></html>");
+    frame.otherLabel.setText("<html><font color='BLUE'>Scanned " + addFileCount
+        + " java files, " + inplaceConversionCount
+        + " files were modified.</font></html>");
+
+    frame.migrateButton.setActionCommand(MigratorFrame.EXIT_COMMAND);
+    frame.migrateButton.setText("Exit");
+    frame.migrateButton
+        .setToolTipText("Click on this button to exit this application.");
+    frame.migrateButton.setEnabled(true);
+
   }
 
   public void onFileAddition(File file) {
@@ -43,16 +52,19 @@ public class ProgressListenerImpl implements ProgressListener {
   public void onFileScan(File file) {
     String abbreviatedName = getShortName(file);
     scanFileCount++;
-    
-    frame.otherLabel.setText("<html><p>Scanning file [" + abbreviatedName + "]<p>File "
-        + scanFileCount + " out of "+ addFileCount+" files to scan."+ inplaceConversionCount+ " files converted.</html>");
+
+    frame.otherLabel.setText("<html><p>Scanning file [" + abbreviatedName
+        + "]<p></html>");
+    // File + scanFileCount + " out of "+ addFileCount+" files to scan."+
+    // inplaceConversionCount+ " files converted." +
+
     frame.progressBar.setValue(scanFileCount);
   }
 
   public void onInplaceConversion(File file) {
     inplaceConversionCount++;
   }
-  
+
   String getShortName(File file) {
     try {
       return abbr.abbreviate(file.getCanonicalPath());
@@ -66,6 +78,5 @@ public class ProgressListenerImpl implements ProgressListener {
     frame.progressBar.setValue(0);
     frame.progressBar.setVisible(true);
   }
-
 
 }
