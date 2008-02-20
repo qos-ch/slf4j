@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -49,6 +50,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
   private SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager,
       BASIC_PADDING);
 
+  private JLabel slf4jLabel;
   private JLabel migrationLabel;
 
   private JRadioButton radioLog4j;
@@ -100,6 +102,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
   }
 
   private void createComponents() {
+    createSLF4JLabel();
     createMigrationLabel();
     createRadioJCL();
     createRadioLog4j();
@@ -131,10 +134,13 @@ public class MigratorFrame extends JFrame implements ActionListener {
     layoutManager.putConstraint(SpringLayout.NORTH, migrationLabel,
         BASIC_PADDING, SpringLayout.NORTH, this);
 
+        
     slh.placeToTheRight(migrationLabel, radioJCL, BASIC_PADDING,
         -BASIC_PADDING / 2);
     slh.placeBelow(radioJCL, radioLog4j, 0, 0);
 
+    slh.placeToTheRight(radioJCL, slf4jLabel, BASIC_PADDING*2, 0);
+    
     slh.placeBelow(migrationLabel, folderLabel, 0, BASIC_PADDING * 5);
     slh.placeToTheRight(folderLabel, folderTextField);
     slh.placeToTheRight(folderTextField, browseButton, BASIC_PADDING,
@@ -153,6 +159,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
   }
 
   private void addAllComponentsToContextPane() {
+    getContentPane().add(slf4jLabel);
     getContentPane().add(migrationLabel);
     getContentPane().add(radioJCL);
     getContentPane().add(radioLog4j);
@@ -175,6 +182,18 @@ public class MigratorFrame extends JFrame implements ActionListener {
     buttonGroup = new ButtonGroup();
     buttonGroup.add(radioJCL);
     buttonGroup.add(radioLog4j);
+  }
+
+  private void createSLF4JLabel() {
+    String resoucePath = "/images/slf4j-small.jpg";
+
+    java.net.URL imgURL = this.getClass().getResource(resoucePath);
+    if (imgURL != null) {
+      ImageIcon icon = new ImageIcon(imgURL);
+      slf4jLabel = new JLabel("", icon, JLabel.CENTER);
+    } else {
+      slf4jLabel = new JLabel("");
+    }
   }
 
   private void createMigrationLabel() {

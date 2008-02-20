@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
+import org.slf4j.converter.internal.MigratorFrame;
 import org.slf4j.converter.internal.ProgressListener;
 import org.slf4j.converter.line.RuleSet;
 
@@ -39,11 +42,15 @@ public class ProjectConverter {
   private List<ConversionException> exception;
 
   ProgressListener progressListener;
-  
-  public static void main(String[] args) throws IOException {
 
-    ConverterFrame frame = new ConverterFrame();
-    frame.setVisible(true);
+  public static void main(String[] args) throws IOException {
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        MigratorFrame inst = new MigratorFrame();
+        inst.setLocationRelativeTo(null);
+        inst.setVisible(true);
+      }
+    });
   }
 
   /**
@@ -62,14 +69,12 @@ public class ProjectConverter {
     }
   }
 
-
   public void convertProject(File folder) {
     FileSelector fs = new FileSelector(progressListener);
     List<File> fileList = fs.selectJavaFilesInFolder(folder);
     scanFileList(fileList);
     progressListener.onDone();
   }
-
 
   /**
    * Convert a list of files
@@ -94,7 +99,8 @@ public class ProjectConverter {
    */
   private void scanFile(File file) {
     try {
-      InplaceFileConverter fc = new InplaceFileConverter(ruleSet, progressListener);
+      InplaceFileConverter fc = new InplaceFileConverter(ruleSet,
+          progressListener);
       fc.convert(file);
     } catch (IOException exc) {
       addException(new ConversionException(exc.toString()));
