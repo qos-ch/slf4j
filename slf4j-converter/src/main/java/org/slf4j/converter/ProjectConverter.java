@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.slf4j.converter.internal.ProgressListener;
 import org.slf4j.converter.line.RuleSet;
 
 public class ProjectConverter {
@@ -37,6 +38,8 @@ public class ProjectConverter {
   private RuleSet ruleSet;
   private List<ConversionException> exception;
 
+  ProgressListener progressListener;
+  
   public static void main(String[] args) throws IOException {
 
     ConverterFrame frame = new ConverterFrame();
@@ -51,7 +54,8 @@ public class ProjectConverter {
    * @return true if init operation complete
    * @throws IOException
    */
-  public ProjectConverter(int conversionType) {
+  public ProjectConverter(int conversionType, ProgressListener progressListener) {
+    this.progressListener = progressListener;
     ruleSet = RuleSetFactory.getMatcherImpl(conversionType);
     if (ruleSet == null) {
       addException(new ConversionException(ConversionException.NOT_IMPLEMENTED));
@@ -60,7 +64,7 @@ public class ProjectConverter {
 
 
   public void convertProject(File folder) {
-    FileSelector fs = new FileSelector();
+    FileSelector fs = new FileSelector(progressListener);
     List<File> fileList = fs.selectJavaFilesInFolder(folder);
     convertFileList(fileList);
   }

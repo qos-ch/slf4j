@@ -29,17 +29,19 @@ public class XSelector implements Runnable {
   }
   
   private void selectFiles(File file) {
-    System.out.println(file);
+    //System.out.println(file);
     if (file.isDirectory()) {
+      jlabel.setText(file.getAbsolutePath());
       File[] files = file.listFiles();
       if (files != null) {
         for (int i = 0; i < files.length; i++) {
+        
           selectFiles(files[i]);
         }
       }
     } else {
       if (file.getName().endsWith(".java")) {
-        jlabel.setText(file.getAbsolutePath());
+        //jlabel.setText(file.getAbsolutePath());
         javaFileList.add(file);
       }
 

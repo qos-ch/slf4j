@@ -101,7 +101,7 @@ public class ConverterFrame extends JFrame implements ActionListener {
     if (res == JFileChooser.APPROVE_OPTION) {
       File folder = selector.getSelectedFile();
       ProjectConverter converter = new ProjectConverter(combo
-          .getSelectedIndex());
+          .getSelectedIndex(), null);
       showConfirmDialog(converter, folder);
     }
   }

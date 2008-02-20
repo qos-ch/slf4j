@@ -34,6 +34,7 @@ public class AllTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTest(org.slf4j.converter.PackageTest.suite());
     suite.addTest(org.slf4j.converter.line.PackageTest.suite());
+    suite.addTest(org.slf4j.converter.helper.PackageTest.suite());
     
     return suite;
   }
