@@ -32,10 +32,8 @@ public class ProgressListenerImpl implements ProgressListener {
   }
 
   public void onDone() {
-    frame.otherLabel.setText("<html><font color='BLUE'>Scanned " + addFileCount + " java files, "+inplaceConversionCount+" files were modified.</font></html>");
-
-    System.out.println("<html><FONT COLOR=BLUE>Scanned "+addFileCount+", converted="+inplaceConversionCount);
     frame.progressBar.setVisible(false);
+    frame.otherLabel.setText("<html><font color='BLUE'>Scanned " + addFileCount + " java files, "+inplaceConversionCount+" files were modified.</font></html>");
   }
 
   public void onFileAddition(File file) {
