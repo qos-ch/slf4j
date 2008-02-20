@@ -66,7 +66,8 @@ public class ProjectConverter {
   public void convertProject(File folder) {
     FileSelector fs = new FileSelector(progressListener);
     List<File> fileList = fs.selectJavaFilesInFolder(folder);
-    convertFileList(fileList);
+    scanFileList(fileList);
+    progressListener.onDone();
   }
 
 
@@ -75,11 +76,13 @@ public class ProjectConverter {
    * 
    * @param lstFiles
    */
-  private void convertFileList(List<File> lstFiles) {
+  private void scanFileList(List<File> lstFiles) {
+    progressListener.onFileScanBegin();
     Iterator<File> itFile = lstFiles.iterator();
     while (itFile.hasNext()) {
       File currentFile = itFile.next();
-      convertFile(currentFile);
+      progressListener.onFileScan(currentFile);
+      scanFile(currentFile);
     }
   }
 
@@ -89,9 +92,9 @@ public class ProjectConverter {
    * 
    * @param file
    */
-  private void convertFile(File file) {
+  private void scanFile(File file) {
     try {
-      InplaceFileConverter fc = new InplaceFileConverter(ruleSet);
+      InplaceFileConverter fc = new InplaceFileConverter(ruleSet, progressListener);
       fc.convert(file);
     } catch (IOException exc) {
       addException(new ConversionException(exc.toString()));

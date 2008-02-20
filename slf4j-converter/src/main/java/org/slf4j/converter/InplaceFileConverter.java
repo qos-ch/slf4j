@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 
+import org.slf4j.converter.internal.ProgressListener;
 import org.slf4j.converter.line.LineConverter;
 import org.slf4j.converter.line.RuleSet;
 
@@ -19,10 +20,12 @@ public class InplaceFileConverter {
   final static int BUFFER_LEN = 8 * 1024;
   final LineConverter lineConverter;
   final String lineTerminator;
-
-  InplaceFileConverter(RuleSet ruleSet) {
+  final ProgressListener pl;
+  
+  InplaceFileConverter(RuleSet ruleSet, ProgressListener pl) {
     this.lineConverter = new LineConverter(ruleSet);
     lineTerminator = System.getProperty("line.separator");
+    this.pl = pl;
   }
 
   private byte[] readIntoByteArray(File file) throws IOException {
@@ -42,10 +45,11 @@ public class InplaceFileConverter {
     byte[] originalBytes = readIntoByteArray(file);
     byte[] convertedBytes = convertIntoTempByteArray(originalBytes);
     if (lineConverter.atLeastOneMatchOccured()) {
-      System.out.println("Converting ["+file+"]");
+      //System.out.println("Converting ["+file+"]");
       writeConvertedBytesIntoFile(file, convertedBytes);
+      pl.onInplaceConversion(file);
     } else {
-      System.out.println("Not touching ["+file+"]");
+      //System.out.println("Not touching ["+file+"]");
     }
   }
 

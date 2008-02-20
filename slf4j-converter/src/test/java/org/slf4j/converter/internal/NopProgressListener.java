@@ -13,7 +13,16 @@ public class NopProgressListener implements ProgressListener {
   public void onFileAddition(File file) {
   }
 
-  public void onFileConversion(File file) {
+  public void onFileScan(File file) {
+  }
+
+  public void onInplaceConversion(File file) {
+  }
+
+  public void onFileScanBegin() {
+  }
+
+  public void onMigrationBegin() {
   }
 
 }

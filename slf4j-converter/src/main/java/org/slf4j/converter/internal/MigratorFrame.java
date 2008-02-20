@@ -1,4 +1,4 @@
-package org.slf4j.converter;
+package org.slf4j.converter.internal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +13,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.converter.Constant;
 import org.slf4j.converter.helper.SpringLayoutHelper;
 
 /**
@@ -31,13 +33,16 @@ import org.slf4j.converter.helper.SpringLayoutHelper;
  * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
  * ANY CORPORATE OR COMMERCIAL PURPOSE.
  */
-public class NewJFrame extends JFrame implements ActionListener {
+public class MigratorFrame extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
 
   private static final int BASIC_PADDING = 10;
   private static final int FOLDER_COLUMNS = 40;
   private static final String MIGRATE_COMMAND = "MIGRATE_COMMAND";
   private static final String BROWSE_COMMAND = "BROWSE_COMMAND";
+  
+  static final int X_SIZE = 700;
+  static final int Y_SIZE = 400;
   
   private SpringLayout layoutManager = new SpringLayout();
   private SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager,
@@ -58,30 +63,32 @@ public class NewJFrame extends JFrame implements ActionListener {
   private JCheckBox awareCheckBox;
   private JLabel awareLabel;
 
-  
-  private JLabel otherLabel;
-  JFileChooser fileChooser;
+  JLabel otherLabel;
+  JProgressBar progressBar;
+  private JFileChooser fileChooser;
   
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
       public void run() {
-        NewJFrame inst = new NewJFrame();
+        MigratorFrame inst = new MigratorFrame();
         inst.setLocationRelativeTo(null);
         inst.setVisible(true);
       }
     });
   }
 
-  public NewJFrame() {
+  public MigratorFrame() {
     super();
     initGUI();
   }
 
+  
+  
   private void initGUI() {
     try {
       setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
       getContentPane().setLayout(layoutManager);
-      this.setTitle("Source code migration tool to SLF4J");
+      this.setTitle("SLF4J migrator");
 
       createComponents();
       constrainAll();
@@ -108,7 +115,9 @@ public class NewJFrame extends JFrame implements ActionListener {
     createFileChooser();
     
     otherLabel = new JLabel();
-    otherLabel.setText("xxxx");
+    otherLabel.setText("");
+    createProgressBar();
+    
   }
 
   /**
@@ -139,6 +148,9 @@ public class NewJFrame extends JFrame implements ActionListener {
     slh.placeBelow(awareCheckBox, migrateButton, 0, BASIC_PADDING * 3);
 
     slh.placeBelow(migrateButton, otherLabel, 0, BASIC_PADDING * 2);
+    
+    
+    slh.placeBelow(otherLabel, progressBar, 0, BASIC_PADDING * 2);
   }
 
   private void addAllComponentsToContextPane() {
@@ -157,6 +169,7 @@ public class NewJFrame extends JFrame implements ActionListener {
     getContentPane().add(warningLabel);
     
     getContentPane().add(otherLabel);
+    getContentPane().add(progressBar);
   }
 
   private void createButtonGroup() {
@@ -242,6 +255,25 @@ public class NewJFrame extends JFrame implements ActionListener {
     fileChooser.setDialogTitle("Source folder selector");
     fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
   }
+  
+  private void createProgressBar() {
+    progressBar = new JProgressBar(0, 1);
+    progressBar.setPreferredSize(new java.awt.Dimension((int) (X_SIZE*0.8), 5));
+    progressBar.setVisible(false);
+  }
+  
+  public void disableInput() {
+    radioJCL.setEnabled(false);
+    radioLog4j.setEnabled(false);
+   
+    browseButton.setEnabled(false);
+   
+    folderTextField.setEnabled(false);
+    awareCheckBox.setEnabled(false);
+    migrateButton.setText("Migration in progress");
+    migrateButton.setEnabled(false);
+    
+  }
   public void actionPerformed(ActionEvent e) {
    
     if (MIGRATE_COMMAND.equals(e.getActionCommand())) {
@@ -250,11 +282,10 @@ public class NewJFrame extends JFrame implements ActionListener {
       if(errorList.size() > 0) {
         showDialogBox(errorList);
       } else {
-        
-        XSelector xs = new XSelector();
-        xs.jlabel = otherLabel;
-        File folder = new File( folderTextField.getText());
-        xs.selectJavaFilesInFolder(folder);
+      
+        File projectFolder = new File( folderTextField.getText());
+        ConversionTask task = new ConversionTask(projectFolder, this, Constant.EMPTY_RULE_SET);
+        task.launch();
       }
     } else if (BROWSE_COMMAND.equals(e.getActionCommand())) {
       showFileChooser();

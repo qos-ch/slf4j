@@ -1,5 +1,6 @@
 package org.slf4j.converter;
 
+import org.slf4j.converter.line.EmptyRuleSet;
 import org.slf4j.converter.line.JCLRuleSet;
 import org.slf4j.converter.line.Log4jRuleSet;
 import org.slf4j.converter.line.RuleSet;
@@ -25,6 +26,8 @@ public abstract class RuleSetFactory {
       return new JCLRuleSet();
     case Constant.LOG4J_TO_SLF4J:
       return new Log4jRuleSet();
+    case Constant.EMPTY_RULE_SET:
+      return new EmptyRuleSet();
     default:
       return null;
     }

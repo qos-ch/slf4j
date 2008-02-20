@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.slf4j.converter.internal.NopProgressListener;
 import org.slf4j.converter.line.EmptyRuleSet;
 
 public class FileConverterTest extends TestCase {
@@ -26,7 +27,7 @@ public class FileConverterTest extends TestCase {
 
   
   public void XtestNOP() throws IOException {
-    InplaceFileConverter fc = new InplaceFileConverter(new EmptyRuleSet());
+    InplaceFileConverter fc = new InplaceFileConverter(new EmptyRuleSet(), new NopProgressListener());
     fc.convert(new File("c:/varargs.txt"));
   }
 }
