@@ -78,6 +78,14 @@
       </includes>
     </fileSet>
 
+    <fileSet>
+      <directory>slf4j-migrator/</directory>
+      <outputDirectory>slf4j-site/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
     <!--
     <fileSet>
       <directory>slf4j-archetype/</directory>
@@ -136,6 +144,10 @@
     <fileSet>
       <directory>slf4j-site/src/</directory>
 			<outputDirectory>slf4j-site/src/</outputDirectory>    
+    </fileSet>
+   <fileSet>
+      <directory>slf4j-migrator/src/</directory>
+			<outputDirectory>slf4j-migrator/src/</outputDirectory>    
     </fileSet>
 
     <!--
@@ -216,6 +228,15 @@
 				<include>log4j-over-slf4j-${project.version}-sources.jar</include>
 			</includes>    
 		</fileSet>
+
+    <fileSet>
+      <directory>slf4j-migrator/target/</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>slf4j-migrator-${project.version}.jar</include>
+        <include>slf4j-migrator-${project.version}-sources.jar</include>
+      </includes>    
+    </fileSet>
 
 		<!-- Website -->
 		<fileSet>

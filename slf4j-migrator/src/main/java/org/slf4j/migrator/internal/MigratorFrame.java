@@ -248,7 +248,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
     warningLabel
         .setText("<html>"
             + "<p><span color=\"red\">WARNING:</span> This SLF4J migration tool will directly modify all Java source files</p>"
-            + "<p>in the selected project without creating a backup of the original files.</p>"
+            + "<p>in the selected project folder without creating a backup of the original files.</p>"
             + "</html>");
   }
 
