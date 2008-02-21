@@ -22,19 +22,28 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter.internal;
 
-import java.io.File;
+package org.slf4j.converter;
 
-public interface ProgressListener {
+import javax.swing.SwingUtilities;
 
-  public void onMigrationBegin();
-  public void onDirectory(File file);
-  public void onFileAddition(File file);
-  public void onFileScanBegin();
-  public void onFileScan(File file);
-  public void onInplaceConversion(File file);
-  public void onDone();
+import org.slf4j.converter.internal.MigratorFrame;
 
-}
+/**
+ * Main entry point to the migrator.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ */
+public class Main {
+
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        MigratorFrame inst = new MigratorFrame();
+        inst.setLocationRelativeTo(null);
+        inst.setVisible(true);
+      }
+    });
+  }
   
+}

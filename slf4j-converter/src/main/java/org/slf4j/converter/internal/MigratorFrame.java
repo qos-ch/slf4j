@@ -1,3 +1,27 @@
+/* 
+ * Copyright (c) 2004-2008 QOS.ch
+ * All rights reserved.
+ * 
+ * Permission is hereby granted, free  of charge, to any person obtaining
+ * a  copy  of this  software  and  associated  documentation files  (the
+ * "Software"), to  deal in  the Software without  restriction, including
+ * without limitation  the rights to  use, copy, modify,  merge, publish,
+ * distribute,  sublicense, and/or sell  copies of  the Software,  and to
+ * permit persons to whom the Software  is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The  above  copyright  notice  and  this permission  notice  shall  be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package org.slf4j.converter.internal;
 
 import java.awt.event.ActionEvent;
@@ -47,7 +71,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
   private SpringLayout layoutManager = new SpringLayout();
   private SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager,
-      BASIC_PADDING); 
+      BASIC_PADDING);
 
   private JLabel migrationLabel;
 
@@ -67,16 +91,6 @@ public class MigratorFrame extends JFrame implements ActionListener {
   JLabel otherLabel;
   JProgressBar progressBar;
   private JFileChooser fileChooser;
-
-  public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        MigratorFrame inst = new MigratorFrame();
-        inst.setLocationRelativeTo(null);
-        inst.setVisible(true);
-      }
-    });
-  }
 
   public MigratorFrame() {
     super();
@@ -131,12 +145,10 @@ public class MigratorFrame extends JFrame implements ActionListener {
     layoutManager.putConstraint(SpringLayout.NORTH, migrationLabel,
         BASIC_PADDING, SpringLayout.NORTH, this);
 
-        
     slh.placeToTheRight(migrationLabel, radioJCL, BASIC_PADDING,
         -BASIC_PADDING / 2);
     slh.placeBelow(radioJCL, radioLog4j, 0, 0);
 
-    
     slh.placeBelow(migrationLabel, folderLabel, 0, BASIC_PADDING * 5);
     slh.placeToTheRight(folderLabel, folderTextField);
     slh.placeToTheRight(folderTextField, browseButton, BASIC_PADDING,
