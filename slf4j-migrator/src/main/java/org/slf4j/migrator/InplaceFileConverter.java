@@ -1,4 +1,4 @@
-package org.slf4j.converter;
+package org.slf4j.migrator;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -11,9 +11,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 
-import org.slf4j.converter.internal.ProgressListener;
-import org.slf4j.converter.line.LineConverter;
-import org.slf4j.converter.line.RuleSet;
+import org.slf4j.migrator.internal.ProgressListener;
+import org.slf4j.migrator.line.LineConverter;
+import org.slf4j.migrator.line.RuleSet;
 
 public class InplaceFileConverter {
 

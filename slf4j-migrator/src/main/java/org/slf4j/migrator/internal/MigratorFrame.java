@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter.internal;
+package org.slf4j.migrator.internal;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,8 +43,8 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.WindowConstants;
 
-import org.slf4j.converter.Constant;
-import org.slf4j.converter.helper.SpringLayoutHelper;
+import org.slf4j.migrator.Constant;
+import org.slf4j.migrator.helper.SpringLayoutHelper;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI

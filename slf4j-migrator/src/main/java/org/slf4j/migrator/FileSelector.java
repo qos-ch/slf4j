@@ -1,10 +1,10 @@
-package org.slf4j.converter;
+package org.slf4j.migrator;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.converter.internal.ProgressListener;
+import org.slf4j.migrator.internal.ProgressListener;
 
 public class FileSelector {
 

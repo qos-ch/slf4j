@@ -1,4 +1,4 @@
-package org.slf4j.converter.helper;
+package org.slf4j.migrator.helper;
 
 public class Abbreviator {
   static final String FILLER = "...";

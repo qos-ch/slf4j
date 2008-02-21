@@ -1,9 +1,9 @@
-package org.slf4j.converter;
+package org.slf4j.migrator;
 
-import org.slf4j.converter.line.EmptyRuleSet;
-import org.slf4j.converter.line.JCLRuleSet;
-import org.slf4j.converter.line.Log4jRuleSet;
-import org.slf4j.converter.line.RuleSet;
+import org.slf4j.migrator.line.EmptyRuleSet;
+import org.slf4j.migrator.line.JCLRuleSet;
+import org.slf4j.migrator.line.Log4jRuleSet;
+import org.slf4j.migrator.line.RuleSet;
 
 /**
  * This class runs Pattern matching with java.util.regex using Patterns defined

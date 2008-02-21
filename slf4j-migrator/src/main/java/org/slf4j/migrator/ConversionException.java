@@ -1,4 +1,4 @@
-package org.slf4j.converter;
+package org.slf4j.migrator;
 
 public class ConversionException extends Exception {
 

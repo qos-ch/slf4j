@@ -1,4 +1,4 @@
-package org.slf4j.converter.line;
+package org.slf4j.migrator.line;
 
 import java.util.ArrayList;
 import java.util.Iterator;

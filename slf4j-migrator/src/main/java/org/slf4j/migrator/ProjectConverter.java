@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter;
+package org.slf4j.migrator;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,9 +32,9 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import org.slf4j.converter.internal.MigratorFrame;
-import org.slf4j.converter.internal.ProgressListener;
-import org.slf4j.converter.line.RuleSet;
+import org.slf4j.migrator.internal.MigratorFrame;
+import org.slf4j.migrator.internal.ProgressListener;
+import org.slf4j.migrator.line.RuleSet;
 
 public class ProjectConverter {
 

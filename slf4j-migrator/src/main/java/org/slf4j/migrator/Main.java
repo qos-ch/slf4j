@@ -22,36 +22,28 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter.internal;
 
-import java.io.File;
+package org.slf4j.migrator;
 
-import org.slf4j.converter.ProjectConverter;
+import javax.swing.SwingUtilities;
 
-public class ConversionTask implements Runnable {
+import org.slf4j.migrator.internal.MigratorFrame;
 
-  final File folder;
-  final MigratorFrame frame;
-  final int conversionType;
- 
+/**
+ * Main entry point to the migrator.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ */
+public class Main {
+
+  public static void main(String[] args) {
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        MigratorFrame inst = new MigratorFrame();
+        inst.setLocationRelativeTo(null);
+        inst.setVisible(true);
+      }
+    });
+  }
   
-  ConversionTask(File folder, MigratorFrame frame, int conversionType) {
-    this.folder = folder;
-    this.frame = frame;
-    this.conversionType = conversionType;
-  }
-
-  public void run() {
-    ProgressListener pl = new ProgressListenerImpl(folder, frame);
-    pl.onMigrationBegin();
-    ProjectConverter converter = new ProjectConverter(conversionType, pl);
-    converter.convertProject(folder);
-  }
-
-  public void launch() {
-    Thread t = new Thread(this);
-    t.setDaemon(true);
-    t.start();
-  }
-
 }

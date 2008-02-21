@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.converter.line;
+package org.slf4j.migrator.line;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

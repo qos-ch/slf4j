@@ -22,12 +22,12 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
  
-package org.slf4j.converter.internal;
+package org.slf4j.migrator.internal;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.slf4j.converter.helper.Abbreviator;
+import org.slf4j.migrator.helper.Abbreviator;
 
 public class ProgressListenerImpl implements ProgressListener {
 
