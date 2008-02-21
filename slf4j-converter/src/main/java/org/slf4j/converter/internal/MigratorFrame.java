@@ -41,7 +41,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import org.slf4j.converter.Constant;
@@ -298,8 +297,17 @@ public class MigratorFrame extends JFrame implements ActionListener {
       } else {
 
         File projectFolder = new File(folderTextField.getText());
+        int conversionType;
+        if(radioJCL.isSelected()) {
+          conversionType = Constant.JCL_TO_SLF4J;
+        } else if (radioLog4j.isSelected()) {
+          conversionType = Constant.LOG4J_TO_SLF4J;
+        } else {
+          // we cannot possibly reach here
+          throw new IllegalStateException("One of JCL or log4j project must have been previously chosen.");
+        }
         ConversionTask task = new ConversionTask(projectFolder, this,
-            Constant.EMPTY_RULE_SET);
+            conversionType);
         task.launch();
       }
     } else if (BROWSE_COMMAND.equals(e.getActionCommand())) {

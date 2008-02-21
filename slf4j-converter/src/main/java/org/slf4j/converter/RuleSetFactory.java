@@ -26,7 +26,7 @@ public abstract class RuleSetFactory {
       return new JCLRuleSet();
     case Constant.LOG4J_TO_SLF4J:
       return new Log4jRuleSet();
-    case Constant.EMPTY_RULE_SET:
+    case Constant.NOP_TO_SLF4J:
       return new EmptyRuleSet();
     default:
       return null;

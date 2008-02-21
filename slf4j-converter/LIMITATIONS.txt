@@ -1,5 +1,14 @@
 
-The slf4j-converter aims to 
+The slf4j-migrator aims to 
+
+General limitations
+===================
+
+- the FATAL level is not supported. 
+
+  This is limitation is not deemed serious because there are usually
+  very few log statements bearing the FATAL level. 
+
 
 - if a method declares multipe loggers on the same line, the conversion will not be complete. Example:
 
@@ -15,8 +24,12 @@ The slf4j-converter aims to
   }
 
 
-  
-- the FATAL level is not supported. 
+When migrating from log4j 
+=========================
 
-  This is limitation is not deemed serious because there are usually
-  very few log statements bearing the FATAL level. 
+- Since NDC is not supported by SLF4J, the migrator cannot properly handle 
+  NDC statements.
+  
+- Calls to PropertyConfigurator or DomConfigurator cannot be migrated since
+  SLF4J the equivalents.
+  
