@@ -79,8 +79,8 @@ public class MultiGroupConversionRule implements ConversionRule {
     for (int group = 1; group <= matcher.groupCount(); group++) {
       replacementText = getReplacement(group);
       if (replacementText != null) {
-        System.out.println("replacing group " + group + " : "
-            + matcher.group(group) + " with " + replacementText);
+        //System.out.println("replacing group " + group + " : "
+        //    + matcher.group(group) + " with " + replacementText);
         replacementBuffer.append(replacementText);
       } else  {
         replacementBuffer.append(matcher.group(group));

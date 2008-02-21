@@ -321,7 +321,6 @@ public class MigratorFrame extends JFrame implements ActionListener {
     int returnVal = fileChooser.showOpenDialog(this);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
       File selectedFile = fileChooser.getSelectedFile();
-      System.out.println(selectedFile);
       folderTextField.setText(selectedFile.getAbsolutePath());
     }
   }
