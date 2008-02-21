@@ -32,6 +32,12 @@ prefix='';
 
   <h3>February xxth, 2008 - Release of SLF4J 1.6.0</h3>
 
+
+  <p>A tool called <a href="migrator.html">SLF4J Migrator</a> now
+  ships with SLF4J. It can help you migrate your project using JCL or
+  log4j to use SLF4J instead.
+  </p>
+
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=61">bug
   61</a> reported by Christopher Sahnwaldt. It is now possible to
   place a backslash in front of a formatting anchor, by escaping the
@@ -54,7 +60,7 @@ prefix='';
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=65">bug
   65</a> reported by Ben Gidley. Superfluous
-  &gt;vesion>$parent.version}&gt;/vesion> lines have been removed from
+  &lt;vesion>$&#x7B;parent.version}&lt;/vesion> lines have been removed from
   pom.xml files. These lines reportedly confuse certain Maven
   repositories.
   </p>
