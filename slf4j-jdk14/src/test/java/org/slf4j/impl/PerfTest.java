@@ -19,9 +19,9 @@ public class PerfTest extends TestCase {
     super.tearDown();
   }
 
-  public void test() {
+  public void testBug72() {
     Logger logger = LoggerFactory.getLogger(PerfTest.class);
-    int len = 1000;
+    int len = 2000;
     for (int i = 0; i < len; i++) {
       logger.debug("hello");
     }
@@ -33,7 +33,13 @@ public class PerfTest extends TestCase {
 
     long end = System.currentTimeMillis();
     
-    System.out.println("Difference "+(end-start));
+    long duration = end-start;
+    // when the code is guarded by a logger.isLoggable condition, 
+    // duration is about 16 *micro*seconds for 1000 iterations
+    // when it is not guarded the figure is 90 milliseconds,
+    // i.e a ration of 1 to 5000
+    // hence
+    assertTrue(duration <= 1);
   }
 
 }

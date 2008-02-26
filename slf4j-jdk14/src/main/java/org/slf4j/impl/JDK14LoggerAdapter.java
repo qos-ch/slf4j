@@ -51,7 +51,8 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  * @author Peter Royal
  */
-public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger {
+public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
+    LocationAwareLogger {
   final java.util.logging.Logger logger;
 
   // WARN: JDK14LoggerAdapter constructor should have only package access so
@@ -80,11 +81,14 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the message object to be logged
    */
   public void trace(String msg) {
-    log(SELF, Level.FINEST, msg, null);
+    if (logger.isLoggable(Level.FINEST)) {
+      log(SELF, Level.FINEST, msg, null);
+    }
   }
 
   /**
-   * Log a message at level FINEST according to the specified format and argument.
+   * Log a message at level FINEST according to the specified format and
+   * argument.
    * 
    * <p>
    * This form avoids superfluous object creation when the logger is disabled
@@ -156,10 +160,11 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the exception (throwable) to log
    */
   public void trace(String msg, Throwable t) {
-    log(SELF, Level.FINEST, msg, t);
+    if (logger.isLoggable(Level.FINEST)) {
+      log(SELF, Level.FINEST, msg, t);
+    }
   }
 
-  
   /**
    * Is this logger instance enabled for the FINE level?
    * 
@@ -176,7 +181,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the message object to be logged
    */
   public void debug(String msg) {
-    log(SELF, Level.FINE, msg, null);
+    if (logger.isLoggable(Level.FINE)) {
+      log(SELF, Level.FINE, msg, null);
+    }
   }
 
   /**
@@ -252,7 +259,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the exception (throwable) to log
    */
   public void debug(String msg, Throwable t) {
-    log(SELF, Level.FINE, msg, t);
+    if (logger.isLoggable(Level.FINE)) {
+      log(SELF, Level.FINE, msg, t);
+    }
   }
 
   /**
@@ -271,7 +280,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the message object to be logged
    */
   public void info(String msg) {
-    log(SELF, Level.INFO, msg, null);
+    if (logger.isLoggable(Level.INFO)) {
+      log(SELF, Level.INFO, msg, null);
+    }
   }
 
   /**
@@ -348,7 +359,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the exception (throwable) to log
    */
   public void info(String msg, Throwable t) {
-    log(SELF, Level.INFO, msg, t);
+    if (logger.isLoggable(Level.INFO)) {
+      log(SELF, Level.INFO, msg, t);
+    }
   }
 
   /**
@@ -368,7 +381,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the message object to be logged
    */
   public void warn(String msg) {
-    log(SELF, Level.WARNING, msg, null);
+    if (logger.isLoggable(Level.WARNING)) {
+      log(SELF, Level.WARNING, msg, null);
+    }
   }
 
   /**
@@ -446,7 +461,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the exception (throwable) to log
    */
   public void warn(String msg, Throwable t) {
-    log(SELF, Level.WARNING, msg, t);
+    if (logger.isLoggable(Level.WARNING)) {
+      log(SELF, Level.WARNING, msg, t);
+    }
   }
 
   /**
@@ -465,7 +482,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the message object to be logged
    */
   public void error(String msg) {
-    log(SELF, Level.SEVERE, msg, null);
+    if (logger.isLoggable(Level.SEVERE)) {
+      log(SELF, Level.SEVERE, msg, null);
+    }
   }
 
   /**
@@ -543,25 +562,23 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    *          the exception (throwable) to log
    */
   public void error(String msg, Throwable t) {
-    log(SELF, Level.SEVERE, msg, t);
+    if (logger.isLoggable(Level.SEVERE)) {
+      log(SELF, Level.SEVERE, msg, t);
+    }
   }
 
-  
   /**
-   * Log the message at the specified level with the specified
-   * throwable if any. This method creates a LogRecord and fills
-   * in caller date before calling this instance's JDK14 logger. 
+   * Log the message at the specified level with the specified throwable if any.
+   * This method creates a LogRecord and fills in caller date before calling
+   * this instance's JDK14 logger.
    * 
    * See bug report #13 for more details.
+   * 
    * @param level
    * @param msg
    * @param t
    */
   private void log(String callerFQCN, Level level, String msg, Throwable t) {
-    // avoid useless processing in case the level is disabled
-    //if(!logger.isLoggable(level)) {
-    //  return;
-    //}
     // millis and thread are filled by the constructor
     LogRecord record = new LogRecord(level, msg);
     record.setLoggerName(getName());
@@ -573,10 +590,12 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
 
   static String SELF = JDK14LoggerAdapter.class.getName();
   static String SUPER = MarkerIgnoringBase.class.getName();
+
   /**
-   * Fill in caller data if possible. 
+   * Fill in caller data if possible.
    * 
-   * @param record The record to update
+   * @param record
+   *          The record to update
    */
   final private void fillCallerData(String callerFQCN, LogRecord record) {
     StackTraceElement[] steArray = new Throwable().getStackTrace();
@@ -608,27 +627,29 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     }
   }
 
-  public void log(Marker marker, String callerFQCN, int level, String message, Throwable t) {
+  public void log(Marker marker, String callerFQCN, int level, String message,
+      Throwable t) {
     Level julLevel;
-    switch(level) {
-    case LocationAwareLogger.TRACE_INT: 
+    switch (level) {
+    case LocationAwareLogger.TRACE_INT:
       julLevel = Level.FINEST;
       break;
-      case LocationAwareLogger.DEBUG_INT: 
-        julLevel = Level.FINE;
-        break;
-      case LocationAwareLogger.INFO_INT: 
-        julLevel = Level.INFO;
-        break;
-      case LocationAwareLogger.WARN_INT: 
-        julLevel = Level.WARNING;
-        break;
-      case LocationAwareLogger.ERROR_INT: 
-        julLevel = Level.SEVERE;
-        break;
-      default:
-        throw new IllegalStateException("Level number "+level+" is not recognized.");
+    case LocationAwareLogger.DEBUG_INT:
+      julLevel = Level.FINE;
+      break;
+    case LocationAwareLogger.INFO_INT:
+      julLevel = Level.INFO;
+      break;
+    case LocationAwareLogger.WARN_INT:
+      julLevel = Level.WARNING;
+      break;
+    case LocationAwareLogger.ERROR_INT:
+      julLevel = Level.SEVERE;
+      break;
+    default:
+      throw new IllegalStateException("Level number " + level
+          + " is not recognized.");
     }
-    log(callerFQCN, julLevel, message, t);    
+    log(callerFQCN, julLevel, message, t);
   }
 }
