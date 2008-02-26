@@ -10,8 +10,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * Implementation of {@link Log org.apache.commons.logging.Log} interface which 
  * delegates all processing to a wrapped {@link Logger org.slf4j.Logger} instance.
  * 
- * <p>JCL's FATAL and TRACE levels are mapped to ERROR and DEBUG respectively. All 
- * other levels map one to one.
+ * <p>JCL's FATAL level is mapped to ERROR. All other levels map one to one.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -25,12 +24,34 @@ public class SLF4JLocationAwareLog implements Log {
   }
 
   /**
+   * Delegates to the <code>isTraceEnabled<code> method of the wrapped 
+   * <code>org.slf4j.Logger</code> instance.
+   */
+  public boolean isTraceEnabled() {
+    return logger.isTraceEnabled();
+  }
+  
+  /**
    * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
    */
   public boolean isDebugEnabled() {
     return logger.isDebugEnabled();
   }
+  
+  /**
+   * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
+   */
+  public boolean isInfoEnabled() {
+    return logger.isInfoEnabled();
+  }
 
+  /**
+   * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
+   */
+  public boolean isWarnEnabled() {
+    return logger.isWarnEnabled();
+  }
+  
   /**
    * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
    */
@@ -46,27 +67,6 @@ public class SLF4JLocationAwareLog implements Log {
     return logger.isErrorEnabled();
   }
 
-  /**
-   * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
-   */
-  public boolean isInfoEnabled() {
-    return logger.isInfoEnabled();
-  }
-
-  /**
-   * Delegates to the <code>isTraceEnabled<code> method of the wrapped 
-   * <code>org.slf4j.Logger</code> instance.
-   */
-  public boolean isTraceEnabled() {
-    return logger.isTraceEnabled();
-  }
-
-  /**
-   * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
-   */
-  public boolean isWarnEnabled() {
-    return logger.isWarnEnabled();
-  }
 
   /**
    * Converts the input parameter to String and then delegates to 
