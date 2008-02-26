@@ -32,12 +32,18 @@ import org.slf4j.migrator.helper.Abbreviator;
 public class ProgressListenerImpl implements ProgressListener {
 
   static final int TARGET_FILE_LENGTH = 85;
+  static final int UPDATE_THRESHOLD = 100;
+  
   int addFileCount = 0;
   int scanFileCount = 0;
   int inplaceConversionCount = 0;
   final MigratorFrame frame;
 
   Abbreviator abbr;
+  
+  long lastUpdate = 0;
+  
+  
 
   public ProgressListenerImpl(File projectFolder, MigratorFrame frame) {
     this.frame = frame;
@@ -49,7 +55,19 @@ public class ProgressListenerImpl implements ProgressListener {
     frame.disableInput();
   }
 
+  boolean isTooSoon() {
+    long now = System.currentTimeMillis();
+    if(now-lastUpdate < UPDATE_THRESHOLD) {
+      return true;
+    } else {
+      lastUpdate = now;
+      return false;
+    }
+  }
+ 
   public void onDirectory(File file) {
+    if(isTooSoon()) return;
+      
     String abbreviatedName = getShortName(file);
     frame.otherLabel.setText("<html><p>Searching folder [" + abbreviatedName
         + "]<p>Found " + addFileCount + " java files to scan.</html>");
@@ -74,9 +92,11 @@ public class ProgressListenerImpl implements ProgressListener {
   }
 
   public void onFileScan(File file) {
-    String abbreviatedName = getShortName(file);
+  
     scanFileCount++;
-
+    if(isTooSoon()) return;
+    String abbreviatedName = getShortName(file);
+    
     frame.otherLabel.setText("<html><p>Scanning file [" + abbreviatedName
         + "]<p></html>");
     // File + scanFileCount + " out of "+ addFileCount+" files to scan."+
