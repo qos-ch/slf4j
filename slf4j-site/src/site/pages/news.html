@@ -60,17 +60,17 @@ prefix='';
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=65">bug
   65</a> reported by Ben Gidley. Superfluous
-  &lt;vesion>$&#x7B;parent.version}&lt;/vesion> lines have been removed from
-  pom.xml files. These lines reportedly confuse certain Maven
-  repositories.
+  &lt;version>$&#x7B;parent.version}&lt;/version> lines have been
+  removed from pom.xml files. These lines reportedly confuse certain
+  Maven repositories.
   </p>
 
-  <p>In org.apache.log4j.Category class as implemented in the
-  log4j-over-slf4j module, calls to the trace() printing method are
-  now correctly mapped to SLF4J's trace() printing method (instead of
-  debug()). Superfluous printing methods with the signature
-  <code>xxxx(Object, Object)</code> and <code>xxxx(String, Object,
-  Object)</code> have been removed.
+  <p>In the <code>org.apache.log4j.Category</code> class, as
+  implemented in the log4j-over-slf4j module, calls to the printing
+  trace() are now correctly mapped to SLF4J's trace() printing method
+  (instead of debug()). Superfluous printing methods with the
+  signature <code>xxxx(Object, Object)</code> and <code>xxxx(String,
+  Object, Object)</code> have been removed.
   </p>
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=67">bug
@@ -83,17 +83,35 @@ prefix='';
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=69">bug
   69</a> reported by Joern Huxhorn, who graciously supplied the fix as
   well as a test case. The <code>add</code> method in
-  <code>BasicMarker</code> class now corectly prevents multiple
+  <code>BasicMarker</code> class now correctly prevents multiple
   addition of the same child. Moreover, the <code>remove</code> method
-  now correcty removes the specified child marker.
+  now correctly removes the specified child marker.
   </p>
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=41">bug
   41</a> reported by Sebastian Davids. The manifest files of various
   projects now mention J2SE-1.3 as the required execution
-  envirionment.
+  environment.
   </p>
 
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=71">bug
+  71</a> reported by Manfred Geiler. The SLF4JLog and
+  SLF4JLocationAwareLog classes are now serializable solving
+  serialization problems encountered with certain libraries which
+  attempt to serialize JCL log instances.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=73">bug
+  73</a> reported by Oleg Smirsky. A "Fragment-Host: slf4j.api" line
+  has been added to every MANIFEST.MF file exporting
+  <code>org.slf4j.impl</code>.
+  </p>
+
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=72">bug
+  72</a> reported by Ian Carr. Performance issues with slf4j-jdk14 for
+  disabled log statements have now been corrected.
+  </p>
 
   <hr noshade="noshade" size="1"/>
 
