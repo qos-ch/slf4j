@@ -2,6 +2,8 @@
  
 package org.apache.commons.logging.impl;
 
+import java.io.Serializable;
+
 import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.spi.LocationAwareLogger;
@@ -14,9 +16,14 @@ import org.slf4j.spi.LocationAwareLogger;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class SLF4JLocationAwareLog implements Log {
+public class SLF4JLocationAwareLog implements Log, Serializable {
 
-  private LocationAwareLogger logger;
+  private static final long serialVersionUID = -2379157579039314822L;
+  
+  // in both Log4jLogger and Jdk14Logger classes in the original JCL, the 
+  // logger instance is transient
+  private transient LocationAwareLogger logger;
+
   private static final String FQCN = SLF4JLocationAwareLog.class.getName();
   
   SLF4JLocationAwareLog(LocationAwareLogger logger) {

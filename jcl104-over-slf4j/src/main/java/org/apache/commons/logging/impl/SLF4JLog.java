@@ -2,6 +2,8 @@
 
 package org.apache.commons.logging.impl;
 
+import java.io.Serializable;
+
 import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 
@@ -14,9 +16,13 @@ import org.slf4j.Logger;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class SLF4JLog implements Log {
+public class SLF4JLog implements Log, Serializable {
 
-  private Logger logger;
+  private static final long serialVersionUID = 680728617011167209L;
+
+  // in both Log4jLogger and Jdk14Logger classes in the original JCL, the 
+  // logger instance is transient
+  private transient Logger logger;
 
   SLF4JLog(Logger logger) {
     this.logger = logger;
