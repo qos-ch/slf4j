@@ -38,8 +38,7 @@ public class PerfTest extends TestCase {
     // duration is about 16 *micro*seconds for 1000 iterations
     // when it is not guarded the figure is 90 milliseconds,
     // i.e a ration of 1 to 5000
-    // hence
-    assertTrue(duration <= 1);
+    assertTrue(duration <= 5);
   }
 
 }
