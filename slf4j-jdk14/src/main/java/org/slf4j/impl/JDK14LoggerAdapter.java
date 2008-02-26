@@ -558,6 +558,10 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
    * @param t
    */
   private void log(String callerFQCN, Level level, String msg, Throwable t) {
+    // avoid useless processing in case the level is disabled
+    //if(!logger.isLoggable(level)) {
+    //  return;
+    //}
     // millis and thread are filled by the constructor
     LogRecord record = new LogRecord(level, msg);
     record.setLoggerName(getName());
