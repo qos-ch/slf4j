@@ -200,7 +200,6 @@ public abstract class LogFactory {
    *              if a suitable <code>Log</code> instance cannot be returned
    */
   public static Log getLog(Class clazz) throws LogConfigurationException {
-
     return (getFactory().getInstance(clazz));
   }
 
@@ -217,9 +216,7 @@ public abstract class LogFactory {
    *              if a suitable <code>Log</code> instance cannot be returned
    */
   public static Log getLog(String name) throws LogConfigurationException {
-
     return (getFactory().getInstance(name));
-
   }
 
   /**
