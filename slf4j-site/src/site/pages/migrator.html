@@ -111,6 +111,22 @@ public MyClass {
     <p></p>
     </li>
 
+    <li>only messages of type String are supported
+
+    <p>If one of your log statements contains a non-string object as
+    its sole parameter, you will have to manually add a toString()
+    method call on the object. In most cases, there are surprisingly
+    few such log statements.
+    </p>
+
+    <p>For example,</p>
+    <p class="source">logger.debug(new Object()); </p>
+    <p>has to be manually re-written as</p>
+    <p class="source">logger.debug(new Object().toString()); </p>
+
+    <p></p>
+    </li>
+
     <li>the FATAL level is not supported. 
     
     <p>You have to convert them manually. This is limitation is not
