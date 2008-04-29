@@ -115,6 +115,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
         	<aggregate>true</aggregate>
+          <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
 					<links>
 						<link>
 							http://java.sun.com/j2se/1.5.0/docs/api
