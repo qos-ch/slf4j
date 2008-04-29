@@ -139,6 +139,10 @@ prefix='';
       <li><a href="#declared_static"> Should Logger members of a class
       be declared as static?  </a></li>
 
+
+      <li><a href="#declaration_pattern">Is there a recommended idiom
+      for declaring a loggers in a class?</a></li>
+
       </ol>
 
   </div>
@@ -149,24 +153,19 @@ prefix='';
     <h2>Generalities</h2>
     
     <dl>
-      <dt><a name="what_is">What is SLF4J?</a></dt>
+      <dt><a name="what_is" href="#what_is">What is SLF4J?</a></dt>
       <dd>
         <p>SLF4J is a simple facade for logging systems allowing the
         end-user to plug-in the desired logging system at deployment
         time.
-       </p>
-      
-
-       <table border="0">
-       <tr><td align="right"><a href="#top">[top]</a></td></tr>
-       </table>
-       <hr />
+        </p>
+          
+        <hr />
       </dd>
 
-      <dt><a name="when">
-      When should SLF4J be used?
+      <dt><a name="when" href="#when"> When should SLF4J be used?
       </a></dt>
-
+      
       <dd>
         <p>In short, libraries and other embedded components should
         consider SLF4J for their logging needs because libraries
@@ -188,45 +187,45 @@ prefix='';
         impact of this dependence to near-painless levels.
        </p>
 
-        <p>Suppose that your CRM application uses log4j for its
-        logging. However, one of your important clients request that
-        logging be performed through JDK 1.4 logging. If your
-        application is riddled with thousands of direct log4j calls,
-        migration to JDK 1.4 would be a long and error-prone
-        process. Had you been invoking SLF4J API instead of log4j, the
-        migration could be completed in a matter of minutes instead of
-        hours.
+       <p>Suppose that your CRM application uses log4j for its
+       logging. However, one of your important clients request that
+       logging be performed through JDK 1.4 logging. If your
+       application is riddled with thousands of direct log4j calls,
+       migration to JDK 1.4 would be a long and error-prone
+       process. Had you been invoking SLF4J API instead of log4j, the
+       migration could be completed in a matter of minutes instead of
+       hours.
        </p>
 
-        <p>SLF4J lets component developers to defer the choice of the
-        logging system to the end-user but eventually a choice needs
-        to be made.
+       <p>SLF4J lets component developers to defer the choice of the
+       logging system to the end-user but eventually a choice needs
+       to be made.
        </p>
 
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr>
-      </table><hr />
+       <hr />
       
       </dd>
 
       <dt>
-        <a name="yet_another_facade">
-        Is SLF4J yet another logging facade?  </a></dt>
+        <a name="yet_another_facade" href="#yet_another_facade">
+        Is SLF4J yet another logging facade?  </a>
+      </dt>
 
-        <dd>
-          <p>SLF4J is conceptually similar to JCL. As such, it can be
-          thought of as yet another logging facade. However, SLF4J is
-          orders of magnitude simpler in design and arguably more
-          robust.
+      <dd>
+        <p>SLF4J is conceptually similar to JCL. As such, it can be
+        thought of as yet another logging facade. However, SLF4J is
+        orders of magnitude simpler in design and arguably more
+        robust.
        </p>
 
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr />
-
-       </dd>
-       <dt>
-         <a name="why_new_project">
-           If SLF4J fixes JCL, then why wasn't the fix made in JCL
-           instead of creating a new project?
-           </a>
+       <hr />
+       
+      </dd>
+      <dt>
+        <a name="why_new_project" href="#why_new_project">
+          If SLF4J fixes JCL, then why wasn't the fix made in JCL
+          instead of creating a new project?
+        </a>
        </dt>
 
        <dd>
@@ -248,31 +247,34 @@ prefix='';
         need be.
        </p>
 
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr /></dd>
+       <hr />
+       </dd>
 
-       <dt><a name="need_to_recompile">
-       When using SLF4J, do I have to recompile my application
-       to switch to a different logging system?
-       </a></dt>
+       <dt>
+         <a name="need_to_recompile" href="#need_to_recompile"> When
+         using SLF4J, do I have to recompile my application to switch
+         to a different logging system?  </a>
+       </dt>
 
        <dd>
-       No, you do not need to recompile your application. You can
-       switch to a different logging system by removing the previous
-       SLF4J binding and replacing it with the binding of your choice.
-
-        <p>For example, if you were using the NOP implementation and
-        would like to switch to log4j version 1.2, simply replace
-        <em>slf4j-nop.jar</em> with <em>slf4j-log4j12.jar</em> on your
-        class path but do not forget to add log4j-1.2.x.jar as
-        well. Want to switch to JDK 1.4 logging?  Just replace
-        <em>slf4j-log4j12.jar</em> with <em>slf4j-jdk14.jar</em>.
-       </p>
+         <p>No, you do not need to recompile your application. You can
+         switch to a different logging system by removing the previous
+         SLF4J binding and replacing it with the binding of your choice.
+         </p>
+         
+         <p>For example, if you were using the NOP implementation and
+         would like to switch to log4j version 1.2, simply replace
+         <em>slf4j-nop.jar</em> with <em>slf4j-log4j12.jar</em> on
+         your class path but do not forget to add log4j-1.2.x.jar as
+         well. Want to switch to JDK 1.4 logging?  Just replace
+         <em>slf4j-log4j12.jar</em> with <em>slf4j-jdk14.jar</em>.
+         </p>
       
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr>
-       </table><hr />
+         <hr />
        </dd>
        <dt>
-         <a name="requirements">What are SLF4J's requirements?</a>
+         <a name="requirements" href="#requirements">What are SLF4J's
+         requirements?</a>
        </dt>
 
        <dd>
@@ -281,8 +283,7 @@ prefix='';
          particular slf4j-api is compatible with JDK 1.3.  However,
          the underlying logging system might have a higher
          requirement. For instance, the <em>slf4j-jdk14</em> binding
-         requires JDK 1.4. Logback requires JDK 1.5, unless you are
-         using the 1.4 retro-translated jars.
+         requires JDK 1.4. Logback requires JDK 1.5.
          </p>
 
          <p>&nbsp;</p>
@@ -313,23 +314,17 @@ prefix='';
            </tr>
            <tr>
              <td>logback-classic</td>
-             <td>JDK 1.5 or above, unless you are using the 1.4
-             retro-translated jars, plus any other library
-             dependencies required by the logback appenders in
-             use</td>
+             <td>JDK 1.5 or above, plus any other library dependencies
+             required by the logback appenders in use</td>
            </tr>
 
          </table>
 
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr>
-       </table><hr />
+         <hr />
        </dd>
 
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr>
-       </table><hr />
-       </dd>
        <dt>
-         <a name="license">
+         <a name="license" href="#license">
            Why is SLF4J licensed under X11 type license instead of the
            Apache Software License?
            </a>
@@ -345,14 +340,13 @@ prefix='';
          compatible with their respective licenses.
        </p>
 
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr>
-       </table><hr />
+       <hr />
        </dd>
        <dt>
-         <a name="where_is_binding">
+         <a name="where_is_binding" href="#where_is_binding">
            Where can I get a particular SLF4J binding?
-      </a>
-      </dt>
+         </a>
+       </dt>
 
       <dd>
         
@@ -375,30 +369,29 @@ prefix='';
         logback-classic binding requires <em>slf4j-api.jar</em>.
        </p>
 
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr />
+      <hr />
       </dd>
 
-      <dt><a name="configure_logging"> Should my library attempt to
-      configure logging?  </a>
+      <dt><a name="configure_logging" href="#configure_logging">
+      Should my library attempt to configure logging?  </a>
       </dt>
 
       <dd>
         <p>Embedded components such as libraries do not need and
-        should not configure the logging system. They invoke SLF4J to
-        log but should let the end-user configure the logging
-        environment. When embedded components try to configure logging
-        on their own, they often override the end-user's wishes. At
-        the end of the day, it is the end-user who has to read the
-        logs and process them. She should be the person to decide how
-        she wants her logging configured.
+        should not configure the underlying logging system. They
+        invoke SLF4J to log but should let the end-user configure the
+        logging environment. When embedded components try to configure
+        logging on their own, they often override the end-user's
+        wishes. At the end of the day, it is the end-user who has to
+        read the logs and process them. She should be the person to
+        decide how she wants her logging configured.
        </p>      
-
-       <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr>
-       </table>
-       </dd>
        
-       <dt><a name="maven2">What about Maven2 transitive
-       dependencies? </a>
+       <hr/>
+      </dd>
+       
+       <dt><a name="maven2" href="#maven2">What about Maven2
+       transitive dependencies? </a>
        </dt>
        
        <dd>
@@ -443,70 +436,71 @@ prefix='';
      </dl>
     </div>
 
-       <div class="section">
+    <div class="section">
 
 
-       <h2>About the SLF4J API</h2>
+      <h2>About the SLF4J API</h2>
 
-       <dl>
+      <dl>
+        
+        <dt><a name="string_or_object" href="#string_or_object"> Why
+        don't the printing methods in the Logger interface accept
+        message of type Object, but only messages of type String?  </a>
+        </dt>
+        
+        <dd>
 
-       <dt><a name="string_or_object"> Why don't the printing methods
-       in the Logger interface accept message of type Object, but only
-       messages of type String?  </a>
-       </dt>
+          <p>In SLF4J 1.0beta4, the printing methods such as debug(),
+          info(), warn(), error() in the <a
+          href="api/org/slf4j/Logger.html">Logger interface</a> were
+          modified so as to accept only messages of type String
+          instead of Object.
+          </p>
 
-       <dd>
-
-        <p>In SLF4J 1.0beta4, the printing methods such as debug(),
-        info(), warn(), error() in the <a
-        href="api/org/slf4j/Logger.html">Logger interface</a> were
-        modified so as to accept only messages of type String instead
-        of Object.
-       </p>
-
-        <p>Thus, the set of printing methods for the DEBUG level
-        became:</p>
+          <p>Thus, the set of printing methods for the DEBUG level
+          became:</p>
 
         <p class="source">debug(String msg); 
 debug(String format, Object arg); 
 debug(String format, Object arg1, Object arg2);           
 debug(String msg, Throwable t);</p>
 
-        <p>Previously, the first argument in the above methods was of
-        type <code>Object</code>.</p>
+       <p>Previously, the first argument in the above methods was of
+       type <code>Object</code>.</p>
 
-        <p>This change enforces the notion that logging systems are
-        about decorating and handling messages of type String, and not
-        any arbitrary type (Object).
+       <p>This change enforces the notion that logging systems are
+       about decorating and handling messages of type String, and not
+       any arbitrary type (Object).
        </p>
 
-        <p>Just as importantly, the new set of method signatures offer
-        a clearer differentiation between the overladed methods
-        whereas previously the choice of the invoked method due to
-        Java overloding rules were not always easy to follow.</p>
-
-        <p>It was also easy to make mistakes. For example, previously
-        it was legal to write:</p>
-
-        <p class="source">logger.debug(new Exception("some error"));</p>
+       <p>Just as importantly, the new set of method signatures offer
+       a clearer differentiation between the overladed methods
+       whereas previously the choice of the invoked method due to
+       Java overloding rules were not always easy to follow.</p>
+       
+       <p>It was also easy to make mistakes. For example, previously
+       it was legal to write:</p>
+       
+       <p class="source">logger.debug(new Exception("some error"));</p>
         
-        <p>Unfortunately, the above call did not print the stack trace
-        of the exception. Thus, a potentially crucial piece of
-        information could be lost. When the first parameter is
-        restricted to be of type String, then only the method
+       <p>Unfortunately, the above call did not print the stack trace
+       of the exception. Thus, a potentially crucial piece of
+       information could be lost. When the first parameter is
+       restricted to be of type String, then only the method
        </p>
+       
        <p class="source">debug(String msg, Throwable t)</p>
        
        <p>can be used to log exceptions. Note that this method
        ensures that every logged exception is accompanied with a
        descriptive message.</p>
        
-        <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr />
+       <hr />
         </dd>
-
+        
         <dt>
 
-          <a name="exception_message">
+          <a name="exception_message"  href="#exception_message">
             Can I log an exception without an accompanying message?
           </a>
         </dt>
@@ -516,65 +510,57 @@ debug(String msg, Throwable t);</p>
           <p>If <code>e</code> is an <code>Exception</code>, and you
           would like to log an exception at the ERROR level, you must
           add an accompanying message. For example,</p>
-
+          
           <p class="source">logger.error("some accompanying message", e);</p>
         
-        <p>You might correctly observe that not all exceptions have a
-        meaningful message to accompany them. Moreover, a good
-        exception should already contain a self explanatory
-        description. The accompanying message may therefore be
-        considered redundant.
-       </p>
+          <p>You might correctly observe that not all exceptions have a
+          meaningful message to accompany them. Moreover, a good
+          exception should already contain a self explanatory
+          description. The accompanying message may therefore be
+          considered redundant.
+          </p>
 
 
-        <p>While these are valid arguments, there are three opposing
-        arguments also worth considering. First, on many, albeit not
-        all occasions, the accompanying message can convey useful
-        information nicely complementing the description contained in
-        the exception. Frequently, at the point where the exception is
-        logged, the developer has access to more contextual
-        information than at the point where the exception is
-        thrown. Second, it is not difficult to imagine more or less
-        generic messages, e.g. "Exception caught", "Exception
-        follows", that can be used as the first argument for
-        <code>error(String msg, Throwable t)</code> invocations.
-        Third, most log output formats display the message on a line,
-        followed by the exception on a separate line. Thus, the
-        message line would look inconsistent without a message.
-       </p>
+          <p>While these are valid arguments, there are three opposing
+          arguments also worth considering. First, on many, albeit not
+          all occasions, the accompanying message can convey useful
+          information nicely complementing the description contained
+          in the exception. Frequently, at the point where the
+          exception is logged, the developer has access to more
+          contextual information than at the point where the exception
+          is thrown. Second, it is not difficult to imagine more or
+          less generic messages, e.g. "Exception caught", "Exception
+          follows", that can be used as the first argument for
+          <code>error(String msg, Throwable t)</code> invocations.
+          Third, most log output formats display the message on a
+          line, followed by the exception on a separate line. Thus,
+          the message line would look inconsistent without a message.
+          </p>
 
-        <p>In short, if the user were allowed to log an exception
-        without an accompanying message, it would be the job of the
-        logging system to invent a message. This is actually what the
-        <a href="http://tinyurl.com/cr9kg">throwing(String
-        sourceClass, String sourceMethod, Throwable thrown)</a> method
-        in java.util.logging package does. (It decides on its own that
-        accompanying message is the string "THROW".)
-       </p>
+          <p>In short, if the user were allowed to log an exception
+          without an accompanying message, it would be the job of the
+          logging system to invent a message. This is actually what
+          the <a href="http://tinyurl.com/cr9kg">throwing(String
+          sourceClass, String sourceMethod, Throwable thrown)</a>
+          method in java.util.logging package does. (It decides on its
+          own that accompanying message is the string "THROW".)
+          </p>
         
-        <p>It may initially appear strange to require an accompanying
-        message to log an exception. Nevertheless, this is common
-        practice in <em>all</em> log4j derived systems such as
-        java.util.logging, logkit, etc. and of course log4j itself. It
-        seems that the current consensus considers requiring an
-        accompanying message as a good a thing (TM).
-       </p>
+          <p>It may initially appear strange to require an accompanying
+          message to log an exception. Nevertheless, this is common
+          practice in <em>all</em> log4j derived systems such as
+          java.util.logging, logkit, etc. and of course log4j itself. It
+          seems that the current consensus considers requiring an
+          accompanying message as a good a thing (TM).
+          </p>
+       
+          <hr/>
+        </dd>     
 
-        </dd>
-
-        <table border="0">
-          <tr>
-            <td align="right">
-              <a href="#top">[top]</a>
-            </td>
-          </tr>
-        </table>
-
-        <hr />
 
         
-        <dt><a name="logging_performance"> What is the fastest way of
-        (not) logging?</a></dt><dd>
+        <dt><a name="logging_performance" href="#logging_performance">
+        What is the fastest way of (not) logging?</a></dt><dd>
 
         <p>SLF4J supports an advanced feature called parameterized
         logging which can significantly boost logging performance for
@@ -665,22 +651,16 @@ logger.debug("The new entry is {}.", entry);</p>
         <p>
         </p>
 
+        <hr />
+             
         </dd>
 
         
-        <table border="0">
-          <tr>
-            <td align="right">
-              <a href="#top">[top]</a>
-            </td>
-          </tr>
-        </table>
-        <hr />
-             
-        <dt><a name="string_contents">
-        How can I log the string contents of a single (possibly
-        complex) object?
+        <dt><a name="string_contents" href="#string_contents"> How can
+        I log the string contents of a single (possibly complex)
+        object?
         </a>
+        </dt>
         
         <dd>
           <p> In relatively rare cases where the message to be logged
@@ -701,20 +681,15 @@ logger.debug("The new entry is {}.", entry);</p>
           <code>complexObject.toString()</code> conversion will be
           advantageously avoided.
           </p>
+
+          <hr />
+                  
         </dd>
-
-        <table border="0">
-          <tr>
-            <td align="right">
-              <a href="#top">[top]</a>
-            </td>
-          </tr>
-        </table>
+       
         
-        <hr />
 
 
-        <dt><a name="fatal"> Why doesn't the
+        <dt><a name="fatal"  href="#fatal"> Why doesn't the
         <code>org.slf4j.Logger</code> interface have methods for the
         FATAL level?
         </a>
@@ -748,19 +723,12 @@ logger.debug("The new entry is {}.", entry);</p>
         FATAL level is superfluous.
        </p>
 
-       <table border="0">
-         <tr>
-           <td align="right">
-             <a href="#top">[top]</a>
-           </td>
-         </tr>
-       </table>
-
+     
        <hr />
       </dd>
 
       <dt>
-        <a name="trace">Why was the TRACE level introduced only in
+        <a name="trace" href="#trace">Why was the TRACE level introduced only in
         SLF4J version 1.4.0?
         </a>
       </dt>
@@ -802,20 +770,13 @@ logger.debug("The new entry is {}.", entry);</p>
         requests of level TRACE are wasteful, given that people kept
         asking for it, we decided to bow to popular demand.
         </p>
-
-        <table border="0">
-          <tr>
-            <td align="right">
-              <a href="#top">[top]</a>
-            </td>
-          </tr>
-        </table>
+        <hr/>
 
       </dd>
 
       <dt>
-        <a name="i18n">Does the SLF4J logging API support I18N
-        (internationalization)?
+        <a name="i18n" href="#i18n">Does the SLF4J logging API support
+        I18N (internationalization)?
         </a>
       </dt>
         
@@ -848,18 +809,7 @@ class MyClass {
       
 
         
-      </dd>
-
-      
-
-      <table border="0">
-        <tr>
-          <td align="right">
-            <a href="#top">[top]</a>
-          </td>
-        </tr>
-      </table>
-
+      </dd>          
 
     </dl>
   </div>
@@ -867,17 +817,21 @@ class MyClass {
 
   <div class="section">
 
-    <h2>Implementing the SLF4J API</h2><dl><dt><a name="slf4j_compatible">
-        How do I make my logging framework SLF4J
-        compatible?
-        </a>
-        </dt>
-        <dd>
-        
+    <h2>Implementing the SLF4J API</h2>
+
+    <dl>
+      <dt><a name="slf4j_compatible" href="#slf4j_compatible"> How do
+      I make my logging framework SLF4J compatible?
+      </a>
+      </dt>
+      
+
+      <dd>
+
         <p>Adding supporting for the SLF4J is suprisingly
         easy. Essentialy, you coping an existing binding and tailoring
         it a little (as explained below) does the trick.
-       </p>
+        </p>
 
         <p>Assuming your logging system has notion of a
         logger, called say <code>MyLogger</code>, you need to provide
@@ -912,7 +866,7 @@ class MyClass {
         system, follow these steps:</p>
 
         <ol>
-          <li>start with a copy of an existing module,
+          <li>start with a copy of an existing module,</li>
           <li>create an adapter between your logging system and
           <code>org.slf4j.Logger</code> interface
          </li>
@@ -921,15 +875,20 @@ class MyClass {
           factory you created in the previous step</li>
        </ol>
          
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table><hr /></dd><dt><a name="marker_interface">
-      How can my logging system add support for
-      the <code>Marker</code> interface?
-      </a></dt><dd>
-        <p>Markers consitute a revolutionary concept which is
-        supported by logback but not other existing logging
-        systems. Consequently, SLF4J confromant logging systems are
-        allowed to ignore marker data passed by the user.
-       </p>
+       <hr/>
+        </dd>
+        <dt><a name="marker_interface" href="#marker_interface"> How
+        can my logging system add support for the <code>Marker</code>
+        interface?
+        </a>
+        </dt>
+        <dd>
+        
+          <p>Markers consitute a revolutionary concept which is
+          supported by logback but not other existing logging
+          systems. Consequently, SLF4J confromant logging systems are
+          allowed to ignore marker data passed by the user.
+          </p>
 
         <p>However, even though marker data may be ignored, the user
         must still be allowed to specify marker data. Otherwise, users
@@ -958,68 +917,110 @@ class MyClass {
         methods in <code>org.slf4j.Logger</code> which take a
         <code>Marker</code> as the first argument.
        </p>
+    
+       <hr/>
+      </dd>
+    </dl>
+  </div>
 
-      <table border="0"><tr><td align="right"><a href="#top">[top]</a></td></tr></table></dd></dl></div><div class="section"><h2>General questions about logging</h2><dl><dt><a name="declared_static">
-      Should Logger members of a class be declared as static?
-      </a></dt><dd>
+  <div class="section">
+    <h2>General questions about logging</h2>
 
-        <p>This author recommends that loggers members be declared
-        as instance variables instead of static. 
-       </p>
 
-        <p>Static logger members cost a single variable reference for
-        all instances of the class whereas an instance logger member
-        will cost a variable reference for every instance of the
-        class. For simple classes instantiated thousands of times
-        there might be a noticeable difference.
-       </p>
+    <dl>
+      <dt><a name="declared_static"  href="#declared_static"> Should Logger
+      members of a class be declared as static?  </a>
+      </dt>
+      <dd>
+      
+      <p>This author recommends that loggers members be declared
+      as instance variables instead of static. 
+      </p>
+      
+      <p>Static logger members cost a single variable reference for
+      all instances of the class whereas an instance logger member
+      will cost a variable reference for every instance of the
+      class. For simple classes instantiated thousands of times
+      there might be a noticeable difference.
+      </p>
+      
+      <p>However, more recent logging systems, e.g log4j or logback,
+      support a distinct logger context for each application running
+      in the application server. Thus, even if a single copy of
+      <em>log4j.jar</em> or <em>logback-classic.jar</em> is deployed
+      in the server, the logging system will be able to differentiate
+      between applications and offer a distinct logging environment
+      for each application.
+      </p>
 
-        <p>However, more recent logging systems, e.g log4j or logback,
-        support a distinct logger context for each application running
-        in the application server. Thus, even if a single copy of
-        <em>log4j.jar</em> or <em>logback-classic.jar</em> is deployed
-        in the server, the logging system will be able to
-        differentiate between applications and offer a distinct
-        logging environment for each application.
-       </p>
+      <p>More specifically, each time a logger is retrieved by
+      invoking <code>LoggerFactory.getLogger()</code> method, the
+      underlying logging system will return an instance appropriate
+      for the current application. Please note that within the
+      <em>same</em> application retrieving a logger by a given name
+      will always return the same logger. For a given name, a
+      different logger will be returned only for different
+      applications.
+      </p>
 
-        <p>More specifically, each time a logger is retrieved by
-        invoking <code>LoggerFactory.getLogger()</code> method, the
-        underlying logging system will return an instance appropriate
-        for the current application. Please note that within the
-        <em>same</em> application retrieving a logger by a given name
-        will always return the same logger. For a given name, a
-        different logger will be returned only for different
-        applications.
-       </p>
+      <p>If the logger is static, then it will only be retrieved once
+      when the hosting class is loaded into memory. If the hosting
+      class is used in only in one application, there is not much to
+      be concerned about. However, if the hosting class is shared
+      between several applications, then all instances of the shared
+      class will log into the context of the application which
+      happened to fist load the shared class into memory - hardly the
+      behavior expected by the user.
+      </p>
 
-        <p>If the logger is static, then it will only be retrieved
-        once when the hosting class is loaded into memory. If the
-        hosting class is used in only in one application, there is not
-        much to be concerned about. However, if the hosting class is
-        shared between several applications, then all instances of the
-        shared class will log into the context of the application
-        which happened to fist load the shared class into memory -
-        hardly the behavior expected by the user.
-       </p>
+      <p>In summary, logger members should be instance variables,
+      except for classes with few members <em>and</em> instantiated
+      very (very!) frequently.
+      </p>            
 
-        <p>In summary, logger members should be instance variables,
-        except for classes with few members <em>and</em> instantiated
-        very (very!) frequently.
-       </p>
+      <p>Please note that contrary to static variables, instance
+      variables are serialized by default. However, the
+      org.sfl4j.Logger interface is not serializable nor are the
+      logger classes in underlying logging systems such as logback,
+      java.util.logging or log4j.
+      </p>
+    </dd>       
+    </dl>
+
+    <dl>
+      <dt> <a name="declaration_pattern"
+      href="#declaration_pattern">Is there a recommended idiom for
+      declaring a logger in a class?</a>
+      </dt>
+
+      <dd>
+        <p>The following logger declaration idiom is resitant to
+        cut-and-pasting between classes. However, it assumes that your
+        logger is an instance variable of the class.</p>
+
+        <p class="source">package some.package;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class MyClass {
+  <b>final Logger logger = LoggerFactory.getLogger(this.getClass());</b>
+  ... etc
+}</p>
+
+    <p>If the hosting class is seriazlizable, then you need to declare
+    the logger variable as <code>transient</code>.
+    </p>
 
       </dd>
+    </dl>
+         
+      
+  
+    
 
 
-      <table border="0">
-        <tr>
-          <td align="right">
-            <a href="#top">[top]</a>
-          </td>
-        </tr>
-      </table>
 
-      </dl>
+
       </div>
 </div>
 </body>
