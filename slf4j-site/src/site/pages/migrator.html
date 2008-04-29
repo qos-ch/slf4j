@@ -24,7 +24,8 @@ prefix='';
 
   <p>The SLF4J migrator is a small Java tool for migrating Java source
   files from the Jakarta Commons Logging (JCL) API to SLF4J. It can
-  also migrate from the log4j API to SLF4J.
+  also migrate from the log4j API to SLF4J, or from
+  <code>java.util.logging</code> API to SLF4J.
   </p>
 
   <p>The SLF4J migrator consists of a single jar file that can be
@@ -52,9 +53,9 @@ prefix='';
   <h2>Limitations</h2>
 
   <p>SLF4J migrator is intended as a simple tool to help you to
-  migrate your project source using JCL or log4j to SLF4J. It can only
-  perform elementary conversion steps. Essentially it will replace
-  appropriate import lines and logger declarations.
+  migrate your project source using JCL, log4j or JUL to SLF4J. It can
+  only perform elementary conversion steps. Essentially, it will
+  replace appropriate import lines and logger declarations.
   </p>
   
   <p>MyClass is a sample class using JCL. Here it is before:</p>
@@ -97,7 +98,8 @@ public MyClass {
   Java project from JCL to SLF4J.
   </p>
 
-  <p>Migration rules for log4j to SLF4J are similar.</p>
+  <p>Migration rules from log4j to SLF4J, or from JUL to SLF4J are
+  similar.</p>
 
   <h3>General limitations</h3>
 
@@ -182,6 +184,48 @@ public MyClass {
     </li> 
   </ul>
 
+  <h3>Limitations when migrating from JUL</h3>
+
+  
+  <ul>
+    <li>Calls to <code>finest()</code>, <code>finer()</code> or
+    <code>finest()</code> methods of
+    <code>java.util.loggging.Logger</code> are left as is.
+
+    <p>Given that <code>finest()</code>, <code>finer()</code> or
+    <code>finest()</code> calls could map to both trace() or debug()
+    calls in SLF4J, it is impossible to guess how the user wants to
+    map these calls.
+    </p>
+
+    <p>
+    </p>
+
+    </li>
+
+
+    <li>All strings matching ".severe(" are replaced by the string
+    ".error(" without any contexual analysys. Similarly, all strings
+    matching ".warning(" are replaced by ".warn(".
+
+    <p>Since the match/replace operation is not contextual, if your
+    code contains methods named "severe" or "warning", then the
+    migration results will have compilation errors. Fortunately, such
+    errors should be rare and easy to identify.
+    </p>
+
+    <p>
+    </p>
+
+    </li>
+
+    <li>Invocations of the following methods in the
+    <code>java.util.logging.Logger</code> class need to be migrated
+    manually: <code>log</code>, <code>logp</code>, <code>logrb</code>,
+    <code>entering</code>, <code>exiting</code>.
+      
+    </li>
+  </ul>
 
  </div> 
 </body>

@@ -38,12 +38,20 @@ public class JULRuleSet implements RuleSet {
     SingleConversionRule crFactory1 = new SingleConversionRule(Pattern
         .compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
 
+    SingleConversionRule crWarning = new SingleConversionRule(Pattern
+            .compile("\\.warning\\("), ".warn(");
+    SingleConversionRule crSevere = new SingleConversionRule(Pattern
+            .compile("\\.severe\\("), ".error(");
+  
+    
     conversionRuleList = new ArrayList<ConversionRule>();
     conversionRuleList.add(crImport0);
     conversionRuleList.add(crImport1);
     conversionRuleList.add(crImport2);
     conversionRuleList.add(crFactory0);
     conversionRuleList.add(crFactory1);
+    conversionRuleList.add(crWarning);
+    conversionRuleList.add(crSevere);
   }
 
   public Iterator<ConversionRule> iterator() {
