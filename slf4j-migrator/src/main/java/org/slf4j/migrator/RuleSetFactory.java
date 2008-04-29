@@ -2,6 +2,7 @@ package org.slf4j.migrator;
 
 import org.slf4j.migrator.line.EmptyRuleSet;
 import org.slf4j.migrator.line.JCLRuleSet;
+import org.slf4j.migrator.line.JULRuleSet;
 import org.slf4j.migrator.line.Log4jRuleSet;
 import org.slf4j.migrator.line.RuleSet;
 
@@ -26,6 +27,8 @@ public abstract class RuleSetFactory {
       return new JCLRuleSet();
     case Constant.LOG4J_TO_SLF4J:
       return new Log4jRuleSet();
+    case Constant.JUL_TO_SLF4J:
+        return new JULRuleSet();
     case Constant.NOP_TO_SLF4J:
       return new EmptyRuleSet();
     default:

@@ -76,6 +76,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
   private JRadioButton radioLog4j;
   private JRadioButton radioJCL;
+  private JRadioButton radioJUL;
   private ButtonGroup buttonGroup;
 
   private JTextField folderTextField;
@@ -116,6 +117,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
     createMigrationLabel();
     createRadioJCL();
     createRadioLog4j();
+    createRadioJUL();
     createButtonGroup();
     createFolderLabel();
     createFolderTextField();
@@ -148,7 +150,10 @@ public class MigratorFrame extends JFrame implements ActionListener {
         -BASIC_PADDING / 2);
     slh.placeBelow(radioJCL, radioLog4j, 0, 0);
 
-    slh.placeBelow(migrationLabel, folderLabel, 0, BASIC_PADDING * 5);
+   slh.placeBelow(radioLog4j, radioJUL, 0, 0);
+        
+    
+    slh.placeBelow(migrationLabel, folderLabel, 0, BASIC_PADDING * 6);
     slh.placeToTheRight(folderLabel, folderTextField);
     slh.placeToTheRight(folderTextField, browseButton, BASIC_PADDING,
         -BASIC_PADDING / 2);
@@ -169,7 +174,8 @@ public class MigratorFrame extends JFrame implements ActionListener {
     getContentPane().add(migrationLabel);
     getContentPane().add(radioJCL);
     getContentPane().add(radioLog4j);
-
+    getContentPane().add(radioJUL);
+    
     getContentPane().add(folderLabel);
     getContentPane().add(folderTextField);
     getContentPane().add(browseButton);
@@ -188,6 +194,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
     buttonGroup = new ButtonGroup();
     buttonGroup.add(radioJCL);
     buttonGroup.add(radioLog4j);
+    buttonGroup.add(radioJUL);
   }
 
   private void createMigrationLabel() {
@@ -209,6 +216,12 @@ public class MigratorFrame extends JFrame implements ActionListener {
         .setToolTipText("Select this button if you wish to migrate a Java project using log4j to use SLF4J.");
   }
 
+  private void createRadioJUL() {
+	    radioJUL = new JRadioButton();
+	    radioJUL.setText("from JUL to SLF4J ");
+	    radioJUL
+	        .setToolTipText("Select this button if you wish to migrate a Java project using java.utl.logging (JUL) to use SLF4J.");
+	  }
   private void createFolderLabel() {
     folderLabel = new JLabel();
     folderLabel.setText("Project Directory");
@@ -302,6 +315,8 @@ public class MigratorFrame extends JFrame implements ActionListener {
           conversionType = Constant.JCL_TO_SLF4J;
         } else if (radioLog4j.isSelected()) {
           conversionType = Constant.LOG4J_TO_SLF4J;
+        } else if (radioJUL.isSelected()) {
+              conversionType = Constant.JUL_TO_SLF4J;
         } else {
           // we cannot possibly reach here
           throw new IllegalStateException("One of JCL or log4j project must have been previously chosen.");
@@ -328,9 +343,9 @@ public class MigratorFrame extends JFrame implements ActionListener {
   List<String> doSanityAnalysis() {
 
     List<String> errorList = new ArrayList<String>();
-    if (!radioJCL.isSelected() && !radioLog4j.isSelected()) {
+    if (!radioJCL.isSelected() && !radioLog4j.isSelected() && !radioJUL.isSelected()) {
       errorList
-          .add("Please select the migration type (JCL to SLF4J or log4j to SLF4J)");
+          .add("Please select the migration type: JCL, log4j, or JUL to SLF4J.");
     }
 
     String folder = folderTextField.getText();

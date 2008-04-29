@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * This class represents JCL to SLF4J conversion rules
  * 
- * @author jean-noelcharpin
+ * @author Jean-Noel Charpin
  * 
  */
 public class JCLRuleSet implements RuleSet {
