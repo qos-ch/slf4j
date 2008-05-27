@@ -1,5 +1,7 @@
 package org.slf4j.helpers;
 
+import java.util.Map;
+
 import org.slf4j.spi.MDCAdapter;
 
 /**
@@ -24,6 +26,10 @@ public class NOPMakerAdapter implements MDCAdapter {
   }
 
   public void remove(String key) {
+  }
+
+  public Map getCopyOfPropertyMap() {
+    return null;
   }
 
 }

@@ -24,6 +24,8 @@
 
 package org.slf4j.spi;
 
+import java.util.Map;
+
 /**
  * This interface abstracts the service offered by various MDC
  * implementations.
@@ -67,4 +69,12 @@ public interface MDCAdapter {
    */
   public void clear();
 
+  /**
+   * Return a copy of the current thread's context map, with keys and 
+   * values of type String. Returned value may be null.
+   * 
+   * @return A copy of the current thread's context map. May be null.
+   * @since 1.5.1
+   */
+  public Map getCopyOfPropertyMap();
 }

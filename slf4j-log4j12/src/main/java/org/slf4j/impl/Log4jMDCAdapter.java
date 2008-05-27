@@ -1,5 +1,6 @@
 package org.slf4j.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.spi.MDCAdapter;
@@ -37,4 +38,14 @@ public class Log4jMDCAdapter implements MDCAdapter {
     org.apache.log4j.MDC.remove(key);
   }
 
+  public Map getCopyOfPropertyMap() {
+    Map old = org.apache.log4j.MDC.getContext();
+    if(old != null) {
+      return new HashMap(old);
+    } else {
+      return null;
+    }
+  }
+
+  
 }

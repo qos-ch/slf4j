@@ -24,6 +24,9 @@
 
 package org.slf4j;
 
+import java.util.Map;
+
+import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
@@ -36,13 +39,13 @@ import org.slf4j.spi.MDCAdapter;
  * If the underlying logging system offers MDC functionality, then SLF4J's MDC,
  * i.e. this class, will delegate to the underlying system's MDC. Note that at
  * this time, only two logging systems, namely log4j and logback, offer MDC
- * functionality. If the undelying system does not support MDC, then SLF4J will
- * silently drop MDC information.
+ * functionality. If the underlying system does not support MDC, e.g. java.util.logging, 
+ * then SLF4J will use a {@link BasicMDCAdapter}. 
  * 
  * <p>
  * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j
- * or logback, but without forcing log4j or logback as dependencies upon your
- * users.
+ * logback, or java.util.logging, but without forcing these systems as dependencies 
+ * upon your users.
  * 
  * <p>
  * For more information on MDC please see the <a
@@ -147,7 +150,7 @@ public class MDC {
     mdcAdapter.remove(key);
   }
 
-  /**
+  /** 
    * Clear all entries in the MDC of the underlying implementation.
    */
   public static void clear() {
@@ -157,7 +160,22 @@ public class MDC {
     }
     mdcAdapter.clear();
   }
-
+  
+  /**
+   * Return a copy of the current thread's context map, with keys and 
+   * values of type String. Returned value may be null.
+   * 
+   * @return A copy of the current thread's context map. May be null.
+   * @since 1.5.1
+   */
+  public static Map getCopyOfPropertyMap() {
+    if (mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "
+          + NULL_MDCA_URL);
+    }
+    return mdcAdapter.getCopyOfPropertyMap();
+  }
+  
   /**
    * Returns the MDCAdapter instance currently in use.
    * 
@@ -167,4 +185,6 @@ public class MDC {
   public static MDCAdapter getMDCAdapter() {
     return mdcAdapter;
   }
+  
+  
 }
