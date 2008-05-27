@@ -131,6 +131,10 @@ public class MessageFormatter {
     int len = messagePattern.length();
     int j = messagePattern.indexOf(DELIM_START);
 
+    if(argArray == null) {
+      return messagePattern;
+    }
+    
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
 
     for (int L = 0; L < argArray.length; L++) {
@@ -175,7 +179,7 @@ public class MessageFormatter {
         }
       }
     }
-    // append the characters following the second {} pair.
+    // append the characters following the last {} pair.
     sbuf.append(messagePattern.substring(i, messagePattern.length()));
     return sbuf.toString();
   }

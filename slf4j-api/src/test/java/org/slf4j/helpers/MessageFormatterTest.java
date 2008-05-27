@@ -151,6 +151,28 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Value {} is smaller than 1", result);    
   }
   
+  public void testNullArray() {
+    String result;
+    
+    String msg0 = "msg0";
+    String msg1 = "msg1 {}";
+    String msg2 = "msg2 {} {}";
+    String msg3 = "msg3 {} {} {}";
+
+    Object[] args = null;
+
+    result = MessageFormatter.arrayFormat(msg0, args);
+    assertEquals(msg0, result);
+    
+    result = MessageFormatter.arrayFormat(msg1, args);
+    assertEquals(msg1, result);
+    
+    result = MessageFormatter.arrayFormat(msg2, args);
+    assertEquals(msg2, result);
+    
+    result = MessageFormatter.arrayFormat(msg3, args);
+    assertEquals(msg3, result);
+  }
   public void testArray() {
     String result;
 

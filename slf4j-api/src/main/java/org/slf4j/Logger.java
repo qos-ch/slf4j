@@ -26,8 +26,9 @@
 package org.slf4j;
 
 /**
- * The main user interface to logging. It is expected that logging
- * takes place through concrete implementations of this interface.
+ * The org.slf4j.Logger interface is the main user entry point of SLF4J API. 
+ * It is expected that logging takes place through concrete implementations 
+ * of this interface.
  *
  * <h3>Typical usage pattern:</h3>
  * <pre>

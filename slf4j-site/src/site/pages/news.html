@@ -42,6 +42,15 @@ prefix='';
   </p>
 
   
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=78">bug
+  78</a> reported by Venu Thachappilly. If the argument array passed
+  to a Logger printing method (debug, info, etc.) was null, a
+  <code>NullPointerException</code> was thrown. With the correction,
+  the messagePattern is returned as is, without parameter
+  substitution.
+  </p>
+
+
   <p>Added the <code>getCopyOfContextMap</code> method to the
   <code>MDCAdapter</code> and <code>org.sf4j.MDC</code> classes. This
   was requested in <a

@@ -33,6 +33,8 @@
 
 package org.slf4j;
 
+import org.apache.log4j.spi.LoggingEvent;
+
 import junit.framework.TestCase;
 
 /**
@@ -108,7 +110,19 @@ public class InvocationTest extends TestCase {
     logger.error(null, e);
     assertEquals(8, listAppender.list.size());
   }
-
+  
+  // http://bugzilla.slf4j.org/show_bug.cgi?id=78
+  public void testNullParameter_BUG78() {
+    Logger logger = LoggerFactory.getLogger("testNullParameter_BUG78");
+    String[] parameters = null;
+    String msg = "hello {}";
+    
+    logger.debug(msg, parameters);
+    assertEquals(1, listAppender.list.size());
+    LoggingEvent e = (LoggingEvent) listAppender.list.get(0);
+    assertEquals(msg, e.getMessage());
+  }
+  
   public void testMarker() {
     Logger logger = LoggerFactory.getLogger("testMarker");
     Marker blue = MarkerFactory.getMarker("BLUE");
