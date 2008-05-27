@@ -43,21 +43,28 @@ import junit.framework.TestCase;
  */
 public class InvocationTest extends TestCase {
 
+  ListAppender listAppender = new ListAppender();
+  org.apache.log4j.Logger root;
   public InvocationTest(String arg0) {
     super(arg0);
   }
 
   protected void setUp() throws Exception {
     super.setUp();
+    root = org.apache.log4j.Logger.getRootLogger();
+    root.addAppender(listAppender);
+
   }
 
   protected void tearDown() throws Exception {
     super.tearDown();
+    root.getLoggerRepository().resetConfiguration();
   }
 
   public void test1() {
     Logger logger = LoggerFactory.getLogger("test1");
     logger.debug("Hello world.");
+    assertEquals(1, listAppender.list.size());
   }
 
   public void test2() {
@@ -67,6 +74,8 @@ public class InvocationTest extends TestCase {
     Exception e = new Exception("This is a test exception.");
     Logger logger = LoggerFactory.getLogger("test2");
 
+    logger.trace("Hello trace.");
+    
     logger.debug("Hello world 1.");
     logger.debug("Hello world {}", i1);
     logger.debug("val={} val={}", i1, i2);
@@ -81,10 +90,12 @@ public class InvocationTest extends TestCase {
     logger.error("Hello world 4.");
     logger.error("Hello world {}", new Integer(3));
     logger.error("Hello world 4.", e);
+    assertEquals(11, listAppender.list.size());
   }
 
   public void testNull() {
     Logger logger = LoggerFactory.getLogger("testNull");
+    logger.trace(null);
     logger.debug(null);
     logger.info(null);
     logger.warn(null);
@@ -95,11 +106,13 @@ public class InvocationTest extends TestCase {
     logger.info(null, e);
     logger.warn(null, e);
     logger.error(null, e);
+    assertEquals(8, listAppender.list.size());
   }
 
   public void testMarker() {
     Logger logger = LoggerFactory.getLogger("testMarker");
     Marker blue = MarkerFactory.getMarker("BLUE");
+    logger.trace(blue, "hello");
     logger.debug(blue, "hello");
     logger.info(blue, "hello");
     logger.warn(blue, "hello");
@@ -114,6 +127,7 @@ public class InvocationTest extends TestCase {
     logger.info(blue, "hello {} and {} ", "world", "universe");
     logger.warn(blue, "hello {} and {} ", "world", "universe");
     logger.error(blue, "hello {} and {} ", "world", "universe");
+    assertEquals(12, listAppender.list.size());
   }
 
   public void testMDC() {

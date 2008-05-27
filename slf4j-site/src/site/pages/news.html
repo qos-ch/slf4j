@@ -33,10 +33,27 @@ prefix='';
 
   <h3>XXX, 2008 - Release of SLF4J 1.5.1</h3>
 
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug
+  68</a> reported by Su Chuan and David Rauschenbach. SLF4J requires
+  log4j 1.2.12 or later. However, if an older version of log4j is
+  present (lacking the TRACE level), in order to avoid
+  NoSuchMethodError exceptions, the SLF4J's
+  <code>Log4jLoggerAdapter</code> will map the TRACE level as DEBUG.
+  </p>
 
   <p>The <a href="migrator.html">SLF4J Migrator</a> tool has been
   improved to support migration from JUL to SLF4J.
   </p>
+
+  <p>In <code>MarkerIgnoringBase</code> class, corrected mapping of
+  trace methods with markers to their equivalents without marker
+  data. Previously, the mapping was trace to debug. The incorrect
+  mapping affected only calls to the trace method with
+  markers. Interestingly enough, this bug was picked up by new unit
+  tests and has not been reported as a bug by our users.
+  </p>
+
+  
 
   <h3>February 26th, 2008 - Release of SLF4J 1.5.0</h3>
 

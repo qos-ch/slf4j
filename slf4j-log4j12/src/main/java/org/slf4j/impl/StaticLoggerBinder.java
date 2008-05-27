@@ -35,6 +35,7 @@ package org.slf4j.impl;
 import org.apache.log4j.Level;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
@@ -62,7 +63,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     try {
       Level level = Level.TRACE;
     } catch(NoSuchFieldError nsfe) {
-      throw new Error("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version", nsfe);
+      Util.reportFailure("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
     }
   }
   
