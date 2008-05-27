@@ -43,23 +43,23 @@ public abstract class MarkerIgnoringBase implements Logger {
   }
   
   public void trace(Marker marker, String msg) {
-    debug(msg);
+    trace(msg);
   }
 
   public void trace(Marker marker, String format, Object arg) {
-    debug(format, arg);
+    trace(format, arg);
   }
 
   public void trace(Marker marker, String format, Object arg1, Object arg2) {
-    debug(format, arg1, arg2);
+    trace(format, arg1, arg2);
   }
 
   public void trace(Marker marker, String format, Object[] argArray) {
-    debug(format, argArray);
+    trace(format, argArray);
   }
 
   public void trace(Marker marker, String msg, Throwable t) {
-    debug(msg, t);
+    trace(msg, t);
   }
   
   public boolean isDebugEnabled(Marker marker) {
