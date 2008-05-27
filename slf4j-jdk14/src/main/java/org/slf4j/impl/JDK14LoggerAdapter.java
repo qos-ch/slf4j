@@ -532,12 +532,12 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
   }
 
   /**
-   * Log a message at level INFO according to the specified format and
+   * Log a message at level SEVERE according to the specified format and
    * arguments.
    * 
    * <p>
    * This form avoids superfluous object creation when the logger is disabled
-   * for the INFO level.
+   * for the SEVERE level.
    * </p>
    * 
    * @param format
