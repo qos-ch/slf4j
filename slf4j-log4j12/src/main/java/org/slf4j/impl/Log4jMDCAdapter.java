@@ -38,7 +38,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
     org.apache.log4j.MDC.remove(key);
   }
 
-  public Map getCopyOfPropertyMap() {
+  public Map getCopyOfContextMap() {
     Map old = org.apache.log4j.MDC.getContext();
     if(old != null) {
       return new HashMap(old);

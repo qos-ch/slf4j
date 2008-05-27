@@ -28,7 +28,7 @@ public class NOPMakerAdapter implements MDCAdapter {
   public void remove(String key) {
   }
 
-  public Map getCopyOfPropertyMap() {
+  public Map getCopyOfContextMap() {
     return null;
   }
 

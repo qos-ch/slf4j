@@ -168,12 +168,12 @@ public class MDC {
    * @return A copy of the current thread's context map. May be null.
    * @since 1.5.1
    */
-  public static Map getCopyOfPropertyMap() {
+  public static Map getCopyOfContextMap() {
     if (mdcAdapter == null) {
       throw new IllegalStateException("MDCAdapter cannot be null. See also "
           + NULL_MDCA_URL);
     }
-    return mdcAdapter.getCopyOfPropertyMap();
+    return mdcAdapter.getCopyOfContextMap();
   }
   
   /**

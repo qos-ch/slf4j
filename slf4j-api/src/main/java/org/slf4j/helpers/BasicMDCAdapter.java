@@ -122,7 +122,7 @@ public class BasicMDCAdapter implements MDCAdapter {
    * Returned value may be null.
    * 
    */
-  public Map getCopyOfPropertyMap() {
+  public Map getCopyOfContextMap() {
     HashMap hashMap = (HashMap) inheritableThreadLocal.get();
     if (hashMap != null) {
       return new HashMap(hashMap);

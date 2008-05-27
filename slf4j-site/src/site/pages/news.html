@@ -41,8 +41,23 @@ prefix='';
   <code>Log4jLoggerAdapter</code> will map the TRACE level as DEBUG.
   </p>
 
-  <p>The <a href="migrator.html">SLF4J Migrator</a> tool has been
-  improved to support migration from JUL to SLF4J.
+  
+  <p>Added the <code>getCopyOfContextMap</code> method to the
+  <code>MDCAdapter</code> and <code>org.sf4j.MDC</code> classes. This
+  was requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=84">bug 84</a> by
+  Anton Tagunov.
+  </p>
+
+  <p>Added the <code>getEffectiveLevel()</code> method to the
+  <code>Category</code> class in log4j-over-slf4j. This addition was
+  requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=74">bug 74</a> by
+  Michael Newcomb.
+  </p>
+
+  <p>The <a href="migrator.html">SLF4J Migrator</a>
+  tool has been improved to support migration from JUL to SLF4J.
   </p>
 
   <p>In <code>MarkerIgnoringBase</code> class, corrected mapping of

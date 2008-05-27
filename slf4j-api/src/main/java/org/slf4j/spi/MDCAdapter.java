@@ -76,5 +76,5 @@ public interface MDCAdapter {
    * @return A copy of the current thread's context map. May be null.
    * @since 1.5.1
    */
-  public Map getCopyOfPropertyMap();
+  public Map getCopyOfContextMap();
 }
