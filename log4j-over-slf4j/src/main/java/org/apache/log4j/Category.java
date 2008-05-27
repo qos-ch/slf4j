@@ -82,6 +82,30 @@ public class Category {
   }
 
   /**
+   * Return the level in effect for this category/logger.
+   * 
+   * <p>
+   * The result is computed by simulation.
+   * 
+   * @return
+   */
+  public Level getEffectiveLevel() {
+    if(slf4jLogger.isTraceEnabled()) {
+      return Level.TRACE;
+    }
+    if(slf4jLogger.isDebugEnabled()) {
+      return Level.DEBUG;
+    }
+    if(slf4jLogger.isInfoEnabled()) {
+      return Level.INFO;
+    }
+    if(slf4jLogger.isWarnEnabled()) {
+      return Level.WARN;
+    }
+    return Level.ERROR;
+  }
+  
+  /**
    * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
    * method of SLF4J.
    */
