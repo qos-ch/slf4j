@@ -116,7 +116,7 @@ public class ProjectConverter {
 
   public void printException() {
     if (exception != null) {
-      Iterator iterator = exception.iterator();
+      Iterator<ConversionException> iterator = exception.iterator();
       while (iterator.hasNext()) {
         ConversionException exc = (ConversionException) iterator.next();
         exc.print();
