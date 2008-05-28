@@ -32,6 +32,7 @@
     <module>slf4j-jcl</module>
     <module>jcl104-over-slf4j</module>
     <module>log4j-over-slf4j</module>
+    <module>jul-to-slf4j</module>
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
   </modules>
