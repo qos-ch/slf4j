@@ -85,6 +85,14 @@ public class InvocationTest extends TestCase {
     logger.error("Hello world 4.", e);
   }
   
+  // http://bugzilla.slf4j.org/show_bug.cgi?id=78
+  public void testNullParameter_BUG78() {
+    Logger logger = LoggerFactory.getLogger("testNullParameter_BUG78");
+    String[] parameters = null;
+    String msg = "hello {}";
+    logger.info(msg, parameters);
+  }
+  
   public void testNull() {
     Logger logger = LoggerFactory.getLogger("testNull");
     logger.debug(null);
