@@ -1,6 +1,5 @@
 package org.slf4j.bridge;
 
-import java.util.logging.ErrorManager;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -8,6 +7,7 @@ import java.util.logging.LogRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * JUL bridge/router for SLF4J.
@@ -16,6 +16,13 @@ import org.slf4j.LoggerFactory;
  * @since 1.5.1
  */
 public class SLF4JBridgeHandler extends Handler {
+
+  private static final String FQCN = SLF4JBridgeHandler.class.getName();
+
+  private static final int TRACE_LEVEL_THRESHOLD = Level.FINEST.intValue();
+  private static final int DEBUG_LEVEL_THRESHOLD = Level.FINE.intValue();
+  private static final int INFO_LEVEL_THRESHOLD = Level.INFO.intValue();
+  private static final int WARN_LEVEL_THRESHOLD = Level.WARNING.intValue();
 
   /**
    * Resets the entire JUL logging system and adds a single SLF4JHandler
@@ -95,7 +102,7 @@ public class SLF4JBridgeHandler extends Handler {
   /**
    * Return the Logger instance that will be used for logging.
    */
-  protected Logger getPublisher(LogRecord record) {
+  protected Logger getSLF4JLogger(LogRecord record) {
     String name = null;
     if (classname) {
       if (name == null) {
@@ -111,11 +118,37 @@ public class SLF4JBridgeHandler extends Handler {
     return LoggerFactory.getLogger(name);
   }
 
-  /**
-   * Returns {@code Level.ALL} as SLF4J cares about discarding log statements.
-   */
-  public final synchronized Level getLevel() {
-    return Level.ALL;
+  public void callLocationAwareLogger(LocationAwareLogger lal, LogRecord record) {
+    int julLevelValue = record.getLevel().intValue();
+    int slf4jLevel;
+
+    if (julLevelValue <= TRACE_LEVEL_THRESHOLD) {
+      slf4jLevel = LocationAwareLogger.TRACE_INT;
+    } else if (julLevelValue <= DEBUG_LEVEL_THRESHOLD) {
+      slf4jLevel = LocationAwareLogger.DEBUG_INT;
+    } else if (julLevelValue <= INFO_LEVEL_THRESHOLD) {
+      slf4jLevel = LocationAwareLogger.INFO_INT;
+    } else if (julLevelValue <= WARN_LEVEL_THRESHOLD) {
+      slf4jLevel = LocationAwareLogger.WARN_INT;
+    } else {
+      slf4jLevel = LocationAwareLogger.ERROR_INT;
+    }
+    lal.log(null, FQCN, slf4jLevel, record.getMessage(), record.getThrown());
+  }
+
+  public void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
+    int julLevelValue = record.getLevel().intValue();
+    if (julLevelValue <= TRACE_LEVEL_THRESHOLD) {
+      slf4jLogger.trace(record.getMessage(), record.getThrown());
+    } else if (julLevelValue <= DEBUG_LEVEL_THRESHOLD) {
+      slf4jLogger.debug(record.getMessage(), record.getThrown());
+    } else if (julLevelValue <= INFO_LEVEL_THRESHOLD) {
+      slf4jLogger.info(record.getMessage(), record.getThrown());
+    } else if (julLevelValue <= WARN_LEVEL_THRESHOLD) {
+      slf4jLogger.warn(record.getMessage(), record.getThrown());
+    } else {
+      slf4jLogger.error(record.getMessage(), record.getThrown());
+    }
   }
 
   /**
@@ -141,81 +174,16 @@ public class SLF4JBridgeHandler extends Handler {
     /*
      * Get our SLF4J logger for publishing the record.
      */
-    Logger publisher = getPublisher(record);
-    Throwable thrown = record.getThrown(); // can be null!
+    Logger slf4jLogger = getSLF4JLogger(record);
     String message = record.getMessage(); // can be null!
-    if (format && getFormatter() != null) {
-      try {
-        message = getFormatter().format(record);
-      } catch (Exception ex) {
-        reportError(null, ex, ErrorManager.FORMAT_FAILURE);
-        return;
-      }
-    }
     if (message == null) {
       return;
     }
-    /*
-     * TRACE
-     */
-    if (record.getLevel().intValue() <= Level.FINEST.intValue()) {
-      publisher.trace(message, thrown);
-      return;
+    if (slf4jLogger instanceof LocationAwareLogger) {
+      callLocationAwareLogger((LocationAwareLogger) slf4jLogger, record);
+    } else {
+      callPlainSLF4JLogger(slf4jLogger, record);
     }
-    /*
-     * DEBUG
-     */
-    if (record.getLevel() == Level.FINER) {
-      publisher.debug(message, thrown);
-      return;
-    }
-    if (record.getLevel() == Level.FINE) {
-      publisher.debug(message, thrown);
-      return;
-    }
-    /*
-     * INFO
-     */
-    if (record.getLevel() == Level.CONFIG) {
-      publisher.info(message, thrown);
-      return;
-    }
-    if (record.getLevel() == Level.INFO) {
-      publisher.info(message, thrown);
-      return;
-    }
-    /*
-     * WARN
-     */
-    if (record.getLevel() == Level.WARNING) {
-      publisher.warn(message);
-      return;
-    }
-    /*
-     * ERROR
-     */
-    if (record.getLevel().intValue() >= Level.SEVERE.intValue()) {
-      publisher.error(message, thrown);
-      return;
-    }
-    /*
-     * Still here? Fallback and out.
-     */
-    publishFallback(record, publisher);
-  }
-
-  /**
-   * Called by publish if no level value matched.
-   * <p>
-   * This implementation uses SLF4Js DEBUG level.
-   * 
-   * @param record
-   *                to publish
-   * @param publisher
-   *                who logs out
-   */
-  protected void publishFallback(LogRecord record, Logger publisher) {
-    publisher.debug(record.getMessage(), record.getThrown());
   }
 
 }
