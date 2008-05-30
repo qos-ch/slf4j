@@ -1,3 +1,34 @@
+/*
+ * Copyright (c) 2004-2008 QOS.ch
+ *
+ * All rights reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to  deal in  the Software without  restriction, including
+ * without limitation  the rights to  use, copy, modify,  merge, publish,
+ * distribute, and/or sell copies of  the Software, and to permit persons
+ * to whom  the Software is furnished  to do so, provided  that the above
+ * copyright notice(s) and this permission notice appear in all copies of
+ * the  Software and  that both  the above  copyright notice(s)  and this
+ * permission notice appear in supporting documentation.
+ *
+ * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ * OF  THIRD PARTY  RIGHTS. IN  NO EVENT  SHALL THE  COPYRIGHT  HOLDER OR
+ * HOLDERS  INCLUDED IN  THIS  NOTICE BE  LIABLE  FOR ANY  CLAIM, OR  ANY
+ * SPECIAL INDIRECT  OR CONSEQUENTIAL DAMAGES, OR  ANY DAMAGES WHATSOEVER
+ * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
+ * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
+ * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * Except as  contained in  this notice, the  name of a  copyright holder
+ * shall not be used in advertising or otherwise to promote the sale, use
+ * or other dealings in this Software without prior written authorization
+ * of the copyright holder.
+ */
+
 package org.slf4j.bridge;
 
 import java.util.logging.Handler;
@@ -9,15 +40,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
+
+// Based on http://bugzilla.slf4j.org/show_bug.cgi?id=38
+
 /**
  * JUL bridge/router for SLF4J.
  * 
  * @author Christian Stein
+ * @author Joern Huxhorn        
+ * @author Ceki G&uml;lc&uml;
+ * 
  * @since 1.5.1
  */
 public class SLF4JBridgeHandler extends Handler {
 
-  private static final String FQCN = SLF4JBridgeHandler.class.getName();
+  // The caller is java.util.logging.Logger
+  private static final String FQCN = java.util.logging.Logger.class.getName();
+  private static final String UNKNOWN_LOGGER_NAME = "unknown.jul.logger";
 
   private static final int TRACE_LEVEL_THRESHOLD = Level.FINEST.intValue();
   private static final int DEBUG_LEVEL_THRESHOLD = Level.FINE.intValue();
@@ -25,30 +64,12 @@ public class SLF4JBridgeHandler extends Handler {
   private static final int WARN_LEVEL_THRESHOLD = Level.WARNING.intValue();
 
   /**
-   * Resets the entire JUL logging system and adds a single SLF4JHandler
-   * instance to the root logger.
-   * <p>
-   * Same as: <code>SLF4JHandler.install(new SLF4JHandler(true, true));</code>
+   * Resets the entire JUL logging system and adds new SLF4JHandler instance to
+   * the root logger.
    */
   public static void install() {
-    install(new SLF4JBridgeHandler(true, true));
-  }
-
-  /**
-   * Resets the entire JUL logging system and adds the SLF4JHandler instance to
-   * the root logger.
-   * 
-   * <pre><code>
-   * SLF4JHandler handler = new SLF4JHandler(true, true);
-   * handler.setFilter(...);
-   * handler.setFormatter(...);
-   * handler.setErrorManager(...);
-   * SLF4JHandler.install(handler);
-   * </code></pre>
-   */
-  public static void install(SLF4JBridgeHandler handler) {
     LogManager.getLogManager().reset();
-    LogManager.getLogManager().getLogger("").addHandler(handler);
+    LogManager.getLogManager().getLogger("").addHandler(new SLF4JBridgeHandler());
   }
 
   /**
@@ -65,24 +86,11 @@ public class SLF4JBridgeHandler extends Handler {
     LogManager.getLogManager().readConfiguration();
   }
 
-  protected final boolean classname;
-
-  protected final boolean format;
-
   /**
    * Initialize this handler.
    * 
-   * @param classname
-   *                Use the source class name provided by the LogRecord to get
-   *                the SLF4J Logger name. If <code>false</code>, the raw
-   *                name of the JUL logger is used.
-   * @param format
-   *                If <code>true</code>, use the attached formatter if
-   *                available. If <code>false</code> the formatter is ignored.
    */
-  public SLF4JBridgeHandler(boolean classname, boolean format) {
-    this.classname = classname;
-    this.format = format;
+  public SLF4JBridgeHandler() {
   }
 
   /**
@@ -103,17 +111,9 @@ public class SLF4JBridgeHandler extends Handler {
    * Return the Logger instance that will be used for logging.
    */
   protected Logger getSLF4JLogger(LogRecord record) {
-    String name = null;
-    if (classname) {
-      if (name == null) {
-        name = record.getSourceClassName();
-      }
-    }
+    String name = record.getLoggerName();
     if (name == null) {
-      name = record.getLoggerName();
-    }
-    if (name == null) {
-      name = SLF4JBridgeHandler.class.getName();
+      name = UNKNOWN_LOGGER_NAME;
     }
     return LoggerFactory.getLogger(name);
   }
@@ -171,9 +171,7 @@ public class SLF4JBridgeHandler extends Handler {
     if (record == null) {
       return;
     }
-    /*
-     * Get our SLF4J logger for publishing the record.
-     */
+    
     Logger slf4jLogger = getSLF4JLogger(record);
     String message = record.getMessage(); // can be null!
     if (message == null) {
