@@ -8,10 +8,15 @@ import org.apache.log4j.spi.LoggingEvent;
 
 public class ListAppender extends AppenderSkeleton {
 
-  List list = new ArrayList();
+  public List list = new ArrayList();
+  
+  public boolean extractLocationInfo = false;
   
   protected void append(LoggingEvent event) {
     list.add(event);
+    if(extractLocationInfo) {
+      event.getLocationInformation();
+    }
   }
 
   public void close() {
