@@ -935,10 +935,91 @@ class MyClass {
       </dt>
       <dd>
       
-      <p>This author recommends that loggers members be declared
-      as instance variables instead of static. 
+      <p>We <code>used</code> to recommend that loggers members be
+      declared as instance variables instead of static. After further
+      analysis, <b>we no longer recommend one approach over the
+      other.</b>
+      </p>
+
+      <p>Here is a summary of the pros and cons of each approach.
       </p>
       
+      <table class="bodyTable">
+        <tr valign="top">
+          <th width="50%">Advantages for declaring loggers as static</th>       
+          <th width="50%">Disadvantages for declaring loggers as static</th>              
+        </tr>
+        <tr  valign="top" class="alt">
+          <td>
+            <ol>
+              <li>common and well-established idiom</li>
+              <li>less CPU overhead: loggers are retreived and
+              assigned only once, at hosting class
+              initialisation</li>
+              <li>less memory overhead: logger declaration will
+              consume one reference per class</li>
+              <li>serialization of the hosting class does not require
+              any special action
+              </li>              
+            </ol>
+          </td>
+
+          <td> <!-- static con -->
+            <ol>
+              <li>For libraries shared between applications, not
+              possible to take advantage of repository selectors. It
+              should be noteed that if the SLF4J binding and the
+              underlying API ships with each application (not shared
+              between applications), then each application will still
+              have its own logging environment.  
+              </li>
+              <li>not IOC-friendly</li>
+            </ol>
+          </td>
+        </tr>
+
+        <tr>
+          <th width="50%">Advantages for declaring loggers as instance variables</th>       
+          <th width="50%">Disadvantages for declaring loggers as
+          instance variables</th>
+        </tr>
+        
+        <tr class="alt" valign="top">
+          <td> <!-- instance pros -->
+            <ol>
+              <li>Possible to take advantage of repository selectors
+              even for libraries shared between applications. However,
+              repository selectors only work if the underlying logging
+              sytem is logback-classic. Repository selectors do not
+              work for the SLF4J+log4j combination.
+              </li>
+              <li>IOC-friendly</li>
+            </ol>
+          </td>
+
+          <td> <!-- instance cons -->
+            <ol>
+              <li>Less common idiom than declaring loggers as static
+              variables</li>
+              
+              <li>higher CPU overhead: loggers are retreived and
+              assigned for each instance of the hosting class</li>
+
+              <li>higher memory overhead: logger declaration will
+              consume one reference per instance of the hosting class</li>      
+
+              <li>if the hosting class is serialized, then the logger
+              declaration has to be marked as <code>transient</code>
+              </li>
+
+            </ol>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <h3>Explanation</h3>
+
       <p>Static logger members cost a single variable reference for
       all instances of the class whereas an instance logger member
       will cost a variable reference for every instance of the
@@ -975,17 +1056,46 @@ class MyClass {
       behavior expected by the user.
       </p>
 
-      <p>In summary, logger members should be instance variables,
-      except for classes with few members <em>and</em> instantiated
-      very (very!) frequently.
-      </p>            
+      <p>Unfortunately, for non-native implementations of the SLF4J
+      API, namely with slf4j-log4j12, log4j's repository selector will
+      not be able to do its job properly because slf4j-log4j12, a
+      non-native SLF4J binding, will store logger instances in a map,
+      short-circuiting context-dependent logger retrieval. For native
+      SLF4J implementations, such as logback-classic, repository
+      selectors will work as expected.
+      </p>          
 
-      <p>Please note that contrary to static variables, instance
-      variables are serialized by default. However, the
-      org.sfl4j.Logger interface is not serializable nor are the
-      logger classes in underlying logging systems such as logback,
-      java.util.logging or log4j.
+      <p>The Apache Commons wiki contains an <a
+      href="http://wiki.apache.org/jakarta-commons/Logging/StaticLog">informative
+      article</a> covering the same question.</p>
+
+      <p><b>Logger serialization</b></p>
+
+      <p>Contrary to static variables, instance variables are
+      serialized by default. However, the org.sfl4j.Logger interface
+      is not serializable nor are the logger classes in underlying
+      logging systems such as java.util.logging, log4j or
+      logback-classic.
       </p>
+
+
+      <p><b>Summary</b></p>
+
+      <p>In summary, declaring logger members as static variables,
+      requires less work, less CPU and memory overhead and causes no
+      problems with serialization. On the other hand, declaring logger
+      members as instance variables, requires more work, more CPU and
+      memory overhead and is likely to cause problems with
+      serialization. However, instance variables make it possible to
+      create a distinct logger environment for each application, even
+      for loggers declared in shared libraries. Perhaps more important
+      than previously mentioned considerations, instance variables are
+      IOC-friendly whereas static variables are not.
+      </p>    
+
+      <p>
+      </p>
+http://wiki.apache.org/jakarta-commons/Logging/StaticLog
     </dd>       
     </dl>
 
@@ -996,23 +1106,24 @@ class MyClass {
       </dt>
 
       <dd>
-        <p>The following logger declaration idiom is resitant to
-        cut-and-pasting between classes. However, it assumes that your
-        logger is an instance variable of the class.</p>
+        <p>The following is the recommended logger declaration
+        idiom. It assumes that your logger is a static variable of the
+        class.</p>
 
         <p class="source">package some.package;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MyClass {
-  <b>final Logger logger = LoggerFactory.getLogger(this.getClass());</b>
+  <b>final static Logger logger = LoggerFactory.getLogger(MyClass.class);</b>
   ... etc
 }</p>
 
-    <p>If the hosting class is seriazlizable, then you need to declare
-    the logger variable as <code>transient</code>.
-    </p>
-
+        <p>Unfortunately, give that the name of the hosting class is
+        part of the logger declarion, the above logger declaration
+        idom is not is <em>not</em> resitant to cut-and-pasting
+        between classes.
+        </p>
       </dd>
     </dl>
          
