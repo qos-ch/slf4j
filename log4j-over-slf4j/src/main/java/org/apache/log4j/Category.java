@@ -104,6 +104,24 @@ public class Category {
     }
     return Level.ERROR;
   }
+
+  /**
+   * Returns the assigned {@link Level}, if any, for this Category.
+   * This implementation always returns null.
+   * 
+   * @return Level - the assigned Level, can be <code>null</code>.
+   */
+  final public Level getLevel() {
+    return null;
+  }
+
+
+  /**
+   * @deprecated Please use {@link #getLevel} instead.
+  */
+  final public Level getPriority() {
+    return null;
+  }
   
   /**
    * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
