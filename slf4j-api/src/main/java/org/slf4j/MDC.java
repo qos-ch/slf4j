@@ -175,6 +175,23 @@ public class MDC {
     }
     return mdcAdapter.getCopyOfContextMap();
   }
+
+  /**
+   * Set the current thread's context map by first clearing any existing 
+   * map and then copying the map passed as parameter. The context map passed
+   * as parameter must only contain keys and values of type String.
+   * 
+   * @param contextMap must contain only keys and values of type String
+   * @since 1.5.1
+   */
+  public static void setContextMap(Map contextMap) {
+    if (mdcAdapter == null) {
+      throw new IllegalStateException("MDCAdapter cannot be null. See also "
+          + NULL_MDCA_URL);
+    }
+    mdcAdapter.setContextMap(contextMap);
+  }
+  
   
   /**
    * Returns the MDCAdapter instance currently in use.

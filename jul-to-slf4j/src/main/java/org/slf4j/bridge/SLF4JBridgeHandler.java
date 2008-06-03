@@ -44,7 +44,32 @@ import org.slf4j.spi.LocationAwareLogger;
 // Based on http://bugzilla.slf4j.org/show_bug.cgi?id=38
 
 /**
- * JUL bridge/router for SLF4J.
+ * Bridge/route all JUL log records to the SLF4J API.
+ * 
+ * <p>Essentially, the idea is to install on the root logger an instance of 
+ * SLF4JBridgeHandler as the sole JUL handler in the system. Subsequently, the 
+ * SLF4JBridgeHandler instance will redirect all JUL log records are redirected to 
+ * the SLF4J API based on the following mapping of levels:
+ * 
+ * <pre>
+ * FINEST  -> TRACE
+ * FINER   -> DEBUG
+ * FINE    -> DEBUG
+ * INFO    -> INFO
+ * WARNING -> WARN
+ * SEVER   -> ERROR
+ * </pre>
+ * 
+ * Usage:
+ * 
+ * <pre>
+ *   // once during initialization time of your application
+ *   SLF4JHandler.install(handler);
+ *   
+ *   // usual pattern: get a Logger and then log a message
+ *   java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("org.wombat");
+ *   julLogger.fine("hello world"); // this will get redirected to SLF4J
+ * </pre>
  * 
  * @author Christian Stein
  * @author Joern Huxhorn        
@@ -118,7 +143,7 @@ public class SLF4JBridgeHandler extends Handler {
     return LoggerFactory.getLogger(name);
   }
 
-  public void callLocationAwareLogger(LocationAwareLogger lal, LogRecord record) {
+  protected void callLocationAwareLogger(LocationAwareLogger lal, LogRecord record) {
     int julLevelValue = record.getLevel().intValue();
     int slf4jLevel;
 
@@ -136,7 +161,7 @@ public class SLF4JBridgeHandler extends Handler {
     lal.log(null, FQCN, slf4jLevel, record.getMessage(), record.getThrown());
   }
 
-  public void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
+  protected void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
     int julLevelValue = record.getLevel().intValue();
     if (julLevelValue <= TRACE_LEVEL_THRESHOLD) {
       slf4jLogger.trace(record.getMessage(), record.getThrown());
@@ -165,9 +190,7 @@ public class SLF4JBridgeHandler extends Handler {
    *                ignored and is not published.
    */
   public void publish(LogRecord record) {
-    /*
-     * Silently ignore null records.
-     */
+    // Silently ignore null records.
     if (record == null) {
       return;
     }
@@ -183,5 +206,4 @@ public class SLF4JBridgeHandler extends Handler {
       callPlainSLF4JLogger(slf4jLogger, record);
     }
   }
-
 }

@@ -32,4 +32,8 @@ public class NOPMakerAdapter implements MDCAdapter {
     return null;
   }
 
+  public void setContextMap(Map contextMap) {
+    // NOP
+  }
+
 }

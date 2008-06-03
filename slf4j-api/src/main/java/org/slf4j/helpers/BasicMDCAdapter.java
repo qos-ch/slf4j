@@ -131,4 +131,15 @@ public class BasicMDCAdapter implements MDCAdapter {
     }
   }
 
+  public void setContextMap(Map contextMap) {
+    HashMap hashMap = (HashMap) inheritableThreadLocal.get();
+    if (hashMap != null) {
+      hashMap.clear();
+      hashMap.putAll(contextMap);
+    } else {
+      hashMap = new HashMap(contextMap);
+      inheritableThreadLocal.set(hashMap);
+    }
+  }
+
 }

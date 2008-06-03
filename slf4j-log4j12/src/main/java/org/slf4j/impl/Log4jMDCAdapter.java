@@ -1,6 +1,7 @@
 package org.slf4j.impl;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.slf4j.spi.MDCAdapter;
@@ -47,5 +48,17 @@ public class Log4jMDCAdapter implements MDCAdapter {
     }
   }
 
-  
+  public void setContextMap(Map contextMap) {
+    Map old = org.apache.log4j.MDC.getContext();
+    if(old == null) {
+      Iterator entrySetIterator = contextMap.entrySet().iterator();
+      while(entrySetIterator.hasNext()) {
+        Map.Entry mapEntry = (Map.Entry) entrySetIterator.next();
+        org.apache.log4j.MDC.put((String) mapEntry.getKey(), mapEntry.getValue());
+      }
+    } else {
+      old.clear();
+      old.putAll(contextMap);
+    }
+  }
 }

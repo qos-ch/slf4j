@@ -33,6 +33,9 @@
 
 package org.slf4j;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.spi.LoggingEvent;
 
 import junit.framework.TestCase;
@@ -163,4 +166,18 @@ public class InvocationTest extends TestCase {
     } catch (IllegalArgumentException e) {
     }
   }
+  
+  public void testMDCContextMapValues() {
+    Map map = new HashMap();
+    map.put("ka", "va");
+    map.put("kb", "vb");
+    
+    MDC.put("k", "v");
+    assertEquals("v", MDC.get("k"));
+    MDC.setContextMap(map);
+    assertNull(MDC.get("k"));
+    assertEquals("va", MDC.get("ka"));
+    assertEquals("vb", MDC.get("kb"));
+  }
+  
 }

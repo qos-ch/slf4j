@@ -20,10 +20,9 @@
 
   <dependencies>
 
-  </dependencies>
+  </dependencies> 
 
   <build>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -86,7 +85,17 @@
     </plugins>
 
   </build>
-
-
+  
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <configuration>
+          <comparisonVersion>1.5.0</comparisonVersion>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>
