@@ -163,11 +163,11 @@ prefix='';
         <h2>Gradual migration to SLF4J from Jakarta Commons Logging
         (JCL)</h2>
         
-        <h2><em>jcl104-over-slf4j.jar</em></h2>
+        <h2><em>jcl-over-slf4j.jar</em></h2>
 
         <p>To ease migration to SLF4J from JCL, recent SLF4J
         distributions include the jar file
-        <em>jcl104-over-slf4j.jar</em>. This jar file is intended as a
+        <em>jcl-over-slf4j.jar</em>. This jar file is intended as a
         drop-in replacement for JCL version 1.0.4. It implements the
         public API of JCL but using SLF4J underneath, hence the name
         "JCL over SLF4J."
@@ -179,7 +179,7 @@ prefix='';
         future. You can immediately enjoy the benefits of SLF4J's
         reliability and preserve backward compatibility at the same
         time. Just replace <em>commons-logging.jar</em> with
-        <em>jcl104-over-slf4j.jar</em>. Subsequently, the selection of
+        <em>jcl-over-slf4j.jar</em>. Subsequently, the selection of
         the underlying logging system will be done by SLF4J instead of
         JCL but without the class loader headaches. The underlying
         logging system can be any of NOP, simple, jdk14 logging, log4j
@@ -202,11 +202,11 @@ prefix='';
         rest of the application which can continue to use JCL.
         </p>
           
-        <h2><em>jcl104-over-slf4j.jar</em> should not be confused with
+        <h2><em>jcl-over-slf4j.jar</em> should not be confused with
         <em>slf4j-jcl.jar</em></h2>
  
         
-        <p>JCL-over-SLF4J, i.e. <em>jcl104-over-slf4j.jar</em>, comes
+        <p>JCL-over-SLF4J, i.e. <em>jcl-over-slf4j.jar</em>, comes
         in handy in situations where JCL needs to be supported for
         backward compatibility reasons. It can be used to fix problems
         associated with JCL, without necessarily adopting the SLF4J
@@ -221,7 +221,7 @@ prefix='';
         logging decisions to JCL so that the dependency on SLF4J API
         by your component will be transparent to the larger whole.        </p>
 
-        <p>Please note that <em>jcl104-over-slf4j.jar</em> and
+        <p>Please note that <em>jcl-over-slf4j.jar</em> and
         <em>slf4j-jcl.jar</em> cannot be deployed at the same
         time. The former jar file will cause JCL to delegate the
         choice of the logging system to SLF4J and the latter jar file
@@ -282,10 +282,9 @@ prefix='';
 
             <td>
               <p>The implementation of JCL over SLF4J, i.e
-              <em>jcl104-over-slf4j.jar</em>, will allow your project
-              to migrate to SLF4J piecemeal, without breaking
-              compatibility with existing software using
-              JCL.
+              <em>jcl-over-slf4j.jar</em>, will allow your project to
+              migrate to SLF4J piecemeal, without breaking
+              compatibility with existing software using JCL.
               </p>
             </td>
           </tr>

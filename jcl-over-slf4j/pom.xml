@@ -9,13 +9,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
-	<artifactId>jcl104-over-slf4j</artifactId>
+	<artifactId>jcl-over-slf4j</artifactId>
 	<packaging>jar</packaging>
-	<name>JCL Implemented Over SLF4J</name>
+	<name>JCL 1.1.1 implemented over SLF4J</name>
 
 	<url>http://www.slf4j.org</url>
 	<description>
-		JCL implementation over SLF4J
+		JCL 1.1.1 implementation over SLF4J
 	</description>
 
   <dependencies>
@@ -24,6 +24,11 @@
       <artifactId>slf4j-simple</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
+		</dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
 		</dependency>
   </dependencies>
 

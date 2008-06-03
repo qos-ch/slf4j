@@ -33,6 +33,13 @@ prefix='';
 
   <h3>XXX, 2008 - Release of SLF4J 1.5.1</h3>
 
+  <p>See also the <a href="compatibility.html#1_5_1">compatibility
+  report for this version</a>.</p>
+
+  <p>In order to support JCL version 1.1.1, the
+  <em>jcl104-over-slf4j</em> module was renamed as
+  <em>jcl-over-slf4j</em>.
+
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug
   68</a> reported by Su Chuan and David Rauschenbach. SLF4J requires
   log4j 1.2.12 or later. However, if an older version of log4j is
@@ -51,9 +58,9 @@ prefix='';
   </p>
 
 
-  <p>Added the <code>getCopyOfContextMap</code> method to the
-  <code>MDCAdapter</code> and <code>org.sf4j.MDC</code> classes. This
-  was requested in <a
+  <p>Added the <code>getCopyOfContextMap</code> and
+  <code>setContextMap</code> methods to the <code>MDCAdapter</code>
+  and <code>org.sf4j.MDC</code> classes. This was requested in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=84">bug 84</a> by
   Anton Tagunov.
   </p>
