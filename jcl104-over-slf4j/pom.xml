@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-parent</artifactId>
+    <version>1.5.1-SNAPSHOT</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.slf4j</groupId>
+	<artifactId>jcl104-over-slf4j</artifactId>
+
+  <distributionManagement>
+    <relocation>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+
+      <message>As it now supports JCL versions 1.0.4, 1.1 and 1.1.1, the jcl104-over-slf4j module has been renamed as jcl-over-slf4j.</message>
+    </relocation>
+  </distributionManagement>
+
+
+</project>
