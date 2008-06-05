@@ -25,11 +25,7 @@
       <version>${project.version}</version>
       <scope>provided</scope>
 		</dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.1.1</version>
-		</dependency>
+   
   </dependencies>
 
   <build>
@@ -50,5 +46,25 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Check whether we comply with the interfaces of JCL 1.1.1
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <configuration>
+          <comparisonArtifacts>            
+            <comparisonArtifact>
+              <groupId>commons-logging</groupId>
+              <artifactId>commons-logging</artifactId>
+              <version>1.1.1</version>
+            </comparisonArtifact>
+          </comparisonArtifacts>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  -->
 
 </project>
