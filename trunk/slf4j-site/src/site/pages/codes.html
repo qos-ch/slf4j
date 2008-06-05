@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>SLF4J Error Codes</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+</head>
+<body>
+	<script>
+prefix='';	
+</script>
+
+<script src="templates/header.js"></script>
+<div id="left">
+  <script src="templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="templates/right.js"></script>
+</div>
+<div id="content">
+
+    <center>
+      <h2>SLF4J warning or error messages and their meanings</h2>     
+      
+    </center>
+    
+
+    <h3>
+      <a name="release" href="#release">
+        The method
+        <code>o.a.commons.logging.impl.SLF4FLogFactory#release</code>
+        was invoked.
+      </a>
+    </h3>
+
+    <p>Given the structure of the commons-logging API, in particular
+    as implemented by SLF4J, the
+    <code>o.a.commons.logging.impl.SLF4FLogFactory#release()</code>
+    method should never be called. However, depending on the
+    deployment of <em>commons-logging.jar</em> files in your servlet
+    container, <code>release()</code> method may be unexpectedly
+    invoked by a copy of
+    <code>org.apache.commons.logging.LogFactory</code> class shipping
+    with <em>commons-logging.jar</em>.
+    </p>
+
+    <p>This is a relatively common occurrence with recent versions of
+    Tomcat, especially if you place <em>jcl-over-slf4j.jar</em> in
+    <em>WEB-INF/lib</em> directory of your web-application instead of
+    <em>$TOMCAT_HOME/common/lib</em>, where $TOMCAT_HOME stands for
+    the directory where Tomcat is installed. In order to fully benefit
+    from the stability offered by <em>jcl-over-slf4j.jar</em>, we
+    recommend that you place <em>jcl-over-slf4j.jar</em> in
+    <em>$TOMCAT_HOME/common/lib</em> without placing a copy in your
+    web-applications.
+    </p>
+
+    <p>Please also see <a
+    href="http://bugzilla.slf4j.org/show_bug.cgi?id=22">bug
+    #22</a>.</p>
+    
+ 
+    <h3>
+      <a name="unsupported_operation_in_jcl_over_slf4j" href="#unsupported_operation_in_jcl_over_slf4j">
+        Operation [suchAndSuch] is not supported in jcl-over-slf4j.
+      </a>
+    </h3>
+
+    <p>An <code>UnsuportedOperationException</code> is thrown whenever
+    one of the protected methods introduced in JCL 1.1 are
+    invoked. These methods are invoked by <code>LogFactory</code>
+    implementations shipping with
+    <em>commons-logging.jar</em>. However, the <code>LogFactory</code>
+    implemented by <em>jcl-over-slf4j.jar</em>, namely
+    SLF4FLogFactory, does not call any of these methods.
+    </p>
+
+    <p>If you observe this problem, then it is higly probable that you
+    have a copy of <em>commons-logging.jar</em> in your class path
+    overriding the classes shipping with
+    <em>jcl-over-slf4j.jar</em>. Note that this issue is very similar
+    in nature to the warning issued when the
+    "o.a.commons.logging.impl.SLF4FLogFactory.release()" method is
+    invoked, discussed in the previous item.
+    </p>
+
+    <h3>
+      <a name="StaticLoggerBinder" href="#StaticLoggerBinder">
+        Failed to load class
+        <code>org.slf4j.impl.StaticLoggerBinder</code>
+      </a>
+    </h3>
+    
+    <p>This error is reported when the
+    <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
+    loaded into memory.  This happens when no appropriate SLF4J
+    binding could be found on the class path. Placing one (and only
+    one) of <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> on the class path should solve the
+    problem.
+    </p>
+
+    <h3>
+      <a name="null_LF" href="#null_LF">Logging factory implementation
+      cannot be null</a>
+    </h3>
+
+    <p>This error is reported when the <code>LoggerFactory</code>
+    class could not find an appropriate binding. Placing one (and only
+    one) of <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> on the class path should prove to be
+    an effective remedy.
+    </p>
+
+    
+    <h3>
+      <a name="no_static_mdc_binder"
+      href="#no_static_mdc_binder">Failed to load class
+      "org.slf4j.impl.StaticMDCBinder"
+      </a>
+    </h3>
+    
+    <p>This error indicates that appropriate SLF4J binding could not
+    be found on the class path. Placing one (and only one) of
+    <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
+    <em>logback-classic.jar</em> on the class path should solve the
+    problem.
+    </p>
+
+    <h3>
+      <a name="null_MDCA" href="#null_MDCA">MDCAdapter cannot be null
+      </a>
+    </h3>
+
+    <p>This error is reported when <code>org.slf4j.MDC</code> class
+    has not been initialized correctly. Same cause and remedy as the
+    previously listed item.
+    </p>
+
+    
+    <h3><a name="log4j_version" href="#log4j_version">SLF4J versions
+    1.4.0 and later requires log4j 1.2.12 or later</a></h3>
+
+    <p>The trace level was added to log4j in version 1.2.12 released
+    on August 29, 2005. The trace level was added to the SLF4J API in
+    version 1.4.0 on May 16th, 2007. Thus, starting with SLF4J 1.4.0,
+    the log4j binding for SLF4J requires log4j version 1.2.12 or
+    above.
+    </p>
+
+    <p>However, as reported in <a
+    href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug 68</a>, in
+    some environments it may be difficult to upgrade the log4j
+    version. To accomodate such circumstances, SLF4J's
+    <code>Log4jLoggerAdapter</code> will map the TRACE level as
+    DEBUG.</p>
+    
+
+
+</div>
+</body>
+</html>
+ 

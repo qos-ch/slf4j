@@ -1,0 +1,45 @@
+
+Changes in SLF4J 1.3.0 with respect to 1.2 as reported by the clirr
+tool.
+
+slf4j-api
+=========
+
+INFO: 6000: org.slf4j.Logger: Added public field ROOT_LOGGER_NAME
+INFO: 8000: org.slf4j.LoggerFactory: Class org.slf4j.LoggerFactory added
+INFO: 8000: org.slf4j.MarkerFactory: Class org.slf4j.MarkerFactory added
+INFO: 8000: org.slf4j.helpers.BasicMarker: Class org.slf4j.helpers.BasicMarker added
+INFO: 8000: org.slf4j.helpers.BasicMarkerFactory: Class org.slf4j.helpers.BasicMarkerFactory added
+INFO: 8000: org.slf4j.helpers.MarkerIgnoringBase: Class org.slf4j.helpers.MarkerIgnoringBase added
+INFO: 8000: org.slf4j.helpers.MessageFormatter: Class org.slf4j.helpers.MessageFormatter added
+INFO: 8000: org.slf4j.helpers.Util: Class org.slf4j.helpers.Util added
+ERROR: 8001: org.slf4j.impl.BasicMarker: Class org.slf4j.impl.BasicMarker removed
+ERROR: 8001: org.slf4j.impl.BasicMarkerFactory: Class org.slf4j.impl.BasicMarkerFactory removed
+ERROR: 8001: org.slf4j.impl.MarkerIgnoringBase: Class org.slf4j.impl.MarkerIgnoringBase removed
+ERROR: 8001: org.slf4j.impl.MessageFormatter: Class org.slf4j.impl.MessageFormatter removed
+ERROR: 8001: org.slf4j.impl.Util: Class org.slf4j.impl.Util removed
+INFO: 8000: org.slf4j.spi.LocationAwareLogger: Class org.slf4j.spi.LocationAwareLogger added
+
+slf4j-nop
+=========
+
+ERROR: 8001: org.slf4j.LoggerFactory: Class org.slf4j.LoggerFactory removed
+ERROR: 8001: org.slf4j.MarkerFactory: Class org.slf4j.MarkerFactory removed
+
+slf4j-simple
+============
+
+ERROR: 8001: org.slf4j.LoggerFactory: Class org.slf4j.LoggerFactory removed
+ERROR: 8001: org.slf4j.MarkerFactory: Class org.slf4j.MarkerFactory removed
+
+slf4j-log4j12
+=============
+
+ERROR: 8001: org.slf4j.LoggerFactory: Class org.slf4j.LoggerFactory removed
+ERROR: 8001: org.slf4j.MarkerFactory: Class org.slf4j.MarkerFactory removed
+
+slf4j-jdk14
+===========
+
+ERROR: 8001: org.slf4j.LoggerFactory: Class org.slf4j.LoggerFactory removed
+ERROR: 8001: org.slf4j.MarkerFactory: Class org.slf4j.MarkerFactory removed

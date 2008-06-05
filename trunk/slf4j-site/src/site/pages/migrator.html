@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>SLF4J Migrator</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+</head>
+<body>
+	<script>
+prefix='';	
+</script>
+
+<script src="templates/header.js"></script>
+<div id="left">
+  <script src="templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="templates/right.js"></script>
+</div>
+<div id="content">
+
+
+  <h1>SLF4J Migrator</h1>
+
+  <p>The SLF4J migrator is a small Java tool for migrating Java source
+  files from the Jakarta Commons Logging (JCL) API to SLF4J. It can
+  also migrate from the log4j API to SLF4J, or from
+  <code>java.util.logging</code> API to SLF4J.
+  </p>
+
+  <p>The SLF4J migrator consists of a single jar file that can be
+  launched as a stand-alone java application. Here is the command:
+  </p>
+
+  <p class="source">java -jar slf4j-migrator-${version}.jar </p>
+  
+  <br/>
+
+  <p>Once the application is launched, a window similar to the
+  following should appear.
+  </p>
+
+  <p><img src="images/slf4j-migrator.gif"/></p>
+  
+  <p>Use the application should be self-explanatory. Please note that
+  this migration tool does in-place replacement of Java files, meaning
+  that there will be no back-up copies of modified files. <b>It is
+  your responsibility to backup your files before using SLF4J
+  migrator.</b>
+  </p>
+
+
+  <h2>Limitations</h2>
+
+  <p>SLF4J migrator is intended as a simple tool to help you to
+  migrate your project source using JCL, log4j or JUL to SLF4J. It can
+  only perform elementary conversion steps. Essentially, it will
+  replace appropriate import lines and logger declarations.
+  </p>
+  
+  <p>MyClass is a sample class using JCL. Here it is before:</p>
+
+  <p class="source">package some.package;
+
+<b>import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;</b>
+
+public MyClass {    
+ 
+
+  <b>Log logger = LogFactory.getLog(MyClass.class);</b>
+
+  public void someMethod() { 
+    logger.info("Hello world");
+  }
+}</p>
+
+ and after migration:</p>
+
+  <p class="source">package some.package;
+
+<b>import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;</b>
+
+public MyClass {    
+
+  <b>Logger logger = LoggerFactory.getLogger(MyClass.class);</b>
+
+  public void someMethod() { 
+    logger.info("Hello world");
+  }
+}</p>
+
+  <br/>
+
+  <p>Altough its conversion rules are elementary, the SLF4J migrator
+  can still alleviate much of the grunt-work involved in migrating a
+  Java project from JCL to SLF4J.
+  </p>
+
+  <p>Migration rules from log4j to SLF4J, or from JUL to SLF4J are
+  similar.</p>
+
+  <h3>General limitations</h3>
+
+  <ul>
+
+    <li>Build scipts are not modified
+    
+    <p>Your Ant/Maven/Ivy build scripts need to be modified manualy to
+    use SLF4J instead of JCL or log4j.</p>
+
+    <p></p>
+    </li>
+
+    <li>only messages of type String are supported
+
+    <p>If one of your log statements contains a non-string object as
+    its sole parameter, you will have to manually add a toString()
+    method call on the object. 
+    </p>
+
+    <p>For example,</p>
+    <p class="source">logger.debug(new Object()); </p>
+    <p>has to be manually re-written as</p>
+    <p class="source">logger.debug(new Object().toString()); </p>
+
+    <p></p>
+    </li>
+
+    <li>the FATAL level is not supported. 
+    
+    <p>You have to convert them manually. This is limitation is not
+    deemed very serious because there are usually very few log
+    statements bearing the FATAL level.
+    </p>
+
+    <p>
+    </p>
+    </li>
+
+    <li>if a method declares multipe loggers on the same line, the
+    conversion will not be complete. Example:
+    
+    <p class="source">
+  public void someMethod(Log l1, Log l2) {
+   ...
+  }
+
+  will be converted as 
+
+  public void someMethod(Log l1, Logger l2) {
+   ...
+  }
+    </p>
+  </li>
+  </ul>
+
+  <h3>Limitations when migrating from log4j</h3>
+
+  <ul>
+    <li>NDC statements are left as-is
+
+    <p>Since NDC is not supported by SLF4J, the migrator cannot
+    properly handle NDC statements. You have to migrate them to MDC
+    manually. Again, this limitation is not deemed serious bebause
+    there are usually very few NDC statements even in large projects.
+    </p>
+
+    <p>Please note that contrary to NDC, MDC statements are migrated
+    correctly because SLF4J suports such statements.</p>
+
+    <p></p>
+    </li>
+
+    <li>Calls to <code>PropertyConfigurator</code> or
+    <code>DomConfigurator</code> cannot be migrated since they have no
+    SLF4J equivalents.
+
+    <p>
+    </p>
+
+    </li> 
+  </ul>
+
+  <h3>Limitations when migrating from JUL</h3>
+
+  
+  <ul>
+    <li>Calls to <code>finest()</code>, <code>finer()</code> or
+    <code>finest()</code> methods of
+    <code>java.util.loggging.Logger</code> are left as is.
+
+    <p>Given that <code>finest()</code>, <code>finer()</code> or
+    <code>finest()</code> calls could map to both trace() or debug()
+    calls in SLF4J, it is impossible to guess how the user wants to
+    map these calls.
+    </p>
+
+    <p>
+    </p>
+
+    </li>
+
+
+    <li>All strings matching ".severe(" are replaced by the string
+    ".error(" without any contexual analysys. Similarly, all strings
+    matching ".warning(" are replaced by ".warn(".
+
+    <p>Since the match/replace operation is not contextual, if your
+    code contains methods named "severe" or "warning", then the
+    migration results will have compilation errors. Fortunately, such
+    errors should be rare and easy to identify.
+    </p>
+
+    <p>
+    </p>
+
+    </li>
+
+    <li>Invocations of the following methods defined in the
+    <code>java.util.logging.Logger</code> class need to be migrated
+    manually: <code>log</code>, <code>logp</code>, <code>logrb</code>,
+    <code>entering</code>, <code>exiting</code>.
+      
+    </li>
+  </ul>
+
+ </div> 
+</body>
+  </html>

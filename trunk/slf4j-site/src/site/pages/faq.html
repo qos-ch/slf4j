@@ -1,0 +1,1140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<title>SLF4J FAQ</title>
+<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+</head>
+<body>
+	<script>
+prefix='';	
+</script>
+
+<script src="templates/header.js"></script>
+<div id="left">
+  <script src="templates/left.js"></script>
+</div>
+<div id="right">
+  <script src="templates/right.js"></script>
+</div>
+<div id="content">
+
+  <div class="section">
+
+    <h2><a name="top">Frequently Asked Questions about SLF4J</a></h2>
+
+    <p><b>Generalities</b></p>
+
+    <ol type="1">
+      <li><a href="#what_is">What is SLF4J?</a></li>
+      
+      <li><a href="#when">When should SLF4J be used?</a></li>
+      
+      <li><a href="#yet_another_facade"> Is SLF4J yet another loggingfacade?</a></li>
+      
+      <li>
+        <a href="#why_new_project"> If SLF4J fixes JCL, then why
+        wasn't the fix made in JCL instead of creating a new project?
+        </a>
+      </li>
+
+      <li>
+        <a href="#need_to_recompile"> When using SLF4J, do I have to
+        recompile my application to switch to a different logging
+        system?  
+        </a>
+      </li>
+
+      <li><a href="#requirements">What are SLF4J's requirements?</a></li>
+
+
+      <li>
+        <a href="#license">Why is SLF4J licensed under X11 type
+      license instead of the Apache Software License?  
+        </a>
+      </li>
+
+      <li>
+        <a href="#where_is_binding">Where can I get a particular
+        SLF4J binding?
+        </a>
+      </li>
+
+      <li>
+        <a href="#configure_logging">Should my library attempt to
+        configure logging?
+        </a>
+      </li>
+
+      <li>
+        <a href="#maven2">What about Maven 2 transitive
+        dependencies?
+        </a>
+      </li>
+    </ol>
+
+
+    <b>About the SLF4J API</b>
+    
+    <ol type="1">
+      
+      <li>
+        <a href="#string_or_object"> Why don't the printing methods
+        in the Logger interface accept message of type Object, but only
+        messages of type String?  
+        </a>
+      </li>
+
+      <li>
+        <a href="#exception_message">
+          Can I log an exception without an accompanying message?
+        </a>
+      </li>
+
+
+      <li>
+        <a href="#logging_performance"> What is the fastest way of
+        (not) logging?
+        </a>
+      </li>
+
+      <li>
+        <a href="#string_contents"> How can I log the string contents
+        of a single (possibly complex) object?
+        </a>
+      </li>
+
+
+      <li><a href="#fatal"> Why doesn't the
+      <code>org.slf4j.Logger</code> interface have methods for the
+      FATAL level?  </a></li>
+
+      <li><a href="#trace">Why was the TRACE level introduced only in
+        SLF4J version 1.4.0?  </a></li>
+
+      <li><a href="#i18n">Does the SLF4J logging API support I18N
+      (internationalization)? </a></li>
+
+        
+    </ol>
+
+
+
+      <b>Implementing the SLF4J API</b>
+
+      <ol type="1">
+
+      <li><a href="#slf4j_compatible"> How do I make my logging
+      framework SLF4J compatible?  </a></li>
+
+      <li><a href="#marker_interface"> How can my logging system add
+      support for the <code>Marker</code> interface?  </a></li>
+
+      </ol>
+
+
+      <b>General questions about logging</b>
+
+
+      <ol type="1">
+
+      <li><a href="#declared_static"> Should Logger members of a class
+      be declared as static?  </a></li>
+
+
+      <li><a href="#declaration_pattern">Is there a recommended idiom
+      for declaring a loggers in a class?</a></li>
+
+      </ol>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>Generalities</h2>
+    
+    <dl>
+      <dt><a name="what_is" href="#what_is">What is SLF4J?</a></dt>
+      <dd>
+        <p>SLF4J is a simple facade for logging systems allowing the
+        end-user to plug-in the desired logging system at deployment
+        time.
+        </p>
+          
+        <hr />
+      </dd>
+
+      <dt><a name="when" href="#when"> When should SLF4J be used?
+      </a></dt>
+      
+      <dd>
+        <p>In short, libraries and other embedded components should
+        consider SLF4J for their logging needs because libraries
+        cannot afford to impose their choice of logging system on the
+        end-user. On the other hand, it does not necessarily make
+        sense for stand-alone applications to use SLF4J. Stand-alone
+        applications can invoke the logging system of their choice
+        directly.
+       </p>
+
+        <p>SLF4J is only a facade, meaning that it does not provide a
+        complete logging solution. Operations such as configuring
+        appenders or setting logging levels cannot be performed with
+        SLF4J. Thus, at some point in time, any non-trivial
+        application will need to directly invoke the underlying
+        logging system. In other words, complete independence from the
+        API underlying logging system is not possible for a
+        stand-alone application. Nevertheless, SLF4J reduces the
+        impact of this dependence to near-painless levels.
+       </p>
+
+       <p>Suppose that your CRM application uses log4j for its
+       logging. However, one of your important clients request that
+       logging be performed through JDK 1.4 logging. If your
+       application is riddled with thousands of direct log4j calls,
+       migration to JDK 1.4 would be a long and error-prone
+       process. Had you been invoking SLF4J API instead of log4j, the
+       migration could be completed in a matter of minutes instead of
+       hours.
+       </p>
+
+       <p>SLF4J lets component developers to defer the choice of the
+       logging system to the end-user but eventually a choice needs
+       to be made.
+       </p>
+
+       <hr />
+      
+      </dd>
+
+      <dt>
+        <a name="yet_another_facade" href="#yet_another_facade">
+        Is SLF4J yet another logging facade?  </a>
+      </dt>
+
+      <dd>
+        <p>SLF4J is conceptually similar to JCL. As such, it can be
+        thought of as yet another logging facade. However, SLF4J is
+        orders of magnitude simpler in design and arguably more
+        robust.
+       </p>
+
+       <hr />
+       
+      </dd>
+      <dt>
+        <a name="why_new_project" href="#why_new_project">
+          If SLF4J fixes JCL, then why wasn't the fix made in JCL
+          instead of creating a new project?
+        </a>
+       </dt>
+
+       <dd>
+         <p>This is a very good question. First, SLF4J static binding
+         approach is very simple, perhaps even laughably so. It was
+         not easy to convince developers of the validity of the
+         approach. It is only after SLF4J was released and started to
+         become accepted did the approach gain respectability in the
+         relevant community.
+       </p>
+
+        <p>Second, SLF4J offers two enhancements which developers
+        currently tend to underestimate. Parameterized log messages
+        solve an important problem associated with logging performance
+        in a pragmatic way. Marker objects, which are supported by the
+        <code>org.slf4j.Logger</code> interface, pave the way for
+        adoption of advanced logging systems and still leave the door
+        open to switching back to more traditional logging systems if
+        need be.
+       </p>
+
+       <hr />
+       </dd>
+
+       <dt>
+         <a name="need_to_recompile" href="#need_to_recompile"> When
+         using SLF4J, do I have to recompile my application to switch
+         to a different logging system?  </a>
+       </dt>
+
+       <dd>
+         <p>No, you do not need to recompile your application. You can
+         switch to a different logging system by removing the previous
+         SLF4J binding and replacing it with the binding of your choice.
+         </p>
+         
+         <p>For example, if you were using the NOP implementation and
+         would like to switch to log4j version 1.2, simply replace
+         <em>slf4j-nop.jar</em> with <em>slf4j-log4j12.jar</em> on
+         your class path but do not forget to add log4j-1.2.x.jar as
+         well. Want to switch to JDK 1.4 logging?  Just replace
+         <em>slf4j-log4j12.jar</em> with <em>slf4j-jdk14.jar</em>.
+         </p>
+      
+         <hr />
+       </dd>
+       <dt>
+         <a name="requirements" href="#requirements">What are SLF4J's
+         requirements?</a>
+       </dt>
+
+       <dd>
+
+         <p>In principle, SLF4J requires JDK 1.3 or above, in
+         particular slf4j-api is compatible with JDK 1.3.  However,
+         the underlying logging system might have a higher
+         requirement. For instance, the <em>slf4j-jdk14</em> binding
+         requires JDK 1.4. Logback requires JDK 1.5.
+         </p>
+
+         <p>&nbsp;</p>
+
+         <table border="1">
+           <tr align="left">
+             <th>Binding</th>
+             <th>Requirements</th>
+           </tr>
+
+           <tr>
+             <td>slf4j-nop</td>
+             <td>JDK 1.3</td>
+           </tr>
+           <tr>
+             <td>slf4j-simple</td>
+             <td>JDK 1.3</td>
+           </tr>
+
+           <tr>
+             <td>slf4j-log4j12</td>
+             <td align="left">JDK 1.3, plus any other library
+             dependencies required by the log4j appenders in use</td>
+           </tr>
+           <tr>
+             <td>slf4j-jdk14</td>
+             <td>JDK 1.4 or above</td>
+           </tr>
+           <tr>
+             <td>logback-classic</td>
+             <td>JDK 1.5 or above, plus any other library dependencies
+             required by the logback appenders in use</td>
+           </tr>
+
+         </table>
+
+         <hr />
+       </dd>
+
+       <dt>
+         <a name="license" href="#license">
+           Why is SLF4J licensed under X11 type license instead of the
+           Apache Software License?
+           </a>
+       </dt>
+
+       <dd>
+         <p>SLF4J is licensed under a permissive X11 type license
+         instead of the <a
+         href="http://www.apache.org/licenses/">ASL</a> or the <a
+         href="http://www.gnu.org/copyleft/lesser.html">LGPL</a>
+         because the X11 license is deemed by both the Apache Software
+         Foundation as well as the Free Software Foundation as
+         compatible with their respective licenses.
+       </p>
+
+       <hr />
+       </dd>
+       <dt>
+         <a name="where_is_binding" href="#where_is_binding">
+           Where can I get a particular SLF4J binding?
+         </a>
+       </dt>
+
+      <dd>
+        
+        <p>SLF4J bindings for <a
+        href="api/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>,
+        <a href="api/org/slf4j/impl/NOPLogger.html">NOPLogger</a>, <a
+        href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4jLoggerAdapter</a>
+        and <a
+        href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14LoggerAdapter</a>
+        are contained within the files <em>slf4j-nop.jar</em>,
+        <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>, and
+        <em>slf4j-jdk14.jar</em>. These files ship with the <a
+        href="download.html">official SLF4J distribution</a>. Please
+        note that all bindings depend on <em>slf4j-api.jar</em>.
+       </p>
+        
+        <p>The binding for logback-classic ships with the <a
+        href="http://logback.qos.ch/download.html">logback
+        distribution</a>. However, as with all other bindings, the
+        logback-classic binding requires <em>slf4j-api.jar</em>.
+       </p>
+
+      <hr />
+      </dd>
+
+      <dt><a name="configure_logging" href="#configure_logging">
+      Should my library attempt to configure logging?  </a>
+      </dt>
+
+      <dd>
+        <p>Embedded components such as libraries do not need and
+        should not configure the underlying logging system. They
+        invoke SLF4J to log but should let the end-user configure the
+        logging environment. When embedded components try to configure
+        logging on their own, they often override the end-user's
+        wishes. At the end of the day, it is the end-user who has to
+        read the logs and process them. She should be the person to
+        decide how she wants her logging configured.
+       </p>      
+       
+       <hr/>
+      </dd>
+       
+       <dt><a name="maven2" href="#maven2">What about Maven2
+       transitive dependencies? </a>
+       </dt>
+       
+       <dd>
+         <p>As an author of a library built with Maven2, you might
+         want to test your application using a binding, say
+         slf4j-log4j12 or logback-classic, without forcing log4j or
+         logback-classic as a dependency upon your users. As of SLF4J
+         version 1.3, this quite easy to accomplish. But first, since
+         your library's code depends on the SLF4J API you will need to
+         declare slf4j-api as a compile-time (default scope)
+         dependency.
+       </p>
+       <p>&nbsp;</p>         
+       <p class="source">&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+  &lt;version&gt;${project.version}&lt;/version&gt;
+&lt;/dependency&gt;</p>
+
+       <p>&nbsp;</p>         
+
+       <p>Limiting the transitivity of the SLF4J binding used in your
+       tests can be accomplished by declaring the scope of the
+       SLF4J-binding dependency as "test".  Here is an example:</p>
+
+       <p>&nbsp;</p>         
+
+       <p class="source">&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+  &lt;version&gt;${project.version}&lt;/version&gt;
+  <b>&lt;scope&gt;test&lt;/scope&gt;</b>
+&lt;/dependency&gt;</p>
+
+        <p>Thus, as far as your users are concerned you are exporting
+        slf4j-api as a transitive dependency of your library, but not
+        any SLF4J-binding or an underlying logging system.
+        </p>
+
+       </dd>
+
+     </dl>
+    </div>
+
+    <div class="section">
+
+
+      <h2>About the SLF4J API</h2>
+
+      <dl>
+        
+        <dt><a name="string_or_object" href="#string_or_object"> Why
+        don't the printing methods in the Logger interface accept
+        message of type Object, but only messages of type String?  </a>
+        </dt>
+        
+        <dd>
+
+          <p>In SLF4J 1.0beta4, the printing methods such as debug(),
+          info(), warn(), error() in the <a
+          href="api/org/slf4j/Logger.html">Logger interface</a> were
+          modified so as to accept only messages of type String
+          instead of Object.
+          </p>
+
+          <p>Thus, the set of printing methods for the DEBUG level
+          became:</p>
+
+        <p class="source">debug(String msg); 
+debug(String format, Object arg); 
+debug(String format, Object arg1, Object arg2);           
+debug(String msg, Throwable t);</p>
+
+       <p>Previously, the first argument in the above methods was of
+       type <code>Object</code>.</p>
+
+       <p>This change enforces the notion that logging systems are
+       about decorating and handling messages of type String, and not
+       any arbitrary type (Object).
+       </p>
+
+       <p>Just as importantly, the new set of method signatures offer
+       a clearer differentiation between the overladed methods
+       whereas previously the choice of the invoked method due to
+       Java overloding rules were not always easy to follow.</p>
+       
+       <p>It was also easy to make mistakes. For example, previously
+       it was legal to write:</p>
+       
+       <p class="source">logger.debug(new Exception("some error"));</p>
+        
+       <p>Unfortunately, the above call did not print the stack trace
+       of the exception. Thus, a potentially crucial piece of
+       information could be lost. When the first parameter is
+       restricted to be of type String, then only the method
+       </p>
+       
+       <p class="source">debug(String msg, Throwable t)</p>
+       
+       <p>can be used to log exceptions. Note that this method
+       ensures that every logged exception is accompanied with a
+       descriptive message.</p>
+       
+       <hr />
+        </dd>
+        
+        <dt>
+
+          <a name="exception_message"  href="#exception_message">
+            Can I log an exception without an accompanying message?
+          </a>
+        </dt>
+        <dd>
+          <p>In short, no.</p>
+          
+          <p>If <code>e</code> is an <code>Exception</code>, and you
+          would like to log an exception at the ERROR level, you must
+          add an accompanying message. For example,</p>
+          
+          <p class="source">logger.error("some accompanying message", e);</p>
+        
+          <p>You might correctly observe that not all exceptions have a
+          meaningful message to accompany them. Moreover, a good
+          exception should already contain a self explanatory
+          description. The accompanying message may therefore be
+          considered redundant.
+          </p>
+
+
+          <p>While these are valid arguments, there are three opposing
+          arguments also worth considering. First, on many, albeit not
+          all occasions, the accompanying message can convey useful
+          information nicely complementing the description contained
+          in the exception. Frequently, at the point where the
+          exception is logged, the developer has access to more
+          contextual information than at the point where the exception
+          is thrown. Second, it is not difficult to imagine more or
+          less generic messages, e.g. "Exception caught", "Exception
+          follows", that can be used as the first argument for
+          <code>error(String msg, Throwable t)</code> invocations.
+          Third, most log output formats display the message on a
+          line, followed by the exception on a separate line. Thus,
+          the message line would look inconsistent without a message.
+          </p>
+
+          <p>In short, if the user were allowed to log an exception
+          without an accompanying message, it would be the job of the
+          logging system to invent a message. This is actually what
+          the <a href="http://tinyurl.com/cr9kg">throwing(String
+          sourceClass, String sourceMethod, Throwable thrown)</a>
+          method in java.util.logging package does. (It decides on its
+          own that accompanying message is the string "THROW".)
+          </p>
+        
+          <p>It may initially appear strange to require an accompanying
+          message to log an exception. Nevertheless, this is common
+          practice in <em>all</em> log4j derived systems such as
+          java.util.logging, logkit, etc. and of course log4j itself. It
+          seems that the current consensus considers requiring an
+          accompanying message as a good a thing (TM).
+          </p>
+       
+          <hr/>
+        </dd>     
+
+
+        
+        <dt><a name="logging_performance" href="#logging_performance">
+        What is the fastest way of (not) logging?</a></dt><dd>
+
+        <p>SLF4J supports an advanced feature called parameterized
+        logging which can significantly boost logging performance for
+        <em>disabled</em> logging statement.</p>
+
+        <p> For some Logger <code>logger</code>, writing,</p>
+        <p class="source">logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));</p>
+        
+        <p>incurs the cost of constructing the message parameter, that
+        is converting both integer <code>i</code> and
+        <code>entry[i]</code> to a String, and concatenating
+        intermediate strings. This, regardless of whether the message
+        will be logged or not.
+        </p>        
+
+        <p>One possible way to avoid the cost of parameter
+        construction is by surrounding the log statement with a
+        test. Here is an example.</p>
+
+        <p class="source">if(logger.isDebugEnabled()) {
+  logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));
+}</p>
+
+
+       <p>This way you will not incur the cost of parameter
+       construction if debugging is disabled for
+       <code>logger</code>. On the other hand, if the logger is
+       enabled for the DEBUG level, you will incur the cost of
+       evaluating whether the logger is enabled or not, twice: once in
+       <code>debugEnabled</code> and once in <code>debug</code>.  This
+       is an insignificant overhead because evaluating a logger takes
+       less than 1% of the time it takes to actually log a statement.
+       </p>
+
+       <p><b>Better alternative based on parameterized
+        messages</b></p>
+        
+        <p>There exists a very convenient alternative based on message
+        formats. Assuming <code>entry</code> is an object, you can write:
+       </p>
+        
+        
+       <p class="source">Object entry = new SomeObject();
+logger.debug("The entry is {}.", entry);</p>
+        
+       <p>After evaluting whether to log or not, and only if the
+       decision is affirmative, will the logger implementation format
+       the message and replace the '{}' pair with the string value of
+       <code>entry</code>. In other words, this form does not incur
+       the cost of parameter construction in case the log statement is
+       disabled.
+       </p>
+       
+ 
+       <p>The following two lines will yield the exact same
+       output. However, the second form will outperform the first
+       form by a factor of at least 30, in case of a
+       <em>disabled</em> logging statement.
+       </p>
+       
+        <p class="source">logger.debug("The new entry is "+entry+".");
+logger.debug("The new entry is {}.", entry);</p>
+   
+   
+        <p>A two argument variant is also availalble. For example, you
+        can write:</p>
+        
+        
+        <p class="source">logger.debug("The new entry is {}. It replaces {}.", entry, oldEntry);</p>
+
+        <p></p>  
+        <p>If three or more arguments need to be passed, you can make
+        use of the <code>Object[]</code> variant. For example, you can
+        write:</p>
+
+        <p>        </p>
+        <p class="source">logger.debug("Value {} was inserted between {} and {}.", 
+             new Object[] {newVal, below, above});</p>
+        
+        <p></p>             
+        <p>SLF4J uses its own message formatting implementation which
+        differs from that of the Java platform. This is justified by
+        the fact that SLF4J's implementation performs several orders
+        of magnitude faster but at the cost of being non-standard and
+        less flexible.
+        </p>
+
+        <p>
+        </p>
+
+        <hr />
+             
+        </dd>
+
+        
+        <dt><a name="string_contents" href="#string_contents"> How can
+        I log the string contents of a single (possibly complex)
+        object?
+        </a>
+        </dt>
+        
+        <dd>
+          <p> In relatively rare cases where the message to be logged
+          is the string form of an object, then the parameterized
+          printing method of the appropriate level can be
+          used. Assuming <code>complexObject</code> is an object of
+          certain complexity, for a log statement of level DEBUG, you
+          can write:
+          </p>
+
+          <p class="source">logger.debug("{}", complexObject);</p>
+
+
+          <p>The logging system will invoke
+          <code>complexObject.toString()</code> method only after it
+          has ascertained that the log statement was
+          enabled. Otherwise, the cost of
+          <code>complexObject.toString()</code> conversion will be
+          advantageously avoided.
+          </p>
+
+          <hr />
+                  
+        </dd>
+       
+        
+
+
+        <dt><a name="fatal"  href="#fatal"> Why doesn't the
+        <code>org.slf4j.Logger</code> interface have methods for the
+        FATAL level?
+        </a>
+        </dt>
+
+        <dd>
+        
+          <p>From the stand point of a logging system, the distinction
+          between a fatal error and an error is usually not very
+          useful. Most programmers exit the application when a fatal
+          error is encountered. However, a logging library cannot (and
+          should not) decide on its own to terminate an
+          application. The initiative to exit the application must be
+          left to the developer.
+          </p>
+
+
+          <p>Thus, the most the FATAL level can do is to
+          <em>highlight</em> a given error as the cause for
+          application to crash. However, errors are by definition
+          exceptional events that merit attention. If a given
+          situation causes errors to be logged, the causes should be
+          attended to as soon as possible. However, if the "error" is
+          actually a normal situation which cannot be prevented but
+          merits being aware of, then it should be marked as WARN, not
+          ERROR.
+          </p>
+        
+        <p>Assuming the ERROR level designates exceptional situations
+        meriting close attention, we are inclined to believe that the
+        FATAL level is superfluous.
+       </p>
+
+     
+       <hr />
+      </dd>
+
+      <dt>
+        <a name="trace" href="#trace">Why was the TRACE level introduced only in
+        SLF4J version 1.4.0?
+        </a>
+      </dt>
+        
+      <dd>
+
+        <p>The addition of the TRACE level has been frequently and
+        hotly debated request. By studying various projects, we
+        observed that the TRACE level was used to disable logging
+        output from certain classes <em>without</em> needing to
+        configure logging for those classes. Indeed, the TRACE level
+        is by default disabled in log4j and logback as well most other
+        logging systems. The same result can be achieved by adding the
+        appropriate directives in configuration files.
+        </p>
+
+        <p>Thus, in many of cases the TRACE level carried the same
+        semantic meaning as DEBUG. In such cases, the TRACE level
+        merely saves a few configuration directives. In other, more
+        interesting occasions, where TRACE carries a different meaning
+        than DEBUG, <a href="api/org/slf4j/Marker.html">Marker</a>
+        objects can be put to use to convey the desired
+        meaning. However, if you can't be bothered with markers and
+        wish to use a logging level lower than DEBUG, the TRACE level
+        can get the job done.
+        </p>
+
+        <p>Note that while the cost of evaluating a disabled log
+        request is in the order of a few <code>nanoseconds</code>, the
+        use of the TRACE level (or any other level for that matter) is
+        discouraged in tight loops where the log request might be
+        evaluated millions of times. If the log request is enabled,
+        then it will overwhelm the target destination with massive
+        output. If the request is disabled, it will waste resources.
+        </p>
+      
+        <p>In short, although we still discourage the use of the TRACE
+        level because alternatives exist or because in many cases log
+        requests of level TRACE are wasteful, given that people kept
+        asking for it, we decided to bow to popular demand.
+        </p>
+        <hr/>
+
+      </dd>
+
+      <dt>
+        <a name="i18n" href="#i18n">Does the SLF4J logging API support
+        I18N (internationalization)?
+        </a>
+      </dt>
+        
+      <dd>
+        <p>No. SLF4J does not offer any particular support for
+        I18N. However, nothing prevents you from implementing i18n
+        support around the SLF4J API.</p>
+
+        <p>As suggested by Sebastien Davids in <a
+        href="http://bugzilla.slf4j.org/show_bug.cgi?id=50">bug report
+        50</a>, a possible pattern might be:</p>
+
+        <p class="source">
+class MyClass {
+
+  ResourceBundle bundle = ResourceBundle.getBundle("my.package.messages");
+  Logger logger =  LoggerFactory.getLogger(MyClass.class);
+
+  void method() {
+     if (logger.isWarnEnabled()) {
+       MessageFormat format = new MessageFormat(bundle.getString("<b>my_message_key</b>"));
+       logger.warn(format.format(new Object[] { new Date(), 1 }));
+     }
+  }
+}</p>
+
+      <p>Where <code>my_message_key</code> is defined as</p>
+      <p class="source"><b>my_message_key</b>=my text to be i18n {1,date,short} {0,number,00}</p>
+
+      
+
+        
+      </dd>          
+
+    </dl>
+  </div>
+
+
+  <div class="section">
+
+    <h2>Implementing the SLF4J API</h2>
+
+    <dl>
+      <dt><a name="slf4j_compatible" href="#slf4j_compatible"> How do
+      I make my logging framework SLF4J compatible?
+      </a>
+      </dt>
+      
+
+      <dd>
+
+        <p>Adding supporting for the SLF4J is suprisingly
+        easy. Essentialy, you coping an existing binding and tailoring
+        it a little (as explained below) does the trick.
+        </p>
+
+        <p>Assuming your logging system has notion of a
+        logger, called say <code>MyLogger</code>, you need to provide
+        an adapter for <code>MyLogger</code> to
+        <code>org.slf4j.Logger</code> interface. Refer to slf4j-jcl,
+        slf4j-jdk14, and slf4j-log4j12 modules for examples of
+        adapters.
+       </p>
+
+        <p>Once you have written an appropriate adapter, say
+        <code>MyLoggerAdapter</code>, you need to provide a factory
+        class implementing the <code>org.slf4j.ILoggerFactory</code>
+        interface. This factory should return instances
+        <code>MyLoggerAdapter</code>. Let <code>MyLoggerFactory</code>
+        be the name of your factory class.
+       </p>
+
+        <p>Once you have the adapter, namely
+        <code>MyLoggerAdapter</code>, and a factory, namely
+        <code>MyLoggerFactory</code>, the last remaining step is to
+        modify the <code>StaticLoggerBinder</code> class so that it
+        reurns an new instance of <code>MyLoggerFactory</code>. You
+        will also need to modify the
+        <code>loggerFactoryClassStr</code> variable.
+       </p>
+        
+        <p>For Marker or MDC support, you could use the one of the
+        existing NOP implementations.
+        </p>
+
+        <p>In summary, to create an SLF4J binding for your logging
+        system, follow these steps:</p>
+
+        <ol>
+          <li>start with a copy of an existing module,</li>
+          <li>create an adapter between your logging system and
+          <code>org.slf4j.Logger</code> interface
+         </li>
+          <li>create a factory for the adapter created in the previous step,</li>
+          <li>>modify <code>StaticLoggerBinder</code> class to use the
+          factory you created in the previous step</li>
+       </ol>
+         
+       <hr/>
+        </dd>
+        <dt><a name="marker_interface" href="#marker_interface"> How
+        can my logging system add support for the <code>Marker</code>
+        interface?
+        </a>
+        </dt>
+        <dd>
+        
+          <p>Markers consitute a revolutionary concept which is
+          supported by logback but not other existing logging
+          systems. Consequently, SLF4J confromant logging systems are
+          allowed to ignore marker data passed by the user.
+          </p>
+
+        <p>However, even though marker data may be ignored, the user
+        must still be allowed to specify marker data. Otherwise, users
+        would not be able to switch between logging systems that
+        support markers and those that do not.  In order to provide
+        minimal support for markers, SLF4J conformant systems need to
+        to include certain Marker related classes, namely,
+        <code>org.slf4j.Marker</code>,
+        <code>org.slf4j.IMarkerFactory</code>,
+        <code>org.slf4j.MarkerFactory</code>,
+        <code>org.slf4j.impl.BasicMarker</code>,
+        <code>org.slf4j.impl.BasicMarkerFactory</code>,
+        <code>org.slf4j.impl.MarkerIgnoringBase</code>,
+        <code>org.slf4j.impl.StaticMarkerBinder</code> and
+        <code>org.slf4j.spi.MarkerFactoryBinder</code>. Al of these
+        classes are availalbe in the SLF4J subversion repository.
+       </p>
+
+        <p>The <code>MarkerIgnoringBase</code> class can serve as a
+        base for adapters or native implementations of logging systems
+        lacking marker support. In <code>MarkerIgnoringBase</code>,
+        methods taking marker data simply invoke the corresponding
+        method without the Marker argument, discarding any Marker data
+        passed as argument. Your SLF4J adapters can extend
+        <code>MarkerIgnoringBase</code> to quickly implement the
+        methods in <code>org.slf4j.Logger</code> which take a
+        <code>Marker</code> as the first argument.
+       </p>
+    
+       <hr/>
+      </dd>
+    </dl>
+  </div>
+
+  <div class="section">
+    <h2>General questions about logging</h2>
+
+
+    <dl>
+      <dt><a name="declared_static"  href="#declared_static"> Should Logger
+      members of a class be declared as static?  </a>
+      </dt>
+      <dd>
+      
+      <p>We <code>used</code> to recommend that loggers members be
+      declared as instance variables instead of static. After further
+      analysis, <b>we no longer recommend one approach over the
+      other.</b>
+      </p>
+
+      <p>Here is a summary of the pros and cons of each approach.
+      </p>
+      
+      <table class="bodyTable">
+        <tr valign="top">
+          <th width="50%">Advantages for declaring loggers as static</th>       
+          <th width="50%">Disadvantages for declaring loggers as static</th>              
+        </tr>
+        <tr  valign="top" class="alt">
+          <td>
+            <ol>
+              <li>common and well-established idiom</li>
+              <li>less CPU overhead: loggers are retreived and
+              assigned only once, at hosting class
+              initialisation</li>
+              <li>less memory overhead: logger declaration will
+              consume one reference per class</li>
+              <li>serialization of the hosting class does not require
+              any special action
+              </li>              
+            </ol>
+          </td>
+
+          <td> <!-- static con -->
+            <ol>
+              <li>For libraries shared between applications, not
+              possible to take advantage of repository selectors. It
+              should be noteed that if the SLF4J binding and the
+              underlying API ships with each application (not shared
+              between applications), then each application will still
+              have its own logging environment.  
+              </li>
+              <li>not IOC-friendly</li>
+            </ol>
+          </td>
+        </tr>
+
+        <tr>
+          <th width="50%">Advantages for declaring loggers as instance variables</th>       
+          <th width="50%">Disadvantages for declaring loggers as
+          instance variables</th>
+        </tr>
+        
+        <tr class="alt" valign="top">
+          <td> <!-- instance pros -->
+            <ol>
+              <li>Possible to take advantage of repository selectors
+              even for libraries shared between applications. However,
+              repository selectors only work if the underlying logging
+              sytem is logback-classic. Repository selectors do not
+              work for the SLF4J+log4j combination.
+              </li>
+              <li>IOC-friendly</li>
+            </ol>
+          </td>
+
+          <td> <!-- instance cons -->
+            <ol>
+              <li>Less common idiom than declaring loggers as static
+              variables</li>
+              
+              <li>higher CPU overhead: loggers are retreived and
+              assigned for each instance of the hosting class</li>
+
+              <li>higher memory overhead: logger declaration will
+              consume one reference per instance of the hosting class</li>      
+
+              <li>if the hosting class is serialized, then the logger
+              declaration has to be marked as <code>transient</code>
+              </li>
+
+            </ol>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <h3>Explanation</h3>
+
+      <p>Static logger members cost a single variable reference for
+      all instances of the class whereas an instance logger member
+      will cost a variable reference for every instance of the
+      class. For simple classes instantiated thousands of times
+      there might be a noticeable difference.
+      </p>
+      
+      <p>However, more recent logging systems, e.g log4j or logback,
+      support a distinct logger context for each application running
+      in the application server. Thus, even if a single copy of
+      <em>log4j.jar</em> or <em>logback-classic.jar</em> is deployed
+      in the server, the logging system will be able to differentiate
+      between applications and offer a distinct logging environment
+      for each application.
+      </p>
+
+      <p>More specifically, each time a logger is retrieved by
+      invoking <code>LoggerFactory.getLogger()</code> method, the
+      underlying logging system will return an instance appropriate
+      for the current application. Please note that within the
+      <em>same</em> application retrieving a logger by a given name
+      will always return the same logger. For a given name, a
+      different logger will be returned only for different
+      applications.
+      </p>
+
+      <p>If the logger is static, then it will only be retrieved once
+      when the hosting class is loaded into memory. If the hosting
+      class is used in only in one application, there is not much to
+      be concerned about. However, if the hosting class is shared
+      between several applications, then all instances of the shared
+      class will log into the context of the application which
+      happened to fist load the shared class into memory - hardly the
+      behavior expected by the user.
+      </p>
+
+      <p>Unfortunately, for non-native implementations of the SLF4J
+      API, namely with slf4j-log4j12, log4j's repository selector will
+      not be able to do its job properly because slf4j-log4j12, a
+      non-native SLF4J binding, will store logger instances in a map,
+      short-circuiting context-dependent logger retrieval. For native
+      SLF4J implementations, such as logback-classic, repository
+      selectors will work as expected.
+      </p>          
+
+      <p>The Apache Commons wiki contains an <a
+      href="http://wiki.apache.org/jakarta-commons/Logging/StaticLog">informative
+      article</a> covering the same question.</p>
+
+      <p><b>Logger serialization</b></p>
+
+      <p>Contrary to static variables, instance variables are
+      serialized by default. However, the org.sfl4j.Logger interface
+      is not serializable nor are the logger classes in underlying
+      logging systems such as java.util.logging, log4j or
+      logback-classic.
+      </p>
+
+
+      <p><b>Summary</b></p>
+
+      <p>In summary, declaring logger members as static variables,
+      requires less work, less CPU and memory overhead and causes no
+      problems with serialization. On the other hand, declaring logger
+      members as instance variables, requires more work, more CPU and
+      memory overhead and is likely to cause problems with
+      serialization. However, instance variables make it possible to
+      create a distinct logger environment for each application, even
+      for loggers declared in shared libraries. Perhaps more important
+      than previously mentioned considerations, instance variables are
+      IOC-friendly whereas static variables are not.
+      </p>    
+
+      <p>
+      </p>
+http://wiki.apache.org/jakarta-commons/Logging/StaticLog
+    </dd>       
+    </dl>
+
+    <dl>
+      <dt> <a name="declaration_pattern"
+      href="#declaration_pattern">Is there a recommended idiom for
+      declaring a logger in a class?</a>
+      </dt>
+
+      <dd>
+        <p>The following is the recommended logger declaration
+        idiom. It assumes that your logger is a static variable of the
+        class.</p>
+
+        <p class="source">package some.package;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class MyClass {
+  <b>final static Logger logger = LoggerFactory.getLogger(MyClass.class);</b>
+  ... etc
+}</p>
+
+        <p>Unfortunately, give that the name of the hosting class is
+        part of the logger declarion, the above logger declaration
+        idom is not is <em>not</em> resitant to cut-and-pasting
+        between classes.
+        </p>
+      </dd>
+    </dl>
+         
+      
+  
+    
+
+
+
+
+      </div>
+</div>
+</body>
+</html>
