@@ -69,4 +69,13 @@ public interface IMarkerFactory {
    * @return whether the marker  could be detached or not
    */
   boolean detachMarker(String name);
+  
+  
+  /**
+   * Create a marker which is detached (even at birth) from this IMarkerFactory.
+   *
+   * @return a dangling marker
+   * @since 1.5.1
+   */
+  Marker getDetachedMarker(String name);
 }

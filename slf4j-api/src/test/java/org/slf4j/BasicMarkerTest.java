@@ -1,35 +1,27 @@
 /*
- * Copyright (c) 2004-2005 SLF4J.ORG
- * Copyright (c) 2004-2005 QOS.ch
- *
+ * Copyright (c) 2004-2008 QOS.ch
  * All rights reserved.
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
+ * 
+ * Permission is hereby granted, free  of charge, to any person obtaining
+ * a  copy  of this  software  and  associated  documentation files  (the
  * "Software"), to  deal in  the Software without  restriction, including
  * without limitation  the rights to  use, copy, modify,  merge, publish,
- * distribute, and/or sell copies of  the Software, and to permit persons
- * to whom  the Software is furnished  to do so, provided  that the above
- * copyright notice(s) and this permission notice appear in all copies of
- * the  Software and  that both  the above  copyright notice(s)  and this
- * permission notice appear in supporting documentation.
- *
+ * distribute,  sublicense, and/or sell  copies of  the Software,  and to
+ * permit persons to whom the Software  is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The  above  copyright  notice  and  this permission  notice  shall  be
+ * included in all copies or substantial portions of the Software.
+ * 
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
- * OF  THIRD PARTY  RIGHTS. IN  NO EVENT  SHALL THE  COPYRIGHT  HOLDER OR
- * HOLDERS  INCLUDED IN  THIS  NOTICE BE  LIABLE  FOR ANY  CLAIM, OR  ANY
- * SPECIAL INDIRECT  OR CONSEQUENTIAL DAMAGES, OR  ANY DAMAGES WHATSOEVER
- * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
- * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
- * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *
- * Except as  contained in  this notice, the  name of a  copyright holder
- * shall not be used in advertising or otherwise to promote the sale, use
- * or other dealings in this Software without prior written authorization
- * of the copyright holder.
- *
+ * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+
 package org.slf4j;
 
 import java.util.Iterator;
@@ -52,7 +44,8 @@ public class BasicMarkerTest extends TestCase {
   static final String MULTI_COMP_STR = "MULTI_COMP";
   static final String PARENT_MARKER_STR = "PARENT_MARKER";
   static final String CHILD_MARKER_STR = "CHILD_MARKER";
-  
+  static final String NOT_CONTAINED_MARKER_STR = "NOT_CONTAINED";
+
   final IMarkerFactory factory;
   final Marker blue;
   final Marker red;
@@ -60,6 +53,8 @@ public class BasicMarkerTest extends TestCase {
   final Marker comp;
   final Marker multiComp;
 
+  short diff = Differentiator.getDiffentiator();
+  
   public BasicMarkerTest() {
     factory = new BasicMarkerFactory();
 
@@ -119,7 +114,7 @@ public class BasicMarkerTest extends TestCase {
     for (int i = 0; i < 10; i++) {
       parent.add(child);
     }
-    
+
     // check that the child was added once and only once
     Iterator iterator = parent.iterator();
     assertTrue(iterator.hasNext());
@@ -145,6 +140,39 @@ public class BasicMarkerTest extends TestCase {
     assertFalse(parent.contains(child));
     assertFalse(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
     assertFalse(parent.remove(child));
+  }
+
+  public void testSelfRecursion() {
+    final String diffPrefix = "NEW_"+diff;
+    final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
+    final String NOT_CONTAINED_NAME = diffPrefix + NOT_CONTAINED_MARKER_STR;
+    Marker parent = factory.getMarker(PARENT_NAME);
+    Marker notContained = factory.getMarker(NOT_CONTAINED_NAME);
+    parent.add(parent);
+    assertTrue(parent.contains(parent));
+    assertTrue(parent.contains(PARENT_NAME));
+    assertFalse(parent.contains(notContained));
+    assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
+  }
+
+  public void testIndirectRecursion() {
+    final String diffPrefix = "NEW_"+diff;
+    final String PARENT_NAME=diffPrefix+PARENT_MARKER_STR;
+    final String CHILD_NAME=diffPrefix+CHILD_MARKER_STR;
+    final String NOT_CONTAINED_NAME=diffPrefix+NOT_CONTAINED_MARKER_STR;
+
+    Marker parent = factory.getMarker(PARENT_NAME);
+    Marker child = factory.getMarker(CHILD_NAME);
+    Marker notContained = factory.getMarker(NOT_CONTAINED_NAME);
+
+    parent.add(child);
+    child.add(parent);
+    assertTrue(parent.contains(parent));
+    assertTrue(parent.contains(child));
+    assertTrue(parent.contains(PARENT_NAME));
+    assertTrue(parent.contains(CHILD_NAME));
+    assertFalse(parent.contains(notContained));
+    assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
   }
 
 }

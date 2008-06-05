@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2004-2007 QOS.ch
+ * Copyright (c) 2004-2008 QOS.ch
  * All rights reserved.
  * 
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -49,10 +49,13 @@ public class BasicMarker implements Marker {
 
   private static final long serialVersionUID = 1803952589649545191L;
 
-  final String name;
-  List children;
+  private final String name;
+  private List children;
 
   BasicMarker(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("A merker name cannot be null");
+    }
     this.name = name;
   }
 
@@ -60,21 +63,25 @@ public class BasicMarker implements Marker {
     return name;
   }
 
-  public synchronized void add(Marker child) {
-    if (child == null) {
-      throw new NullPointerException(
-          "Null children cannot be added to a Marker.");
-    }
-    if (children == null) {
-      children = new Vector();
+  public synchronized void add(Marker markerToAddAsChild) {
+    if (markerToAddAsChild == null) {
+      throw new IllegalArgumentException(
+          "A null value cannot be added to a Marker as child.");
     }
 
     // no point in adding the child multiple times
-    if (children.contains(child)) {
+    if (this.contains(markerToAddAsChild)) {
+      return;
+
+    } else if (markerToAddAsChild.contains(this)) { // avoid recursion
+      // a potential child should not its future parent as a child
       return;
     } else {
-      // add the child
-      children.add(child);
+      // let's add the child
+      if (children == null) {
+        children = new Vector();
+      }
+      children.add(markerToAddAsChild);
     }
 
   }
@@ -155,12 +162,27 @@ public class BasicMarker implements Marker {
   private static String CLOSE = " ]";
   private static String SEP = ", ";
 
-  public String toString() {
 
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (!(obj instanceof Marker))
+      return false;
+
+    final Marker other = (Marker) obj;
+    return name.equals(other.getName());
+  }
+
+  public int hashCode() {
+    return name.hashCode();
+  }
+
+  public String toString() {
     if (!this.hasChildren()) {
       return this.getName();
     }
-
     Iterator it = this.iterator();
     Marker child;
     StringBuffer sb = new StringBuffer(this.getName());

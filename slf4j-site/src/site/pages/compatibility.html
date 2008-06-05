@@ -66,8 +66,35 @@ prefix='';
       <td>org.slf4j.spi.MDCAdapter</td>
       <td>public void setContextMap(java.util.Map)</td>
     </tr>
-  </table>
 
+    <tr>
+      <td>Error</td>
+      <td>Method 'getDetachedMarker(String)' has been added to an
+      interface
+      </td>
+      <td>org.slf4j.IMarkerFactory</td>
+      <td>public org.slf4j.Marker getDetachedMarker(java.lang.String)</td>
+    </tr>
+
+    <tr class="alt">
+      <td>Info</td>
+      <td>Method 'equals(Object)' has been added to an
+      interface
+      </td>
+      <td>org.slf4j.Marker</td>
+      <td>public boolean equals(java.lang.Object)</td>
+    </tr>
+
+    <tr>
+      <td>info</td>
+      <td>Method 'hashCode()' has been added to an
+      interface
+      </td>
+      <td>org.slf4j.Marker</td>
+      <td>public int hashCode()</td>
+    </tr>
+
+  </table>
 
   <p>The addition of the <code>getCopyOfContextMap()</code> method in
   the <code>MDCAdapter</code> class should only impact users who have
@@ -87,6 +114,18 @@ prefix='';
 
   <p>Similar reasoning applies to the <code>setContextMap(Map)</code>
   method.</p> 
+
+  <p>The addition of <code>getDetachedMarker(String)</code> method in
+  the <code>org.slf4j.IMarkerFactory</code> should not impact users as
+  the only (known) implementation of this interface ships with SLF4J
+  itself.
+  </p>
+
+  <p>The <code>equals()</code> and <code>hashCode()</code> methods
+  were added to the <code>org.slf4j.Marker</code> interface for
+  documentation purposes. Given that all objects implicitly implement
+  these methods, their addition should theoretically not break
+  existing code. </p>
 
 
   <h3>Other modules</h3>

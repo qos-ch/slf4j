@@ -69,6 +69,16 @@ public class MarkerFactory {
   }
 
   /**
+   * Create a marker which is detached (even at birth) from the MarkerFactory.
+   *
+   * @return a dangling marker
+   * @since 1.5.1
+   */
+  public static Marker getDetachedMarker(String name) {
+    return markerFactory.getDetachedMarker(name);
+  }
+  
+  /**
    * Return the {@link IMarkerFactory}instance in use.
    * 
    * <p>The IMarkerFactory instance is usually bound with this class at 
