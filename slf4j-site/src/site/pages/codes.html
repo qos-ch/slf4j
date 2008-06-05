@@ -25,12 +25,12 @@ prefix='';
     </center>
     
 
-    <a name="release">
-    </a>
-
-    <h3>The method
-      <code>o.a.commons.logging.impl.SLF4FLogFactory#release</code>
-      was invoked.
+    <h3>
+      <a name="release" href="#release">
+        The method
+        <code>o.a.commons.logging.impl.SLF4FLogFactory#release</code>
+        was invoked.
+      </a>
     </h3>
 
     <p>Given the structure of the commons-logging API, in particular
@@ -38,9 +38,10 @@ prefix='';
     <code>o.a.commons.logging.impl.SLF4FLogFactory#release()</code>
     method should never be called. However, depending on the
     deployment of <em>commons-logging.jar</em> files in your servlet
-    container, <code>release()</code> may be unexpectedly invoked by a
-    copy of <code>org.apache.commons.logging.LogFactory</code> class
-    shipping with <em>commons-logging.jar</em>.
+    container, <code>release()</code> method may be unexpectedly
+    invoked by a copy of
+    <code>org.apache.commons.logging.LogFactory</code> class shipping
+    with <em>commons-logging.jar</em>.
     </p>
 
     <p>This is a relatively common occurrence with recent versions of
@@ -59,12 +60,36 @@ prefix='';
     #22</a>.</p>
     
  
+    <h3>
+      <a name="unsupported_operation_in_jcl_over_slf4j" href="#unsupported_operation_in_jcl_over_slf4j">
+        Operation [suchAndSuch] is not supported in jcl-over-slf4j.
+      </a>
+    </h3>
 
-     <a name="StaticLoggerBinder">
-    </a>
-    
-    <h3>Failed to load class
-    <code>org.slf4j.impl.StaticLoggerBinder</code></h3>
+    <p>An <code>UnsuportedOperationException</code> is thrown whenever
+    one of the protected methods introduced in JCL 1.1 are
+    invoked. These methods are invoked by <code>LogFactory</code>
+    implementations shipping with
+    <em>commons-logging.jar</em>. However, the <code>LogFactory</code>
+    implemented by <em>jcl-over-slf4j.jar</em>, namely
+    SLF4FLogFactory, does not call any of these methods.
+    </p>
+
+    <p>If you observe this problem, then it is higly probable that you
+    have a copy of <em>commons-logging.jar</em> in your class path
+    overriding the classes shipping with
+    <em>jcl-over-slf4j.jar</em>. Note that this issue is very similar
+    in nature to the warning issued when the
+    "o.a.commons.logging.impl.SLF4FLogFactory.release()" method is
+    invoked, discussed in the previous item.
+    </p>
+
+    <h3>
+      <a name="StaticLoggerBinder" href="#StaticLoggerBinder">
+        Failed to load class
+        <code>org.slf4j.impl.StaticLoggerBinder</code>
+      </a>
+    </h3>
     
     <p>This error is reported when the
     <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
@@ -76,10 +101,10 @@ prefix='';
     problem.
     </p>
 
-   <a name="null_LF">
-    </a>
-    
-    <h3>Logging factory implementation cannot be null</h3>
+    <h3>
+      <a name="null_LF" href="#null_LF">Logging factory implementation
+      cannot be null</a>
+    </h3>
 
     <p>This error is reported when the <code>LoggerFactory</code>
     class could not find an appropriate binding. Placing one (and only
@@ -89,10 +114,13 @@ prefix='';
     an effective remedy.
     </p>
 
-    <a name="no_static_mdc_binder">
-    </a>
     
-    <h3>Failed to load class "org.slf4j.impl.StaticMDCBinder".</h3>
+    <h3>
+      <a name="no_static_mdc_binder"
+      href="#no_static_mdc_binder">Failed to load class
+      "org.slf4j.impl.StaticMDCBinder"
+      </a>
+    </h3>
     
     <p>This error indicates that appropriate SLF4J binding could not
     be found on the class path. Placing one (and only one) of
@@ -102,21 +130,19 @@ prefix='';
     problem.
     </p>
 
-    <a name="null_MDCA">
-    </a>
-    
-    <h3>MDCAdapter cannot be null</h3>
+    <h3>
+      <a name="null_MDCA" href="#null_MDCA">MDCAdapter cannot be null
+      </a>
+    </h3>
 
     <p>This error is reported when <code>org.slf4j.MDC</code> class
     has not been initialized correctly. Same cause and remedy as the
     previously listed item.
     </p>
 
-
-    <a name="log4j_version">
-    </a>
     
-    <h3>SLF4J versions 1.4.0 and later requires log4j 1.2.12 or later</h3>
+    <h3><a name="log4j_version" href="#log4j_version">SLF4J versions
+    1.4.0 and later requires log4j 1.2.12 or later</a></h3>
 
     <p>The trace level was added to log4j in version 1.2.12 released
     on August 29, 2005. The trace level was added to the SLF4J API in

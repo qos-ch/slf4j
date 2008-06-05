@@ -20,20 +20,42 @@ import org.apache.commons.logging.impl.SLF4JLogFactory;
 
 /**
  * <p>
- * Factory for creating {@link Log} instances, which always delegates to an instance of
- * {@link SLF4JLogFactory}.
+ * Factory for creating {@link Log} instances, which always delegates to an
+ * instance of {@link SLF4JLogFactory}.
  * 
  * </p>
  * 
  * @author Craig R. McClanahan
  * @author Costin Manolache
  * @author Richard A. Sitze
- * @author Ceki G&uuml;lc&uuml; 
+ * @author Ceki G&uuml;lc&uuml;
  */
 
 public abstract class LogFactory {
 
+  static String UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J = "http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j";
+
   static LogFactory logFactory = new SLF4JLogFactory();
+
+  /**
+   * The name (<code>priority</code>) of the key in the config file used to
+   * specify the priority of that particular config file. The associated value
+   * is a floating-point number; higher values take priority over lower values.
+   * 
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String PRIORITY_KEY = "priority";
+
+  /**
+   * The name (<code>use_tccl</code>) of the key in the config file used to
+   * specify whether logging classes should be loaded via the thread context
+   * class loader (TCCL), or not. By default, the TCCL is used.
+   * 
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String TCCL_KEY = "use_tccl";
 
   /**
    * The name of the property used to identify the LogFactory implementation
@@ -41,27 +63,50 @@ public abstract class LogFactory {
    * <p>
    * This property is not used but preserved here for compatibility.
    */
-  public static final String FACTORY_PROPERTY =
-      "org.apache.commons.logging.LogFactory";
+  public static final String FACTORY_PROPERTY = "org.apache.commons.logging.LogFactory";
 
   /**
    * The fully qualified class name of the fallback <code>LogFactory</code>
-   * implementation class to use, if no other can be found. 
+   * implementation class to use, if no other can be found.
    * 
-   * <p>This property is not used but preserved here for compatibility.
-   */
-  public static final String FACTORY_DEFAULT =
-      "org.apache.commons.logging.impl.SLF4JLogFactory";
-
-  /**
-   * The name of the properties file to search for. 
    * <p>
    * This property is not used but preserved here for compatibility.
    */
-  public static final String FACTORY_PROPERTIES =
-      "commons-logging.properties";
+  public static final String FACTORY_DEFAULT = "org.apache.commons.logging.impl.SLF4JLogFactory";
 
-  
+  /**
+   * The name of the properties file to search for.
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String FACTORY_PROPERTIES = "commons-logging.properties";
+
+  /**
+   * The name (<code>org.apache.commons.logging.diagnostics.dest</code>) of
+   * the property used to enable internal commons-logging diagnostic output, in
+   * order to get information on what logging implementations are being
+   * discovered, what classloaders they are loaded through, etc.
+   * 
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String DIAGNOSTICS_DEST_PROPERTY = "org.apache.commons.logging.diagnostics.dest";
+
+  /**
+   * <p>
+   * Setting this system property value allows the <code>Hashtable</code> used
+   * to store classloaders to be substituted by an alternative implementation.
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  public static final String HASHTABLE_IMPLEMENTATION_PROPERTY = "org.apache.commons.logging.LogFactory.HashtableImpl";
+
+  /**
+   * <p>
+   * This property is not used but preserved here for compatibility.
+   */
+  protected static LogFactory nullClassLoaderFactory = null;
+
   /**
    * Protected constructor that is not available for public use.
    */
@@ -75,7 +120,7 @@ public abstract class LogFactory {
    * <code>null</code> if there is no such attribute.
    * 
    * @param name
-   *          Name of the attribute to return
+   *                Name of the attribute to return
    */
   public abstract Object getAttribute(String name);
 
@@ -91,10 +136,11 @@ public abstract class LogFactory {
    * <code>getInstance(String)</code> with it.
    * 
    * @param clazz
-   *          Class for which a suitable Log name will be derived
+   *                Class for which a suitable Log name will be derived
    * 
    * @exception LogConfigurationException
-   *              if a suitable <code>Log</code> instance cannot be returned
+   *                    if a suitable <code>Log</code> instance cannot be
+   *                    returned
    */
   public abstract Log getInstance(Class clazz) throws LogConfigurationException;
 
@@ -113,12 +159,13 @@ public abstract class LogFactory {
    * </p>
    * 
    * @param name
-   *          Logical name of the <code>Log</code> instance to be returned
-   *          (the meaning of this name is only known to the underlying logging
-   *          implementation that is being wrapped)
+   *                Logical name of the <code>Log</code> instance to be
+   *                returned (the meaning of this name is only known to the
+   *                underlying logging implementation that is being wrapped)
    * 
    * @exception LogConfigurationException
-   *              if a suitable <code>Log</code> instance cannot be returned
+   *                    if a suitable <code>Log</code> instance cannot be
+   *                    returned
    */
   public abstract Log getInstance(String name) throws LogConfigurationException;
 
@@ -136,7 +183,7 @@ public abstract class LogFactory {
    * there is no such attribute, no action is taken.
    * 
    * @param name
-   *          Name of the attribute to remove
+   *                Name of the attribute to remove
    */
   public abstract void removeAttribute(String name);
 
@@ -146,10 +193,10 @@ public abstract class LogFactory {
    * <code>removeAttribute(name)</code>.
    * 
    * @param name
-   *          Name of the attribute to set
+   *                Name of the attribute to set
    * @param value
-   *          Value of the attribute to set, or <code>null</code> to remove
-   *          any setting for this attribute
+   *                Value of the attribute to set, or <code>null</code> to
+   *                remove any setting for this attribute
    */
   public abstract void setAttribute(String name, Object value);
 
@@ -182,8 +229,8 @@ public abstract class LogFactory {
    * </p>
    * 
    * @exception LogConfigurationException
-   *              if the implementation class is not available or cannot be
-   *              instantiated.
+   *                    if the implementation class is not available or cannot
+   *                    be instantiated.
    */
   public static LogFactory getFactory() throws LogConfigurationException {
     return logFactory;
@@ -194,10 +241,11 @@ public abstract class LogFactory {
    * to care about factories.
    * 
    * @param clazz
-   *          Class from which a log name will be derived
+   *                Class from which a log name will be derived
    * 
    * @exception LogConfigurationException
-   *              if a suitable <code>Log</code> instance cannot be returned
+   *                    if a suitable <code>Log</code> instance cannot be
+   *                    returned
    */
   public static Log getLog(Class clazz) throws LogConfigurationException {
     return (getFactory().getInstance(clazz));
@@ -208,12 +256,13 @@ public abstract class LogFactory {
    * to care about factories.
    * 
    * @param name
-   *          Logical name of the <code>Log</code> instance to be returned
-   *          (the meaning of this name is only known to the underlying logging
-   *          implementation that is being wrapped)
+   *                Logical name of the <code>Log</code> instance to be
+   *                returned (the meaning of this name is only known to the
+   *                underlying logging implementation that is being wrapped)
    * 
    * @exception LogConfigurationException
-   *              if a suitable <code>Log</code> instance cannot be returned
+   *                    if a suitable <code>Log</code> instance cannot be
+   *                    returned
    */
   public static Log getLog(String name) throws LogConfigurationException {
     return (getFactory().getInstance(name));
@@ -226,7 +275,7 @@ public abstract class LogFactory {
    * them.
    * 
    * @param classLoader
-   *          ClassLoader for which to release the LogFactory
+   *                ClassLoader for which to release the LogFactory
    */
   public static void release(ClassLoader classLoader) {
     // since SLF4J based JCL does not make use of classloaders, there is nothing
@@ -245,5 +294,67 @@ public abstract class LogFactory {
     // since SLF4J based JCL does not make use of classloaders, there is nothing
     // to do here
   }
+
+  /**
+   * Returns a string that uniquely identifies the specified object, including
+   * its class.
+   * <p>
+   * The returned string is of form "classname@hashcode", ie is the same as the
+   * return value of the Object.toString() method, but works even when the
+   * specified object's class has overidden the toString method.
+   * 
+   * @param o
+   *                may be null.
+   * @return a string of form classname@hashcode, or "null" if param o is null.
+   * @since 1.1
+   */
+  public static String objectId(Object o) {
+    if (o == null) {
+      return "null";
+    } else {
+      return o.getClass().getName() + "@" + System.identityHashCode(o);
+    }
+  }
+
+  // protected methods which were added in JCL 1.1. These are not used
+  // by SLF4JLogFactory
+
+  protected Object createFactory(String factoryClass, ClassLoader classLoader) {
+    throw new UnsupportedOperationException(
+        "Operation [factoryClass] is not supported in jcl-over-slf4j. See also "
+            + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+  }
+
+  protected ClassLoader directGetContextClassLoader() {
+    throw new UnsupportedOperationException(
+        "Operation [directGetContextClassLoader] is not supported in jcl-over-slf4j. See also "
+            + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+  }
+
+  protected ClassLoader getClassLoader(Class clazz) {
+    throw new UnsupportedOperationException(
+        "Operation [getClassLoader] is not supported in jcl-over-slf4j. See also "
+            + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+  }
+
+  protected boolean isDiagnosticsEnabled() {
+    throw new UnsupportedOperationException(
+        "Operation [isDiagnosticsEnabled] is not supported in jcl-over-slf4j. See also "
+            + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+  }
+
+  protected void logRawDiagnostic(String msg) {
+    throw new UnsupportedOperationException(
+        "Operation [logRawDiagnostic] is not supported in jcl-over-slf4j. See also "
+            + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+  }
+
+  protected LogFactory newFactory(final String factoryClass,
+      final ClassLoader classLoader, final ClassLoader contextClassLoader) {
+    throw new UnsupportedOperationException(
+        "Operation [logRawDiagnostic] is not supported in jcl-over-slf4j. See also "
+            + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+  }
+
 
 }

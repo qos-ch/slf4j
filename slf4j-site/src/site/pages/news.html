@@ -37,8 +37,19 @@ prefix='';
   report for this version</a>.</p>
 
   <p>In order to support JCL version 1.1.1, the
-  <em>jcl104-over-slf4j</em> module was renamed as
-  <em>jcl-over-slf4j</em>.
+  <em>jcl<b>104</b>-over-slf4j</em> module was renamed as
+  <em>jcl-over-slf4j</em>. SLF4J will no longer ship with
+  <em>jcl104-over-slf4j.jar</em> but with <em>jcl-over-slf4j.jar</em>.
+  The related work responds to enhancement request discussed in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=85">bug 85</a> as
+  reported by Niklas Gustavsson.
+  </p>
+
+  <p>Added a java.util.logging to SLF4J bridge as requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=38">bug 38</a> by
+  Christian Stein, David Smiley, Johan Ferner, Joern Huxhorn and
+  others.
+  </p>
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug
   68</a> reported by Su Chuan and David Rauschenbach. SLF4J requires
