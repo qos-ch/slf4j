@@ -138,6 +138,11 @@
               <packages>org.apache.log4j</packages>
             </group>
 
+            <group>
+              <title>java.util.logging (JUL) to SLF4J bridge</title>
+              <packages>org.slf4j.bridge</packages>
+            </group>
+
           </groups>
         </configuration>
       </plugin>
