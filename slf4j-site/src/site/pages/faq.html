@@ -476,9 +476,9 @@ debug(String msg, Throwable t);</p>
        </p>
 
        <p>Just as importantly, the new set of method signatures offer
-       a clearer differentiation between the overladed methods
+       a clearer differentiation between the overloaded methods
        whereas previously the choice of the invoked method due to
-       Java overloding rules were not always easy to follow.</p>
+       Java overloading rules were not always easy to follow.</p>
        
        <p>It was also easy to make mistakes. For example, previously
        it was legal to write:</p>
@@ -608,7 +608,7 @@ debug(String msg, Throwable t);</p>
        <p class="source">Object entry = new SomeObject();
 logger.debug("The entry is {}.", entry);</p>
         
-       <p>After evaluting whether to log or not, and only if the
+       <p>After evaluating whether to log or not, and only if the
        decision is affirmative, will the logger implementation format
        the message and replace the '{}' pair with the string value of
        <code>entry</code>. In other words, this form does not incur
@@ -627,7 +627,7 @@ logger.debug("The entry is {}.", entry);</p>
 logger.debug("The new entry is {}.", entry);</p>
    
    
-        <p>A two argument variant is also availalble. For example, you
+        <p>A two argument variant is also available. For example, you
         can write:</p>
         
         
@@ -830,8 +830,8 @@ class MyClass {
 
       <dd>
 
-        <p>Adding supporting for the SLF4J is suprisingly
-        easy. Essentialy, you coping an existing binding and tailoring
+        <p>Adding supporting for the SLF4J is surprisingly
+        easy. Essentially, you coping an existing binding and tailoring
         it a little (as explained below) does the trick.
         </p>
 
@@ -855,7 +855,7 @@ class MyClass {
         <code>MyLoggerAdapter</code>, and a factory, namely
         <code>MyLoggerFactory</code>, the last remaining step is to
         modify the <code>StaticLoggerBinder</code> class so that it
-        reurns an new instance of <code>MyLoggerFactory</code>. You
+        returns an new instance of <code>MyLoggerFactory</code>. You
         will also need to modify the
         <code>loggerFactoryClassStr</code> variable.
        </p>
@@ -886,9 +886,9 @@ class MyClass {
         </dt>
         <dd>
         
-          <p>Markers consitute a revolutionary concept which is
+          <p>Markers constitute a revolutionary concept which is
           supported by logback but not other existing logging
-          systems. Consequently, SLF4J confromant logging systems are
+          systems. Consequently, SLF4J conforming logging systems are
           allowed to ignore marker data passed by the user.
           </p>
 
@@ -896,7 +896,7 @@ class MyClass {
         must still be allowed to specify marker data. Otherwise, users
         would not be able to switch between logging systems that
         support markers and those that do not.  In order to provide
-        minimal support for markers, SLF4J conformant systems need to
+        minimal support for markers, SLF4J conforming systems need to
         to include certain Marker related classes, namely,
         <code>org.slf4j.Marker</code>,
         <code>org.slf4j.IMarkerFactory</code>,
@@ -906,7 +906,7 @@ class MyClass {
         <code>org.slf4j.impl.MarkerIgnoringBase</code>,
         <code>org.slf4j.impl.StaticMarkerBinder</code> and
         <code>org.slf4j.spi.MarkerFactoryBinder</code>. Al of these
-        classes are availalbe in the SLF4J subversion repository.
+        classes are available in the SLF4J subversion repository.
        </p>
 
         <p>The <code>MarkerIgnoringBase</code> class can serve as a
@@ -953,9 +953,9 @@ class MyClass {
           <td>
             <ol>
               <li>common and well-established idiom</li>
-              <li>less CPU overhead: loggers are retreived and
+              <li>less CPU overhead: loggers are retrieved and
               assigned only once, at hosting class
-              initialisation</li>
+              initialization</li>
               <li>less memory overhead: logger declaration will
               consume one reference per class</li>
               <li>serialization of the hosting class does not require
@@ -968,7 +968,7 @@ class MyClass {
             <ol>
               <li>For libraries shared between applications, not
               possible to take advantage of repository selectors. It
-              should be noteed that if the SLF4J binding and the
+              should be noted that if the SLF4J binding and the
               underlying API ships with each application (not shared
               between applications), then each application will still
               have its own logging environment.  
@@ -990,7 +990,7 @@ class MyClass {
               <li>Possible to take advantage of repository selectors
               even for libraries shared between applications. However,
               repository selectors only work if the underlying logging
-              sytem is logback-classic. Repository selectors do not
+              system is logback-classic. Repository selectors do not
               work for the SLF4J+log4j combination.
               </li>
               <li>IOC-friendly</li>
@@ -1002,7 +1002,7 @@ class MyClass {
               <li>Less common idiom than declaring loggers as static
               variables</li>
               
-              <li>higher CPU overhead: loggers are retreived and
+              <li>higher CPU overhead: loggers are retrieved and
               assigned for each instance of the hosting class</li>
 
               <li>higher memory overhead: logger declaration will
@@ -1081,10 +1081,10 @@ class MyClass {
 
       <p><b>Summary</b></p>
 
-      <p>In summary, declaring logger members as static variables,
+      <p>In summary, declaring logger members as static variables
       requires less work, less CPU and memory overhead and causes no
       problems with serialization. On the other hand, declaring logger
-      members as instance variables, requires more work, more CPU and
+      members as instance variables requires more work, more CPU and
       memory overhead and is likely to cause problems with
       serialization. However, instance variables make it possible to
       create a distinct logger environment for each application, even
@@ -1093,9 +1093,11 @@ class MyClass {
       IOC-friendly whereas static variables are not.
       </p>    
 
-      <p>
+      <p>See also <a
+      href="http://wiki.apache.org/jakarta-commons/Logging/StaticLog">related
+      discussion</a> in the commons-logging wiki.
       </p>
-http://wiki.apache.org/jakarta-commons/Logging/StaticLog
+
     </dd>       
     </dl>
 
@@ -1120,8 +1122,8 @@ public class MyClass {
 }</p>
 
         <p>Unfortunately, give that the name of the hosting class is
-        part of the logger declarion, the above logger declaration
-        idom is not is <em>not</em> resitant to cut-and-pasting
+        part of the logger declaration, the above logger declaration
+        idiom is not is <em>not</em> resistant to cut-and-pasting
         between classes.
         </p>
       </dd>
