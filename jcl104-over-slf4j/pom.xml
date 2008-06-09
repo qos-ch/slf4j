@@ -3,13 +3,19 @@
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-    <version>1.5.2</version>
+    <version>1.5.3-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>jcl104-over-slf4j</artifactId>
+	<name>DEPRECATED - JCL implemented over SLF4J</name>
+
+	<url>http://www.slf4j.org</url>
+	<description>
+		DEPRECATED - JCL implemented over SLF4J
+	</description>
 
   <distributionManagement>
     <relocation>

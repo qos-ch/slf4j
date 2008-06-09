@@ -14,11 +14,11 @@ sub replace () {
   if(-s $filename) {
     print "Processing [" . $filename . "]\r\n";
 
-    my $backup = "$filename.original";
+    my $original = "$filename.original";
     
-    rename($filename, $backup);
+    rename($filename, $original);
     open(OUT, ">$filename");
-    open(IN, "$backup");
+    open(IN, "$original");
     
     my $hitCount=0;
     while(<IN>) {
@@ -30,6 +30,7 @@ sub replace () {
     }
     close(IN);
     close(OUT);
+    unlink($original);
   } else {
     print "File [" . $filename . "] does not exist\r\n" 
   }
