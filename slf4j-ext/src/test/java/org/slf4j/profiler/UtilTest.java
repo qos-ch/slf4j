@@ -26,9 +26,9 @@ package org.slf4j.profiler;
 
 import junit.framework.TestCase;
 
-public class StopWatchTest extends TestCase {
+public class UtilTest extends TestCase {
 
-  public StopWatchTest(String name) {
+  public UtilTest(String name) {
     super(name);
   }
 

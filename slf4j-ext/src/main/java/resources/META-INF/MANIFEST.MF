@@ -1,0 +1,8 @@
+Implementation-Title: slf4j-ext
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: slf4j.ext
+Bundle-Name: slf4j-log4j12
+Bundle-Vendor: SLF4J.ORG
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.slf4j.profiler;version=${project.version}
+Import-Package: org.slf4j;version=${project.version}, org.slf4j.spi;version=${project.version}, org.slf4j.helpers;version=${project.version}

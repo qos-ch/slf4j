@@ -31,7 +31,7 @@ public class PackageTest extends TestCase {
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTestSuite(StopWatchTest.class);
+    suite.addTestSuite(UtilTest.class);
     suite.addTestSuite(ProfilerTest.class);
     return suite;
   }

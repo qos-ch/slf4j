@@ -26,42 +26,47 @@ package org.slf4j.profiler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
-// +  Profiler [BAS]
-// |-- elapsed time            [doX]     0 milliseconds.
-// |-- elapsed time        [doYYYYY]    56 milliseconds.
+// + Profiler [BAS]
+// |-- elapsed time [doX] 0 milliseconds.
+// |-- elapsed time [doYYYYY] 56 milliseconds.
 // |--+ Profiler Y
-//    |-- elapsed time            [doZ]    21 milliseconds.
-//    |-- elapsed time            [doZ]    21 milliseconds.
-//    |-- Total elapsed time        [Y]    78 milliseconds.
-// |-- elapsed time            [doZ]    21 milliseconds.
-// |-- Total elapsed time      [BAS]    78 milliseconds.
+// |-- elapsed time [doZ] 21 milliseconds.
+// |-- elapsed time [doZ] 21 milliseconds.
+// |-- Total elapsed time [Y] 78 milliseconds.
+// |-- elapsed time [doZ] 21 milliseconds.
+// |-- Total elapsed time [BAS] 78 milliseconds.
 
 // + Profiler [TOP]
 // |--+ Profiler [IIII]
-//    |-- elapsed time                            [A]   0.006 milliseconds.
-//    |-- elapsed time                            [B]  75.777 milliseconds.
-//    |-- elapsed time                       [VVVVVV] 161.589 milliseconds.
-//    |-- Total elapsed time                   [IIII] 240.580 milliseconds.
+// |-- elapsed time [A] 0.006 milliseconds.
+// |-- elapsed time [B] 75.777 milliseconds.
+// |-- elapsed time [VVVVVV] 161.589 milliseconds.
+// |-- Total elapsed time [IIII] 240.580 milliseconds.
 // |--+ Profiler [RRRRRRRRR]
-//    |-- elapsed time                           [R0]   9.390 milliseconds.
-//    |-- elapsed time                           [R1]   6.555 milliseconds.
-//    |-- elapsed time                           [R2]   5.995 milliseconds.
-//    |-- elapsed time                           [R3] 115.502 milliseconds.
-//    |-- elapsed time                           [R4]   0.064 milliseconds.
-//    |-- Total elapsed time                      [R] 138.340 milliseconds.
+// |-- elapsed time [R0] 9.390 milliseconds.
+// |-- elapsed time [R1] 6.555 milliseconds.
+// |-- elapsed time [R2] 5.995 milliseconds.
+// |-- elapsed time [R3] 115.502 milliseconds.
+// |-- elapsed time [R4] 0.064 milliseconds.
+// |-- Total elapsed time [R] 138.340 milliseconds.
 // |--+ Profiler [S]
-//    |-- Total elapsed time                     [S0]  3.091 milliseconds.
+// |-- Total elapsed time [S0] 3.091 milliseconds.
 // |--+ Profiler [P]
-//    |-- elapsed time                           [P0] 87.550 milliseconds.
-//    |-- Total elapsed time                      [P] 87.559 milliseconds.
-// |-- Total elapsed time                  [TOP] 467.548 milliseconds.
-            
+// |-- elapsed time [P0] 87.550 milliseconds.
+// |-- Total elapsed time [P] 87.559 milliseconds.
+// |-- Total elapsed time [TOP] 467.548 milliseconds.
+
 public class Profiler {
+
+  final static String PROFILER_MARKER_NAME = "PROFILER";
 
   final static int MIN_SW_NAME_LENGTH = 24;
   final static int MIN_SW_ELAPSED_TIME_NUMBER_LENGTH = 9;
-
+  
   final String name;
   final StopWatch globalStopWatch;
 
@@ -69,12 +74,13 @@ public class Profiler {
   List<Object> childList = new ArrayList<Object>();
 
   ProfilerRegistry profilerRegistry;
-  
+  Logger logger;
+
   public Profiler(String name) {
     this.name = name;
     this.globalStopWatch = new StopWatch(name);
   }
-  
+
   public String getName() {
     return name;
   }
@@ -84,11 +90,19 @@ public class Profiler {
   }
 
   public void setProfilerRegistry(ProfilerRegistry profilerRegistry) {
-    if(profilerRegistry == null) {
+    if (profilerRegistry == null) {
       return;
     }
     this.profilerRegistry = profilerRegistry;
     profilerRegistry.put(this);
+  }
+
+  public Logger getLogger() {
+    return logger;
+  }
+
+  public void setLogger(Logger logger) {
+    this.logger = logger;
   }
 
   public void start(String name) {
@@ -101,6 +115,7 @@ public class Profiler {
   public Profiler startNested(String name) {
     Profiler nestedProfiler = new Profiler(name);
     nestedProfiler.setProfilerRegistry(profilerRegistry);
+    nestedProfiler.setLogger(logger);
     childList.add(nestedProfiler);
     return nestedProfiler;
   }
@@ -140,22 +155,31 @@ public class Profiler {
     System.out.println(r);
   }
 
+  public void log() {
+    Marker profilerMarker = MarkerFactory.getMarker(PROFILER_MARKER_NAME);
+    if (logger.isDebugEnabled(profilerMarker)) {
+      DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
+      String r = buildString(du, "+", "");
+      logger.debug(profilerMarker, r);
+    }
+  }
+
   private String buildString(DurationUnit du, String prefix, String indentation) {
     StringBuffer buf = new StringBuffer();
 
-    
     buf.append(prefix);
     buf.append(" Profiler [");
     buf.append(name);
     buf.append("]");
     buf.append(SpacePadder.LINE_SEP);
     for (Object child : childList) {
-      if(child instanceof StopWatch) {
-       buildStringForChildStopWatch(buf, indentation, (StopWatch) child, du);
-      } else if(child instanceof Profiler) {
+      if (child instanceof StopWatch) {
+        buildStringForChildStopWatch(buf, indentation, (StopWatch) child, du);
+      } else if (child instanceof Profiler) {
         Profiler profiler = (Profiler) child;
         profiler.stop();
-        String subString = profiler.buildString(du, "|--+", indentation + "   ");
+        String subString = profiler
+            .buildString(du, "|--+", indentation + "   ");
         buf.append(subString);
       }
     }
