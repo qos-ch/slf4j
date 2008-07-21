@@ -38,14 +38,14 @@ package org.slf4j.helpers;
  * <p>
  * In the rare case where you need to place the '{' or '}' in the message
  * pattern itself but do not want them to be interpreted as a formatting
- * anchors, you can espace the '{' character with '\', that is the backslash
+ * anchors, you can escape the '{' character with '\', that is the backslash
  * character. Only the '{' character should be escaped. There is no need to
  * escape the '}' character. For example, 
  * <pre>MessageFormatter.format(&quot;Set \\{1,2,3} is not equal to {}.&quot;, &quot;1,2&quot;);</pre>
  * will return the string "Set {1,2,3} is not equal to 1,2.". 
  * 
  * <p>
- * The escaping behaviour just described can be overridden by 
+ * The escaping behavior just described can be overridden by 
  * escaping the escape character '\'. Calling
  * <pre>MessageFormatter.format(&quot;File name is C:\\\\{}.&quot;, &quot;file.zip&quot;);</pre>
  * will return the string "File name is C:\file.zip".
