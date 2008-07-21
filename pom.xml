@@ -30,6 +30,7 @@
 		<module>slf4j-jdk14</module>
     <module>slf4j-log4j12</module>
     <module>slf4j-jcl</module>
+    <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
     <module>jcl104-over-slf4j</module>
     <module>log4j-over-slf4j</module>
