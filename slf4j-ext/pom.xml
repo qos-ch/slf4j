@@ -27,14 +27,6 @@
 
 
   <build>
-    <plugins>		
-     
- 
-		</plugins>
-	</build>
-
-
-  <build>
 
 		<plugins>
 			<plugin>
