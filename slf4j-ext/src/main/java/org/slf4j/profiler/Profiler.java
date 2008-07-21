@@ -30,35 +30,36 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
-// + Profiler [BAS]
-// |-- elapsed time [doX] 0 milliseconds.
-// |-- elapsed time [doYYYYY] 56 milliseconds.
+
+// +  Profiler [BAS]
+// |-- elapsed time            [doX]     0 milliseconds.
+// |-- elapsed time        [doYYYYY]    56 milliseconds.
 // |--+ Profiler Y
-// |-- elapsed time [doZ] 21 milliseconds.
-// |-- elapsed time [doZ] 21 milliseconds.
-// |-- Total elapsed time [Y] 78 milliseconds.
-// |-- elapsed time [doZ] 21 milliseconds.
-// |-- Total elapsed time [BAS] 78 milliseconds.
+//    |-- elapsed time            [doZ]    21 milliseconds.
+//    |-- elapsed time            [doZ]    21 milliseconds.
+//    |-- Total elapsed time        [Y]    78 milliseconds.
+// |-- elapsed time            [doZ]    21 milliseconds.
+// |-- Total elapsed time      [BAS]    78 milliseconds.
 
 // + Profiler [TOP]
 // |--+ Profiler [IIII]
-// |-- elapsed time [A] 0.006 milliseconds.
-// |-- elapsed time [B] 75.777 milliseconds.
-// |-- elapsed time [VVVVVV] 161.589 milliseconds.
-// |-- Total elapsed time [IIII] 240.580 milliseconds.
+//    |-- elapsed time                            [A]   0.006 milliseconds.
+//    |-- elapsed time                            [B]  75.777 milliseconds.
+//    |-- elapsed time                       [VVVVVV] 161.589 milliseconds.
+//    |-- Total elapsed time                   [IIII] 240.580 milliseconds.
 // |--+ Profiler [RRRRRRRRR]
-// |-- elapsed time [R0] 9.390 milliseconds.
-// |-- elapsed time [R1] 6.555 milliseconds.
-// |-- elapsed time [R2] 5.995 milliseconds.
-// |-- elapsed time [R3] 115.502 milliseconds.
-// |-- elapsed time [R4] 0.064 milliseconds.
-// |-- Total elapsed time [R] 138.340 milliseconds.
+//    |-- elapsed time                           [R0]   9.390 milliseconds.
+//    |-- elapsed time                           [R1]   6.555 milliseconds.
+//    |-- elapsed time                           [R2]   5.995 milliseconds.
+//    |-- elapsed time                           [R3] 115.502 milliseconds.
+//    |-- elapsed time                           [R4]   0.064 milliseconds.
+//    |-- Total elapsed time                      [R] 138.340 milliseconds.
 // |--+ Profiler [S]
-// |-- Total elapsed time [S0] 3.091 milliseconds.
+//    |-- Total elapsed time                     [S0]  3.091 milliseconds.
 // |--+ Profiler [P]
-// |-- elapsed time [P0] 87.550 milliseconds.
-// |-- Total elapsed time [P] 87.559 milliseconds.
-// |-- Total elapsed time [TOP] 467.548 milliseconds.
+//    |-- elapsed time                           [P0] 87.550 milliseconds.
+//    |-- Total elapsed time                      [P] 87.559 milliseconds.
+// |-- Total elapsed time                  [TOP] 467.548 milliseconds.
 
 public class Profiler {
 
