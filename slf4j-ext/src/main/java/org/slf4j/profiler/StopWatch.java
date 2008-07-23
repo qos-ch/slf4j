@@ -25,37 +25,36 @@
 package org.slf4j.profiler;
 
 
-public class StopWatch {
+public class StopWatch implements TimeInstrument {
 
-
-  enum Status {
-    STARTED, STOPPED;
-  }
-  
-  final String name;
-  final long startTime;
-  long stopTime;
-  Status status;
+  private String name;
+  private long startTime;
+  private long stopTime;
+  TimeInstrumentStatus status;
 
   public StopWatch(String name) {
-    this.name = name;
-    this.startTime = System.nanoTime();
-    this.status = Status.STARTED;
+    start(name);
   }
 
+  public void start(String name) {
+    this.name = name;
+    startTime = System.nanoTime();
+    status = TimeInstrumentStatus.STARTED;
+  }
+  
   public String getName() {
     return name;
   }
 
-  public StopWatch stop() {
-    if(status == Status.STOPPED) {
+  public TimeInstrument stop() {
+    if(status == TimeInstrumentStatus.STOPPED) {
       return this;
     } 
     return stop(System.nanoTime());
   }
 
   public StopWatch stop(long stopTime) {
-    this.status = Status.STOPPED;
+    this.status = TimeInstrumentStatus.STOPPED;
     this.stopTime = stopTime;
     return this;
   }
@@ -73,7 +72,7 @@ public class StopWatch {
       break;
     case STOPPED:
       buf.append("elapsed time: ");
-      buf.append(Util.durationInDunrationUnitsAsStr(getResultInNanos(), DurationUnit.MICROSECOND));
+      buf.append(Util.durationInDunrationUnitsAsStr(elapsedTime(), DurationUnit.MICROSECOND));
       break;
     default:
       new IllegalStateException("Status " + status + " is not expected");
@@ -81,12 +80,20 @@ public class StopWatch {
     return buf.toString();
   }
 
-  public final long getResultInNanos() {
-    if (status == Status.STARTED) {
+  public final long elapsedTime() {
+    if (status == TimeInstrumentStatus.STARTED) {
       return 0;
     } else {
       return stopTime - startTime;
     }
   }
 
+  public TimeInstrumentStatus getStatus() {
+    return status;
+  }
+
+  public void print() {
+   System.out.println(toString());
+  }
+  
 }

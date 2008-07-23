@@ -34,7 +34,7 @@ class Util {
   private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.000");
   
   static DurationUnit selectDurationUnitForDisplay(StopWatch sw) {
-    return selectDurationUnitForDisplay(sw.getResultInNanos());
+    return selectDurationUnitForDisplay(sw.elapsedTime());
   }
   
   static DurationUnit selectDurationUnitForDisplay(long durationInNanos) {
@@ -63,7 +63,7 @@ class Util {
   
   static String durationInDunrationUnitsAsStr(StringBuffer buf, StopWatch sw) {
     DurationUnit du = selectDurationUnitForDisplay(sw);
-    return durationInDunrationUnitsAsStr(sw.getResultInNanos(), du);
+    return durationInDunrationUnitsAsStr(sw.elapsedTime(), du);
   }
   
   static String durationInDunrationUnitsAsStr(long nanos, DurationUnit durationUnit) {

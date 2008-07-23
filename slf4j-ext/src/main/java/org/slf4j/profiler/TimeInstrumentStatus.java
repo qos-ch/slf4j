@@ -1,5 +1,5 @@
-/* 
- * Copyright (c) 2004-2007 QOS.ch
+/*
+ * Copyright (c) 2004-2008 QOS.ch
  * All rights reserved.
  * 
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -22,36 +22,14 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.slf4j.impl;
 
-import org.slf4j.ILoggerFactory;
 
 /**
- * The binding of {@link LoggerFactory} class with an actual instance of
- * {@link ILoggerFactory} is performed using information returned by this class.
- * 
- * This class is meant to provide a dummy StaticLoggerBinder to the slf4j-api module. 
- * Real implementations are found in  each SLF4J binding project, e.g. slf4j-nop, 
- * slf4j-log4j12 etc.
- * 
- * @author Ceki G&uuml;lc&uuml;
+ * A StopWatch can be in two states: STARTED or STOPPED.
  */
-public class StaticLoggerBinder { 
 
-  /**
-   * The unique instance of this class.
-   */
-  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+package org.slf4j.profiler;
 
-  private StaticLoggerBinder() {
-    throw new UnsupportedOperationException("This code should have never made it into the jar");
-  }
-
-  public ILoggerFactory getLoggerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
-  }
-
-  public String getLoggerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
-  }
+enum TimeInstrumentStatus {
+  STARTED, STOPPED;
 }

@@ -41,27 +41,12 @@ import org.slf4j.MarkerFactory;
 // |-- elapsed time            [doZ]    21 milliseconds.
 // |-- Total elapsed time      [BAS]    78 milliseconds.
 
-// + Profiler [TOP]
-// |--+ Profiler [IIII]
-//    |-- elapsed time                            [A]   0.006 milliseconds.
-//    |-- elapsed time                            [B]  75.777 milliseconds.
-//    |-- elapsed time                       [VVVVVV] 161.589 milliseconds.
-//    |-- Total elapsed time                   [IIII] 240.580 milliseconds.
-// |--+ Profiler [RRRRRRRRR]
-//    |-- elapsed time                           [R0]   9.390 milliseconds.
-//    |-- elapsed time                           [R1]   6.555 milliseconds.
-//    |-- elapsed time                           [R2]   5.995 milliseconds.
-//    |-- elapsed time                           [R3] 115.502 milliseconds.
-//    |-- elapsed time                           [R4]   0.064 milliseconds.
-//    |-- Total elapsed time                      [R] 138.340 milliseconds.
-// |--+ Profiler [S]
-//    |-- Total elapsed time                     [S0]  3.091 milliseconds.
-// |--+ Profiler [P]
-//    |-- elapsed time                           [P0] 87.550 milliseconds.
-//    |-- Total elapsed time                      [P] 87.559 milliseconds.
-// |-- Total elapsed time                  [TOP] 467.548 milliseconds.
-
-public class Profiler {
+/**
+ * A poor man's profiler to measure the time elapsed performing 
+ * some lengthy task.
+ *  
+ */
+public class Profiler implements TimeInstrument {
 
   final static String PROFILER_MARKER_NAME = "PROFILER";
 
@@ -71,10 +56,12 @@ public class Profiler {
   final String name;
   final StopWatch globalStopWatch;
 
-  List<StopWatch> stopwatchList = new ArrayList<StopWatch>();
-  List<Object> childList = new ArrayList<Object>();
+  //List<StopWatch> stopwatchList = new ArrayList<StopWatch>();
+  List<TimeInstrument> childTimeInstrumentList = new ArrayList<TimeInstrument>();
 
+  // optional field
   ProfilerRegistry profilerRegistry;
+//optional field
   Logger logger;
 
   public Profiler(String name) {
@@ -90,7 +77,7 @@ public class Profiler {
     return profilerRegistry;
   }
 
-  public void setProfilerRegistry(ProfilerRegistry profilerRegistry) {
+  public void registerWith(ProfilerRegistry profilerRegistry) {
     if (profilerRegistry == null) {
       return;
     }
@@ -106,97 +93,144 @@ public class Profiler {
     this.logger = logger;
   }
 
+  /**
+   * Starts a child stop watch and stops any previously started time instruments.
+   */
   public void start(String name) {
-    stopLastStopWatch();
+    stopLastTimeInstrument();
     StopWatch childSW = new StopWatch(name);
-    stopwatchList.add(childSW);
-    childList.add(childSW);
+    childTimeInstrumentList.add(childSW);
   }
 
   public Profiler startNested(String name) {
+    stopLastTimeInstrument();
     Profiler nestedProfiler = new Profiler(name);
-    nestedProfiler.setProfilerRegistry(profilerRegistry);
+    nestedProfiler.registerWith(profilerRegistry);
     nestedProfiler.setLogger(logger);
-    childList.add(nestedProfiler);
+    childTimeInstrumentList.add(nestedProfiler);
     return nestedProfiler;
   }
 
-  StopWatch getLastStopWatch() {
-    if (stopwatchList.size() > 0) {
-      return stopwatchList.get(stopwatchList.size() - 1);
+  TimeInstrument getLastTimeInstrument() {
+    if (childTimeInstrumentList.size() > 0) {
+      return childTimeInstrumentList.get(childTimeInstrumentList.size() - 1);
     } else {
       return null;
     }
   }
 
-  void stopLastStopWatch() {
-    StopWatch last = getLastStopWatch();
+  void stopLastTimeInstrument() {
+    TimeInstrument last = getLastTimeInstrument();
     if (last != null) {
       last.stop();
     }
   }
 
-  void stopNestedProfilers() {
-    for (Object child : childList) {
-      if (child instanceof Profiler)
-        ((Profiler) child).stop();
-    }
-  }
+//  void stopNestedProfilers() {
+//    for (Object child : childTimeInstrumentList) {
+//      if (child instanceof Profiler)
+//        ((Profiler) child).stop();
+//    }
+//  }
 
-  public Profiler stop() {
-    stopLastStopWatch();
-    stopNestedProfilers();
+  public long elapsedTime() {
+    return globalStopWatch.elapsedTime();
+  }
+  
+  public TimeInstrument stop() {
+    stopLastTimeInstrument();
     globalStopWatch.stop();
     return this;
   }
 
-  public void print() {
-    DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
-    String r = buildString(du, "+", "");
-    System.out.println(r);
+  public TimeInstrumentStatus getStatus() {
+    return globalStopWatch.status;
+  }
+  
+  /**
+   * This mehtod is used in tests.
+   */
+  void sanityCheck() throws IllegalStateException {
+    if(getStatus() != TimeInstrumentStatus.STOPPED) {
+      throw new IllegalStateException("time instrument ["+getName()+" is not stopped");
+    }
+    
+    long totalElapsed = globalStopWatch.elapsedTime();
+    long childTotal = 0;
+    
+    for(TimeInstrument ti: childTimeInstrumentList) {
+      childTotal += ti.elapsedTime();
+      if(ti.getStatus() != TimeInstrumentStatus.STOPPED) {
+        throw new IllegalStateException("time instrument ["+ti.getName()+" is not stopped");
+      }
+      if(ti instanceof Profiler) {
+        Profiler nestedProfiler = (Profiler) ti;
+        nestedProfiler.sanityCheck();
+      }
+    }
+    if(totalElapsed < childTotal) {
+      throw new IllegalStateException("children have a higher accumulated elapsed time");
+    }
   }
 
+  static String TOP_PROFILER_FIRST_PREFIX = "+";
+  static String NESTED_PROFILER_FIRST_PREFIX = "|---+";
+  static String TOTAL_ELAPSED =    " Total        ";
+  static String SUBTOTAL_ELAPSED = " Subtotal     ";
+  static String ELAPSED_TIME     = " elapsed time ";
+  
+
+  public void print() {
+    System.out.println(toString());
+  }
+  
+  @Override
+  public String toString() {
+    DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
+    return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "");
+  }
+  
   public void log() {
     Marker profilerMarker = MarkerFactory.getMarker(PROFILER_MARKER_NAME);
     if (logger.isDebugEnabled(profilerMarker)) {
       DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
-      String r = buildString(du, "+", "");
-      logger.debug(profilerMarker, r);
+      String r = buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "");
+      logger.debug(profilerMarker, SpacePadder.LINE_SEP+r);
     }
   }
-
-  private String buildString(DurationUnit du, String prefix, String indentation) {
+  
+  private String buildProfilerString(DurationUnit du, String firstPrefix, String label, String indentation) {
     StringBuffer buf = new StringBuffer();
 
-    buf.append(prefix);
+    buf.append(firstPrefix);
     buf.append(" Profiler [");
     buf.append(name);
     buf.append("]");
     buf.append(SpacePadder.LINE_SEP);
-    for (Object child : childList) {
+    for (TimeInstrument child : childTimeInstrumentList) {
       if (child instanceof StopWatch) {
-        buildStringForChildStopWatch(buf, indentation, (StopWatch) child, du);
+        buildStopWatchString(buf, du, ELAPSED_TIME, indentation, (StopWatch) child);
       } else if (child instanceof Profiler) {
         Profiler profiler = (Profiler) child;
-        profiler.stop();
         String subString = profiler
-            .buildString(du, "|--+", indentation + "   ");
+            .buildProfilerString(du, NESTED_PROFILER_FIRST_PREFIX, SUBTOTAL_ELAPSED, indentation + "    ");
         buf.append(subString);
+        buildStopWatchString(buf, du, ELAPSED_TIME, indentation, profiler.globalStopWatch);
       }
     }
-    buildStringForGlobalStopWatch(buf, indentation, globalStopWatch, du);
+    buildStopWatchString(buf, du, label, indentation, globalStopWatch);
     return buf.toString();
   }
 
-  private static void buildStringForChildStopWatch(StringBuffer buf,
-      String indentation, StopWatch sw, DurationUnit du) {
+  private static void buildStopWatchString(StringBuffer buf, DurationUnit du,
+      String prefix, String indentation, StopWatch sw) {
 
     buf.append(indentation);
     buf.append("|--");
-    buf.append(" elapsed time       ");
+    buf.append(prefix);
     SpacePadder.leftPad(buf, "[" + sw.getName() + "]", MIN_SW_NAME_LENGTH);
     buf.append(" ");
-    String timeStr = Util.durationInDunrationUnitsAsStr(sw.getResultInNanos(),
+    String timeStr = Util.durationInDunrationUnitsAsStr(sw.elapsedTime(),
         du);
     SpacePadder.leftPad(buf, timeStr, MIN_SW_ELAPSED_TIME_NUMBER_LENGTH);
     buf.append(" ");
@@ -204,14 +238,15 @@ public class Profiler {
     buf.append(SpacePadder.LINE_SEP);
   }
 
-  private static void buildStringForGlobalStopWatch(StringBuffer buf,
+  static void XXXbuildStringForGlobalStopWatch(StringBuffer buf,
       String indentation, StopWatch sw, DurationUnit du) {
     buf.append(indentation);
     buf.append("|--");
-    buf.append(" Total elapsed time ");
+    //buf.append(prefix);
+    //buf.append(" Total elapsed time ");
     SpacePadder.leftPad(buf, "[" + sw.getName() + "]", MIN_SW_NAME_LENGTH);
     buf.append(" ");
-    String timeStr = Util.durationInDunrationUnitsAsStr(sw.getResultInNanos(),
+    String timeStr = Util.durationInDunrationUnitsAsStr(sw.elapsedTime(),
         du);
     SpacePadder.leftPad(buf, timeStr, MIN_SW_ELAPSED_TIME_NUMBER_LENGTH);
     buf.append(" ");
