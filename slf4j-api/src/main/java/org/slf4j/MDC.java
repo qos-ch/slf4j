@@ -90,7 +90,7 @@ public class MDC {
   /**
    * Put a context value (the <code>val</code> parameter) as identified with
    * the <code>key</code> parameter into the current thread's context map.
-   * The <code>key</code> parameter cannot be null. The code>val</code> parameter 
+   * The <code>key</code> parameter cannot be null. The <code>val</code> parameter 
    * can be null only if the underlying implementation supports it.
    * 
    * <p>
