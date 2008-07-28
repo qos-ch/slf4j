@@ -17,11 +17,14 @@ public class SortAndPruneComposites {
   }
   
   public int[] sortAndPruneComposites() {
-    
+    // retrieve previously registered profiler named "SORT_AND_PRUNE"
     ProfilerRegistry profilerRegistry = ProfilerRegistry.getThreadContextInstance();
     Profiler sortProfiler = profilerRegistry.get(NESTED_PROFILER_NAME);
+
+    // start a new stopwatch called SORT
     sortProfiler.start("SORT");
     int[] sortedArray = sort();
+    // start a new stopwatch called PRUNE_COMPOSITES
     sortProfiler.start("PRUNE_COMPOSITES");
     int result[] = pruneComposites(sortedArray);
     

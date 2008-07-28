@@ -48,45 +48,43 @@ prefix='';
     <h2>Basic example</h2>
 
 
-    <em>Example: Using the profiler </em>
+    <em>Example: Using the profiler: <a
+    href="xref-test/org/slf4j/profiler/BasicProfilerDemo.html">BasicProfilerDemo</a></em>
 
-    <p class="source">
+    <p class="source">[omitted]
+32  public class BasicProfilerDemo {
+33  
+34    public static void main(String[] args) {
+35      // create a profiler called "BASIC"
+36      <b>Profiler profiler = new Profiler("BASIC");</b>
+37      <b>profiler.start("A");</b>
+38      doA();
+39  
+40      <b>profiler.start("B");</b>
+41      doB();
+42      
+43      <b>profiler.start("OTHER");</b>
+44      doOther();
+45      <b>profiler.stop().print();</b>
+46    }
+[omitted]</p>
 
-import ch.qos.logback.classic.stopwatch.Profiler;
-
-public class BasicUsageExample {
-
-  public static void main(String[] args) {
-    <b>Profiler profiler = new Profiler("BASIC");</b>
-    <b>profiler.start("A");</b>
-    doA();
-       
-    <b>profiler.start("B");</b>
-    for (int i = 0; i &lt; 5; i++) {
-      doSubtaskTwo(i);
-    }
-    <b>profiler.start("doOther");</b>
-    doOther();
-    System.out.println(<b>profiler.stop().toString()</b>);
-  }
-  ... cut </p>
 
   <p>Running the above example will output the following output.</p>
 
     <p class="source">+ Profiler [BASIC]
-|-- elapsed time                [A]  0.288 milliseconds.
-|-- elapsed time                [B] 24.717 milliseconds.
-|-- elapsed time            [Other] 22.085 milliseconds.
-|-- Total elapsed time      [BASIC] 50.691 milliseconds.</p>
-
+|-- elapsed time                      [A]   220.487 milliseconds.
+|-- elapsed time                      [B]  2499.866 milliseconds.
+|-- elapsed time                  [OTHER]  3300.745 milliseconds.
+|-- Total                         [BASIC]  6022.568 milliseconds.</p>
   
    <p>Instantiating a profiler starts a global stopwatch. Each call to
    the start() method starts a new and named stopwatch. In addition to
-   sarting a named stopwatch, the start() method also causes the
+   starting a named stopwatch, the start() method also causes the
    previous stopwatch to stop. Thus, the call to
    <code>profiler.start("A")</code> starts a stopwatch named "A". The
    subsequent call to <code>profiler.start("B")</code> starts
-   stopwatch "B" and simultanously stops the stopwatch named
+   stopwatch "B" and simultaneously stops the stopwatch named
    "A". Invoking the <code>stop()</code> on a profiler method stops
    the last stopwatch as well as the global stopwatch which was
    started when the profiler was instantiated.
@@ -106,12 +104,191 @@ public class BasicUsageExample {
    
    <p>Often times, the subtask is implemented by a different class as
    the class hosting the parent profiler. Using the
-   <code>ProfilerRegistry</code> is a convinient way of passing a
-   nested profiler to an object outside the current object.
+   <code>ProfilerRegistry</code> is a convenient way of passing a
+   nested profiler to an object outside the current object. Each
+   thread has its own profiler registry which can be retrieved by
+   invoking the <code>getThreadContextInstance()</code> method.
    </p>
 
    <em>Example: <a
-   href="xref-test/org/slf4j/profiler/ProfilerDemo.html">ProfilerDemo</a>
+   href="xref-test/org/slf4j/profiler/NestedProfilerDemo.html">NestedProfilerDemo</a>
+   </em>
+
+   <p class="source">33  public class NestedProfilerDemo {
+34    
+35    public static void main(String[] args) {
+36      // create a profiler called "DEMO"
+37      Profiler profiler = new Profiler("DEMO");
+38      
+39      // register this profiler in the thread context's profiler registry
+40      <b>ProfilerRegistry profilerRegistry = ProfilerRegistry.getThreadContextInstance();</b>
+41      <b>profiler.registerWith(profilerRegistry);</b>
+42      
+43      // start a stopwatch called "RANDOM"
+44      profiler.start("RANDOM");
+45      RandomIntegerArrayGenerator riaGenerator = new RandomIntegerArrayGenerator();
+46      int n = 1000*1000;
+47      int[] randomArray = riaGenerator.generate(n);
+48      
+49      // create and start a nested profiler called "SORT_AND_PRUNE"
+50      // By virtue of its parent-child relationship with the "DEMO"
+51      // profiler, and the previous registration of the parent profiler, 
+52      // this nested profiler will be automatically registered
+53      // with the thread context's profiler registry
+54      <b>profiler.startNested(SortAndPruneComposites.NESTED_PROFILER_NAME);</b>
+55      
+56      SortAndPruneComposites pruner = new SortAndPruneComposites(randomArray);
+57      pruner.sortAndPruneComposites();
+58      
+59      // stop and print the "DEMO" printer
+60      profiler.stop().print();
+61    }
+62  }</p>
+
+   <p>Here is the relevant excerpt from the <a
+   href="xref-test/org/slf4j/profiler/SortAndPruneComposites.html">SortAndPruneComposites</a>
+   class.
+   </p>
+
+   <p class="source">[omitted]
+6   public class SortAndPruneComposites {
+7   
+8     static String NESTED_PROFILER_NAME = "SORT_AND_PRUNE";
+9     
+10    final int[] originalArray;
+11    final int originalArrrayLength;
+12    
+13    public SortAndPruneComposites(int[] randomArray) {
+14      this.originalArray = randomArray;
+15      this.originalArrrayLength = randomArray.length;
+16     
+17    }
+18    
+19    public int[] sortAndPruneComposites() {
+20      // retrieve previously registered profiler named "SORT_AND_PRUNE"
+21      ProfilerRegistry profilerRegistry = ProfilerRegistry.getThreadContextInstance();
+22      <b>Profiler sortProfiler = profilerRegistry.get(NESTED_PROFILER_NAME);</b>
+23  
+24      // start a new stopwatch called SORT
+25      sortProfiler.start("SORT");
+26      int[] sortedArray = sort();
+27      // start a new stopwatch called PRUNE_COMPOSITES
+28      sortProfiler.start("PRUNE_COMPOSITES");
+29      int result[] = pruneComposites(sortedArray);
+30      
+31      return result;
+32    }
+[omitted] </p>
+   
+
+  <p>On a Dual-Core Intel CPU clocked at 3.2 GHz, running the
+  <code>ProfilerDemo</code> application yields the following output:</p>
+  
+  <p class="source">+ Profiler [DEMO]
+|-- elapsed time                 [RANDOM]    70.524 milliseconds.
+|---+ Profiler [SORT_AND_PRUNE]
+    |-- elapsed time                   [SORT]   665.281 milliseconds.
+    |-- elapsed time       [PRUNE_COMPOSITES]  5695.515 milliseconds.
+    |-- Subtotal             [SORT_AND_PRUNE]  6360.866 milliseconds.
+|-- elapsed time         [SORT_AND_PRUNE]  6360.866 milliseconds.
+|-- Total                          [DEMO]  6433.922 milliseconds.</p>
+
+  <p>From the above, we learn that generating 1'000'000 random
+  integers takes 70 ms, sorting them 665 ms, and pruning the composite
+  (non-prime) integers 5695 ms, for a grand total of 6433 ms. Given
+  that pruning composites takes most of the CPU effort, any future
+  optimizations efforts would be directed at the pruning part.
+  </p>
+
+  <p>With just a few well-placed profiler calls we were able to
+  identify hot-spots in our application. Also note that passing a
+  profiler to a target class could be achieved by registering it in a
+  profiler registry and then retrieving it in the target class.
+  </p>
+
+  <h2>Printing using a logger</h2>
+
+  <p> Invoking <code>profiler.print</code> will always print the
+  output on the console. If you wish to leave the profiler code in
+  production, then you probably need more control over the output
+  destination.
+  </p>
+  
+  <p>To use a logger, you need to associate a logger of your choice
+  with the profiler and then invoke the <code>log()</code> method
+  instead of <code>print()</code>, as the next example illustrates.
+  </p>
+
+  <em>Profiler with a logger: <a
+  href="xref-test/org/slf4j/profiler/NestedProfilerDemo2.html">NestedProfilerDemo2</a>
+   </em>
+
+   <p class="source">[omitted]
+17  public class NestedProfilerDemo2 {
+18  
+19    static Logger logger = LoggerFactory.getLogger(NestedProfilerDemo2.class);
+20    
+21    public static void main(String[] args) {
+22      Profiler profiler = new Profiler("DEMO");
+23      // associate a logger with the profiler
+24      <b>profiler.setLogger(logger);</b>
+25      
+26      ProfilerRegistry profilerRegistry = ProfilerRegistry.getThreadContextInstance();
+27      profiler.registerWith(profilerRegistry);
+28      
+29      profiler.start("RANDOM");
+30      RandomIntegerArrayGenerator riaGenerator = new RandomIntegerArrayGenerator();
+31      int n = 10*1000;
+32      int[] randomArray = riaGenerator.generate(n);
+33      
+34      profiler.startNested(SortAndPruneComposites.NESTED_PROFILER_NAME);
+35      
+36      SortAndPruneComposites pruner = new SortAndPruneComposites(randomArray);
+37      pruner.sortAndPruneComposites();
+38      
+39      // stop and log
+40      profiler.stop().<b>log()</b>;
+41    }
+42  } </p>
+  
+  <p>The output generated by this example will depend on the logging
+  environment, but should be very similar to the output generated by
+  the previous <code>NestedProfilerDemo</code> example.
+  </p>
+
+  <p>The log() method logs at level DEBUG using a marker named
+  "PROFILER".</p>
+
+  <p>If your logging system supports markers, e.g. logback, you could
+  specifically enable or disable output generated by SLF4J
+  profilers. Here is logback configuration file disabling output for
+  any logging event bearing the "PROFILER" marker, even if the logger
+  used by the profiler is enabled for the debug level.
+  </p>
+
+
+  <em>logback configuration disabling logging from profilers, and only
+  profilers</em>
+
+  <p class="source">&lt;configuration>
+
+  <b>&lt;turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+    &lt;Marker>PROFILER&lt;/Marker>
+    &lt;OnMatch>DENY&lt;/OnMatch>
+  &lt;/turboFilter></b>
+    
+  &lt;appender name="STDOUT"
+    class="ch.qos.logback.core.ConsoleAppender">
+    &lt;layout class="ch.qos.logback.classic.PatternLayout">
+      &lt;Pattern>%-5level %logger{36} - %msg%n&lt;/Pattern>
+    &lt;/layout>
+  &lt;/appender>
+
+  &lt;root>
+    &lt;level value="DEBUG" />
+    &lt;appender-ref ref="STDOUT" />
+  &lt;/root>
+&lt;/configuration>  </p>
 
 </div>
 </body>

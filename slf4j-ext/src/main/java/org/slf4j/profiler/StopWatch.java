@@ -96,4 +96,8 @@ public class StopWatch implements TimeInstrument {
    System.out.println(toString());
   }
   
+  public void log() {
+    throw new UnsupportedOperationException("A stopwatch instance does not know how to log");
+  }
+  
 }

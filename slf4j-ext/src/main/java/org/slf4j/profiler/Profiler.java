@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
-
 // +  Profiler [BAS]
 // |-- elapsed time            [doX]     0 milliseconds.
 // |-- elapsed time        [doYYYYY]    56 milliseconds.
@@ -192,6 +191,9 @@ public class Profiler implements TimeInstrument {
   
   public void log() {
     Marker profilerMarker = MarkerFactory.getMarker(PROFILER_MARKER_NAME);
+    if(logger == null) {
+      throw new NullPointerException("If you invoke the log() method, then you must associate a logger with this profiler.");
+    }
     if (logger.isDebugEnabled(profilerMarker)) {
       DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
       String r = buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "");
@@ -228,22 +230,6 @@ public class Profiler implements TimeInstrument {
     buf.append(indentation);
     buf.append("|--");
     buf.append(prefix);
-    SpacePadder.leftPad(buf, "[" + sw.getName() + "]", MIN_SW_NAME_LENGTH);
-    buf.append(" ");
-    String timeStr = Util.durationInDunrationUnitsAsStr(sw.elapsedTime(),
-        du);
-    SpacePadder.leftPad(buf, timeStr, MIN_SW_ELAPSED_TIME_NUMBER_LENGTH);
-    buf.append(" ");
-    Util.appendDurationUnitAsStr(buf, du);
-    buf.append(SpacePadder.LINE_SEP);
-  }
-
-  static void XXXbuildStringForGlobalStopWatch(StringBuffer buf,
-      String indentation, StopWatch sw, DurationUnit du) {
-    buf.append(indentation);
-    buf.append("|--");
-    //buf.append(prefix);
-    //buf.append(" Total elapsed time ");
     SpacePadder.leftPad(buf, "[" + sw.getName() + "]", MIN_SW_NAME_LENGTH);
     buf.append(" ");
     String timeStr = Util.durationInDunrationUnitsAsStr(sw.elapsedTime(),

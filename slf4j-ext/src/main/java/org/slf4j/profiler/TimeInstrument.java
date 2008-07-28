@@ -21,4 +21,6 @@ public interface TimeInstrument {
   long elapsedTime();
   
   void print();
+  
+  void log();
 }
