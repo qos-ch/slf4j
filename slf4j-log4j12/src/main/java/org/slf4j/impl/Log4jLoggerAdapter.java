@@ -33,8 +33,12 @@
 
 package org.slf4j.impl;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -57,8 +61,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  */
 public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
-    LocationAwareLogger {
-  final org.apache.log4j.Logger logger;
+    LocationAwareLogger, Serializable {
+
+  private static final long serialVersionUID = 6182834493563598289L;
+
+  final transient org.apache.log4j.Logger logger;
 
   /**
    * Following the pattern discussed in pages 162 through 168 of "The complete
@@ -75,6 +82,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
   // only Log4jLoggerFactory be able to create one.
   Log4jLoggerAdapter(org.apache.log4j.Logger logger) {
     this.logger = logger;
+    this.name = logger.getName();
     traceCapable = isTraceCapable();
   }
 
@@ -85,10 +93,6 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
     } catch (NoSuchMethodError e) {
       return false;
     }
-  }
-
-  public String getName() {
-    return logger.getName();
   }
 
   /**
@@ -602,4 +606,5 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
     }
     logger.log(callerFQCN, log4jLevel, msg, t);
   }
+
 }

@@ -38,18 +38,15 @@ import org.slf4j.helpers.MessageFormatter;
  * @author Ceki G&uuml;lc&uuml;
  */
 public final class JCLLoggerAdapter extends MarkerIgnoringBase {
+
+  private static final long serialVersionUID = 4141593417490482209L;
   final Log log;
-  final String name;
   
   // WARN: JCLLoggerAdapter constructor should have only package access so
   // that only JCLLoggerFactory be able to create one.
   JCLLoggerAdapter(Log log, String name) {
     this.log = log;
     this.name = name;
-  }
-
-  public String getName() {
-    return name;
   }
 
   /**

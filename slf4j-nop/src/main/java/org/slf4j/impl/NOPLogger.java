@@ -43,6 +43,9 @@ import org.slf4j.helpers.MarkerIgnoringBase;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class NOPLogger extends MarkerIgnoringBase {
+
+  private static final long serialVersionUID = -517220405410904473L;
+
   /**
    * The unique instance of NOPLogger.
    */

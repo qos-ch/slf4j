@@ -62,6 +62,9 @@ import org.slf4j.helpers.MessageFormatter;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class SimpleLogger extends MarkerIgnoringBase {
+  
+  private static final long serialVersionUID = -6560244151660620173L;
+ 
   /**
    * Mark the time when this class gets loaded into memory.
    */
@@ -71,7 +74,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
   private static String INFO_STR = "INFO";
   private static String WARN_STR = "WARN";
   private static String ERROR_STR = "ERROR";
-  String name;
 
   /**
    * Package access allows only {@link SimpleLoggerFactory} to instantiate
@@ -81,10 +83,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     this.name = name;
   }
 
-  public String getName() {
-    return name;    
-  }
- 
   /**
    * Always returns false.
    * @return always false

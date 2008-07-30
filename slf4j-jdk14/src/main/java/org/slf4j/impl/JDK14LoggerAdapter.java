@@ -53,16 +53,16 @@ import org.slf4j.spi.LocationAwareLogger;
  */
 public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
     LocationAwareLogger {
+
+  private static final long serialVersionUID = -8053026990503422791L;
+
   final java.util.logging.Logger logger;
 
   // WARN: JDK14LoggerAdapter constructor should have only package access so
   // that only JDK14LoggerFactory be able to create one.
   JDK14LoggerAdapter(java.util.logging.Logger logger) {
     this.logger = logger;
-  }
-
-  public String getName() {
-    return logger.getName();
+    this.name = logger.getName();
   }
 
   /**
