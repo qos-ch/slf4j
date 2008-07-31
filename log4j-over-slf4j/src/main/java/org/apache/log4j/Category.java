@@ -55,6 +55,14 @@ public class Category {
     }
   }
 
+  public static Logger getInstance(Class clazz) {
+    return getLogger(clazz);
+  }
+
+  public static Logger getInstance(String name) {
+    return getLogger(name);
+  }
+
   public static Logger getLogger(String name) {
     return Log4jLoggerFactory.getLogger(name);
   }
