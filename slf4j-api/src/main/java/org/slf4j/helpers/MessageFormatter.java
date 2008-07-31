@@ -24,12 +24,20 @@
 
 package org.slf4j.helpers;
 
+import java.util.Arrays;
+
+// contributors: lizongbo
+
 /**
  * Formats messages according to very simple substitution rules. Substitutions
  * can be made 1, 2 or more arguments.
  * <p>
  * For example,
- * <pre>MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;);</pre>
+ * 
+ * <pre>
+ * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;);
+ * </pre>
+ * 
  * will return the string "Hi there.".
  * <p>
  * The {} pair is called the <em>formatting anchor</em>. It serves to
@@ -40,14 +48,22 @@ package org.slf4j.helpers;
  * pattern itself but do not want them to be interpreted as a formatting
  * anchors, you can escape the '{' character with '\', that is the backslash
  * character. Only the '{' character should be escaped. There is no need to
- * escape the '}' character. For example, 
- * <pre>MessageFormatter.format(&quot;Set \\{1,2,3} is not equal to {}.&quot;, &quot;1,2&quot;);</pre>
- * will return the string "Set {1,2,3} is not equal to 1,2.". 
+ * escape the '}' character. For example,
+ * 
+ * <pre>
+ * MessageFormatter.format(&quot;Set \\{1,2,3} is not equal to {}.&quot;, &quot;1,2&quot;);
+ * </pre>
+ * 
+ * will return the string "Set {1,2,3} is not equal to 1,2.".
  * 
  * <p>
- * The escaping behavior just described can be overridden by 
- * escaping the escape character '\'. Calling
- * <pre>MessageFormatter.format(&quot;File name is C:\\\\{}.&quot;, &quot;file.zip&quot;);</pre>
+ * The escaping behavior just described can be overridden by escaping the escape
+ * character '\'. Calling
+ * 
+ * <pre>
+ * MessageFormatter.format(&quot;File name is C:\\\\{}.&quot;, &quot;file.zip&quot;);
+ * </pre>
+ * 
  * will return the string "File name is C:\file.zip".
  * 
  * <p>
@@ -60,7 +76,7 @@ public class MessageFormatter {
   static final char DELIM_START = '{';
   static final char DELIM_STOP = '}';
   private static final char ESCAPE_CHAR = '\\';
-  
+
   /**
    * Performs single argument substitution for the 'messagePattern' passed as
    * parameter.
@@ -75,9 +91,10 @@ public class MessageFormatter {
    * <p>
    * 
    * @param messagePattern
-   *          The message pattern which will be parsed and formatted
+   *                The message pattern which will be parsed and formatted
    * @param argument
-   *          The argument to be substituted in place of the formatting anchor
+   *                The argument to be substituted in place of the formatting
+   *                anchor
    * @return The formatted message
    */
   public static String format(String messagePattern, Object arg) {
@@ -98,13 +115,13 @@ public class MessageFormatter {
    * will return the string "Hi Alice. My name is Bob.".
    * 
    * @param messagePattern
-   *          The message pattern which will be parsed and formatted
+   *                The message pattern which will be parsed and formatted
    * @param arg1
-   *          The argument to be substituted in place of the first formatting
-   *          anchor
+   *                The argument to be substituted in place of the first
+   *                formatting anchor
    * @param arg2
-   *          The argument to be substituted in place of the second formatting
-   *          anchor
+   *                The argument to be substituted in place of the second
+   *                formatting anchor
    * @return The formatted message
    */
   public static String format(String messagePattern, Object arg1, Object arg2) {
@@ -117,10 +134,10 @@ public class MessageFormatter {
    * arguments can be passed in an array.
    * 
    * @param messagePattern
-   *          The message pattern which will be parsed and formatted
+   *                The message pattern which will be parsed and formatted
    * @param argArray
-   *          An array of arguments to be substituted in place of formatting
-   *          anchors
+   *                An array of arguments to be substituted in place of
+   *                formatting anchors
    * @return The formatted message
    */
   public static String arrayFormat(String messagePattern, Object[] argArray) {
@@ -131,10 +148,10 @@ public class MessageFormatter {
     int len = messagePattern.length();
     int j = messagePattern.indexOf(DELIM_START);
 
-    if(argArray == null) {
+    if (argArray == null) {
       return messagePattern;
     }
-    
+
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
 
     for (int L = 0; L < argArray.length; L++) {
@@ -154,7 +171,7 @@ public class MessageFormatter {
         char delimStop = messagePattern.charAt(j + 1);
 
         if (isEscapedDelimeter(messagePattern, j)) {
-          if(!isDoubleEscaped(messagePattern, j)) {
+          if (!isDoubleEscaped(messagePattern, j)) {
             L--; // DELIM_START was escaped, thus should not be incremented
             sbuf.append(messagePattern.substring(i, j - 1));
             sbuf.append(DELIM_START);
@@ -163,8 +180,9 @@ public class MessageFormatter {
             // The escape character preceding the delemiter start is
             // itself escaped: "abc x:\\{}"
             // we have to consume one backward slash
-            sbuf.append(messagePattern.substring(i, j-1));
-            sbuf.append(argArray[L]);
+            sbuf.append(messagePattern.substring(i, j - 1));
+            appendParameter(sbuf, argArray[L]);
+            // sbuf.append(argArray[L]);
             i = j + 2;
           }
         } else if ((delimStop != DELIM_STOP)) {
@@ -174,7 +192,7 @@ public class MessageFormatter {
         } else {
           // normal case
           sbuf.append(messagePattern.substring(i, j));
-          sbuf.append(argArray[L]);
+          appendParameter(sbuf, argArray[L]);
           i = j + 2;
         }
       }
@@ -204,6 +222,33 @@ public class MessageFormatter {
       return true;
     } else {
       return false;
+    }
+  }
+
+  // special treatment of array values was suggested by 'lizongbo'
+  private static void appendParameter(StringBuffer sbuf, Object o) {
+    if (o != null && o.getClass().isArray()) {
+      // check for primitive arrays because they unfortunately 
+      // cannot be cast to Object[]
+      if (o instanceof boolean[]) {
+        sbuf.append(Arrays.toString((boolean[]) o));
+      } else if (o instanceof byte[]) {
+        sbuf.append(Arrays.toString((byte[]) o));
+      } else if (o instanceof char[]) {
+        sbuf.append(Arrays.toString((char[]) o));
+      } else if (o instanceof short[]) {
+        sbuf.append(Arrays.toString((short[]) o));
+      } else if (o instanceof int[]) {
+        sbuf.append(Arrays.toString((int[]) o));
+      } else if (o instanceof long[]) {
+        sbuf.append(Arrays.toString((long[]) o));
+      } else if (o instanceof float[]) {
+        sbuf.append(Arrays.toString((float[]) o));
+      } else {
+        sbuf.append(Arrays.toString((Object[]) o));
+      }
+    } else {
+      sbuf.append(o);
     }
   }
 }
