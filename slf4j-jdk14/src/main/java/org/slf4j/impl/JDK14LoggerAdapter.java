@@ -626,7 +626,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
       record.setSourceMethodName(ste.getMethodName());
     }
   }
-
+ 
   public void log(Marker marker, String callerFQCN, int level, String message,
       Throwable t) {
     Level julLevel;
@@ -650,6 +650,13 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
       throw new IllegalStateException("Level number " + level
           + " is not recognized.");
     }
-    log(callerFQCN, julLevel, message, t);
+    // the logger.isLoggable check avoids the unconditional 
+    // construction of location data for disabled log
+    // statements. As of 2008-07-31, callers of this method 
+    // do not perform this check. See also 
+    // http://bugzilla.slf4j.org/show_bug.cgi?id=90
+    if(logger.isLoggable(julLevel)) {
+      log(callerFQCN, julLevel, message, t);
+    }
   }
 }
