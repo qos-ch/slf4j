@@ -33,12 +33,10 @@
 
 package org.slf4j.impl;
 
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -133,7 +131,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    *                the argument
    */
   public void trace(String format, Object arg) {
-    if (logger.isTraceEnabled()) {
+    if (isTraceEnabled()) {
       String msgStr = MessageFormatter.format(format, arg);
       logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msgStr, null);
     }
@@ -156,7 +154,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    *                the second argument
    */
   public void trace(String format, Object arg1, Object arg2) {
-    if (logger.isTraceEnabled()) {
+    if (isTraceEnabled()) {
       String msgStr = MessageFormatter.format(format, arg1, arg2);
       logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msgStr, null);
     }
@@ -177,7 +175,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    *                an array of arguments
    */
   public void trace(String format, Object[] argArray) {
-    if (logger.isTraceEnabled()) {
+    if (isTraceEnabled()) {
       String msgStr = MessageFormatter.arrayFormat(format, argArray);
       logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msgStr, null);
     }
