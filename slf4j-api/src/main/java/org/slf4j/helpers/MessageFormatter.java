@@ -24,10 +24,8 @@
 
 package org.slf4j.helpers;
 
-import java.util.Arrays;
-
-// contributors: lizongbo
-
+// contributors: lizongbo: proposed special treatment of array parameter values
+// Jörn Huxhorn: pointed out double[] omission, suggested deep array copy
 /**
  * Formats messages according to very simple substitution rules. Substitutions
  * can be made 1, 2 or more arguments.
@@ -181,7 +179,7 @@ public class MessageFormatter {
             // itself escaped: "abc x:\\{}"
             // we have to consume one backward slash
             sbuf.append(messagePattern.substring(i, j - 1));
-            appendParameter(sbuf, argArray[L]);
+            deeplyAppendParameter(sbuf, argArray[L]);
             // sbuf.append(argArray[L]);
             i = j + 2;
           }
@@ -192,7 +190,7 @@ public class MessageFormatter {
         } else {
           // normal case
           sbuf.append(messagePattern.substring(i, j));
-          appendParameter(sbuf, argArray[L]);
+          deeplyAppendParameter(sbuf, argArray[L]);
           i = j + 2;
         }
       }
@@ -226,29 +224,134 @@ public class MessageFormatter {
   }
 
   // special treatment of array values was suggested by 'lizongbo'
-  private static void appendParameter(StringBuffer sbuf, Object o) {
-    if (o != null && o.getClass().isArray()) {
-      // check for primitive arrays because they unfortunately 
-      // cannot be cast to Object[]
-      if (o instanceof boolean[]) {
-        sbuf.append(Arrays.toString((boolean[]) o));
-      } else if (o instanceof byte[]) {
-        sbuf.append(Arrays.toString((byte[]) o));
-      } else if (o instanceof char[]) {
-        sbuf.append(Arrays.toString((char[]) o));
-      } else if (o instanceof short[]) {
-        sbuf.append(Arrays.toString((short[]) o));
-      } else if (o instanceof int[]) {
-        sbuf.append(Arrays.toString((int[]) o));
-      } else if (o instanceof long[]) {
-        sbuf.append(Arrays.toString((long[]) o));
-      } else if (o instanceof float[]) {
-        sbuf.append(Arrays.toString((float[]) o));
-      } else {
-        sbuf.append(Arrays.toString((Object[]) o));
-      }
-    } else {
-      sbuf.append(o);
+  private static void deeplyAppendParameter(StringBuffer sbuf, Object o) {
+    if (o == null) {
+      sbuf.append("null");
+      return;
     }
+    if (!o.getClass().isArray()) {
+      sbuf.append(o);
+    } else {
+      // check for primitive array types because they
+      // unfortunately cannot be cast to Object[]
+      if (o instanceof boolean[]) {
+        booleanArrayAppend(sbuf, (boolean[]) o);
+      } else if (o instanceof byte[]) {
+        byteArrayAppend(sbuf, (byte[]) o);
+      } else if (o instanceof char[]) {
+        charArrayAppend(sbuf, (char[]) o);
+      } else if (o instanceof short[]) {
+        shortArrayAppend(sbuf, (short[]) o);
+      } else if (o instanceof int[]) {
+        intArrayAppend(sbuf, (int[]) o);
+      } else if (o instanceof long[]) {
+        longArrayAppend(sbuf, (long[]) o);
+      } else if (o instanceof float[]) {
+        floatArrayAppend(sbuf, (float[]) o);
+      } else if (o instanceof double[]) {
+        doubleArrayAppend(sbuf, (double[]) o);
+      } else {
+        objectArrayAppend(sbuf, (Object[]) o);
+      }
+    }
+  }
+
+  private static void booleanArrayAppend(StringBuffer sbuf, boolean[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void byteArrayAppend(StringBuffer sbuf, byte[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void charArrayAppend(StringBuffer sbuf, char[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void shortArrayAppend(StringBuffer sbuf, short[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void intArrayAppend(StringBuffer sbuf, int[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void longArrayAppend(StringBuffer sbuf, long[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void floatArrayAppend(StringBuffer sbuf, float[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void doubleArrayAppend(StringBuffer sbuf, double[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      sbuf.append(a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
+  }
+
+  private static void objectArrayAppend(StringBuffer sbuf, Object[] a) {
+    sbuf.append('[');
+    final int len = a.length;
+    for (int i = 0; i < len; i++) {
+      deeplyAppendParameter(sbuf, a[i]);
+      if (i != len - 1)
+        sbuf.append(", ");
+    }
+    sbuf.append(']');
   }
 }

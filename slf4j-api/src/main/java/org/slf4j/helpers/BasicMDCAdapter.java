@@ -99,6 +99,8 @@ public class BasicMDCAdapter implements MDCAdapter {
     HashMap hashMap = (HashMap) inheritableThreadLocal.get();
     if (hashMap != null) {
       hashMap.clear();
+      // the InheritableThreadLocal.remove method was introduced in JDK 1.5
+      // Thus, invoking clear() on previous JDK's will fail
       inheritableThreadLocal.remove();
     }
   }
