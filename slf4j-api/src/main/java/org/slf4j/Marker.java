@@ -63,6 +63,8 @@ public interface Marker extends Serializable {
    * 
    * @param child
    *                a child marker
+   * @throws IllegalArgumentException
+   *                 if 'child' is null
    */
   public void add(Marker child);
 
