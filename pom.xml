@@ -19,8 +19,7 @@
 	<inceptionYear>2005</inceptionYear>
 
   <properties>
-    <!-- <project_version_for_osgi>1.3.0</project_version_for_osgi>  -->
-    <pv4osgi>1.4.3</pv4osgi>
+    <slf4j-ext-version>1.0-alpha0</slf4j-ext-version>
   </properties>
 
 	<modules>
@@ -53,7 +52,7 @@
     <dependencies>
 
       <dependency>
-        <groupId>${project.groupId}</groupId>
+        <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
         <version>${project.version}</version>
       </dependency>

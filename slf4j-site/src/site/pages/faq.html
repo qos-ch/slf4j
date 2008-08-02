@@ -597,8 +597,7 @@ debug(String msg, Throwable t);</p>
        less than 1% of the time it takes to actually log a statement.
        </p>
 
-       <p><b>Better alternative based on parameterized
-        messages</b></p>
+       <p><b>Better yet, use parameterized messages</b></p>
         
         <p>There exists a very convenient alternative based on message
         formats. Assuming <code>entry</code> is an object, you can write:
@@ -642,7 +641,13 @@ logger.debug("The new entry is {}.", entry);</p>
         <p class="source">logger.debug("Value {} was inserted between {} and {}.", 
              new Object[] {newVal, below, above});</p>
         
-        <p></p>             
+        <p></p> 
+
+        <p>Array type arguments, including multi-dimensional arrays,
+        are also supported. However, cyclical or recursive arrays are
+        <em>not</em> suported and will result in a stack overflow
+        error.</p>
+        
         <p>SLF4J uses its own message formatting implementation which
         differs from that of the Java platform. This is justified by
         the fact that SLF4J's implementation performs several orders

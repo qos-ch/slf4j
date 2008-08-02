@@ -55,11 +55,15 @@ prefix='';
   </p>
 
 
-  <p>Added support for array values in parameters. For example,</p> 
-  <p class="source">log.debug("a:{},i:{}", "A", new int[] {1, 2}});</p>
-  <p>will print as "a:A,i:[1, 2]" instead of "a:A,i:[I@6ca1c" as
-  previously. This enhancement was proposed by "lizongbo"
+  <p>Added support for array values, including multi-dimensional
+  arrays, as parameters. For example,</p>
+  <p class="source">log.debug("{} {}", "A", new int[] {1, 2}});</p>
+  <p>will print as "A [1, 2]" instead of "A [I@6ca1c" as
+  previously. This enhancement was proposed by "lizongbo". Cyclical or
+  recursive arrays are <em>not</em> supported. Such arrays will cause
+  a stack overflow error.
   </p>
+
 
   <p>Added missing <code>getInstance</code> methods to the
   <code>Category</code> class in the log4j-over-slf4j module, fixing

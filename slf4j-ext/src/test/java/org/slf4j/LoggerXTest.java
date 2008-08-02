@@ -7,6 +7,7 @@ public class LoggerXTest extends TestCase {
   Logger logger = LoggerFactory.getLogger(this.getClass());
   
   public void testSmoke() {
-    LoggerX.entering(logger);
+    XLogger xLogger = new XLogger(logger);
+    xLogger.entry(logger);
   }
 }
