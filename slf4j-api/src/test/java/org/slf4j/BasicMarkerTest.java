@@ -175,4 +175,22 @@ public class BasicMarkerTest extends TestCase {
     assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
   }
 
+  public void testHomonyms() {
+    final String diffPrefix = "homonym"+diff;
+    final String PARENT_NAME=diffPrefix+PARENT_MARKER_STR;
+    final String CHILD_NAME=diffPrefix+CHILD_MARKER_STR;
+    Marker parent = factory.getMarker(PARENT_NAME);
+    Marker child = factory.getMarker(CHILD_NAME);
+    parent.add(child);
+   
+    IMarkerFactory otherFactory = new BasicMarkerFactory();
+    Marker otherParent = otherFactory.getMarker(PARENT_NAME);
+    Marker otherChild = otherFactory.getMarker(CHILD_NAME);
+    
+    assertTrue(parent.contains(otherParent));
+    assertTrue(parent.contains(otherChild));
+    
+    assertTrue(parent.remove(otherChild));
+  }
+  
 }

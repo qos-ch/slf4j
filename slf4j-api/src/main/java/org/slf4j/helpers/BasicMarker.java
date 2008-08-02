@@ -32,15 +32,7 @@ import java.util.Vector;
 import org.slf4j.Marker;
 
 /**
- * An almost trivial implementation of the {@link Marker} interface.
- * 
- * <p>
- * <code>BasicMarker</code> lets users specify marker information. However, it
- * does not offer any useful operations on that information.
- * 
- * <p>
- * Simple logging systems which ignore marker data, just return instances of
- * this class in order to conform to the SLF4J API.
+ * An simple implementation of the {@link Marker} interface.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * @author Joern Huxhorn
@@ -106,7 +98,7 @@ public class BasicMarker implements Marker {
     int size = children.size();
     for (int i = 0; i < size; i++) {
       Marker m = (Marker) children.get(i);
-      if (m == markerToRemove) {
+      if (markerToRemove.equals(m)) {
         children.remove(i);
         return true;
       }
@@ -120,7 +112,7 @@ public class BasicMarker implements Marker {
       throw new IllegalArgumentException("Other cannot be null");
     }
 
-    if (this == other) {
+    if (this.equals(other)) {
       return true;
     }
 
