@@ -45,8 +45,9 @@ public class MessageFormatterTest extends TestCase {
   Integer i2 = new Integer(2);
   Integer i3 = new Integer(3);
   Integer[] ia0 = new Integer[] { i1, i2, i3 };
-  Integer[] ia1 = new Integer[] { new Integer(10), new Integer(20), new Integer(30) };
-  
+  Integer[] ia1 = new Integer[] { new Integer(10), new Integer(20),
+      new Integer(30) };
+
   public void testNull() {
     String result;
     result = MessageFormatter.format(null, i1);
@@ -219,7 +220,7 @@ public class MessageFormatterTest extends TestCase {
     result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a",
         new byte[] { 1, 2 } });
     assertEquals("a[1, 2]", result);
-    
+
     // int[]
     result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a",
         new int[] { 1, 2 } });
@@ -234,41 +235,51 @@ public class MessageFormatterTest extends TestCase {
     result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a",
         new double[] { 1, 2 } });
     assertEquals("a[1.0, 2.0]", result);
-    
-    
+
   }
 
   public void testMultiDimensionalArrayValues() {
     String result;
-    
-    Integer[][] multiIntegerA = new Integer[][] {ia0, ia1};
-    result = MessageFormatter.arrayFormat("{}{}",
-        new Object[] { "a", multiIntegerA });
+
+    Integer[][] multiIntegerA = new Integer[][] { ia0, ia1 };
+    result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a",
+        multiIntegerA });
     assertEquals("a[[1, 2, 3], [10, 20, 30]]", result);
 
-    
     int[][] multiIntA = new int[][] { { 1, 2 }, { 10, 20 } };
     result = MessageFormatter.arrayFormat("{}{}",
         new Object[] { "a", multiIntA });
     assertEquals("a[[1, 2], [10, 20]]", result);
 
     float[][] multiFloatA = new float[][] { { 1, 2 }, { 10, 20 } };
-    result = MessageFormatter.arrayFormat("{}{}",
-        new Object[] { "a", multiFloatA });
+    result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a",
+        multiFloatA });
     assertEquals("a[[1.0, 2.0], [10.0, 20.0]]", result);
 
-    
     Object[][] multiOA = new Object[][] { ia0, ia1 };
-    result = MessageFormatter.arrayFormat("{}{}",
-        new Object[] { "a", multiOA });
+    result = MessageFormatter
+        .arrayFormat("{}{}", new Object[] { "a", multiOA });
     assertEquals("a[[1, 2, 3], [10, 20, 30]]", result);
 
     Object[][][] _3DOA = new Object[][][] { multiOA, multiOA };
-    result = MessageFormatter.arrayFormat("{}{}",
-        new Object[] { "a", _3DOA });
-    assertEquals("a[[[1, 2, 3], [10, 20, 30]], [[1, 2, 3], [10, 20, 30]]]", result);
+    result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a", _3DOA });
+    assertEquals("a[[[1, 2, 3], [10, 20, 30]], [[1, 2, 3], [10, 20, 30]]]",
+        result);
+  }
 
-    
-    
+  public void testCyclicArrays() {
+    {
+      Object[] cyclicA = new Object[1];
+      cyclicA[0] = cyclicA;
+      assertEquals("[[...]]", MessageFormatter.arrayFormat("{}", cyclicA));
+    }
+    {
+      Object[] a = new Object[2];
+      a[0] = i1;
+      Object[] c = new Object[] {i3, a};
+      Object[] b = new Object[] {i2, c};
+      a[1] = b;
+      assertEquals("1[2, [3, [1, [...]]]]", MessageFormatter.arrayFormat("{}{}", a));
+    }
   }
 }

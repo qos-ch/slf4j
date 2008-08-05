@@ -24,6 +24,9 @@
 
 package org.slf4j.helpers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // contributors: lizongbo: proposed special treatment of array parameter values
 // Jörn Huxhorn: pointed out double[] omission, suggested deep array copy
 /**
@@ -179,7 +182,7 @@ public class MessageFormatter {
             // itself escaped: "abc x:\\{}"
             // we have to consume one backward slash
             sbuf.append(messagePattern.substring(i, j - 1));
-            deeplyAppendParameter(sbuf, argArray[L]);
+            deeplyAppendParameter(sbuf, argArray[L], new HashMap());
             // sbuf.append(argArray[L]);
             i = j + 2;
           }
@@ -190,7 +193,7 @@ public class MessageFormatter {
         } else {
           // normal case
           sbuf.append(messagePattern.substring(i, j));
-          deeplyAppendParameter(sbuf, argArray[L]);
+          deeplyAppendParameter(sbuf, argArray[L], new HashMap());
           i = j + 2;
         }
       }
@@ -224,7 +227,8 @@ public class MessageFormatter {
   }
 
   // special treatment of array values was suggested by 'lizongbo'
-  private static void deeplyAppendParameter(StringBuffer sbuf, Object o) {
+  private static void deeplyAppendParameter(StringBuffer sbuf, Object o,
+      Map seenMap) {
     if (o == null) {
       sbuf.append("null");
       return;
@@ -251,9 +255,28 @@ public class MessageFormatter {
       } else if (o instanceof double[]) {
         doubleArrayAppend(sbuf, (double[]) o);
       } else {
-        objectArrayAppend(sbuf, (Object[]) o);
+        objectArrayAppend(sbuf, (Object[]) o, seenMap);
       }
     }
+  }
+
+  private static void objectArrayAppend(StringBuffer sbuf, Object[] a,
+      Map seenMap) {
+    sbuf.append('[');
+    if (!seenMap.containsKey(a)) {
+      seenMap.put(a, null);
+      final int len = a.length;
+      for (int i = 0; i < len; i++) {
+        deeplyAppendParameter(sbuf, a[i], seenMap);
+        if (i != len - 1)
+          sbuf.append(", ");
+      }
+      // allow repeats in siblings
+      seenMap.remove(a);
+    } else {
+      sbuf.append("...");
+    }
+    sbuf.append(']');
   }
 
   private static void booleanArrayAppend(StringBuffer sbuf, boolean[] a) {
@@ -338,17 +361,6 @@ public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
-        sbuf.append(", ");
-    }
-    sbuf.append(']');
-  }
-
-  private static void objectArrayAppend(StringBuffer sbuf, Object[] a) {
-    sbuf.append('[');
-    final int len = a.length;
-    for (int i = 0; i < len; i++) {
-      deeplyAppendParameter(sbuf, a[i]);
       if (i != len - 1)
         sbuf.append(", ");
     }
