@@ -615,8 +615,7 @@ logger.debug("The entry is {}.", entry);</p>
        disabled.
        </p>
        
- 
-       <p>The following two lines will yield the exact same
+        <p>The following two lines will yield the exact same
        output. However, the second form will outperform the first
        form by a factor of at least 30, in case of a
        <em>disabled</em> logging statement.
@@ -644,17 +643,58 @@ logger.debug("The new entry is {}.", entry);</p>
         <p></p> 
 
         <p>Array type arguments, including multi-dimensional arrays,
-        are also supported. </p>
-        
+        are also supported.</p>
+
         <p>SLF4J uses its own message formatting implementation which
         differs from that of the Java platform. This is justified by
-        the fact that SLF4J's implementation performs several orders
-        of magnitude faster but at the cost of being non-standard and
-        less flexible.
+        the fact that SLF4J's implementation performs about 10 times
+        faster but at the cost of being non-standard and less
+        flexible.
         </p>
 
-        <p>
+        <p><b>Escaping the "{}" pair</b></p>
+
+        <p>The "{}" pair is called the <em>formatting anchor</em>. It
+        serves to designate the location where arguments need to be
+        substituted within the message pattern.
         </p>
+
+        <p>SLF4J only cares about the <em>formatting anchor</em>, that
+        is the '{' character immediately followed by '}'. Thus, in
+        case your message contains the '{' or the '}' character, you
+        do not have to do anything special unless the '}' character
+        immediately follows '}'. For example,
+        </p>
+
+        <p class="source">logger.debug("Set {1,2} differs from {}", "3");</p>
+        
+        <p>which will print as "Set {1,2} differs from 3". </p>
+        
+        <p>You could have even written,</p>
+        <p class="source">logger.debug("Set {1,2} differs from {{}}", "3");</p>
+        <p>which would have printed as "Set {1,2} differs from {3}". </p>
+
+        <p>In the extremely rare case where the the "{}" pair occurs
+        naturally within your text and you wish to disable the special
+        meaning of the formatting anchor, then you need to escape the
+        '{' character with '\', that is the backslash character. Only
+        the '{' character should be escaped. There is no need to
+        escape the '}' character. For example,
+        </p>
+
+        <p class="source">logger.debug("Set \\{} differs from {}", "3");</p>
+ 
+        <p>will print as "Set {} differs from 3". Note that within
+        Java code, the backslash cracacter needs to be written as
+        '\\'.</p>
+
+        <p>In the rare case where the "\{}' occurs naturally in the
+        message, you can double escape the formatting anchor so that
+        it retains its original meaning. For example,</p>
+
+        
+        <p class="source">logger.debug("File name is C:\\\\{}.", "file.zip");</p>
+        <p>will print as "File name is C:\file.zip".</p>
 
         <hr />
              

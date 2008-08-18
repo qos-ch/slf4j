@@ -35,9 +35,7 @@ import java.util.Map;
  * <p>
  * For example,
  * 
- * <pre>
- * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;);
- * </pre>
+ * <pre>MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;)</pre>
  * 
  * will return the string "Hi there.".
  * <p>
@@ -45,17 +43,27 @@ import java.util.Map;
  * designate the location where arguments need to be substituted within the
  * message pattern.
  * <p>
- * In the rare case where you need to place the '{' or '}' in the message
- * pattern itself but do not want them to be interpreted as a formatting
- * anchors, you can escape the '{' character with '\', that is the backslash
- * character. Only the '{' character should be escaped. There is no need to
- * escape the '}' character. For example,
+ * In case your message contains the '{' or the '}' character, you do not have
+ * to do anything special unless the '}' character immediately follows '}'. For
+ * example,
  * 
  * <pre>
- * MessageFormatter.format(&quot;Set \\{1,2,3} is not equal to {}.&quot;, &quot;1,2&quot;);
+ * MessageFormatter.format(&quot;Set {1,2,3} is not equal to {}.&quot;, &quot;1,2&quot;);
  * </pre>
  * 
  * will return the string "Set {1,2,3} is not equal to 1,2.".
+ * 
+ * <p>If for whatever reason you need to place the string "{}" in the message
+ * without its <em>formatting anchor</em> meaning, then you need to escape the
+ * '{' character with '\', that is the backslash character. Only the '{'
+ * character should be escaped. There is no need to escape the '}' character.
+ * For example,
+ * 
+ * <pre>
+ * MessageFormatter.format(&quot;Set \\{} is not equal to {}.&quot;, &quot;1,2&quot;);
+ * </pre>
+ * 
+ * will return the string "Set {} is not equal to 1,2.".
  * 
  * <p>
  * The escaping behavior just described can be overridden by escaping the escape
@@ -73,9 +81,10 @@ import java.util.Map;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class MessageFormatter {
+final public class MessageFormatter {
   static final char DELIM_START = '{';
   static final char DELIM_STOP = '}';
+  static final String DELIM_STR = "{}";
   private static final char ESCAPE_CHAR = '\\';
 
   /**
@@ -98,7 +107,7 @@ public class MessageFormatter {
    *                anchor
    * @return The formatted message
    */
-  public static String format(String messagePattern, Object arg) {
+  final public static String format(String messagePattern, Object arg) {
     return arrayFormat(messagePattern, new Object[] { arg });
   }
 
@@ -125,7 +134,7 @@ public class MessageFormatter {
    *                formatting anchor
    * @return The formatted message
    */
-  public static String format(String messagePattern, Object arg1, Object arg2) {
+  final public static String format(final String messagePattern, Object arg1, Object arg2) {
     return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
   }
 
@@ -141,25 +150,23 @@ public class MessageFormatter {
    *                formatting anchors
    * @return The formatted message
    */
-  public static String arrayFormat(String messagePattern, Object[] argArray) {
+  final public static String arrayFormat(final String messagePattern,
+      final Object[] argArray) {
     if (messagePattern == null) {
       return null;
     }
-    int i = 0;
-    int len = messagePattern.length();
-    int j = messagePattern.indexOf(DELIM_START);
-
     if (argArray == null) {
       return messagePattern;
     }
-
+    int i = 0;
+    int j;
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
 
     for (int L = 0; L < argArray.length; L++) {
 
-      j = messagePattern.indexOf(DELIM_START, i);
+      j = messagePattern.indexOf(DELIM_STR, i);
 
-      if (j == -1 || (j + 1 == len)) {
+      if (j == -1) {
         // no more variables
         if (i == 0) { // this is a simple string
           return messagePattern;
@@ -169,8 +176,6 @@ public class MessageFormatter {
           return sbuf.toString();
         }
       } else {
-        char delimStop = messagePattern.charAt(j + 1);
-
         if (isEscapedDelimeter(messagePattern, j)) {
           if (!isDoubleEscaped(messagePattern, j)) {
             L--; // DELIM_START was escaped, thus should not be incremented
@@ -183,13 +188,8 @@ public class MessageFormatter {
             // we have to consume one backward slash
             sbuf.append(messagePattern.substring(i, j - 1));
             deeplyAppendParameter(sbuf, argArray[L], new HashMap());
-            // sbuf.append(argArray[L]);
             i = j + 2;
           }
-        } else if ((delimStop != DELIM_STOP)) {
-          // invalid DELIM_START/DELIM_STOP pair
-          sbuf.append(messagePattern.substring(i, messagePattern.length()));
-          return sbuf.toString();
         } else {
           // normal case
           sbuf.append(messagePattern.substring(i, j));
@@ -203,7 +203,7 @@ public class MessageFormatter {
     return sbuf.toString();
   }
 
-  static boolean isEscapedDelimeter(String messagePattern,
+  final static boolean isEscapedDelimeter(String messagePattern,
       int delimeterStartIndex) {
 
     if (delimeterStartIndex == 0) {
@@ -217,7 +217,7 @@ public class MessageFormatter {
     }
   }
 
-  static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
+  final static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
     if (delimeterStartIndex >= 2
         && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
       return true;

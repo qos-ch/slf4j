@@ -100,19 +100,19 @@ public class MessageFormatterTest extends TestCase {
     result = MessageFormatter.format("Incorrect {subst", i3);
     assertEquals("Incorrect {subst", result);
 
-    result = MessageFormatter.format("Value is \\{bla} {}", i3);
+    result = MessageFormatter.format("Value is {bla} {}", i3);
     assertEquals("Value is {bla} 3", result);
 
     result = MessageFormatter.format("Escaped \\{} subst", i3);
     assertEquals("Escaped {} subst", result);
 
-    result = MessageFormatter.format("\\{Escaped", i3);
+    result = MessageFormatter.format("{Escaped", i3);
     assertEquals("{Escaped", result);
 
     result = MessageFormatter.format("\\{}Escaped", i3);
     assertEquals("{}Escaped", result);
 
-    result = MessageFormatter.format("File name is \\{{}}.", "App folder.zip");
+    result = MessageFormatter.format("File name is {{}}.", "App folder.zip");
     assertEquals("File name is {App folder.zip}.", result);
 
     // escaping the escape character
@@ -147,7 +147,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Value 1 is smaller than \\{", result);
 
     result = MessageFormatter
-        .format("Value {} is smaller than \\{tail", i1, i2);
+        .format("Value {} is smaller than {tail", i1, i2);
     assertEquals("Value 1 is smaller than {tail", result);
 
     result = MessageFormatter.format("Value \\{} is smaller than {}", i1, i2);
@@ -195,9 +195,9 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Value 1 is smaller than 2", result);
 
     result = MessageFormatter.arrayFormat("Val={}, {, Val={}", ia0);
-    assertEquals("Val=1, {, Val={}", result);
+    assertEquals("Val=1, {, Val=2", result);
 
-    result = MessageFormatter.arrayFormat("Val={}, \\{, Val={}", ia0);
+    result = MessageFormatter.arrayFormat("Val={}, {, Val={}", ia0);
     assertEquals("Val=1, {, Val=2", result);
 
     result = MessageFormatter.arrayFormat("Val1={}, Val2={", ia0);

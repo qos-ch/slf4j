@@ -62,6 +62,16 @@ prefix='';
   previously. This enhancement was proposed by "lizongbo".
   </p>
 
+  <p>Parameter substitution code has been simplified. SLF4J now only
+  cares about the "{}" formatting anchor, that is the '{' character
+  immediately followed by '}'. Previously, the '{' had meaning on its
+  own. As a result of this change, users no longer need to escape the
+  '{' unless it is immediately followed by '}'. Existing messages
+  which escaped standalone '{' character will be printed with a
+  preceding backslash. However, no data loss in the printed messages
+  will occur.
+  </p>
+
 
   <p>Added missing <code>getInstance</code> methods to the
   <code>Category</code> class in the log4j-over-slf4j module, fixing
