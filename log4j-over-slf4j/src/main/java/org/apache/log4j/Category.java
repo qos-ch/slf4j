@@ -23,8 +23,8 @@ import org.slf4j.spi.LocationAwareLogger;
 /**
  * <p>
  * This class is a minimal implementation of the original
- * <code>org.apache.log4j.Logger</code> class by delegation of all calls 
- * to a {@link org.slf4j.Logger.Logger} instance.
+ * <code>org.apache.log4j.Category</code> class (as found in log4j 1.2) 
+ * by delegation of all calls to a {@link org.slf4j.Logger.Logger} instance.
  * </p>
  * 
  * <p>
@@ -37,12 +37,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
  */
-
 public class Category {
 
   private String name;
 
-  private org.slf4j.Logger slf4jLogger;
+  protected org.slf4j.Logger slf4jLogger;
   private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
   
   private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
@@ -55,29 +54,12 @@ public class Category {
     }
   }
 
-  public static Logger getInstance(Class clazz) {
-    return getLogger(clazz);
+  public static Category getInstance(Class clazz) {
+    return Log4jLoggerFactory.getLogger(clazz.getName());
   }
 
-  public static Logger getInstance(String name) {
-    return getLogger(name);
-  }
-
-  public static Logger getLogger(String name) {
+  public static Category getInstance(String name) {
     return Log4jLoggerFactory.getLogger(name);
-  }
-
-  public static Logger getLogger(Class clazz) {
-    return getLogger(clazz.getName());
-  }
-
-  /**
-   * Does the obvious.
-   * 
-   * @return
-   */
-  public static Logger getRootLogger() {
-    return getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
   }
 
   /**
@@ -132,14 +114,6 @@ public class Category {
   }
   
   /**
-   * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
-   * method of SLF4J.
-   */
-  public boolean isTraceEnabled() {
-    return slf4jLogger.isTraceEnabled();
-  }
-
-  /**
    * Delegates to {@link org.slf4j.Logger#isDebugEnabled} method in  SLF4J
    */
   public boolean isDebugEnabled() {
@@ -154,7 +128,7 @@ public class Category {
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#isWarnEnabled} method in  SLF4J
+   * Delegates tob {@link org.slf4j.Logger#isWarnEnabled} method in  SLF4J
    */
   public boolean isWarnEnabled() {
     return slf4jLogger.isWarnEnabled();
@@ -167,26 +141,17 @@ public class Category {
     return slf4jLogger.isErrorEnabled();
   }
   
-  /**
-   * Delegates to {@link #isEnabledFor(Level)}.
-   * 
-   * @param p the priority to check against
-   * @return true if this logger is enabled for the given priority, false otehrwise.
-   */
-  public boolean isEnabledFor(Priority p) {
-    return isEnabledFor(Level.toLevel(p.level));
-  }
 
   /**
-   * Determines whether the level passes as parameter is enabled in
-   * the underlying SLF4J logger. Each log4j level is mapped directly to
+   * Determines whether the priority passed as parameter is enabled in
+   * the underlying SLF4J logger. Each log4j priority is mapped directly to
    * its SLF4J equivalent, except for FATAL which is mapped as ERROR. 
    * 
-   * @param l the level to check against
-   * @return true if this logger is enabled for the given level, false otehrwise.
+   * @param p the priority to check against
+   * @return true if this logger is enabled for the given level, false otherwise.
    */
-  public boolean isEnabledFor(Level l) {
-    switch (l.level) {
+  public boolean isEnabledFor(Priority p) {
+    switch (p.level) {
     case Level.TRACE_INT:
       return slf4jLogger.isTraceEnabled();
     case Level.DEBUG_INT:
@@ -203,22 +168,6 @@ public class Category {
     return false;
   }
 
-  /**
-   * Delegates to {@link org.slf4j.Logger#trace(String)} method in SLF4J.
-   */
-  public void trace(Object message) {
-    // casting to String as SLF4J only accepts String instances, not Object
-    // instances.
-    slf4jLogger.trace(convertToString(message));
-  }
-
-  /**
-   * Delegates to {@link org.slf4j.Logger#trace(String,Throwable)} 
-   * method in SLF4J.
-   */
-  public void trace(Object message, Throwable t) {
-    slf4jLogger.trace(convertToString(message), t);
-  }
   
   /**
    * Delegates to {@link org.slf4j.Logger#debug(String)} method of
@@ -336,7 +285,7 @@ public class Category {
     }
   }
   
-  private final String convertToString(Object message) {
+  protected final String convertToString(Object message) {
     if (message == null) {
       return (String)message;
     } else {
