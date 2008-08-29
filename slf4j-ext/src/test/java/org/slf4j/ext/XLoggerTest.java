@@ -1,8 +1,11 @@
-package org.slf4j;
+package org.slf4j.ext;
 
 import junit.framework.TestCase;
 
-public class LoggerXTest extends TestCase {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class XLoggerTest extends TestCase {
 
   Logger logger = LoggerFactory.getLogger(this.getClass());
   

@@ -1,5 +1,8 @@
-package org.slf4j;
+package org.slf4j.ext;
 
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NOPLogger;
 import org.slf4j.spi.LocationAwareLogger;
