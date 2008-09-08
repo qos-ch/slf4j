@@ -79,18 +79,18 @@ public class BogoPerf {
    * typically the time (duration) needed to perform a task.
    * 
    * @param currentDuration
-   * @param referenceDuraion
+   * @param referenceDuration
    * @param referenceBIPS
    * @throws AssertionFailedError
    */
   public static void assertDuration(double currentDuration,
-      long referenceDuraion, double referenceBIPS)
+      long referenceDuration, double referenceBIPS)
       throws AssertionFailedError {
-    double ajustedDuration = adjustExpectedDuration(referenceDuraion,
+    double ajustedDuration = adjustExpectedDuration(referenceDuration,
         referenceBIPS);
     if (currentDuration > ajustedDuration * SLACK_FACTOR) {
-      throw new AssertionFailedError(currentDuration + " exceeded expected "
-          + ajustedDuration + " (adjusted), " + referenceDuraion + " (raw)");
+      throw new AssertionFailedError("current duration "+ currentDuration + " exceeded expected "
+          + ajustedDuration + " (adjusted reference), " + referenceDuration + " (raw reference)");
     }
   }
   /**
@@ -122,6 +122,7 @@ public class BogoPerf {
   private static double adjustExpectedDuration(long referenceDuration,
       double referenceBIPS) {
     double currentBIPS = currentBIPS();
+    System.out.println("currentBIPS="+currentBIPS + " BIPS");
     return referenceDuration * (referenceBIPS / currentBIPS);
   }
 }
