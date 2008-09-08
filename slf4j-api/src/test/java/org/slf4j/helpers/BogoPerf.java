@@ -10,7 +10,7 @@ public class BogoPerf {
   private static long NANOS_IN_ONE_SECOND = 1000 * 1000 * 1000;
   private static int INITIAL_N = 1000;
   private static int LAST_N = 100;
-  private static int SLACK_FACTOR = 2;
+  private static int SLACK_FACTOR = 3;
 
   static {
     // let the JIT warm up
