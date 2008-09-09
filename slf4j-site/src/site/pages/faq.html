@@ -14,9 +14,6 @@ prefix='';
 <div id="left">
   <script src="templates/left.js"></script>
 </div>
-<div id="right">
-  <script src="templates/right.js"></script>
-</div>
 <div id="content">
 
   <div class="section">
@@ -69,6 +66,12 @@ prefix='';
       <li>
         <a href="#maven2">What about Maven 2 transitive
         dependencies?
+        </a>
+      </li>
+
+      <li>
+        <a href="#excludingJCL">How do I exclude commons-logging as a
+        Maven dependency?
         </a>
       </li>
     </ol>
@@ -433,7 +436,30 @@ prefix='';
         any SLF4J-binding or an underlying logging system.
         </p>
 
+        <hr/>
+
        </dd>
+
+
+       <dt>
+         <a name="excludingJCL">How do I exclude commons-logging as a
+         Maven dependency?
+        </a>
+       </dt>
+       
+       <dd>
+         <p>A large number of Maven projects declare commons-logging
+         as a dependency. Thus, if you wish to migrate to SLF4J or use
+         jcl-over-slf4j, you would need to declare a commons-logging
+         exclusion in all of your dependencies which transitively
+         depend on commons-logging. This can be an error prone
+         process. To alleviate the pain, Erik van Oosten has developed
+         a <a
+         href="http://day-to-day-stuff.blogspot.com/2007/07/no-more-commons-logging.html">clever
+         hack around this problem.</a>
+         </p>
+       </dd>
+
 
      </dl>
     </div>
