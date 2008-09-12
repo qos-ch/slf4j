@@ -217,10 +217,10 @@ prefix='';
       </dt>
 
       <dd>
-        <p>SLF4J is conceptually similar to JCL. As such, it can be
-        thought of as yet another logging facade. However, SLF4J is
-        orders of magnitude simpler in design and arguably more
-        robust.
+        <p>SLF4J is conceptually very similar to JCL. As such, it can
+        be thought of as yet another logging facade. However, SLF4J is
+        much simpler in design and arguably more robust. In a
+        nutshell, SLF4J avoid the class loader issues that plague JCL.
        </p>
 
        <hr />
@@ -236,16 +236,16 @@ prefix='';
        <dd>
          <p>This is a very good question. First, SLF4J static binding
          approach is very simple, perhaps even laughably so. It was
-         not easy to convince developers of the validity of the
+         not easy to convince developers of the validity of that
          approach. It is only after SLF4J was released and started to
-         become accepted did the approach gain respectability in the
-         relevant community.
+         become accepted did it gain respectability in the relevant
+         community. 
        </p>
 
-        <p>Second, SLF4J offers two enhancements which developers
-        currently tend to underestimate. Parameterized log messages
-        solve an important problem associated with logging performance
-        in a pragmatic way. Marker objects, which are supported by the
+        <p>Second, SLF4J offers two enhancements which tend to be
+        underestimated. Parameterized log messages solve an important
+        problem associated with logging performance, in a pragmatic
+        way. Marker objects, which are supported by the
         <code>org.slf4j.Logger</code> interface, pave the way for
         adoption of advanced logging systems and still leave the door
         open to switching back to more traditional logging systems if
