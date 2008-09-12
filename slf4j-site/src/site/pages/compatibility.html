@@ -36,6 +36,32 @@ prefix='';
   contact the slf4j developers list.</p>
 
 
+  <h2><a href="#1_5_3" name="1_5_3">Version 1.5.3 compared to 1.5.2</a></h2>
+
+  <h3>slf4j-api module, list of breaking changes:</h3>
+  
+
+  <table class="bodyTable">
+    <tr>
+      <th>Severity</th>
+      <th>Description</th>
+      <th>Class</th>
+      <th>Method / Field</th>
+    </tr>
+    <tr >
+      <td>Error</td>
+      <td>Added final modifier to class</td>
+      <td>org.slf4j.helpers.MessageFormatter</td>
+      <td></td>
+    </tr>
+  </table>
+
+  <p>Declaring <code>MessageFormatter</code> class as final should not
+  affect users, unless they extend this class. However, since this
+  class is intended to be used internally, very few users should be
+  affected.
+  </p>
+
   <h2><a href="#1_5_2" name="1_5_2">Version 1.5.2 compared to 1.5.1</a></h2>
 
   <p>No breaking changes to report.</p>   
