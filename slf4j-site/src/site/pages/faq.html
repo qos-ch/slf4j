@@ -714,7 +714,7 @@ logger.debug("The new entry is {}.", entry);</p>
         Java code, the backslash cracacter needs to be written as
         '\\'.</p>
 
-        <p>In the rare case where the "\{}' occurs naturally in the
+        <p>In the rare case where the "\{}" occurs naturally in the
         message, you can double escape the formatting anchor so that
         it retains its original meaning. For example,</p>
 
@@ -1026,10 +1026,7 @@ class MyClass {
               assigned only once, at hosting class
               initialization</li>
               <li>less memory overhead: logger declaration will
-              consume one reference per class</li>
-              <li>serialization of the hosting class does not require
-              any special action
-              </li>              
+              consume one reference per class</li>            
             </ol>
           </td>
 
@@ -1075,18 +1072,13 @@ class MyClass {
               assigned for each instance of the hosting class</li>
 
               <li>higher memory overhead: logger declaration will
-              consume one reference per instance of the hosting class</li>      
-
-              <li>if the hosting class is serialized, then the logger
-              declaration has to be marked as <code>transient</code>
-              </li>
-
+              consume one reference per instance of the hosting class</li>                   
             </ol>
           </td>
-        </tr>
-        
+        </tr>        
       </table>
       
+   
       <h3>Explanation</h3>
 
       <p>Static logger members cost a single variable reference for
@@ -1141,25 +1133,25 @@ class MyClass {
       <p><b>Logger serialization</b></p>
 
       <p>Contrary to static variables, instance variables are
-      serialized by default. However, the org.sfl4j.Logger interface
-      is not serializable nor are the logger classes in underlying
-      logging systems such as java.util.logging, log4j or
-      logback-classic.
-      </p>
-
+      serialized by default. As of SLF4J version 1.5.3, logger
+      instances survive serialization. Thus, serialization of the host
+      class no longer requires any special action, even when loggers
+      are declared as instance variables. In previous versions, logger
+      instances needed to be declared as <code>transient</code> in the
+      host class. </p>
 
       <p><b>Summary</b></p>
 
       <p>In summary, declaring logger members as static variables
-      requires less work, less CPU and memory overhead and causes no
-      problems with serialization. On the other hand, declaring logger
-      members as instance variables requires more work, more CPU and
-      memory overhead and is likely to cause problems with
-      serialization. However, instance variables make it possible to
-      create a distinct logger environment for each application, even
-      for loggers declared in shared libraries. Perhaps more important
-      than previously mentioned considerations, instance variables are
-      IOC-friendly whereas static variables are not.
+      requires less CPU time and have a slightly smaller memory
+      footprint. On the other hand, declaring logger members as
+      instance variables requires more CPU time and have a slighlty
+      higher memory overhead.  However, instance variables make it
+      possible to create a distinct logger environment for each
+      application, even for loggers declared in shared
+      libraries. Perhaps more important than previously mentioned
+      considerations, instance variables are IOC-friendly whereas
+      static variables are not.
       </p>    
 
       <p>See also <a
