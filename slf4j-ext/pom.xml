@@ -12,7 +12,6 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-ext</artifactId>
-  <version>${slf4j-ext-version}</version>
   <packaging>jar</packaging>
   <name>SLF4J Extensions Module</name>
 
@@ -23,7 +22,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${parent.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

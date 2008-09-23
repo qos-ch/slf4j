@@ -55,6 +55,15 @@
     </fileSet>
 
     <fileSet>
+      <directory>slf4j-ext/</directory>
+      <outputDirectory>slf4j-ext/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+
+    <fileSet>
       <directory>jcl104-over-slf4j/</directory>
       <outputDirectory>jcl104-over-slf4j/</outputDirectory>
       <includes>
@@ -136,6 +145,10 @@
       <outputDirectory>slf4j-simple/src/</outputDirectory>    
     </fileSet>  
     <fileSet>
+      <directory>slf4j-ext/src/</directory>
+      <outputDirectory>slf4j-ext/src/</outputDirectory>    
+    </fileSet>  
+    <fileSet>
       <directory>jcl-over-slf4j/src/</directory>
 			<outputDirectory>jcl-over-slf4j/src/</outputDirectory>    
     </fileSet>
@@ -211,6 +224,17 @@
 				<include>slf4j-simple-${project.version}.jar</include>
 			</includes>    
 		</fileSet>
+
+
+    <fileSet>
+			<directory>slf4j-ext/target/</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>slf4j-ext-${project.version}-sources*.jar</include>
+				<include>slf4j-ext-${project.version}.jar</include>
+			</includes>    
+		</fileSet>
+		
 		
     <fileSet>
 			<directory>jcl-over-slf4j/target/</directory>

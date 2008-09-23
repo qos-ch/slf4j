@@ -19,7 +19,6 @@
 	<inceptionYear>2005</inceptionYear>
 
   <properties>
-    <slf4j-ext-version>1.0-alpha0</slf4j-ext-version>
   </properties>
 
 	<modules>
