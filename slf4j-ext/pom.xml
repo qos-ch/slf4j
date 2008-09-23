@@ -29,6 +29,11 @@
       <version>${parent.version}</version>
       <scope>test</scope>
     </dependency>		
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.4.GA</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -67,6 +72,8 @@
               <Bundle-Version>${project.version}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
+              <Premain-Class>org.slf4j.agent.AgentMain</Premain-Class>
+              <Boot-Class-Path>javassist.jar</Boot-Class-Path>
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
