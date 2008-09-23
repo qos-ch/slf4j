@@ -64,7 +64,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * 
  * <pre>
  *   // call only once during initialization time of your application
- *   SLF4JHandler.install();
+ *   SLF4JBridgeHandler.install();
  *   
  *   // usual pattern: get a Logger and then log a message
  *   java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("org.wombat");
