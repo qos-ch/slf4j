@@ -32,7 +32,7 @@ import java.util.Vector;
 import org.slf4j.Marker;
 
 /**
- * An simple implementation of the {@link Marker} interface.
+ * A simple implementation of the {@link Marker} interface.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * @author Joern Huxhorn
@@ -42,7 +42,7 @@ public class BasicMarker implements Marker {
   private static final long serialVersionUID = 1803952589649545191L;
 
   private final String name;
-  private List children;
+  private List refereceList;
 
   BasicMarker(String name) {
     if (name == null) {
@@ -55,55 +55,58 @@ public class BasicMarker implements Marker {
     return name;
   }
 
-  public synchronized void add(Marker markerToAddAsChild) {
-    if (markerToAddAsChild == null) {
+  public synchronized void add(Marker reference) {
+    if (reference == null) {
       throw new IllegalArgumentException(
-          "A null value cannot be added to a Marker as child.");
+          "A null value cannot be added to a Marker as reference.");
     }
 
-    // no point in adding the child multiple times
-    if (this.contains(markerToAddAsChild)) {
+    // no point in adding the reference multiple times
+    if (this.contains(reference)) {
       return;
 
-    } else if (markerToAddAsChild.contains(this)) { // avoid recursion
-      // a potential child should not its future parent as a child
+    } else if (reference.contains(this)) { // avoid recursion
+      // a potential reference should not its future "parent" as a reference
       return;
     } else {
-      // let's add the child
-      if (children == null) {
-        children = new Vector();
+      // let's add the reference
+      if (refereceList == null) {
+        refereceList = new Vector();
       }
-      children.add(markerToAddAsChild);
+      refereceList.add(reference);
     }
 
   }
 
-  public synchronized boolean hasChildren() {
-    return ((children != null) && (children.size() > 0));
+  public synchronized boolean hasReferences() {
+    return ((refereceList != null) && (refereceList.size() > 0));
+  }
+  
+  public boolean hasChildren() {
+    return hasReferences();
   }
 
   public synchronized Iterator iterator() {
-    if (children != null) {
-      return children.iterator();
+    if (refereceList != null) {
+      return refereceList.iterator();
     } else {
       return Collections.EMPTY_LIST.iterator();
     }
   }
 
-  public synchronized boolean remove(Marker markerToRemove) {
-    if (children == null) {
+  public synchronized boolean remove(Marker referenceToRemove) {
+    if (refereceList == null) {
       return false;
     }
 
-    int size = children.size();
+    int size = refereceList.size();
     for (int i = 0; i < size; i++) {
-      Marker m = (Marker) children.get(i);
-      if (markerToRemove.equals(m)) {
-        children.remove(i);
+      Marker m = (Marker) refereceList.get(i);
+      if (referenceToRemove.equals(m)) {
+        refereceList.remove(i);
         return true;
       }
     }
-    // could not find markerToRemove
     return false;
   }
 
@@ -116,10 +119,10 @@ public class BasicMarker implements Marker {
       return true;
     }
 
-    if (hasChildren()) {
-      for (int i = 0; i < children.size(); i++) {
-        Marker child = (Marker) children.get(i);
-        if (child.contains(other)) {
+    if (hasReferences()) {
+      for (int i = 0; i < refereceList.size(); i++) {
+        Marker ref = (Marker) refereceList.get(i);
+        if (ref.contains(other)) {
           return true;
         }
       }
@@ -139,10 +142,10 @@ public class BasicMarker implements Marker {
       return true;
     }
 
-    if (hasChildren()) {
-      for (int i = 0; i < children.size(); i++) {
-        Marker child = (Marker) children.get(i);
-        if (child.contains(name)) {
+    if (hasReferences()) {
+      for (int i = 0; i < refereceList.size(); i++) {
+        Marker ref = (Marker) refereceList.get(i);
+        if (ref.contains(name)) {
           return true;
         }
       }
@@ -172,16 +175,16 @@ public class BasicMarker implements Marker {
   }
 
   public String toString() {
-    if (!this.hasChildren()) {
+    if (!this.hasReferences()) {
       return this.getName();
     }
     Iterator it = this.iterator();
-    Marker child;
+    Marker reference;
     StringBuffer sb = new StringBuffer(this.getName());
     sb.append(' ').append(OPEN);
     while (it.hasNext()) {
-      child = (Marker) it.next();
-      sb.append(child.getName());
+      reference = (Marker) it.next();
+      sb.append(reference.getName());
       if (it.hasNext()) {
         sb.append(SEP);
       }

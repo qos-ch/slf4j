@@ -34,8 +34,8 @@ import java.util.Iterator;
  * marker data.
  * 
  * <p>
- * Markers can contain child markers, which in turn can contain children of
- * their own.
+ * Markers can contain references to other markers, which in turn may contain 
+ * references of their own.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -59,42 +59,48 @@ public interface Marker extends Serializable {
   public String getName();
 
   /**
-   * Add a child Marker to this Marker.
+   * Add a reference to another Marker.
    * 
-   * @param child
-   *                a child marker
+   * @param reference
+   *                a reference to another marker
    * @throws IllegalArgumentException
-   *                 if 'child' is null
+   *                 if 'reference' is null
    */
-  public void add(Marker child);
+  public void add(Marker reference);
 
   /**
-   * Remove a child Marker.
+   * Remove a marker reference.
    * 
-   * @param child
-   *                the child Marker to remove
-   * @return true if child could be found and removed, false otherwise.
+   * @param reference
+   *                the marker reference to remove
+   * @return true if reference could be found and removed, false otherwise.
    */
-  public boolean remove(Marker child);
+  public boolean remove(Marker reference);
 
   /**
-   * Does this marker have children?
-   * 
-   * @return true if this marker has children, false otherwise.
+   * @deprecated Replaced by {@link #hasReferences()}.
    */
   public boolean hasChildren();
-
+  
   /**
-   * Returns an Iterator which can be used to iterate over the children of this
-   * marker. An empty iterator is returned when this marker has no children.
+   * Does this marker have any references?
    * 
-   * @return Iterator over the children of this marker
+   * @return true if this marker has one or more references, false otherwise.
+   */
+  public boolean hasReferences();
+  
+  /**
+   * Returns an Iterator which can be used to iterate over the references of this
+   * marker. An empty iterator is returned when this marker has no references.
+   * 
+   * @return Iterator over the references of this marker
    */
   public Iterator iterator();
 
   /**
-   * Does this marker contain the 'other' marker? Marker A is defined to contain
-   * marker B, if A == B or if B is a child of A.
+   * Does this marker contain a reference to the 'other' marker? Marker A is defined 
+   * to contain marker B, if A == B or if B is referenced by A, or if B is referenced
+   * by any one of A's references (recursively).
    * 
    * @param other
    *                The marker to test for inclusion.
