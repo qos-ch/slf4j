@@ -1,6 +1,5 @@
 package org.slf4j.agent;
 
-import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.util.Arrays;
 import java.util.Date;
