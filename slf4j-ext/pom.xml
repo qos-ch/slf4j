@@ -51,7 +51,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
+         <configuration>
           <forkMode>once</forkMode>
           <reportFormat>plain</reportFormat>
           <trimStackTrace>false</trimStackTrace>
@@ -59,6 +59,13 @@
             <exclude>**/AllTest.java</exclude>
             <exclude>**/PackageTest.java</exclude>
           </excludes>
+    	  <argLine>-javaagent:${project.build.outputDirectory}=time</argLine>
+          <systemProperties>
+            <property>
+              <name>maven.surefire.debug</name>
+              <value>-ververbose</value>
+            </property>
+          </systemProperties>
         </configuration>
       </plugin>
 
@@ -72,7 +79,7 @@
               <Bundle-Version>${project.version}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
-              <Premain-Class>org.slf4j.agent.AgentMain</Premain-Class>
+              <Premain-Class>org.slf4j.agent.AgentPremain</Premain-Class>
               <Boot-Class-Path>javassist.jar</Boot-Class-Path>
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
