@@ -16,21 +16,75 @@ import javassist.CtClass;
 import javassist.CtField;
 import javassist.NotFoundException;
 
-public class AddEntryExitLoggingTransformer implements ClassFileTransformer {
+public class LogTransformer implements ClassFileTransformer {
+
+	public static class Builder {
+		public LogTransformer build() {
+			return new LogTransformer(this);
+		}
+
+		boolean addEntryExit;
+
+		public Builder addEntryExit(boolean b) {
+			addEntryExit = b;
+			return this;
+		}
+
+		boolean addVariableAssignment;
+
+		public Builder addVariableAssignment(boolean b) {
+			System.err.println("cannot currently log variable assignments.");
+			addVariableAssignment = b;
+			return this;
+		}
+		boolean verbose;
+
+		public Builder verbose(boolean b) {
+			verbose = b;
+			return this;
+		}
+	}
+
+
+	private LogTransformer(Builder builder) {
+		this.addEntryExit = builder.addEntryExit;
+		this.addVariableAssignment = builder.addVariableAssignment;
+		this.verbose = builder.verbose;
+	}
 
 	private static final String _LOG = "_log";
-	String[] ignore = new String[] { "sun/", "java/", "javax/", "org/slf4j/",
+	String[] ignore = { "sun/", "java/", "javax/", "org/slf4j/",
 			"ch/qos/logback/" };
+
+	private boolean addEntryExit;
+	private boolean addVariableAssignment;
+	private boolean verbose;
 
 	public byte[] transform(ClassLoader loader, String className,
 			Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
 
+		return transform0(className, clazz, bytes);
+	}
+
+	/**
+	 * transform0 sees if the className starts with any of the namespaces to
+	 * ignore, if so it is returned unchanged. Otherwise it is processed by
+	 * doClass(...)
+	 * 
+	 * @param className
+	 * @param clazz
+	 * @param bytes
+	 * @return
+	 */
+	private byte[] transform0(String className, Class<?> clazz, byte[] bytes) {
 		for (int i = 0; i < ignore.length; i++) {
 			if (className.startsWith(ignore[i])) {
 				return bytes;
 			}
 		}
-		// System.out.println("Adding to " + className);
+		if (verbose) {
+			System.err.println("Loggifying " + className);
+		}
 		return doClass(className, clazz, bytes);
 	}
 
@@ -95,14 +149,16 @@ public class AddEntryExitLoggingTransformer implements ClassFileTransformer {
 		String signature = JavassistHelper.getSignature(method);
 		String returnValue = JavassistHelper.returnValue(method);
 
-		String messagePattern = "if ({}.isDebugEnabled()) {}.info(\">> {}\");";
-		Object[] arg1 = new Object[] { _LOG, _LOG, signature };
-		String before = format(messagePattern, arg1);
-		method.insertBefore(before);
+		if (addEntryExit) {
+			String messagePattern = "if ({}.isDebugEnabled()) {}.info(\">> {}\");";
+			Object[] arg1 = new Object[] { _LOG, _LOG, signature };
+			String before = format(messagePattern, arg1);
+			method.insertBefore(before);
 
-		String messagePattern2 = "if ({}.isDebugEnabled()) {}.info(\"<< {}{}\");";
-		Object[] arg2 = new Object[] { _LOG, _LOG, signature, returnValue };
-		String after = format(messagePattern2, arg2);
-		method.insertAfter(after);
+			String messagePattern2 = "if ({}.isDebugEnabled()) {}.info(\"<< {}{}\");";
+			Object[] arg2 = new Object[] { _LOG, _LOG, signature, returnValue };
+			String after = format(messagePattern2, arg2);
+			method.insertAfter(after);
+		}
 	}
 }
