@@ -44,7 +44,7 @@ import java.util.Map;
  * message pattern.
  * <p>
  * In case your message contains the '{' or the '}' character, you do not have
- * to do anything special unless the '}' character immediately follows '}'. For
+ * to do anything special unless the '}' character immediately follows '{'. For
  * example,
  * 
  * <pre>
