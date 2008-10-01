@@ -16,15 +16,41 @@ import javassist.CtClass;
 import javassist.CtField;
 import javassist.NotFoundException;
 
+import org.slf4j.helpers.MessageFormatter;
+
+/**
+ * LogTransformer does the work of analyzing each class, and if appropriate add
+ * log statements to each method to allow logging entry/exit.
+ * 
+ */
 public class LogTransformer implements ClassFileTransformer {
 
+	// http://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html
 	public static class Builder {
+
+		/**
+		 * Build and return the LogTransformer corresponding to the options set
+		 * in this Builder.
+		 * 
+		 * @return
+		 */
 		public LogTransformer build() {
+			if (verbose) {
+				System.err.println("Creating LogTransformer");
+			}
 			return new LogTransformer(this);
 		}
 
 		boolean addEntryExit;
 
+		/**
+		 * Should each method log entry (with parameters) and exit (with
+		 * parameters and returnvalue)?
+		 * 
+		 * @param b
+		 *            value of flag
+		 * @return
+		 */
 		public Builder addEntryExit(boolean b) {
 			addEntryExit = b;
 			return this;
@@ -32,38 +58,59 @@ public class LogTransformer implements ClassFileTransformer {
 
 		boolean addVariableAssignment;
 
-		public Builder addVariableAssignment(boolean b) {
+		private Builder addVariableAssignment(boolean b) {
 			System.err.println("cannot currently log variable assignments.");
 			addVariableAssignment = b;
 			return this;
 		}
+
 		boolean verbose;
 
+		/**
+		 * Should LogTransformer be verbose in what it does? This currently list
+		 * the names of the classes being processed.
+		 * 
+		 * @param b
+		 * @return
+		 */
 		public Builder verbose(boolean b) {
 			verbose = b;
 			return this;
 		}
+		
+		String[] ignore =  { "sun/", "java/", "javax/", "org/slf4j/",
+		"ch/qos/logback/" , "org/apache/log4j/"};
+		public Builder ignore(String[] strings) {
+			this.ignore = strings;
+			return this;
+		}
 	}
-
 
 	private LogTransformer(Builder builder) {
 		this.addEntryExit = builder.addEntryExit;
 		this.addVariableAssignment = builder.addVariableAssignment;
 		this.verbose = builder.verbose;
+		this.ignore = builder.ignore;
 	}
 
 	private static final String _LOG = "_log";
-	String[] ignore = { "sun/", "java/", "javax/", "org/slf4j/",
-			"ch/qos/logback/" };
 
 	private boolean addEntryExit;
 	private boolean addVariableAssignment;
 	private boolean verbose;
+	private String[] ignore;
 
 	public byte[] transform(ClassLoader loader, String className,
 			Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
+		
 
-		return transform0(className, clazz, bytes);
+		try {
+			return transform0(className, clazz, bytes);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return bytes;
+		}
 	}
 
 	/**
@@ -152,12 +199,14 @@ public class LogTransformer implements ClassFileTransformer {
 		if (addEntryExit) {
 			String messagePattern = "if ({}.isDebugEnabled()) {}.info(\">> {}\");";
 			Object[] arg1 = new Object[] { _LOG, _LOG, signature };
-			String before = format(messagePattern, arg1);
+			String before = MessageFormatter.arrayFormat(messagePattern, arg1);
+			//System.out.println(before);
 			method.insertBefore(before);
 
 			String messagePattern2 = "if ({}.isDebugEnabled()) {}.info(\"<< {}{}\");";
 			Object[] arg2 = new Object[] { _LOG, _LOG, signature, returnValue };
-			String after = format(messagePattern2, arg2);
+			String after = MessageFormatter.arrayFormat(messagePattern2, arg2);
+			//System.out.println(after);
 			method.insertAfter(after);
 		}
 	}

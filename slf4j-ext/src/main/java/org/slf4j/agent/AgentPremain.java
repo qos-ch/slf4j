@@ -2,11 +2,11 @@ package org.slf4j.agent;
 
 import static org.slf4j.helpers.MessageFormatter.format;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.lang.instrument.Instrumentation;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Properties;
 
 import org.slf4j.instrumentation.LogTransformer;
 
@@ -20,23 +20,38 @@ public class AgentPremain {
 
 		LogTransformer.Builder builder = new LogTransformer.Builder();
 		builder = builder.addEntryExit(true);
-		
-		if (agentArgument != null) {
-			String[] args = agentArgument.split(",");
-			Set<String> argSet = new HashSet<String>(Arrays.asList(args));
 
-			if (argSet.contains("verbose")) {
+		if (agentArgument != null) {
+			Properties args = parseArguments(agentArgument);
+
+			if (args.containsKey("verbose")) {
 				builder = builder.verbose(true);
 			}
-			
-			if (argSet.contains("time")) {
+
+			if (args.containsKey("time")) {
 				printStartStopTimes();
 			}
-			
+
+			if (args.containsKey("ignore")) {
+				builder = builder.ignore(args.getProperty("ignore").split(","));
+			}
+
 			// ... more agent option handling here
 		}
 
 		instrumentation.addTransformer(builder.build());
+	}
+
+	private static Properties parseArguments(String agentArgument) {
+		Properties p = new Properties();
+		try {
+			byte[] bytes = agentArgument.replaceAll(";", "\n").getBytes();
+			p.load(new ByteArrayInputStream(bytes));
+		} catch (IOException e) {
+			throw new RuntimeException(
+					"Could not load arguments as properties", e);
+		}
+		return p;
 	}
 
 	/**

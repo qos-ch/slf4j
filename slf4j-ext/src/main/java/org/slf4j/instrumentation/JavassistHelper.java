@@ -68,7 +68,7 @@ public class JavassistHelper {
 				sb.append("\"+ $" + (i + 1));
 			}
 		}
-		sb.append("+\")\"");
+		sb.append("+\")");
 
 		String signature = sb.toString();
 		return signature;
