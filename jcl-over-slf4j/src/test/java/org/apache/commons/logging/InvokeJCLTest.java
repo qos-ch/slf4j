@@ -44,10 +44,10 @@ public class InvokeJCLTest extends TestCase {
     Log log = LogFactory.getLog(InvokeJCLTest.class);
     assertFalse(log.isTraceEnabled());
     assertFalse(log.isDebugEnabled());
-    assertTrue(log.isInfoEnabled());
-    assertTrue(log.isWarnEnabled());
-    assertTrue(log.isErrorEnabled());
-    assertTrue(log.isFatalEnabled());
+    assertFalse(log.isInfoEnabled());
+    assertFalse(log.isWarnEnabled());
+    assertFalse(log.isErrorEnabled());
+    assertFalse(log.isFatalEnabled());
   }
   
   public void testPrintAPI() {
