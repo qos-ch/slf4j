@@ -19,10 +19,23 @@ import org.slf4j.LoggerFactory;
  */
 public class XLoggerFactory {
 
+  /**
+   * Get an XLogger instance by name.
+   * 
+   * @param name
+   * @return
+   */
   public static XLogger getXLogger(String name) {
     return new XLogger(LoggerFactory.getLogger(name));
   }
 
+  /**
+   * Get a new XLogger instance by class. The returned XLogger
+   * will be named after the class.
+   * 
+   * @param clazz
+   * @return
+   */
   @SuppressWarnings("unchecked")
   public static Logger getXLogger(Class clazz) {
     return getXLogger(clazz.getName());

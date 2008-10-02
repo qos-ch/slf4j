@@ -49,13 +49,26 @@ public final class LoggerFactory {
 
   static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
   static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
-    
+  static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
+  
+  static private final String EXPECTED_VERSION = "";
+   
   // private constructor prevents instantiation
   private LoggerFactory() {
   }
 
 
   static {
+    try { 
+      String actualVer = StaticLoggerBinder.VERSION;
+      if(EXPECTED_VERSION.equals(actualVer)) {
+        Util.reportFailure("Actual version "+actualVer+" differs from expected version "+EXPECTED_VERSION);
+        Util.reportFailure("See "+VERSION_MISMATCH+" for further details.");
+      }
+    } catch(Exception e) {
+     e.printStackTrace();
+    }
+    
     try { 
       loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
     } catch(NoClassDefFoundError ncde) {

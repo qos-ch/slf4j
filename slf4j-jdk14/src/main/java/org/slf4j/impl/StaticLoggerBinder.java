@@ -49,7 +49,12 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    * The unique instance of this class.
    */
   public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-  // Note: JCL gets substituted at build time by an appropriate Ant task
+  /**
+   * Version tag used to check compatibility. The value of this field is
+   * modified in each release. 
+   */
+  public static final String VERSION = "1.5.4-SNAPSHOT";
+  
   private static final String loggerFactoryClassStr = org.slf4j.impl.JDK14LoggerFactory.class.getName();
 
   /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
