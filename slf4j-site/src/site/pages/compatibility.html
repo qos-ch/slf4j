@@ -30,11 +30,62 @@ prefix='';
   that will be covered in most detail.
   </p>
 
+  <p>Please note that in many cases incompatibility problems are
+  caused by mixing different versions of slf4j artifacts. For example,
+  if you are using slf4j-api-1.5.4.jar you should also use
+  slf4j-simple-1.5.4.jar, using slf4j-simple-1.4.2.jar will not
+  work. The same goes for all other SLF4J artifacts.
+  </p>
+
   <p>The list is computed using <a
   href="http://clirr.sourceforge.net/">clirr</a>. If you have reasons
   to suspect incompatible changes not mentioned here, please kindly
   contact the slf4j developers list.</p>
 
+
+  <h2><a href="#1_5_4" name="1_5_4">Version 1.5.4 compared to 1.5.3</a></h2>
+
+  <h3>slf4j-api module, list of breaking changes:</h3>
+  
+
+  <table class="bodyTable">
+    <tr>
+      <th>Severity</th>
+      <th>Description</th>
+      <th>Class</th>
+      <th>Method / Field</th>
+    </tr>
+    <tr>
+      <td>Error</td>
+      <td>Method 'hasReferences()' has been added to an interface</td>
+      <td>org.slf4j.Marker</td>
+      <td>public boolean hasReferences()</td>
+    </tr>
+    <tr class="alt">
+      <td>Info</td>
+      <td>Method 'hasChildren()' was deprecated</td>
+      <td>org.slf4j.Marker</td>
+      <td>public boolean hasChildren()</td>
+    </tr>
+
+  </table>
+
+  <p>&nbsp;</p>
+
+  <p>The <code>hasChildren()</code> and other documentation in the
+  Marker interface was misleading users to think in terms of parent
+  child relationship for markers. However, as <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=100">bug 100</a>
+  illustrates, associating markers as parents and children is not very
+  helpful. It is much better to think of markers in terms of abstract
+  graphs. As such, we now say that a marker contains (zero or more)
+  <code>references</code> to other markers.
+  </p>
+
+  <p>This breaking change is justified because it corrects a
+  conceptual error in the design. Previously, it was all too easy for
+  developers to get confused and incorrectly link markers
+  together.</p>
 
   <h2><a href="#1_5_3" name="1_5_3">Version 1.5.3 compared to 1.5.2</a></h2>
 

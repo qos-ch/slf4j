@@ -160,6 +160,20 @@ prefix='';
     
 
 
+    <h3><a name="version_mismatch" href="#version_mismatch">slf4j-api
+    version does not match that of the binding</a></h3>
+
+    <p>Mixing mixing different versions of slf4j artifacts can cause
+    problems. For example, if you are using slf4j-api-1.5.4.jar, then
+    you should also use slf4j-simple-1.5.4.jar, using
+    slf4j-simple-1.4.2.jar will not work. 
+    </p>
+
+    <p>In general, you should take sure that the slf4j-api version
+    matches that of the slf4j binding.
+    </p>
+
+
 </div>
 </body>
 </html>
