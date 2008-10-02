@@ -61,7 +61,7 @@ public final class LoggerFactory {
   static {
     try { 
       String actualVer = StaticLoggerBinder.VERSION;
-      if(EXPECTED_VERSION.equals(actualVer)) {
+      if(!EXPECTED_VERSION.equals(actualVer)) {
         Util.reportFailure("Actual version "+actualVer+" differs from expected version "+EXPECTED_VERSION);
         Util.reportFailure("See "+VERSION_MISMATCH+" for further details.");
       }
