@@ -1,15 +1,18 @@
-package org.slf4j.ext;
+package org.slf4j.dummyExt;
 
 import junit.framework.TestCase;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.spi.LoggingEvent;
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
 
 public class XLoggerTest extends TestCase {
 
   ListAppender listAppender;
   org.apache.log4j.Logger log4jRoot;
-
+  
+  final static String EXPECTED_FILE_NAME = "XLoggerTest.java";
+  
   public XLoggerTest(String name) {
     super(name);
   }
@@ -30,6 +33,17 @@ public class XLoggerTest extends TestCase {
     super.tearDown();
   }
 
+  
+  void verify(LoggingEvent le, String expectedMsg) {
+    assertEquals(expectedMsg, le.getMessage());
+    assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
+  }
+
+  void verifyWithException(LoggingEvent le, String expectedMsg, Throwable t) {
+    verify(le, expectedMsg);
+    assertEquals(t.toString(), le.getThrowableStrRep()[0]);
+  }
+  
   public void testEntering() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     logger.entry();
@@ -37,47 +51,43 @@ public class XLoggerTest extends TestCase {
     logger.entry("test");
 
     assertEquals(3, listAppender.list.size());
-
-    LoggingEvent le0 = (LoggingEvent) listAppender.list.get(0);
-    assertEquals("entry", le0.getMessage());
-    System.out.println("*********"+le0.getLocationInformation().fullInfo);
-
-    assertEquals("XLoggerTest.java", le0.getLocationInformation().getFileName());
-    LoggingEvent le1 = (LoggingEvent) listAppender.list.get(1);
-    assertEquals("entry with (1)", le1.getMessage());
-
-    LoggingEvent le2 = (LoggingEvent) listAppender.list.get(2);
-    assertEquals("entry with (test)", le2.getMessage());
-  }
+    verify((LoggingEvent) listAppender.list.get(0), "entry");
+    verify((LoggingEvent) listAppender.list.get(1), "entry with (1)");
+    verify((LoggingEvent) listAppender.list.get(2), "entry with (test)");
+   }
 
   public void testExiting() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     logger.exit();
-    // assertEquals("exit", logMessage);
-    // logger.exit(0);
-    // assertEquals("exit 0", logMessage);
-    // logger.exit(false);
-    // assertEquals("exit false", logMessage);
+    logger.exit(0);
+    logger.exit(false);
+    
+    assertEquals(3, listAppender.list.size());
+    verify((LoggingEvent) listAppender.list.get(0), "exit");
+    verify((LoggingEvent) listAppender.list.get(1), "exit with (0)");
+    verify((LoggingEvent) listAppender.list.get(2), "exit with (false)");
   }
 
   public void testThrowing() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-    logger.throwing(new UnsupportedOperationException("Test"));
-    // assertTrue(logMessage.startsWith("throwing
-    // java.lang.UnsupportedOperationException:"));
+    Throwable t = new UnsupportedOperationException("Test");
+    logger.throwing(t);
+    assertEquals(1, listAppender.list.size());
+    verifyWithException((LoggingEvent) listAppender.list.get(0), "throwing", t);
   }
 
   public void testCaught() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     long x = 5;
+    Throwable t = null;
     try {
       @SuppressWarnings("unused")
       long y = x / 0;
     } catch (Exception ex) {
+      t = ex;
       logger.catching(ex);
     }
-    // assertTrue(logMessage.startsWith("caught
-    // java.lang.ArithmeticException:"));
+    verifyWithException((LoggingEvent) listAppender.list.get(0), "catching", t);
   }
 
   // public void testDump() {
@@ -91,18 +101,5 @@ public class XLoggerTest extends TestCase {
   // assertTrue(logMessage.trim().startsWith(expected));
   // }
 
-  // public void testTimer() {
-  // Timer timer = new Timer("TestTimer");
-  // LoggerUtil.startTimer(timer);
-  // assertEquals("Timer TestTimer started", logMessage);
-  // LoggerUtil.pauseTimer(timer);
-  // assertEquals("Timer TestTimer paused", logMessage);
-  // LoggerUtil.resumeTimer(timer);
-  // assertEquals("Timer TestTimer resumed", logMessage);
-  // LoggerUtil.stopTimer(timer);
-  // String expected = "Timer TestTimer stopped. Elapsed time:";
-  // assertTrue("Expected \"" + expected + "\" Result \"" + logMessage + "\"",
-  // logMessage.startsWith(expected));
-  // }
 
 }

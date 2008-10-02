@@ -1,4 +1,4 @@
-package org.slf4j.ext;
+package org.slf4j.dummyExt;
 
 import java.util.ArrayList;
 import java.util.List;

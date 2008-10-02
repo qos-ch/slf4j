@@ -25,7 +25,7 @@ public class XLogger extends LoggerWrapper implements Logger {
   static Marker CATCHING_MARKER = MarkerFactory.getMarker("EXCEPTION");
 
   static String EXIT_MESSAGE_0 = "exit";
-  static String EXIT_MESSAGE_1 = "exit with {}";
+  static String EXIT_MESSAGE_1 = "exit with ({})";
 
   static String ENTRY_MESSAGE_0 = "entry";
   static String ENTRY_MESSAGE_1 = "entry with ({})";
@@ -96,7 +96,7 @@ public class XLogger extends LoggerWrapper implements Logger {
    */
   public void exit(Object result) {
     if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
-      String formattedMessage = MessageFormatter.format(EXIT_MESSAGE_0, result);
+      String formattedMessage = MessageFormatter.format(EXIT_MESSAGE_1, result);
       ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN,
           LocationAwareLogger.TRACE_INT, formattedMessage, null);
     }
