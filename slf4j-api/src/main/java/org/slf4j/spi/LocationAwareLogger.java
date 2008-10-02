@@ -47,7 +47,7 @@ public interface LocationAwareLogger extends Logger {
   
   
   /**
-   * Printing method which support for location information. 
+   * Printing method with support for location information. 
    * 
    * @param marker
    * @param fqcn The fully qualified class name of the <b>caller</b>
