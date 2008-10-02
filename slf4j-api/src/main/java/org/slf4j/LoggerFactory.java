@@ -51,7 +51,7 @@ public final class LoggerFactory {
   static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
   static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
   
-  static private final String EXPECTED_VERSION = "";
+  static private final String EXPECTED_VERSION = "1.5.4-SNAPSHOT";
    
   // private constructor prevents instantiation
   private LoggerFactory() {
