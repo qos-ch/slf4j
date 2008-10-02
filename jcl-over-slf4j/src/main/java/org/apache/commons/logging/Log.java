@@ -34,7 +34,7 @@ package org.apache.commons.logging;
  * </ol>
  * The mapping of these log levels to the concepts used by the underlying
  * logging system is implementation dependent.
- * The implemention should ensure, though, that this ordering behaves
+ * The implementation should ensure, though, that this ordering behaves
  * as expected.</p>
  *
  * <p>Performance is often a logging concern.
@@ -55,7 +55,7 @@ package org.apache.commons.logging;
  * external to the Logging APIs, through whatever mechanism is supported by
  * that system.</p>
  *
- * <p style="color: #E40; font-weight: bold;">Please note that this interface is identical to that found in JCL 1.0.4.</p>
+ * <p style="color: #E40; font-weight: bold;">Please note that this interface is identical to that found in JCL 1.1.1.</p>
  * 
  * @author <a href="mailto:sanders@apache.org">Scott Sanders</a>
  * @author Rod Waldhoff
