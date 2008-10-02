@@ -1,11 +1,11 @@
 
 if ($#ARGV < 1) {
-  print "Usage: version.pl VER FILE {FILE, FILE}\n";
+  print "Usage: binderVersion.pl VER FILE {FILE, FILE}\n";
   exit;
 }
 
-$V=$ARGV[0];
-print "VER:'${V}'\r\n";
+$V= $ARGV[0];
+print "VER:${V}\r\n";
 shift(@ARGV);
 
 sub replace () {
@@ -20,11 +20,9 @@ sub replace () {
     open(OUT, ">$filename");
     open(IN, "$original");
     
-    my $hitCount=0;
     while(<IN>) {
-      if($hitCount == 0 && /<version>.*<\/version>/) {
-        s/<version>.*<\/version>/<version>${V}<\/version>/;
-        $hitCount++;
+      if(/VERSION\s+=\s+".*";/) {
+        s/VERSION\s+=\s+".*";/VERSION = "${V}";/;
       } 
       print OUT;
     }
@@ -39,6 +37,3 @@ sub replace () {
 foreach $ARG (@ARGV) {
   do replace($ARG);
 }
-
-
-
