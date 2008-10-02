@@ -33,6 +33,8 @@
 
 package org.slf4j;
 
+import java.util.logging.Level;
+
 import junit.framework.TestCase;
 
 
@@ -44,16 +46,23 @@ import junit.framework.TestCase;
  */
 public class InvocationTest extends TestCase {
 
+  Level oldLevel;
+  java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+  
+  
   public InvocationTest (String arg0) {
     super(arg0);
   }
 
   protected void setUp() throws Exception {
     super.setUp();
+    oldLevel = root.getLevel();
+    root.setLevel(Level.OFF);
   }
 
   protected void tearDown() throws Exception {
     super.tearDown();
+    root.setLevel(oldLevel);
   }
   
   public void test1() {
