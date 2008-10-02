@@ -50,7 +50,6 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   private final ILoggerFactory loggerFactory;
   
   private StaticLoggerBinder() {
-//  Note: JCL gets substituted at build time by an appropriate Ant task
     loggerFactory = new SimpleLoggerFactory();
   }
   
