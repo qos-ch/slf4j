@@ -59,13 +59,6 @@
             <exclude>**/AllTest.java</exclude>
             <exclude>**/PackageTest.java</exclude>
           </excludes>
-    	  <argLine>-javaagent:${project.build.outputDirectory}=time</argLine>
-          <systemProperties>
-            <property>
-              <name>maven.surefire.debug</name>
-              <value>-ververbose</value>
-            </property>
-          </systemProperties>
         </configuration>
       </plugin>
 
