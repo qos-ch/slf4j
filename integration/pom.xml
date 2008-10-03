@@ -1,0 +1,98 @@
+<project 
+ xmlns="http://maven.apache.org/POM/4.0.0" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-parent</artifactId>
+    	<version>1.5.4-SNAPSHOT</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.slf4j</groupId>
+	<artifactId>integration</artifactId>
+	<packaging>jar</packaging>
+	<name>SLF4J Integration tests</name>
+
+	<url>http://www.slf4j.org</url>
+  <description>SLF4J integration tests</description>
+
+  <dependencies>
+	  <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+		</dependency>
+
+    <!-- declaration to cimcumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+    </dependency>
+    <!-- declaration to cimcumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant-junit</artifactId>
+      <version>1.6.5</version>    
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+          </dependency>
+          <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-junit</artifactId>
+            <version>1.6.5</version>    
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>ant-test</id>
+            <phase>package</phase>
+            <configuration>
+              <tasks>      
+                <property name="currentVersion" value="${version}" />
+                <property name="compile_classpath" refid="maven.compile.classpath"/>
+                <property name="runtime_classpath" refid="maven.runtime.classpath"/>
+                <property name="test_classpath" refid="maven.test.classpath"/>
+                <property name="plugin_classpath" refid="maven.plugin.classpath"/>
+                <ant antfile="${basedir}/build.xml"/>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkMode>once</forkMode>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/*Test.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+
+
+  </build>
+
+</project>

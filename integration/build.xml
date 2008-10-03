@@ -1,0 +1,44 @@
+<project name="integration" default="testAll" basedir=".">
+
+	<echo message="compile classpath: ${compile_classpath}" />
+	<echo message="runtime classpath: ${runtime_classpath}" />
+	<echo message="test classpath:    ${test_classpath}" />
+	<echo message="plugin classpath:  ${plugin_classpath}" />
+	
+	<path id="path150">
+		<pathelement location="xtarget/classes/" />
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
+	</path >
+
+
+	<!-- this is really very ugly, but it's the only way to circumvent
+  	     http://jira.codehaus.org/browse/MANTRUN-95
+	-->
+	<taskdef name="junit" classpath="${plugin_classpath};${compile_classpath}" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+
+
+	<target name="testAll">
+		<echo>Running unit tests via Ant</echo>
+		<echo>basedir=${basedir}</echo>
+		<echo>user.home=${user.home}</echo>
+		<mkdir dir="target/unit-reports" />
+
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="path150" />
+
+			<formatter type="plain" />
+			<batchtest fork="yes" todir="target/unit-reports">
+				<fileset dir="src/test/java">
+					<include name="**/VersionTest.java" />
+					<exclude name="**/XTests.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+	</target>
+
+
+
+</project>
