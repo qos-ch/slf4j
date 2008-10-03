@@ -4,7 +4,7 @@
 	<echo message="runtime classpath: ${runtime_classpath}" />
 	<echo message="test classpath:    ${test_classpath}" />
 	<echo message="plugin classpath:  ${plugin_classpath}" />
-	
+
 	<path id="path150">
 		<pathelement location="xtarget/classes/" />
 		<pathelement location="target/test-classes/" />
@@ -27,14 +27,8 @@
 
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150" />
-
 			<formatter type="plain" />
-			<batchtest fork="yes" todir="target/unit-reports">
-				<fileset dir="src/test/java">
-					<include name="**/VersionTest.java" />
-					<exclude name="**/XTests.java" />
-				</fileset>
-			</batchtest>
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.VersionTest" />
 		</junit>
 
 	</target>

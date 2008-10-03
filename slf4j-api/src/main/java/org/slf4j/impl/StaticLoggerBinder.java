@@ -45,7 +45,7 @@ public class StaticLoggerBinder {
   
   /**
    * Version tag used to check compatibility. The value of this field is
-   * modified in each release. 
+   * modified with each release. 
    */
   // to avoid constant folding by the compiler, VERSION field should *not* be final
   public static String VERSION = "1.5.4-SNAPSHOT";  // !final
