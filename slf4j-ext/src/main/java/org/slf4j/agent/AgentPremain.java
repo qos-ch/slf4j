@@ -18,6 +18,7 @@ public class AgentPremain {
 	public static void premain(String agentArgument,
 			Instrumentation instrumentation) {
 
+		System.err.println("THIS JAVAAGENT IS NOT RELEASED YET.  DO NOT USE IN PRODUCTION ENVIRONMENTS.");
 		LogTransformer.Builder builder = new LogTransformer.Builder();
 		builder = builder.addEntryExit(true);
 
