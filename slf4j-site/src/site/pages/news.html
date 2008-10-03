@@ -37,6 +37,11 @@ prefix='';
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=102">packaging
   problems</a> related to <em>slf4j-ext</em> module.
   </p>
+
+  <p>At initialization time, LoggerFactory will check that the version
+  of the slf4j-binding matches that of slf4j-api. If there is a
+  mismatch a warning will be issued on the console. This should help
+  our users identify SLF4J related problems more quickly.</p>
   
   <p>We now say that markers contain <em>references</em> to other
   markers. We no longer talk about child markers. The javadocs of the
@@ -45,6 +50,7 @@ prefix='';
   been deprecated and a new method called <code>hasReferences()</code>
   was added.
   </p>
+
 
 
   <hr noshade="noshade" size="1"/>
