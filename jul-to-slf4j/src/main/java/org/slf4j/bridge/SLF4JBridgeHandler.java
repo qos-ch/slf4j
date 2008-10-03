@@ -31,6 +31,7 @@
 
 package org.slf4j.bridge;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.logging.Handler;
@@ -191,22 +192,26 @@ public class SLF4JBridgeHandler extends Handler {
    * @return
    */
   private String getMessageI18N(LogRecord record) {
-    String rawMsg = record.getMessage();
+    String message = record.getMessage();
 
-    if (rawMsg == null) {
+    if (message == null) {
       return null;
     }
 
     ResourceBundle bundle = record.getResourceBundle();
     if (bundle != null) {
       try {
-        return bundle.getString(rawMsg);
+        message = bundle.getString(message);
       } catch (MissingResourceException e) {
       }
     }
-    return rawMsg;
+    Object[] params = record.getParameters();
+    if (params != null) {
+      message = MessageFormat.format(message, params);
+    }
+    return message;
   }
-  
+
   /**
    * Publish a LogRecord.
    * <p>
@@ -239,7 +244,5 @@ public class SLF4JBridgeHandler extends Handler {
       callPlainSLF4JLogger(slf4jLogger, record);
     }
   }
-
-
 
 }
