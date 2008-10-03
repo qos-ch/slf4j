@@ -1,12 +1,12 @@
 package org.slf4j.bridge;
 
+import java.util.ResourceBundle;
 import java.util.logging.Level;
+
+import junit.framework.TestCase;
 
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-
-import junit.framework.TestCase;
 
 public class SLF4JBridgeHandlerTest extends TestCase {
 
@@ -73,6 +73,26 @@ public class SLF4JBridgeHandlerTest extends TestCase {
     assertLevel(i++, org.apache.log4j.Level.INFO);
     assertLevel(i++, org.apache.log4j.Level.WARN);
     assertLevel(i++, org.apache.log4j.Level.ERROR);
+  }
+  
+  public void testLogWithResourceBundle(){
+    SLF4JBridgeHandler.install();
+
+    String resourceBundleName = "org.slf4j.bridge.testLogStrings";
+    ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleName);
+    String resourceKey = "resource_key";
+    String expectedMsg = bundle.getString(resourceKey);
+    String msg = resourceKey;
+
+    java.util.logging.Logger julResourceBundleLogger = java.util.logging.Logger
+        .getLogger("yay",resourceBundleName);
+
+    julResourceBundleLogger.info(msg);
+    assertEquals(1, listAppender.list.size());
+    LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+    assertEquals(LOGGER_NAME, le.getLoggerName());
+    assertEquals(expectedMsg, le.getMessage());
+
   }
 
   void assertLevel(int index, org.apache.log4j.Level expectedLevel) {

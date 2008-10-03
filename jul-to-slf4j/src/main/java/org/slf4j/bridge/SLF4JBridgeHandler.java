@@ -31,6 +31,8 @@
 
 package org.slf4j.bridge;
 
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -40,40 +42,42 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
-
 // Based on http://bugzilla.slf4j.org/show_bug.cgi?id=38
 
 /**
  * Bridge/route all JUL log records to the SLF4J API.
  * 
- * <p>Essentially, the idea is to install on the root logger an instance of 
- * SLF4JBridgeHandler as the sole JUL handler in the system. Subsequently, the 
- * SLF4JBridgeHandler instance will redirect all JUL log records are redirected to 
- * the SLF4J API based on the following mapping of levels:
+ * <p>
+ * Essentially, the idea is to install on the root logger an instance of
+ * SLF4JBridgeHandler as the sole JUL handler in the system. Subsequently, the
+ * SLF4JBridgeHandler instance will redirect all JUL log records are redirected
+ * to the SLF4J API based on the following mapping of levels:
  * 
  * <pre>
- * FINEST  -> TRACE
- * FINER   -> DEBUG
- * FINE    -> DEBUG
- * INFO    -> INFO
- * WARNING -> WARN
- * SEVER   -> ERROR
+ * FINEST  -&gt; TRACE
+ * FINER   -&gt; DEBUG
+ * FINE    -&gt; DEBUG
+ * INFO    -&gt; INFO
+ * WARNING -&gt; WARN
+ * SEVER   -&gt; ERROR
  * </pre>
  * 
  * Usage:
  * 
  * <pre>
- *   // call only once during initialization time of your application
- *   SLF4JBridgeHandler.install();
- *   
- *   // usual pattern: get a Logger and then log a message
- *   java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("org.wombat");
- *   julLogger.fine("hello world"); // this will get redirected to SLF4J
+ * // call only once during initialization time of your application
+ * SLF4JBridgeHandler.install();
+ * 
+ * // usual pattern: get a Logger and then log a message
+ * java.util.logging.Logger julLogger = java.util.logging.Logger
+ *     .getLogger(&quot;org.wombat&quot;);
+ * julLogger.fine(&quot;hello world&quot;); // this will get redirected to SLF4J
  * </pre>
  * 
  * @author Christian Stein
- * @author Joern Huxhorn        
+ * @author Joern Huxhorn
  * @author Ceki G&uml;lc&uml;
+ * @author Darryl Smith
  * 
  * @since 1.5.1
  */
@@ -94,7 +98,8 @@ public class SLF4JBridgeHandler extends Handler {
    */
   public static void install() {
     LogManager.getLogManager().reset();
-    LogManager.getLogManager().getLogger("").addHandler(new SLF4JBridgeHandler());
+    LogManager.getLogManager().getLogger("").addHandler(
+        new SLF4JBridgeHandler());
   }
 
   /**
@@ -143,7 +148,8 @@ public class SLF4JBridgeHandler extends Handler {
     return LoggerFactory.getLogger(name);
   }
 
-  protected void callLocationAwareLogger(LocationAwareLogger lal, LogRecord record) {
+  protected void callLocationAwareLogger(LocationAwareLogger lal,
+      LogRecord record) {
     int julLevelValue = record.getLevel().intValue();
     int slf4jLevel;
 
@@ -158,24 +164,49 @@ public class SLF4JBridgeHandler extends Handler {
     } else {
       slf4jLevel = LocationAwareLogger.ERROR_INT;
     }
-    lal.log(null, FQCN, slf4jLevel, record.getMessage(), record.getThrown());
+    String i18nMessage = getMessageI18N(record);
+    lal.log(null, FQCN, slf4jLevel, i18nMessage, record.getThrown());
   }
 
   protected void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
+    String i18nMessage = getMessageI18N(record);
     int julLevelValue = record.getLevel().intValue();
     if (julLevelValue <= TRACE_LEVEL_THRESHOLD) {
-      slf4jLogger.trace(record.getMessage(), record.getThrown());
+      slf4jLogger.trace(i18nMessage, record.getThrown());
     } else if (julLevelValue <= DEBUG_LEVEL_THRESHOLD) {
-      slf4jLogger.debug(record.getMessage(), record.getThrown());
+      slf4jLogger.debug(i18nMessage, record.getThrown());
     } else if (julLevelValue <= INFO_LEVEL_THRESHOLD) {
-      slf4jLogger.info(record.getMessage(), record.getThrown());
+      slf4jLogger.info(i18nMessage, record.getThrown());
     } else if (julLevelValue <= WARN_LEVEL_THRESHOLD) {
-      slf4jLogger.warn(record.getMessage(), record.getThrown());
+      slf4jLogger.warn(i18nMessage, record.getThrown());
     } else {
-      slf4jLogger.error(record.getMessage(), record.getThrown());
+      slf4jLogger.error(i18nMessage, record.getThrown());
     }
   }
 
+  /**
+   * Get the record's message, possibly via a resource bundle.
+   * 
+   * @param record
+   * @return
+   */
+  private String getMessageI18N(LogRecord record) {
+    String rawMsg = record.getMessage();
+
+    if (rawMsg == null) {
+      return null;
+    }
+
+    ResourceBundle bundle = record.getResourceBundle();
+    if (bundle != null) {
+      try {
+        return bundle.getString(rawMsg);
+      } catch (MissingResourceException e) {
+      }
+    }
+    return rawMsg;
+  }
+  
   /**
    * Publish a LogRecord.
    * <p>
@@ -194,9 +225,11 @@ public class SLF4JBridgeHandler extends Handler {
     if (record == null) {
       return;
     }
-    
+
     Logger slf4jLogger = getSLF4JLogger(record);
     String message = record.getMessage(); // can be null!
+    // this is a check to avoid calling the underlying logging system
+    // with a null message
     if (message == null) {
       return;
     }
@@ -206,4 +239,7 @@ public class SLF4JBridgeHandler extends Handler {
       callPlainSLF4JLogger(slf4jLogger, record);
     }
   }
+
+
+
 }
