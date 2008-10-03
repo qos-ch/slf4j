@@ -77,20 +77,42 @@ public class LogTransformer implements ClassFileTransformer {
 			verbose = b;
 			return this;
 		}
-		
-		String[] ignore =  { "sun/", "java/", "javax/", "org/slf4j/",
-		"ch/qos/logback/" , "org/apache/log4j/"};
+
+		String[] ignore = { "sun/", "java/", "javax/", "org/slf4j/",
+				"ch/qos/logback/", "org/apache/log4j/" };
+
 		public Builder ignore(String[] strings) {
 			this.ignore = strings;
 			return this;
 		}
+
+		private String level = "info";
+
+		public Builder level(String level) {
+			level = level.toLowerCase();
+			if (level.equals("info") || level.equals("debug")
+					|| level.equals("trace")) {
+				this.level = level;
+			} else {
+				if (verbose) {
+					System.err.println("level not info/debug/trace : " + level);
+				}
+			}
+			return this;
+		}
 	}
+
+	private String level;
+	private String levelEnabled;
 
 	private LogTransformer(Builder builder) {
 		this.addEntryExit = builder.addEntryExit;
 		this.addVariableAssignment = builder.addVariableAssignment;
 		this.verbose = builder.verbose;
 		this.ignore = builder.ignore;
+		this.level = builder.level;
+		this.levelEnabled = "is" + builder.level.substring(0, 1).toUpperCase()
+				+ builder.level.substring(1) + "Enabled";
 	}
 
 	private static final String _LOG = "_log";
@@ -102,7 +124,6 @@ public class LogTransformer implements ClassFileTransformer {
 
 	public byte[] transform(ClassLoader loader, String className,
 			Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
-		
 
 		try {
 			return transform0(className, clazz, bytes);
@@ -182,6 +203,7 @@ public class LogTransformer implements ClassFileTransformer {
 		} catch (Exception e) {
 			String pattern = "Could not instrument {},  exception : {}";
 			System.err.println(format(pattern, name, e.getMessage()));
+			e.printStackTrace(System.err);
 		} finally {
 			if (cl != null) {
 				cl.detach();
@@ -197,14 +219,16 @@ public class LogTransformer implements ClassFileTransformer {
 		String returnValue = JavassistHelper.returnValue(method);
 
 		if (addEntryExit) {
-			String messagePattern = "if ({}.isDebugEnabled()) {}.info(\">> {}\");";
-			Object[] arg1 = new Object[] { _LOG, _LOG, signature };
+			String messagePattern = "if ({}.{}()) {}.{}(\">> {}\");";
+			Object[] arg1 = new Object[] { _LOG, levelEnabled, _LOG, level,
+					signature };
 			String before = MessageFormatter.arrayFormat(messagePattern, arg1);
 			//System.out.println(before);
 			method.insertBefore(before);
 
-			String messagePattern2 = "if ({}.isDebugEnabled()) {}.info(\"<< {}{}\");";
-			Object[] arg2 = new Object[] { _LOG, _LOG, signature, returnValue };
+			String messagePattern2 = "if ({}.{}()) {}.{}(\"<< {}{}\");";
+			Object[] arg2 = new Object[] { _LOG, levelEnabled, _LOG, level,
+					signature, returnValue };
 			String after = MessageFormatter.arrayFormat(messagePattern2, arg2);
 			//System.out.println(after);
 			method.insertAfter(after);
