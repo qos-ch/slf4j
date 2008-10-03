@@ -36,6 +36,10 @@ public class AgentPremain {
 			if (args.containsKey("ignore")) {
 				builder = builder.ignore(args.getProperty("ignore").split(","));
 			}
+			
+			if (args.containsKey("level")) {
+				builder = builder.level(args.getProperty("level"));
+			}
 
 			// ... more agent option handling here
 		}
