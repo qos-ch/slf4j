@@ -2,7 +2,6 @@ package org.slf4j.instrumentation;
 
 import javassist.CtBehavior;
 import javassist.CtClass;
-import javassist.CtConstructor;
 import javassist.CtMethod;
 import javassist.Modifier;
 import javassist.NotFoundException;
@@ -16,7 +15,7 @@ public class JavassistHelper {
 		
 		String returnValue = "";
 		if (methodReturnsValue(method)) {
-			returnValue = "\" returns: \" + $_ ";
+			returnValue = " returns: \" + $_ + \"";
 		}
 		return returnValue;
 	}
@@ -24,15 +23,16 @@ public class JavassistHelper {
 	private static boolean methodReturnsValue(CtBehavior method)
 			throws NotFoundException {
 		
+		if (method instanceof CtMethod == false) {
+			return false;
+		}
+		
 		CtClass returnType = ((CtMethod) method).getReturnType();
 		String returnTypeName = returnType.getName();
 
-		boolean isVoidMethod = (method instanceof CtMethod)
-				&& "void".equals(returnTypeName);
+		boolean isVoidMethod = "void".equals(returnTypeName);
 		
-		boolean isConstructor = method instanceof CtConstructor;
-
-		boolean methodReturnsValue = (isVoidMethod || isConstructor) == false;
+		boolean methodReturnsValue = isVoidMethod == false;
 		return methodReturnsValue;
 	}
 
@@ -79,12 +79,18 @@ public class JavassistHelper {
 		if (locals == null) {
 			return Integer.toString(i + 1);
 		}
+		
 
-		if (Modifier.isStatic(method.getModifiers())) {
-			return locals.variableName(i);
+		int modifiers = method.getModifiers();
+		
+		int j = i;
+		
+		
+		
+		if (Modifier.isStatic(modifiers) == false) {
+			// skip #0 which is "this"
+			j++;
 		}
-
-		// skip #0 which is reference to "this"
-		return locals.variableName(i + 1);
+		return locals.variableName(j);
 	}
 }
