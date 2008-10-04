@@ -79,7 +79,7 @@ public class LogTransformer implements ClassFileTransformer {
 		}
 
 		String[] ignore = { "sun/", "java/", "javax/", "org/slf4j/",
-				"ch/qos/logback/", "org/apache/log4j/" };
+				"ch/qos/logback/", "org/apache/log4j/", "apple/", "com/sun/"};
 
 		public Builder ignore(String[] strings) {
 			this.ignore = strings;
