@@ -55,14 +55,20 @@ public class JavassistHelper {
 			}
 
 			CtClass parameterType = parameterTypes[i];
+			boolean isArray = parameterType.isArray();
 			CtClass arrayOf = parameterType.getComponentType();
+			if (isArray) {
+				while (arrayOf.isArray()) {
+					arrayOf = arrayOf.getComponentType();
+				}
+			}
 
 			sb.append(" + \"");
 			sb.append(parameterNameFor(method, locals, i));
 			sb.append("\" + \"=");
 
 			// use Arrays.asList() to render array of objects.
-			if (arrayOf != null && !arrayOf.isPrimitive()) {
+			if (isArray && !arrayOf.isPrimitive()) {
 				sb.append("\"+ java.util.Arrays.asList($" + (i + 1) + ")");
 			} else {
 				sb.append("\"+ $" + (i + 1));
