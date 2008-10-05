@@ -12,7 +12,7 @@ public class JavassistHelper {
 
 	public static String returnValue(CtBehavior method)
 			throws NotFoundException {
-		
+
 		String returnValue = "";
 		if (methodReturnsValue(method)) {
 			returnValue = " returns: \" + $_ + \"";
@@ -22,30 +22,34 @@ public class JavassistHelper {
 
 	private static boolean methodReturnsValue(CtBehavior method)
 			throws NotFoundException {
-		
+
 		if (method instanceof CtMethod == false) {
 			return false;
 		}
-		
+
 		CtClass returnType = ((CtMethod) method).getReturnType();
 		String returnTypeName = returnType.getName();
 
 		boolean isVoidMethod = "void".equals(returnTypeName);
-		
+
 		boolean methodReturnsValue = isVoidMethod == false;
 		return methodReturnsValue;
 	}
 
 	public static String getSignature(CtBehavior method)
 			throws NotFoundException {
-		
+
 		CtClass parameterTypes[] = method.getParameterTypes();
 
 		CodeAttribute codeAttribute = method.getMethodInfo().getCodeAttribute();
 
-		LocalVariableAttribute locals = (LocalVariableAttribute) codeAttribute
-				.getAttribute("LocalVariableTable");
-		
+		LocalVariableAttribute locals = null;
+
+		if (codeAttribute != null) {
+			locals = (LocalVariableAttribute) codeAttribute
+					.getAttribute("LocalVariableTable");
+		}
+
 		String methodName = method.getName();
 
 		StringBuffer sb = new StringBuffer(methodName + "(\" ");
@@ -85,18 +89,26 @@ public class JavassistHelper {
 		if (locals == null) {
 			return Integer.toString(i + 1);
 		}
-		
 
 		int modifiers = method.getModifiers();
-		
+
 		int j = i;
-		
-		
-		
-		if (Modifier.isStatic(modifiers) == false) {
-			// skip #0 which is "this"
+
+		if (Modifier.isSynchronized(modifiers)) {
+			// skip object to synchronize upon.
 			j++;
+			// System.err.println("Synchronized");
 		}
-		return locals.variableName(j);
+		if (Modifier.isStatic(modifiers) == false) {
+			// skip "this"
+			j++;
+			// System.err.println("Instance");
+		}
+		String variableName = locals.variableName(j);
+		if (variableName.equals("this")) {
+			System.err.println("this returned as a parameter name for "
+					+ method.getName() + ", names are probably shifted.");
+		}
+		return variableName;
 	}
 }
