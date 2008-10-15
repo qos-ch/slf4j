@@ -24,7 +24,7 @@ prefix='';
 
 		<h2>Profilers</h2>
 
-		<h2>What is a profiler?</h2>
+		<h3>What is a profiler?</h3>
     
     <p>According to wikipedia, <a
     href="http://en.wikipedia.org/wiki/Profiler_%28computer_science%29">profiling</a>
@@ -42,7 +42,7 @@ prefix='';
     example should make the point clearer.
     </p>
 
-    <h2>Basic example</h2>
+    <h3>Basic example</h3>
 
 
     <em>Example: Using the profiler: <a
@@ -88,7 +88,7 @@ prefix='';
    </p>
 
 
-   <h2>Profiler nesting</h2>
+   <h3>Profiler nesting</h3>
    
    <p>Profilers can also be nested. By nesting profilers, it is
    possible to measure a task which itself has subtasks that need to
@@ -203,7 +203,7 @@ prefix='';
   profiler registry and then retrieving it in the target class.
   </p>
 
-  <h2>Printing using a logger</h2>
+  <h3>Printing using a logger</h3>
 
   <p> Invoking <code>profiler.print</code> will always print the
   output on the console. If you wish to leave the profiler code in
@@ -287,7 +287,251 @@ prefix='';
     &lt;appender-ref ref="STDOUT" />
   &lt;/root>
 &lt;/configuration>  </p>
+   <h2>Extended Logger</h2>
 
+   <p>
+   The XLogger class provides a few extra logging methods that are quite useful for following the
+   execution path of applications. These methods generate logging events that can be filtered
+   separately from other debug logging. Liberal use of these methods is encouraged as the output has
+   been found to
+   <ul>
+     <li>aid in problem diagnosis in development without requiring a debug session</li>
+     <li>aid in problem diagnosis in production where no debugging is possible</li>
+     <li>help educate new deveopers in learning the application.</li>
+   </ul>
+   </p>
+   <p>
+   The two most used methods are the entry() and exit() methods. entry() should be placed at the
+   beginning of methods, except perhaps ofr simple getters and setters. entry() can be called
+   passing from 0 to 4 parameters. Typically these will be parameters passed to the method.
+   The entry() method logs with a level of TRACE and uses a Marker with a name of "ENTER" which
+   is also a "FLOW" Marker.
+   </p>
+   <p>
+   The exit() method should be placed before any return statement or as the last statement of
+   methods without a return. exit() can be called with or without a parameter. Typically, methods
+   that return void will use exit() while methods that return an Object will use exit(Object obj).
+   The entry() method logs with a level of TRACE and uses a Marker with a name of "EXIT" which is
+   also a "FLOW" Marker.
+   </p>
+   <p>
+   The throwing() method can be used by an application when it is throwing an exception that is
+   unlikely to be handled, such as a RuntimeExcpetion. This will insure that proper diagnostics
+   are available if needed. The logging event generated will have a level of ERROR and will have
+   an associated Marker with a name of "THROWING" which is also an "EXCEPTION" Marker.
+   </p>
+   <p>
+   The catching() method can be used by an application when it catches an Exception that it is not
+   going to rethrow, either explicitely or attached to another Exception. The logging event generated
+   will have a level of ERROR and will have an associated Marker with a name of "CATCHING" which is
+   also an "EXCEPTION" Marker.
+   </p>
+   <p>
+   By using these extended methods applications that standardize on SLF4J can be assured that they will be
+   able to perform diagnostic logging in a standardized manner.
+   </p>
+   <p>
+   The following example shows a simple application using these methods in a fairly typcial manner. The
+   throwing() is not present since no Exceptions are explicitely thrown and not handled.
+   </p>
+<p class="source">
+    package com.test;
+
+    import org.slf4j.ext.XLogger;
+    import org.slf4j.ext.XLoggerFactory;
+
+    import java.util.Random;
+
+    public class TestService
+    {
+        private XLogger logger = XLoggerFactory.getXLogger(TestService.class.getName());
+
+        private String[] messages = new String[]
+        {
+            "Hello, World",
+            "Goodbye Cruel World",
+            "You had me at hello"
+        };
+        private Random rand = new Random(1);
+
+        public String retrieveMessage()
+        {
+            logger.entry();
+
+            String testMsg = getMessage(getKey());
+
+            logger.exit(testMsg);
+            return testMsg;
+        }
+
+        public void exampleException()
+        {
+            logger.entry();
+            try
+            {
+                String msg = messages[messages.length];
+                logger.error("An exception should have been thrown");
+            }
+            catch (Exception ex)
+            {
+                logger.catching(ex);
+            }
+            logger.exit();
+        }
+
+        public String getMessage(int key)
+        {
+            logger.entry(key);
+
+            String value = messages[key];
+
+            logger.exit(value);
+            return value;
+        }
+
+        private int getKey()
+        {
+            logger.entry();
+            int key = rand.nextInt(messages.length);
+            logger.exit(key);
+            return key;
+        }
+    }
+</p>
+   <p>
+   This test application uses the preceding service to generate logging events.
+   </p>
+<p class="source">
+package com.test;
+
+public class App
+{
+    public static void main( String[] args )
+    {
+        TestService service = new TestService();
+        service.retrieveMessage();
+        service.retrieveMessage();
+        service.exampleException();
+    }
+}    
+</p>
+   <p>
+   The configuration below will cause all output to be routed to target/test.log. The pattern for
+   the FileAppender includes the class name, line number and method name. Including these
+   in the pattern are critical for the log to be of value.
+   </p>
+<p class="source">
+&lt;?xml version='1.0' encoding='UTF-8'?>
+&lt;configuration&gt;
+  &lt;appender name="console" class="ch.qos.logback.core.ConsoleAppender"&gt;
+    &lt;filter class="ch.qos.logback.classic.filter.LevelFilter"&gt;
+      &ltlevel&gt;ERROR&lt;/level&gt;
+      &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;
+      &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;
+    &lt;/filter&gt;
+    &lt;layout class="ch.qos.logback.classic.PatternLayout"&gt;
+      &ltPattern&gt;%d{HH:mm:ss.SSS} %-5level %class{36}:%L %M - %msg%n&lt;/Pattern&gt;
+    &lt;/layout&gt;
+  &lt;/appender&gt;
+  &lt;appender name="log" class="ch.qos.logback.core.FileAppender"&gt;
+    &lt;File&gt;target/test.log&lt;/File&gt;
+    &lt;Append&gt;false&lt;/Append&gt;
+    &lt;layout class="ch.qos.logback.classic.PatternLayout"&gt;
+      &lt;Pattern&gt;%d{HH:mm:ss.SSS} %-5level %class{36}:%L %M - %msg%n&lt;/Pattern&gt;
+    &lt;/layout&gt;
+  &lt;/appender&gt;
+
+  &lt;root&gt;
+    &lt;level value="trace" /&gt;
+    &lt;appender-ref ref="log" /&gt;
+  &lt;/root&gt;
+&lt/configuration&gt;
+</p>
+   <p>
+   Here is the output that results from the Java classes and configuration above.     
+   </p>
+<p class="source">
+    00:07:57.725 TRACE com.test.TestService:22 retrieveMessage - entry
+    00:07:57.738 TRACE com.test.TestService:57 getKey - entry
+    00:07:57.739 TRACE com.test.TestService:59 getKey - exit with (0)
+    00:07:57.741 TRACE com.test.TestService:47 getMessage - entry with (0)
+    00:07:57.741 TRACE com.test.TestService:51 getMessage - exit with (Hello, World)
+    00:07:57.742 TRACE com.test.TestService:26 retrieveMessage - exit with (Hello, World)
+    00:07:57.742 TRACE com.test.TestService:22 retrieveMessage - entry
+    00:07:57.742 TRACE com.test.TestService:57 getKey - entry
+    00:07:57.743 TRACE com.test.TestService:59 getKey - exit with (1)
+    00:07:57.745 TRACE com.test.TestService:47 getMessage - entry with (1)
+    00:07:57.745 TRACE com.test.TestService:51 getMessage - exit with (Goodbye Cruel World)
+    00:07:57.746 TRACE com.test.TestService:26 retrieveMessage - exit with (Goodbye Cruel World)
+    00:07:57.746 TRACE com.test.TestService:32 exampleException - entry
+    00:07:57.750 ERROR com.test.TestService:40 exampleException - catching
+    java.lang.ArrayIndexOutOfBoundsException: 3
+            at com.test.TestService.exampleException(TestService.java:35)
+            at com.test.AppTest.testApp(AppTest.java:39)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+            at java.lang.reflect.Method.invoke(Method.java:585)
+            at junit.framework.TestCase.runTest(TestCase.java:154)
+            at junit.framework.TestCase.runBare(TestCase.java:127)
+            at junit.framework.TestResult$1.protect(TestResult.java:106)
+            at junit.framework.TestResult.runProtected(TestResult.java:124)
+            at junit.framework.TestResult.run(TestResult.java:109)
+            at junit.framework.TestCase.run(TestCase.java:118)
+            at junit.framework.TestSuite.runTest(TestSuite.java:208)
+            at junit.framework.TestSuite.run(TestSuite.java:203)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+            at java.lang.reflect.Method.invoke(Method.java:585)
+            at org.apache.maven.surefire.junit.JUnitTestSet.execute(JUnitTestSet.java:213)
+            at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.executeTestSet(AbstractDirectoryTestSuite.java:140)
+            at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.execute(AbstractDirectoryTestSuite.java:127)
+            at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+            at java.lang.reflect.Method.invoke(Method.java:585)
+            at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:338)
+            at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)
+    00:07:57.750 TRACE com.test.TestService:42 exampleException - exit
+</p>
+   <p>
+   Simply changing the root logger level to DEBUG in the example above will reduce the output
+   considerably.
+   </p>
+<p class="source">
+    00:28:06.004 ERROR com.test.TestService:40 exampleException - catching
+    java.lang.ArrayIndexOutOfBoundsException: 3
+            at com.test.TestService.exampleException(TestService.java:35)
+            at com.test.AppTest.testApp(AppTest.java:39)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+            at java.lang.reflect.Method.invoke(Method.java:585)
+            at junit.framework.TestCase.runTest(TestCase.java:154)
+            at junit.framework.TestCase.runBare(TestCase.java:127)
+            at junit.framework.TestResult$1.protect(TestResult.java:106)
+            at junit.framework.TestResult.runProtected(TestResult.java:124)
+            at junit.framework.TestResult.run(TestResult.java:109)
+            at junit.framework.TestCase.run(TestCase.java:118)
+            at junit.framework.TestSuite.runTest(TestSuite.java:208)
+            at junit.framework.TestSuite.run(TestSuite.java:203)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+            at java.lang.reflect.Method.invoke(Method.java:585)
+            at org.apache.maven.surefire.junit.JUnitTestSet.execute(JUnitTestSet.java:213)
+            at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.executeTestSet(AbstractDirectoryTestSuite.java:140)
+            at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.execute(AbstractDirectoryTestSuite.java:127)
+            at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
+            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+            at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+            at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+            at java.lang.reflect.Method.invoke(Method.java:585)
+            at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:338)
+            at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)    
+</p>
 </div>
 </body>
 </html>
