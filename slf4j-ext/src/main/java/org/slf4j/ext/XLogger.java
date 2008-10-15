@@ -17,12 +17,12 @@ public class XLogger extends LoggerWrapper implements Logger {
 
   private static final String FQCN = XLogger.class.getName();
   static Marker FLOW_MARKER = MarkerFactory.getMarker("FLOW");
-  static Marker ENTRY_MARKER = MarkerFactory.getMarker("ENTER");
+  static Marker ENTRY_MARKER = MarkerFactory.getMarker("ENTRY");
   static Marker EXIT_MARKER = MarkerFactory.getMarker("EXIT");
 
   static Marker EXCEPTION_MARKER = MarkerFactory.getMarker("EXCEPTION");
-  static Marker THROWING_MARKER = MarkerFactory.getMarker("EXCEPTION");
-  static Marker CATCHING_MARKER = MarkerFactory.getMarker("EXCEPTION");
+  static Marker THROWING_MARKER = MarkerFactory.getMarker("THROWING");
+  static Marker CATCHING_MARKER = MarkerFactory.getMarker("CATCHING");
 
   static String EXIT_MESSAGE_0 = "exit";
   static String EXIT_MESSAGE_1 = "exit with ({})";
