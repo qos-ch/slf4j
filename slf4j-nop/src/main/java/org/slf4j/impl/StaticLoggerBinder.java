@@ -35,6 +35,7 @@ package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
@@ -65,7 +66,6 @@ public class StaticLoggerBinder  implements LoggerFactoryBinder {
   private final ILoggerFactory loggerFactory;
   
   private StaticLoggerBinder() {
-//  Note: JCL gets substituted at build time by an appropriate Ant task
     loggerFactory = new NOPLoggerFactory();
   }
   
