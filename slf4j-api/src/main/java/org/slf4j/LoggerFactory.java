@@ -24,6 +24,7 @@
 
 package org.slf4j;
 
+import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
 
@@ -58,6 +59,36 @@ public final class LoggerFactory {
   }
 
   static {
+    staticInitialize();
+    versionSanityCheck();
+  }
+
+  private final static void staticInitialize() {
+    try {
+      // support re-entrant behavior. 
+      // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
+      loggerFactory = new NOPLoggerFactory();
+      loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
+    } catch (NoClassDefFoundError ncde) {
+      loggerFactory = null; // undo NOPLoggerFactory
+      String msg = ncde.getMessage();
+      if (msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
+        Util
+            .reportFailure("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
+        Util.reportFailure("See " + NO_STATICLOGGERBINDER_URL
+            + " for further details.");
+
+      }
+      throw ncde;
+    } catch (Exception e) {
+      loggerFactory = null; // undo NOPLoggerFactory
+      // we should never get here
+      Util.reportFailure("Failed to instantiate logger ["
+          + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]", e);
+    }
+  }
+
+  private final static void versionSanityCheck() {
     try {
       String actualVer = StaticLoggerBinder.VERSION;
       if (!EXPECTED_VERSION.equals(actualVer)) {
@@ -76,25 +107,8 @@ public final class LoggerFactory {
           .reportFailure("An unexpected problem occured while checking the version of your slf4j-binding");
       e.printStackTrace();
     }
-
-    try {
-      loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
-    } catch (NoClassDefFoundError ncde) {
-      String msg = ncde.getMessage();
-      if (msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
-        Util
-            .reportFailure("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
-        Util.reportFailure("See " + NO_STATICLOGGERBINDER_URL
-            + " for further details.");
-
-      }
-      throw ncde;
-    } catch (Exception e) {
-      // we should never get here
-      Util.reportFailure("Failed to instantiate logger ["
-          + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]", e);
-    }
   }
+  
 
   /**
    * Return a logger named according to the name parameter using the statically
