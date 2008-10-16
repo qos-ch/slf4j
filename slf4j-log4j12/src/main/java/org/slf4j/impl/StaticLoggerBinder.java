@@ -55,7 +55,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    * Version tag used to check compatibility. The value of this field is
    * modified in each release. 
    */
-  public static final String VERSION = "1.5.4-SNAPSHOT";
+  public static final String VERSION = "1.5.4";
   
   private static final String loggerFactoryClassStr = Log4jLoggerFactory.class.getName();
 

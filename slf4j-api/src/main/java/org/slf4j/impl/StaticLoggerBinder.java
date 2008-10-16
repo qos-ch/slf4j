@@ -48,7 +48,7 @@ public class StaticLoggerBinder {
    * modified with each release. 
    */
   // to avoid constant folding by the compiler, VERSION field should *not* be final
-  public static String VERSION = "1.5.4-SNAPSHOT";  // !final
+  public static String VERSION = "1.5.4";  // !final
   
   private StaticLoggerBinder() {
     throw new UnsupportedOperationException("This code should have never made it into the jar");

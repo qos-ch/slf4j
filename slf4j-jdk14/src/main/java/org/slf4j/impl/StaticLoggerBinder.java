@@ -55,7 +55,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    * modified with each release. 
    */ 
   //to avoid constant folding by the compiler, VERSION field should *not* be final
-  public static String VERSION = "1.5.4-SNAPSHOT";  
+  public static String VERSION = "1.5.4";  
   
   private static final String loggerFactoryClassStr = org.slf4j.impl.JDK14LoggerFactory.class.getName();
 

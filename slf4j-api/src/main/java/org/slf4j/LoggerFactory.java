@@ -56,7 +56,7 @@ public final class LoggerFactory {
   static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
   static final String SUBSTITUTE_LOGGER_URL = "http://www.slf4j.org/codes.html#substituteLogger";
 
-  static private final String EXPECTED_VERSION = "1.5.4-SNAPSHOT";
+  static private final String EXPECTED_VERSION = "1.5.4";
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -76,7 +76,7 @@ public final class LoggerFactory {
       loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
       emitSubstitureLoggerWarning(loggerNameList);
     } catch (NoClassDefFoundError ncde) {
-      loggerFactory = null; // undo NOPLoggerFactory
+      loggerFactory = null; // undo SubstituteLoggerFactory assignment
       String msg = ncde.getMessage();
       if (msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
         Util
@@ -87,7 +87,7 @@ public final class LoggerFactory {
       }
       throw ncde;
     } catch (Exception e) {
-      loggerFactory = null; // undo NOPLoggerFactory
+      loggerFactory = null; // undo SubstituteLoggerFactory assignment
       // we should never get here
       Util.reportFailure("Failed to instantiate logger ["
           + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]", e);
