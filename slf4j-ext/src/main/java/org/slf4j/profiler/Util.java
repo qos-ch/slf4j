@@ -26,6 +26,13 @@ package org.slf4j.profiler;
 
 import java.text.DecimalFormat;
 
+/**
+ * 
+ * A collection of utility methods.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ *  
+ */
 class Util {
 
   static final long NANOS_IN_ONE_MICROSECOND = 1000;

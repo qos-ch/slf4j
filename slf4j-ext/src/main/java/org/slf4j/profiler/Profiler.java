@@ -43,7 +43,8 @@ import org.slf4j.MarkerFactory;
 /**
  * A poor man's profiler to measure the time elapsed performing 
  * some lengthy task.
- *  
+ * 
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class Profiler implements TimeInstrument {
 

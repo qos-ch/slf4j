@@ -11,7 +11,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * activities.
  * 
  * @author Ralph Goers
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class XLogger extends LoggerWrapper implements Logger {
 

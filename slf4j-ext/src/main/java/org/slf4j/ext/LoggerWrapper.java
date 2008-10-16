@@ -6,12 +6,12 @@ import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * A helper class wrapping an org.slf4j.Logger instance
- * preserving location information if the wrapped
+ * A helper class wrapping an {@link org.slf4j.Logger}
+ * instance preserving location information if the wrapped
  * instance supports it.
  * 
  * @author Ralph Goers
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class LoggerWrapper implements Logger {
 

@@ -28,9 +28,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A miniminalistic registry of profilers.
+ * A minimalist registry of profilers.
  * 
- * @author Ceki
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class ProfilerRegistry {
 

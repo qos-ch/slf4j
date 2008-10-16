@@ -128,6 +128,12 @@
               <title>SLF4J packages</title>
               <packages>org.slf4j:org.slf4j.*</packages>
             </group>
+
+            <group>
+              <title>SLF4J extensions</title>
+              <packages>org.slf4j.profiler:org.slf4j.ext:org.slf4j.instrumentation:org.slf4j.agent</packages>
+            </group>
+
             <group>
               <title>Jakarta Commons Logging packages</title>
               <packages>org.apache.commons.*</packages>

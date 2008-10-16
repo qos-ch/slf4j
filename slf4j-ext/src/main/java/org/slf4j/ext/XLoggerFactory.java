@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * it wraps.
  * 
  * @author Ralph Goers
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class XLoggerFactory {
 

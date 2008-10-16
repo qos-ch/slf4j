@@ -30,6 +30,12 @@
 
 package org.slf4j.profiler;
 
+/**
+ * A time instrument can be in STARTED or STOPPED status.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ *
+ */
 enum TimeInstrumentStatus {
   STARTED, STOPPED;
 }

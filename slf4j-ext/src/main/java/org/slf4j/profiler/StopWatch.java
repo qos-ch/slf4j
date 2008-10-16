@@ -24,7 +24,13 @@
 
 package org.slf4j.profiler;
 
-
+/**
+ * A very basic @{link TimeInstrument} which can be started and stopped 
+ * once and only once.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ *
+ */
 public class StopWatch implements TimeInstrument {
 
   private String name;

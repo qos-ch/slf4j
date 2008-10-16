@@ -24,6 +24,12 @@
 
 package org.slf4j.profiler;
 
+/**
+ * An enum of supported time units.
+ * 
+ * @author Ceki 
+ *
+ */
 public enum DurationUnit {
   NANOSECOND, MICROSECOND, MILLISSECOND, SECOND;
 }

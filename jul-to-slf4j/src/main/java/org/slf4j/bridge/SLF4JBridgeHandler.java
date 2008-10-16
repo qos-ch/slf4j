@@ -77,7 +77,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * 
  * @author Christian Stein
  * @author Joern Huxhorn
- * @author Ceki G&uml;lc&uml;
+ * @author Ceki G&uuml;lc&uuml;
  * @author Darryl Smith
  * 
  * @since 1.5.1
