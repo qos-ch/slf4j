@@ -27,28 +27,31 @@ prefix='';
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>October xxth, 2008 - Release of SLF4J 1.5.4</h3>
+  <h3>October 16th, 2008 - Release of SLF4J 1.5.4</h3>
 
-  <p>See also the <a href="compatibility.html#1_5_3">compatibility
-  report for this version</a>.
+  <p>This version corrects critical bugs. You are highly encouraged to
+  upgrade to SLF4J version 1.5.4. The upgrade should pose no
+  problems. Nevertheless, you might still want to refer to the <a
+  href="compatibility.html#1_5_4">compatibility report</a>.
   </p>
 
-  <p>Improvements to documentations as well as fix for <a
-  href="http://bugzilla.slf4j.org/show_bug.cgi?id=102">packaging
-  problems</a> related to <em>slf4j-ext</em> module.
-  </p>
+  <p>Fixed <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=106">critical bug
+  106</a>. In previous versions of SLF4J, if the configuration of the
+  underlying logging system invoked loggers, then a
+  <code>NullPointerException</code> would be thrown. See a fuller
+  explanation in the <a href="codes.html#substituteLogger">in error
+  codes</a> document.</p>
+  
 
   <p>At initialization time, LoggerFactory will check that the version
   of the slf4j-binding matches that of slf4j-api. If there is a
   mismatch a warning will be issued on the console. This should help
   our users identify SLF4J related problems more quickly.</p>
-  
-  <p>We now say that markers contain <em>references</em> to other
-  markers. We no longer talk about child markers. The javadocs of the
-  Marker interface have been updated to reflect this change. Moreover,
-  the <code>hasChildren()</code> method in the Marker interface has
-  been deprecated and a new method called <code>hasReferences()</code>
-  was added.
+
+  <p>Improvements in documentation as well as fix for <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=102">packaging
+  problems</a> related to <em>slf4j-ext</em> module.
   </p>
 
   <p>SLF4JBridgeHandler (part of jul-to-slf4j) now accounts for
@@ -58,6 +61,15 @@ prefix='';
   by Jarek Gawor in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=103">bug
   103</a>.</p>
+
+  
+  <p>We now say that markers contain <em>references</em> to other
+  markers. We no longer talk about child markers. The javadocs of the
+  <code>Marker</code> interface have been updated to reflect this
+  change. Moreover, the <code>hasChildren()</code> method in the
+  Marker interface has been deprecated and a new method called
+  <code>hasReferences()</code> was added.
+  </p>
 
   <hr noshade="noshade" size="1"/>
 
