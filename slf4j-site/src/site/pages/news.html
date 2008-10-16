@@ -37,11 +37,11 @@ prefix='';
 
   <p>Fixed <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=106">critical bug
-  106</a>. In previous versions of SLF4J, if the configuration of the
-  underlying logging system invoked loggers, then a
-  <code>NullPointerException</code> would be thrown. See a fuller
-  explanation in the <a href="codes.html#substituteLogger">in error
-  codes</a> document.</p>
+  106</a>. In previous versions of SLF4J, if during intitial binding
+  phase, the underlying logging system's default configuration created
+  or invoked loggers, a <code>NullPointerException</code> would be
+  thrown. See a fuller explanation in the <a
+  href="codes.html#substituteLogger">in error codes</a> document.</p>
   
 
   <p>At initialization time, LoggerFactory will check that the version
