@@ -75,7 +75,7 @@ prefix='';
     SLF4FLogFactory, does not call any of these methods.
     </p>
 
-    <p>If you observe this problem, then it is higly probable that you
+    <p>If you observe this problem, then it is highly probable that you
     have a copy of <em>commons-logging.jar</em> in your class path
     overriding the classes shipping with
     <em>jcl-over-slf4j.jar</em>. Note that this issue is very similar
@@ -154,7 +154,7 @@ prefix='';
     <p>However, as reported in <a
     href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug 68</a>, in
     some environments it may be difficult to upgrade the log4j
-    version. To accomodate such circumstances, SLF4J's
+    version. To accommodate such circumstances, SLF4J's
     <code>Log4jLoggerAdapter</code> will map the TRACE level as
     DEBUG.</p>
     
@@ -178,7 +178,7 @@ prefix='';
     </p>
 
 
-  <h3><a name="substituteLogger" href="#substituteLogger">Substiture
+  <h3><a name="substituteLogger" href="#substituteLogger">Substitute
   loggers were created during the default configuration phase of the
   underlying logging system</a></h3>
 
@@ -186,7 +186,7 @@ prefix='';
   create components which invoke loggers during their own
   initialization.  See issue <a
   href="http://jira.qos.ch/browse/LBCORE-47">lbcore-47</a> for a
-  typical occurence. However, since the binding process with SLF4J has
+  typical occurrence. However, since the binding process with SLF4J has
   not yet completed (because the underlying logging system was not yet
   completely loaded into memory), it is not possible to honor such
   logger creation requests, resulting in a
@@ -206,7 +206,7 @@ prefix='';
   </p>
 
   <p>The only way to obtain output from the listed loggers, is to
-  isolate the components invoking these loggers and to exlude them
+  isolate the components invoking these loggers and to exclude them
   from the default configuration. Both logback and log4j allow
   multi-step configuration. It follows that the problematic components
   should be configured in a second step separate from default
@@ -214,7 +214,7 @@ prefix='';
   </p>
 
   <p>If you are not interested in the output from any of the
-  substiture loggers, then no action is required on your part.</p>
+  substitute loggers, then no action is required on your part.</p>
 
 
 

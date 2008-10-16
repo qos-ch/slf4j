@@ -10,7 +10,7 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>jcl104-over-slf4j</artifactId>
-	<name>DEPRECATED - JCL implemented over SLF4J</name>
+	<name>DEPRECATED - JCL 1.0.4 implemented over SLF4J</name>
 
 	<url>http://www.slf4j.org</url>
 	<description>

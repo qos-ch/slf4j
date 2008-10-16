@@ -111,6 +111,16 @@
       </includes>
     </fileSet>
 
+    <fileSet>
+      <directory>integration/</directory>
+      <outputDirectory>integration/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+        <include>build.xml</include>
+        <include>lib/*</include>
+      </includes>
+    </fileSet>
+
 		<!-- Module Source directories (includes tests) -->
 		<fileSet>
 			<directory>slf4j-api/src/</directory>
@@ -164,9 +174,13 @@
       <directory>slf4j-site/src/</directory>
 			<outputDirectory>slf4j-site/src/</outputDirectory>    
     </fileSet>
-   <fileSet>
+    <fileSet>
       <directory>slf4j-migrator/src/</directory>
 			<outputDirectory>slf4j-migrator/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>integration/src/</directory>
+			<outputDirectory>integration/src/</outputDirectory>    
     </fileSet>
 
 
@@ -266,7 +280,15 @@
       <outputDirectory>/</outputDirectory>
       <includes>
         <include>slf4j-migrator-${project.version}.jar</include>
-        <include>slf4j-migrator-${project.version}-sources.jar</include>
+      </includes>    
+    </fileSet>
+
+
+    <fileSet>
+      <directory>integration/target/</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>integration-${project.version}.jar</include>
       </includes>    
     </fileSet>
 

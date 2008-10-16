@@ -32,22 +32,23 @@ prefix='';
   <p>This version corrects critical bugs. You are highly encouraged to
   upgrade to SLF4J version 1.5.4. The upgrade should pose no
   problems. Nevertheless, you might still want to refer to the <a
-  href="compatibility.html#1_5_4">compatibility report</a>.
+  href="compatibility.html#1_5_4">compatibility report</a> for this
+  version.
   </p>
 
   <p>Fixed <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=106">critical bug
-  106</a>. In previous versions of SLF4J, if during intitial binding
-  phase, the underlying logging system's default configuration created
-  or invoked loggers, a <code>NullPointerException</code> would be
-  thrown. See a fuller explanation in the <a
-  href="codes.html#substituteLogger">in error codes</a> document.</p>
+  106</a>. In previous versions of SLF4J, if during the initial
+  binding phase, the underlying logging system's default configuration
+  created or invoked loggers, a <code>NullPointerException</code>
+  would be thrown. Refer to the <a
+  href="codes.html#substituteLogger">in error codes</a> document for a
+  fuller explanation.</p>
   
-
-  <p>At initialization time, LoggerFactory will check that the version
-  of the slf4j-binding matches that of slf4j-api. If there is a
-  mismatch a warning will be issued on the console. This should help
-  our users identify SLF4J related problems more quickly.</p>
+  <p>At initialization time, LoggerFactory will now check that the
+  version of the slf4j-binding matches that of slf4j-api. If there is
+  a mismatch a warning will be issued on the console. This should help
+  users identify SLF4J related problems more quickly.</p>
 
   <p>Improvements in documentation as well as fix for <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=102">packaging
@@ -61,7 +62,6 @@ prefix='';
   by Jarek Gawor in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=103">bug
   103</a>.</p>
-
   
   <p>We now say that markers contain <em>references</em> to other
   markers. We no longer talk about child markers. The javadocs of the
@@ -94,7 +94,7 @@ prefix='';
   a more complete fix which was incorporated in this release.</p>
   
   <p>When slf4j bridges, e.g. jcl-over-slf4j or log4j-over-slf4j, were
-  used in conjuction with JUL as the underlying logging system,
+  used in conjunction with JUL as the underlying logging system,
   JDK14LoggerAdapter created a LogRecord even for disabled log
   statements. This performance issue was reported in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=90">bug 90</a> by
