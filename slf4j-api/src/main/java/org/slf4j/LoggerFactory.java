@@ -24,7 +24,10 @@
 
 package org.slf4j;
 
-import org.slf4j.helpers.NOPLoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.helpers.SubstituteLoggerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
 
@@ -51,6 +54,7 @@ public final class LoggerFactory {
   static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
   static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
   static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
+  static final String SUBSTITUTE_LOGGER_URL = "http://www.slf4j.org/codes.html#substituteLogger";
 
   static private final String EXPECTED_VERSION = "1.5.4-SNAPSHOT";
 
@@ -65,10 +69,12 @@ public final class LoggerFactory {
 
   private final static void staticInitialize() {
     try {
-      // support re-entrant behavior. 
+      // support re-entrant behavior.
       // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
-      loggerFactory = new NOPLoggerFactory();
+      List loggerNameList = new ArrayList();
+      loggerFactory = new SubstituteLoggerFactory(loggerNameList);
       loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
+      emitSubstitureLoggerWarning(loggerNameList);
     } catch (NoClassDefFoundError ncde) {
       loggerFactory = null; // undo NOPLoggerFactory
       String msg = ncde.getMessage();
@@ -85,6 +91,21 @@ public final class LoggerFactory {
       // we should never get here
       Util.reportFailure("Failed to instantiate logger ["
           + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]", e);
+    }
+  }
+
+  private final static void emitSubstitureLoggerWarning(List loggerNameList) {
+    if(loggerNameList.size() == 0) {
+      return;
+    }
+    Util
+        .reportFailure("The following loggers will not work becasue they were created");
+    Util
+        .reportFailure("during the default configuration phase of the underlying logging system.");
+    Util.reportFailure("See also " + SUBSTITUTE_LOGGER_URL);
+    for (int i = 0; i < loggerNameList.size(); i++) {
+      String loggerName = (String) loggerNameList.get(i);
+      Util.reportFailure(loggerName);
     }
   }
 
@@ -108,7 +129,6 @@ public final class LoggerFactory {
       e.printStackTrace();
     }
   }
-  
 
   /**
    * Return a logger named according to the name parameter using the statically

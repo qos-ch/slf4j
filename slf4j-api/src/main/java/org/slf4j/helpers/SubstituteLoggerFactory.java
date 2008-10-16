@@ -1,9 +1,9 @@
-/*
+/* 
  * Copyright (c) 2004-2005 SLF4J.ORG
  * Copyright (c) 2004-2005 QOS.ch
  *
  * All rights reserved.
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to  deal in  the Software without  restriction, including
@@ -13,7 +13,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the  Software and  that both  the above  copyright notice(s)  and this
  * permission notice appear in supporting documentation.
- *
+ * 
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -23,7 +23,7 @@
  * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
  * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *
+ * 
  * Except as  contained in  this notice, the  name of a  copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -31,48 +31,37 @@
  *
  */
 
-package org.slf4j.impl;
+package org.slf4j.helpers;
+
+import java.util.List;
 
 import org.slf4j.ILoggerFactory;
-import org.slf4j.LoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.Logger;
+
 
 /**
- * The binding of {@link LoggerFactory} class with an actual instance of 
- * {@link ILoggerFactory} is performed using information returned by this class. 
+ * SubstituteLoggerFactory is an trivial implementation of {@link
+ * ILoggerFactory} which always returns the unique instance of
+ * NOPLogger.
+ * 
+ * <p>It used as a temporary substitute for the real ILoggerFactory
+ * during its auto-configuration which may re-enter LoggerFactory
+ * to obtain logger instances. See also  
+ * http://bugzilla.slf4j.org/show_bug.cgi?id=106
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class StaticLoggerBinder  implements LoggerFactoryBinder {
-
-  /**
-   * The unique instance of this class.
-   */
-  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+public class SubstituteLoggerFactory implements ILoggerFactory {
   
-  /**
-   * Version tag used to check compatibility. The value of this field is
-   * modified with each release. 
-   */ 
-  //to avoid constant folding by the compiler, VERSION field should *not* be final
-  public static String VERSION = "1.5.4-SNAPSHOT";  
+  // keep a record of requested logger names
+  final List loggerNameList;
   
-  private static final String loggerFactoryClassStr = NOPLoggerFactory.class.getName();
-
-  /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
-   * should always be the same object
-   */
-  private final ILoggerFactory loggerFactory;
-  
-  private StaticLoggerBinder() {
-    loggerFactory = new NOPLoggerFactory();
+  public SubstituteLoggerFactory(List loggerNameList) {
+    this.loggerNameList = loggerNameList;
   }
   
-  public ILoggerFactory getLoggerFactory() {
-    return loggerFactory;
+  public Logger getLogger(String name) {
+    loggerNameList.add(name);
+    return NOPLogger.NOP_LOGGER;
   }
-  
-  public String getLoggerFactoryClassStr() {
-    return loggerFactoryClassStr;
-  }   
 }

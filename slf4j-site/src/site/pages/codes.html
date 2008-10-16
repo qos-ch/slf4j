@@ -177,6 +177,47 @@ prefix='';
     mismatch problem, it emits a warning about the said mismatch.
     </p>
 
+
+  <h3><a name="substituteLogger" href="#substituteLogger">Substiture
+  loggers were created during the default configuration phase of the
+  underlying logging system</a></h3>
+
+  <p>Highly configurable logging systems such as logback and log4j may
+  create components which invoke loggers during their own
+  initialization.  See issue <a
+  href="http://jira.qos.ch/browse/LBCORE-47">lbcore-47</a> for a
+  typical occurence. However, since the binding process with SLF4J has
+  not yet completed (because the underlying logging system was not yet
+  completely loaded into memory), it is not possible to honor such
+  logger creation requests, resulting in a
+  <code>NullPointerException</code>.</p>
+
+  <p>To avoid this chicken-and-egg problem, SLF4J substitutes a
+  no-operation logger factory during this initialization
+  phase. However, the loggers returned during this phase by the
+  substitute logger factory are not operational. They are nop
+  implementations.
+  </p>
+  
+  <p>If any substitute logger had to be created, SLF4J will emit a
+  warning listing such nop loggers. This warning is intended to let
+  you know that you should not expect any logging output from these
+  loggers.
+  </p>
+
+  <p>The only way to obtain output from the listed loggers, is to
+  isolate the components invoking these loggers and to exlude them
+  from the default configuration. Both logback and log4j allow
+  multi-step configuration. It follows that the problematic components
+  should be configured in a second step separate from default
+  configuration.
+  </p>
+
+  <p>If you are not interested in the output from any of the
+  substiture loggers, then no action is required on your part.</p>
+
+
+
 </div>
 </body>
 </html>
