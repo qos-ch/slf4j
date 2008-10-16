@@ -3,7 +3,7 @@
 	<!--
 		This build file is usually run indirectly via Maven.
 		
-		When running this build file through Ant diretly, you must
+		When running this build file through Ant directly, you must
 		define the currentVersion property on the command line, e.g.:
 		
 		ant  -DcurrentVersion=1.5.4-SNAPSHOT	
