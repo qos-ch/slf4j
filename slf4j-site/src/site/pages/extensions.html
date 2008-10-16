@@ -287,53 +287,81 @@ prefix='';
     &lt;appender-ref ref="STDOUT" />
   &lt;/root>
 &lt;/configuration>  </p>
+
    <h2>Extended Logger</h2>
 
-   <p>
-   The XLogger class provides a few extra logging methods that are quite useful for following the
-   execution path of applications. These methods generate logging events that can be filtered
-   separately from other debug logging. Liberal use of these methods is encouraged as the output has
-   been found to
-   <ul>
-     <li>aid in problem diagnosis in development without requiring a debug session</li>
-     <li>aid in problem diagnosis in production where no debugging is possible</li>
+   <p>The <a
+   href="apidocs/org/slf4j/ext/XLogger.html"><code>XLogger</code></a>
+   class provides a few extra logging methods that are quite useful
+   for following the execution path of applications. These methods
+   generate logging events that can be filtered separately from other
+   debug logging. Liberal use of these methods is encouraged as the
+   output has been found to
+   </p>
+   
+   <ul> 
+     <li>aid in problem diagnosis in development without requiring a
+     debug session</li>
+
+     <li>aid in problem diagnosis in production where no debugging is
+     possible</li> 
+     
      <li>help educate new deveopers in learning the application.</li>
    </ul>
+   
+
+   <p>The two most used methods are the <code>entry()</code> and
+   <code>exit()</code> methods. <code>entry()</code> should be placed
+   at the beginning of methods, except perhaps for simple getters and
+   setters. <code>entry()</code> can be called passing from 0 to 4
+   parameters. Typically these will be parameters passed to the
+   method.  The <code>entry()</code> method logs with a level of TRACE
+   and uses a <code>Marker</code> with a name of "ENTER" which is also
+   a "FLOW" Marker.
    </p>
-   <p>
-   The two most used methods are the entry() and exit() methods. entry() should be placed at the
-   beginning of methods, except perhaps ofr simple getters and setters. entry() can be called
-   passing from 0 to 4 parameters. Typically these will be parameters passed to the method.
-   The entry() method logs with a level of TRACE and uses a Marker with a name of "ENTER" which
-   is also a "FLOW" Marker.
-   </p>
-   <p>
-   The exit() method should be placed before any return statement or as the last statement of
-   methods without a return. exit() can be called with or without a parameter. Typically, methods
-   that return void will use exit() while methods that return an Object will use exit(Object obj).
-   The entry() method logs with a level of TRACE and uses a Marker with a name of "EXIT" which is
+   
+   <p>The <code>exit()</code> method should be placed before any
+   return statement or as the last statement of methods without a
+   return. <code>exit()</code> can be called with or without a
+   parameter. Typically, methods that return void will use
+   <code>exit()</code> while methods that return an Object will use
+   exit(Object obj).  The <code>entry()</code> method logs with a
+   level of TRACE and uses a Marker with a name of "EXIT" which is
    also a "FLOW" Marker.
    </p>
-   <p>
-   The throwing() method can be used by an application when it is throwing an exception that is
-   unlikely to be handled, such as a RuntimeExcpetion. This will insure that proper diagnostics
-   are available if needed. The logging event generated will have a level of ERROR and will have
-   an associated Marker with a name of "THROWING" which is also an "EXCEPTION" Marker.
+   
+   <p>The throwing() method can be used by an application when it is
+   throwing an exception that is unlikely to be handled, such as a
+   RuntimeExcpetion. This will insure that proper diagnostics are
+   available if needed. The logging event generated will have a level
+   of ERROR and will have an associated Marker with a name of
+   "THROWING" which is also an "EXCEPTION" Marker.
    </p>
-   <p>
-   The catching() method can be used by an application when it catches an Exception that it is not
-   going to rethrow, either explicitely or attached to another Exception. The logging event generated
-   will have a level of ERROR and will have an associated Marker with a name of "CATCHING" which is
-   also an "EXCEPTION" Marker.
+
+   <p>The catching() method can be used by an application when it
+   catches an Exception that it is not going to rethrow, either
+   explicitly or attached to another Exception. The logging event
+   generated will have a level of ERROR and will have an associated
+   Marker with a name of "CATCHING" which is also an "EXCEPTION"
+   Marker.
    </p>
-   <p>
-   By using these extended methods applications that standardize on SLF4J can be assured that they will be
-   able to perform diagnostic logging in a standardized manner.
+   
+   <p>By using these extended methods applications that standardize on
+   SLF4J can be assured that they will be able to perform diagnostic
+   logging in a standardized manner.
    </p>
-   <p>
-   The following example shows a simple application using these methods in a fairly typcial manner. The
-   throwing() is not present since no Exceptions are explicitely thrown and not handled.
+
+   <p>Note thar XLogger instances are obrained to through the 
+   <a
+   href="apidocs/org/slf4j/ext/XLoggerFactory.html"><code>XLoggerFactory</code></a>
+   utility class.</p>
+
+   <p>The following example shows a simple application using these
+   methods in a fairly typcial manner. The <code>throwing()</code>
+   method is not present since no Exceptions are explicitly thrown and
+   not handled.
    </p>
+
 <p class="source">
     package com.test;
 
@@ -398,9 +426,12 @@ prefix='';
         }
     }
 </p>
+
    <p>
-   This test application uses the preceding service to generate logging events.
+   This test application uses the preceding service to generate
+   logging events.
    </p>
+
 <p class="source">
 package com.test;
 
@@ -425,12 +456,12 @@ public class App
 &lt;configuration&gt;
   &lt;appender name="console" class="ch.qos.logback.core.ConsoleAppender"&gt;
     &lt;filter class="ch.qos.logback.classic.filter.LevelFilter"&gt;
-      &ltlevel&gt;ERROR&lt;/level&gt;
+      &lt;level&gt;ERROR&lt;/level&gt;
       &lt;onMatch&gt;ACCEPT&lt;/onMatch&gt;
       &lt;onMismatch&gt;DENY&lt;/onMismatch&gt;
     &lt;/filter&gt;
     &lt;layout class="ch.qos.logback.classic.PatternLayout"&gt;
-      &ltPattern&gt;%d{HH:mm:ss.SSS} %-5level %class{36}:%L %M - %msg%n&lt;/Pattern&gt;
+      &lt;Pattern&gt;%d{HH:mm:ss.SSS} %-5level %class{36}:%L %M - %msg%n&lt;/Pattern&gt;
     &lt;/layout&gt;
   &lt;/appender&gt;
   &lt;appender name="log" class="ch.qos.logback.core.FileAppender"&gt;
@@ -445,7 +476,7 @@ public class App
     &lt;level value="trace" /&gt;
     &lt;appender-ref ref="log" /&gt;
   &lt;/root&gt;
-&lt/configuration&gt;
+&lt;/configuration&gt;
 </p>
    <p>
    Here is the output that results from the Java classes and configuration above.     
@@ -536,7 +567,3 @@ public class App
 </body>
 </html>
 
-
-impersonating Raplh Goers for testing email notifications
-impersonating Raplh Goers for testing email notifications
-impersonating Raplh Goers for testing email notifications
