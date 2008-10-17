@@ -25,6 +25,7 @@
 package org.slf4j;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -56,7 +57,13 @@ public final class LoggerFactory {
   static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
   static final String SUBSTITUTE_LOGGER_URL = "http://www.slf4j.org/codes.html#substituteLogger";
 
-  static private final String EXPECTED_VERSION = "1.5.4";
+  /**
+   * It is out responsibility to track version changes and manage the
+   * compatibility list.
+   * 
+   * <p>
+   */
+  static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.5.5" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -95,7 +102,7 @@ public final class LoggerFactory {
   }
 
   private final static void emitSubstitureLoggerWarning(List loggerNameList) {
-    if(loggerNameList.size() == 0) {
+    if (loggerNameList.size() == 0) {
       return;
     }
     Util
@@ -111,22 +118,29 @@ public final class LoggerFactory {
 
   private final static void versionSanityCheck() {
     try {
-      String actualVer = StaticLoggerBinder.VERSION;
-      if (!EXPECTED_VERSION.equals(actualVer)) {
-        Util.reportFailure("The version " + actualVer
-            + " of your slf4j-binding differs from " + EXPECTED_VERSION
-            + ", the expected version.");
+      String requested = StaticLoggerBinder.REQUESTED_API_VERSION;
+
+      boolean match = false;
+      for (int i = 0; i < API_COMPATIBILITY_LIST.length; i++) {
+        if (API_COMPATIBILITY_LIST[i].equals(requested)) {
+          match = true;
+        }
+      }
+      if (!match) {
+        Util.reportFailure("The requested version " + requested
+            + " of your slf4j-binding does not match any of "
+            + Arrays.toString(API_COMPATIBILITY_LIST));
         Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
       }
     } catch (java.lang.NoSuchFieldError nsfe) {
-      Util
-          .reportFailure("The version of your slf4j-binding is probably older than 1.5.4, and differs from "
-              + EXPECTED_VERSION + ", the expected version.");
-      Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
+      // given our large user base anbd SLF4J's commitment to backward
+      // compatibility, we cannot cry
+      // here. Only for implementations which willingly declare a
+      // REQUESTED_API_VERSION field do we emit compatibility warnings.
     } catch (Throwable e) {
-      Util
-          .reportFailure("An unexpected problem occured while checking the version of your slf4j-binding");
-      e.printStackTrace();
+      // we should never reach here
+      Util.reportFailure(
+          "Unexpected problem occured during version sanity check", e);
     }
   }
 

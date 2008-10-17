@@ -5,6 +5,9 @@ if ($#ARGV < 1) {
 }
 
 $V= $ARGV[0];
+# Trim -SNAPSHOT
+$V =~ s/-SNAPSHOT//;
+
 print "VER:${V}\r\n";
 shift(@ARGV);
 

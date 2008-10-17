@@ -133,6 +133,10 @@ prefix='';
       <li><a href="#marker_interface"> How can my logging system add
       support for the <code>Marker</code> interface?  </a></li>
 
+      <li><a href="#version_checks">How does SLF4J's version check
+      mechanism work?  </a></li>
+
+
       </ol>
 
 
@@ -910,7 +914,7 @@ class MyClass {
         <code>org.slf4j.Logger</code> interface. Refer to slf4j-jcl,
         slf4j-jdk14, and slf4j-log4j12 modules for examples of
         adapters.
-       </p>
+        </p>
 
         <p>Once you have written an appropriate adapter, say
         <code>MyLoggerAdapter</code>, you need to provide a factory
@@ -918,7 +922,7 @@ class MyClass {
         interface. This factory should return instances
         <code>MyLoggerAdapter</code>. Let <code>MyLoggerFactory</code>
         be the name of your factory class.
-       </p>
+        </p>
 
         <p>Once you have the adapter, namely
         <code>MyLoggerAdapter</code>, and a factory, namely
@@ -942,7 +946,7 @@ class MyClass {
           <code>org.slf4j.Logger</code> interface
          </li>
           <li>create a factory for the adapter created in the previous step,</li>
-          <li>>modify <code>StaticLoggerBinder</code> class to use the
+          <li>modify <code>StaticLoggerBinder</code> class to use the
           factory you created in the previous step</li>
        </ol>
          
@@ -961,37 +965,77 @@ class MyClass {
           allowed to ignore marker data passed by the user.
           </p>
 
-        <p>However, even though marker data may be ignored, the user
-        must still be allowed to specify marker data. Otherwise, users
-        would not be able to switch between logging systems that
-        support markers and those that do not.  In order to provide
-        minimal support for markers, SLF4J conforming systems need to
-        to include certain Marker related classes, namely,
-        <code>org.slf4j.Marker</code>,
-        <code>org.slf4j.IMarkerFactory</code>,
-        <code>org.slf4j.MarkerFactory</code>,
-        <code>org.slf4j.impl.BasicMarker</code>,
-        <code>org.slf4j.impl.BasicMarkerFactory</code>,
-        <code>org.slf4j.impl.MarkerIgnoringBase</code>,
-        <code>org.slf4j.impl.StaticMarkerBinder</code> and
-        <code>org.slf4j.spi.MarkerFactoryBinder</code>. Al of these
-        classes are available in the SLF4J subversion repository.
-       </p>
+          <p>However, even though marker data may be ignored, the user
+          must still be allowed to specify marker data. Otherwise, users
+          would not be able to switch between logging systems that
+          support markers and those that do not.  
+          </p>
 
-        <p>The <code>MarkerIgnoringBase</code> class can serve as a
-        base for adapters or native implementations of logging systems
-        lacking marker support. In <code>MarkerIgnoringBase</code>,
-        methods taking marker data simply invoke the corresponding
-        method without the Marker argument, discarding any Marker data
-        passed as argument. Your SLF4J adapters can extend
-        <code>MarkerIgnoringBase</code> to quickly implement the
-        methods in <code>org.slf4j.Logger</code> which take a
-        <code>Marker</code> as the first argument.
-       </p>
+          <p>The <code>MarkerIgnoringBase</code> class can serve as a
+          base for adapters or native implementations of logging
+          systems lacking marker support. In
+          <code>MarkerIgnoringBase</code>, methods taking marker data
+          simply invoke the corresponding method without the Marker
+          argument, discarding any Marker data passed as
+          argument. Your SLF4J adapters can extend
+          <code>MarkerIgnoringBase</code> to quickly implement the
+          methods in <code>org.slf4j.Logger</code> which take a
+          <code>Marker</code> as the first argument.
+          </p>
     
        <hr/>
       </dd>
+
+      <dt><a name="version_checks" href="#version_checks"> How does
+      SLF4J's version check mechanism work?</a></dt>
+      
+      <dd>
+        <p>Given its huge installed user base, the version check
+        performed by SLF4J API during its initialization is an
+        elective process. Conforming SLF4J implementations may choose
+        <em>not</em> to participate, in which case, no version check
+        will be performed.
+        </p>
+
+        <p>However, if you decide to participate, your SLF4J binding
+        needs to declare a variable called REQUESTED_API_VERSION
+        within your copy of the <code>StaticLoggerBinder</code>
+        class. The value of this variable should be equal to the
+        version of the slf4j-api.jar you are compiling against. If you
+        ugrade to a newer version of slf4j-api, you also need to
+        update the value of REQUESTED_API_VERSION. (That is all you
+        have to do.)
+        </p>
+
+        <p>For earch version, SLF4J API maintains a list of compatible
+        versions. SLF4J will emit a version mismatch warning only if
+        the requested version is not found in the compatibility
+        list. So even if your SLF4J binding has a different release
+        schedule than SLF4J, you can still participate in the version
+        check without incurring a mismatch warning. For example,
+        logback has a different release schedule but still
+        participates in version checks.</p>
+
+        <p><b>As of SLF4J 1.5.5</b>, all bindings shipped within SLF4J
+        distribution, e.g. slf4j-logj12, slf4j-simple and slf4j-jdk14,
+        declare the REQUESTED_API_VERSION field with a value equal to
+        their SLF4J version. It follows that, for example if
+        slf4j-simple-1.5.6.jar is mixed with simple-api-1.5.5.jar,
+        then a version mismatch warning will be issued. Note that
+        SLF4J prior to 1.5.5 did not have a version check
+        mechanism. (Actually, version 1.5.4 offered a check policy
+        which was much too restritive and inconsistent with the size
+        of our user base. Consequently, SLF4J version 1.5.5 was
+        released just a day after 1.5.4.)
+        </p>
+        
+        <p>
+        </p>
+       
+      </dd>
+
     </dl>
+
   </div>
 
   <div class="section">

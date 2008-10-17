@@ -164,9 +164,9 @@ prefix='';
     version does not match that of the binding</a></h3>
 
     <p>Mixing mixing different versions of slf4j artifacts can cause
-    problems. For example, if you are using slf4j-api-1.5.4.jar, then
-    you should also use slf4j-simple-1.5.4.jar, using
-    slf4j-simple-1.4.2.jar will not work. 
+    problems. For example, if you are using slf4j-api-1.5.5.jar, then
+    you should also use slf4j-simple-1.5.5.jar, using
+    slf4j-simple-1.4.2.jar will not work.
     </p>
 
     <p>In general, you should take sure that the slf4j-api version
@@ -178,43 +178,42 @@ prefix='';
     </p>
 
 
-  <h3><a name="substituteLogger" href="#substituteLogger">Substitute
-  loggers were created during the default configuration phase of the
-  underlying logging system</a></h3>
+    <h3><a name="substituteLogger" href="#substituteLogger">Substitute
+    loggers were created during the default configuration phase of the
+    underlying logging system</a></h3>
 
-  <p>Highly configurable logging systems such as logback and log4j may
-  create components which invoke loggers during their own
-  initialization.  See issue <a
-  href="http://jira.qos.ch/browse/LBCORE-47">lbcore-47</a> for a
-  typical occurrence. However, since the binding process with SLF4J has
-  not yet completed (because the underlying logging system was not yet
-  completely loaded into memory), it is not possible to honor such
-  logger creation requests, resulting in a
-  <code>NullPointerException</code>.</p>
+    <p>Highly configurable logging systems such as logback and log4j
+    may create components which invoke loggers during their own
+    initialization.  See issue <a
+    href="http://jira.qos.ch/browse/LBCORE-47">lbcore-47</a> for a
+    typical occurrence. However, since the binding process with SLF4J
+    has not yet completed (because the underlying logging system was
+    not yet completely loaded into memory), it is not possible to
+    honor such logger creation requests, resulting in a
+    <code>NullPointerException</code>.</p>
 
-  <p>To avoid this chicken-and-egg problem, SLF4J substitutes a
-  no-operation logger factory during this initialization
-  phase. However, the loggers returned during this phase by the
-  substitute logger factory are not operational. They are nop
-  implementations.
-  </p>
+    <p>To avoid this chicken-and-egg problem, SLF4J substitutes a
+    no-operation logger factory during this initialization
+    phase. However, the substitute loggers returned during this phase
+    are not operational. They are nop implementations.
+    </p>
   
-  <p>If any substitute logger had to be created, SLF4J will emit a
-  warning listing such nop loggers. This warning is intended to let
-  you know that you should not expect any logging output from these
-  loggers.
-  </p>
+    <p>If any substitute logger had to be created, SLF4J will emit a
+    warning listing such nop loggers. This warning is intended to let
+    you know that you should not expect any logging output from these
+    loggers.
+    </p>
 
-  <p>The only way to obtain output from the listed loggers, is to
-  isolate the components invoking these loggers and to exclude them
-  from the default configuration. Both logback and log4j allow
-  multi-step configuration. It follows that the problematic components
-  should be configured in a second step separate from default
-  configuration.
-  </p>
+    <p>The only way to obtain output from the listed loggers, is to
+    isolate the components invoking these loggers and to exclude them
+    from the default configuration. Both logback and log4j allow
+    multi-step configuration. It follows that the problematic
+    components should be configured in a second step separate from
+    default configuration.
+    </p>
 
-  <p>If you are not interested in the output from any of the
-  substitute loggers, then no action is required on your part.</p>
+    <p>If you are not interested in the output from any of the
+    substitute loggers, then no action is required on your part.</p>
 
 
 

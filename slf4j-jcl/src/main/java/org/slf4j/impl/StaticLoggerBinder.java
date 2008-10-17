@@ -54,8 +54,9 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    * Version tag used to check compatibility. The value of this field is
    * modified with each release. 
    */ 
-  //to avoid constant folding by the compiler, VERSION field should *not* be final
-  public static String VERSION = "1.5.4";  
+  
+  //to avoid constant folding by the compiler, this field must *not* be final
+  public static String REQUESTED_API_VERSION = "1.5.5";  
   
   // Binding specific code:
   private static final String loggerFactoryClassStr = JCLLoggerFactory.class

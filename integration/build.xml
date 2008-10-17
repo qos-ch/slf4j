@@ -38,15 +38,15 @@
 	</target>
 
 	<target name="testAll" depends="init, 
-					testPre154,
+		            testPre155,
 					testMatch">
 	</target>
 
-	<target name="testPre154">
+	<target name="testPre155">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150" />
 			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" name="org.slf4j.Pre154VersionMismatchTest" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.Pre155VersionMismatchTest" />
 		</junit>
 	</target>
 
