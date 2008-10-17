@@ -21,6 +21,13 @@
 		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
 	</path >
 
+	<path id="pathIncompatible">
+		<pathelement location="xtarget/classes/" />
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-INCOMPATIBLE.jar" />
+	</path >
+			
 	<path id="pathCurrent">
 		<pathelement location="xtarget/classes/" />
 		<pathelement location="target/test-classes/" />
@@ -38,15 +45,24 @@
 	</target>
 
 	<target name="testAll" depends="init, 
+		            testMismatch, 
 		            testPre155,
 					testMatch">
 	</target>
 
+	<target name="testMismatch">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="pathIncompatible" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.VersionMismatchTest" />
+		</junit>
+	</target>
+		
 	<target name="testPre155">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150" />
 			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" name="org.slf4j.Pre155VersionMismatchTest" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.Pre155VersionTest" />
 		</junit>
 	</target>
 

@@ -128,7 +128,7 @@ public final class LoggerFactory {
       }
       if (!match) {
         Util.reportFailure("The requested version " + requested
-            + " of your slf4j-binding does not match any of "
+            + " by your slf4j binding is not compatible with "
             + Arrays.toString(API_COMPATIBILITY_LIST));
         Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
       }
