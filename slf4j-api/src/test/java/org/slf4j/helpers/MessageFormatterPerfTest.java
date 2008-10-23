@@ -8,7 +8,7 @@ public class MessageFormatterPerfTest extends TestCase {
 
   Integer i1 = new Integer(1);
   static long RUN_LENGTH = 100000;
-  static long REFERENCE_BIPS = 9629;
+  static long REFERENCE_BIPS = 9000;
   
   public MessageFormatterPerfTest(String name) {
     super(name);
