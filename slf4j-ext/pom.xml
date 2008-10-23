@@ -47,11 +47,12 @@
 				</configuration>
 			</plugin>
 
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
          <configuration>
+		  <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
+         <printSummary>false</printSummary>
           <forkMode>once</forkMode>
           <reportFormat>plain</reportFormat>
           <trimStackTrace>false</trimStackTrace>
