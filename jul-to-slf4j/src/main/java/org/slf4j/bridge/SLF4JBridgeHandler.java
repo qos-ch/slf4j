@@ -31,6 +31,7 @@
 
 package org.slf4j.bridge;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -106,14 +107,17 @@ public class SLF4JBridgeHandler extends Handler {
   /**
    * Rereads the JUL configuration.
    * 
-   * @see LogManager#readConfiguration();
-   * @throws Exception
+   * @see LogManager#readConfiguration()
+   * 
+   * @throws IOException
+   *                 <code>IOException</code> if there are IO problems reading
+   *                 the configuration.
+   * @throws SecurityException
    *                 A <code>SecurityException</code> is thrown, if a security
    *                 manager exists and if the caller does not have
-   *                 LoggingPermission("control"). <code>IOException</code> if
-   *                 there are IO problems reading the configuration.
+   *                 LoggingPermission("control").
    */
-  public static void uninstall() throws Exception {
+  public static void uninstall() throws SecurityException, IOException {
     LogManager.getLogManager().readConfiguration();
   }
 
