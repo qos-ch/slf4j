@@ -8,7 +8,7 @@ import org.slf4j.helpers.BogoPerf;
 
 public class PerfTest extends TestCase {
 
-  static long REFERENCE_BIPS = 9324;
+  static long REFERENCE_BIPS = 9000;
 
   public PerfTest(String name) {
     super(name);
