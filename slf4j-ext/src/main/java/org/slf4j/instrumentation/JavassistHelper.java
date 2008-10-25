@@ -8,6 +8,10 @@ import javassist.NotFoundException;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 
+/**
+ * Helper methods for Javassist functionality.
+ *
+ */
 public class JavassistHelper {
 
   /**
