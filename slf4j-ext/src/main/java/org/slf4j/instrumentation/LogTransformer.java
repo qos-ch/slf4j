@@ -157,16 +157,11 @@ public class LogTransformer implements ClassFileTransformer {
   }
 
   /**
-   * The transform(...) method calls doClass(...) if the class name does not
-   * start with any of the prefixes it has been told to ignore.
-   * 
-   * doClass() first creates a class description from the byte codes. If it is a
-   * class (i.e. not an interface) the methods defined have bodies, and a static
-   * final logger object is added with the name of this class as an argument,
-   * and each method then gets processed with doMethod(...) to have logger calls
-   * added.
-   * 
-   * 
+   * doClass() process a single class by first creates a class description from
+   * the byte codes. If it is a class (i.e. not an interface) the methods
+   * defined have bodies, and a static final logger object is added with the
+   * name of this class as an argument, and each method then gets processed with
+   * doMethod(...) to have logger calls added.
    * 
    * @param name
    *          class name (slashes separate, not dots)
@@ -181,16 +176,20 @@ public class LogTransformer implements ClassFileTransformer {
       cl = pool.makeClass(new ByteArrayInputStream(b));
       if (cl.isInterface() == false) {
 
+        // We have to define the log variable.
         String pattern1 = "private static org.slf4j.Logger {};";
         String loggerDefinition = format(pattern1, _LOG);
         CtField field = CtField.make(loggerDefinition, cl);
 
+        // and assign it the appropriate value.
         String pattern2 = "org.slf4j.LoggerFactory.getLogger({}.class);";
         String replace = name.replace('/', '.');
         String getLogger = format(pattern2, replace);
 
         cl.addField(field, getLogger);
-        // System.out.println(getLogger);
+
+        // then check every behaviour (which includes methods). We are only
+        // interested in non-empty ones, as they have code.
 
         CtBehavior[] methods = cl.getDeclaredBehaviors();
         for (int i = 0; i < methods.length; i++) {
@@ -212,6 +211,14 @@ public class LogTransformer implements ClassFileTransformer {
     return b;
   }
 
+  /**
+   * process a single method - this means add entry/exit logging if requested.
+   * It is only called for methods with a body.
+   * 
+   * @param method method to work on
+   * @throws NotFoundException
+   * @throws CannotCompileException
+   */
   private void doMethod(CtBehavior method) throws NotFoundException,
       CannotCompileException {
 

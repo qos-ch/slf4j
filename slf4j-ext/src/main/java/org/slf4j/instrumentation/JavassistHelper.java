@@ -10,6 +10,16 @@ import javassist.bytecode.LocalVariableAttribute;
 
 public class JavassistHelper {
 
+  /**
+   * Create a javaassist source snippet which either is empty (for anything
+   * which does not return a value) or a explanatory text around the $_
+   * javaassist return value variable.
+   * 
+   * @param method
+   *          descriptor of method
+   * @return source snippet
+   * @throws NotFoundException
+   */
   public static String returnValue(CtBehavior method) throws NotFoundException {
 
     String returnValue = "";
@@ -19,6 +29,14 @@ public class JavassistHelper {
     return returnValue;
   }
 
+  /**
+   * determine if the given method returns a value, and return true if so. false
+   * otherwise.
+   * 
+   * @param method
+   * @return
+   * @throws NotFoundException
+   */
   private static boolean methodReturnsValue(CtBehavior method)
       throws NotFoundException {
 
@@ -35,6 +53,15 @@ public class JavassistHelper {
     return methodReturnsValue;
   }
 
+  /**
+   * Return javaassist source snippet which lists all the parameters and their
+   * values. If available the source names are extracted from the debug
+   * information and used, otherwise just a number is shown.
+   * 
+   * @param method
+   * @return
+   * @throws NotFoundException
+   */
   public static String getSignature(CtBehavior method) throws NotFoundException {
 
     CtClass parameterTypes[] = method.getParameterTypes();
@@ -82,6 +109,15 @@ public class JavassistHelper {
     return signature;
   }
 
+  /**
+   * Determine the name of parameter with index i in the given method. Use the
+   * locals attributes about local variables from the classfile.
+   * 
+   * @param method
+   * @param locals
+   * @param i
+   * @return
+   */
   static String parameterNameFor(CtBehavior method,
       LocalVariableAttribute locals, int i) {
     if (locals == null) {

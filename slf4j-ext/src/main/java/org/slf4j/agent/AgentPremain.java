@@ -17,11 +17,14 @@ public class AgentPremain {
 
   /**
    * JavaAgent premain entry point as specified in the MANIFEST.MF file. See
-   * {@link http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html} for details.
+   * {@link http
+   * ://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary
+   * .html} for details.
    * 
    * @param agentArgument
    *          string provided after "=" up to first space
    * @param instrumentation
+   *          instrumentation environment provided by the JVM
    */
   public static void premain(String agentArgument,
       Instrumentation instrumentation) {
