@@ -12,71 +12,81 @@ import org.slf4j.instrumentation.LogTransformer;
 
 public class AgentPremain {
 
-	private static final String START_MSG = "Start at {}";
-	private static final String STOP_MSG = "Stop at {}, execution time = {} ms";
+  private static final String START_MSG = "Start at {}";
+  private static final String STOP_MSG = "Stop at {}, execution time = {} ms";
 
-	public static void premain(String agentArgument,
-			Instrumentation instrumentation) {
+  /**
+   * JavaAgent premain entry point as specified in the MANIFEST.MF file. See
+   * {@link http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html} for details.
+   * 
+   * @param agentArgument
+   *          string provided after "=" up to first space
+   * @param instrumentation
+   */
+  public static void premain(String agentArgument,
+      Instrumentation instrumentation) {
 
-		System.err.println("THIS JAVAAGENT IS NOT RELEASED YET.  DO NOT USE IN PRODUCTION ENVIRONMENTS.");
-		LogTransformer.Builder builder = new LogTransformer.Builder();
-		builder = builder.addEntryExit(true);
+    System.err.println("THIS JAVAAGENT IS NOT RELEASED YET.  "
+        + "DO NOT USE IN PRODUCTION ENVIRONMENTS.");
 
-		if (agentArgument != null) {
-			Properties args = parseArguments(agentArgument);
+    LogTransformer.Builder builder = new LogTransformer.Builder();
+    builder = builder.addEntryExit(true);
 
-			if (args.containsKey("verbose")) {
-				builder = builder.verbose(true);
-			}
+    if (agentArgument != null) {
+      Properties args = parseArguments(agentArgument);
 
-			if (args.containsKey("time")) {
-				printStartStopTimes();
-			}
+      if (args.containsKey("verbose")) {
+        builder = builder.verbose(true);
+      }
 
-			if (args.containsKey("ignore")) {
-				builder = builder.ignore(args.getProperty("ignore").split(","));
-			}
-			
-			if (args.containsKey("level")) {
-				builder = builder.level(args.getProperty("level"));
-			}
+      if (args.containsKey("time")) {
+        printStartStopTimes();
+      }
 
-			// ... more agent option handling here
-		}
+      if (args.containsKey("ignore")) {
+        builder = builder.ignore(args.getProperty("ignore").split(","));
+      }
 
-		instrumentation.addTransformer(builder.build());
-	}
+      if (args.containsKey("level")) {
+        builder = builder.level(args.getProperty("level"));
+      }
 
-	private static Properties parseArguments(String agentArgument) {
-		Properties p = new Properties();
-		try {
-			byte[] bytes = agentArgument.replaceAll(";", "\n").getBytes();
-			p.load(new ByteArrayInputStream(bytes));
-		} catch (IOException e) {
-			throw new RuntimeException(
-					"Could not load arguments as properties", e);
-		}
-		return p;
-	}
+      // ... more agent option handling here
+    }
 
-	/**
-	 * Print the start message with the time NOW, and register a shutdown hook
-	 * which will print the stop message with the time then and the number of
-	 * milliseconds passed since.
-	 * 
-	 */
-	private static void printStartStopTimes() {
-		final long start = System.currentTimeMillis();
-		System.err.println(format(START_MSG, new Date()));
+    instrumentation.addTransformer(builder.build());
+  }
 
-		Thread hook = new Thread() {
-			public void run() {
-				long timePassed = System.currentTimeMillis() - start;
-				String message = format(STOP_MSG, new Date(), timePassed);
-				System.err.println(message);
-			}
-		};
-		Runtime.getRuntime().addShutdownHook(hook);
-	}
+  private static Properties parseArguments(String agentArgument) {
+    Properties p = new Properties();
+    try {
+      byte[] bytes = agentArgument.replaceAll(";", "\n").getBytes();
+      p.load(new ByteArrayInputStream(bytes));
+    } catch (IOException e) {
+      String s = "Could not load arguments as properties";
+      throw new RuntimeException(s, e);
+    }
+    return p;
+  }
 
+  /**
+   * Print the start message with the time NOW, and register a shutdown hook
+   * which will print the stop message with the time then and the number of
+   * milliseconds passed since.
+   * 
+   */
+  private static void printStartStopTimes() {
+    final long start = System.currentTimeMillis();
+    System.err.println(format(START_MSG, new Date()));
+
+    Thread hook = new Thread() {
+      @Override
+      public void run() {
+        long timePassed = System.currentTimeMillis() - start;
+        String message = format(STOP_MSG, new Date(), timePassed);
+        System.err.println(message);
+      }
+    };
+    Runtime.getRuntime().addShutdownHook(hook);
+  }
 }
