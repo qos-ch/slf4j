@@ -29,14 +29,11 @@ public class AgentPremain {
   public static void premain(String agentArgument,
       Instrumentation instrumentation) {
 
-    System.err.println("THIS JAVAAGENT IS NOT RELEASED YET.  "
-        + "DO NOT USE IN PRODUCTION ENVIRONMENTS.");
-
     LogTransformer.Builder builder = new LogTransformer.Builder();
     builder = builder.addEntryExit(true);
 
     if (agentArgument != null) {
-      Properties args = parseArguments(agentArgument);
+      Properties args = parseArguments(agentArgument, ";");
 
       if (args.containsKey("verbose")) {
         builder = builder.verbose(true);
@@ -60,11 +57,24 @@ public class AgentPremain {
     instrumentation.addTransformer(builder.build());
   }
 
-  private static Properties parseArguments(String agentArgument) {
+  /**
+   * Consider the argument string to be a property file (by converting the
+   * splitter character to line feeds), and then reading it like any other
+   * property file.
+   * 
+   * 
+   * @param agentArgument
+   *          string given by instrumentation framework
+   * @param separator
+   *          String to convert to line feeds
+   * @return argument converted to properties
+   */
+  private static Properties parseArguments(String agentArgument,
+      String separator) {
     Properties p = new Properties();
     try {
-      byte[] bytes = agentArgument.replaceAll(";", "\n").getBytes();
-      p.load(new ByteArrayInputStream(bytes));
+      String argumentAsLines = agentArgument.replaceAll(separator, "\n");
+      p.load(new ByteArrayInputStream(argumentAsLines.getBytes()));
     } catch (IOException e) {
       String s = "Could not load arguments as properties";
       throw new RuntimeException(s, e);
@@ -73,9 +83,9 @@ public class AgentPremain {
   }
 
   /**
-   * Print the start message with the time NOW, and register a shutdown hook
-   * which will print the stop message with the time then and the number of
-   * milliseconds passed since.
+   * Print the start message to System.err with the time NOW, and register a
+   * shutdown hook which will print the stop message to System.err with the time
+   * then and the number of milliseconds passed since.
    * 
    */
   private static void printStartStopTimes() {

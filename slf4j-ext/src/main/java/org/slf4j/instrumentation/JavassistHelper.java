@@ -10,7 +10,7 @@ import javassist.bytecode.LocalVariableAttribute;
 
 /**
  * Helper methods for Javassist functionality.
- *
+ * 
  */
 public class JavassistHelper {
 
@@ -84,15 +84,16 @@ public class JavassistHelper {
     StringBuffer sb = new StringBuffer(methodName + "(\" ");
     for (int i = 0; i < parameterTypes.length; i++) {
       if (i > 0) {
+        // add a comma and a space between printed values
         sb.append(" + \", \" ");
       }
 
       CtClass parameterType = parameterTypes[i];
       boolean isArray = parameterType.isArray();
-      CtClass arrayOf = parameterType.getComponentType();
+      CtClass arrayType = parameterType.getComponentType();
       if (isArray) {
-        while (arrayOf.isArray()) {
-          arrayOf = arrayOf.getComponentType();
+        while (arrayType.isArray()) {
+          arrayType = arrayType.getComponentType();
         }
       }
 
@@ -101,7 +102,7 @@ public class JavassistHelper {
       sb.append("\" + \"=");
 
       // use Arrays.asList() to render array of objects.
-      if (isArray && !arrayOf.isPrimitive()) {
+      if (isArray && !arrayType.isPrimitive()) {
         sb.append("\"+ java.util.Arrays.asList($" + (i + 1) + ")");
       } else {
         sb.append("\"+ $" + (i + 1));
@@ -115,15 +116,17 @@ public class JavassistHelper {
 
   /**
    * Determine the name of parameter with index i in the given method. Use the
-   * locals attributes about local variables from the classfile.
+   * locals attributes about local variables from the classfile. Note: This is
+   * still work in progress.
    * 
    * @param method
    * @param locals
    * @param i
-   * @return
+   * @return the name of the parameter if available or a number if not.
    */
   static String parameterNameFor(CtBehavior method,
       LocalVariableAttribute locals, int i) {
+
     if (locals == null) {
       return Integer.toString(i + 1);
     }
@@ -144,7 +147,7 @@ public class JavassistHelper {
     }
     String variableName = locals.variableName(j);
     if (variableName.equals("this")) {
-      System.err.println("this returned as a parameter name for "
+      System.err.println("'this' returned as a parameter name for "
           + method.getName() + " index " + j + ", names are probably shifted.");
     }
     return variableName;
