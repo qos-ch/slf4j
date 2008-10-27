@@ -10,6 +10,10 @@ import java.util.Properties;
 
 import org.slf4j.instrumentation.LogTransformer;
 
+/**
+ * Entry point for slf4j-ext when used as a Java agent.
+ *
+ */
 public class AgentPremain {
 
   private static final String START_MSG = "Start at {}";
@@ -35,23 +39,21 @@ public class AgentPremain {
     if (agentArgument != null) {
       Properties args = parseArguments(agentArgument, ";");
 
-      if (args.containsKey("verbose")) {
+      if (args.containsKey(AgentOptions.VERBOSE)) {
         builder = builder.verbose(true);
       }
 
-      if (args.containsKey("time")) {
+      if (args.containsKey(AgentOptions.TIME)) {
         printStartStopTimes();
       }
 
-      if (args.containsKey("ignore")) {
-        builder = builder.ignore(args.getProperty("ignore").split(","));
+      if (args.containsKey(AgentOptions.IGNORE)) {
+        builder = builder.ignore(args.getProperty(AgentOptions.IGNORE).split(","));
       }
 
-      if (args.containsKey("level")) {
-        builder = builder.level(args.getProperty("level"));
+      if (args.containsKey(AgentOptions.LEVEL)) {
+        builder = builder.level(args.getProperty(AgentOptions.LEVEL));
       }
-
-      // ... more agent option handling here
     }
 
     instrumentation.addTransformer(builder.build());
