@@ -5,6 +5,7 @@ import javassist.CtClass;
 import javassist.CtMethod;
 import javassist.Modifier;
 import javassist.NotFoundException;
+import javassist.bytecode.AttributeInfo;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 
@@ -73,10 +74,12 @@ public class JavassistHelper {
     CodeAttribute codeAttribute = method.getMethodInfo().getCodeAttribute();
 
     LocalVariableAttribute locals = null;
+    
 
     if (codeAttribute != null) {
-      locals = (LocalVariableAttribute) codeAttribute
-          .getAttribute("LocalVariableTable");
+      AttributeInfo attribute;
+      attribute = codeAttribute.getAttribute("LocalVariableTable");
+      locals = (LocalVariableAttribute) attribute;
     }
 
     String methodName = method.getName();
