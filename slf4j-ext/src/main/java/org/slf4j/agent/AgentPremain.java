@@ -12,7 +12,7 @@ import org.slf4j.instrumentation.LogTransformer;
 
 /**
  * Entry point for slf4j-ext when used as a Java agent.
- *
+ * 
  */
 public class AgentPremain {
 
@@ -21,9 +21,8 @@ public class AgentPremain {
 
   /**
    * JavaAgent premain entry point as specified in the MANIFEST.MF file. See
-   * {@link http
-   * ://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary
-   * .html} for details.
+   * {@link http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html}
+   *  for details.
    * 
    * @param agentArgument
    *          string provided after "=" up to first space
@@ -48,7 +47,8 @@ public class AgentPremain {
       }
 
       if (args.containsKey(AgentOptions.IGNORE)) {
-        builder = builder.ignore(args.getProperty(AgentOptions.IGNORE).split(","));
+        String ignore = args.getProperty(AgentOptions.IGNORE);
+        builder = builder.ignore(ignore.split(","));
       }
 
       if (args.containsKey(AgentOptions.LEVEL)) {

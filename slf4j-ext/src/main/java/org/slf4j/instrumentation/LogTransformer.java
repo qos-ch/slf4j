@@ -70,11 +70,11 @@ public class LogTransformer implements ClassFileTransformer {
 
     boolean addVariableAssignment;
 
-    private Builder addVariableAssignment(boolean b) {
-      System.err.println("cannot currently log variable assignments.");
-      addVariableAssignment = b;
-      return this;
-    }
+//    private Builder addVariableAssignment(boolean b) {
+//      System.err.println("cannot currently log variable assignments.");
+//      addVariableAssignment = b;
+//      return this;
+//    }
 
     boolean verbose;
 
@@ -119,7 +119,7 @@ public class LogTransformer implements ClassFileTransformer {
 
   private LogTransformer(Builder builder) {
     this.addEntryExit = builder.addEntryExit;
-    this.addVariableAssignment = builder.addVariableAssignment;
+//    this.addVariableAssignment = builder.addVariableAssignment;
     this.verbose = builder.verbose;
     this.ignore = builder.ignore;
     this.level = builder.level;
@@ -130,7 +130,7 @@ public class LogTransformer implements ClassFileTransformer {
   private static final String _LOG = "_log";
 
   private boolean addEntryExit;
-  private boolean addVariableAssignment;
+//  private boolean addVariableAssignment;
   private boolean verbose;
   private String[] ignore;
 
@@ -140,7 +140,7 @@ public class LogTransformer implements ClassFileTransformer {
     try {
       return transform0(className, clazz, bytes);
     } catch (Exception e) {
-      // TODO Auto-generated catch block
+      System.err.println("Could not instrument " + className);
       e.printStackTrace();
       return bytes;
     }
@@ -163,7 +163,7 @@ public class LogTransformer implements ClassFileTransformer {
       }
     }
     if (verbose) {
-      System.err.println("Loggifying " + className);
+      System.err.println("Processing " + className);
     }
     return doClass(className, clazz, bytes);
   }

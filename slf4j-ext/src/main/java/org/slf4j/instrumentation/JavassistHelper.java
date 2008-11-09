@@ -74,7 +74,6 @@ public class JavassistHelper {
     CodeAttribute codeAttribute = method.getMethodInfo().getCodeAttribute();
 
     LocalVariableAttribute locals = null;
-    
 
     if (codeAttribute != null) {
       AttributeInfo attribute;
@@ -151,7 +150,8 @@ public class JavassistHelper {
     String variableName = locals.variableName(j);
     if (variableName.equals("this")) {
       System.err.println("'this' returned as a parameter name for "
-          + method.getName() + " index " + j + ", names are probably shifted.");
+          + method.getName() + " index " + j
+          + ", names are probably shifted. Please submit source for class in slf4j bugreport");
     }
     return variableName;
   }
