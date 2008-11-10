@@ -74,6 +74,7 @@
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
               <Premain-Class>org.slf4j.agent.AgentPremain</Premain-Class>
+              <!-- what is the proper way to specify the maven full name? /ravn -->
               <Boot-Class-Path>javassist.jar</Boot-Class-Path>
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
