@@ -34,8 +34,7 @@ public class LogTransformer implements ClassFileTransformer {
    * Builder provides a flexible way of configuring some of many options on the
    * parent class instead of providing many constructors.
    * 
-   * {@link http
-   * ://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
+   * {@link http://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
    * 
    */
   public static class Builder {
@@ -118,6 +117,15 @@ public class LogTransformer implements ClassFileTransformer {
   private String levelEnabled;
 
   private LogTransformer(Builder builder) {
+    String s = "WARNING: javassist not available on classpath for javaagent, log statements will not be added";
+    try {
+      if (Class.forName("javassist.ClassPool") == null) {
+        System.err.println(s);
+      }
+    } catch (ClassNotFoundException e) {
+      System.err.println(s);
+    }
+    
     this.addEntryExit = builder.addEntryExit;
 //    this.addVariableAssignment = builder.addVariableAssignment;
     this.verbose = builder.verbose;
@@ -212,8 +220,7 @@ public class LogTransformer implements ClassFileTransformer {
         b = cl.toBytecode();
       }
     } catch (Exception e) {
-      String pattern = "Could not instrument {},  exception : {}";
-      System.err.println(format(pattern, name, e.getMessage()));
+      System.err.println("Could not instrument " + name + ", " + e);
       e.printStackTrace(System.err);
     } finally {
       if (cl != null) {
