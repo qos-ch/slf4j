@@ -148,11 +148,11 @@ public class JavassistHelper {
       // System.err.println("Instance");
     }
     String variableName = locals.variableName(j);
-    if (variableName.equals("this")) {
-      System.err.println("'this' returned as a parameter name for "
-          + method.getName() + " index " + j
-          + ", names are probably shifted. Please submit source for class in slf4j bugreport");
-    }
+//    if (variableName.equals("this")) {
+//      System.err.println("'this' returned as a parameter name for "
+//          + method.getName() + " index " + j
+//          + ", names are probably shifted. Please submit source for class in slf4j bugreport");
+//    }
     return variableName;
   }
 }
