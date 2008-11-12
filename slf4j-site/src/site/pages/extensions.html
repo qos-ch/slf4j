@@ -295,7 +295,11 @@ prefix='';
   &lt;/root>
 &lt;/configuration>  </p>
 
-   <h2><a name="extended_logger">Extended Logger</a></h2>
+
+
+<!-- .............................................................. -->
+
+   <h2><a name="extended_logger"></a>Extended Logger</h2>
 
    <p>The <a
    href="apidocs/org/slf4j/ext/XLogger.html"><code>XLogger</code></a>
@@ -570,19 +574,29 @@ public class App
             at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:338)
             at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)    
 </p>
-</div>
 
 <h2><a name="javaagent"></a>Adding logging with Java agent</h2>
 
 <p><b>NOTE:  BETA RELEASE, NOT PRODUCTION QUALITY</b>
 </p>
 
+<p>Quickstart for the impatient:
+<ol>
+<li>Use Java 5 or later.
+<li>Download slf4j-ext-X.Y.Z.jar and javassist.jar, and put them both in the same directory.</li>
+<li>Ensure your application is properly configured with slf4j-api-X.Y.Z.jar and a suitable backend.</li>
+<li>Instead of "java ..." use "java --javaagent:#PATH#/slf4j-ext-X.Y.Z.jar=time,verbose,level=info ..."<br/>
+ (replace #PATH# with the path to the jar)
+<li>That's it!
+</ol>
+</p>
+
 <p>
 In some applications logging is used to trace the actual execution of the
 application as opposed to log an occasional event.  One approach is using the <a href="#extended_logger">extended 
-logger</a> to add statements as appropriately, but another is to use a tool which modifies bytecode
+logger</a> to add statements as appropriately, but another is to use a tool which modifies compiled bytecode
 to add these statements!  Many exist, and the one included in slf4j-ext is not intended to compete with these, but
-merely provide a quick way to get very basic trace information from a given application.
+merely provide a quick way to get very basic trace information from a given application.  
 </p>
 
 <p>Java 5 added the Java Instrumentation mechanism, which 
@@ -591,13 +605,104 @@ byte code of the classes as they are loaded.  This allows the original class fil
 and the transformations done on the byte codes depend on the needs at launch time.
 </p>
 
+<p>Given the well-known "Hello World" example:</p>
+
+<p class="source">public class HelloWorld {
+    public static void main(String args[]) {
+        System.out.println("Hello World");
+    }
+}</p>
+
+<p>a typical transformation would be similar to: (imports omitted)</p>
+
+<p class="source">public class LoggingHelloWorld {
+    final static Logger _log = LoggerFactory.getLogger(LoggingHelloWorld.class.getName());
+
+    public static void main(String args[]) {
+        if (_log.isInfoEnabled()) {
+            _log.info("> main(args=" + Arrays.asList(args) + ")");
+        }
+        System.out.println("Hello World");
+        if (_log.isInfoEnabled()) {
+            _log.info("< main()");
+        }
+    }
+}</p>
+
+<p>which in turn produces the following result when run similar to 
+"java LoggingHelloWorld 1 2 3 4":
+</p>
+
+<p class="source">1 [main] INFO LoggingHelloWorld - > main(args=[1, 2, 3, 4])
+Hello World
+1 [main] INFO LoggingHelloWorld - < main()</p>
+
+<p>The same effect could have been had by using this command (with the
+relative path to javassist.jar and slf4j-ext-X.Y.Z.jar being ../jars):</p>
+
+<p class="source">java -javaagent:../jars/slf4j-ext-X.Y.Z.jar HelloWorld 1 2 3 4</p>
+
+<p></p>
 
 
+<h3>How to use</h3>
+<p>The javaagent may take one or more options separated by comma.  The following options
+are currently supported:</p>
 
+<p>
+<dl>
+<dt><b>level</b>=X</dt>
+<dd>The log level to use for the generated log statements. X is one of "info", "debug" or "trace".
+Default is "info".</dd>
+<dt><b>time</b></dt>
+<dd>Print out the current date at program start, and again when the program ends plus the execution time in milliseconds.</dd>
+<dt><b>verbose</b></dt>
+<dd>Print out when a class is processed as part of being loaded</dd>
+<dt><b>ignore</b>=X:Y:...</dt>
+<dd>(Advanced) Provide full list of colon separated prefixes of class names NOT to add logging to.   
+The default list is { "sun/", "java/", "javax/", "org/slf4j/",
+        "ch/qos/logback/", "org/apache/log4j/", "apple/", "com/sun/" }.
+</dd>
+</dl>
+
+<p>Note:  These are not finalized yet, and may change.</p>
+
+<h3>Locations of jar files</h3>
+<p>
+The javassist library is used for the actual byte code manipulation and must
+be available to be able to add any logging statements.  slf4j-ext-X.Y.Z has been
+configured to look for the following:
+
+<ul>
+<li>"javassist-3.4.GA.jar" relatively to slf4j-ext-X.Y.Z as would be if Maven had downloaded both from the repository and slf4j-ext-X.Y.Z.jar was referenced directly in the
+Maven repository in the "-javaagent"-argument.</li>
+<li>"javassist-3.4.GA.jar" in the same directory as slf4j-ext-X.Y.Z</li>
+<li>"javassist.jar" in the same directory as slf4j-ext-X.Y.Z</li>
+</ul>
+
+A warning message is printed if the javassist library was not found by the agent.
+</p>
+
+
+<h3>Misc notes</h3>
+
+<p>
+<ul>
+<li>A java agent does not "see" any classes already loaded by the class loader.</li>
+<li>Any exceptions in the java agent that would normally have been printed, are silently swallowed by the JVM.</li>
+<li>The javaagent does not do any logging itself, and the slf4j backend does not need to be available to the agent. 
+<li>You MUST remember to have slf4j-api-X.Y.Z.jar explicitly provided to the program to be instrumented.  If not, the one
+embedded in the slf4j-ext-X.Y.Z.jar library is used, and these classes cannot see the jars loaded later.  (Empirically determined, reference would be appreciated).
+
+</ul>
+</p>
+
+<p>
 (The agent is an adaption of the java.util.logging version described in 
 <a href="http://today.java.net/pub/a/today/2008/04/24/add-logging-at-class-load-time-with-instrumentation.html"
 >http://today.java.net/pub/a/today/2008/04/24/add-logging-at-class-load-time-with-instrumentation.html</a>)
-
+</p>
+</div>
 </body>
 </html>
 
