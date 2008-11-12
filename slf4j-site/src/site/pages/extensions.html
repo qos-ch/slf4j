@@ -20,9 +20,16 @@ prefix='';
     <h1>SLF4J extensions</h1>
 
     <p>SLF4J extensions are packaged within <em>slf4j-ext.jar</em>
-    which ships with SLF4J.</p>
+    which ships with SLF4J.  </p>
 
-		<h2>Profilers</h2>
+    
+    <dl>
+    <dt><a href="#profiler">Profiler</a></dt>
+    <dt><a href="#extended_logger">Extended logger</a></dt>
+    <dt><a href="#javaagent">Logging added with Java agent</> (requires Java 5)</a></dt>
+    </dl>
+
+		<h2><a name="profiler"></a>Profilers</h2>
 
 		<h3>What is a profiler?</h3>
     
@@ -288,7 +295,7 @@ prefix='';
   &lt;/root>
 &lt;/configuration>  </p>
 
-   <h2>Extended Logger</h2>
+   <h2><a name="extended_logger">Extended Logger</a></h2>
 
    <p>The <a
    href="apidocs/org/slf4j/ext/XLogger.html"><code>XLogger</code></a>
@@ -564,6 +571,33 @@ public class App
             at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)    
 </p>
 </div>
+
+<h2><a name="javaagent"></a>Adding logging with Java agent</h2>
+
+<p><b>NOTE:  BETA RELEASE, NOT PRODUCTION QUALITY</b>
+</p>
+
+<p>
+In some applications logging is used to trace the actual execution of the
+application as opposed to log an occasional event.  One approach is using the <a href="#extended_logger">extended 
+logger</a> to add statements as appropriately, but another is to use a tool which modifies bytecode
+to add these statements!  Many exist, and the one included in slf4j-ext is not intended to compete with these, but
+merely provide a quick way to get very basic trace information from a given application.
+</p>
+
+<p>Java 5 added the Java Instrumentation mechanism, which 
+allows you to provide "Java agents" that can inspect and modify the 
+byte code of the classes as they are loaded.  This allows the original class files to remain unchanged, 
+and the transformations done on the byte codes depend on the needs at launch time.
+</p>
+
+
+
+
+(The agent is an adaption of the java.util.logging version described in 
+<a href="http://today.java.net/pub/a/today/2008/04/24/add-logging-at-class-load-time-with-instrumentation.html"
+>http://today.java.net/pub/a/today/2008/04/24/add-logging-at-class-load-time-with-instrumentation.html</a>)
+
 </body>
 </html>
 
