@@ -36,7 +36,7 @@ public class AgentPremain {
     builder = builder.addEntryExit(true);
 
     if (agentArgument != null) {
-      Properties args = parseArguments(agentArgument, ";");
+      Properties args = parseArguments(agentArgument, ",");
 
       if (args.containsKey(AgentOptions.VERBOSE)) {
         builder = builder.verbose(true);
@@ -48,7 +48,7 @@ public class AgentPremain {
 
       if (args.containsKey(AgentOptions.IGNORE)) {
         String ignore = args.getProperty(AgentOptions.IGNORE);
-        builder = builder.ignore(ignore.split(","));
+        builder = builder.ignore(ignore.split(":"));
       }
 
       if (args.containsKey(AgentOptions.LEVEL)) {
