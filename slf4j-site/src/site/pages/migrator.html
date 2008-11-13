@@ -1,72 +1,71 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>SLF4J Migrator</title>
-<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
-</head>
-<body>
-	<script>
-prefix='';	
-</script>
-
-<script src="templates/header.js"></script>
-<div id="left">
-  <script src="templates/left.js"></script>
-</div>
-<div id="content">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>SLF4J Migrator</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+  </head>
+  <body>
+    <script type="text/javascript">prefix='';</script>
+    
+    <script src="templates/header.js" type="text/javascript"></script>
+    <div id="left">
+      <script src="templates/left.js" type="text/javascript"></script>
+    </div>
+    <div id="content">
 
 
-  <h1>SLF4J Migrator</h1>
-
-  <p>The SLF4J migrator is a small Java tool for migrating Java source
-  files from the Jakarta Commons Logging (JCL) API to SLF4J. It can
-  also migrate from the log4j API to SLF4J, or from
-  <code>java.util.logging</code> API to SLF4J.
-  </p>
-
-  <p>The SLF4J migrator consists of a single jar file that can be
-  launched as a stand-alone java application. Here is the command:
-  </p>
-
-  <p class="source">java -jar slf4j-migrator-${version}.jar </p>
-  
-  <br/>
-
-  <p>Once the application is launched, a window similar to the
-  following should appear.
-  </p>
-
-  <p><img src="images/slf4j-migrator.gif"/></p>
-  
-  <p>Use the application should be self-explanatory. Please note that
-  this migration tool does in-place replacement of Java files, meaning
-  that there will be no back-up copies of modified files. <b>It is
-  your responsibility to backup your files before using SLF4J
-  migrator.</b>
-  </p>
-
-
-  <h2>Limitations</h2>
-
-  <p>SLF4J migrator is intended as a simple tool to help you to
-  migrate your project source using JCL, log4j or JUL to SLF4J. It can
-  only perform elementary conversion steps. Essentially, it will
-  replace appropriate import lines and logger declarations.
-  </p>
-  
-  <p>MyClass is a sample class using JCL. Here it is before:</p>
-
-  <p class="source">package some.package;
-
+    <h1>SLF4J Migrator</h1>
+    
+    <p>The SLF4J migrator is a small Java tool for migrating Java source
+    files from the Jakarta Commons Logging (JCL) API to SLF4J. It can
+    also migrate from the log4j API to SLF4J, or from
+    <code>java.util.logging</code> API to SLF4J.
+    </p>
+    
+    <p>The SLF4J migrator consists of a single jar file that can be
+    launched as a stand-alone java application. Here is the command:
+    </p>
+    
+    <p class="source">java -jar slf4j-migrator-${version}.jar </p>
+    
+    <br/>
+    
+    <p>Once the application is launched, a window similar to the
+    following should appear.
+    </p>
+    
+    <p><img src="images/slf4j-migrator.gif" alt="slf4j-migrator.gif"/></p>
+    
+    <p>Use the application should be self-explanatory. Please note that
+    this migration tool does in-place replacement of Java files, meaning
+    that there will be no back-up copies of modified files. <b>It is
+    your responsibility to backup your files before using SLF4J
+    migrator.</b>
+    </p>
+    
+    
+    <h2>Limitations</h2>
+    
+    <p>SLF4J migrator is intended as a simple tool to help you to
+    migrate your project source using JCL, log4j or JUL to SLF4J. It can
+    only perform elementary conversion steps. Essentially, it will
+    replace appropriate import lines and logger declarations.
+    </p>
+    
+    <p>MyClass is a sample class using JCL. Here it is before:</p>
+    
+    <p class="source">package some.package;
+      
 <b>import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;</b>
-
+      
 public MyClass {    
- 
-
+            
   <b>Log logger = LogFactory.getLog(MyClass.class);</b>
-
+      
   public void someMethod() { 
     logger.info("Hello world");
   }
@@ -139,17 +138,15 @@ public MyClass {
     <li>if a method declares multipe loggers on the same line, the
     conversion will not be complete. Example:
     
-    <p class="source">
-  public void someMethod(Log l1, Log l2) {
+    <p class="source">  public void someMethod(Log l1, Log l2) {
    ...
   }
 
-  will be converted as 
+will be converted as 
 
   public void someMethod(Log l1, Logger l2) {
    ...
-  }
-    </p>
+  } </p>
   </li>
   </ul>
 
@@ -223,6 +220,7 @@ public MyClass {
     </li>
   </ul>
 
+  <script  src="templates/footer.js" type="text/javascript"></script> 
  </div> 
 </body>
-  </html>
+</html>

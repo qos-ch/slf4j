@@ -83,6 +83,10 @@ h4 {
   font-size: normal;
 }
 
+table.footer {
+  width: 100%;
+}
+
 .footer {
   text-align: right;
   color: #564b47;
