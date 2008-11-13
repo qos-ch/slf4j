@@ -667,7 +667,7 @@ Hello World
 
   <ul>
     <li>"javassist-3.4.GA.jar" relatively to
-    slf4j-ext-${project.version} as would be if Maven had downloaded
+    slf4j-ext-${project.version}.jar as would be if Maven had downloaded
     both from the repository and slf4j-ext-${project.version}.jar was
     referenced directly in the Maven repository in the
     "-javaagent"-argument.</li>
@@ -690,11 +690,11 @@ Hello World
     <li>The javaagent does not do any logging itself, and the slf4j
     backend does not need to be available to the agent. </li>
 
-    <li>You MUST remember to have slf4j-api-${project.version}.jar explicitly
-    provided to the program to be instrumented.  If not, the one
-    embedded in the slf4j-ext-X.Y.Z.jar library is used, and these
-    classes cannot see the jars loaded later.  (Empirically
-    determined, reference would be appreciated).
+    <li>You MUST remember to have slf4j-api-${project.version}.jar
+    explicitly provided to the program to be instrumented.  If not,
+    the one embedded in the slf4j-ext-${project.version}.jar library
+    is used, and these classes cannot see the jars loaded later.
+    (Empirically determined, reference would be appreciated).
     </li>
   </ul>
 
