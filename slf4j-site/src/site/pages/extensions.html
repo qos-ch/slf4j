@@ -566,8 +566,10 @@ java.lang.ArrayIndexOutOfBoundsException: 3
     <li>Download slf4j-ext-${project.version}.jar and javassist.jar, and put them
     both in the same directory.</li>
     <li>Ensure your application is properly configured with
-    slf4j-api-X.Y.Z.jar and a suitable backend.</li>
-    <li>Instead of "java ..." use "java --javaagent:PATH/slf4j-ext-${project.version}.jar=time,verbose,level=info ..."<br/>
+    slf4j-api-${project.version}.jar and a suitable backend.</li>
+
+    <li>Instead of "java ..." use "java --javaagent:PATH/slf4j-ext-${project.version}.jar=time,verbose,level=info ..."
+    <br/>
     (replace PATH with the path to the jar)
     </li>
     <li>That's it!</li>
