@@ -651,9 +651,8 @@ Hello World
 
     <dt><b>ignore</b>=X:Y:...</dt>
     <dd>(Advanced) Provide full list of colon separated prefixes of
-    class names NOT to add logging to.  The default list is { "sun/",
-    "java/", "javax/", "org/slf4j/", "ch/qos/logback/",
-    "org/apache/log4j/", "apple/", "com/sun/" }.
+    class names NOT to add logging to.  The default list is 
+    "sun/:java/:javax/:org/slf4j/:ch/qos/logback/:org/apache/log4j/:apple/:com/sun/".
     </dd>
   </dl>
   
@@ -691,13 +690,6 @@ Hello World
     printed, are silently swallowed by the JVM.</li>
     <li>The javaagent does not do any logging itself, and the slf4j
     backend does not need to be available to the agent. </li>
-
-    <li>You MUST remember to have slf4j-api-${project.version}.jar
-    explicitly provided to the program to be instrumented.  If not,
-    the one embedded in the slf4j-ext-${project.version}.jar library
-    is used, and these classes cannot see the jars loaded later.
-    (Empirically determined, reference would be appreciated).
-    </li>
   </ul>
 
   <p>(The agent is an adaption of the java.util.logging version
