@@ -135,8 +135,6 @@ public class LogTransformer implements ClassFileTransformer {
         + builder.level.substring(1) + "Enabled";
   }
 
-  private static final String _LOG = "_log";
-
   private boolean addEntryExit;
 //  private boolean addVariableAssignment;
   private boolean verbose;
@@ -176,6 +174,8 @@ public class LogTransformer implements ClassFileTransformer {
     return doClass(className, clazz, bytes);
   }
 
+  private String loggerName;
+
   /**
    * doClass() process a single class by first creates a class description from
    * the byte codes. If it is a class (i.e. not an interface) the methods
@@ -196,12 +196,16 @@ public class LogTransformer implements ClassFileTransformer {
       cl = pool.makeClass(new ByteArrayInputStream(b));
       if (cl.isInterface() == false) {
 
-        // We have to define the log variable.
+        loggerName = "_____log";
+        
+        // We have to declare the log variable.
+        
         String pattern1 = "private static org.slf4j.Logger {};";
-        String loggerDefinition = format(pattern1, _LOG);
+        String loggerDefinition = format(pattern1, loggerName);
         CtField field = CtField.make(loggerDefinition, cl);
 
         // and assign it the appropriate value.
+        
         String pattern2 = "org.slf4j.LoggerFactory.getLogger({}.class);";
         String replace = name.replace('/', '.');
         String getLogger = format(pattern2, replace);
@@ -210,6 +214,8 @@ public class LogTransformer implements ClassFileTransformer {
 
         // then check every behaviour (which includes methods). We are only
         // interested in non-empty ones, as they have code.
+        // NOTE:  This will be changed, as empty methods should be 
+        // instrumented too.
 
         CtBehavior[] methods = cl.getDeclaredBehaviors();
         for (int i = 0; i < methods.length; i++) {
@@ -247,13 +253,13 @@ public class LogTransformer implements ClassFileTransformer {
 
     if (addEntryExit) {
       String messagePattern = "if ({}.{}()) {}.{}(\">> {}\");";
-      Object[] arg1 = new Object[] { _LOG, levelEnabled, _LOG, level, signature };
+      Object[] arg1 = new Object[] { loggerName, levelEnabled, loggerName, level, signature };
       String before = MessageFormatter.arrayFormat(messagePattern, arg1);
       // System.out.println(before);
       method.insertBefore(before);
 
       String messagePattern2 = "if ({}.{}()) {}.{}(\"<< {}{}\");";
-      Object[] arg2 = new Object[] { _LOG, levelEnabled, _LOG, level,
+      Object[] arg2 = new Object[] { loggerName, levelEnabled, loggerName, level,
           signature, returnValue };
       String after = MessageFormatter.arrayFormat(messagePattern2, arg2);
       // System.out.println(after);

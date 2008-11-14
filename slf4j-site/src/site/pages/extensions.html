@@ -690,6 +690,11 @@ Hello World
     printed, are silently swallowed by the JVM.</li>
     <li>The javaagent does not do any logging itself, and the slf4j
     backend does not need to be available to the agent. </li>
+    <li>The name of the logger variable is fixed (to a value unlikely to be used) so if that
+    name is already used, a failure occures.  This should be changed to determine
+    an unused name and use that instead.</li>
+    <li>Empty methods are not instrumented (an incorrect check for an interface).  They should be</li>
+    
   </ul>
 
   <p>(The agent is an adaption of the java.util.logging version
