@@ -296,6 +296,30 @@
 &lt;/configuration>  </p>
 
 
+<!-- .............................................................. -->
+
+   <h2><a name="mdcStrLookup"></a>MDCStrLookup</h2>
+
+   <p>StrLookup is a class defined in Apache Commons Lang. It is used
+   in conjunction with the StrSubstitutor class to allow Strings to
+   have tokens in the Strings dynamically replaced at run time. There
+   are many cases where it is desirable to merge the values for keys
+   in the SLF4J MDC into Strings. MDCStrLookup makes this possible.
+   </p>
+   <p>
+   Apache Commons Configuration provides a ConfigurationInterpolator
+   class. This class allows new StrLookups to be registered and the
+   values can then be used to merge with both the configuration of
+   Commons Configuration as well as the configuration files it manages.
+   </p>
+   <p>
+   StrLookup obviously has a dependency on Commons Lang. The Maven
+   pom.xml for slf4j-ext lists this dependency as optional so
+   that those wishing to use other extensions are not required to
+   unnecessarily package the commons lang jar. Therefore, when using
+   MDCStrLookup the dependency for commons-lang must be explicitly
+   declared along with slf4j-ext.    
+   </p>
 
 <!-- .............................................................. -->
 
