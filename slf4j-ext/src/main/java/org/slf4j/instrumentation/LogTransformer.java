@@ -34,7 +34,8 @@ public class LogTransformer implements ClassFileTransformer {
    * Builder provides a flexible way of configuring some of many options on the
    * parent class instead of providing many constructors.
    * 
-   * {@link http://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
+   * {@link http
+   * ://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
    * 
    */
   public static class Builder {
@@ -69,11 +70,11 @@ public class LogTransformer implements ClassFileTransformer {
 
     boolean addVariableAssignment;
 
-//    private Builder addVariableAssignment(boolean b) {
-//      System.err.println("cannot currently log variable assignments.");
-//      addVariableAssignment = b;
-//      return this;
-//    }
+    // private Builder addVariableAssignment(boolean b) {
+    // System.err.println("cannot currently log variable assignments.");
+    // addVariableAssignment = b;
+    // return this;
+    // }
 
     boolean verbose;
 
@@ -89,8 +90,7 @@ public class LogTransformer implements ClassFileTransformer {
       return this;
     }
 
-    String[] ignore = { "sun/", "java/", "javax/", "org/slf4j/",
-        "ch/qos/logback/", "org/apache/log4j/", "apple/", "com/sun/" };
+    String[] ignore = {"org/slf4j/"};
 
     public Builder ignore(String[] strings) {
       this.ignore = strings;
@@ -125,9 +125,9 @@ public class LogTransformer implements ClassFileTransformer {
     } catch (ClassNotFoundException e) {
       System.err.println(s);
     }
-    
+
     this.addEntryExit = builder.addEntryExit;
-//    this.addVariableAssignment = builder.addVariableAssignment;
+    // this.addVariableAssignment = builder.addVariableAssignment;
     this.verbose = builder.verbose;
     this.ignore = builder.ignore;
     this.level = builder.level;
@@ -136,7 +136,7 @@ public class LogTransformer implements ClassFileTransformer {
   }
 
   private boolean addEntryExit;
-//  private boolean addVariableAssignment;
+  // private boolean addVariableAssignment;
   private boolean verbose;
   private String[] ignore;
 
@@ -144,7 +144,7 @@ public class LogTransformer implements ClassFileTransformer {
       ProtectionDomain domain, byte[] bytes) {
 
     try {
-      return transform0(className, clazz, bytes);
+      return transform0(className, clazz, domain, bytes);
     } catch (Exception e) {
       System.err.println("Could not instrument " + className);
       e.printStackTrace();
@@ -159,19 +159,46 @@ public class LogTransformer implements ClassFileTransformer {
    * 
    * @param className
    * @param clazz
+   * @param domain
    * @param bytes
    * @return
    */
-  private byte[] transform0(String className, Class<?> clazz, byte[] bytes) {
-    for (int i = 0; i < ignore.length; i++) {
-      if (className.startsWith(ignore[i])) {
+
+  private byte[] transform0(String className, Class<?> clazz,
+      ProtectionDomain domain, byte[] bytes) {
+
+    try {
+      for (int i = 0; i < ignore.length; i++) {
+        if (className.startsWith(ignore[i])) {
+          return bytes;
+        }
+      }
+      String slf4jName = "org.slf4j.LoggerFactory";
+      try {
+        if (domain != null && domain.getClassLoader() != null) {
+          domain.getClassLoader().loadClass(slf4jName);
+        } else {
+          if (verbose) {
+            System.err.println("Skipping " + className
+                + " as it doesn't have a domain or a class loader.");
+          }
+          return bytes;
+        }
+      } catch (ClassNotFoundException e) {
+        if (verbose) {
+          System.err.println("Skipping " + className
+              + " as slf4j is not available to it");
+        }
         return bytes;
       }
+      if (verbose) {
+        System.err.println("Processing " + className);
+      }
+      return doClass(className, clazz, bytes);
+    } catch (Throwable e) {
+      System.out.println("e = " + e);
+      return bytes;
     }
-    if (verbose) {
-      System.err.println("Processing " + className);
-    }
-    return doClass(className, clazz, bytes);
   }
 
   private String loggerName;
@@ -197,15 +224,15 @@ public class LogTransformer implements ClassFileTransformer {
       if (cl.isInterface() == false) {
 
         loggerName = "_____log";
-        
+
         // We have to declare the log variable.
-        
+
         String pattern1 = "private static org.slf4j.Logger {};";
         String loggerDefinition = format(pattern1, loggerName);
         CtField field = CtField.make(loggerDefinition, cl);
 
         // and assign it the appropriate value.
-        
+
         String pattern2 = "org.slf4j.LoggerFactory.getLogger({}.class);";
         String replace = name.replace('/', '.');
         String getLogger = format(pattern2, replace);
@@ -214,7 +241,7 @@ public class LogTransformer implements ClassFileTransformer {
 
         // then check every behaviour (which includes methods). We are only
         // interested in non-empty ones, as they have code.
-        // NOTE:  This will be changed, as empty methods should be 
+        // NOTE: This will be changed, as empty methods should be
         // instrumented too.
 
         CtBehavior[] methods = cl.getDeclaredBehaviors();
@@ -253,14 +280,15 @@ public class LogTransformer implements ClassFileTransformer {
 
     if (addEntryExit) {
       String messagePattern = "if ({}.{}()) {}.{}(\">> {}\");";
-      Object[] arg1 = new Object[] { loggerName, levelEnabled, loggerName, level, signature };
+      Object[] arg1 = new Object[] { loggerName, levelEnabled, loggerName,
+          level, signature };
       String before = MessageFormatter.arrayFormat(messagePattern, arg1);
       // System.out.println(before);
       method.insertBefore(before);
 
       String messagePattern2 = "if ({}.{}()) {}.{}(\"<< {}{}\");";
-      Object[] arg2 = new Object[] { loggerName, levelEnabled, loggerName, level,
-          signature, returnValue };
+      Object[] arg2 = new Object[] { loggerName, levelEnabled, loggerName,
+          level, signature, returnValue };
       String after = MessageFormatter.arrayFormat(messagePattern2, arg2);
       // System.out.println(after);
       method.insertAfter(after);
