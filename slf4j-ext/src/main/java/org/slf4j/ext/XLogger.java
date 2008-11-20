@@ -48,15 +48,16 @@ public class XLogger extends LoggerWrapper implements Logger {
   }
 
   /**
-   * Given an underlying logger, constuct an XLogger
+   * Given an underlying logger, construct an XLogger
    * 
    * @param logger
    *                underlying logger
    */
   public XLogger(Logger logger) {
-    
-    super(logger);
-    System.out.println("xxxxxxxxx");
+    // If class B extends A, assuming B does not override method x(), the caller
+    // of new B().x() is A and not B, see also
+    // http://bugzilla.slf4j.org/show_bug.cgi?id=114
+    super(logger, LoggerWrapper.class.getName());
   }
 
   /**
