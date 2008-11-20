@@ -56,6 +56,7 @@ public class SLF4JBridgeHandlerTest extends TestCase {
 
   protected void tearDown() throws Exception {
     super.tearDown();
+    SLF4JBridgeHandler.uninstall();
     log4jRoot.getLoggerRepository().resetConfiguration();
   }
 
