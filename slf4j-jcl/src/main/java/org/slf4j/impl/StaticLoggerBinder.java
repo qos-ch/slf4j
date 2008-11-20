@@ -48,8 +48,17 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   /**
    * The unique instance of this class.
    */
-  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
+  /**
+   * Return the singleton of this class.
+   * 
+   * @return the StaticLoggerBinder singleton
+   */
+  public static final StaticLoggerBinder getSingleton() {
+    return SINGLETON;
+  }
+  
   /**
    * Version tag used to check compatibility. The value of this field is
    * modified with each release. 

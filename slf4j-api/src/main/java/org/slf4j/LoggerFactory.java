@@ -24,7 +24,6 @@
 
 package org.slf4j;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,40 +49,71 @@ import org.slf4j.impl.StaticLoggerBinder;
  */
 public final class LoggerFactory {
 
-  static ILoggerFactory loggerFactory;
-
   static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
   static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
   static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
   static final String SUBSTITUTE_LOGGER_URL = "http://www.slf4j.org/codes.html#substituteLogger";
 
+  static final String UNSUCCESSFUL_INIT_URL = "http://www.slf4j.org/codes.html#unsuccessfulInit";
+  static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also "
+      + UNSUCCESSFUL_INIT_URL;
+
+  static final int UNINITIALIZED = 0;
+  static final int ONGOING_INITILIZATION = 1;
+  static final int FAILED_INITILIZATION = 2;
+  static final int SUCCESSFUL_INITILIZATION = 3;
+  
+  static final int GET_SINGLETON_INEXISTENT = 1;
+  static final int GET_SINGLETON_EXISTS = 2;
+  
+  
+  
+  static int INITIALIZATION_STATE = UNINITIALIZED;
+  static int GET_SINGLETON_METHOD = UNINITIALIZED;
+  static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
+
   /**
-   * It is out responsibility to track version changes and manage the
+   * It is our responsibility to track version changes and manage the
    * compatibility list.
    * 
    * <p>
    */
-  static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.5.5", "1.5.6" };
+  static private final String[] API_COMPATIBILITY_LIST = new String[] {
+      "1.5.5", "1.5.6" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {
   }
 
-  static {
-    staticInitialize();
+  /**
+   * Force LoggerFactory to consider itself uninitialized.
+   * 
+   * <p>
+   * This method is intended to be called by classes (in the same package) for
+   * testing purposes. This method is internal. It can be modified, renamed or
+   * removed at any time without notice. 
+   * 
+   * You are strongly discouraged from calling this method in production code.
+   */
+  static void reset() {
+    INITIALIZATION_STATE = UNINITIALIZED;
+    GET_SINGLETON_METHOD = UNINITIALIZED;
+    TEMP_FACTORY = new SubstituteLoggerFactory();
+  }
+
+  private final static void performInitialization() {
+    bind();
     versionSanityCheck();
   }
 
-  private final static void staticInitialize() {
+  private final static void bind() {
     try {
-      // support re-entrant behavior.
-      // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
-      List loggerNameList = new ArrayList();
-      loggerFactory = new SubstituteLoggerFactory(loggerNameList);
-      loggerFactory = StaticLoggerBinder.SINGLETON.getLoggerFactory();
-      emitSubstitureLoggerWarning(loggerNameList);
+      // the next line does the binding
+      getSingleton();
+      INITIALIZATION_STATE = SUCCESSFUL_INITILIZATION;
+      emitSubstitureLoggerWarning();
     } catch (NoClassDefFoundError ncde) {
-      loggerFactory = null; // undo SubstituteLoggerFactory assignment
+      INITIALIZATION_STATE = FAILED_INITILIZATION;
       String msg = ncde.getMessage();
       if (msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
         Util
@@ -94,14 +124,15 @@ public final class LoggerFactory {
       }
       throw ncde;
     } catch (Exception e) {
-      loggerFactory = null; // undo SubstituteLoggerFactory assignment
+      INITIALIZATION_STATE = FAILED_INITILIZATION;
       // we should never get here
       Util.reportFailure("Failed to instantiate logger ["
-          + StaticLoggerBinder.SINGLETON.getLoggerFactoryClassStr() + "]", e);
+          + getSingleton().getLoggerFactoryClassStr() + "]", e);
     }
   }
 
-  private final static void emitSubstitureLoggerWarning(List loggerNameList) {
+  private final static void emitSubstitureLoggerWarning() {
+    List loggerNameList = TEMP_FACTORY.getLoggerNameList();
     if (loggerNameList.size() == 0) {
       return;
     }
@@ -133,10 +164,10 @@ public final class LoggerFactory {
         Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
       }
     } catch (java.lang.NoSuchFieldError nsfe) {
-      // given our large user base anbd SLF4J's commitment to backward
-      // compatibility, we cannot cry
-      // here. Only for implementations which willingly declare a
-      // REQUESTED_API_VERSION field do we emit compatibility warnings.
+      // given our large user base and SLF4J's commitment to backward
+      // compatibility, we cannot cry here. Only for implementations
+      // which willingly declare a REQUESTED_API_VERSION field do we
+      // emit compatibility warnings.
     } catch (Throwable e) {
       // we should never reach here
       Util.reportFailure(
@@ -144,6 +175,27 @@ public final class LoggerFactory {
     }
   }
 
+  
+  private final static StaticLoggerBinder getSingleton() {
+    if(GET_SINGLETON_METHOD == GET_SINGLETON_INEXISTENT) {
+      return StaticLoggerBinder.SINGLETON;
+    }
+    
+    if(GET_SINGLETON_METHOD == GET_SINGLETON_EXISTS) {
+      return StaticLoggerBinder.getSingleton();
+    }
+    
+    try  {
+      StaticLoggerBinder singleton = StaticLoggerBinder.getSingleton();
+      GET_SINGLETON_METHOD = GET_SINGLETON_EXISTS;
+      return singleton;
+    } catch(NoSuchMethodError nsme) {
+      GET_SINGLETON_METHOD = GET_SINGLETON_INEXISTENT;
+      return StaticLoggerBinder.SINGLETON;
+    }
+    
+    
+  }
   /**
    * Return a logger named according to the name parameter using the statically
    * bound {@link ILoggerFactory} instance.
@@ -153,12 +205,8 @@ public final class LoggerFactory {
    * @return logger
    */
   public static Logger getLogger(String name) {
-    if (loggerFactory == null) {
-      throw new IllegalStateException(
-          "Logging factory implementation cannot be null. See also "
-              + NULL_LF_URL);
-    }
-    return loggerFactory.getLogger(name);
+    ILoggerFactory iLoggerFactory = getILoggerFactory();
+    return iLoggerFactory.getLogger(name);
   }
 
   /**
@@ -170,12 +218,7 @@ public final class LoggerFactory {
    * @return logger
    */
   public static Logger getLogger(Class clazz) {
-    if (loggerFactory == null) {
-      throw new IllegalStateException(
-          "Logging factory implementation cannot be null. See also "
-              + NULL_LF_URL);
-    }
-    return loggerFactory.getLogger(clazz.getName());
+    return getLogger(clazz.getName());
   }
 
   /**
@@ -187,6 +230,21 @@ public final class LoggerFactory {
    * @return the ILoggerFactory instance in use
    */
   public static ILoggerFactory getILoggerFactory() {
-    return loggerFactory;
+    if (INITIALIZATION_STATE == UNINITIALIZED) {
+      INITIALIZATION_STATE = ONGOING_INITILIZATION;
+      performInitialization();
+
+    }
+    switch (INITIALIZATION_STATE) {
+    case SUCCESSFUL_INITILIZATION:
+      return getSingleton().getLoggerFactory();
+    case FAILED_INITILIZATION:
+      throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
+    case ONGOING_INITILIZATION:
+      // support re-entrant behavior.
+      // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
+      return TEMP_FACTORY;
+    }
+    throw new IllegalStateException("Unreachable code");
   }
 }

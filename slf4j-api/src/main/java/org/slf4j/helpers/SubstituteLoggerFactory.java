@@ -33,35 +33,35 @@
 
 package org.slf4j.helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
-
 /**
  * SubstituteLoggerFactory is an trivial implementation of {@link
- * ILoggerFactory} which always returns the unique instance of
- * NOPLogger.
+ * ILoggerFactory} which always returns the unique instance of NOPLogger.
  * 
- * <p>It used as a temporary substitute for the real ILoggerFactory
- * during its auto-configuration which may re-enter LoggerFactory
- * to obtain logger instances. See also  
- * http://bugzilla.slf4j.org/show_bug.cgi?id=106
+ * <p>
+ * It used as a temporary substitute for the real ILoggerFactory during its
+ * auto-configuration which may re-enter LoggerFactory to obtain logger
+ * instances. See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
-  
+
   // keep a record of requested logger names
-  final List loggerNameList;
-  
-  public SubstituteLoggerFactory(List loggerNameList) {
-    this.loggerNameList = loggerNameList;
-  }
-  
+  final List loggerNameList = new ArrayList();
+
   public Logger getLogger(String name) {
     loggerNameList.add(name);
     return NOPLogger.NOP_LOGGER;
   }
+
+  public List getLoggerNameList() {
+    return loggerNameList;
+  }
+
 }

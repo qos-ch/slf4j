@@ -36,12 +36,25 @@ import org.slf4j.ILoggerFactory;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class StaticLoggerBinder { 
-
+public class StaticLoggerBinder {
+ 
   /**
    * The unique instance of this class.
+   * 
+   * @deprecated Please use the {@link #getSingleton()} method instead of
+   *             accessing this field directly. In future versions, this field
+   *             will become private.
    */
   public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  
+  /**
+   * Return the singleton of this class.
+   * 
+   * @return the StaticLoggerBinder singleton
+   */
+  public static final StaticLoggerBinder getSingleton() {
+    return SINGLETON;
+  }
   
   /**
    * Declare the version of the SLF4J API this implementation is compiled against. 

@@ -118,6 +118,13 @@ public class SLF4JBridgeHandler extends Handler {
    *                 LoggingPermission("control").
    */
   public static void uninstall() throws SecurityException, IOException {
+    java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger("");
+    Handler[] handlers = rootLogger.getHandlers();
+    for(int i = 0; i < handlers.length; i++) {
+      if(handlers[i] instanceof SLF4JBridgeHandler) {
+        rootLogger.removeHandler(handlers[i]);
+      }
+    }
     LogManager.getLogManager().readConfiguration();
   }
 
