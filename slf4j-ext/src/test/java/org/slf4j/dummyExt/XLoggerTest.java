@@ -1,3 +1,27 @@
+/*
+ * Copyright (c) 2004-2008 QOS.ch
+ * All rights reserved.
+ * 
+ * Permission is hereby granted, free  of charge, to any person obtaining
+ * a  copy  of this  software  and  associated  documentation files  (the
+ * "Software"), to  deal in  the Software without  restriction, including
+ * without limitation  the rights to  use, copy, modify,  merge, publish,
+ * distribute,  sublicense, and/or sell  copies of  the Software,  and to
+ * permit persons to whom the Software  is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The  above  copyright  notice  and  this permission  notice  shall  be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package org.slf4j.dummyExt;
 
 import junit.framework.TestCase;
@@ -93,7 +117,8 @@ public class XLoggerTest extends TestCase {
   // See http://bugzilla.slf4j.org/show_bug.cgi?id=114
   public void testLocationExtraction_Bug114() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-    logger.exit();
+    int line = 121; // next line is line number 121
+    logger.exit(); 
     logger.debug("hello");
 
     assertEquals(2, listAppender.list.size());
@@ -102,27 +127,15 @@ public class XLoggerTest extends TestCase {
       LoggingEvent e = listAppender.list.get(0);
       LocationInfo li = e.getLocationInformation();
       assertEquals(this.getClass().getName(), li.getClassName());
-      assertEquals("95", li.getLineNumber());
+      assertEquals(""+line, li.getLineNumber());
     }
     
     {
       LoggingEvent e = listAppender.list.get(1);
       LocationInfo li = e.getLocationInformation();
       assertEquals(this.getClass().getName(), li.getClassName());
-      assertEquals("96", li.getLineNumber());
+      assertEquals(""+(line+1), li.getLineNumber());
     }
 
   }
-
-  // public void testDump() {
-  // XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-  // String dumpData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Document>\n
-  // <Data>Test</Data>\n</Document>";
-  // logger.
-  //    
-  // dump(logger, dumpData.getBytes());
-  // String expected = "3c 3f 78 6d 6c 20 76 65 72 73 69 6f 6e 3d 22 31";
-  // assertTrue(logMessage.trim().startsWith(expected));
-  // }
-
 }
