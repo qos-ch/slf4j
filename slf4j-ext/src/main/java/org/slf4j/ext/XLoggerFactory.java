@@ -37,7 +37,7 @@ public class XLoggerFactory {
    * @return
    */
   @SuppressWarnings("unchecked")
-  public static Logger getXLogger(Class clazz) {
+  public static XLogger getXLogger(Class clazz) {
     return getXLogger(clazz.getName());
   }
 }
