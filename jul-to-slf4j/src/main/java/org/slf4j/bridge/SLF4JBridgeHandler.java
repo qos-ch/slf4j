@@ -31,7 +31,6 @@
 
 package org.slf4j.bridge;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -95,37 +94,37 @@ public class SLF4JBridgeHandler extends Handler {
   private static final int WARN_LEVEL_THRESHOLD = Level.WARNING.intValue();
 
   /**
-   * Resets the entire JUL logging system and adds new SLF4JHandler instance to
-   * the root logger.
+   * Adds a SLF4JBridgeHandler instance to jul's root logger.
+   * 
+   * <p>
+   * This handler will redirect jul logging to SLF4J. However, only logs enabled
+   * in j.u.l. will be redirected. For example, if a log statement invoking a
+   * j.u.l. logger disabled that statement, by definition, will <em>not</em> reach
+   * any SLF4JBridgeHandler instance and cannot be redirected. 
    */
   public static void install() {
-    LogManager.getLogManager().reset();
     LogManager.getLogManager().getLogger("").addHandler(
         new SLF4JBridgeHandler());
   }
 
   /**
-   * Rereads the JUL configuration.
+   * Removes previously installed SLF4JBridgeHandler instances. See also
+   * {@link #install()}.
    * 
-   * @see LogManager#readConfiguration()
-   * 
-   * @throws IOException
-   *                 <code>IOException</code> if there are IO problems reading
-   *                 the configuration.
    * @throws SecurityException
    *                 A <code>SecurityException</code> is thrown, if a security
    *                 manager exists and if the caller does not have
    *                 LoggingPermission("control").
    */
-  public static void uninstall() throws SecurityException, IOException {
-    java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger("");
+  public static void uninstall() throws SecurityException {
+    java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger(
+        "");
     Handler[] handlers = rootLogger.getHandlers();
-    for(int i = 0; i < handlers.length; i++) {
-      if(handlers[i] instanceof SLF4JBridgeHandler) {
+    for (int i = 0; i < handlers.length; i++) {
+      if (handlers[i] instanceof SLF4JBridgeHandler) {
         rootLogger.removeHandler(handlers[i]);
       }
     }
-    LogManager.getLogManager().readConfiguration();
   }
 
   /**

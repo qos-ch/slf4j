@@ -31,7 +31,7 @@
   <h3>November 21st, 2008 - Release of SLF4J 1.5.6</h3>
 
   <p>Fixed long standing <a
-  href="http://bugzilla.slf4j.org/show_bug.cgi?id=84">bug 84</a> and
+  href="http://jira.qos.ch/browse/LBCLASSIC-87">LBCLASSIC-87</a> and
   its younger sibling <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=113">bug
   113</a>. With each call to getLogger() method,
@@ -48,9 +48,20 @@
   location information.
   </p>
 
-  <p>Added MDCStrLookup to slf4j-ext. This class can be used with Apache
-  Commons Lang's StrSubstitutor class to inject values in the SLF4J MDC
-  into strings. Information on StrSubstitutor can be found at <a
+  
+  <p>The <code>install()</code> method of
+  <code>SLF4JBridgeHandler</code> will no longer reset the entire
+  j.u.l. environment but solely add a <code>SLF4JBridgeHandler</code>
+  instance to jul's root logger. By the same token, the
+  <code>uninstall()</code> method will remove previously added
+  <code>SLF4JBridgeHandler</code> instances without making any other
+  modifications to the j.u.l. configuration.
+  </p>
+  
+  <p>Added <code>MDCStrLookup</code> to slf4j-ext. This class can be
+  used with Apache Commons Lang's <code>StrSubstitutor</code> class to
+  inject values in the SLF4J MDC into strings. Information on
+  StrSubstitutor can be found at <a
   href="http://commons.apache.org/lang/api-release/org/apache/commons/lang/text/StrSubstitutor.html">StrSubstitutor
   javadoc</a>.
   </p>
