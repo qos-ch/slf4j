@@ -25,6 +25,29 @@
   announce</a> mailing list.
   </p>
 
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>November 21st, 2008 - Release of SLF4J 1.5.6</h3>
+
+  <p>Fixed long standing <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=84">bug 84</a> and
+  its younger sibling <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=113">bug
+  113</a>. With each call to getLogger() method,
+  <code>LoggerContext</code> will now retrieve the ILoggerFactory
+  afresh from <code>StaticLoggerBinder</code>. This change enables
+  context selectors of native implementations, e.g logback, to work
+  correctly.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=114">bug
+  114</a> reported by Jason Arndt. Corrected the way
+  <code>XLogger</code> (in slf4j-ext) passes its fully qualified class
+  name so that the underlying logging system can correctly compute
+  location information.
+  </p>
+
   <hr noshade="noshade" size="1"/>
 
   <h3>October 17th, 2008 - Release of SLF4J 1.5.5</h3>
