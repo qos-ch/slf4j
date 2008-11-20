@@ -27,9 +27,9 @@ public class LoggerWrapper implements Logger {
   // is this logger instance a LocationAwareLogger
   final boolean instanceofLAL;
   
-  public LoggerWrapper(Logger logger, String fcqn) {
+  public LoggerWrapper(Logger logger) {
     this.logger = logger;
-    this.fqcn = fcqn;
+    this.fqcn = LoggerWrapper.class.getName();
     if (logger instanceof LocationAwareLogger) {
       instanceofLAL = true;
     } else {

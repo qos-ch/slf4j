@@ -54,7 +54,9 @@ public class XLogger extends LoggerWrapper implements Logger {
    *                underlying logger
    */
   public XLogger(Logger logger) {
-    super(logger, FQCN);
+    
+    super(logger);
+    System.out.println("xxxxxxxxx");
   }
 
   /**
