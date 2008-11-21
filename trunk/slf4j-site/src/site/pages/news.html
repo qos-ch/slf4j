@@ -1,0 +1,1026 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>SLF4J News</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+  </head>
+  <body>
+    <script type="text/javascript">prefix='';</script>
+    
+    <script src="templates/header.js" type="text/javascript"></script>
+    <div id="left">
+      <script src="templates/left.js" type="text/javascript"></script>
+    </div>
+    <div id="content">
+      
+
+  <h1>SLF4J News</h1>
+
+  <p>Please note that you can receive SLF4J related announcements by
+  subscribing to the <a
+  href="http://www.slf4j.org/mailman/listinfo/announce">SLF4J
+  announce</a> mailing list.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>November 21st, 2008 - Release of SLF4J 1.5.6</h3>
+
+  <p>Fixed long standing <a
+  href="http://jira.qos.ch/browse/LBCLASSIC-87">LBCLASSIC-87</a> and
+  its younger sibling <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=113">bug
+  113</a>. With each call to getLogger() method,
+  <code>LoggerContext</code> will now retrieve the ILoggerFactory
+  afresh from <code>StaticLoggerBinder</code>. This change enables
+  context selectors of native implementations, e.g logback, to work
+  correctly.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=114">bug
+  114</a> reported by Jason Arndt. Corrected the way
+  <code>XLogger</code> (in slf4j-ext) passes its fully qualified class
+  name so that the underlying logging system can correctly compute
+  location information.
+  </p>
+
+  
+  <p>The <code>install()</code> method of
+  <code>SLF4JBridgeHandler</code> will no longer reset the entire
+  j.u.l. environment but solely add a <code>SLF4JBridgeHandler</code>
+  instance to jul's root logger. By the same token, the
+  <code>uninstall()</code> method will remove previously added
+  <code>SLF4JBridgeHandler</code> instances without making any other
+  modifications to the j.u.l. configuration.
+  </p>
+  
+  <p>Added <code>MDCStrLookup</code> to slf4j-ext. This class can be
+  used with Apache Commons Lang's <code>StrSubstitutor</code> class to
+  inject values in the SLF4J MDC into strings. Information on
+  StrSubstitutor can be found at <a
+  href="http://commons.apache.org/lang/api-release/org/apache/commons/lang/text/StrSubstitutor.html">StrSubstitutor
+  javadoc</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>October 17th, 2008 - Release of SLF4J 1.5.5</h3>
+
+  <p>The version check mechanism introduced in SLF4J 1.5.4 was
+  inconsistent with the large size of SLF4J's installed user base.  We
+  cannot expect external SLF4J implementations to align their release
+  schedule with that of SLF4J. Consequently, this SLF4J version,
+  namely 1.5.5, retains versions checks but as an elective
+  process. For further details see the <a
+  href="faq.html#version_checks">relevant entry</a> in the FAQ.
+  </p>
+
+  <p>You are highly encouraged to upgrade to SLF4J version 1.5.5. The
+  upgrade should pose no problems. Nevertheless, you might still want
+  to refer to the SLF4J <a href="compatibility.html">compatibility
+  report</a>.
+  </p>
+
+  <h3>October 16th, 2008 - Release of SLF4J 1.5.4</h3>
+
+  <p>This version corrects critical bugs.
+  </p>
+
+  <p>Fixed <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=106">critical bug
+  106</a>. In previous versions of SLF4J, if during the initial
+  binding phase, the underlying logging system's default configuration
+  created or invoked loggers, a <code>NullPointerException</code>
+  would be thrown. Refer to the <a
+  href="codes.html#substituteLogger">in error codes</a> document for a
+  fuller explanation.</p>
+  
+  <p>At initialization time, LoggerFactory will now check that the
+  version of the slf4j-binding matches that of slf4j-api. If there is
+  a mismatch a warning will be issued on the console. This should help
+  users identify SLF4J related problems more quickly.</p>
+
+  <p>Improvements in documentation as well as fix for <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=102">packaging
+  problems</a> related to <em>slf4j-ext</em> module.
+  </p>
+
+  <p>SLF4JBridgeHandler (part of jul-to-slf4j) now accounts for
+  loggers with resourceBundle as well parameters. This feature
+  requested by Darryl Smith in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=98">bug 98</a> and
+  by Jarek Gawor in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=103">bug
+  103</a>.</p>
+  
+  <p>We now say that markers contain <em>references</em> to other
+  markers. We no longer talk about child markers. The javadocs of the
+  <code>Marker</code> interface have been updated to reflect this
+  change. Moreover, the <code>hasChildren()</code> method in the
+  Marker interface has been deprecated and a new method called
+  <code>hasReferences()</code> was added.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>September 12th, 2008 - Release of SLF4J 1.5.3</h3>
+
+  <p>See also the <a href="compatibility.html#1_5_3">compatibility
+  report for this version</a>.
+  </p>
+
+  <p>Added a new module called slf4j-ext for slf4j-extensions. See <a
+  href="extensions.html">its documentation</a> for further
+  details.</p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=71">bug
+  71</a> which was re-opened by Manfred Geiler. SLF4J loggers now
+  survive serialization. By survive serialization, we mean
+  that the deserialized logger instance are fully functional. </p>
+
+  <p>The fix for <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug 68</a> as
+  implemented in version 1.5.1 was incomplete. Michael Furman supplied
+  a more complete fix which was incorporated in this release.</p>
+  
+  <p>When slf4j bridges, e.g. jcl-over-slf4j or log4j-over-slf4j, were
+  used in conjunction with JUL as the underlying logging system,
+  JDK14LoggerAdapter created a LogRecord even for disabled log
+  statements. This performance issue was reported in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=90">bug 90</a> by
+  Matthew Mastracci.
+  </p>
+
+  <p>Added support for array values, including multi-dimensional
+  arrays, as parameters. For example,</p>
+  <p class="source">log.debug("{} {}", "A", new int[] {1, 2}});</p>
+  <p>will print as "A [1, 2]" instead of "A [I@6ca1c" as
+  previously. This enhancement was proposed by "lizongbo".
+  </p>
+
+  <p>Parameter substitution code has been simplified. SLF4J now only
+  cares about the "{}" formatting anchor, that is the '{' character
+  immediately followed by '}'. Previously, the '{' had meaning on its
+  own. As a result of this change, users no longer need to escape the
+  '{' unless it is immediately followed by '}'. Existing messages
+  which escaped standalone '{' character will be printed with a
+  preceding backslash. However, no data loss in the printed messages
+  will occur.
+  </p>
+
+  <p>Added missing <code>getInstance</code> methods to the
+  <code>Category</code> class in the log4j-over-slf4j module, fixing
+  <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=95">bug 95</a>
+  reported by Michael Rumpf.</p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>June 8th, 2008 - Release of SLF4J 1.5.2</h3>
+
+  <p>Improvements to SLF4J documentation as well as fix of <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=88">packaging
+  problems</a> related to <em>jul-to-slf4j.jar</em> and
+  <em>jcl104-over-slf4j.jar</em>.
+  </p>
+  
+  <h3>June 5th, 2008 - Release of SLF4J 1.5.1</h3>
+
+  <p>See also the <a href="compatibility.html#1_5_1">compatibility
+  report for this version</a>.</p>
+
+  <p>In order to support JCL version 1.1.1, the
+  <em>jcl<b>104</b>-over-slf4j</em> module was renamed as
+  <em>jcl-over-slf4j</em>. SLF4J will no longer ship with
+  <em>jcl104-over-slf4j.jar</em> but with <em>jcl-over-slf4j.jar</em>.
+  The related work responds to enhancement request discussed in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=85">bug 85</a> as
+  reported by Niklas Gustavsson.
+  </p>
+  
+  <p>The <em>slf4j-jcl</em> binding now depends on commons-logging
+  version 1.1.1 instead of the older 1.0.4</p>
+
+
+  <p>Added a java.util.logging to SLF4J bridge as requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=38">bug 38</a> by
+  Christian Stein, David Smiley, Johan Ferner, Joern Huxhorn and
+  others.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug
+  68</a> reported by Su Chuan and David Rauschenbach. SLF4J requires
+  log4j 1.2.12 or later. However, if an older version of log4j is
+  present (lacking the TRACE level), in order to avoid
+  NoSuchMethodError exceptions, the SLF4J's
+  <code>Log4jLoggerAdapter</code> will map the TRACE level as DEBUG.
+  </p>
+
+  
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=78">bug
+  78</a> reported by Venu Thachappilly. If the argument array passed
+  to a Logger printing method (debug, info, etc.) was null, a
+  <code>NullPointerException</code> was thrown. With the correction,
+  the messagePattern is returned as is, without parameter
+  substitution.
+  </p>
+
+
+  <p>Added the <code>getCopyOfContextMap</code> and
+  <code>setContextMap</code> methods to the <code>MDCAdapter</code>
+  and <code>org.sf4j.MDC</code> classes. This was requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=84">bug 84</a> by
+  Anton Tagunov.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=74">bug
+  74</a>, an endless recursion problem in Marker.contains method,
+  reported by Michael Newcomb. Also added he
+  <code>getDetachedMarker</code> method to <code>IMarkerFactor</code>
+  and <code>MarkerFactory</code> classes which was indirectly
+  requested in bug 74.
+  </p>
+
+  <p>Added the methods <code>getLevel()</code> and
+  <code>getEffectiveLevel()</code> to the <code>Category</code> class
+  in log4j-over-slf4j. This addition was requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=74">bug 74</a> by
+  Michael Newcomb.
+  </p>
+
+  <p>The <a href="migrator.html">SLF4J Migrator</a>
+  tool has been improved to support migration from JUL to SLF4J.
+  </p>
+
+  <p>In <code>MarkerIgnoringBase</code> class, corrected mapping of
+  trace methods with markers to their equivalents without marker
+  data. Previously, the mapping was trace to debug. The incorrect
+  mapping affected only calls to the trace method with
+  markers. Interestingly enough, this bug was picked up by new unit
+  tests and has not been reported as a bug by our users.
+  </p>
+  
+
+  <h3>February 26th, 2008 - Release of SLF4J 1.5.0</h3>
+
+
+  <p>A tool called <a href="migrator.html">SLF4J Migrator</a> now
+  ships with SLF4J. It can help you migrate your project using JCL or
+  log4j to use SLF4J instead.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=61">bug
+  61</a> reported by Christopher Sahnwaldt. It is now possible to
+  place a backslash in front of a formatting anchor, by escaping the
+  backslash. For example, the call to
+  <code>MessageFormatter.format("C:\\\\{}", "foo")</code> will now
+  correctly return "C:\\foo". The backslash character needs to be
+  escaped in Java, which leads to four backslashes.
+  </p>
+
+ 
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=63">bug
+  63</a> reported by Maarten Bosteels. SLF4J now supports MDC for
+  <code>java.util.logging</code> package.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=64">bug
+  64</a> reported by Michal Bernhard. The log4j binding will now alert
+  the user if she uses SLF4J with a version of log4j earlier than 1.2.12.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=65">bug
+  65</a> reported by Ben Gidley. Superfluous
+  &lt;version>$&#x7B;parent.version}&lt;/version> lines have been
+  removed from pom.xml files. These lines reportedly confuse certain
+  Maven repositories.
+  </p>
+
+  <p>In the <code>org.apache.log4j.Category</code> class, as
+  implemented in the log4j-over-slf4j module, calls to the printing
+  trace() are now correctly mapped to SLF4J's trace() printing method
+  (instead of debug()). Superfluous printing methods with the
+  signature <code>xxxx(Object, Object)</code> and <code>xxxx(String,
+  Object, Object)</code> have been removed.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=67">bug
+  67</a> reported by Chris Custine.  The manifest file for
+  jcl104-over-slf4j now correctly declares version 1.0.4 for the
+  exported JCL packages.
+  </p>
+
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=69">bug
+  69</a> reported by Joern Huxhorn, who graciously supplied the fix as
+  well as a test case. The <code>add</code> method in
+  <code>BasicMarker</code> class now correctly prevents multiple
+  addition of the same child. Moreover, the <code>remove</code> method
+  now correctly removes the specified child marker.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=41">bug
+  41</a> reported by Sebastian Davids. The manifest files of various
+  projects now mention J2SE-1.3 as the required execution
+  environment.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=71">bug
+  71</a> reported by Manfred Geiler. The SLF4JLog and
+  SLF4JLocationAwareLog classes are now serializable solving
+  serialization problems encountered with certain libraries which
+  attempt to serialize JCL log instances.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=73">bug
+  73</a> reported by Oleg Smirsky. A "Fragment-Host: slf4j.api" line
+  has been added to every MANIFEST.MF file exporting
+  <code>org.slf4j.impl</code>.
+  </p>
+
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=72">bug
+  72</a> reported by Ian Carr. Performance issues with slf4j-jdk14 for
+  disabled log statements have now been corrected.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>August 20th, 2007 - Release of SLF4J 1.4.3</h3>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=60">bug
+  60</a> as reported by Costin Leau. OSGI manifest entries now declare
+  the correct SLF4J version.
+  </p>
+  
+  <p>Clarified the behavior of the various methods methods in the MDC
+  class with respect to "null" parameters. This was requested in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=58">bug 58</a> by
+  Sebastian Davids.
+  </p>
+
+  <p>Removed the slf4j-archetype module because nobody seems to have a
+  use for it.</p>
+
+  <h3>July 12th, 2007 - Release of SLF4J 1.4.2</h3>
+
+  <p>The <a href="log4j-over-slf4j.html">log4j-over-slf4j</a> module
+  has been moved back into SLF4J. Originally, this module was part of
+  SLF4J and was moved into logback due to the lack of MDC support in
+  SLF4J. With version 1.4.2 and the addition of MDC support in SLF4J
+  1.4.1, log4j-over-slf4j returns to its original home. Note that the
+  previous name of the module was <a
+  href="http://logback.qos.ch/bridge.html">log4j-bridge</a>.
+  </p>
+
+  <p>Addition of the <code>getMDCAdapter</code> method to
+  org.slf4j.MDC class. This allows access to the actual MDC
+  implementation which can on occasion come in very handy.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+
+
+  <h3>July 4th, 2007 - Release of SLF4J 1.4.1</h3>
+
+
+  <p>SLF4J now supports <a href="manual.html#mdc">Mapped Diagnostic
+  Contexts</a> (MDC) as requested by Andy Gerweck and Steve Ebersole
+  in <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=49">bug
+  49</a>.
+  </p>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=53">bug
+  53</a> as reported by Heinrich Nirschl.  The public method
+  <code>trace(String)</code> in the <code>Log4jLoggerAdapter</code>
+  class incorrecly called the underlying log4j logger with level DEBUG
+  instead of TRACE.
+  </p>
+
+  <p>Fixed various documentation related errors kindly reported by
+  Mark Vedder.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+
+  <h3>May 16th, 2007 - Release of SLF4J 1.4.0</h3>
+
+
+  <p>In response to many user requests over time, the TRACE level has
+  been added to <a
+  href="api/org/slf4j/Logger.html">org.slf4j.Logger</a>
+  interface. Please also see the <a href="faq.html#trace">FAQ entry
+  discussing</a> the TRACE level.
+  </p>
+
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=47">bug
+  47</a> as reported by Terry Todd.  In previous a SLF4J release the
+  <code>org.apache.commons.logging.impl.SLF4FLogFactory</code> class
+  was renamed as <code>SLF4JLogFactory</code>. The
+  <em>META-INF/services/org.apache.commons.logging.LogFactory</em>
+  resource file had not reflected this change. It does now.
+  </p>
+
+
+  <p>Eric Yung <a
+  href="http://www.slf4j.org/pipermail/user/2007-April/000327.html">reported</a>
+  that Apache commons-configuration access certain commons-logging
+  classes, namely <code>org.apache.commons.logging.impl.NoOpLog</code>
+  and SimpleLog, directly. Following Eric's suggestion,
+  jcl104-over-slf4j now includes the aforementioned classes.
+  </p>
+  
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>April 15th, 2007 - Release of SLF4J 1.3.1</h3>
+
+
+  <p>In response to a <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=39">enhancement
+  request</a> made by Michael Newcomb, a marker can now be detached
+  from the internal list of the <code>MarkerFactory</code> that
+  generated it.
+  </p>
+
+  <p>Fixed a silly but nonetheless annoying bug where log request of
+  level ERROR made through jcl104-over-slf4j would log twice. This bug
+  was <a
+  href="http://www.slf4j.org/pipermail/user/2007-April/000323.html">reported</a>
+  and precisely described by Andrew Cooke.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>February 25th, 2007 - Release of SLF4J 1.3.0</h3>
+
+  <p>This release consists of rearrangement of classes among
+  projects. More specifically, the
+  <code>org.slf4j.LoggerFactory</code> class is now packaged within
+  the <em>slf4j-api.jar</em> file instead of the various slf4j
+  bindings. <b>It follows that client code needs to depend on only
+  slf4j-api in order to compile, while the various slf4j bindings are
+  only needed as runtime dependencies.</b> See also the <a
+  href="faq.html#maven2">Maven2-related FAQ entry</a>. Given the
+  practical significance of this change, we highly recommend that
+  library-authors upgrade to version 1.3 at their earliest
+  convenience. 
+  </p>
+  
+  <p><a href="http://bugzilla.slf4j.org/show_bug.cgi?id=23">Bug number
+  23</a> has been fixed, at the cost of minor and backward compatible
+  changes. In other words, jcl104-over-slf4j now preserves caller
+  location information.
+  </p>
+  
+  <p>It is now possible to obtain the root logger of the underlying
+  logging implementation by requesting a logger named
+  &quot;ROOT&quot;. This feature was requested by Sebastien Davids
+  in <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=35">bug
+  report 35</a>. </p>
+
+  <p>For  an   exact  list   of  changes  please   refer  to   the  <a
+  href="changes/changes-1.3.txt">1.3.0  compatibility  report</a> file
+  as generated by clirr.</p>
+
+  
+  <hr noshade="noshade" size="1"/>
+
+  <h3>January 24th, 2007 - Release of SLF4J 1.2</h3>
+  <p>This release includes several modifications to make SLF4J
+  an <a href="http://www.osgi.org/">OSGi</a>-friendly framework. 
+  The modules' MANIFEST.MF files now include
+  OSGi metadata. Regarding these improvements, and OSGi in general, the
+  SLF4J project is happy to welcome John E. Conlon  as a new committer.
+  </p> 
+  
+  <p>Marker objects are now Serializable.
+  </p>
+  
+  <hr noshade="noshade" size="1"/>
+
+  <h3>December 21st, 2006 - Release of SLF4J 1.1.0 (final)</h3>
+
+  <p>This release consists of minor bug fixes and documentation
+  changes. More importantly, the log4j-over-slf4j module has been
+  moved to the logback project, under the name <a
+  href="http://logback.qos.ch/bridge.html">log4j-bridge</a>.
+  </p> 
+
+   <p>Added the file "org.apache.commons.logging.LogFactory" under
+   META-INF/services directory which went missing in the 1.1.0 series
+   of SLF4J. This fixes a compatibility problem with Apache Axis which
+   uses its own discovery mechanism, namely, commons-discovery version
+   0.2. The problem was reported in bug <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=33">report 33</a>
+   by David Varnes.
+  </p>
+
+  <p>The file jcl104-over-slf4j.jar had various entries missing in its
+  MANIFEST.MF file, as reported by Boris Unkel in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=30">bug number
+  30</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>November 16th, 2006 - Release of SLF4J 1.1.0-RC1</h3>
+
+  <p>This release consists of packaging related bug fix in addition to
+  minor documentation changes.  
+  </p> 
+  
+  <p>Contrary to RC0, RC1 no longer uses SNAPSHOT versions for the
+  slf4j-parent pom. The solution to <a
+  href="http://ceki.blogspot.com/2006/11/solution-to-maven2-version-number.html">Maven
+  version problem</a> does not work for public projects such as SLF4J
+  because SNAPHOTs are not allowed on ibiblio.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>November 4th, 2006 - Release of SLF4J 1.1.0-RC0</h3>
+
+  <p>This release consists of bug fixes. Moreover, since the major
+  packaging related changes in 1.1.0-beta0 seem to work well, this
+  release is marked as RC0.</p>
+
+  <p>Fixed the JDK 1.5 dependency for the SLF4J build, as reported by
+  Boris Unkel in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=28">bug number
+  28</a>. SLF4J now explicitly declares a dependency on JDK 1.4 in its
+  pom.xml file.
+  </p>
+
+  <p>Fixed an incorrect reference to the logback project in slf4j-api
+  pom file. This bug was reported by Boris Unkel in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=29">bug number
+  29</a>.
+  </p>
+
+  <p>Fixed a syncroisation problem in factories of almost all SLF4J
+  bindings. This bug was reported independenly by Howard M. Lewis Ship
+  and Boris Unkel in bug reports <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=26">26</a> and
+  respectively <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=26">27</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>September 7th, 2006 - Release of SLF4J 1.1.0-beta0</h3>
+
+  <p>Release 1.1.0-beta0 is a relatively important release with a
+  refactoring of the way class files are organized in jar files. In
+  previous releases, each binding was self-contained in a single jar
+  file. In this release, each and every binding depends on
+  <em>slf4j-api.jar</em> which contains the bulk of the classes
+  required to use SLF4J, except for one or two adapter classes.  Only
+  the adapter classes are now shipped with each specific binding jar
+  as appropriate for the underlying logging system..
+  </p>
+
+  <p>This release is built using Maven instead of Ant. As for the java
+  code, it has not been changed.</p>
+    
+  <hr noshade="noshade" size="1"/>
+
+  <h3>June 8th, 2006 - Release of SLF4J 1.0.2</h3>
+
+  <p>Release 1.0.2 is a maintenance release containing bug fixes
+  only.</p>
+
+  <ul>
+
+    <li>Fixed <a
+    href="http://bugzilla.slf4j.org/show_bug.cgi?id=22">bug number
+    22</a> reported by Bjorn Danielsson. This version of the SLF4J API
+    will no longer systematically throw an exception when the
+    <code>o.a.c.l.impl.SLF4FLogFactory#release()</code> method is
+    invoked. Instead, the <code>release()</code> method will issue a
+    <a href="http://www.slf4j.org/codes.html">warning</a>.
+
+    </li>
+
+  </ul>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>May 1st, 2006 - Release of SLF4J 1.0.1</h3>
+
+  <p>Release 1.0.1 is a maintenance release containing bug fixes
+  only.</p>
+
+  <ul>
+
+    <li>Fixed <a
+    href="http://bugzilla.slf4j.org/show_bug.cgi?id=20">bug number
+    20</a> reported by Steve Bate. <code>JDK14LoggerAdapter</code>
+    will now correctly relay the logger name to the underlying JDK 14
+    logging system.
+    </li>
+
+    <li>Added the file "org.apache.commons.logging.LogFactory" under
+    META-INF/services directory in the jcl104-over-slf4j jar
+    file. This fixes a compatibility problem with Apache Axis which
+    uses its own discovery mechanism, namely, commons-discovery
+    version 0.2. The bug was reported by Dave Wallace.
+    </li>
+
+  </ul>
+
+  
+  <hr noshade="noshade" size="1"/>
+
+  <h3>March 8th, 2006 - Release of SLF4J 1.0</h3>
+
+  <p>This is release labeled as 1.0 (final) contains few relatively
+  minor changes:
+  </p>
+
+  <ul>
+    <li>As <a
+    href="http://marc.theaimsgroup.com/?t=114063163800004">discussed</a>
+    on the slf4j user list, <code>SimpleLogger</code> now directs its
+    output to stderr instead of stdout.
+    </li>
+    
+    <li>Modified <code>JDK14LoggerAdapter</code> so that caller
+    information is now correctly printed, as reported in <a
+    href="http://bugzilla.slf4j.org/show_bug.cgi?id=13">bug 13</a> by
+    Peter Royal.
+    </li>
+
+    <li>Minor additions to the Marker interface.</li>
+
+  </ul>
+  
+  <hr noshade="noshade" size="1"/>
+
+  <h3>February 4th, 2006 - Release of SLF4J 1.0-RC6 and NLOG4J
+  1.2.22</h3>
+
+  <p>The <code>MarkingLogger</code> interface has been removed and its
+  contents merged into <code>org.slf4j.Logger</code>. This change
+  should not adversely affect end-users. However, SLF4J bindings need
+  to be updated. This has been done for all the bindings shipped with
+  SLF4J distribution as well as NLOG4J. As for x4juli, the update is
+  planned for its next release.
+  </p>
+
+  <p>The merge between the <code>MarkingLogger</code> and
+  <code>Logger</code> interfaces has been motivated by the need to
+  allow end-users to easily switch between logging systems that
+  support markers and those that do not.
+  </p>
+
+  <p>Added a default instance to SimpleLoggerFactory to serve as a
+  last resort fallback mechanism. This instance is designed to be used
+  by a very specific group of users, namely for those developing
+  logging systems (e.g. log4j or LOGBack). It is not intended for
+  end-users of the SLF4J API.
+  </p>
+
+ <hr noshade="noshade" size="1"/>
+
+  <h3>January 9th, 2006 - Release of SLF4J 1.0-RC5 and NLOG4J
+  1.2.21</h3>
+
+  <p>A maintenance release correcting bugs <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=11">#11</a> and <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=12">#12</a> and in
+  general improved resilience to null input parameters across
+  implementations. Many thanks to Boris Unckel and Kenneth for
+  reporting the null input issue.
+  </p>
+  
+ <hr noshade="noshade" size="1"/>
+
+  <h3>December 27th, 2005 - Release of SLF4J 1.0-RC4 and NLOG4J
+  1.2.20</h3>
+
+
+  <p>The printing methods in <code>org.slf4j.Logger</code> interface
+  now support passing 3 or more parameters in an <code>Object</code>
+  array. This was a frequently requested feature missing in previous
+  versions of SLF4J.
+  </p>
+
+  <p>NLOG4J 1.2.20 reflects the addition of new methods in the
+  <code>org.slf4j.Logger</code> interface.</p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>December 8th, 2005 - Release of SLF4J 1.0-RC3</h3>
+
+  <p>Maintenance release fixing reported bugs <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=6">#6</a> and <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=7">#7</a>.
+  </p>
+
+
+  <h3>November 28th, 2005 - Release of SLF4J 1.0-RC2</h3>
+
+  <p>In response to a request by Greg Wilkins, this release adds the
+  jar file <em>slf4j-jcl.jar</em>, an SLF4J binding for JCL. Please
+  read the <a href="manual.html#gradual">gradual migration section</a>
+  in the manual for more details.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>November 21st, 2005 - Release of SLF4J 1.0-RC1</h3>
+
+  <p>A maintenance release correcting bugs <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=4">#4</a> and <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=5">#5</a>. Many
+  thanks to Christian Beil for accurately reporting bug #4.
+  </p>
+  
+  <p>There has been also an effort to minimize the file sizes of the
+  various jar files produced by SLF4J, resulting in jar files
+  approximately 40% smaller than in version 1.0beta9.
+  </p>
+
+  <p>Given that the SLF4J API is now deemed stable, this release is
+  marked as RC1, that is release candidate number 1.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>October 19th, 2005 - Release of SLF4J 1.0-beta9</h3>
+
+  <p>The SLF4J distribution now includes two distinct bindings
+  <em>slf4j-log4j12.jar</em> and <em>slf4j-log4j13.jar</em> in order
+  to differentiate between log4j version 1.2 and version 1.3. This
+  distinction is absolutely necessary because log4j 1.2 and 1.3 are
+  not run-time compatible, although they are mostly compile-time
+  compatible.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>October 19th, 2005 - Release of SLF4J 1.0-beta8 and NLOG4J 1.2.18</h3>
+
+
+  <p>Added a new SLF4J binding, <em>slf4j-log4j.jar</em>, intended to
+  be used in conjunction with vanilla <em>log4j.jar</em>, as
+  distributed by the <a href="http://logging.apache.org">Apache
+  Logging Services</a> project. The slf4j-log4j binding is quite
+  similar in structure to the JDK 1.4 binding that existed
+  previously. 
+  </p>
+
+  <p>The slf4j-log4j binding addresses compatibility problems which
+  arose when copies of both <em>log4j.jar</em> and <em>nlog4j.jar</em>
+  lay on the class path, in particular when it was undesirable or
+  impossible to remove the preexisting <em>log4j.jar</em> file.
+  </p>
+
+  <p>Methods in the <code>org.slf4j.Logger</code> interface related to
+  markers were moved to a separate super interface called <a
+  href="api/org/slf4j/MarkingLogger.html">
+  <code>org.slf4j.MarkingLogger</code></a>. This refactoring reduces
+  the weight of the <a href="api/org/slf4j/Logger.html">
+  <code>Logger</code></a> interface.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>August 28th, 2005 - Release of SLF4J 1.0-beta7 and NLOG4J 1.2.17</h3>
+
+  <p>Spurred by <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=3">bug report
+  #3</a>, SLF4J binding code has been refactored and
+  simplified. Logging systems implementing SLF4J interfaces have to
+  have less work in order to bind with SLF4J. Moreover, these changes
+  have no incidence on the published interface of SLF4J.
+  </p>
+
+  
+  <hr noshade="noshade" size="1"/>
+
+  <h3>August 26th, 2005 - Release of SLF4J 1.0-beta6</h3>
+
+  <p>To ease migration to SLF4J from JCL, this release includes a jar
+  file called <em>jcl-over-slf4j-1.0.4.jar</em>. This jar file can be
+  used as drop-in replacement for JCL version 1.0.4. It implements the
+  public API of JCL using SLF4J underneath.
+  </p>
+
+  <p>Thus, you can immediately benefit from the advantages of SLF4J
+  without waiting for all the libraries you depend on to migrate to
+  SLF4J first.</p>
+ 
+  <hr noshade="noshade" size="1"/>
+
+  <h3>August 16th, 2005 - Release of NLOG4J 1.2.16</h3>
+
+   <p>This release adds solves a compatibility problem between log4j
+  and nlog4j.  Previous to this release, code compiled with log4j
+  would not run correctly with nlog4j.
+  </p>
+
+  <p>With the fixes introduced in NLOG4J 1.2.16, code compiled with
+  log4j 1.2.x will run without problems when deployed using NLOG4j.
+  </p>
+
+  <p>However, the inverse is not true. Code compiled with nlog4j can
+  only be deployed using nlog4j.
+  </p>
+ 
+  <hr noshade="noshade" size="1"/>
+  
+  <h3>August 12th, 2005 - Release of SLF4J 1.0-beta5 and NLOG4J
+  1.2.15</h3>
+
+  <p>This release adds support for the <a
+  href="api/org/slf4j/Marker.html">Marker</a> interface. Thus, log
+  statements can be decorated with Marker data allowing more
+  expressive power in the processing of log statements.
+  </p>
+
+  <p>For the sake of IoC frameworks, <code>Logger</code> instances can
+  new be queried for their <a
+  href="api/org/slf4j/Logger.html#getName()">name</a>.
+  </p>
+
+  <p>With the addition of markers, sub-domains are no longer
+  needed.</p>
+
+  <p>The <code>LoggerFactoryAdapter</code> has been simplified and
+  renamed as <a
+  href="api/org/slf4j/ILoggerFactory.html"><code>ILoggerFactory</code></a>.
+  </p>
+  
+  <hr noshade="noshade" size="1"/>
+
+  <h3>July 5th, 2005 - Release of NLOG4J 1.2.14</h3>
+ 
+  <p>This release fixes compatibility problems between NLOG4J and
+  Jakarta Commons Logging.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+  
+  <h3>June 28th, 2005 - Release of SLF4J 1.0-beta4 and NLOG4J
+  1.2.13</h3>
+
+  <p>Following discussions on the SLF4J developers list, the
+  signatures of the printing methods in <a
+  href="api/org/slf4j/Logger.html"><code>org.slf4j.Logger</code></a>
+  interface have been modified to admit messages of type
+  <code>String</code> instead of type <code>Object</code> as
+  previously. The current set of printing methods is listed below.
+  </p>
+
+  <pre class="source">
+ void debug(String msg); 
+ void debug(String format, Object arg); 
+ void debug(String format, Object arg1, Object arg2); 
+ void debug(String msg, Throwable t); 
+
+ void error(String msg); 
+ void error(String format, Object arg;) 
+ void error(String format, Object arg1, Object arg2); 
+ void error(String msg, Throwable t); 
+      
+ void info(String msg); 
+ void info(String format, Object arg); 
+ void info(String format, Object arg1, Object arg2); 
+ void info(String msg, Throwable t); 
+      
+ void warn(String msg); 
+ void warn(String format, Object arg); 
+ void warn(String format, Object arg1, Object arg2); 
+ void warn(String msg, Throwable t);  </pre>
+ 
+
+  <p>NLOG4J release 1.2.13 reflects changes in the SLF4J API.
+  </p>
+
+  <p>You can download SLF4J and NLOG4J, including full source code,
+  class files and documentation on our <a
+  href="download.html">download page</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>May 17th, 2005 - SLF4J version 1.0-beta-3 released</h3>
+
+  <p>In response to user comments, the <code>org.slf4j.ULogger</code>
+  interface has been renamed as <code>org.slf4j.Logger</code>.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>May 17th, 2005 - NLOG4J version 1.2.12 released</h3>
+
+  <p>SLF4J.ORG is proud to release NLOG4J 1.2.12, a log4j-replacement
+  with native SLF4J API support.  Except for users of LF5, chainsaw or
+  <code>NTEvenAppender</code>, NLOG4J should be considered as a 100%
+  compatible, drop-in replacement for log4j version 1.2.9. 
+  </p>
+
+  <p>This release reflects changes in the SLF4J API, i.e renaming of
+  <code>org.slf4j.ULogger</code> interface as
+  <code>org.slf4j.Logger</code>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>May 17th, 2005 - SLF4J version 1.0-beta-3 released</h3>
+
+  <p>SLF4J.ORG is proud to release SLF4J 1.0-beta-3. In response to
+  user comments, the <code>org.slf4j.ULogger</code> interface has been
+  renamed as <code>org.slf4j.Logger</code>.
+  </p>
+
+  <p>You can download SLF4J, including full source code, class files
+  and documentation on our <a href="download.html">download page</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>May 14th, 2005 - NLOG4J version 1.2.11 released</h3>
+
+  <p>SLF4J.ORG is proud to release NLOG4J 1.2.11, a log4j-replacement
+  with native SLF4J API support.  Except for users of LF5, chainsaw or
+  <code>NTEvenAppender</code>, NLOG4J should be considered as a 100%
+  compatible, drop-in replacement for log4j version 1.2.9.
+  </p>
+
+  <p>You can download NLOG4J version 1.2.11, including full source
+  code, class files and documentation on our <a
+  href="download.html">download page</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>May 4th, 2005 - SLF4J version 1.0-beta-2 released</h3>
+
+  <p>SLF4J.ORG is proud to release SLF4J 1.0-beta-2. This release
+  contains cosmetic or javadoc changes. For example, the project has a
+  new logo.
+  </p>
+
+  <p>You can download SLF4J version 1.0-beta2, including full source
+  code, class files and documentation on our <a
+  href="download.html">download page</a>.
+  </p>
+
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>1 May 2005 - not-log4j-1.2.10 released</h3>
+
+  <p>Subsequent to the recall of log4j 1.2.10, SLF4J.ORG releases
+  non-log4j-1.2.10 for those interested in SLF4J support in log4j.
+  </p>
+
+  <p>You can download not-log4j version 1.2.10, including full source
+  code, class files and documentation on our <a
+  href="download.html">download page</a>.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+
+  <h3>22 April 2005 - SLF4J project goes live</h3>
+
+  <p>The SLF4J project site, including SVN repositories go
+  live. Users can download SLF4J version 1.0-beta1.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>15 April 2005 - start of work on SLF4J source code</h3>
+
+  <p>Start of work on the SLF4j source code.
+  </p>
+
+  <hr noshade="noshade" size="1"/>
+
+  <h3>13 April 2005 - start of work on SLF4J project</h3>
+
+  <p>Launch of the SLF4J project. Work has begun on the web-site, svn
+  repositories as well as the source code.
+  </p>
+
+
+  <script src="templates/footer.js" type="text/javascript"></script>
+
+</div>
+</body>
+</html>

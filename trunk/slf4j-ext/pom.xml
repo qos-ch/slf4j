@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.5.6</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-ext</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J Extensions Module</name>
+
+  <url>http://www.slf4j.org</url>
+  <description>Extensions to the SLF4J API</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${parent.version}</version>
+      <scope>test</scope>
+    </dependency>		
+    <dependency>
+      <groupId>javassist</groupId>
+      <artifactId>javassist</artifactId>
+      <version>3.4.GA</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+         <configuration>
+		  <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
+         <printSummary>false</printSummary>
+          <forkMode>once</forkMode>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/AllTest.java</exclude>
+            <exclude>**/PackageTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Bundle-Version>${project.version}</Bundle-Version>
+              <Bundle-Description>${project.description}</Bundle-Description>
+              <Implementation-Version>${project.version}</Implementation-Version>
+              <Premain-Class>org.slf4j.agent.AgentPremain</Premain-Class>
+              <!-- what is the proper way to specify the maven full name? /ravn -->
+              <Boot-Class-Path>../../../../javassist/javassist/3.4.GA/javassist-3.4.GA.jar javassist-3.4.GA.jar javassist.jar</Boot-Class-Path>
+            </manifestEntries>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>			
+      </plugin>      
+    </plugins>
+
+  </build>
+
+  <reporting>
+    <plugins>
+    
+    </plugins>
+  </reporting>
+
+</project>

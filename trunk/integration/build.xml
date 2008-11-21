@@ -1,0 +1,77 @@
+<project name="integration" default="testAll" basedir=".">
+
+	<!--
+		This build file is usually run indirectly via Maven.
+		
+		When running this build file through Ant directly, you must
+		define the currentVersion property on the command line, e.g.:
+		
+		ant  -DcurrentVersion=1.5.4-SNAPSHOT	
+	-->
+	
+	<echo message="compile classpath: ${compile_classpath}" />
+	<echo message="runtime classpath: ${runtime_classpath}" />
+	<echo message="test classpath:    ${test_classpath}" />
+	<echo message="plugin classpath:  ${plugin_classpath}" />
+
+	<path id="path150">
+		<pathelement location="xtarget/classes/" />
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
+	</path >
+
+	<path id="pathIncompatible">
+		<pathelement location="xtarget/classes/" />
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-INCOMPATIBLE.jar" />
+	</path >
+			
+	<path id="pathCurrent">
+		<pathelement location="xtarget/classes/" />
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
+	</path >
+
+	<!-- this is really very ugly, but it's the only way to circumvent
+  	     http://jira.codehaus.org/browse/MANTRUN-95
+	-->
+	<taskdef name="junit" classpath="${plugin_classpath};${compile_classpath}" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+
+	<target name="init">
+		<mkdir dir="target/unit-reports" />
+	</target>
+
+	<target name="testAll" depends="init, 
+		            testMismatch, 
+		            testPre155,
+					testMatch">
+	</target>
+
+	<target name="testMismatch">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="pathIncompatible" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.VersionMismatchTest" />
+		</junit>
+	</target>
+		
+	<target name="testPre155">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="path150" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.Pre155VersionTest" />
+		</junit>
+	</target>
+
+	<target name="testMatch">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="pathCurrent" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.VersionMatchTest" />
+		</junit>
+	</target>
+
+</project>

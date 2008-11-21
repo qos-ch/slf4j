@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.5.6</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.slf4j</groupId>
+	<artifactId>log4j-over-slf4j</artifactId>
+	<packaging>jar</packaging>
+	<name>Log4j Implemented Over SLF4J</name>
+
+	<url>http://www.slf4j.org</url>
+
+  <description>
+    <!-- 
+      Never _never_ let Eclipse's auto format function add
+      a line return in the description.
+      The generated jar will contain a corrupt MANIFEST file.
+    -->
+  	Log4j implemented over SLF4J
+  </description>
+  <licenses>
+    <license>
+      <name>Apache Software Licenses</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+	</dependency>
+  </dependencies>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bundle-test-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>           
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

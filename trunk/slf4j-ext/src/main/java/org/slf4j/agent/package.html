@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+
+<html>
+<head>
+<title></title>
+</head>
+
+
+<body>
+<p>"-javaagent" routines for SLF4J.</p>
+<p>The "-javaagent" flag provided in Java 5+ allows for writing
+agents in Java, which previously was possible in native code only. The
+full details are available at <a
+	href="http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html">http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html</a>.
+
+
+Please notice that code made available to the java agent is also
+available to the actual program executed.</p>
+<p>The slf4j-ext-X.Y.Z.jar file provides such a java agent, which is
+implemented in AgentPremain.java.  It is used by adding a -javaagent flag to the Java command line:
+
+E.g.
+<pre><code>java HelloWorld</code></pre>
+is changed to
+<pre><code>java -javaagent:/path/to/slf4j-ext-X.Y.Z.jar=<em>OPTIONS</em> HelloWorld</code></pre>
+
+What is actually done, depends on the <em>OPTIONS</em> passed to the agent.  These are listed in AgentOptions.java.
+</p>
+
+
+
+</body>
+</html>
