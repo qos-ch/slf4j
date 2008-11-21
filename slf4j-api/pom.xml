@@ -92,7 +92,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
         <configuration>
-          <comparisonVersion>1.5.3</comparisonVersion>
+          <comparisonVersion>1.5.5</comparisonVersion>
         </configuration>
       </plugin>
     </plugins>

@@ -42,6 +42,32 @@ prefix='';
   to suspect incompatible changes not mentioned here, please kindly
   contact the slf4j developers list.</p>
 
+  <h2><a href="#1_5_6" name="1_5_5">Version 1.5.6 compared to 1.5.5</a></h2>
+
+
+  <table class="bodyTable">
+    <tr>
+      <th>Severity</th>
+      <th>Description</th>
+      <th>Class</th>
+      <th>Method / Field</th>
+    </tr>
+    <tr>
+      <td>Error</td>
+      <td>The&nbsp;number&nbsp;of&nbsp;parameters&nbsp;of SubstituteLoggerFactory
+      constructor has changed</td>
+      <td>org.slf4j.helpers.SubstituteLoggerFactory</td>
+      <td>public SubstituteLoggerFactory(java.util.List)</td>
+    </tr>
+  </table>
+
+  <p>&nbsp;</p>
+
+  <p>The <code>SubstituteLoggerFactory</code> class is used internally
+  by the LoggerFactory class. Changes to the constructor of
+  SubstituteLoggerFactory should have stricly no affect on users.
+  </p>
+
   <h2><a href="#1_5_5" name="1_5_4">Version 1.5.5 compared to 1.5.4</a></h2>
   
   <p>No breaking changes to report.</p>     
