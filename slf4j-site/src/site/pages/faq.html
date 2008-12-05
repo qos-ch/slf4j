@@ -191,10 +191,11 @@
       logging. However, one of your important clients request that
       logging be performed through JDK 1.4 logging. If your
       application is riddled with thousands of direct log4j calls,
-      migration to JDK 1.4 would be a long and error-prone
-      process. Had you been invoking SLF4J API instead of log4j, the
-      migration could be completed in a matter of minutes instead of
-      hours.
+      migration to JDK 1.4 would be a relatively lengthy and
+      error-prone process. Even worse, you would potentially need to
+      maintain two versions of your CRM. Had you been invoking SLF4J
+      API instead of log4j, the migration could be completed in a
+      matter of minutes by replacing one jar file with another.
       </p>
       
       <p>SLF4J lets component developers to defer the choice of the
