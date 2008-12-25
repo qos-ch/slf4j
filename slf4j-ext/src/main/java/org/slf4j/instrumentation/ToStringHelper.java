@@ -6,6 +6,16 @@ import java.util.WeakHashMap;
 public class ToStringHelper {
 
 	/**
+	 * Prefix to use at the start of the representation. Always used.
+	 */
+	private static final String ARRAY_PREFIX = "[";
+
+	/**
+	 * Suffix to use at the end of the representation. Always used.
+	 */
+	private static final String ARRAY_SUFFIX = "]";
+
+	/**
 	 * String separating each element when rendering an array. To be compatible
 	 * with lists comma-space is used.
 	 */
@@ -24,6 +34,16 @@ public class ToStringHelper {
 
 	final static Map<Class, Object> unrenderableClasses = new WeakHashMap<Class, Object>();
 
+	/**
+	 * Returns o.toString() unless it throws an exception (which causes it to be
+	 * stored in unrenderableClasses) or already was present in
+	 * unrenderableClasses. If so, the same string is returned as would have
+	 * been returned by Object.toString(). Arrays get special treatment as they
+	 * don't have usable toString methods.
+	 * 
+	 * @param o
+	 * @return
+	 */
 	public static String render(Object o) {
 		if (o == null) {
 			return String.valueOf(o);
@@ -44,9 +64,19 @@ public class ToStringHelper {
 		return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
 	}
 
+	/**
+	 * renderArray returns an array similar to a List. If the array type is an
+	 * object they are rendered with "render(object)" for each. If the array
+	 * type is a primitive each element is added directly to the string buffer
+	 * collecting the result.
+	 * 
+	 * @param o
+	 * @param objectClass
+	 * @return
+	 */
 	private static StringBuffer renderArray(Object o, Class objectClass) {
 		Class componentType = objectClass.getComponentType();
-		StringBuffer sb = new StringBuffer("[");
+		StringBuffer sb = new StringBuffer(ARRAY_PREFIX);
 
 		if (componentType.isPrimitive() == false) {
 			Object[] oa = (Object[]) o;
@@ -124,7 +154,7 @@ public class ToStringHelper {
 				}
 			}
 		}
-		sb.append("]");
+		sb.append(ARRAY_SUFFIX);
 		return sb;
 	}
 }
