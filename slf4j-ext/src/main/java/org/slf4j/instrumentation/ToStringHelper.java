@@ -32,7 +32,7 @@ public class ToStringHelper {
 	 * System.currentTimeMilis when an instance of the class failed to render.
 	 */
 
-	final static Map<Class, Object> unrenderableClasses = new WeakHashMap<Class, Object>();
+	final static Map<Class<?>, Object> unrenderableClasses = new WeakHashMap<Class<?>, Object>();
 
 	/**
 	 * Returns o.toString() unless it throws an exception (which causes it to be
@@ -48,7 +48,7 @@ public class ToStringHelper {
 		if (o == null) {
 			return String.valueOf(o);
 		}
-		Class objectClass = o.getClass();
+		Class<?> objectClass = o.getClass();
 		if (unrenderableClasses.containsKey(objectClass) == false) {
 			try {
 				if (objectClass.isArray()) {
@@ -58,6 +58,8 @@ public class ToStringHelper {
 				}
 			} catch (Exception e) {
 				Long now = new Long(System.currentTimeMillis());
+				System.err.println("Disabling exception throwing class "
+						+ objectClass.getName() + ", " + e.getMessage());
 				unrenderableClasses.put(objectClass, now);
 			}
 		}
@@ -74,8 +76,8 @@ public class ToStringHelper {
 	 * @param objectClass
 	 * @return
 	 */
-	private static StringBuffer renderArray(Object o, Class objectClass) {
-		Class componentType = objectClass.getComponentType();
+	private static StringBuffer renderArray(Object o, Class<?> objectClass) {
+		Class<?> componentType = objectClass.getComponentType();
 		StringBuffer sb = new StringBuffer(ARRAY_PREFIX);
 
 		if (componentType.isPrimitive() == false) {
