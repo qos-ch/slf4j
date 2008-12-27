@@ -386,7 +386,7 @@
    logging in a standardized manner.
    </p>
 
-   <p>Note thar XLogger instances are obrained to through the 
+   <p>Note that XLogger instances are obtained to through the 
    <a
    href="apidocs/org/slf4j/ext/XLoggerFactory.html"><code>XLoggerFactory</code></a>
    utility class.</p>
@@ -676,7 +676,8 @@ Hello World
     <dt><b>ignore</b>=X:Y:...</dt>
     <dd>(Advanced) Provide full list of colon separated prefixes of
     class names NOT to add logging to.  The default list is 
-    "sun/:java/:javax/:org/slf4j/:ch/qos/logback/:org/apache/log4j/:apple/:com/sun/".
+    "org/slf4j/:ch/qos/logback/:org/apache/log4j/".  This does not override the fact that a class must be able to access the 
+    slf4j-api classes in order to do logging, so if these classes are  not visible to a given class it is not instrumented. 
     </dd>
   </dl>
   
@@ -701,19 +702,18 @@ Hello World
   </ul>
 
   <p>A warning message is printed if the javassist library was not
-  found by the agent.
+  found by the agent, and options requiring byte code transformations will not work.
   </p>
 
 
   <h3>Misc notes</h3>
 
   <ul>
-    <li>A java agent does not "see" any classes already loaded by the
+    <li>A java agent is not invoked on any classes already loaded by the
     class loader.</li>
-    <li>Any exceptions in the java agent that would normally have been
-    printed, are silently swallowed by the JVM.</li>
-    <li>The javaagent does not do any logging itself, and the slf4j
-    backend does not need to be available to the agent. </li>
+    <li>Exceptions in the java agent that would normally have been
+    printed, may be silently swallowed by the JVM.</li>
+    <li>The javaagent only logs to System.err.</li>
     <li>The name of the logger variable is fixed (to a value unlikely to be used) so if that
     name is already used, a failure occures.  This should be changed to determine
     an unused name and use that instead.</li>
