@@ -680,6 +680,15 @@ Hello World
     slf4j-api classes in order to do logging, so if these classes are  not visible to a given class it is not instrumented. 
     </dd>
   </dl>
+
+
+    <p>Some classes may misbehave when being rendered with "object.toString()" so they may be explicitly disabled 
+    in the logback configuration file permanently.  For instance the ToStringBuilder in the Apache Jakarta commons lang 
+    package is a prime candidate for this.  For logback add this snippet to logback.xml:
+    <pre>&lt;logger name="org.apache.commons.lang.builder" level="OFF" /&gt;</pre>
+    </p>
+    
+
   
   <p>Note: These are not finalized yet, and may change.</p>
 
