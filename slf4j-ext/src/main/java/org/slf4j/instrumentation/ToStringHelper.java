@@ -42,13 +42,16 @@ public class ToStringHelper {
 	 * don't have usable toString methods.
 	 * 
 	 * @param o
+	 *            incoming object to render.
 	 * @return
 	 */
+
 	public static String render(Object o) {
 		if (o == null) {
 			return String.valueOf(o);
 		}
 		Class<?> objectClass = o.getClass();
+
 		if (unrenderableClasses.containsKey(objectClass) == false) {
 			try {
 				if (objectClass.isArray()) {
@@ -58,12 +61,15 @@ public class ToStringHelper {
 				}
 			} catch (Exception e) {
 				Long now = new Long(System.currentTimeMillis());
+
 				System.err.println("Disabling exception throwing class "
 						+ objectClass.getName() + ", " + e.getMessage());
+
 				unrenderableClasses.put(objectClass, now);
 			}
 		}
-		return o.getClass().getName() + "@" + Integer.toHexString(o.hashCode());
+		String name = o.getClass().getName();
+		return name + "@" + Integer.toHexString(o.hashCode());
 	}
 
 	/**
