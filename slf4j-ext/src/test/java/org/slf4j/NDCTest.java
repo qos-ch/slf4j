@@ -36,6 +36,10 @@ public class NDCTest extends TestCase {
     super.tearDown();
   }
   
+  public void testEmpty() {
+    assertEquals("", NDC.pop());
+  }
+  
   public void testSmoke() {
     NDC.push("a");
     String result = NDC.pop();

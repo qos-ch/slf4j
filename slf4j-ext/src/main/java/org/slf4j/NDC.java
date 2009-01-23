@@ -42,17 +42,17 @@ public class NDC {
   }
 
   public static void push(String val) {
-    int last = size();
-    MDC.put(PREFIX + last, val);
+    int next = size();
+    MDC.put(PREFIX + next, val);
   }
 
   public static String pop() {
-    int i = size();
-    if(i == 0) {
+    int next = size();
+    if(next == 0) {
       return "";
     }
-    i--;
-    String key = PREFIX+i;
+    int last = next-1; 
+    String key = PREFIX+last;
     String val = MDC.get(key);
     MDC.remove(key);
     return val;
