@@ -61,7 +61,7 @@ public class StaticLoggerBinder {
    * The value of this field is usually modified with each release. 
    */
   // to avoid constant folding by the compiler, this field must *not* be final
-  public static String REQUESTED_API_VERSION = "1.5.6";  // !final
+  public static String REQUESTED_API_VERSION = "1.5.7";  // !final
   
   private StaticLoggerBinder() {
     throw new UnsupportedOperationException("This code should have never made it into the jar");
