@@ -79,7 +79,7 @@ public final class LoggerFactory {
    * <p>
    */
   static private final String[] API_COMPATIBILITY_LIST = new String[] {
-      "1.5.5", "1.5.6" };
+      "1.5.5", "1.5.6", "1.5.7" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {

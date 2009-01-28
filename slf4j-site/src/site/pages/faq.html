@@ -41,7 +41,9 @@
     
     <li><a href="#requirements">What are SLF4J's requirements?</a></li>
     
-    
+    <li><a href="#compatibility">Are SLF4J versions backward
+    compatible?</a></li>
+
     <li>
       <a href="#license">Why is SLF4J licensed under X11 type
       license instead of the Apache Software License?  
@@ -324,12 +326,44 @@
       
       <hr />
     </dd>
-    
+
+    <!-- ==================================================== -->
+    <dt><a name="compatibility" href="#compatibility">Are SLF4J
+    versions backward compatible?</a>
+    </dt>
+
+    <dd>
+      <p>With rare theoretical exceptions, SLF4J versions are backward
+      compatible. This means than you can upgrade from SLF4J version
+      1.0 to any later version without problems.</p>
+
+      <p>However, while the SLF4J API is very stable from the client's
+      perspective, SLF4J bindings such as slf4j-simple or
+      slf4j-log4j12 may require a specific version of slf4j-api. <span
+      class="redBold">Mixing different versions of slf4j artifacts can
+      be problematic and is strongly discouraged. Instead, we
+      recommend that the version slf4j-api your are using matches that
+      of the slf4j binding.</span> For instance, if you are using
+      slf4j-api-1.5.6.jar, then you should also use
+      slf4j-simple-1.5.6.jar, using slf4j-simple-1.4.2.jar will not
+      work.
+      </p>        
+
+      <p>At initialization time, if SLF4J suspects that there may be a
+      version mismatch problem, it emits a warning about the said
+      mismatch. For the exact details of the version mismatch
+      detection mechanism, please refer to the <a
+      href="#version_checks">relevant entry</a> in this FAQ.
+      </p>
+    </dd>
+
+    <!-- ==================================================== -->
+
     <dt>
       <a name="license" href="#license">
         Why is SLF4J licensed under X11 type license instead of the
         Apache Software License?
-      </a>
+      </a> 
     </dt>
     
     <dd>
@@ -344,6 +378,8 @@
       
       <hr />
     </dd>
+
+    <!-- ==================================================== -->
     <dt>
       <a name="where_is_binding" href="#where_is_binding">
         Where can I get a particular SLF4J binding?
