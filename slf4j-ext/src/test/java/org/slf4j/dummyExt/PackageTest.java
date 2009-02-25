@@ -8,6 +8,7 @@ public class PackageTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(MDCStrLookupTest.class);
     suite.addTestSuite(XLoggerTest.class);
+    suite.addTestSuite(EventLoggerTest.class);
     return suite;
   }
 }
