@@ -68,6 +68,12 @@ public class XLoggerTest extends TestCase {
     assertEquals(t.toString(), le.getThrowableStrRep()[0]);
   }
 
+  void verifyWithLevelAndException(LoggingEvent le, XLogger.Level level, String expectedMsg, Throwable t) {
+    verify(le, expectedMsg);
+    assertEquals(t.toString(), le.getThrowableStrRep()[0]);
+    assertEquals(le.getLevel().toString(), level.toString());
+  }
+
   public void testEntering() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     logger.entry();
@@ -96,8 +102,12 @@ public class XLoggerTest extends TestCase {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     Throwable t = new UnsupportedOperationException("Test");
     logger.throwing(t);
-    assertEquals(1, listAppender.list.size());
+    logger.throwing(XLogger.Level.DEBUG,t);
+    assertEquals(2, listAppender.list.size());
     verifyWithException((LoggingEvent) listAppender.list.get(0), "throwing", t);
+    LoggingEvent event = (LoggingEvent)listAppender.list.get(1);
+    verifyWithLevelAndException((LoggingEvent) listAppender.list.get(1), XLogger.Level.DEBUG,
+        "throwing", t);
   }
 
   public void testCaught() {
@@ -110,14 +120,17 @@ public class XLoggerTest extends TestCase {
     } catch (Exception ex) {
       t = ex;
       logger.catching(ex);
+      logger.catching(XLogger.Level.DEBUG, ex);
     }
     verifyWithException((LoggingEvent) listAppender.list.get(0), "catching", t);
+    verifyWithLevelAndException((LoggingEvent) listAppender.list.get(1), XLogger.Level.DEBUG,
+        "catching", t);
   }
 
   // See http://bugzilla.slf4j.org/show_bug.cgi?id=114
   public void testLocationExtraction_Bug114() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-    int line = 121; // next line is line number 121
+    int line = 134; // next line is line number 134
     logger.exit(); 
     logger.debug("hello");
 

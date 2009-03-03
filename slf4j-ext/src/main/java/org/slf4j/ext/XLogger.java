@@ -47,6 +47,30 @@ public class XLogger extends LoggerWrapper implements Logger {
     ENTRY_MESSAGE_ARRAY[4] = ENTRY_MESSAGE_4;
   }
 
+  public enum Level {
+    TRACE("TRACE", LocationAwareLogger.TRACE_INT),
+    DEBUG("DEBUG", LocationAwareLogger.DEBUG_INT),
+    INFO("INFO", LocationAwareLogger.INFO_INT),
+    WARN("WARN", LocationAwareLogger.WARN_INT),
+    ERROR("ERROR", LocationAwareLogger.ERROR_INT);
+
+    private final String name;
+    private final int level;
+
+    public String toString() {
+      return this.name;
+    }
+
+    public int intValue() {
+      return this.level;
+    }
+
+    private Level(String name, int level) {
+      this.name = name;
+      this.level = level;
+    }
+  }
+
   /**
    * Given an underlying logger, construct an XLogger
    * 
@@ -106,7 +130,7 @@ public class XLogger extends LoggerWrapper implements Logger {
   }
 
   /**
-   * Log an exception being thrown
+   * Log an exception being thrown. The generated log event uses Level ERROR.
    * 
    * @param throwable
    *                the exception being caught.
@@ -119,7 +143,21 @@ public class XLogger extends LoggerWrapper implements Logger {
   }
 
   /**
-   * Log an exception being caught
+   * Log an exception being thrown allowing the log level to be specified.
+   *
+   * @param level the logging level to use.
+   * @param throwable
+   *                the exception being caught.
+   */
+  public void throwing(Level level, Throwable throwable) {
+    if (instanceofLAL) {
+      ((LocationAwareLogger) logger).log(THROWING_MARKER, FQCN,
+          level.level, "throwing", throwable);
+    }
+  }
+
+  /**
+   * Log an exception being caught. The generated log event uses Level ERROR.
    * 
    * @param throwable
    *                the exception being caught.
@@ -128,6 +166,20 @@ public class XLogger extends LoggerWrapper implements Logger {
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN,
           LocationAwareLogger.ERROR_INT, "catching", throwable);
+    }
+  }
+
+  /**
+   * Log an exception being caught allowing the log level to be specified.
+   *
+   * @param level the logging level to use.
+   * @param throwable
+   *                the exception being caught.
+   */
+  public void catching(Level level, Throwable throwable) {
+    if (instanceofLAL) {
+      ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN,
+          level.level, "catching", throwable);
     }
   }
 
