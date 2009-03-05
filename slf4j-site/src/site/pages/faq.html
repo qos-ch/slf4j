@@ -365,8 +365,6 @@
 
     <!-- ==================================================== -->
 
-    <!-- entry order dependent -->
-      
     <dt><a name="IllegalAccessError" href="#IllegalAccessError">I am getting
     <code>IllegalAccessError</code> exceptions when using SLF4J. Why
     is that?</a>
@@ -378,20 +376,20 @@
 
       <p class="source">Exception in thread "main" java.lang.IllegalAccessError: tried to access field
 org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
-   at org.slf4j.LoggerFactory.&gt;clinit>(LoggerFactory.java:60)</p>
+   at org.slf4j.LoggerFactory.&lt;clinit>(LoggerFactory.java:60)</p>
 
       <p>If you get the exception shown above, then you are using an
-      older version of slf4j-api such as 1.4.3 with a new version of a
-      slf4j binding such as 1.5.6.</p>
+      older version of slf4j-api, e.g. 1.4.3, with a new version of a
+      slf4j binding, e.g. 1.5.6.</p>
 
       <p>Typically, this occurs when your Maven <em>pom.ml</em> file
-      incoprporates hibernate 3.3.1 which declares a dependency on
-      slf4j-api 1.4.3. If your <em>pom.xml</em> declares a dependency
-      on an slf4j binding, say slf4j-log4j12 version 1.5.6, then you
-      will get illegal access errors.
+      incoprporates hibernate 3.3.0 which declares a dependency on
+      slf4j-api version 1.4.2. If your <em>pom.xml</em> declares a
+      dependency on an slf4j binding, say slf4j-log4j12 version 1.5.6,
+      then you will get illegal access errors.
       </p>
 
-      <p>To see which version of slfj4-api is pulled in by maven, use
+      <p>To see which version of slfj4-api is pulled in by Maven, use
       the maven dependency plugin as follows.</p>
 
       <p class="source">mvn dependency:tree</p>
