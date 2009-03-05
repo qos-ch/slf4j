@@ -44,6 +44,11 @@
     <li><a href="#compatibility">Are SLF4J versions backward
     compatible?</a></li>
 
+    <li><a href="#IllegalAccessError">I am getting
+    <code>IllegalAccessError</code> exceptions when using SLF4J. Why
+    is that?</a></li>
+
+
     <li>
       <a href="#license">Why is SLF4J licensed under X11 type
       license instead of the Apache Software License?  
@@ -328,6 +333,7 @@
     </dd>
 
     <!-- ==================================================== -->
+    <!-- entry has order dependees -->
     <dt><a name="compatibility" href="#compatibility">Are SLF4J
     versions backward compatible?</a>
     </dt>
@@ -353,9 +359,55 @@
       detection mechanism, please refer to the <a
       href="#version_checks">relevant entry</a> in this FAQ.
       </p>
+
+      <hr />
     </dd>
 
-    <hr />
+    <!-- ==================================================== -->
+
+    <!-- entry order dependent -->
+      
+    <dt><a name="IllegalAccessError" href="#IllegalAccessError">I am getting
+    <code>IllegalAccessError</code> exceptions when using SLF4J. Why
+    is that?</a>
+    </dt>
+
+    <dd>
+
+      <p>Here are the exception details.</p>
+
+      <p class="source">Exception in thread "main" java.lang.IllegalAccessError: tried to access field
+org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
+   at org.slf4j.LoggerFactory.&gt;clinit>(LoggerFactory.java:60)</p>
+
+      <p>If you get the exception shown above, then you are using an
+      older version of slf4j-api such as 1.4.3 with a new version of a
+      slf4j binding such as 1.5.6.</p>
+
+      <p>Typically, this occurs when your Maven <em>pom.ml</em> file
+      incoprporates hibernate 3.3.1 which declares a dependency on
+      slf4j-api 1.4.3. If your <em>pom.xml</em> declares a dependency
+      on an slf4j binding, say slf4j-log4j12 version 1.5.6, then you
+      will get illegal access errors.
+      </p>
+
+      <p>To see which version of slfj4-api is pulled in by maven, use
+      the maven dependency plugin as follows.</p>
+
+      <p class="source">mvn dependency:tree</p>
+
+      <p>If you are usig Eclipse, please do not rely on the dependency
+      tree shown by <a
+      href="http://m2eclipse.codehaus.org/">m2eclipse</a>.</p>
+
+      <p>Specifically declaring a dependecy on slf4j-api matching the
+      version of the declared binding in your <em>pom.xml</em> file
+      will make the problem go away.
+      </p>
+
+      <hr />
+    </dd>
+    
 
     <!-- ==================================================== -->
 
@@ -1054,10 +1106,10 @@ new Object[] {newVal, below, above});</p>
       SLF4J version 1.5.5 was released just a day after 1.5.4.)
       </p>
       
-      <p>Given its huge installed user base and several external
+      <p>Given its large installed user base and several external
       implementations, it would have been unwise to expect all SLF4J
-      implementations to closely follow SLF4J's release schedule,
-      let alone align their release schedules with SLF4J. Hence, the
+      implementations to closely follow SLF4J's release schedule, let
+      alone align their release schedules with SLF4J. Hence, the
       elective version check policy.
       </p>
       
@@ -1240,15 +1292,16 @@ new Object[] {newVal, below, above});</p>
     
     <dd>
       <p>The following is the recommended logger declaration
-      idiom. It assumes that your logger is a static variable of the
-      class.</p>
+      idiom. For reasons <a href="#declared_static">explained
+      above</a>, it is left to the user to determine whether loggers
+      are declared as static variables or not.</p>
       
       <p class="source">package some.package;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
       
 public class MyClass {
-  <b>final static Logger logger = LoggerFactory.getLogger(MyClass.class);</b>
+  <b>final (static) Logger logger = LoggerFactory.getLogger(MyClass.class);</b>
   ... etc
 }</p>
       
