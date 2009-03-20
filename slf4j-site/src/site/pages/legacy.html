@@ -18,7 +18,7 @@
   <div id="content">
 	
 
-    <h1>Bridging legacy APIs</h1>
+    <h2>Bridging legacy APIs</h2>
     
     <p>Often, some of the components you depend on rely on a logging API
     other than SLF4J. These components presumably will not switch to
@@ -39,12 +39,12 @@
     <p>
     </p>
     
-    <h2><a name="jcl-over-slf4j" href="#jcl-over-slf4j">Gradual migration to
-    SLF4J from Jakarta Commons Logging (JCL)</a></h2>
+    <h3><a name="jcl-over-slf4j" href="#jcl-over-slf4j">Gradual migration to
+    SLF4J from Jakarta Commons Logging (JCL)</a></h3>
     
-    <h2><em>jcl-over-slf4j.jar</em></h2>
+    <h4><em>jcl-over-slf4j.jar</em></h4>
     
-    <p>To ease migration to SLF4J from JCL, recent SLF4J distributions
+    <p>To ease migration to SLF4J from JCL, SLF4J distributions
     include the jar file <em>jcl-over-slf4j.jar</em>. This jar file is
     intended as a drop-in replacement for JCL version 1.1.1. It
     implements the public API of JCL but using SLF4J underneath, hence
@@ -60,12 +60,10 @@
     <em>jcl-over-slf4j.jar</em>. Subsequently, the selection of the
     underlying logging system will be done by SLF4J instead of JCL but
     without the class loader headaches. The underlying logging system
-    can be any of NOP, simple, jdk14 logging, log4j or logback. Any
-    existing dependency on commons-logging therefore becomes less of an
-    issue.
+    can be any of the frameworks supported by SLF4J.
     </p>
     
-    <h2><em>slf4j-jcl.jar</em></h2>
+    <h3><em>slf4j-jcl.jar</em></h3>
     
     <p>Some of our users after having switched to SLF4J API realize that
     in some contexts the use of JCL is mandatory and their use of SLF4J
@@ -79,8 +77,8 @@
     of the application which can continue to use JCL.
     </p>
     
-    <h2><em>jcl-over-slf4j.jar</em> should not be confused with
-    <em>slf4j-jcl.jar</em></h2>
+    <h3><em>jcl-over-slf4j.jar</em> should not be confused with
+    <em>slf4j-jcl.jar</em></h3>
     
     
     <p>JCL-over-SLF4J, i.e. <em>jcl-over-slf4j.jar</em>, comes in handy
@@ -109,8 +107,8 @@
     </p>
     
     
-    <h2><a name="log4j-over-slf4j" href="#log4j-over-slf4j">Log4j over
-    SLF4J</a></h2>
+    <h3><a name="log4j-over-slf4j" href="#log4j-over-slf4j">Log4j over
+    SLF4J</a></h3>
     
     <p>SLF4J ship with a module called <em>log4j-over-slf4j</em>.  It
     allows log4j users to migrate existing applications to SLF4J without
@@ -119,7 +117,7 @@
     described below.
     </p>
     
-    <h3>How does it work?</h3>
+    <h4>How does it work?</h4>
     
     <p>The log4j-over-slf4j module contains replacements of most widely
     used log4j classes, namely <code>org.apache.log4j.Category</code>,
@@ -149,12 +147,7 @@
     href="http://logback.qos.ch/manual/index.html">its manual</a>.
     </p>
     
-    <p>We are happy to report that several applications are
-    successfully using log4j-over-slf4j in production.
-    </p>
-    
-    
-    <h3>When does it not work?</h3>
+    <h4>When does it not work?</h4>
     
     <p>The <em>log4j-over-slf4j</em> module will not work when the
     application calls log4j components that are not present in the
@@ -168,7 +161,7 @@
     your application to SLF4J.
     </p>
     
-    <h3>What about the overhead?</h3>
+    <h4>What about the overhead?</h4>
     
     <p>There overhead of using log4j-over-slf4j instead of log4j
     directly is relatively small. Given that log4j-over-slf4j
@@ -183,9 +176,9 @@
     log4j-over-slf4j instead of log4j directly.
     </p>
     
-    <h3>log4j-over-slf4j.jar and slf4j-logj12.jar cannot be present
+    <h4>log4j-over-slf4j.jar and slf4j-logj12.jar cannot be present
     simultaneously
-    </h3>
+    </h4>
     
     <p>The presence of <em>slf4j-logj12.jar</em>, that is the log4j
     binding for SLF4J, will force all SLF4J calls to be delegated to
@@ -195,7 +188,7 @@
     log4j calls redirected to SLF4j, resulting in an endless recursion.
     </p>
     
-    <h2><a name="jul-to-slf4j" href="jul-to-slf4j">JUL to SLF4J</a></h2>
+    <h3><a name="jul-to-slf4j" href="jul-to-slf4j">JUL to SLF4J</a></h3>
     
     <p>The jul-to-slf4j module includes a jul handler, namely
     SLF4JBridgeHandler, that routes all incoming jul records to the
@@ -208,9 +201,9 @@
     namespace cannot be replaced.
     </p>
     
-    <h3>jul-to-slf4j.jar and slf4j-jdk14.jar cannot be present
+    <h4>jul-to-slf4j.jar and slf4j-jdk14.jar cannot be present
     simultaneously
-    </h3>
+    </h4>
     
     <p>The presence of slf4j-jdk14.jar, that is the jul binding for
     SLF4J, will force SLF4J calls to be delegated to jul. On the other
