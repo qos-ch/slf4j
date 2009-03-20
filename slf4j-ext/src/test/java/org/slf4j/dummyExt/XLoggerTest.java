@@ -79,8 +79,11 @@ public class XLoggerTest extends TestCase {
     logger.entry();
     logger.entry(1);
     logger.entry("test");
+    logger.entry("a", "b", "c", "d");
+    logger.entry("a", "b", "c", "d", "e");
+    logger.entry("a", "b", "c", "d", "e", "f");
 
-    assertEquals(3, listAppender.list.size());
+    assertEquals(6, listAppender.list.size());
     verify((LoggingEvent) listAppender.list.get(0), "entry");
     verify((LoggingEvent) listAppender.list.get(1), "entry with (1)");
     verify((LoggingEvent) listAppender.list.get(2), "entry with (test)");
@@ -130,7 +133,7 @@ public class XLoggerTest extends TestCase {
   // See http://bugzilla.slf4j.org/show_bug.cgi?id=114
   public void testLocationExtraction_Bug114() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-    int line = 134; // next line is line number 134
+    int line = 137; // next line is line number 134
     logger.exit(); 
     logger.debug("hello");
 

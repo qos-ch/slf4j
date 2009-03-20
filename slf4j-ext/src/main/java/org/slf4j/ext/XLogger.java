@@ -93,7 +93,7 @@ public class XLogger extends LoggerWrapper implements Logger {
   public void entry(Object... argArray) {
     if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
       String messagePattern = null;
-      if (argArray.length <= ENTRY_MESSAGE_ARRAY_LEN) {
+      if (argArray.length < ENTRY_MESSAGE_ARRAY_LEN) {
         messagePattern = ENTRY_MESSAGE_ARRAY[argArray.length];
       } else {
         messagePattern = buildMessagePattern(argArray.length);
