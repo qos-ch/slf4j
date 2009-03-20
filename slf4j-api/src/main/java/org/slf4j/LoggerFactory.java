@@ -93,7 +93,8 @@ public final class LoggerFactory {
    * testing purposes. This method is internal. It can be modified, renamed or
    * removed at any time without notice. 
    * 
-   * You are strongly discouraged from calling this method in production code.
+   * <p>You are strongly discouraged from calling this method in production 
+   * code.
    */
   static void reset() {
     INITIALIZATION_STATE = UNINITIALIZED;
