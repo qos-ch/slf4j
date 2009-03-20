@@ -9,7 +9,7 @@ document.write('      <img align="left" src="http://www.w3.org/Icons/valid-xhtml
 document.write('           alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>')
 document.write('   </td>')
 
-document.write('<td valign="top">Copyright &copy; 2004-2008  <a href="http://www.qos.ch/">QOS.ch</a></td>')
+document.write('<td valign="top">Copyright &copy; 2004-2009  <a href="http://www.qos.ch/">QOS.ch</a></td>')
 
 document.write('</tr>')
 document.write('</table>')

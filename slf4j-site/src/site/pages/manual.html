@@ -17,14 +17,18 @@
     <div id="content">
 
 
-    <h1>SLF4J User manual</h1>
+    <h2>SLF4J User manual</h2>
     
-    <p>The Simple Logging Facade for Java or (SLF4J) is intended to
-    serve as a simple facade for various logging APIs allowing to plug
-    in the desired implementation at deployment time. 
+    <p>The Simple Logging Facade for Java or (SLF4J) serves as a
+    simple facade or abstraction for various logging frameworks, e.g.
+    java.util.logging, log4j and logbback, allowing the end-user to
+    plug in the desired logging framework at <em>deployment</em> time.
     </p>
       
-  <h2>Typical usage pattern</h2>
+    <h3>
+    <a name="typical_usage" href="#typical_usage">Typical usage
+    pattern</a>
+    </h3>
  
       <pre class="source">
  1: <b>import org.slf4j.Logger;</b>
@@ -56,205 +60,213 @@
       logging?"</a> in the FAQ for more details.
       </p>
 
-      <h2>Swapping implementations at deployment time</h2>
+      
+      <h3><a name="swapping" href="#binding">Binding with a logging
+      framework at deployment time</a></h3>
 
-      <p>SLF4J supports multiple logging systems, namely, NOP, Simple,
-      log4j version 1.2, JDK 1.4 logging, JCL and logback. The SLF4J
-      distribution ships with several jar files
-      <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
-      <em>slf4j-log4j12.jar</em>, <em>slf4j-log4j13.jar</em>,
-      <em>slf4j-jdk14.jar</em> and <em>slf4j-jcl.jar</em>. Each of
-      these jar files is hardwired <em>at compile-time</em> to use
-      just one implementation, that is NOP, Simple, log4j version 1.2,
-      JDK 1.4 logging, and repectively JCL. <span
-      style="color:#D22">As of SLF4J version 1.1.0, all of the
-      bindings shipped with SLF4J depend on <em>slf4j-api.jar</em>
-      which must be present on the class path for the binding to
-      function properly.</span> The figure below illustrates the
-      general idea.
+      <p>SLF4J supports multiple logging frameworks, namely, NOP,
+      Simple, log4j version 1.2, java.util.logging also referred to as
+      JDK 1.4 logging, JCL and logback. The SLF4J distribution ships
+      with several jar files <em>slf4j-nop.jar</em>,
+      <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>,
+      <em>slf4j-jdk14.jar</em> and <em>slf4j-jcl.jar</em>. These
+      artifacts are referred to as "SLF4J bindings". <span
+      style="color:#D22">All of the bindings shipped with SLF4J depend
+      on <em>slf4j-api.jar</em> which must be present on the class
+      path for the binding to function properly.</span> The figure
+      below illustrates the general idea.
       </p>
 
       <p>&nbsp;</p>
 
       <p><a href="images/bindings.png">
-          <img border="1" src="images/bindings.png" alt="click to enlarge" width="500"/>
-        </a></p>
+      <img border="1" src="images/bindings.png" alt="click to enlarge" width="500"/>
+      </a></p>
 
-        <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      
+      <p>SLF4J does not rely on any special class loader machinery. In
+      fact, the each SLF4J binding is hardwired <em>at compile
+      time</em> to use one and only one specific logging framework.
+      For example, the slf4j-log12.jar binding is bound at compile
+      time to use log4j.  In your code, in addition to
+      <em>slf4j-api.jar</em>, you simply drop <b>one and only one</b>
+      binding of your choice onto the appropriate class path
+      location. Please do not place more than one binding on your
+      class path because SLF4J can bind with one and only one logging
+      framework at a time.
+      </p>
 
-        <h2>Small applications</h2>
+      <p>The SLF4J interfaces and their various adapters are extremely
+      simple. Most developers familiar with the Java language should
+      be able to read and fully understand the code in less than one
+      hour.  Hopefully, the simplicity of the SLF4J interfaces and the
+      deployment model will make it easy for developers of other
+      logging frameworks to conform to the SLF4J model.
+      </p>
 
-        <p>Small applications where configuring a fully-fledged
-        logging systems can be somewhat of an overkill, can drop in
-        <em> <em>slf4j-api.jar+</em>slf4j-simple.jar</em> instead of a
-        binding for a fully-fledged logging system.
-        </p>
+      <p>As noted earlier, SLF4J does not rely on any special class
+      loader machinery. Every variant of
+      <em>slf4j-&lt;impl&gt;.jar</em> is statically hardwired <em>at
+      compile time</em> to use one and only specific
+      implementation. This unsophisticated approach ensured that SLF4J
+      does not suffer from none of the <a
+      href="http://www.qos.ch/logging/classloader.jsp">class loader
+      problems observed when using JCL</a>.</p>
+        
+      
+      <h3>Small applications</h3>
 
-        <h2>Libraries</h2>
+      <p>Small applications where configuring a fully-fledged logging
+      framework can be an overkill, can drop in <em>
+      <em>slf4j-api.jar+</em>slf4j-simple.jar</em> instead of a
+      binding for a fully-fledged logging system.
+      </p>
 
-        <p>Authors of widely-distributed components and libraries may
-        code against the SLF4J interface in order to avoid imposing an
-        logging system on the end-user.  At deployment time, the
-        end-user may choose the desired logging system by inserting
-        the corresponding jar file in her classpath. This stupid,
-        simple and robust approach avoids many of the painful bugs
-        associated with dynamic discovery processes.
-        </p>
+      <h3>Libraries</h3>
+
+      <p>Authors of widely-distributed components and libraries may
+      code against the SLF4J interface in order to avoid imposing an
+      logging framework on the end-user.  At deployment time, the
+      end-user may choose the desired logging framework by inserting
+      the corresponding binding in her classpath. This stupid, simple
+      and robust approach avoids many of the painful bugs associated
+      with dynamic discovery processes found in JCL.
+      </p>
      
-        <h2>Simplicity</h2>
-
-        <p>The SLF4J interfaces and their various adapters are
-        extremely simple. Most developers familiar with the Java
-        language should be able to read and fully understand the code
-        in less than one hour. 
-        </p>           
-
-        <p>As noted earlier, SLF4J does not rely on any special class
-        loader machinery. Every variant of
-        <em>slf4j-&lt;impl&gt;.jar</em> is statically hardwired <em>at
-        compile time</em> to use one and only specific
-        implementation. Thus, SLF4J suffers from none of the <a
-        href="http://www.qos.ch/logging/classloader.jsp">class loader
-        problems observed when using JCL</a>.</p>
         
-        <p>Hopefully, the simplicity of the SLF4J interfaces and the
-        deployment model will make it easy for developers of other
-        logging APIs to conform to the SLF4J model.
-        </p>
+      <h3>Built-in support in logback</h3>
 
-        <h2>Built-in support in logback</h2>
+      <p>The <code>ch.qos.logback.classic.Logger</code> class in
+      logback directly implements SLF4J's
+      <code>org.slf4j.Logger</code> interface.
+      </p>
 
-        <p>The <code>ch.qos.logback.classic.Logger</code> class in
-        logback directly implements SLF4J's
-        <code>org.slf4j.Logger</code> interface.
-        </p>
-
-        <p>Logback's built-in (a.k.a. native) support for SLF4J means
-        that the adapter for does not need to wrap logback objects in
-        order to make them conform to SLF4J's <code>Logger</code>
-        interface. A logback
-        <code>ch.qos.logback.classic.Logger</code> <em>is</em> a
-        <code>org.slf4j.Logger</code>. Thus, using SLF4J in
-        conjunction with logback involves strictly zero memory and
-        computational overhead.
-        </p>
+      <p>Logback's built-in (a.k.a. native) support for SLF4J means
+      that the adapter for does not need to wrap logback objects in
+      order to make them conform to SLF4J's <code>Logger</code>
+      interface. A logback <code>ch.qos.logback.classic.Logger</code>
+      <em>is</em> a <code>org.slf4j.Logger</code>. Thus, using SLF4J
+      in conjunction with logback involves strictly zero memory and
+      computational overhead.
+      </p>
 
         
-        <h2><a name="mdc" href="#mdc">Mapped Diagnostic Context (MDC)
-        support</a></h2>
+      <h3><a name="mdc" href="#mdc">Mapped Diagnostic Context (MDC)
+      support</a></h3>
 
-        <p>As of version 1.4.1, SLF4J supports MDC, or mapped
-        diagnosic context. If the underlying logging system offers MDC
-        functionality, then SLF4J will delegate to the underlying
-        system's MDC. Note that at this time, only log4j and logback
-        offer MDC functionality. If the undelying system does not
-        offer MDC, then SLF4J will silently drop MDC information.
-        </p>
+      <p>As of version 1.4.1, SLF4J supports MDC, or mapped diagnostic
+      context. If the underlying logging framework offers MDC
+      functionality, then SLF4J will delegate to the underlying
+      framework's MDC. Note that at this time, only log4j and logback
+      offer MDC functionality. If the underlying framework does not
+      offer MDC, then SLF4J will silently drop MDC information.
+      </p>
 
-        <p>Thus, as a SLF4J user, you can take advantage of MDC
-        information in the presence of log4j or logback, but without
-        forcing these upon your users as dependencies.
-        </p>
+      <p>Thus, as a SLF4J user, you can take advantage of MDC
+      information in the presence of log4j or logback, but without
+      forcing these upon your users as dependencies.
+      </p>
 
-        <p>As of SLF4J version 1.5.0, SLF4J provides MDC support for
-        java.util.logging (JDK 1.4 logging) as well. 
-        </p>
+      <p>As of SLF4J version 1.5.0, SLF4J provides MDC support for
+      java.util.logging (JDK 1.4 logging) as well.
+      </p>
 
-        <p>For more information on MDC please see the <a
-        href="http://logback.qos.ch/manual/mdc.html">chapter on
-        MDC</a> in the logback manual.
-        </p>
+      <p>For more information on MDC please see the <a
+      href="http://logback.qos.ch/manual/mdc.html">chapter on
+      MDC</a> in the logback manual.
+      </p>
+      
+      <h3><a name="gradual" href="#gradual">Gradual migration to SLF4J
+      from Jakarta Commons Logging (JCL)</a></h3>
 
-        <h2><a name="gradual" href="#gradual">Gradual migration to
-        SLF4J from Jakarta Commons Logging (JCL)</a></h2>
-
-
-        <p>This section has been moved <a
-        href="legacy.html#jcl-over-slf4j">elsewhere</a>.</p>
+      
+      <p>This section has been moved <a
+      href="legacy.html#jcl-over-slf4j">elsewhere</a>.</p>
+      
+      <h3><a name="summary" href="#summary">Executive
+      summary</a>
+      </h3>
+      
+      <table  class="bodyTable" cellspacing="4" cellpadding="4">
+        <tr>
+          <th align="left">Advantage</th>
+          <th align="left">Description</th>
+        </tr>
         
-        <h2><a name="summary" href="#summary">Executive
-        summary</a>
-        </h2>
-
-        <table  class="bodyTable" cellspacing="4" cellpadding="4">
-          <tr>
-            <th align="left">Advantage</th>
-            <th align="left">Description</th>
-          </tr>
-
-          <tr  class="a">
-            <td>Swappable logging API implementations</td>
-            <td>The desired logging API can be plugged in at
-            deployment time by inserting the appropriate jar file on
-            your classpath.
-            </td>
-          </tr>
+        <tr  class="a">
+          <td>Swap logging frameworks at deployment</td>
+          <td>The desired logging framework can be plugged in at
+          deployment time by inserting the appropriate jar file
+          (binding) on your class path.
+          </td>
+        </tr>
 
 
-          <tr class="alt">
-            <td>Fail-fast operation</td>
-            <td>Assuming the appropriate jar file is available on the
-            classpath, under no circumstances will SLF4J cause your
-            application to fail. SLF4J's simple and robust design
-            ensures that SLF4J never causes exceptions to be thrown.
-            
-            <p>Contrast this with
-            <code>LogConfigurationException</code> thrown by JCL which
-            will cause your otherwise functioning application to
-            fail. JCL-logging will throw a
-            <code>LogConfigurationException</code> in case the <a
-            href="http://jakarta.apache.org/commons/logging/api/org/apache/commons/logging/Log.html">Log</a>
-            interface and its dynamically discovered implementation
-            are loaded by different class loaders.
-              </p>
-            </td>
-          </tr>
+        <tr class="alt">
+          <td>Fail-fast operation</td>
+          <td>Assuming the appropriate jar file is available on the
+          class path, under no circumstances will SLF4J cause your
+          application to fail. SLF4J's simple and robust design
+          ensures that SLF4J never causes exceptions to be thrown.
+          
+          <p>Contrast this with
+          <code>LogConfigurationException</code> thrown by JCL which
+          will cause your otherwise functioning application to
+          fail. JCL-logging will throw a
+          <code>LogConfigurationException</code> in case the <a
+          href="http://jakarta.apache.org/commons/logging/api/org/apache/commons/logging/Log.html">Log</a>
+          interface and its dynamically discovered implementation
+          are loaded by different class loaders.
+          </p>
+          </td>
+        </tr>
 
        
-          <tr class="a">
-            <td>Adapter implementations for popular logging systems
-            </td>
-
-            <td>SLF4J supports popular logging systems, namely log4j,
-            JDK 1.4 logging, Simple logging and NOP. The <a
-            href="http://logback.qos.ch">logback</a> project supports
-            SLF4J natively.  </td>
-
-          </tr>
-
-          <tr class="alt">
-            <td>Bridging legacy logging APIs</td>
-
-            <td>
-              <p>The implementation of JCL over SLF4J, i.e
-              <em>jcl-over-slf4j.jar</em>, will allow your project to
-              migrate to SLF4J piecemeal, without breaking
-              compatibility with existing software using
-              JCL. Similarly, log4j-over-slf4j.jar and jul-to-slf4j
-              modules will allow you to redirect log4j and
-              respectively java.util.logging calls to SLF4J. 
-              </p>
-            </td>
-          </tr>
-
-          <tr class="a">
-            <td>Migrate your source code</td>
-            <td>The <a href="migrator.html">slf4j-migrator</a> utility
-            can help you migrate your source to use SLF4J.
-            </td>
-          </tr>
-
+        <tr class="a">
+          <td>Bindings for popular logging frameworks
+          </td>
           
-
-          <tr class="alt">
-            <td>Support for parameterized log messages</td>
-
-            <td>All SLF4J bindings support parameterized log messages
-            with significantly <a
-            href="faq.html#logging_performance">improved
-            performace</a> results.</td>
-          </tr>
-
+          <td>SLF4J supports popular logging frameworks, namely log4j,
+          java.util.logging, Simple logging and NOP. The <a
+          href="http://logback.qos.ch">logback</a> project supports
+          SLF4J natively.  </td>
+          
+        </tr>
+        
+        <tr class="alt">
+          <td>Bridging legacy logging APIs</td>
+          
+          <td>
+            <p>The implementation of JCL over SLF4J, i.e
+            <em>jcl-over-slf4j.jar</em>, will allow your project to
+            migrate to SLF4J piecemeal, without breaking
+            compatibility with existing software using
+            JCL. Similarly, log4j-over-slf4j.jar and jul-to-slf4j
+            modules will allow you to redirect log4j and
+            respectively java.util.logging calls to SLF4J. 
+            </p>
+          </td>
+        </tr>
+        
+        <tr class="a">
+          <td>Migrate your source code</td>
+          <td>The <a href="migrator.html">slf4j-migrator</a> utility
+          can help you migrate your source to use SLF4J.
+          </td>
+        </tr>
+        
+        
+        
+        <tr class="alt">
+          <td>Support for parameterized log messages</td>
+          
+          <td>All SLF4J bindings support parameterized log messages
+          with significantly <a
+          href="faq.html#logging_performance">improved performance</a>
+          results.</td>
+        </tr>
+        
          
   </table>
 
