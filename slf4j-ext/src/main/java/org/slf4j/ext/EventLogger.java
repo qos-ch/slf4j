@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Simple Logger used to log events. All events are directed to a logger named "EventLogger"
- * with a level of ERROR (the closest to "always" that SLF4J gets) and with an Event marker.
+ * with a level of INFO and with an Event marker.
  *
  * @author Ralph Goers
  */
@@ -36,9 +36,9 @@ public class EventLogger {
   public static void logEvent(EventData data) {
     if (eventLogger.instanceofLAL) {
       ((LocationAwareLogger) eventLogger.logger).log(EVENT_MARKER, FQCN,
-          LocationAwareLogger.ERROR_INT, data.toXML(), null);
+          LocationAwareLogger.INFO_INT, data.toXML(), null);
     } else {
-      eventLogger.logger.error(EVENT_MARKER, data.toXML(), data);
+      eventLogger.logger.info(EVENT_MARKER, data.toXML(), data);
     }
   }
 }
