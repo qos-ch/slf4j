@@ -106,7 +106,9 @@ public class HelloWorld {
 	<dt>java.util.logging - <em>slf4j-jdk14-${project.version}.jar</em></dt>
 	<dd>Also referred to as JDK 1.4 logging (<a href="http://www.exampledepot.com/egs/java.util.logging/pkg.html">examples</a>)<p/></dd>
         <dt><a href="http://commons.apache.org/logging/">Jakarta Commons Logging</a> - <em>slf4j-jcl-${project.version}.jar</em></dt>
-	<dd>A logging layer intended to solve the same problem as slf4j, but at runtime.  Traditionally delegates to log4j or java.util.logging <p/></dd>
+	<dd>A logging layer intended to solve the same problem as slf4j, but at runtime.  Traditionally delegates to log4j or java.util.logging.
+	  Currently at version 1.1.  Version 1.0 had problems in discovering the right framework (see the <a
+      href="http://www.qos.ch/logging/classloader.jsp">thorough analysis</a>).  <p/></dd>
 	<dt><a href="http://logback.qos.ch/"/>logback</a></dt>
 	<dd>A fork of log4j by the original author which is under active development.  Supports slf4j natively.<p/></dd>
       </dl>
@@ -144,17 +146,7 @@ public class HelloWorld {
       deployment model will make it easy for developers of other
       logging frameworks to conform to the SLF4J model.
       </p>
-
-      <p>As noted earlier, SLF4J does not rely on any special class
-      loader machinery. Every variant of
-      <em>slf4j-&lt;impl&gt;.jar</em> is statically hardwired <em>at
-      compile time</em> to use one and only specific
-      implementation. This unsophisticated approach ensured that SLF4J
-      does not suffer from none of the <a
-      href="http://www.qos.ch/logging/classloader.jsp">class loader
-      problems observed when using JCL</a>.</p>
-        
-      
+     
      <h3>Libraries</h3>
 
       <p>Authors of widely-distributed components and libraries may
