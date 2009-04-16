@@ -86,26 +86,35 @@ public class HelloWorld {
       </pre>
       
       <p>The example above illustrates the typical usage pattern for
-      SLF4j. Note the use of formatted log messages on line 15. See
-      the question <a href="faq.html#2.3">"What is the fastest way of
+      SLF4j. Note the use of {}-placeholders on line 15. See
+      the question <a href="faq.html#logging_performance">"What is the fastest way of
       logging?"</a> in the FAQ for more details.
       </p>
-
       
       <h3><a name="swapping" href="#binding">Binding with a logging
       framework at deployment time</a></h3>
 
-      <p>SLF4J supports multiple logging frameworks, namely, NOP,
-      Simple, log4j version 1.2, java.util.logging also referred to as
-      JDK 1.4 logging, JCL and logback. The SLF4J distribution ships
-      with several jar files <em>slf4j-nop.jar</em>,
-      <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>,
-      <em>slf4j-jdk14.jar</em> and <em>slf4j-jcl.jar</em>. These
-      artifacts are referred to as "SLF4J bindings". <span
-      style="color:#D22">All of the bindings shipped with SLF4J depend
-      on <em>slf4j-api.jar</em> which must be present on the class
-      path for the binding to function properly.</span> The figure
-      below illustrates the general idea.
+      <p>SLF4J supports multiple logging frameworks:</p>
+
+      <dl>
+	<dt><a href="http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html">NOP</a> - <em>slf4j-nop-${project.version}.jar</em></dt>
+	<dd>All logging is silently discarded<p/></dd>
+	<dt><a href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple</a> - <em>slf4j-simple-${project.version}.jar</em></dt>
+	<dd>Very small and simple, outputs all events at WARN level or higher to System.err.  Good for small applications.<p/></dd>
+	<dt><a href="http://logging.apache.org/log4j/1.2/index.html">log4j version 1.2</a> - <em>slf4j-log4j12-${project.version}.jar</em></dt>
+	<dd>A very widely used logging framework.<p/></dd>
+	<dt>java.util.logging - <em>slf4j-jdk14-${project.version}.jar</em></dt>
+	<dd>Also referred to as JDK 1.4 logging (<a href="http://www.exampledepot.com/egs/java.util.logging/pkg.html">examples</a>)<p/></dd>
+        <dt><a href="http://commons.apache.org/logging/">Jakarta Commons Logging</a> - <em>slf4j-jcl-${project.version}.jar</em></dt>
+	<dd>A logging layer intended to solve the same problem as slf4j, but at runtime.  Traditionally delegates to log4j or java.util.logging <p/></dd>
+	<dt><a href="http://logback.qos.ch/"/>logback</a></dt>
+	<dd>A fork of log4j by the original author which is under active development.  Supports slf4j natively.<p/></dd>
+      </dl>
+
+      <p>Each framework has an indication of which file in the SLF4J distribution
+      that should be added to the classpath at deployment to let the required
+      <em>slf4j-api-${project.version}.jar</em> bind to that logging
+      framework.  The figure below illustrates the general idea.
       </p>
 
       <p>&nbsp;</p>
@@ -119,9 +128,9 @@ public class HelloWorld {
       <p>SLF4J does not rely on any special class loader machinery. In
       fact, the each SLF4J binding is hardwired <em>at compile
       time</em> to use one and only one specific logging framework.
-      For example, the slf4j-log12.jar binding is bound at compile
+      For example, the slf4j-log12-${project.version}.jar binding is bound at compile
       time to use log4j.  In your code, in addition to
-      <em>slf4j-api.jar</em>, you simply drop <b>one and only one</b>
+      <em>slf4j-api-${project.version}.jar</em>, you simply drop <b>one and only one</b>
       binding of your choice onto the appropriate class path
       location. Please do not place more than one binding on your
       class path because SLF4J can bind with one and only one logging
@@ -146,31 +155,26 @@ public class HelloWorld {
       problems observed when using JCL</a>.</p>
         
       
-      <h3>Small applications</h3>
-
-      <p>Small applications where configuring a fully-fledged logging
-      framework can be an overkill, can drop in <em>
-      <em>slf4j-api.jar+</em>slf4j-simple.jar</em> instead of a
-      binding for a fully-fledged logging system.
-      </p>
-
-      <h3>Libraries</h3>
+     <h3>Libraries</h3>
 
       <p>Authors of widely-distributed components and libraries may
       code against the SLF4J interface in order to avoid imposing an
-      logging framework on the end-user.  At deployment time, the
-      end-user may choose the desired logging framework by inserting
-      the corresponding binding in her classpath. This stupid, simple
-      and robust approach avoids many of the painful bugs associated
-      with dynamic discovery processes found in JCL.
+      logging framework on the developer using the component or library.
+      He or she may choose the desired logging framework at deployment time
+      by inserting
+      the corresponding binding in the classpath, and may change it later
+      by replacing the binding jar and restart the application.  This
+      approach has proven to be simple and robust.
       </p>
      
         
       <h3>Built-in support in logback</h3>
 
-      <p>The <code>ch.qos.logback.classic.Logger</code> class in
+      <p>The <a href="http://logback.qos.ch/apidocs/ch/qos/logback/classic/Logger.html">
+      <code>ch.qos.logback.classic.Logger</code></a> class in
       logback directly implements SLF4J's
-      <code>org.slf4j.Logger</code> interface.
+      <a href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html">
+      <code>org.slf4j.Logger</code></a> interface.
       </p>
 
       <p>Logback's built-in (a.k.a. native) support for SLF4J means
@@ -185,6 +189,9 @@ public class HelloWorld {
         
       <h3><a name="mdc" href="#mdc">Mapped Diagnostic Context (MDC)
       support</a></h3>
+      <p>"Mapped Diagnostic Context" is essentially a map maintained by the
+      logging framework where the application can provided key-value pairs,
+      which can then be inserted by the logging framework in log messages.</p>
 
       <p>As of version 1.4.1, SLF4J supports MDC, or mapped diagnostic
       context. If the underlying logging framework offers MDC
