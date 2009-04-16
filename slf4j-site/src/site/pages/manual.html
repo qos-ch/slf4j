@@ -243,20 +243,10 @@ public class HelloWorld {
 
         <tr class="alt">
           <td>Fail-fast operation</td>
-          <td>Assuming the appropriate jar file is available on the
-          class path, under no circumstances will SLF4J cause your
-          application to fail. SLF4J's simple and robust design
-          ensures that SLF4J never causes exceptions to be thrown.
-          
-          <p>Contrast this with
-          <code>LogConfigurationException</code> thrown by JCL which
-          will cause your otherwise functioning application to
-          fail. JCL-logging will throw a
-          <code>LogConfigurationException</code> in case the <a
-          href="http://jakarta.apache.org/commons/logging/api/org/apache/commons/logging/Log.html">Log</a>
-          interface and its dynamically discovered implementation
-          are loaded by different class loaders.
-          </p>
+          <td>Due to the way that classes are loaded by the JVM,
+	    the framework binding will be verified automatically
+	    very early and slf4j will abort execution if
+	    no binding is present.
           </td>
         </tr>
 
