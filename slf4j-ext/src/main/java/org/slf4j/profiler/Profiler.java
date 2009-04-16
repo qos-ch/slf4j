@@ -148,7 +148,7 @@ public class Profiler implements TimeInstrument {
   }
   
   /**
-   * This mehtod is used in tests.
+   * This method is used in tests.
    */
   void sanityCheck() throws IllegalStateException {
     if(getStatus() != TimeInstrumentStatus.STOPPED) {
@@ -233,7 +233,7 @@ public class Profiler implements TimeInstrument {
     buf.append(prefix);
     SpacePadder.leftPad(buf, "[" + sw.getName() + "]", MIN_SW_NAME_LENGTH);
     buf.append(" ");
-    String timeStr = Util.durationInDunrationUnitsAsStr(sw.elapsedTime(),
+    String timeStr = Util.durationInDurationUnitsAsStr(sw.elapsedTime(),
         du);
     SpacePadder.leftPad(buf, timeStr, MIN_SW_ELAPSED_TIME_NUMBER_LENGTH);
     buf.append(" ");
