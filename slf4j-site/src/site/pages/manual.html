@@ -26,6 +26,37 @@
     </p>
       
     <h3>
+    <a name="hello_world" href="#hello_world">Hello World</a>
+    </h3>
+
+      <p>It is traditional to present the simplest possible way to
+output the text "Hello World". In order to do so with SLF4J you need to
+<a href="download.html">download the slf4j distribution</a>, unpack it,
+and add these two jar files to your classpath:</p>
+
+      <ul>
+	<li>slf4j-api-${project.version}.jar</li>
+	<li>slf4j-simple-${project.version}.jar</li>
+      </ul>
+      <p>
+        The HelloWorld.java file asks for a logger for HelloWorld.class, which in turn logs "Hello World".
+      </p>
+
+<pre class="source">
+public class HelloWorld {
+
+  public static void main(String[] args) {
+    org.slf4j.LoggerFactory.getLogger(HelloWorld.class).info("Hello World");
+  }
+}
+</pre>
+
+      HelloWorld will output, when compiled and run:
+
+<pre class="output">0 [main] INFO HelloWorld - Hello World</pre>
+
+      
+    <h3>
     <a name="typical_usage" href="#typical_usage">Typical usage
     pattern</a>
     </h3>
