@@ -99,8 +99,8 @@ public class SLF4JBridgeHandler extends Handler {
    * <p>
    * This handler will redirect jul logging to SLF4J. However, only logs enabled
    * in j.u.l. will be redirected. For example, if a log statement invoking a
-   * j.u.l. logger disabled that statement, by definition, will <em>not</em> reach
-   * any SLF4JBridgeHandler instance and cannot be redirected. 
+   * j.u.l. logger disabled that statement, by definition, will <em>not</em>
+   * reach any SLF4JBridgeHandler instance and cannot be redirected.
    */
   public static void install() {
     LogManager.getLogManager().getLogger("").addHandler(
@@ -112,9 +112,9 @@ public class SLF4JBridgeHandler extends Handler {
    * {@link #install()}.
    * 
    * @throws SecurityException
-   *                 A <code>SecurityException</code> is thrown, if a security
-   *                 manager exists and if the caller does not have
-   *                 LoggingPermission("control").
+   *           A <code>SecurityException</code> is thrown, if a security manager
+   *           exists and if the caller does not have
+   *           LoggingPermission("control").
    */
   public static void uninstall() throws SecurityException {
     java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger(
@@ -232,8 +232,8 @@ public class SLF4JBridgeHandler extends Handler {
    * about discarding log statements.
    * 
    * @param record
-   *                Description of the log event. A null record is silently
-   *                ignored and is not published.
+   *          Description of the log event. A null record is silently ignored
+   *          and is not published.
    */
   public void publish(LogRecord record) {
     // Silently ignore null records.
@@ -244,9 +244,11 @@ public class SLF4JBridgeHandler extends Handler {
     Logger slf4jLogger = getSLF4JLogger(record);
     String message = record.getMessage(); // can be null!
     // this is a check to avoid calling the underlying logging system
-    // with a null message
+    // with a null message. While it is legitimate to invoke j.u.l. with
+    // a null message, other logging frameworks do not support this.
+    // see also http://bugzilla.slf4j.org/show_bug.cgi?id=108
     if (message == null) {
-      return;
+      message = "";
     }
     if (slf4jLogger instanceof LocationAwareLogger) {
       callLocationAwareLogger((LocationAwareLogger) slf4jLogger, record);
