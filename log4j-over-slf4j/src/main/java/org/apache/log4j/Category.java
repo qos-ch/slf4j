@@ -169,7 +169,7 @@ public class Category {
     return false;
   }
 
-  void innerLog(Marker marker, String fqcn, int level, Object message,
+  void differentiatedLog(Marker marker, String fqcn, int level, Object message,
       Throwable t) {
     String m = convertToString(message);
     if (locationAwareLogger != null) {
@@ -199,7 +199,7 @@ public class Category {
    * Delegates to {@link org.slf4j.Logger#debug(String)} method of SLF4J.
    */
   public void debug(Object message) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, null);
   }
 
   /**
@@ -207,14 +207,14 @@ public class Category {
    * SLF4J.
    */
   public void debug(Object message, Throwable t) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#info(String)} method in SLF4J.
    */
   public void info(Object message) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, null);
   }
 
   /**
@@ -222,14 +222,14 @@ public class Category {
    * SLF4J.
    */
   public void info(Object message, Throwable t) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#warn(String)} method in SLF4J.
    */
   public void warn(Object message) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, null);
   }
 
   /**
@@ -237,14 +237,14 @@ public class Category {
    * SLF4J.
    */
   public void warn(Object message, Throwable t) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
    */
   public void error(Object message) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
   }
 
   /**
@@ -252,14 +252,14 @@ public class Category {
    * SLF4J.
    */
   public void error(Object message, Throwable t) {
-    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
    */
   public void fatal(Object message) {
-    innerLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
+    differentiatedLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
   }
 
   /**
@@ -267,7 +267,7 @@ public class Category {
    * SLF4J. In addition, the call is marked with a marker named "FATAL".
    */
   public void fatal(Object message, Throwable t) {
-    innerLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
+    differentiatedLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
   }
 
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
