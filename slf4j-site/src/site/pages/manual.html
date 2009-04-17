@@ -21,7 +21,7 @@
     
     <p>The Simple Logging Facade for Java or (SLF4J) serves as a
     simple facade or abstraction for various logging frameworks, e.g.
-    java.util.logging, log4j and logbback, allowing the end-user to
+    java.util.logging, log4j and logback, allowing the end-user to
     plug in the desired logging framework at <em>deployment</em> time.
     </p>
       
@@ -31,10 +31,9 @@
 
     <p>In accordance with programming tradition, here is an example
     illustrating the simplest way to output "Hello world" using SLF4J.
-    </p>
-
-    <p>The HelloWorld classasks for a logger for the
-    <code>HelloWorld.class</code>, which in turn logs "Hello World".
+    It begins by getting a logger with the name "HelloWorld". This
+    logger is in turn used to log the message "Hello World". Here is
+    the source code.
     </p>
 
       <pre class="source">import org.slf4j.Logger;
@@ -47,10 +46,10 @@ public class HelloWorld {
   }
 }</pre>
 
-     <p>To run this exampple, you must startirst first <a
+     <p>To run this example, you first need to <a
      href="download.html">download the slf4j distribution</a>, and
-     unpack it. Once that is done, add these two jar files to your
-     classpath:</p>
+     then to unpack it. Once that is done, add these two jar files to
+     your class path:</p>
 
      <ul>
        <li>slf4j-api-${project.version}.jar</li>
@@ -117,13 +116,15 @@ public class HelloWorld {
         href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple
         </a> implementation, which outputs all events to
         System.err. Only messages of level INFO and higher are
-        printed. Good for small applications.<p/></dd>
+        printed. This binding may be useful in the context of small
+        applications.<p/></dd>
 
         <dt><em>slf4j-log4j12-${project.version}.jar</em>
         </dt>
         <dd>Binding for <a
         href="http://logging.apache.org/log4j/1.2/index.html">log4j
-        version 1.2</a>, a widely used logging framework.<p/></dd>
+        version 1.2</a>, a widely used logging framework. You also
+        need to place <em>log4j.jar</em> on your class path.<p/></dd>
 
         <dt><em>slf4j-jdk14-${project.version}.jar</em> </dt>
         <dd>Binding for java.util.logging, also referred to as JDK 1.4
@@ -134,14 +135,19 @@ public class HelloWorld {
         
         <dd>Binding for <a
         href="http://commons.apache.org/logging/">Jakarta Commons
-        Logging</a>, a logging layer intended to solve the same
-        problem as slf4j, but using runtime binding.<p/>
+        Logging</a>. This binding will delegate all SLF4J logging to
+        JCL.<p/>
         </dd>     
       </dl>
 
-      <p>There also exist SLF4J bindings which are external to the
-      SLF4J project, e.g. <a
-      href="http://logback.qos.ch/">logback</a>.
+      <p>There are also SLF4J bindings external to the SLF4J project,
+      e.g. <a href="http://logback.qos.ch/">logback</a>.
+      </p>
+
+      <p>To switch logging frameworks, just replace slf4j bindings on
+      your class path. For example, to switch from java.util.logging
+      to log4j, just replace slf4j-jdk14-${project.version}.jar with
+      slf4j-log4j12-${project.version}.jar.
       </p>
 
       <p>SLF4J does not rely on any special class loader machinery. In
@@ -178,12 +184,12 @@ public class HelloWorld {
 
       <p>Authors of widely-distributed components and libraries may
       code against the SLF4J interface in order to avoid imposing an
-      logging framework on the developer using the component or library.
-      He or she may choose the desired logging framework at deployment time
-      by inserting
-      the corresponding binding in the classpath, and may change it later
-      by replacing the binding jar and restart the application.  This
-      approach has proven to be simple and robust.
+      logging framework on the end-user of the component or library.
+      He or she may choose the desired logging framework at deployment
+      time by inserting the desired slf4j binding on the classpath,
+      which may be changed later by replacing an existing binding with
+      another on the class path and restarting the application.  This
+      approach has proven to be simple and very robust.
       </p>
      
         
@@ -260,10 +266,11 @@ public class HelloWorld {
 
         <tr class="alt">
           <td>Fail-fast operation</td>
-          <td>Due to the way that classes are loaded by the JVM,
-	    the framework binding will be verified automatically
-	    very early and slf4j will abort execution if
-	    no binding is present.
+
+          <td>Due to the way that classes are loaded by the JVM, the
+          framework binding will be verified automatically very early
+          on.  SLF4J will abort execution with a warning if no binding
+          is present.
           </td>
         </tr>
 
@@ -285,11 +292,13 @@ public class HelloWorld {
           <td>
             <p>The implementation of JCL over SLF4J, i.e
             <em>jcl-over-slf4j.jar</em>, will allow your project to
-            migrate to SLF4J piecemeal, without breaking
-            compatibility with existing software using
-            JCL. Similarly, log4j-over-slf4j.jar and jul-to-slf4j
-            modules will allow you to redirect log4j and
-            respectively java.util.logging calls to SLF4J. 
+            migrate to SLF4J piecemeal, without breaking compatibility
+            with existing software using JCL. Similarly,
+            log4j-over-slf4j.jar and jul-to-slf4j modules will allow
+            you to redirect log4j and respectively java.util.logging
+            calls to SLF4J. See the page on <a
+            href="legacy.html">Bridging legacy APIs</a> for more
+            details.
             </p>
           </td>
         </tr>

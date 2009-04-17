@@ -20,12 +20,13 @@
 
     <h2>Bridging legacy APIs</h2>
     
-    <p>Often, some of the components you depend on rely on a logging API
-    other than SLF4J. These components presumably will not switch to
-    SLF4J in the near future. SLF4J ships with several bridging modules
-    which redirect calls to log4j, JCL and j.u.l APIs to behave as if
-    they were made to the SLF4J API. The figure below illustrates the
-    idea.
+    <p>Often, some of the components you depend on rely on a logging
+    API other than SLF4J. You may also assume that these components
+    will switch to SLF4J in the immediate future. To deal with such
+    circumstances, SLF4J ships with several bridging modules which
+    redirect calls made to log4j, JCL and java.util.logging APIs to
+    behave as if they were made to the SLF4J API instead. The figure
+    below illustrates the idea.
     </p>
     
     <p></p>
@@ -58,9 +59,9 @@
     backward compatibility at the same time. Just replace
     <em>commons-logging.jar</em> with
     <em>jcl-over-slf4j.jar</em>. Subsequently, the selection of the
-    underlying logging system will be done by SLF4J instead of JCL but
-    without the class loader headaches. The underlying logging system
-    can be any of the frameworks supported by SLF4J.
+    underlying logging framework will be done by SLF4J instead of JCL
+    but without the class loader headaches. The underlying logging
+    framework can be any of the frameworks supported by SLF4J.
     </p>
     
     <h3><em>slf4j-jcl.jar</em></h3>
@@ -195,7 +196,7 @@
     SLF4j API. See also <a
     href="api/org/slf4j/bridge/SLF4JBridgeHandler.html">SLF4JBridgeHandler
     javadocs</a>. Contrary to other bridging modules such as
-    jcl-over-slfj and log4j-over-slf4h, which re-implement JCL and
+    jcl-over-slfj and log4j-over-slf4j, which re-implement JCL and
     respectively log4j, the jul-to-slf4j modules does not re-implement
     the java.util.logging package because packages under the java.*
     namespace cannot be replaced.
