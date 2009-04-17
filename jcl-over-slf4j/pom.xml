@@ -19,12 +19,19 @@
 	</description>
 
   <dependencies>
+    <!--
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-nop</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
-  </dependency>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <scope>test</scope>
+    </dependency>
    
   </dependencies>
 

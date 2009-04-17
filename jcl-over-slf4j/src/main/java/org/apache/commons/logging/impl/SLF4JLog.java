@@ -16,10 +16,12 @@
 
 package org.apache.commons.logging.impl;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of {@link Log org.apache.commons.logging.Log} interface which 
@@ -34,12 +36,16 @@ public class SLF4JLog implements Log, Serializable {
 
   private static final long serialVersionUID = 680728617011167209L;
 
+  //used to store this logger's name to recreate it after serialization
+  protected String name;
+
   // in both Log4jLogger and Jdk14Logger classes in the original JCL, the 
   // logger instance is transient
   private transient Logger logger;
 
   SLF4JLog(Logger logger) {
     this.logger = logger;
+    this.name = logger.getName();
   }
 
   /**
@@ -214,4 +220,15 @@ public class SLF4JLog implements Log, Serializable {
     logger.error(String.valueOf(message), t);
   }
 
+  /**
+   * Replace this instance with a homonymous (same name) logger returned by
+   * LoggerFactory. Note that this method is only called during deserialization.
+   * 
+   * @return logger with same name as returned by LoggerFactory
+   * @throws ObjectStreamException
+   */
+  protected Object readResolve() throws ObjectStreamException {
+    Logger logger = LoggerFactory.getLogger(this.name);
+    return new SLF4JLog(logger);
+  }
 }
