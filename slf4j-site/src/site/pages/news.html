@@ -29,6 +29,20 @@
 
   <h3>April x, 2009 - Release of SLF4J 1.5.7</h3>
 
+
+  <p>The Log interface implementations in the jcl-over-slf4j module
+  will now correctly cope with serialization. This fixes <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=79">bug 79</a>
+  reported by Mathias Bogaert. Many thanks to Eric Vargo for precisely
+  identifying the problem and supplying the corresponding patch.</p>
+
+  <p>The log4j-over-slf4j module will now correctly
+  interact with logging frameworks supporting location information
+  such as java.util.logging and logback.  This fixes <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=131">bug 131</a>
+  reported by Marc Zampetti.
+  </p>
+
   <p><code>SLF4JBridgeHandler</code> will no longer ignore log records
   with an empty message. This fixes <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=108">bug 108</a>

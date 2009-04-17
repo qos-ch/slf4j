@@ -40,14 +40,14 @@ import junit.framework.TestCase;
 public class InvokeJCLTest extends TestCase {
 
   public void testIsEnabledAPI() {
-    // assume that we are running over slf4j-simple
+    // assume that we are running over slf4j-jdk14
     Log log = LogFactory.getLog(InvokeJCLTest.class);
     assertFalse(log.isTraceEnabled());
     assertFalse(log.isDebugEnabled());
-    assertFalse(log.isInfoEnabled());
-    assertFalse(log.isWarnEnabled());
-    assertFalse(log.isErrorEnabled());
-    assertFalse(log.isFatalEnabled());
+    assertTrue(log.isInfoEnabled());
+    assertTrue(log.isWarnEnabled());
+    assertTrue(log.isErrorEnabled());
+    assertTrue(log.isFatalEnabled());
   }
   
   public void testPrintAPI() {
