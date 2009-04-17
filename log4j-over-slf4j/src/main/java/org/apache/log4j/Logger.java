@@ -16,6 +16,8 @@
 
 package org.apache.log4j;
 
+import org.slf4j.spi.LocationAwareLogger;
+
 /**
  * <p>
  * This class is a minimal implementation of the original
@@ -26,7 +28,9 @@ package org.apache.log4j;
  * @author Ceki G&uuml;lc&uuml; 
  * */
 public class Logger extends Category {
-
+  
+  private static final String LOGGER_FQCN = Logger.class.getName();
+  
   Logger(String name) {
     super(name);
   }
@@ -61,9 +65,7 @@ public class Logger extends Category {
    * Delegates to {@link org.slf4j.Logger#trace(String)} method in SLF4J.
    */
   public void trace(Object message) {
-    // casting to String as SLF4J only accepts String instances, not Object
-    // instances.
-    slf4jLogger.trace(convertToString(message));
+    innerLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
   }
 
   /**
@@ -71,7 +73,7 @@ public class Logger extends Category {
    * method in SLF4J.
    */
   public void trace(Object message, Throwable t) {
-    slf4jLogger.trace(convertToString(message), t);
+    innerLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
   }
 
 }

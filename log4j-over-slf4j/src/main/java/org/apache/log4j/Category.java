@@ -23,33 +23,34 @@ import org.slf4j.spi.LocationAwareLogger;
 /**
  * <p>
  * This class is a minimal implementation of the original
- * <code>org.apache.log4j.Category</code> class (as found in log4j 1.2) 
- * by delegation of all calls to a {@link org.slf4j.Logger.Logger} instance.
+ * <code>org.apache.log4j.Category</code> class (as found in log4j 1.2) by
+ * delegation of all calls to a {@link org.slf4j.Logger.Logger} instance.
  * </p>
  * 
  * <p>
- * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>, 
- * <code>warn()</code>, <code>error()</code> printing methods are directly 
- * mapped to their SLF4J equivalents. Log4j's <code>fatal()</code> 
- * printing method is mapped to SLF4J's <code>error()</code> method 
- * with a FATAL marker.
+ * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>,
+ * <code>warn()</code>, <code>error()</code> printing methods are directly
+ * mapped to their SLF4J equivalents. Log4j's <code>fatal()</code> printing
+ * method is mapped to SLF4J's <code>error()</code> method with a FATAL marker.
  * 
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
  */
 public class Category {
 
+  private static final String CATEGORY_FQCN = Category.class.getName();
+
   private String name;
 
   protected org.slf4j.Logger slf4jLogger;
   private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
-  
+
   private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 
   Category(String name) {
     this.name = name;
     slf4jLogger = LoggerFactory.getLogger(name);
-    if(slf4jLogger instanceof LocationAwareLogger) {
+    if (slf4jLogger instanceof LocationAwareLogger) {
       locationAwareLogger = (LocationAwareLogger) slf4jLogger;
     }
   }
@@ -80,24 +81,24 @@ public class Category {
    * @return
    */
   public Level getEffectiveLevel() {
-    if(slf4jLogger.isTraceEnabled()) {
+    if (slf4jLogger.isTraceEnabled()) {
       return Level.TRACE;
     }
-    if(slf4jLogger.isDebugEnabled()) {
+    if (slf4jLogger.isDebugEnabled()) {
       return Level.DEBUG;
     }
-    if(slf4jLogger.isInfoEnabled()) {
+    if (slf4jLogger.isInfoEnabled()) {
       return Level.INFO;
     }
-    if(slf4jLogger.isWarnEnabled()) {
+    if (slf4jLogger.isWarnEnabled()) {
       return Level.WARN;
     }
     return Level.ERROR;
   }
 
   /**
-   * Returns the assigned {@link Level}, if any, for this Category.
-   * This implementation always returns null.
+   * Returns the assigned {@link Level}, if any, for this Category. This
+   * implementation always returns null.
    * 
    * @return Level - the assigned Level, can be <code>null</code>.
    */
@@ -105,50 +106,50 @@ public class Category {
     return null;
   }
 
-
   /**
    * @deprecated Please use {@link #getLevel} instead.
-  */
+   */
   final public Level getPriority() {
     return null;
   }
-  
+
   /**
-   * Delegates to {@link org.slf4j.Logger#isDebugEnabled} method in  SLF4J
+   * Delegates to {@link org.slf4j.Logger#isDebugEnabled} method in SLF4J
    */
   public boolean isDebugEnabled() {
     return slf4jLogger.isDebugEnabled();
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#isInfoEnabled} method in  SLF4J
+   * Delegates to {@link org.slf4j.Logger#isInfoEnabled} method in SLF4J
    */
   public boolean isInfoEnabled() {
     return slf4jLogger.isInfoEnabled();
   }
 
   /**
-   * Delegates tob {@link org.slf4j.Logger#isWarnEnabled} method in  SLF4J
+   * Delegates tob {@link org.slf4j.Logger#isWarnEnabled} method in SLF4J
    */
   public boolean isWarnEnabled() {
     return slf4jLogger.isWarnEnabled();
   }
-  
+
   /**
    * Delegates to {@link org.slf4j.Logger#isErrorEnabled} method in SLF4J
    */
   public boolean isErrorEnabled() {
     return slf4jLogger.isErrorEnabled();
   }
-  
 
   /**
-   * Determines whether the priority passed as parameter is enabled in
-   * the underlying SLF4J logger. Each log4j priority is mapped directly to
-   * its SLF4J equivalent, except for FATAL which is mapped as ERROR. 
+   * Determines whether the priority passed as parameter is enabled in the
+   * underlying SLF4J logger. Each log4j priority is mapped directly to its
+   * SLF4J equivalent, except for FATAL which is mapped as ERROR.
    * 
-   * @param p the priority to check against
-   * @return true if this logger is enabled for the given level, false otherwise.
+   * @param p
+   *          the priority to check against
+   * @return true if this logger is enabled for the given level, false
+   *         otherwise.
    */
   public boolean isEnabledFor(Priority p) {
     switch (p.level) {
@@ -168,104 +169,117 @@ public class Category {
     return false;
   }
 
-  
+  void innerLog(Marker marker, String fqcn, int level, Object message,
+      Throwable t) {
+    String m = convertToString(message);
+    if (locationAwareLogger != null) {
+      locationAwareLogger.log(marker, fqcn, level, m, t);
+    } else {
+      switch (level) {
+      case LocationAwareLogger.TRACE_INT:
+        slf4jLogger.trace(marker, m);
+        break;
+      case LocationAwareLogger.DEBUG_INT:
+        slf4jLogger.debug(marker, m);
+        break;
+      case LocationAwareLogger.INFO_INT:
+        slf4jLogger.info(marker, m);
+        break;
+      case LocationAwareLogger.WARN_INT:
+        slf4jLogger.warn(marker, m);
+        break;
+      case LocationAwareLogger.ERROR_INT:
+        slf4jLogger.error(marker, m);
+        break;
+      }
+    }
+  }
+
   /**
-   * Delegates to {@link org.slf4j.Logger#debug(String)} method of
-   * SLF4J.
+   * Delegates to {@link org.slf4j.Logger#debug(String)} method of SLF4J.
    */
   public void debug(Object message) {
-    // casting to String as SLF4J only accepts String instances, not Object
-    // instances.
-    slf4jLogger.debug(convertToString(message));
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, null);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#debug(String,Throwable)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#debug(String,Throwable)} method in
+   * SLF4J.
    */
   public void debug(Object message, Throwable t) {
-    slf4jLogger.debug(convertToString(message), t);
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, t);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#info(String)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#info(String)} method in SLF4J.
    */
   public void info(Object message) {
-    slf4jLogger.info(convertToString(message));
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, null);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#info(String,Throwable)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#info(String,Throwable)} method in
+   * SLF4J.
    */
   public void info(Object message, Throwable t) {
-    slf4jLogger.info(convertToString(message), t);
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, t);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#warn(String)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#warn(String)} method in SLF4J.
    */
   public void warn(Object message) {
-    slf4jLogger.warn(convertToString(message));
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, null);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#warn(String,Throwable)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#warn(String,Throwable)} method in
+   * SLF4J.
    */
   public void warn(Object message, Throwable t) {
-    slf4jLogger.warn(convertToString(message), t);
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, t);
   }
 
-  
   /**
-   * Delegates to {@link org.slf4j.Logger#error(String)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
    */
   public void error(Object message) {
-    slf4jLogger.error(convertToString(message));
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} method in
+   * SLF4J.
    */
   public void error(Object message, Throwable t) {
-    slf4jLogger.error(convertToString(message), t);
+    innerLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#error(String)} 
-   * method in SLF4J.
+   * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
    */
   public void fatal(Object message) {
-    slf4jLogger.error(FATAL_MARKER, convertToString(message));
+    innerLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
   }
 
   /**
-   * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} 
-   * method in SLF4J. In addition, the call is marked with a marker named "FATAL".
+   * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} method in
+   * SLF4J. In addition, the call is marked with a marker named "FATAL".
    */
   public void fatal(Object message, Throwable t) {
-    slf4jLogger.error(FATAL_MARKER, convertToString(message), t);
+    innerLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
   }
 
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
     int levelInt = priorityToLevelInt(p);
-    if(locationAwareLogger != null) {
-      if(msg != null) {
-        locationAwareLogger.log(null, FQCN, levelInt, msg.toString(), t); 
-      } else {
-        locationAwareLogger.log(null, FQCN, levelInt, null, t); 
-      }
+    if (locationAwareLogger != null) {
+      locationAwareLogger.log(null, FQCN, levelInt, convertToString(msg), t);
     } else {
-      throw new UnsupportedOperationException("The logger ["+slf4jLogger+"] does not seem to be location aware.");
+      throw new UnsupportedOperationException("The logger [" + slf4jLogger
+          + "] does not seem to be location aware.");
     }
-   
   }
-  
+
   private int priorityToLevelInt(Priority p) {
     switch (p.level) {
     case Level.TRACE_INT:
@@ -284,10 +298,10 @@ public class Category {
       throw new IllegalStateException("Unknown Priority " + p);
     }
   }
-  
+
   protected final String convertToString(Object message) {
     if (message == null) {
-      return (String)message;
+      return (String) message;
     } else {
       return message.toString();
     }
