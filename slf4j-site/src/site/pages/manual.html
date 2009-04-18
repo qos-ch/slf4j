@@ -246,7 +246,7 @@ public class HelloWorld {
         </tr>
         
         <tr  class="a">
-          <td>Swap logging frameworks at deployment</td>
+          <td>Choose logging frameworks at deployment</td>
           <td>The desired logging framework can be plugged in at
           deployment time by inserting the appropriate jar file
           (binding) on your class path.
@@ -305,10 +305,11 @@ public class HelloWorld {
         <tr class="alt">
           <td>Support for parameterized log messages</td>
           
-          <td>All SLF4J bindings support parameterized log messages
-          with significantly <a
-          href="faq.html#logging_performance">improved performance</a>
-          results.</td>
+          <td>All SLF4J bindings support parameterized log messages with
+          significantly <a href="faq.html#logging_performance">improved
+          performance</a> results.  Additionally this makes
+          the <a href="http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Category.html#isDebugEnabled()">"isDebugEnabled()"</a>
+          guard known from log4j superfluous.</td>
         </tr>
         
          
