@@ -186,7 +186,9 @@ public class HelloWorld {
       logging frameworks to conform to the SLF4J model.
       </p>
      
-      <h3>Libraries</h3>
+      <h3><a name="libraries"
+      href="#libraries">Libraries</a><a name="gradual"
+      href="#gradual"></a></h3>
 
       <p>Authors of widely-distributed components and libraries may
       code against the SLF4J interface in order to avoid imposing an
@@ -198,6 +200,15 @@ public class HelloWorld {
       approach has proven to be simple and very robust.
       </p>
         
+      <p>Those unfortunate to have to use one or more unchangable
+      legacy components which use log4j, Jakarta Commons Logging or JDK 1.4
+      logging directly, may have to use the slf4j drop-in replacements
+      which map these direct calls to slf4j.    See the
+      <a href="legacy.html">Briding legacy APIs</a> page for
+      details.</p>
+
+
+
       <h3><a name="mdc" href="#mdc">Mapped Diagnostic Context (MDC)
       support</a></h3>
       <p>"Mapped Diagnostic Context" is essentially a map maintained by the
@@ -223,13 +234,6 @@ public class HelloWorld {
       href="http://logback.qos.ch/manual/mdc.html">chapter on MDC</a>
       in the logback manual.
       </p>
-      
-      <h3><a name="gradual" href="#gradual">Gradual migration to SLF4J
-      from Jakarta Commons Logging (JCL)</a></h3>
-
-      
-      <p>This section has been moved <a
-      href="legacy.html#jcl-over-slf4j">elsewhere</a>.</p>
       
       <h3><a name="summary" href="#summary">Executive
       summary</a>
