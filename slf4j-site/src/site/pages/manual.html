@@ -36,7 +36,7 @@
     the source code.
     </p>
 
-      <pre class="source">import org.slf4j.Logger;
+<!--      <pre class="source">import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelloWorld {
@@ -45,6 +45,16 @@ public class HelloWorld {
     logger.info("Hello World");
   }
 }</pre>
+-->
+<pre class="source"><font color="#1773cc">import</font>&nbsp;org.slf4j.Logger;
+<font color="#1773cc">import</font>&nbsp;org.slf4j.LoggerFactory;
+
+<font color="#008b00"><b>public</b></font>&nbsp;<font color="#008b00"><b>class</b></font>&nbsp;HelloWorld {
+&nbsp;&nbsp;&nbsp;&nbsp;<font color="#008b00"><b>public</b></font>&nbsp;<font color="#008b00"><b>static</b></font>&nbsp;<font color="#008b00"><b>void</b></font>&nbsp;main(String[]&nbsp;args)&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logger logger = LoggerFactory.getLogger(HelloWorld.<font color="#008b00"><b>class</b></font>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<font color="#4a6f8b">&quot;Hello World&quot;</font>);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}</font></pre>
 
      <p>To run this example, you first need to <a
      href="download.html">download the slf4j distribution</a>, and
