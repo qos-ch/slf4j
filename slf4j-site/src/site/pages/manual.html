@@ -196,9 +196,7 @@ public class HelloWorld {
       logging frameworks to conform to the SLF4J model.
       </p>
      
-      <h3><a name="libraries"
-      href="#libraries">Libraries</a><a name="gradual"
-      href="#gradual"></a></h3>
+      <h3><a name="libraries" href="#libraries">Libraries</a></h3>
 
       <p>Authors of widely-distributed components and libraries may
       code against the SLF4J interface in order to avoid imposing an
@@ -244,6 +242,20 @@ public class HelloWorld {
       href="http://logback.qos.ch/manual/mdc.html">chapter on MDC</a>
       in the logback manual.
       </p>
+
+      <h3><a name="consolidate" href="#consolidate">Consolidate
+      logging via SLF4J</a></h3>
+
+      <p>Often times, a given project will depend on various
+      components which rely on logging APIs other than SLF4J. It is
+      depressingly common to find projects depending on JCL,
+      java.util.logging, log4j and SLF4J at the same time. It then
+      becomes highly desirable to consolidate logging through a single
+      channel. SLF4J caters for this common use-case by providing
+      bridging modules for JCL, java.util.logging and log4j. For more
+      details, please refer to the chapter on <a
+      href="legacy.html">Bridging legacy APIs</a>.
+      </p>
       
       <h3><a name="summary" href="#summary">Executive
       summary</a>
@@ -256,7 +268,9 @@ public class HelloWorld {
         </tr>
         
         <tr  class="a">
-          <td>Choose logging frameworks at deployment</td>
+
+          <td>Select your logging framework at deployment time</td>
+
           <td>The desired logging framework can be plugged in at
           deployment time by inserting the appropriate jar file
           (binding) on your class path.
@@ -315,11 +329,10 @@ public class HelloWorld {
         <tr class="alt">
           <td>Support for parameterized log messages</td>
           
-          <td>All SLF4J bindings support parameterized log messages with
-          significantly <a href="faq.html#logging_performance">improved
-          performance</a> results.  Additionally this makes
-          the <a href="http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Category.html#isDebugEnabled()">"isDebugEnabled()"</a>
-          guard known from log4j superfluous.</td>
+          <td>All SLF4J bindings support parameterized log messages
+          with significantly <a
+          href="faq.html#logging_performance">improved performance</a>
+          results.</td>
         </tr>
         
          
