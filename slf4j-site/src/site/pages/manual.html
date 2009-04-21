@@ -151,12 +151,15 @@ public class HelloWorld {
       </dl>
 
       <p>There are also SLF4J bindings external to the SLF4J project,
-      e.g. <a href="http://logback.qos.ch/">logback</a>, where the
+      e.g. <a href="http://logback.qos.ch/">logback</a> which
+      implements SLF4J natively. Logback's
       <a href="http://logback.qos.ch/apidocs/ch/qos/logback/classic/Logger.html">
-      <code>ch.qos.logback.classic.Logger</code></a> class in
-      logback-classic directly implements SLF4J's
+      <code>ch.qos.logback.classic.Logger</code></a> class is a direct
+      implementation of SLF4J's
       <a href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html">
-      <code>org.slf4j.Logger</code></a> interface.
+      <code>org.slf4j.Logger</code></a> interface. Thus, using SLF4J
+      in conjunction with logback involves strictly zero memory and
+      computational overhead.
       </p>
 
 
