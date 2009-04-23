@@ -200,7 +200,7 @@ public class EventData implements Serializable {
    * @param data
    *          The Map to copy.
    */
-  public void putAll(Map data) {
+  public void putAll(Map<String, Object> data) {
     this.eventData.putAll(data);
   }
 
@@ -218,7 +218,7 @@ public class EventData implements Serializable {
    * 
    * @return an Iterator that can be used to access all the event attributes.
    */
-  public Iterator getEntrySetIterator() {
+  public Iterator<Map.Entry<String, Object>> getEntrySetIterator() {
     return this.eventData.entrySet().iterator();
   }
 
@@ -228,7 +228,7 @@ public class EventData implements Serializable {
    * 
    * @return The Map of attributes in this EventData instance.
    */
-  public Map getEventMap() {
+  public Map<String, Object> getEventMap() {
     return this.eventData;
   }
 

@@ -5,8 +5,6 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
-import java.util.Map;
-
 /**
  * Simple Logger used to log events. All events are directed to a logger named "EventLogger"
  * with a level of INFO and with an Event marker.

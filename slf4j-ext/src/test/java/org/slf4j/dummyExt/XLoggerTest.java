@@ -109,7 +109,7 @@ public class XLoggerTest extends TestCase {
     assertEquals(2, listAppender.list.size());
     verifyWithException((LoggingEvent) listAppender.list.get(0), "throwing", t);
     LoggingEvent event = (LoggingEvent)listAppender.list.get(1);
-    verifyWithLevelAndException((LoggingEvent) listAppender.list.get(1), XLogger.Level.DEBUG,
+    verifyWithLevelAndException(event, XLogger.Level.DEBUG,
         "throwing", t);
   }
 

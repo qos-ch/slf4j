@@ -24,19 +24,17 @@
 
 package org.slf4j.dummyExt;
 
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import junit.framework.TestCase;
 
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
-import org.slf4j.ext.XLogger;
-import org.slf4j.ext.XLoggerFactory;
+import org.slf4j.MDC;
 import org.slf4j.ext.EventData;
 import org.slf4j.ext.EventLogger;
-import org.slf4j.MDC;
-
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class EventLoggerTest extends TestCase {
 
