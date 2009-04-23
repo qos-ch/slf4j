@@ -81,7 +81,7 @@ public class StopWatch implements TimeInstrument {
       buf.append(Util.durationInDurationUnitsAsStr(elapsedTime(), DurationUnit.MICROSECOND));
       break;
     default:
-      new IllegalStateException("Status " + status + " is not expected");
+      throw new IllegalStateException("Status " + status + " is not expected");
     }
     return buf.toString();
   }
