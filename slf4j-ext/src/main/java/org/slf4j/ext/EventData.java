@@ -1,6 +1,5 @@
 package org.slf4j.ext;
 
-
 import java.io.Serializable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,9 +12,9 @@ import java.beans.XMLEncoder;
 import java.beans.ExceptionListener;
 
 /**
- * Base class for Event Data. Event Data contains data to be logged about an event. Users may
- * extend this class for each EventType they want to log.
- *
+ * Base class for Event Data. Event Data contains data to be logged about an
+ * event. Users may extend this class for each EventType they want to log.
+ * 
  * @author Ralph Goers
  */
 public class EventData implements Serializable {
@@ -33,32 +32,34 @@ public class EventData implements Serializable {
 
   /**
    * Constructor to create event data from a Map.
-   *
-   * @param map The event data.
+   * 
+   * @param map
+   *          The event data.
    */
   public EventData(Map<String, Object> map) {
     eventData.putAll(map);
   }
 
   /**
-   * Construct from a serialized form of the Map containing the RequestInfo elements
-   *
-   * @param xml The serialized form of the RequestInfo Map.
+   * Construct from a serialized form of the Map containing the RequestInfo
+   * elements
+   * 
+   * @param xml
+   *          The serialized form of the RequestInfo Map.
    */
   public EventData(String xml) {
     ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes());
     try {
       XMLDecoder decoder = new XMLDecoder(bais);
       this.eventData = (Map<String, Object>) decoder.readObject();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new EventException("Error decoding " + xml, e);
     }
   }
 
   /**
    * Serialize all the EventData items into an XML representation.
-   *
+   * 
    * @return an XML String containing all the EventDAta items.
    */
   public String toXML() {
@@ -67,7 +68,7 @@ public class EventData implements Serializable {
 
   /**
    * Serialize all the EventData items into an XML representation.
-   *
+   * 
    * @return an XML String containing all the EventDAta items.
    */
   public static String toXML(Map<String, Object> map) {
@@ -82,8 +83,7 @@ public class EventData implements Serializable {
       encoder.writeObject(map);
       encoder.close();
       return baos.toString();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
       return null;
     }
@@ -91,6 +91,7 @@ public class EventData implements Serializable {
 
   /**
    * Retrieve the event identifier.
+   * 
    * @return The event identifier
    */
   public String getEventId() {
@@ -99,7 +100,9 @@ public class EventData implements Serializable {
 
   /**
    * Set the event identifier.
-   * @param eventId The event identifier.
+   * 
+   * @param eventId
+   *          The event identifier.
    */
   public void setEventId(String eventId) {
     if (eventId == null) {
@@ -110,7 +113,9 @@ public class EventData implements Serializable {
 
   /**
    * Retrieve the message text associated with this event, if any.
-   * @return The message text associated with this event or null if there is none.
+   * 
+   * @return The message text associated with this event or null if there is
+   *         none.
    */
   public String getMessage() {
     return (String) this.eventData.get(EVENT_MESSAGE);
@@ -118,7 +123,9 @@ public class EventData implements Serializable {
 
   /**
    * Set the message text associated with this event.
-   * @param message The message text.
+   * 
+   * @param message
+   *          The message text.
    */
   public void setMessage(String message) {
     this.eventData.put(EVENT_MESSAGE, message);
@@ -126,6 +133,7 @@ public class EventData implements Serializable {
 
   /**
    * Retrieve the date and time the event occurred.
+   * 
    * @return The Date associated with the event.
    */
   public Date getEventDateTime() {
@@ -135,7 +143,9 @@ public class EventData implements Serializable {
   /**
    * Set the date and time the event occurred in case it is not the same as when
    * the event was logged.
-   * @param eventDateTime The event Date.
+   * 
+   * @param eventDateTime
+   *          The event Date.
    */
   public void setEventDateTime(Date eventDateTime) {
     this.eventData.put(EVENT_DATETIME, eventDateTime);
@@ -143,7 +153,9 @@ public class EventData implements Serializable {
 
   /**
    * Set the type of event that occurred.
-   * @param eventType The type of the event.
+   * 
+   * @param eventType
+   *          The type of the event.
    */
   public void setEventType(String eventType) {
     this.eventData.put(EVENT_TYPE, eventType);
@@ -151,6 +163,7 @@ public class EventData implements Serializable {
 
   /**
    * Retrieve the type of the event.
+   * 
    * @return The event type.
    */
   public String getEventType() {
@@ -159,8 +172,11 @@ public class EventData implements Serializable {
 
   /**
    * Add arbitrary attributes about the event.
-   * @param name The attribute's key.
-   * @param obj The data associated with the key.
+   * 
+   * @param name
+   *          The attribute's key.
+   * @param obj
+   *          The data associated with the key.
    */
   public void put(String name, Serializable obj) {
     this.eventData.put(name, obj);
@@ -168,8 +184,11 @@ public class EventData implements Serializable {
 
   /**
    * Retrieve an event attribute.
-   * @param name The attribute's key.
-   * @return The value associated with the key or null if the key is not present.
+   * 
+   * @param name
+   *          The attribute's key.
+   * @return The value associated with the key or null if the key is not
+   *         present.
    */
   public Serializable get(String name) {
     return (Serializable) this.eventData.get(name);
@@ -177,7 +196,9 @@ public class EventData implements Serializable {
 
   /**
    * Populate the event data from a Map.
-   * @param data The Map to copy.
+   * 
+   * @param data
+   *          The Map to copy.
    */
   public void putAll(Map data) {
     this.eventData.putAll(data);
@@ -185,6 +206,7 @@ public class EventData implements Serializable {
 
   /**
    * Returns the number of attributes in the EventData.
+   * 
    * @return the number of attributes in the EventData.
    */
   public int getSize() {
@@ -193,6 +215,7 @@ public class EventData implements Serializable {
 
   /**
    * Returns an Iterator over all the entries in the EventDAta.
+   * 
    * @return an Iterator that can be used to access all the event attributes.
    */
   public Iterator getEntrySetIterator() {
@@ -200,8 +223,9 @@ public class EventData implements Serializable {
   }
 
   /**
-   * Retrieve all the attributes in the EventData as a Map. Changes to this map will be
-   * reflected in the EventData.
+   * Retrieve all the attributes in the EventData as a Map. Changes to this map
+   * will be reflected in the EventData.
+   * 
    * @return The Map of attributes in this EventData instance.
    */
   public Map getEventMap() {
@@ -210,6 +234,7 @@ public class EventData implements Serializable {
 
   /**
    * Convert the EventData to a String.
+   * 
    * @return The EventData as a String.
    */
   @Override
@@ -219,8 +244,11 @@ public class EventData implements Serializable {
 
   /**
    * Compare two EventData objects for equality.
-   * @param o The Object to compare.
-   * @return true if the objects are the same instance or contain all the same keys and their values.
+   * 
+   * @param o
+   *          The Object to compare.
+   * @return true if the objects are the same instance or contain all the same
+   *         keys and their values.
    */
   @Override
   public boolean equals(Object o) {
@@ -230,13 +258,15 @@ public class EventData implements Serializable {
     if (!(o instanceof EventData || o instanceof Map)) {
       return false;
     }
-    Map<String, Object> map = (o instanceof EventData) ? ((EventData) o).getEventMap() : (Map<String, Object>) o;
+    Map<String, Object> map = (o instanceof EventData) ? ((EventData) o)
+        .getEventMap() : (Map<String, Object>) o;
 
     return this.eventData.equals(map);
   }
 
   /**
    * Compute the hashCode for this EventData instance.
+   * 
    * @return The hashcode for this EventData instance.
    */
   @Override
