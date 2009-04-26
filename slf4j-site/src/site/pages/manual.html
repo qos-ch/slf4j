@@ -152,16 +152,8 @@ public class HelloWorld {
 
       <p>There are also SLF4J bindings external to the SLF4J project,
       e.g. <a href="http://logback.qos.ch/">logback</a> which
-      implements SLF4J natively. Logback's
-      <a href="http://logback.qos.ch/apidocs/ch/qos/logback/classic/Logger.html">
-      <code>ch.qos.logback.classic.Logger</code></a> class is a direct
-      implementation of SLF4J's
-      <a href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html">
-      <code>org.slf4j.Logger</code></a> interface. Thus, using SLF4J
-      in conjunction with logback involves strictly zero memory and
-      computational overhead.
-      </p>
-
+      implements SLF4J natively.  Logback is authored by the same
+      programmer as slf4j, and they work very well together.</p>
 
       <p>To switch logging frameworks, just replace slf4j bindings on
       your class path. For example, to switch from java.util.logging
