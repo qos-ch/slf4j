@@ -36,7 +36,7 @@
     the source code.
     </p>
 
-<!--      <pre class="source">import org.slf4j.Logger;
+<pre class="source">import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HelloWorld {
@@ -45,16 +45,6 @@ public class HelloWorld {
     logger.info("Hello World");
   }
 }</pre>
--->
-<pre class="source"><font color="#1773cc">import</font>&nbsp;org.slf4j.Logger;
-<font color="#1773cc">import</font>&nbsp;org.slf4j.LoggerFactory;
-
-<font color="#008b00"><b>public</b></font>&nbsp;<font color="#008b00"><b>class</b></font>&nbsp;HelloWorld {
-&nbsp;&nbsp;&nbsp;&nbsp;<font color="#008b00"><b>public</b></font>&nbsp;<font color="#008b00"><b>static</b></font>&nbsp;<font color="#008b00"><b>void</b></font>&nbsp;main(String[]&nbsp;args)&nbsp;{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logger logger = LoggerFactory.getLogger(HelloWorld.<font color="#008b00"><b>class</b></font>);
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.info(<font color="#4a6f8b">&quot;Hello World&quot;</font>);
-&nbsp;&nbsp;&nbsp;&nbsp;}
-}</font></pre>
 
      <p>To run this example, you first need to <a
      href="download.html">download the slf4j distribution</a>, and
@@ -105,6 +95,16 @@ public class HelloWorld {
       question <a href="faq.html#logging_performance">"What is the
       fastest way of logging?"</a> in the FAQ for more details.
       </p>
+
+      <p>The "debug" and "info" method names reflect that the logging
+      can be controlled depending on the usage.  Code running in a
+      production setting does not necessarily have to log as much as
+      code being analyzed to locate a bug, so if the threshold is set
+      at "info" the logger.debug message would not be logged, but only
+      the logger.info message.  The complete list is: trace, debug,
+      info, warn, and error.  If in an error situation it is also
+      possible to attach any Exception with the message, so the
+      stack trace can be logged too.</p>
       
       <h3><a name="swapping" href="#binding">Binding with a logging
       framework at deployment time</a></h3>
