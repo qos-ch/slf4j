@@ -96,16 +96,6 @@ public class HelloWorld {
       fastest way of logging?"</a> in the FAQ for more details.
       </p>
 
-      <p>The "debug" and "info" method names reflect that the logging
-      can be controlled depending on the usage.  Code running in a
-      production setting does not necessarily have to log as much as
-      code being analyzed to locate a bug, so if the threshold is set
-      at "info" the logger.debug message would not be logged, but only
-      the logger.info message.  The complete list is: trace, debug,
-      info, warn, and error.  If in an error situation it is also
-      possible to attach any Exception with the message, so the
-      stack trace can be logged too.</p>
-      
       <h3><a name="swapping" href="#binding">Binding with a logging
       framework at deployment time</a></h3>
 
@@ -152,8 +142,16 @@ public class HelloWorld {
 
       <p>There are also SLF4J bindings external to the SLF4J project,
       e.g. <a href="http://logback.qos.ch/">logback</a> which
-      implements SLF4J natively.  Logback is authored by the same
-      programmer as slf4j, and they work very well together.</p>
+      implements SLF4J natively.  Logback's
+      <a href="http://logback.qos.ch/apidocs/ch/qos/logback/classic/Logger.html">
+      <code>ch.qos.logback.classic.Logger</code></a> class is a direct 	 
+      implementation of SLF4J's 	 
+      <a href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html"> 	 
+      <code>org.slf4j.Logger</code></a> interface. Thus, using SLF4J
+      in conjunction with logback involves strictly zero memory and
+      computational overhead.
+      </p> 	 
+	 
 
       <p>To switch logging frameworks, just replace slf4j bindings on
       your class path. For example, to switch from java.util.logging
