@@ -32,8 +32,7 @@
     <p>In accordance with programming tradition, here is an example
     illustrating the simplest way to output "Hello world" using SLF4J.
     It begins by getting a logger with the name "HelloWorld". This
-    logger is in turn used to log the message "Hello World". Here is
-    the source code.
+    logger is in turn used to log the message "Hello World". 
     </p>
 
 <pre class="source">import org.slf4j.Logger;
@@ -66,8 +65,15 @@ public class HelloWorld {
        pattern</a>
      </h3>
  
-      <pre class="source">
- 1: <b>import org.slf4j.Logger;</b>
+     <p>The sample code below illustrates the typical usage pattern
+     for SLF4J. Note the use of {}-placeholders on line 15. See the
+     question <a href="faq.html#logging_performance">"What is the
+     fastest way of logging?"</a> in the FAQ for more details.
+     </p>
+     
+     <p></p>
+
+      <p class="source"> 1: <b>import org.slf4j.Logger;</b>
  2: <b>import org.slf4j.LoggerFactory;</b>
  3: 
  4: public class Wombat {
@@ -87,14 +93,9 @@ public class HelloWorld {
 18:       <b>logger.info("Temperature has risen above 50 degrees.");</b>
 19:     }
 20:   }
-21: }
-      </pre>
+21: } </p>
       
-      <p>The example above illustrates the typical usage pattern for
-      SLF4j. Note the use of {}-placeholders on line 15. See the
-      question <a href="faq.html#logging_performance">"What is the
-      fastest way of logging?"</a> in the FAQ for more details.
-      </p>
+     
 
       <h3><a name="swapping" href="#binding">Binding with a logging
       framework at deployment time</a></h3>
@@ -166,10 +167,9 @@ public class HelloWorld {
       bound at compile time to use log4j.  In your code, in addition
       to <em>slf4j-api-${project.version}.jar</em>, you simply drop
       <b>one and only one</b> binding of your choice onto the
-      appropriate class path location. Please do not place more than
-      one binding on your class path because SLF4J can bind with one
-      and only one logging framework at a time. Here is a graphical
-      illustration of the general idea.
+      appropriate class path location. Do not place more than one
+      binding on your class path. Here is a graphical illustration of
+      the general idea.
       </p>
 
       <p>&nbsp;</p>
@@ -184,7 +184,14 @@ public class HelloWorld {
       <p>The SLF4J interfaces and their various adapters are extremely
       simple. Most developers familiar with the Java language should
       be able to read and fully understand the code in less than one
-      hour.  Hopefully, the simplicity of the SLF4J interfaces and the
+      hour.  No knowledge of class loaders is necessary as SLF4J does
+      not make use nor does it directly access any class loaders. As a
+      consequence, SLF4J suffers from none of the class loader
+      problems or memory leaks observed with Jakarta Commons Logging
+      (JCL).
+      </p>
+
+      <p>Hopefully, the simplicity of the SLF4J interfaces and the
       deployment model will make it easy for developers of other
       logging frameworks to conform to the SLF4J model.
       </p>
