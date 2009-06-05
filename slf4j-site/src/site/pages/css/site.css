@@ -44,6 +44,10 @@ a {
   padding-bottom: 0.5ex;
   padding-top: 0.5ex;
   padding-left: 1ex;
+
+  margin-left: 0ex;
+  margin-top: 0.5ex; 
+  margin-bottom: 0.5ex; 
   white-space: pre;
 }
 

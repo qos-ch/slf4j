@@ -5,9 +5,12 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
     <title>SLF4J FAQ</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />   
+    <link rel="stylesheet" type="text/css" href="css/prettify.css" />
   </head>
-  <body>
+  <body  onload="prettyPrint()">
+
+  <script type="text/javascript" src="js/prettify.js"></script>
 	<script type="text/javascript">prefix='';</script>
 
   <script src="templates/header.js" type="text/javascript"></script>
@@ -374,9 +377,9 @@
 
       <p>Here are the exception details.</p>
 
-      <p class="source">Exception in thread "main" java.lang.IllegalAccessError: tried to access field
+      <pre class="source">Exception in thread "main" java.lang.IllegalAccessError: tried to access field
 org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
-   at org.slf4j.LoggerFactory.&lt;clinit>(LoggerFactory.java:60)</p>
+   at org.slf4j.LoggerFactory.&lt;clinit>(LoggerFactory.java:60)</pre>
 
       <p>If you get the exception shown above, then you are using an
       older version of slf4j-api, e.g. 1.4.3, with a new version of a
@@ -568,10 +571,10 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       <p>Thus, the set of printing methods for the DEBUG level
       became:</p>
       
-      <p class="source">debug(String msg); 
+      <pre class="prettyprint source">debug(String msg); 
 debug(String format, Object arg); 
 debug(String format, Object arg1, Object arg2);           
-debug(String msg, Throwable t);</p>
+debug(String msg, Throwable t);</pre>
       
       <p>Previously, the first argument in the above methods was of
       type <code>Object</code>.</p>
@@ -589,7 +592,7 @@ debug(String msg, Throwable t);</p>
       <p>It was also easy to make mistakes. For example, previously
       it was legal to write:</p>
       
-      <p class="source">logger.debug(new Exception("some error"));</p>
+      <pre class="prettyprint source">logger.debug(new Exception("some error"));</pre>
       
       <p>Unfortunately, the above call did not print the stack trace
       of the exception. Thus, a potentially crucial piece of
@@ -597,7 +600,7 @@ debug(String msg, Throwable t);</p>
       restricted to be of type String, then only the method
       </p>
       
-      <p class="source">debug(String msg, Throwable t)</p>
+      <pre class="prettyprint source">debug(String msg, Throwable t);</pre>
       
       <p>can be used to log exceptions. Note that this method
       ensures that every logged exception is accompanied with a
@@ -618,13 +621,12 @@ debug(String msg, Throwable t);</p>
       would like to log an exception at the ERROR level, you must
       add an accompanying message. For example,</p>
       
-      <p class="source">logger.error("some accompanying message", e);</p>
+      <pre class="prettyprint source">logger.error("some accompanying message", e);</pre>
       
-      <p>You might correctly observe that not all exceptions have a
-      meaningful message to accompany them. Moreover, a good
-      exception should already contain a self explanatory
-      description. The accompanying message may therefore be
-      considered redundant.
+      <p>You might legitimately argue that not all exceptions have a
+      meaningful message to accompany them. Moreover, a good exception
+      should already contain a self explanatory description. The
+      accompanying message may therefore be considered redundant.
       </p>
       
       
@@ -677,7 +679,7 @@ debug(String msg, Throwable t);</p>
       <em>disabled</em> logging statement.</p>
       
       <p> For some Logger <code>logger</code>, writing,</p>
-      <p class="source">logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));</p>
+      <pre class="prettyprint source">logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));</pre>
       
       <p>incurs the cost of constructing the message parameter, that
       is converting both integer <code>i</code> and
@@ -690,9 +692,9 @@ debug(String msg, Throwable t);</p>
       construction is by surrounding the log statement with a
       test. Here is an example.</p>
       
-      <p class="source">if(logger.isDebugEnabled()) {
+      <pre class="prettyprint source">if(logger.isDebugEnabled()) {
   logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));
-}</p>
+}</pre>
       
       
       <p>This way you will not incur the cost of parameter
@@ -712,8 +714,8 @@ debug(String msg, Throwable t);</p>
       </p>
       
       
-      <p class="source">Object entry = new SomeObject();
-logger.debug("The entry is {}.", entry);</p>
+      <pre class="prettyprint source">Object entry = new SomeObject();
+logger.debug("The entry is {}.", entry);</pre>
       
       <p>After evaluating whether to log or not, and only if the
       decision is affirmative, will the logger implementation format
@@ -729,26 +731,23 @@ logger.debug("The entry is {}.", entry);</p>
       <em>disabled</em> logging statement.
       </p>
       
-      <p class="source">logger.debug("The new entry is "+entry+".");
-logger.debug("The new entry is {}.", entry);</p>
+      <pre class="prettyprint source">logger.debug("The new entry is "+entry+".");
+logger.debug("The new entry is {}.", entry);</pre>
       
       
       <p>A two argument variant is also available. For example, you
       can write:</p>
       
       
-      <p class="source">logger.debug("The new entry is {}. It replaces {}.", entry, oldEntry);</p>
+      <pre class="prettyprint source">logger.debug("The new entry is {}. It replaces {}.", entry, oldEntry);</pre>
       
-      <p></p>  
       <p>If three or more arguments need to be passed, you can make
       use of the <code>Object[]</code> variant. For example, you can
       write:</p>
       
-      <p>        </p>
-      <p class="source">logger.debug("Value {} was inserted between {} and {}.", 
-new Object[] {newVal, below, above});</p>
+      <pre class="prettyprint source">logger.debug("Value {} was inserted between {} and {}.", new Object[] {newVal, below, above});</pre>
       
-      <p></p> 
+     
       
       <p>Array type arguments, including multi-dimensional arrays,
       are also supported.</p>
@@ -774,12 +773,12 @@ new Object[] {newVal, below, above});</p>
       immediately follows '}'. For example,
       </p>
       
-      <p class="source">logger.debug("Set {1,2} differs from {}", "3");</p>
+      <pre class="prettyprint source">logger.debug("Set {1,2} differs from {}", "3");</pre>
       
       <p>which will print as "Set {1,2} differs from 3". </p>
       
       <p>You could have even written,</p>
-      <p class="source">logger.debug("Set {1,2} differs from {{}}", "3");</p>
+      <pre class="prettyprint source">logger.debug("Set {1,2} differs from {{}}", "3");</pre>
       <p>which would have printed as "Set {1,2} differs from {3}". </p>
       
       <p>In the extremely rare case where the the "{}" pair occurs
@@ -790,7 +789,7 @@ new Object[] {newVal, below, above});</p>
       escape the '}' character. For example,
       </p>
       
-      <p class="source">logger.debug("Set \\{} differs from {}", "3");</p>
+      <pre class="prettyprint source">logger.debug("Set \\{} differs from {}", "3");</pre>
       
       <p>will print as "Set {} differs from 3". Note that within
       Java code, the backslash cracacter needs to be written as
@@ -801,7 +800,7 @@ new Object[] {newVal, below, above});</p>
       it retains its original meaning. For example,</p>
       
       
-      <p class="source">logger.debug("File name is C:\\\\{}.", "file.zip");</p>
+      <pre class="prettyprint source">logger.debug("File name is C:\\\\{}.", "file.zip");</pre>
       <p>will print as "File name is C:\file.zip".</p>
       
       <hr />
@@ -824,7 +823,7 @@ new Object[] {newVal, below, above});</p>
       can write:
       </p>
       
-      <p class="source">logger.debug("{}", complexObject);</p>
+      <pre class="prettyprint source">logger.debug("{}", complexObject);</pre>
       
       
       <p>The logging system will invoke
@@ -941,7 +940,7 @@ new Object[] {newVal, below, above});</p>
       href="http://bugzilla.slf4j.org/show_bug.cgi?id=50">bug report
       50</a>, a possible pattern might be:</p>
       
-      <p class="source">class MyClass {
+      <pre class="prettyprint  source">class MyClass {
         
   ResourceBundle bundle = ResourceBundle.getBundle("my.package.messages");
   Logger logger =  LoggerFactory.getLogger(MyClass.class);
@@ -952,10 +951,10 @@ new Object[] {newVal, below, above});</p>
       logger.warn(format.format(new Object[] { new Date(), 1 }));
     }
   }
-}</p>
+}</pre>
       
       <p>Where <code>my_message_key</code> is defined as</p>
-      <p class="source"><b>my_message_key</b>=my text to be i18n {1,date,short} {0,number,00}</p>
+      <pre class="prettyprint  source"><b>my_message_key</b>=my text to be i18n {1,date,short} {0,number,00}</pre>
       
       
       
@@ -1294,14 +1293,14 @@ new Object[] {newVal, below, above});</p>
       above</a>, it is left to the user to determine whether loggers
       are declared as static variables or not.</p>
       
-      <p class="source">package some.package;
+      <pre class="prettyprint source">package some.package;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
       
 public class MyClass {
   <b>final (static) Logger logger = LoggerFactory.getLogger(MyClass.class);</b>
   ... etc
-}</p>
+}</pre>
       
       <p>Unfortunately, give that the name of the hosting class is
       part of the logger declaration, the above logger declaration
