@@ -56,6 +56,7 @@ import org.slf4j.impl.StaticLoggerBinder;
 public final class LoggerFactory {
 
   static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
+  static final String MULTIPLE_BINDINGS_URL = "http://www.slf4j.org/codes.html#multiple_bindings";
   static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
   static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
   static final String SUBSTITUTE_LOGGER_URL = "http://www.slf4j.org/codes.html#substituteLogger";
@@ -197,11 +198,12 @@ public final class LoggerFactory {
       }
       if (implementationList.size() > 1) {
         Util
-            .reportFailure("ClassPath contains more than one SLF4J implementation.");
+            .reportFailure("Class path contains multiple SLF4J bindins.");
         for(int i = 0; i < implementationList.size(); i++) {
-          Util.reportFailure("Found binding under ["+implementationList.get(i)+"]");
+          Util.reportFailure("Found binding in ["+implementationList.get(i)+"]");
         }
-        Util.reportFailure("Will pick up one binding at random.");
+        Util.reportFailure("See " + MULTIPLE_BINDINGS_URL
+            + " for an explanation.");
       }
     } catch (IOException ioe) {
       Util.reportFailure("Error getting resources from path", ioe);
