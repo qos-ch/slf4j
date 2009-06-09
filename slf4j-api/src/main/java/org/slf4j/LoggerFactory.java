@@ -24,7 +24,12 @@
 
 package org.slf4j;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -46,6 +51,7 @@ import org.slf4j.impl.StaticLoggerBinder;
  * Please note that all methods in <code>LoggerFactory</code> are static.
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @author Robert Elliot
  */
 public final class LoggerFactory {
 
@@ -62,12 +68,10 @@ public final class LoggerFactory {
   static final int ONGOING_INITILIZATION = 1;
   static final int FAILED_INITILIZATION = 2;
   static final int SUCCESSFUL_INITILIZATION = 3;
-  
+
   static final int GET_SINGLETON_INEXISTENT = 1;
   static final int GET_SINGLETON_EXISTS = 2;
-  
-  
-  
+
   static int INITIALIZATION_STATE = UNINITIALIZED;
   static int GET_SINGLETON_METHOD = UNINITIALIZED;
   static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
@@ -91,10 +95,10 @@ public final class LoggerFactory {
    * <p>
    * This method is intended to be called by classes (in the same package) for
    * testing purposes. This method is internal. It can be modified, renamed or
-   * removed at any time without notice. 
+   * removed at any time without notice.
    * 
-   * <p>You are strongly discouraged from calling this method in production 
-   * code.
+   * <p>
+   * You are strongly discouraged from calling this method in production code.
    */
   static void reset() {
     INITIALIZATION_STATE = UNINITIALIZED;
@@ -105,6 +109,8 @@ public final class LoggerFactory {
   private final static void performInitialization() {
     bind();
     versionSanityCheck();
+    singleImplementationSanityCheck();
+
   }
 
   private final static void bind() {
@@ -176,27 +182,52 @@ public final class LoggerFactory {
     }
   }
 
-  
+  // We need to use the name of the StaticLoggerBinder class, we can't reference
+  // the class itseld.
+  private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
+
+  private static void singleImplementationSanityCheck() {
+    try {
+      Enumeration paths = LoggerFactory.class.getClassLoader().getResources(
+          STATIC_LOGGER_BINDER_PATH);
+      List implementationList = new ArrayList();
+      while (paths.hasMoreElements()) {
+        URL path = (URL) paths.nextElement();
+        implementationList.add(path);
+      }
+      if (implementationList.size() > 1) {
+        Util
+            .reportFailure("ClassPath contains more than one SLF4J implementation.");
+        for(int i = 0; i < implementationList.size(); i++) {
+          Util.reportFailure("Found binding under ["+implementationList.get(i)+"]");
+        }
+        Util.reportFailure("Will pick up one binding at random.");
+      }
+    } catch (IOException ioe) {
+      Util.reportFailure("Error getting resources from path", ioe);
+    }
+  }
+
   private final static StaticLoggerBinder getSingleton() {
-    if(GET_SINGLETON_METHOD == GET_SINGLETON_INEXISTENT) {
+    if (GET_SINGLETON_METHOD == GET_SINGLETON_INEXISTENT) {
       return StaticLoggerBinder.SINGLETON;
     }
-    
-    if(GET_SINGLETON_METHOD == GET_SINGLETON_EXISTS) {
+
+    if (GET_SINGLETON_METHOD == GET_SINGLETON_EXISTS) {
       return StaticLoggerBinder.getSingleton();
     }
-    
-    try  {
+
+    try {
       StaticLoggerBinder singleton = StaticLoggerBinder.getSingleton();
       GET_SINGLETON_METHOD = GET_SINGLETON_EXISTS;
       return singleton;
-    } catch(NoSuchMethodError nsme) {
+    } catch (NoSuchMethodError nsme) {
       GET_SINGLETON_METHOD = GET_SINGLETON_INEXISTENT;
       return StaticLoggerBinder.SINGLETON;
     }
-    
-    
+
   }
+
   /**
    * Return a logger named according to the name parameter using the statically
    * bound {@link ILoggerFactory} instance.
