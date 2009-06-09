@@ -35,6 +35,15 @@
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
 	</path >
 
+	
+	<path id="multiBinding">
+		<pathelement location="xtarget/classes/" />
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
+		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
+	</path >
+			
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
 	-->
@@ -47,7 +56,8 @@
 	<target name="testAll" depends="init, 
 		            testMismatch, 
 		            testPre155,
-					testMatch">
+					testMatch,
+		            testMultiBinding">
 	</target>
 
 	<target name="testMismatch">
@@ -74,4 +84,11 @@
 		</junit>
 	</target>
 
+	<target name="testMultiBinding">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="multiBinding" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" name="org.slf4j.MultiBindingTest" />
+		</junit>
+	</target>
 </project>
