@@ -168,7 +168,7 @@ public final class LoggerFactory {
       if (!match) {
         Util.reportFailure("The requested version " + requested
             + " by your slf4j binding is not compatible with "
-            + Arrays.toString(API_COMPATIBILITY_LIST));
+            + Arrays.asList(API_COMPATIBILITY_LIST).toString());
         Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
       }
     } catch (java.lang.NoSuchFieldError nsfe) {
