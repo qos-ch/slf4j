@@ -35,7 +35,9 @@ import java.util.Map;
  * <p>
  * For example,
  * 
- * <pre>MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;)</pre>
+ * <pre>
+ * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;)
+ * </pre>
  * 
  * will return the string "Hi there.".
  * <p>
@@ -53,7 +55,8 @@ import java.util.Map;
  * 
  * will return the string "Set {1,2,3} is not equal to 1,2.".
  * 
- * <p>If for whatever reason you need to place the string "{}" in the message
+ * <p>
+ * If for whatever reason you need to place the string "{}" in the message
  * without its <em>formatting anchor</em> meaning, then you need to escape the
  * '{' character with '\', that is the backslash character. Only the '{'
  * character should be escaped. There is no need to escape the '}' character.
@@ -134,7 +137,8 @@ final public class MessageFormatter {
    *                formatting anchor
    * @return The formatted message
    */
-  final public static String format(final String messagePattern, Object arg1, Object arg2) {
+  final public static String format(final String messagePattern, Object arg1,
+      Object arg2) {
     return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
   }
 
@@ -183,7 +187,7 @@ final public class MessageFormatter {
             sbuf.append(DELIM_START);
             i = j + 1;
           } else {
-            // The escape character preceding the delemiter start is
+            // The escape character preceding the delimiter start is
             // itself escaped: "abc x:\\{}"
             // we have to consume one backward slash
             sbuf.append(messagePattern.substring(i, j - 1));
@@ -217,7 +221,8 @@ final public class MessageFormatter {
     }
   }
 
-  final static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
+  final static boolean isDoubleEscaped(String messagePattern,
+      int delimeterStartIndex) {
     if (delimeterStartIndex >= 2
         && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
       return true;
@@ -234,7 +239,7 @@ final public class MessageFormatter {
       return;
     }
     if (!o.getClass().isArray()) {
-      sbuf.append(o);
+      safeObjectAppend(sbuf, o);
     } else {
       // check for primitive array types because they
       // unfortunately cannot be cast to Object[]
@@ -258,6 +263,18 @@ final public class MessageFormatter {
         objectArrayAppend(sbuf, (Object[]) o, seenMap);
       }
     }
+  }
+
+  private static void safeObjectAppend(StringBuffer sbuf, Object o) {
+    try {
+      String oAsString = o.toString();
+      sbuf.append(oAsString);
+    } catch( Throwable t) {
+      System.err.println("SLF4J: Failed toString() invocation on an object of type ["+o.getClass().getName()+"]");
+      t.printStackTrace();
+      sbuf.append("[FAILED toString()]");
+    }
+
   }
 
   private static void objectArrayAppend(StringBuffer sbuf, Object[] a,
