@@ -210,14 +210,20 @@ public class HelloWorld {
       approach has proven to be simple and very robust.
       </p>
         
-      <p>Those unfortunate to have to use one or more unchangable
-      legacy components which use log4j, Jakarta Commons Logging or JDK 1.4
-      logging directly, may have to use the slf4j drop-in replacements
-      which map these direct calls to slf4j.    See the
-      <a href="legacy.html">Briding legacy APIs</a> page for
-      details.</p>
 
+      <h3><a name="consolidate" href="#consolidate">Consolidate
+      logging via SLF4J</a></h3>
 
+      <p>Often times, a given project will depend on various
+      components which rely on logging APIs other than SLF4J. It is
+      common to find projects depending on a combination of JCL,
+      java.util.logging, log4j and SLF4J. It then becomes desirable to
+      consolidate logging through a single channel. SLF4J caters for
+      this common use-case by providing bridging modules for JCL,
+      java.util.logging and log4j. For more details, please refer to
+      the page on <a href="legacy.html"><b>Bridging legacy
+      APIs</b></a>.
+      </p>
 
       <h3><a name="mdc" href="#mdc">Mapped Diagnostic Context (MDC)
       support</a></h3>
@@ -245,18 +251,7 @@ public class HelloWorld {
       in the logback manual.
       </p>
 
-      <h3><a name="consolidate" href="#consolidate">Consolidate
-      logging via SLF4J</a></h3>
-
-      <p>Often times, a given project will depend on various
-      components which rely on logging APIs other than SLF4J. It is
-      common to find projects depending on JCL, java.util.logging,
-      log4j and SLF4J at the same time. It then becomes desirable to
-      consolidate logging through a single channel. SLF4J caters for
-      this common use-case by providing bridging modules for JCL,
-      java.util.logging and log4j. For more details, please refer to
-      the page on <a href="legacy.html">Bridging legacy APIs</a>.
-      </p>
+    
       
       <h3><a name="summary" href="#summary">Executive
       summary</a>

@@ -27,8 +27,16 @@
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>April x, 2009 - Release of SLF4J 1.5.7</h3>
+  <h3>June 10th, 2009 - Release of SLF4J 1.5.7</h3>
 
+  <p>SLF4J version 1.5.7 consist of bug fixes and minor
+  enhancements. It is totally compatible with SLF4J version 1.5.6.</p>
+
+  <p>SLF4J will now emit a warning if more than one binding is present
+  on the class path. This enhancement was proposed in <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=132">bug 132</a>
+  contributed by by Robert Elliot.
+  </p>
 
   <p>The Log interface implementations in the jcl-over-slf4j module
   will now correctly cope with serialization. This fixes <a
@@ -49,6 +57,13 @@
   reported by Pepijn Van Eeckhoudt and independently by Dan Lewis.
   </p>
 
+  <p>In case the <code>toString()</code> method of a parameter throws
+  an exception, <code>MessageFormatter</code> will now print an error
+  message, instead of letting the exception bubble higher up as
+  previously. This fixes <a
+  href="http://bugzilla.slf4j.org/show_bug.cgi?id=112">bug 112</a>
+  submitted by Joern Huxhorn.
+  </p>
 
   <hr noshade="noshade" size="1"/>
 

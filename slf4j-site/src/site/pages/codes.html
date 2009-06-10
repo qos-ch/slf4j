@@ -100,6 +100,7 @@
     <p>You can download SLF4J bindings from the project <a
     href="http://www.slf4j.org/download.html">download page</a>. </p>
 
+    <!-- ====================================================== -->
     <h3>
       <a name="illegalAccess" href="">java.lang.IllegalAccessError: tried to access field
       org.slf4j.impl.StaticLoggerBinder.SINGLETON from class
@@ -126,6 +127,31 @@
     href="faq.html#compatibility">FAQ entry</a>.
     </p>
 
+    <!-- ====================================================== -->
+    <h3>
+      <a name="multiple_bindings" href="#multiple_bindings">Multiple
+      bindings were found on the class path</a>
+    </h3>
+
+
+    <p>SLF4J API is desinged to bind with one and only one underlying
+    logging framework at a time. If more than one binding is present
+    on the class path, SLF4J will emit a warning, listing the location
+    of those bindings. When this happens, select the one and only one
+    binding you wish to use, and remove the other bindings.
+    </p>
+
+    <p>For example, if you have both
+    <em>slf4j-simple-${version}.jar</em> and
+    <em>slf4j-nop-${version}.jar</em> on the class path and you wish
+    to use the nop (no-operation) binding, then remove
+    <em>slf4j-simple-${version}.jar</em> from the class parh.</p>
+
+
+
+
+
+    <!-- ====================================================== -->
     <h3>
       <a name="null_LF" href="#null_LF">Logging factory implementation
       cannot be null</a>
