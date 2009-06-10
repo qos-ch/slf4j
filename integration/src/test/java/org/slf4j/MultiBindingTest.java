@@ -57,6 +57,6 @@ public class MultiBindingTest extends TestCase {
         .size() > 4);
     String s0 = (String) sps.stringList.get(0);
     assertTrue(s0
-        .contains("SLF4J: Class path contains multiple SLF4J bindins."));
+        .contains("SLF4J: Class path contains multiple SLF4J bindings."));
   }
 }
