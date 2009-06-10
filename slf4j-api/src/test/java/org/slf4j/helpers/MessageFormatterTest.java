@@ -47,16 +47,16 @@ public class MessageFormatterTest extends TestCase {
   Integer[] ia0 = new Integer[] { i1, i2, i3 };
   Integer[] ia1 = new Integer[] { new Integer(10), new Integer(20),
       new Integer(30) };
-
+  
+  String result;
+  
+  
   public void testNull() {
-    String result;
     result = MessageFormatter.format(null, i1);
     assertEquals(null, result);
   }
 
   public void testNullParam() {
-    String result;
-
     result = MessageFormatter.format("Value is {}.", null);
     assertEquals("Value is null.", result);
 
@@ -83,8 +83,6 @@ public class MessageFormatterTest extends TestCase {
   }
 
   public void testOneParameter() {
-    String result;
-
     result = MessageFormatter.format("Value is {}.", i3);
     assertEquals("Value is 3.", result);
 
@@ -122,8 +120,6 @@ public class MessageFormatterTest extends TestCase {
   }
 
   public void testTwoParameters() {
-    String result;
-
     result = MessageFormatter.format("Value {} is smaller than {}.", i1, i2);
     assertEquals("Value 1 is smaller than 2.", result);
 
@@ -154,9 +150,19 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Value {} is smaller than 1", result);
   }
 
+  
+  public void testExceptionInToString() {
+    Object o = new Object() {
+      public String toString() {
+        throw new IllegalStateException("a");
+      }
+    };
+    result = MessageFormatter.format("Troublesome object {}", o);
+    assertEquals("Troublesome object [FAILED toString()]", result);
+    
+  }
+  
   public void testNullArray() {
-    String result;
-
     String msg0 = "msg0";
     String msg1 = "msg1 {}";
     String msg2 = "msg2 {} {}";
@@ -179,8 +185,6 @@ public class MessageFormatterTest extends TestCase {
 
   // tests the case when the parameters are supplied in a single array
   public void testArrayFormat() {
-    String result;
-
     result = MessageFormatter.arrayFormat(
         "Value {} is smaller than {} and {}.", ia0);
     assertEquals("Value 1 is smaller than 2 and 3.", result);
@@ -205,7 +209,6 @@ public class MessageFormatterTest extends TestCase {
   }
 
   public void testArrayValues() {
-    String result;
     Integer p0 = i1;
     Integer[] p1 = new Integer[] { i2, i3 };
 
@@ -239,8 +242,6 @@ public class MessageFormatterTest extends TestCase {
   }
 
   public void testMultiDimensionalArrayValues() {
-    String result;
-
     Integer[][] multiIntegerA = new Integer[][] { ia0, ia1 };
     result = MessageFormatter.arrayFormat("{}{}", new Object[] { "a",
         multiIntegerA });
