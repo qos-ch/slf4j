@@ -283,15 +283,6 @@
       </includes>    
     </fileSet>
 
-
-    <fileSet>
-      <directory>integration/target/</directory>
-      <outputDirectory>/</outputDirectory>
-      <includes>
-        <include>integration-${project.version}.jar</include>
-      </includes>    
-    </fileSet>
-
 		<!-- Website -->
 		<fileSet>
 			<directory>target/site</directory>

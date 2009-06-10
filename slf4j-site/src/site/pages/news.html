@@ -30,8 +30,15 @@
   <h3>June 10th, 2009 - Release of SLF4J 1.5.7</h3>
 
   <p>SLF4J version 1.5.7 consist of bug fixes and minor
-  enhancements. It is totally compatible with SLF4J version 1.5.6.</p>
+  enhancements. It is totally backward compatible with SLF4J version
+  1.5.6.</p>
 
+  <p>In SLF4J versions 1.5.5 and 1.5.6, the <code>LoggerFactory</code>
+  class which is at the core of SLF4J, mistakenly invoked a method
+  which was added in JDK 1.5. Consequently, SLF4J versions 1.5.5 and
+  1.5.6 would not run with JDK 1.4 and earlier.
+  </p>
+  
   <p>SLF4J will now emit a warning if more than one binding is present
   on the class path. This enhancement was proposed in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=132">bug 132</a>
