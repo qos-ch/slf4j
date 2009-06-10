@@ -198,7 +198,7 @@ public final class LoggerFactory {
       }
       if (implementationList.size() > 1) {
         Util
-            .reportFailure("Class path contains multiple SLF4J bindins.");
+            .reportFailure("Class path contains multiple SLF4J bindings.");
         for(int i = 0; i < implementationList.size(); i++) {
           Util.reportFailure("Found binding in ["+implementationList.get(i)+"]");
         }
