@@ -34,9 +34,17 @@
   1.5.6.</p>
 
   <p>In SLF4J versions 1.5.5 and 1.5.6, the <code>LoggerFactory</code>
-  class which is at the core of SLF4J, mistakenly invoked a method
-  which was added in JDK 1.5. Consequently, SLF4J versions 1.5.5 and
-  1.5.6 would not run with JDK 1.4 and earlier.
+  class which is at the core of SLF4J, if a version compatibility
+  issue was detected, accidentally invoked a method which was
+  introduced in JDK 1.5. Thus, instead of issuing a clear warning
+  message, SLF4J would throw a
+  <code>NoClassDefFoundError</code>. Consequently, SLF4J would not run
+  with JDK 1.4 and earlier but only if a version incompatibility issue
+  was present. For example, if you were mixing
+  <em>slf4j-api-1.5.6.jar</em> with <em>slf4j-simple-1.4.2.jar</em>,
+  which are mutually incompatile. Please note that this bug affects
+  only SLF4J versions 1.5.5 and 1.5.6 <em>and</em> only in the
+  presence of incompatible versions of slf4j-api and its binding.
   </p>
   
   <p>SLF4J will now emit a warning if more than one binding is present
