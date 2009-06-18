@@ -24,7 +24,6 @@
 
 package org.slf4j;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -119,7 +118,7 @@ public final class LoggerFactory {
       // the next line does the binding
       getSingleton();
       INITIALIZATION_STATE = SUCCESSFUL_INITILIZATION;
-      emitSubstitureLoggerWarning();
+      emitSubstituteLoggerWarning();
     } catch (NoClassDefFoundError ncde) {
       INITIALIZATION_STATE = FAILED_INITILIZATION;
       String msg = ncde.getMessage();
@@ -139,7 +138,7 @@ public final class LoggerFactory {
     }
   }
 
-  private final static void emitSubstitureLoggerWarning() {
+  private final static void emitSubstituteLoggerWarning() {
     List loggerNameList = TEMP_FACTORY.getLoggerNameList();
     if (loggerNameList.size() == 0) {
       return;
