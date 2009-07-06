@@ -166,6 +166,7 @@ p.menu_header {
   background-color: #ffffff;  
 }
 
+/*   border: 1px solid #cccccc; /*
 #right {
   position: absolute;
   right: 0px;        
@@ -174,7 +175,6 @@ p.menu_header {
   margin: 4px 4px 0px 0px; 
   padding: 0px;
   background-color: #ffffff;    
-  border: 1px solid #cccccc;
   font-size: 80%;
 }
 
