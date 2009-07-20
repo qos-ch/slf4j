@@ -59,7 +59,6 @@ public class Profiler implements TimeInstrument {
   final String name;
   final StopWatch globalStopWatch;
 
-  // List<StopWatch> stopwatchList = new ArrayList<StopWatch>();
   List<TimeInstrument> childTimeInstrumentList = new ArrayList<TimeInstrument>();
 
   // optional field
@@ -210,6 +209,29 @@ public class Profiler implements TimeInstrument {
     }
   }
 
+
+  /**
+   * Return a copy of the child instrument list for this Profiler instance.
+   * 
+   * @return a copy of this instance's child time instrument list
+   * @since 1.5.9
+   */
+  public List<TimeInstrument> getCopyOfChildTimeInstruments() {
+    List<TimeInstrument> copy = new ArrayList<TimeInstrument>(childTimeInstrumentList);
+    return copy;
+  }
+
+  /**
+   * Return a copy of the global stopwath of this Profiler instance.
+   * 
+   * @return a copy of this instance's global stop watch
+   * @since 1.5.9
+   */
+  public StopWatch getCopyOfGlobalStopWatch() {
+    StopWatch copy = new StopWatch(globalStopWatch);
+    return copy;
+  }
+  
   private String buildProfilerString(DurationUnit du, String firstPrefix,
       String label, String indentation) {
     StringBuffer buf = new StringBuffer();
@@ -251,5 +273,4 @@ public class Profiler implements TimeInstrument {
     Util.appendDurationUnitAsStr(buf, du);
     buf.append(SpacePadder.LINE_SEP);
   }
-
 }

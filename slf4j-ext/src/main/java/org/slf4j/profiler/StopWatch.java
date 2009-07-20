@@ -42,6 +42,14 @@ public class StopWatch implements TimeInstrument {
     start(name);
   }
 
+  StopWatch(StopWatch original) {
+    this.name = original.name;
+    this.startTime = original.startTime;
+    this.stopTime = original.stopTime;
+    this.status = original.status;
+  }
+
+  
   public void start(String name) {
     this.name = name;
     startTime = System.nanoTime();
