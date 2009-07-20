@@ -22,30 +22,36 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.apache.log4j;
+package org.dummy;
 
-import org.apache.log4j.Logger;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 import junit.framework.TestCase;
 
-public class Trivial extends TestCase {
+import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 
-  public void testSmoke() {
-    Logger l = Logger.getLogger("a");
-    l.trace("t");
-    l.debug("d");
-    l.info("i");
-    l.warn("w");
-    l.error("e");
-    l.fatal("f");
+public class Bug139 extends TestCase {
 
-    Exception e = new Exception("testing");
-    l.trace("t", e);
-    l.debug("d", e);
-    l.info("i", e);
-    l.warn("w", e);
-    l.error("e", e);
-    l.fatal("f", e);
+  public void test() {
+    ListHandler listHandler = new ListHandler();
+    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+    root.addHandler(listHandler);
+    root.setLevel(Level.FINEST);
+    Logger log4jLogger = Logger.getLogger("a");
+    Category log4jCategory = Logger.getLogger("b");
+
+    int n = 0;
+
+    log4jLogger.log(org.apache.log4j.Level.DEBUG, "hello"+(++n));
+    log4jCategory.log(org.apache.log4j.Level.DEBUG, "world"+(++n));
+    
+    assertEquals(n, listHandler.list.size());
+
+    for (int i = 0; i < n; i++) {
+      LogRecord logRecord = (LogRecord) listHandler.list.get(i);
+      assertEquals("test", logRecord.getSourceMethodName());
+    }
   }
-
 }

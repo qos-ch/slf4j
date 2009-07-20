@@ -31,7 +31,8 @@ import org.slf4j.spi.LocationAwareLogger;
  * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>,
  * <code>warn()</code>, <code>error()</code> printing methods are directly
  * mapped to their SLF4J equivalents. Log4j's <code>fatal()</code> printing
- * method is mapped to SLF4J's <code>error()</code> method with a FATAL marker.
+ * method is mapped to SLF4J's <code>error()</code> method with a FATAL
+ * marker.
  * 
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
@@ -147,7 +148,7 @@ public class Category {
    * SLF4J equivalent, except for FATAL which is mapped as ERROR.
    * 
    * @param p
-   *          the priority to check against
+   *                the priority to check against
    * @return true if this logger is enabled for the given level, false
    *         otherwise.
    */
@@ -199,7 +200,8 @@ public class Category {
    * Delegates to {@link org.slf4j.Logger#debug(String)} method of SLF4J.
    */
   public void debug(Object message) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT,
+        message, null);
   }
 
   /**
@@ -207,14 +209,16 @@ public class Category {
    * SLF4J.
    */
   public void debug(Object message, Throwable t) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT,
+        message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#info(String)} method in SLF4J.
    */
   public void info(Object message) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT,
+        message, null);
   }
 
   /**
@@ -222,14 +226,16 @@ public class Category {
    * SLF4J.
    */
   public void info(Object message, Throwable t) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT,
+        message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#warn(String)} method in SLF4J.
    */
   public void warn(Object message) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT,
+        message, null);
   }
 
   /**
@@ -237,14 +243,16 @@ public class Category {
    * SLF4J.
    */
   public void warn(Object message, Throwable t) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT,
+        message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
    */
   public void error(Object message) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT,
+        message, null);
   }
 
   /**
@@ -252,14 +260,16 @@ public class Category {
    * SLF4J.
    */
   public void error(Object message, Throwable t) {
-    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
+    differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT,
+        message, t);
   }
 
   /**
    * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
    */
   public void fatal(Object message) {
-    differentiatedLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
+    differentiatedLog(FATAL_MARKER, CATEGORY_FQCN,
+        LocationAwareLogger.ERROR_INT, message, null);
   }
 
   /**
@@ -267,9 +277,11 @@ public class Category {
    * SLF4J. In addition, the call is marked with a marker named "FATAL".
    */
   public void fatal(Object message, Throwable t) {
-    differentiatedLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
+    differentiatedLog(FATAL_MARKER, CATEGORY_FQCN,
+        LocationAwareLogger.ERROR_INT, message, t);
   }
 
+  
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
     int levelInt = priorityToLevelInt(p);
     if (locationAwareLogger != null) {
@@ -279,6 +291,19 @@ public class Category {
           + "] does not seem to be location aware.");
     }
   }
+
+  public void log(Priority p, Object message, Throwable t) {
+    int levelInt = priorityToLevelInt(p);
+    differentiatedLog(null, CATEGORY_FQCN, levelInt,
+        message, t);
+  }
+
+  public void log(Priority p, Object message) {
+    int levelInt = priorityToLevelInt(p);
+    differentiatedLog(null, CATEGORY_FQCN, levelInt,
+        message, null);
+  }
+
 
   private int priorityToLevelInt(Priority p) {
     switch (p.level) {
