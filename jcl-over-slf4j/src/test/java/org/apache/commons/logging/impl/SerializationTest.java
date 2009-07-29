@@ -37,9 +37,10 @@ public class SerializationTest extends TestCase {
     ByteArrayInputStream bis = new ByteArrayInputStream(baos.toByteArray());
     ois = new ObjectInputStream(bis);
 
-    Log readLog = (Log) ois.readObject();
+    Log resuscitatedLog = (Log) ois.readObject();
     // tests that the "private transient Logger logger" field is non-null
-    readLog.debug("");
+    resuscitatedLog.debug("");
+    resuscitatedLog.isDebugEnabled();
   }
 
   public void testSLF4JLog() throws Exception {
