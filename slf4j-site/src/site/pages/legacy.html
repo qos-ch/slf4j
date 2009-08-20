@@ -136,7 +136,7 @@
     binding and its dependencies for log4j-over-slf4j to work properly.
     </p>
     
-    <p>In most situtations, replacing a jar file is all it takes in
+    <p>In most situations, replacing a jar file is all it takes in
     order to migrate from log4j to SLF4J.
     </p>
     
@@ -185,7 +185,7 @@
     binding for SLF4J, will force all SLF4J calls to be delegated to
     log4j. The presence of <em>log4j-over-slf4j.jar</em> will in turn
     delegate all log4j API calls to their SLF4J equivalents. If both are
-    present simulatenously, slf4j calls will be delegated to log4j, and
+    present simultaneously, slf4j calls will be delegated to log4j, and
     log4j calls redirected to SLF4j, resulting in an endless recursion.
     </p>
     
@@ -196,7 +196,7 @@
     SLF4j API. See also <a
     href="api/org/slf4j/bridge/SLF4JBridgeHandler.html">SLF4JBridgeHandler
     javadocs</a>. Contrary to other bridging modules such as
-    jcl-over-slfj and log4j-over-slf4j, which re-implement JCL and
+    jcl-over-slf4j and log4j-over-slf4j, which re-implement JCL and
     respectively log4j, the jul-to-slf4j modules does not re-implement
     the java.util.logging package because packages under the java.*
     namespace cannot be replaced.
@@ -211,7 +211,7 @@
     hand, the presence of jul-to-slf4j.jar, plus the installation of
     SLF4JBridgeHandler, by invoking "SLF4JBridgeHandler.install()" will
     route jul records to SLF4J. Thus, if both jar are present
-    simultanesouly (and SLF4JBridgeHandler is installed), slf4j calls
+    simultaneously (and SLF4JBridgeHandler is installed), slf4j calls
     will be delegated to jul and jul records will be routed to SLF4J,
     resulting in an endless recursion.
     </p> 

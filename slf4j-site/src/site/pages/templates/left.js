@@ -6,7 +6,7 @@ document.write('<a href="docs.html">Documentation</a>');
 document.write('<a href="license.html">License</a>');
 document.write('<a href="download.html">Download</a>');
 
-document.write('<a href="svn.html">Source Repository</a>');
+document.write('<a href="repos.html">Source Repository</a>');
 document.write('<a href="mailing-lists.html">Mailing Lists</a>');
 document.write('<a href="bug-reporting.html">Bug Reporting</a>');
 
@@ -23,8 +23,3 @@ document.write('</p>');
 document.write('<p class="menu_header">Sub-projects</p>');
 document.write('<a href="http://www.slf4j.org/taglib/">slf4j-taglib</a>');
 document.write('</p>');
-
-
-
-
-

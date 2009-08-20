@@ -193,28 +193,6 @@ p.menu_header {
 	display: block;
 }
 
-table.bodyTable {
-	padding: 0px;
-	width: 100%;
-	margin-left: -2px;
-	margin-right: -2px;
-}
-
-table.bodyTable th {
-	color: white;
-	background-color: #bbb;
-	font-weight: bold;
-}
-
-
-table.bodyTable tr.a {
-	background-color: #ddd;
-}
-
-table.bodyTable tr.b {
-	background-color: #eee;
-}
-
 .author {
 	text-align: left;
 	font-weight: bold;
@@ -284,6 +262,37 @@ code {
   margin-right: 3em;
 }
 
+
+/* ========== body table ============ */
+table.bodyTable {
+	padding: 0px;
+	margin-left: -2px;
+	margin-right: -2px;
+}
+
+table.bodyTable th {
+	color: white;
+	background-color: #bbb;
+	font-weight: bold;
+}
+
+
+table.bodyTable td {
+  padding-left: 0.5ex;
+  padding-bottom: 0.5ex;
+}
+
+
+/* apply to tr elements of tables which are both bodytable and dark */
+table[class="bodyTable dark"] tr {
+	background-color: #ddd;
+}
+
+/* apply to tr elements of tables which are both bodytable and dark */
+table[class="bodyTable properties"] tr {
+	vertical-align: top;
+}
+
 table.bodyTable tr.a {
 	background-color: #ddd;
 }
@@ -291,6 +300,9 @@ table.bodyTable tr.a {
 table.bodyTable tr.b {
 	background-color: #eee;
 }
+
 table.bodyTable tr.alt {
 	background-color: #eee;
 }
+
+/* EOF =============== bodyTable =============== */
