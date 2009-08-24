@@ -38,6 +38,10 @@ public class SLF4JBridgeHandlerPerfTest extends TestCase {
   static String LOGGER_NAME = "yay";
   static int RUN_LENGTH = 100*1000;
 
+
+  // set to false to test enabled logging performance
+  boolean disabledLogger = true;
+  
   FileAppender fileAppender; 
   org.apache.log4j.Logger log4jRoot;
   java.util.logging.Logger julRootLogger = LogManager.getLogManager()
@@ -95,15 +99,17 @@ public class SLF4JBridgeHandlerPerfTest extends TestCase {
   
   public void testPerf() {
     SLF4JBridgeHandler.install();
-    //log4jRoot.setLevel(org.apache.log4j.Level.ERROR);
-
+    
+    if(disabledLogger) {
+     log4jRoot.setLevel(org.apache.log4j.Level.ERROR);
+    }
     julLoggerLoop();
     double julAvg=julLoggerLoop();
-    System.out.println("Average cost per call (JUL->SLF4J->log4j):"+julAvg +" nanos");
+    System.out.println("Average cost per call (JUL->SLF4J->log4j): "+julAvg +" nanos");
      
     slf4jLoggerLoop();
     double slf4jAvg=slf4jLoggerLoop();
-    System.out.println("Average cost per call (SLF4J->log4j):"+slf4jAvg +" nanos");
+    System.out.println("Average cost per call (SLF4J->log4j): "+slf4jAvg +" nanos");
     System.out.println("Ratio "+(julAvg/slf4jAvg));
   }
 }

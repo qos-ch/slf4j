@@ -75,6 +75,19 @@ import org.slf4j.spi.LocationAwareLogger;
  * julLogger.fine(&quot;hello world&quot;); // this will get redirected to SLF4J
  * </pre>
  * 
+ * <p>
+ * Please note that translating a java.util.logging event into SLF4J incurs the
+ * cost of constructing {@link LogRecord} instance regardless of whether the
+ * SLF4J logger is disabled for the given level. <b>Consequently, j.u.l. to
+ * SLF4J translation can seriously impact on the cost of disabled logging
+ * statements (60 fold increase) and a measurable impact on enabled log
+ * statements (20% overall increase). </b>
+ * </p>
+ * 
+ * <p>
+ * If application performance is a concern, then use of SLF4JBridgeHandler is
+ * appropriate only if few j.u.l. logging statements are in play.
+ * 
  * @author Christian Stein
  * @author Joern Huxhorn
  * @author Ceki G&uuml;lc&uuml;

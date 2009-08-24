@@ -193,14 +193,31 @@
     
     <p>The jul-to-slf4j module includes a jul handler, namely
     SLF4JBridgeHandler, that routes all incoming jul records to the
-    SLF4j API. See also <a
+    SLF4j API. Please see <a
     href="api/org/slf4j/bridge/SLF4JBridgeHandler.html">SLF4JBridgeHandler
-    javadocs</a>. Contrary to other bridging modules such as
-    jcl-over-slf4j and log4j-over-slf4j, which re-implement JCL and
-    respectively log4j, the jul-to-slf4j modules does not re-implement
-    the java.util.logging package because packages under the java.*
-    namespace cannot be replaced.
+    javadocs</a> for usage instructions. 
     </p>
+
+    <p>Contrary to other bridging modules such as jcl-over-slf4j and
+    log4j-over-slf4j, which re-implement JCL and respectively log4j,
+    the jul-to-slf4j modules does not re-implement the
+    java.util.logging package because packages under the java.*
+    namespace cannot be replaced. Instead, translates LogRecord into
+    their SLF4J equivalents.  Please note that translating
+    java.util.logging events into SLF4J incurs the cost of
+    constructing <a
+    href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/LogRecord.html?is-external=true">LogRecord</a>
+    instance regardless of whether the SLF4J logger is disabled for
+    the given level or nor. <b>Consequently, j.u.l. to SLF4J translation
+    can seriously impact on the cost of disabled logging statements
+    (60 fold increase) and a measurable impact on enabled log
+    statements (20% overall increase).</b>
+    </p>
+
+    <p>If application performance is a concern, then use of
+    SLF4JBridgeHandler is appropriate only if few j.u.l. logging
+    statements are in play. </p>
+   
     
     <h4>jul-to-slf4j.jar and slf4j-jdk14.jar cannot be present
     simultaneously
@@ -213,7 +230,7 @@
     route jul records to SLF4J. Thus, if both jar are present
     simultaneously (and SLF4JBridgeHandler is installed), slf4j calls
     will be delegated to jul and jul records will be routed to SLF4J,
-    resulting in an endless recursion.
+    resulting in an endless loop.
     </p> 
     
 
