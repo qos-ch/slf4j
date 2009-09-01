@@ -4,6 +4,9 @@ package org.slf4j.ext;
  * Exception used to identify issues related to an event that is being logged.
  */
 public class EventException extends RuntimeException {
+
+  private static final long serialVersionUID = -22873966112391992L;
+
   /**
    * Default constructor.
    */

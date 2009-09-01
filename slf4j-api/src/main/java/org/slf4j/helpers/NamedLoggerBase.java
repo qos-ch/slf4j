@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
  */
 abstract class NamedLoggerBase implements Logger, Serializable {
 
+  private static final long serialVersionUID = 7535258609338176893L;
+
   protected String name;
   
   public String getName() {

@@ -18,6 +18,9 @@ import java.beans.ExceptionListener;
  * @author Ralph Goers
  */
 public class EventData implements Serializable {
+  
+  private static final long serialVersionUID = 153270778642103985L;
+  
   private Map<String, Object> eventData = new HashMap<String, Object>();
   public static final String EVENT_MESSAGE = "EventMessage";
   public static final String EVENT_TYPE = "EventType";
@@ -47,6 +50,7 @@ public class EventData implements Serializable {
    * @param xml
    *          The serialized form of the RequestInfo Map.
    */
+  @SuppressWarnings("unchecked")
   public EventData(String xml) {
     ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes());
     try {
@@ -250,6 +254,7 @@ public class EventData implements Serializable {
    * @return true if the objects are the same instance or contain all the same
    *         keys and their values.
    */
+  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(Object o) {
     if (this == o) {
