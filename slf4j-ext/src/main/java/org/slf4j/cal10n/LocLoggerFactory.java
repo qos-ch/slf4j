@@ -21,20 +21,53 @@
  */
 package org.slf4j.cal10n;
 
+import java.util.Locale;
+
 import org.slf4j.Logger;
-import org.slf4j.ext.LoggerWrapper;
+import org.slf4j.LoggerFactory;
 
-public class LLogger extends LoggerWrapper implements Logger {
+/**
+ * 
+ * This class is essentially a wrapper around an {@link LoggerFactory} producing
+ * {@link LocLogger} instances.
+ * 
+ * <p>
+ * Contrary to {@link LoggerFactory#getLogger(String)} method of
+ * {@link LoggerFactory}, each call to {@link getLocLogger} produces a new
+ * instance of {@link LocLogger}. This should not matter because an XLogger
+ * instance does have any state beyond that of the {@link Logger} instance
+ * it wraps and its locale.
+ * 
+ * @author Ceki Gulcu
+ * 
+ */
+public class LocLoggerFactory {
 
-  private static final String FQCN = LLogger.class.getName();
-  
-  public LLogger(Logger logger) {
-    super(logger, FQCN);
+  final Locale locale;
+
+  public LocLoggerFactory(Locale locale) {
+    this.locale = locale;
   }
-  
-  void debug(Enum<?> e, Object... args) {
-      
-  }
-  
 
+  /**
+   * Get an LocLogger instance by name.
+   * 
+   * @param name
+   * @return
+   */
+  public LocLogger getLocLogger(String name) {
+    return new LocLogger(LoggerFactory.getLogger(name), locale);
+  }
+
+  /**
+   * Get a new LocLogger instance by class. The returned LocLogger will be named
+   * after the class.
+   * 
+   * @param clazz
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  public LocLogger getLocLogger(Class clazz) {
+    return getLocLogger(clazz.getName());
+  }
 }

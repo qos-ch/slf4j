@@ -22,10 +22,10 @@ public class LoggerWrapper implements Logger {
   // fqcn depend on the caller, but its value would not be different
   // between successive invocations of a factory class
   
-  final Logger logger;
+  protected final Logger logger;
   final String fqcn;
   // is this logger instance a LocationAwareLogger
-  final boolean instanceofLAL;
+  protected final boolean instanceofLAL;
   
   public LoggerWrapper(Logger logger, String fqcn) {
     this.logger = logger;
