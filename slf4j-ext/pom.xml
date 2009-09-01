@@ -30,6 +30,10 @@
       <scope>test</scope>
     </dependency>		
     <dependency>
+      <groupId>ch.qos.cal10n</groupId>
+      <artifactId>cal10n-api</artifactId>
+    </dependency>		
+    <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
       <version>3.4.GA</version>
