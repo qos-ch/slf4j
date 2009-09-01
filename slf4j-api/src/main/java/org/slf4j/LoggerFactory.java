@@ -188,7 +188,12 @@ public final class LoggerFactory {
 
   private static void singleImplementationSanityCheck() {
     try {
-      Enumeration paths = LoggerFactory.class.getClassLoader().getResources(
+      ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
+      if(loggerFactoryClassLoader == null) {
+        // see http://bugzilla.slf4j.org/show_bug.cgi?id=146
+        return; // better than a null pointer exception
+      }
+      Enumeration paths = loggerFactoryClassLoader.getResources(
           STATIC_LOGGER_BINDER_PATH);
       List implementationList = new ArrayList();
       while (paths.hasMoreElements()) {
