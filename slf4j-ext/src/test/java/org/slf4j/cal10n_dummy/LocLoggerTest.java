@@ -32,12 +32,16 @@ import org.slf4j.cal10n.LocLogger;
 import org.slf4j.cal10n.LocLoggerFactory;
 import org.slf4j.dummyExt.ListAppender;
 
+import ch.qos.cal10n.IMessageConveyor;
+import ch.qos.cal10n.MessageConveyor;
+
 public class LocLoggerTest extends TestCase {
 
   ListAppender listAppender;
   org.apache.log4j.Logger log4jRoot;
 
-  LocLoggerFactory llFactory_uk = new LocLoggerFactory(Locale.UK);
+  IMessageConveyor imc = new MessageConveyor(Locale.UK);
+  LocLoggerFactory llFactory_uk = new LocLoggerFactory(imc);
 
   final static String EXPECTED_FILE_NAME = "LocLoggerTest.java";
 

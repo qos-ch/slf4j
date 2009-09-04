@@ -27,15 +27,20 @@
 
   <hr noshade="noshade" size="1"/>
 
-  <h3>XX, 2009 - Release of SLF4J 1.5.9</h3>
+  <h3>XX, 2009 - Release of SLF4J 1.5.9-RC0</h3>
 
   <p>SLF4J version 1.5.9 consist of bug fixes and minor
   enhancements. It is totally backward compatible with SLF4J version
-  1.5.8. However, based on the <a href="http://cal10n.qos.ch/">CAL10N
-  project</a> support for internationalization was added to the
-  slf4j-ext module.</p>
+  1.5.8. However, the slf4j-ext module ships with a new package called
+  <code>org.slf4j.cal10n</code> which adds <a
+  href="localization.html">localized/internationalized logging</a>
+  support as a thin layer built upon the <a
+  href="http://cal10n.qos.ch">CAL10N API</a>.</p>
 
-  
+
+  <p>Added <a href="localization.html">localized/internationalized
+  logging</a> support as a thin layer built upon the <a
+  href="http://cal10n.qos.ch">CAL10N API</a>.</p>
 
   <p>In log4j-over-slf4j, added missing log(...)  methods. These were
   requested by Zoltan Szel in <a
@@ -55,6 +60,8 @@
   described in <a
   href="http://bugzilla.slf4j.org/show_bug.cgi?id=146">bug report
   146</a> by Dapeng Ni.</p>
+
+
 
   <hr noshade="noshade" size="1"/>
 

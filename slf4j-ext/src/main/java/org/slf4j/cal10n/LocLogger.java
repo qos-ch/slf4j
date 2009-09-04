@@ -21,8 +21,6 @@
  */
 package org.slf4j.cal10n;
 
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
@@ -30,7 +28,6 @@ import org.slf4j.ext.LoggerWrapper;
 import org.slf4j.spi.LocationAwareLogger;
 
 import ch.qos.cal10n.IMessageConveyor;
-import ch.qos.cal10n.MessageConveyor;
 import ch.qos.cal10n.MessageParameterObj;
 
 /**
@@ -50,13 +47,14 @@ public class LocLogger extends LoggerWrapper implements Logger {
    */
   static Marker LOCALIZED = MarkerFactory.getMarker("LOCALIZED");
 
-  final Locale locale;
   final IMessageConveyor imc;
 
-  public LocLogger(Logger logger, Locale locale) {
+  public LocLogger(Logger logger,  IMessageConveyor imc) {
     super(logger, LoggerWrapper.class.getName());
-    this.locale = locale;
-    imc = new MessageConveyor(locale);
+    if(imc == null) {
+      throw new IllegalArgumentException("IMessageConveyor cannot be null");
+    }
+    this.imc = imc;
   }
 
   /**

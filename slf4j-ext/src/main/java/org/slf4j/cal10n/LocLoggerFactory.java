@@ -21,10 +21,10 @@
  */
 package org.slf4j.cal10n;
 
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ch.qos.cal10n.IMessageConveyor;
 
 /**
  * 
@@ -34,19 +34,19 @@ import org.slf4j.LoggerFactory;
  * <p>
  * Contrary to {@link LoggerFactory#getLogger(String)} method of
  * {@link LoggerFactory}, each call to {@link getLocLogger} produces a new
- * instance of {@link LocLogger}. This should not matter because an XLogger
- * instance does have any state beyond that of the {@link Logger} instance
- * it wraps and its locale.
+ * instance of {@link LocLogger}. This should not matter because a LocLogger
+ * instance does have any state beyond that of the {@link Logger} in stance it
+ * wraps and its message conveyor.
  * 
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;c&uuml;
  * 
  */
 public class LocLoggerFactory {
 
-  final Locale locale;
+  final IMessageConveyor imc;
 
-  public LocLoggerFactory(Locale locale) {
-    this.locale = locale;
+  public LocLoggerFactory(IMessageConveyor imc) {
+    this.imc = imc;
   }
 
   /**
@@ -56,7 +56,7 @@ public class LocLoggerFactory {
    * @return
    */
   public LocLogger getLocLogger(String name) {
-    return new LocLogger(LoggerFactory.getLogger(name), locale);
+    return new LocLogger(LoggerFactory.getLogger(name), imc);
   }
 
   /**
