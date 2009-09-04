@@ -11,7 +11,7 @@ import ch.qos.cal10n.MessageConveyor;
 public class MyApplication {
 
   // create a message conveyor for a given locale
-  IMessageConveyor messageConveyor = new MessageConveyor(Locale.UK);
+  IMessageConveyor messageConveyor = new MessageConveyor(Locale.JAPAN);
   
   // create the LogLoggerFactory
   LocLoggerFactory llFactory_uk = new LocLoggerFactory(messageConveyor);
