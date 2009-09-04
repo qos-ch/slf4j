@@ -503,27 +503,22 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       declare slf4j-api as a compile-time (default scope)
       dependency.
       </p>
-      <p>&nbsp;</p>         
-      <p class="source">&lt;dependency&gt;
+      <pre class="prettyprint source">&lt;dependency&gt;
   &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
   &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
   &lt;version&gt;${project.version}&lt;/version&gt;
-&lt;/dependency&gt;</p>
-      
-      <p>&nbsp;</p>         
+&lt;/dependency&gt;</pre>
       
       <p>Limiting the transitivity of the SLF4J binding used in your
       tests can be accomplished by declaring the scope of the
       SLF4J-binding dependency as "test".  Here is an example:</p>
       
-      <p>&nbsp;</p>         
-      
-      <p class="source">&lt;dependency&gt;
+      <pre class="prettyprint source">&lt;dependency&gt;
   &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
   &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
   &lt;version&gt;${project.version}&lt;/version&gt;
   <b>&lt;scope&gt;test&lt;/scope&gt;</b>
-&lt;/dependency&gt;</p>
+&lt;/dependency&gt;</pre>
       
       <p>Thus, as far as your users are concerned you are exporting
       slf4j-api as a transitive dependency of your library, but not
