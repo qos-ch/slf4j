@@ -22,7 +22,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * <p>
  * This class is a minimal implementation of the original
  * <code>org.apache.log4j.Logger</code> class (as found in log4j 1.2) 
- * by delegation of all calls to a {@link org.slf4j.Logger.Logger} instance.
+ * delegating all calls to a {@link org.slf4j.Logger} instance.
  * </p>
  *
  * @author Ceki G&uuml;lc&uuml; 

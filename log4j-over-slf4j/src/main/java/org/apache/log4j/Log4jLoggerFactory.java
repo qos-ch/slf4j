@@ -20,7 +20,7 @@ import java.util.Hashtable;
 
 /**
  * This class is a factory that creates and maintains org.apache.log4j.Loggers
- * warpping org.slf4j.Loggers.
+ * wrapping org.slf4j.Loggers.
  * 
  * It keeps a hashtable of all created org.apache.log4j.Logger instances so that
  * all newly created instances are not dulpicates of existing loggers.
