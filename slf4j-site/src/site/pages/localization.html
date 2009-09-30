@@ -42,7 +42,7 @@
     href="http://cal10n.qos.ch/apidocs/ch/qos/cal10n/IMessageConveyor.html">IMessageConveyor</a>
     instance, you can create a <a
     href="xref/org/slf4j/cal10n/LocLoggerFactory.html">LocLoggerFactory</a>,
-    which in turn can create a <a
+    which in turn can create <a
     href="xref/org/slf4j/cal10n/LocLogger.html">LocLogger</a>
     instances capable of doing localized logging.
     </p>
@@ -69,7 +69,16 @@ public enum Production  {
 }</pre>
 
     <p>It is assumed that you have created appropriate bundle file for
-    the various locales "en_UK" and "ja_JP" as appropriate. Then, you
+    the various locales "en_UK" and "ja_JP" as appropriate. Here is a
+    sample bundle for the "en_UK" locale.
+    </p>
+
+
+    <pre class="source">APPLICATION_STARTED=Application <b>{0}</b> has started.
+APPLICATION_STOPPED=Application <b>{0}</b> has stopped.
+... </pre>
+
+    <p>Then, you
     can instantiate a <code>IMessageCoveyor</code>, inject it into a
     <code>LogLoggerFactory</code>, retreive multiple
     <code>LogLogger</code> instances by name and log away, as the next
@@ -88,7 +97,7 @@ import ch.qos.cal10n.MessageConveyor;
 public class MyApplication {
 
   // create a message conveyor for a given locale 
-  IMessageConveyor  messageConveyor = new MessageConveyor(Locale.JAPAN);
+  IMessageConveyor  messageConveyor = new MessageConveyor(Locale.UK);
   
   // create the LogLoggerFactory
   LocLoggerFactory llFactory_uk = new LocLoggerFactory(messageConveyor);
@@ -98,24 +107,51 @@ public class MyApplication {
   
 
   public void applicationStart() {
-    locLogger.info(Production.APPLICATION_STARTED);
+    locLogger.info(Production.APPLICATION_STARTED, "fooApp");
     // ..
   }
   
   public void applicationStop() {
-    locLogger.info(Production.APPLICATION_STOPPED);
+    locLogger.info(Production.APPLICATION_STOPPED, "fooApp");
     // ...
   }
 }</pre>
 
-    <p>Assuming the resource bundle <em>production_jp.properties</em>
-    exists, and the underlying logging framework is enabled for the
-    info level, log messages in Japenese will be output.
+    <p>Assuming the resource bundle
+    <em>production_en_UK.properties</em> exists, and the underlying
+    logging framework is enabled for the info level, log messages will
+    be output in UK English.
     </p>
 
     <p>Note that a <code>LogLogger</code> is a regular SLF4J logger
-    with additional methods supporting localization.</p>
+    with additional methods supporting localization. For those
+    additional methods which take an enum as first parameter,
+    <code>LogLogger</code> follows the standard Java convention for
+    parameter substitution as defined by the <a
+    href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/MessageFormat.html">java.text.MessageFormat</a>
+    class. For non-localized logs, which take a String as first
+    parameter, <code>LogLogger</code> follows the {} convention, as
+    customary for all <code>org.slf4j.Logger</code> implementations.
+    </p>
 
+    <p>Here is an example illustrating the difference.</p>
+    
+    <pre  class="prettyprint source">import ...;
+public class MyApplication {
+
+  IMessageConveyor  messageConveyor = new MessageConveyor(Locale.UK);
+  LocLoggerFactory llFactory_uk = new LocLoggerFactory(messageConveyor);
+  LocLogger locLogger = llFactory_uk.getLocLogger(this.getClass());
+
+  public void someMethod() {
+    // follows the MessageFormat convention
+    locLogger.info(Production.APPLICATION_STARTED, "fooApp");
+
+   // follows the {} convention
+   logLogger.ingo("Hello {}", name);   
+   ...  
+  }  
+}</pre>
     <script src="templates/footer.js" type="text/javascript"></script>
     </div>
   </body>
