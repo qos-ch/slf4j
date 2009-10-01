@@ -231,7 +231,6 @@ public final class LoggerFactory {
       GET_SINGLETON_METHOD = GET_SINGLETON_INEXISTENT;
       return StaticLoggerBinder.SINGLETON;
     }
-
   }
 
   /**

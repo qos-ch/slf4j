@@ -279,17 +279,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>jxr</report>
-              <report>test-jxr</report>
-            </reports>
-          </reportSet>
-        </reportSets>
         <configuration>
           <aggregate>true</aggregate>
-          <javadocDir>target/site/api/</javadocDir>
+          <javadocDir>target/site/apidocs/</javadocDir>
           <linkJavadoc>true</linkJavadoc>
         </configuration>
       </plugin>

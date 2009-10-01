@@ -124,6 +124,12 @@
     
     <li><a href="#i18n">Does the SLF4J logging API support I18N
     (internationalization)? </a></li>
+
+
+    <li><a href="#noLoggerFactory">Is it possible to retrieve loggers
+    without going through the static methods in
+    <code>LoggerFactory</code>?  </a></li>
+
     
   </ol>
   
@@ -941,9 +947,46 @@ logger.debug("The new entry is {}.", entry);</pre>
       support as a thin layer built upon the <a
       href="http://cal10n.qos.ch">CAL10N API</a>.</p>
 
+      <hr/>
     </dd>          
+
+    <dt><a name="noLoggerFactory" href="#noLoggerFactory">Is it
+    possible to retrieve loggers without going through the static
+    methods in <code>LoggerFactory</code>?</a>
+    </dt>
+
+    <dd>
+
+      <p>Yes. <code>LoggerFactory</code> is essentially a wrapper
+      around an <a
+      href="xref/org/slf4j/ILoggerFactory.html"><code>ILoggerFactory</code></a>
+      instance. The <code>ILoggerFactory</code> instance in use is
+      determined according to the static binding conventions of the
+      SLF4J framework. See the <a
+      href="xref/org/slf4j/LoggerFactory.html#217">getSingleton()</a>
+      method in <code>LoggerFactory</code> for details.
+      </p>
+
+      <p>However, nothing prevents you from using your own
+      <code>ILoggerFactory</code> instance. Note that you can also
+      obtain a reference to the <code>ILoggerFactory</code> that the
+      <code>LoggerFactory</code> class is using by invoking the <a
+      href="apidocs/org/slf4j/LoggerFactory.html#getILoggerFactory()">
+      <code>LoggerFactory.getILoggerFactory()</code></a> method.
+      </p>
+
+      <p>Thus, if SLF4J binding conventions do not fit your needs, or
+      if you need additional flexibility, then do consider using the
+      <code>ILoggerFactory</code> interface as an alternative to
+      inventing your own logging API.</p>
+    </dd>
+
+
     
   </dl>
+
+
+
   
   <h2>Implementing the SLF4J API</h2>
   
