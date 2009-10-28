@@ -5,7 +5,7 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.5.10-SNAPSHOT</version>
+	<version>1.5.9.RC1</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
@@ -27,7 +27,9 @@
   </licenses>
 
   <properties>
+    <cal10n.version>0.7.2</cal10n.version>
   </properties>
+
 
 	<modules>
 		<module>slf4j-api</module>
