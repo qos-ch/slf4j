@@ -77,13 +77,15 @@ public final class LoggerFactory {
   static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
 
   /**
-   * It is our responsibility to track version changes and manage the
-   * compatibility list.
+   * It is LoggerFactory's responsibility to track version changes and manage
+   * the compatibility list.
    * 
    * <p>
+   * It is assumed that qualifiers after the 3rd digit have no impact on
+   * compatibility. Thus, 1.5.7-SNAPSHOT, 1.5.7.RC0 are compatible with 1.5.7.
    */
   static private final String[] API_COMPATIBILITY_LIST = new String[] {
-      "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9.RC1", "1.5.10" };
+      "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9", "1.5.10" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -160,7 +162,7 @@ public final class LoggerFactory {
 
       boolean match = false;
       for (int i = 0; i < API_COMPATIBILITY_LIST.length; i++) {
-        if (API_COMPATIBILITY_LIST[i].equals(requested)) {
+        if (requested.startsWith(API_COMPATIBILITY_LIST[i])) {
           match = true;
         }
       }
@@ -188,23 +190,24 @@ public final class LoggerFactory {
 
   private static void singleImplementationSanityCheck() {
     try {
-      ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
-      if(loggerFactoryClassLoader == null) {
+      ClassLoader loggerFactoryClassLoader = LoggerFactory.class
+          .getClassLoader();
+      if (loggerFactoryClassLoader == null) {
         // see http://bugzilla.slf4j.org/show_bug.cgi?id=146
         return; // better than a null pointer exception
       }
-      Enumeration paths = loggerFactoryClassLoader.getResources(
-          STATIC_LOGGER_BINDER_PATH);
+      Enumeration paths = loggerFactoryClassLoader
+          .getResources(STATIC_LOGGER_BINDER_PATH);
       List implementationList = new ArrayList();
       while (paths.hasMoreElements()) {
         URL path = (URL) paths.nextElement();
         implementationList.add(path);
       }
       if (implementationList.size() > 1) {
-        Util
-            .reportFailure("Class path contains multiple SLF4J bindings.");
-        for(int i = 0; i < implementationList.size(); i++) {
-          Util.reportFailure("Found binding in ["+implementationList.get(i)+"]");
+        Util.reportFailure("Class path contains multiple SLF4J bindings.");
+        for (int i = 0; i < implementationList.size(); i++) {
+          Util.reportFailure("Found binding in [" + implementationList.get(i)
+              + "]");
         }
         Util.reportFailure("See " + MULTIPLE_BINDINGS_URL
             + " for an explanation.");
@@ -238,7 +241,7 @@ public final class LoggerFactory {
    * bound {@link ILoggerFactory} instance.
    * 
    * @param name
-   *                The name of the logger.
+   *          The name of the logger.
    * @return logger
    */
   public static Logger getLogger(String name) {
@@ -251,7 +254,7 @@ public final class LoggerFactory {
    * the statically bound {@link ILoggerFactory} instance.
    * 
    * @param clazz
-   *                the returned logger will be named after clazz
+   *          the returned logger will be named after clazz
    * @return logger
    */
   public static Logger getLogger(Class clazz) {
