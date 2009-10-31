@@ -186,7 +186,7 @@
     log4j. The presence of <em>log4j-over-slf4j.jar</em> will in turn
     delegate all log4j API calls to their SLF4J equivalents. If both are
     present simultaneously, slf4j calls will be delegated to log4j, and
-    log4j calls redirected to SLF4j, resulting in an endless recursion.
+    log4j calls redirected to SLF4j, resulting in an endless loop.
     </p>
     
     <h3><a name="jul-to-slf4j" href="jul-to-slf4j">JUL to SLF4J</a></h3>
@@ -202,16 +202,15 @@
     log4j-over-slf4j, which re-implement JCL and respectively log4j,
     the jul-to-slf4j modules does not re-implement the
     java.util.logging package because packages under the java.*
-    namespace cannot be replaced. Instead, translates LogRecord into
-    their SLF4J equivalents.  Please note that translating
-    java.util.logging events into SLF4J incurs the cost of
-    constructing <a
+    namespace cannot be replaced. Instead, translates <a
     href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/LogRecord.html?is-external=true">LogRecord</a>
-    instance regardless of whether the SLF4J logger is disabled for
-    the given level or nor. <b>Consequently, j.u.l. to SLF4J translation
-    can seriously impact on the cost of disabled logging statements
-    (60 fold increase) and a measurable impact on enabled log
-    statements (20% overall increase).</b>
+    object into its SLF4J equivalent on each logging event.  Please
+    note this traslation process incurs the cost of constructing a
+    <code>LogRecord</code> instance regardless of whether the SLF4J
+    logger is disabled for the given level or nor. <b>Consequently,
+    j.u.l. to SLF4J translation can seriously impact on the cost of
+    disabled logging statements (60 fold increase) and a measurable
+    impact on enabled log statements (20% overall increase).</b>
     </p>
 
     <p>If application performance is a concern, then use of
