@@ -82,7 +82,7 @@
     <dependency>
       <groupId>ch.qos.cal10n</groupId>
       <artifactId>cal10n-api</artifactId>
-      <version>0.7</version>
+      <version>${cal10n.version}</version>
     </dependency>		
 
    </dependencies>
