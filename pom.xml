@@ -176,6 +176,21 @@
         </configuration>
       </plugin>
 
+
+      <!-- as suggested in http://bugzilla.slf4j.org/show_bug.cgi?id=152 -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <id>parse-version</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
 	</build>

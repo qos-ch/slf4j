@@ -44,7 +44,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Bundle-Version>${project.version}</Bundle-Version>
+              <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <Implementation-Version>${project.version}</Implementation-Version>
             </manifestEntries>
