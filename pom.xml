@@ -27,6 +27,7 @@
   </licenses>
 
   <properties>
+    <slf4j.api.minimum.compatible.version>1.5.5</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.7.2</cal10n.version>
   </properties>
 
