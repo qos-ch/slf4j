@@ -3,3 +3,5 @@ target
 .classpath
 .project
 *~
+integration/bundle/
+integration/felix-cache/

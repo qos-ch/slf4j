@@ -47,7 +47,8 @@
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
 	-->
-	<taskdef name="junit" classpath="${plugin_classpath};${compile_classpath}" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+	<taskdef name="junit" classpath="${plugin_classpath};${compile_classpath}" 
+           classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
 
 	<target name="init">
 		<mkdir dir="target/unit-reports" />
