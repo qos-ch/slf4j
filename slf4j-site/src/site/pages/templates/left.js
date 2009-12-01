@@ -22,6 +22,7 @@ document.write('    <a href="http://simple-log.dev.java.net/">Simple-log</a>');
 document.write('  </p>');
 
 document.write('  <p class="menu_header">Sub-projects</p>');
+document.write('    <a href="http://www.slf4j.org/android/">slf4j-android</a>');
 document.write('    <a href="http://www.slf4j.org/taglib/">slf4j-taglib</a>');
 document.write('  </p>');
 
