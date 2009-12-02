@@ -5,7 +5,7 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-parent</artifactId>
-	<version>1.5.10-SNAPSHOT</version>
+	<version>1.5.10</version>
 
 	<packaging>pom</packaging>
 	<name>SLF4J</name>
@@ -181,7 +181,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.3</version>
         <executions>
           <execution>
             <id>parse-version</id>
@@ -319,12 +318,12 @@
 	<distributionManagement>
 		<site>
 			<id>pixie</id>
-			<url>scp://pixie/var/www/www.slf4j.org/htdocs/</url>
+			<url>scp://pixie.qos.ch/var/www/www.slf4j.org/htdocs/</url>
 		</site>
 
     <repository>
       <id>pixie</id>
-      <url>scp://pixie/var/mvnrepo/</url>
+      <url>scp://pixie.qos.ch/var/mvnrepo/</url>
     </repository>
 
 	</distributionManagement>
