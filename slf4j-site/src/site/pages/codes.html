@@ -1,17 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
-<title>SLF4J Error Codes</title>
-<link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+  <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+  <title>SLF4J Error Codes</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+  <link rel="stylesheet" type="text/css" href="css/prettify.css" />
 </head>
-<body>
+<body onload="prettyPrint()">
+    <script type="text/javascript" src="js/prettify.js"></script>
     <script type="text/javascript">prefix='';</script>
 
     <script src="templates/header.js" type="text/javascript"></script>
     <div id="left">
       <script src="templates/left.js" type="text/javascript"></script>
     </div>
+
 
     <div id="content">
 
@@ -151,7 +154,7 @@
     <em>slf4j-simple-${version}.jar</em> and
     <em>slf4j-nop-${version}.jar</em> on the class path and you wish
     to use the nop (no-operation) binding, then remove
-    <em>slf4j-simple-${version}.jar</em> from the class parh.</p>
+    <em>slf4j-simple-${version}.jar</em> from the class path.</p>
 
 
     <!-- ====================================================== -->
@@ -168,7 +171,102 @@
     an effective remedy.
     </p>
 
-    
+    <!-- ====================================================== -->
+
+    <h3>
+      <a name="log4jDelegationLoop"
+      href="#log4jDelegationLoop">Detected both log4j-over-slf4j.jar
+      AND slf4j-log4j12.jar on the class path, preempting
+      <code>StackOverflowError</code>.</a>
+    </h3>
+
+    <p>The purpose of slf4j-log4j12 module is to delegate or redirect
+    calls made to an SLF4J logger to log4j. The purpose of the
+    log4j-over-slf4j module is to redirect calls made to a log4j
+    logger to SLF4J. If both <em>slf4j-log4j12.jar</em> and
+    <em>log4j-over-slf4j.jar</em> are present on the class path, a
+    <code>StackOverflowError</code> will inevitably occur immediately
+    after the first invocation of an SLF4J or a log4j logger.
+    </p>
+
+    <p>Here is how the exception might look like:</p>
+
+    <pre class="prettyprint source">Exception in thread "main" java.lang.StackOverflowError
+  at java.util.Hashtable.containsKey(Hashtable.java:306)
+  at org.apache.log4j.Log4jLoggerFactory.getLogger(Log4jLoggerFactory.java:36)
+  at org.apache.log4j.LogManager.getLogger(LogManager.java:39)
+  at org.slf4j.impl.Log4jLoggerFactory.getLogger(Log4jLoggerFactory.java:73)
+  at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:249)
+  at org.apache.log4j.Category.&lt;init>(Category.java:53)
+  at org.apache.log4j.Logger..&lt;init>(Logger.java:35)
+  at org.apache.log4j.Log4jLoggerFactory.getLogger(Log4jLoggerFactory.java:39)
+  at org.apache.log4j.LogManager.getLogger(LogManager.java:39)
+  at org.slf4j.impl.Log4jLoggerFactory.getLogger(Log4jLoggerFactory.java:73)
+  at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:249)
+  at org.apache.log4j.Category..&lt;init>(Category.java:53)
+  at org.apache.log4j.Logger..&lt;init>(Logger.java:35)
+  at org.apache.log4j.Log4jLoggerFactory.getLogger(Log4jLoggerFactory.java:39)
+  at org.apache.log4j.LogManager.getLogger(LogManager.java:39)
+  subsequent lines omitted...</pre>
+
+    <p>As of SLF4J version 1.5.11, the code preempts the inevitable
+    stack overflow error by throwing an exception with details about
+    the actual cause of the problem. This is deemed to be better than
+    leaving the user wondering about the reasons of the
+    <code>StackOverflowError</code>.
+    </p>
+
+    <p>For more background on this topic see <a
+    href="legacy.html">Bridging legacy APIs</a>.
+    </p>
+
+    <!-- ====================================================== -->
+
+
+    <h3>
+      <a name="jclDelegationLoop" href="#jclDelegationLoop">Detected
+      both jcl-over-slf4j.jar AND slf4j-jcl.jar on the class path,
+      preempting <code>StackOverflowError</code>.</a>
+    </h3>
+
+    <p>The purpose of slf4j-jcl module is to delegate or redirect
+    calls made to an SLF4J logger to jakarta commons logging
+    (JCL). The purpose of the jcl-over-slf4j module is to redirect
+    calls made to a JCL logger to SLF4J. If both
+    <em>slf4j-jcl.jar</em> and <em>jcl-over-slf4j.jar</em> are present
+    on the class path, then a <code>StackOverflowError</code> will
+    inevitably occur immediately after the first invocation of an
+    SLF4J or a JCL logger. 
+    </p>
+
+    <p>Here is how the exception might look like:</p>
+
+    <pre class="prettyprint source">Exception in thread "main" java.lang.StackOverflowError
+  at java.lang.String.hashCode(String.java:1482)
+  at java.util.HashMap.get(HashMap.java:300)
+  at org.slf4j.impl.JCLLoggerFactory.getLogger(JCLLoggerFactory.java:67)
+  at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:249)
+  at org.apache.commons.logging.impl.SLF4JLogFactory.getInstance(SLF4JLogFactory.java:155)
+  at org.apache.commons.logging.LogFactory.getLog(LogFactory.java:289)
+  at org.slf4j.impl.JCLLoggerFactory.getLogger(JCLLoggerFactory.java:69)
+  at org.slf4j.LoggerFactory.getLogger(LoggerFactory.java:249)
+  at org.apache.commons.logging.impl.SLF4JLogFactory.getInstance(SLF4JLogFactory.java:155)
+  subsequent lines omitted...</pre>
+
+
+    <p>As of SLF4J version 1.5.11, the code preempts the inevitable
+    stack overflow error by throwing an exception with details about
+    the actual cause of the problem.  This is deemed to be better than
+    leaving the user wondering about the reasons of the
+    <code>StackOverflowError</code>.
+    </p>
+
+    <p>For more background on this topic see <a
+    href="legacy.html">Bridging legacy APIs</a>.
+    </p>
+
+    <!-- ====================================================== -->
+
     <h3>
       <a name="no_static_mdc_binder"
       href="#no_static_mdc_binder">Failed to load class

@@ -101,10 +101,10 @@
     
     <p>Please note that <em>jcl-over-slf4j.jar</em> and
     <em>slf4j-jcl.jar</em> cannot be deployed at the same time. The
-    former jar file will cause JCL to delegate the choice of the logging
-    system to SLF4J and the latter jar file will cause SLF4J to delegate
-    the choice of the logging system to JCL, resulting in an infinite
-    loop.
+    former jar file will cause JCL to delegate the choice of the
+    logging system to SLF4J and the latter jar file will cause SLF4J
+    to delegate the choice of the logging system to JCL, resulting in
+    an <a href="codes.html#jclDelegationLoop">infinite loop</a>.
     </p>
     
     
@@ -184,9 +184,10 @@
     <p>The presence of <em>slf4j-logj12.jar</em>, that is the log4j
     binding for SLF4J, will force all SLF4J calls to be delegated to
     log4j. The presence of <em>log4j-over-slf4j.jar</em> will in turn
-    delegate all log4j API calls to their SLF4J equivalents. If both are
-    present simultaneously, slf4j calls will be delegated to log4j, and
-    log4j calls redirected to SLF4j, resulting in an endless loop.
+    delegate all log4j API calls to their SLF4J equivalents. If both
+    are present simultaneously, slf4j calls will be delegated to
+    log4j, and log4j calls redirected to SLF4j, resulting in an <a
+    href="codes.html#log4jDelegationLoop">endless loop</a>.
     </p>
     
     <h3><a name="jul-to-slf4j" href="jul-to-slf4j">JUL to SLF4J</a></h3>

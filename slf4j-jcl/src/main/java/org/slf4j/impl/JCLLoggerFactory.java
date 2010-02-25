@@ -39,6 +39,7 @@ import java.util.Map;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.helpers.Util;
 
 /**
  * JCLLoggerFactory is an implementation of {@link ILoggerFactory} returning the
@@ -47,6 +48,24 @@ import org.slf4j.Logger;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class JCLLoggerFactory implements ILoggerFactory {
+
+  private static final String JCL_DELEGATION_LOOP_URL = "http://www.slf4j.org/codes.html#jclDelegationLoop";
+
+  // check for delegation loops
+  static {
+    try {
+      Class.forName("org.apache.commons.logging.impl.SLF4JLogFactory");
+      String part1 = "Detected both jcl-over-slf4j.jar AND slf4j-jcl.jar on the class path, preempting StackOverflowError. ";
+      String part2 = "See also " + JCL_DELEGATION_LOOP_URL
+          + " for more details.";
+
+      Util.reportFailure(part1);
+      Util.reportFailure(part2);
+      throw new IllegalStateException(part1 + part2);
+    } catch (ClassNotFoundException e) {
+      // this is the good case
+    }
+  }
 
   // key: name (String), value: a JCLLoggerAdapter;
   Map loggerMap;

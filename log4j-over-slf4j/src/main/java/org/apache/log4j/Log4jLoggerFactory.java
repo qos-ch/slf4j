@@ -18,6 +18,8 @@ package org.apache.log4j;
 
 import java.util.Hashtable;
 
+import org.slf4j.helpers.Util;
+
 /**
  * This class is a factory that creates and maintains org.apache.log4j.Loggers
  * wrapping org.slf4j.Loggers.
@@ -32,12 +34,30 @@ class Log4jLoggerFactory {
   // String, Logger
   private static Hashtable log4jLoggers = new Hashtable();
 
+  private static final String LOG4J_DELEGATION_LOOP_URL = "http://www.slf4j.org/codes.html#log4jDelegationLoop";
+  
+  // check for delegation loops
+  static {
+    try {
+      Class.forName("org.slf4j.impl.Log4jLoggerFactory");
+      String part1 = "Detected both log4j-over-slf4j.jar AND slf4j-log4j12.jar on the class path, preempting StackOverflowError. ";
+      String part2 = "See also " + LOG4J_DELEGATION_LOOP_URL
+          + " for more details.";
+
+      Util.reportFailure(part1);
+      Util.reportFailure(part2);
+            throw new IllegalStateException(part1 + part2);
+    } catch (ClassNotFoundException e) {
+      // this is the good case
+    }
+  }
+
   public static synchronized Logger getLogger(String name) {
     if (log4jLoggers.containsKey(name)) {
       return (org.apache.log4j.Logger) log4jLoggers.get(name);
     } else {
       Logger log4jLogger = new Logger(name);
-      
+
       log4jLoggers.put(name, log4jLogger);
       return log4jLogger;
     }

@@ -27,7 +27,20 @@
 
    <hr noshade="noshade" size="1"/>
 
-  <h3>March xx, 2010 - Release of SLF4J 1.5.11</h3>
+  <h3>February 25th, 2010 - Release of SLF4J 1.5.11</h3>
+
+
+  <p>Users yet unfamiliar with SLF4J sometimes unknowingly place both
+  <em>log4j-over-slf4j.jar</em> and <em>slf4j-log4j12.jar</em>
+  simultanously on the class path causing stack overflow
+  errors. Simultaneously placing both <em>jcl-over-slf4j.jar</em> and
+  <em>slf4j-jcl.jar</em> on the class path, is another occurrence of
+  the same general problem. As of this version, SLF4J preempts the
+  inevitable stack overflow error by throwing an exception with
+  details about the actual cause of the problem. This is deemed to be
+  better than leaving the user wondering about the reasons of the
+  <code>StackOverflowError</code>.
+  </p>
 
   <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=168">bug
   168</a>. In case log4j-over-slf4j is used and a logback appender
