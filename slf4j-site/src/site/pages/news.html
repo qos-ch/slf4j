@@ -25,6 +25,19 @@
   announce</a> mailing list.
   </p>
 
+   <hr noshade="noshade" size="1"/>
+
+  <h3>March xx, 2010 - Release of SLF4J 1.5.11</h3>
+
+  <p>Fixed <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=168">bug
+  168</a>. In case log4j-over-slf4j is used and a logback appender
+  requires a third party library which depends on log4j, the
+  <code>log(String FQCN, Priority p, Object msg, Throwable t)</code>
+  method in log4j-over-slf4j's Categotry class would throw an
+  <code>UnsupportedOperationException</code>. Problem reported by Seth
+  Call.</p>
+  
+
   <hr noshade="noshade" size="1"/>
 
   <h3>December 3rd, 2009 - Release of SLF4J 1.5.10</h3>

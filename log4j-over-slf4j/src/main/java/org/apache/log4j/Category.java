@@ -31,8 +31,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>,
  * <code>warn()</code>, <code>error()</code> printing methods are directly
  * mapped to their SLF4J equivalents. Log4j's <code>fatal()</code> printing
- * method is mapped to SLF4J's <code>error()</code> method with a FATAL
- * marker.
+ * method is mapped to SLF4J's <code>error()</code> method with a FATAL marker.
  * 
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
@@ -148,7 +147,7 @@ public class Category {
    * SLF4J equivalent, except for FATAL which is mapped as ERROR.
    * 
    * @param p
-   *                the priority to check against
+   *          the priority to check against
    * @return true if this logger is enabled for the given level, false
    *         otherwise.
    */
@@ -281,29 +280,21 @@ public class Category {
         LocationAwareLogger.ERROR_INT, message, t);
   }
 
-  
+  // See also http://bugzilla.slf4j.org/show_bug.cgi?id=168
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
     int levelInt = priorityToLevelInt(p);
-    if (locationAwareLogger != null) {
-      locationAwareLogger.log(null, FQCN, levelInt, convertToString(msg), t);
-    } else {
-      throw new UnsupportedOperationException("The logger [" + slf4jLogger
-          + "] does not seem to be location aware.");
-    }
+    differentiatedLog(null, FQCN, levelInt, msg, t);
   }
 
   public void log(Priority p, Object message, Throwable t) {
     int levelInt = priorityToLevelInt(p);
-    differentiatedLog(null, CATEGORY_FQCN, levelInt,
-        message, t);
+    differentiatedLog(null, CATEGORY_FQCN, levelInt, message, t);
   }
 
   public void log(Priority p, Object message) {
     int levelInt = priorityToLevelInt(p);
-    differentiatedLog(null, CATEGORY_FQCN, levelInt,
-        message, null);
+    differentiatedLog(null, CATEGORY_FQCN, levelInt, message, null);
   }
-
 
   private int priorityToLevelInt(Priority p) {
     switch (p.level) {
