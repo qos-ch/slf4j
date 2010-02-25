@@ -60,8 +60,12 @@
     <em>commons-logging.jar</em> with
     <em>jcl-over-slf4j.jar</em>. Subsequently, the selection of the
     underlying logging framework will be done by SLF4J instead of JCL
-    but without the class loader headaches. The underlying logging
-    framework can be any of the frameworks supported by SLF4J.
+    <a href="http://articles.qos.ch/classloader.html">but without the
+    class loader headaches plaguing JCL</a>. The underlying logging
+    framework can be any of the frameworks supported by SLF4J. Often
+    times, replacing <em>commons-logging.jar</em> with
+    <em>jcl-over-slf4j.jar</em> will immediately and permanently solve
+    class loader issues related to commons logging.
     </p>
     
     <h3><em>slf4j-jcl.jar</em></h3>
