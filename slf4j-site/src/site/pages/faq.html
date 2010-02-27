@@ -71,6 +71,13 @@
     </li>
     
     <li>
+      <a href="#optional_dependency">In order to reduce the number of
+      dependencies of our software we would like to make SLF4J an
+      optional dependency. Is that a good idea?
+      </a>
+    </li>
+
+    <li>
       <a href="#maven2">What about Maven 2 transitive
       dependencies?
       </a>
@@ -485,19 +492,87 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     </dt>
     
     <dd>
-      <p>Embedded components such as libraries do not need and
-      should not configure the underlying logging system. They
-      invoke SLF4J to log but should let the end-user configure the
-      logging environment. When embedded components try to configure
-      logging on their own, they often override the end-user's
-      wishes. At the end of the day, it is the end-user who has to
-      read the logs and process them. She should be the person to
-      decide how she wants her logging configured.
+      <p><b>Embedded components such as libraries not only do not need
+      to configure the underlying logging framework, they really
+      should not do so</b>. They should invoke SLF4J to log but should
+      let the end-user configure the logging environment. When
+      embedded components try to configure logging on their own, they
+      often override the end-user's wishes. At the end of the day, it
+      is the end-user who has to read the logs and process them. She
+      should be the person to decide how she wants her logging
+      configured.
       </p>      
       
       <hr/>
     </dd>
     
+    <!-- ======================================================= -->
+
+    <dt>
+      <a name="optional_dependency" href="#optional_dependency">In
+      order to reduce the number of dependencies of our software we
+      would like to make SLF4J an optional dependency. Is that a good
+      idea?
+      </a>
+    </dt>
+
+    <dd>
+      <p><a
+      href="http://stackoverflow.com/questions/978670/is-it-worth-wrapping-a-logging-framework-in-an-additional-layer">This
+      question pops up</a> whenever a software project reaches a point
+      where it needs to devise a logging strategy.
+      </p>
+
+      <p>Let Wombat be a software library with very few
+      dependencies. If SLF4J is chosen as Wombat's logging API, then a
+      new dependency on <em>slf4j-api.jar</em> will be added to
+      Wombat's list of dependencies. Given that writing a logging
+      wrapper does not seem that hard, some developers will be tempted
+      to wrap SLF4J and link with it only if it is already present on
+      the classpath, making SLF4J an optional dependency of Wombat. In
+      addition to solving the dependency problem, the wrapper will
+      isolate Wombat from SLF4J;s API ensuring that logging in Wombat
+      is future-proof.
+      </p>
+
+      <p>On the other hand, any SLF4J-wrapper by definition depends on
+      SLF4J. It is bound to have the same general API. If in the
+      future a new and significantly different logging API comes
+      along, code that uses the wrapper will be equally difficult to
+      migrate to the new API as code that used SLF4J directly. Thus,
+      the wrapper is not likely to future-proof your code, but to make
+      it heavier by adding an additional indirection on top SLF4J
+      which is an indirection in itself.
+      </p>
+
+      <p>While one can come up with a seemingly working SLF4J-wrapper
+      within hours, many small technical issues will emerge over time
+      which Wombat developers will have to deal with. Note that SLF4J
+      has evolved over several years and has 170 bug reports filed
+      against it.</p>
+
+      <p>It is reasonable to assume that in most projects Wombat will
+      be one dependency among many.  If each library had its own
+      logging wrapper, then each wrapper would presumably need to be
+      configured separately. Thus, instead of having to deal with one
+      logging framework, namely SLF4J, the user of Wombat would have
+      to detail with Wombat's logging wrapper as well.  The problem
+      will be compounded by each framework that comes up with its own
+      wrapper in order to make SLF4J optional.  (Configuring 5
+      different logging wrappers is not exactly exciting nor
+      endearing.)
+      </p>
+
+      <p>For this reason, developers of frameworks should resist the
+      temptation to write their own logging wrapper. Not only is it a
+      waste of time of the developer, it will actually make life more
+      difficult for the users of said frameworks.
+      </p>
+    </dd>
+
+
+   <!-- ======================================================= -->
+
     <dt><a name="maven2" href="#maven2">What about Maven2
     transitive dependencies? </a>
     </dt>
@@ -531,7 +606,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       
       <p>Thus, as far as your users are concerned you are exporting
       slf4j-api as a transitive dependency of your library, but not
-      any SLF4J-binding or an underlying logging system.
+      any SLF4J-binding or any underlying logging system.
       </p>
       
       <hr/>
