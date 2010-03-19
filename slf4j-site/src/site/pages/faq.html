@@ -545,12 +545,6 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       which is an indirection in itself.
       </p>
 
-      <p>While one can come up with a seemingly working SLF4J-wrapper
-      within hours, many small technical issues will emerge over time
-      which Wombat developers will have to deal with. Note that SLF4J
-      has evolved over several years and has 170 bug reports filed
-      against it.</p>
-
       <p>It is reasonable to assume that in most projects Wombat will
       be one dependency among many.  If each library had its own
       logging wrapper, then each wrapper would presumably need to be
@@ -558,15 +552,28 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       logging framework, namely SLF4J, the user of Wombat would have
       to detail with Wombat's logging wrapper as well.  The problem
       will be compounded by each framework that comes up with its own
-      wrapper in order to make SLF4J optional.  (Configuring 5
-      different logging wrappers is not exactly exciting nor
-      endearing.)
+      wrapper in order to make SLF4J optional.  (Configuring or
+      dealing with the intricacies of five different logging wrappers
+      is not exactly exciting nor endearing.)
       </p>
 
-      <p>For this reason, developers of frameworks should resist the
-      temptation to write their own logging wrapper. Not only is it a
-      waste of time of the developer, it will actually make life more
-      difficult for the users of said frameworks.
+      <p>Some projects try to detect the presence of SLF4J on the
+      class path and switch to it if present. While this approach
+      seems transperent enough, it will result in erroneous location
+      information. Underlying logging frameworks will print the
+      location (class name and line number) of the wrapper instead of
+      the real caller. Then there is the question of API coverage as
+      SLF4J support MDC and markers in addition to parameterized
+      logging.  While one can come up with a seemingly working
+      SLF4J-wrapper within hours, many qtechnical issues will emerge
+      over time which Wombat developers will have to deal with. Note
+      that SLF4J has evolved over several years and has 170 bug
+      reports filed against it.</p>
+
+      <p>For the above reasons, developers of frameworks should resist
+      the temptation to write their own logging wrapper. Not only is
+      it a waste of time of the developer, it will actually make life
+      more difficult for the users of said frameworks.
       </p>
     </dd>
 
