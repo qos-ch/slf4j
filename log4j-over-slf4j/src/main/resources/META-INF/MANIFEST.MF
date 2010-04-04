@@ -3,4 +3,5 @@ Bundle-SymbolicName: log4j.over.slf4j
 Bundle-Name: log4j-over-slf4j
 Bundle-Vendor: SLF4J.ORG
 Export-Package: org.apache.log4j
-Import-Package: org.slf4j, org.slf4j.spi
+Import-Package: org.slf4j, org.slf4j.helpers, org.slf4j.spi
+
