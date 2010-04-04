@@ -16,6 +16,9 @@
  */
 package org.apache.log4j;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 /**
  * <p>
  * This class is a minimal implementation of the original
@@ -41,5 +44,26 @@ public class LogManager {
 
   public static Logger getLogger(final Class clazz) {
     return Log4jLoggerFactory.getLogger(clazz.getName());
+  }
+  
+
+  /**
+   * This bogus implementation returns an empty enumeration.
+   * @return
+   */
+  public static Enumeration getCurrentLoggers() {
+    return new Vector().elements();
+  }
+
+  /**
+   * Implemented as NOP.
+   */
+  public static void shutdown() {
+  }
+
+  /**
+   * Implemented as NOP.
+   */
+  public static void resetConfiguration() {
   }
 }
