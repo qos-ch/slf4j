@@ -192,12 +192,12 @@ public final class LoggerFactory {
     try {
       ClassLoader loggerFactoryClassLoader = LoggerFactory.class
           .getClassLoader();
+      Enumeration paths;
       if (loggerFactoryClassLoader == null) {
-        // see http://bugzilla.slf4j.org/show_bug.cgi?id=146
-        return; // better than a null pointer exception
+        paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
+      } else {
+        paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
       }
-      Enumeration paths = loggerFactoryClassLoader
-          .getResources(STATIC_LOGGER_BINDER_PATH);
       List implementationList = new ArrayList();
       while (paths.hasMoreElements()) {
         URL path = (URL) paths.nextElement();
