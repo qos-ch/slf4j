@@ -40,8 +40,8 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * SubstituteLoggerFactory is an trivial implementation of {@link
- * ILoggerFactory} which always returns the unique instance of NOPLogger.
+ * SubstituteLoggerFactory is an trivial implementation of
+ * {@link ILoggerFactory} which always returns the unique instance of NOPLogger.
  * 
  * <p>
  * It used as a temporary substitute for the real ILoggerFactory during its
@@ -56,12 +56,18 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
   final List loggerNameList = new ArrayList();
 
   public Logger getLogger(String name) {
-    loggerNameList.add(name);
+    synchronized (loggerNameList) {
+      loggerNameList.add(name);
+    }
     return NOPLogger.NOP_LOGGER;
   }
 
   public List getLoggerNameList() {
-    return loggerNameList;
+    List copy = new ArrayList();
+    synchronized (loggerNameList) {
+      copy.addAll(loggerNameList);
+    }
+    return copy;
   }
 
 }
