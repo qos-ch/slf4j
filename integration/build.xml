@@ -15,21 +15,33 @@
 	<echo message="plugin classpath:  ${plugin_classpath}" />
 
 	<path id="path150">
-		<pathelement location="xtarget/classes/" />
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
 	</path >
 
+
+	<path id="path1511API">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="./lib/slf4j-api-1.5.11.jar" />
+		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
+	</path >
+
+	<path id="path1511Binding">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.5.11.jar" />
+	</path >
+
+
+
 	<path id="pathIncompatible">
-		<pathelement location="xtarget/classes/" />
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-INCOMPATIBLE.jar" />
 	</path >
 			
 	<path id="pathCurrent">
-		<pathelement location="xtarget/classes/" />
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
@@ -37,13 +49,47 @@
 
 	
 	<path id="multiBinding">
-		<pathelement location="xtarget/classes/" />
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
 		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
 	</path >
 			
+
+	<path id="multiBinding">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
+		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
+	</path >
+
+
+  <path id="binding1699">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.6.99.jar" />
+	</path >
+
+  <path id="binding2099">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-2.0.99.jar" />
+	</path >
+
+
+  <path id="api1699">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-api-1.6.99.jar" />
+	</path >
+
+  <path id="api2099">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-api-2.0.99.jar" />
+	</path >
+
+
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
 	-->
@@ -57,23 +103,48 @@
 	<target name="testAll" depends="init, 
 		            testMismatch, 
 		            testPre155,
-					testMatch,
-		            testMultiBinding">
+                testMatch,
+		            testMultiBinding,
+                testFuture_16Series">
 	</target>
 
 	<target name="testMismatch">
+
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="pathIncompatible" />
 			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" name="org.slf4j.VersionMismatchTest" />
+			<test fork="yes" todir="target/unit-reports"
+            outfile="TEST-INCOMPATIBLE" 
+            name="org.slf4j.VersionMismatchAssertionTest" />
 		</junit>
+
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="path1511API" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-MISMATCH-1511API" 
+            name="org.slf4j.VersionMismatchAssertionTest" />
+		</junit>
+
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="path1511Binding" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-MISMATCH-1511Binding" 
+            name="org.slf4j.VersionMismatchAssertionTest" />
+		</junit>
+
 	</target>
 		
 	<target name="testPre155">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150" />
 			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" name="org.slf4j.Pre155VersionTest" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-testPre155" 
+            name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 	</target>
 
@@ -81,7 +152,9 @@
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="pathCurrent" />
 			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" name="org.slf4j.VersionMatchTest" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-Match" 
+            name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 	</target>
 
@@ -89,7 +162,44 @@
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="multiBinding" />
 			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" name="org.slf4j.MultiBindingTest" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-MultiBinding" 
+            name="org.slf4j.MultiBindingAssertionTest" />
 		</junit>
+	</target>
+
+	<target name="testFuture_16Series">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="binding1699" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-_binding1699" 
+            name="org.slf4j.CompatibilityAssertionTest" />
+		</junit>
+
+	<junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="binding2099" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-_binding2099" 
+            name="org.slf4j.CompatibilityAssertionTest" />
+		</junit>
+
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+      <classpath refid="api1699" />
+      <formatter type="plain" />
+      <test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-api1699" 
+            name="org.slf4j.CompatibilityAssertionTest" />
+		</junit>
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+      <classpath refid="api2099" />
+      <formatter type="plain" />
+      <test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-api2099" 
+            name="org.slf4j.CompatibilityAssertionTest" />
+    </junit>
 	</target>
 </project>

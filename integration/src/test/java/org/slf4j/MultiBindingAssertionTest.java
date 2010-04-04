@@ -29,13 +29,13 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-public class Pre155VersionTest extends TestCase {
+public class MultiBindingAssertionTest extends TestCase {
 
   StringPrintStream sps = new StringPrintStream(System.err);
   PrintStream old = System.err;
   int diff = 1024 + new Random().nextInt(10000);
 
-  public Pre155VersionTest(String name) {
+  public MultiBindingAssertionTest(String name) {
     super(name);
   }
 
@@ -53,7 +53,10 @@ public class Pre155VersionTest extends TestCase {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     String msg = "hello world " + diff;
     logger.info(msg);
+    assertTrue("number of lines should be greater than 4", sps.stringList
+        .size() > 4);
     String s0 = (String) sps.stringList.get(0);
-    assertTrue(s0.contains(msg));
+    assertTrue(s0
+        .contains("SLF4J: Class path contains multiple SLF4J bindings."));
   }
 }

@@ -5,13 +5,13 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-public class VersionMismatchTest extends TestCase {
+public class VersionMismatchAssertionTest extends TestCase {
 
   StringPrintStream sps = new StringPrintStream(System.err);
   PrintStream old = System.err;
   int diff = 1024 + new Random().nextInt(10000);
 
-  public VersionMismatchTest(String name) {
+  public VersionMismatchAssertionTest(String name) {
     super(name);
   }
 

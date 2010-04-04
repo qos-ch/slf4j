@@ -81,11 +81,9 @@ public final class LoggerFactory {
    * the compatibility list.
    * 
    * <p>
-   * It is assumed that qualifiers after the 3rd digit have no impact on
-   * compatibility. Thus, 1.5.7-SNAPSHOT, 1.5.7.RC0 are compatible with 1.5.7.
-   */
-  static private final String[] API_COMPATIBILITY_LIST = new String[] {
-      "1.5.5", "1.5.6", "1.5.7", "1.5.8", "1.5.9", "1.5.10", "1.5.11" };
+   * It is assumed that all versions in the 1.6 are mutually compatible.
+   * */
+  static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.6", "2.0" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -196,7 +194,8 @@ public final class LoggerFactory {
       if (loggerFactoryClassLoader == null) {
         paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
       } else {
-        paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
+        paths = loggerFactoryClassLoader
+            .getResources(STATIC_LOGGER_BINDER_PATH);
       }
       List implementationList = new ArrayList();
       while (paths.hasMoreElements()) {

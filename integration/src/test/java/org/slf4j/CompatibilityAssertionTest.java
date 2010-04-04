@@ -6,14 +6,13 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-public class VersionMatchTest extends TestCase {
+public class CompatibilityAssertionTest extends TestCase {
 
-  
   StringPrintStream sps = new StringPrintStream(System.err);
   PrintStream old = System.err;
   int diff = 1024 + new Random().nextInt(10000);
   
-  public VersionMatchTest(String name) {
+  public CompatibilityAssertionTest(String name) {
     super(name);
   }
 
