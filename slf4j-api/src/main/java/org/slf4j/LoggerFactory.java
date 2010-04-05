@@ -218,7 +218,7 @@ public final class LoggerFactory {
 
   private final static StaticLoggerBinder getSingleton() {
     if (GET_SINGLETON_METHOD == GET_SINGLETON_INEXISTENT) {
-      return StaticLoggerBinder.SINGLETON;
+      return StaticLoggerBinder.getSingleton();
     }
 
     if (GET_SINGLETON_METHOD == GET_SINGLETON_EXISTS) {
@@ -231,7 +231,7 @@ public final class LoggerFactory {
       return singleton;
     } catch (NoSuchMethodError nsme) {
       GET_SINGLETON_METHOD = GET_SINGLETON_INEXISTENT;
-      return StaticLoggerBinder.SINGLETON;
+      return StaticLoggerBinder.getSingleton();
     }
   }
 

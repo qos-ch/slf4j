@@ -40,12 +40,8 @@ public class StaticLoggerBinder {
  
   /**
    * The unique instance of this class.
-   * 
-   * @deprecated Please use the {@link #getSingleton()} method instead of
-   *             accessing this field directly. In future versions, this field
-   *             will become private.
    */
-  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
   
   /**
    * Return the singleton of this class.
