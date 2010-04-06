@@ -24,6 +24,7 @@
 
 package org.slf4j;
 
+import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticMarkerBinder;
 
@@ -49,10 +50,12 @@ public class MarkerFactory {
   static {
     try {
       markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
+    } catch (NoClassDefFoundError e) {
+      markerFactory = new BasicMarkerFactory();
+      
     } catch (Exception e) {
       // we should never get here
-      Util.reportFailure("Could not instantiate instance of class ["
-          + StaticMarkerBinder.SINGLETON.getMarkerFactoryClassStr() + "]", e);
+      Util.report("Unexpected failure while binding MarkerFactory", e);
     }
   }
 

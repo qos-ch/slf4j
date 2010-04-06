@@ -13,7 +13,7 @@ import org.slf4j.spi.MDCAdapter;
  * 
  * @since 1.4.1
  */
-public class NOPMakerAdapter implements MDCAdapter {
+public class NOPMDCAdapter implements MDCAdapter {
 
   public void clear() {
   }

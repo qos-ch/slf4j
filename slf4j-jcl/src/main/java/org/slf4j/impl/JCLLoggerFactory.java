@@ -59,8 +59,8 @@ public class JCLLoggerFactory implements ILoggerFactory {
       String part2 = "See also " + JCL_DELEGATION_LOOP_URL
           + " for more details.";
 
-      Util.reportFailure(part1);
-      Util.reportFailure(part2);
+      Util.report(part1);
+      Util.report(part2);
       throw new IllegalStateException(part1 + part2);
     } catch (ClassNotFoundException e) {
       // this is the good case

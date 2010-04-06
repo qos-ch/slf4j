@@ -24,12 +24,12 @@
 
 package org.slf4j.impl;
 
-import org.slf4j.helpers.NOPMakerAdapter;
+import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
 
 /**
- * This implementation is bound to {@link NOPMakerAdapter}.
+ * This implementation is bound to {@link NOPMDCAdapter}.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -49,10 +49,10 @@ public class StaticMDCBinder {
    * {@link StaticMDCBinder}.
    */
   public MDCAdapter getMDCA() {
-     return new NOPMakerAdapter();
+     return new NOPMDCAdapter();
   }
   
   public String  getMDCAdapterClassStr() {
-    return NOPMakerAdapter.class.getName();
+    return NOPMDCAdapter.class.getName();
   }
 }

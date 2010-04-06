@@ -33,13 +33,13 @@ package org.slf4j.helpers;
  */
 public class Util {
     
-  static final public void reportFailure(String msg, Throwable t) {
+  static final public void report(String msg, Throwable t) {
     System.err.println(msg);
     System.err.println("Reported exception:");
     t.printStackTrace();
   }
   
-  static final public void reportFailure(String msg) {
+  static final public void report(String msg) {
     System.err.println("SLF4J: " +msg);
   }
 }

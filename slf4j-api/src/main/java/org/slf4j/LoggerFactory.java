@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLoggerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
@@ -68,13 +69,11 @@ public final class LoggerFactory {
   static final int ONGOING_INITILIZATION = 1;
   static final int FAILED_INITILIZATION = 2;
   static final int SUCCESSFUL_INITILIZATION = 3;
-
-  static final int GET_SINGLETON_INEXISTENT = 1;
-  static final int GET_SINGLETON_EXISTS = 2;
+  static final int NOP_FALLBACK_INITILIZATION = 4;
 
   static int INITIALIZATION_STATE = UNINITIALIZED;
-  static int GET_SINGLETON_METHOD = UNINITIALIZED;
   static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
+  static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
   /**
    * It is LoggerFactory's responsibility to track version changes and manage
@@ -83,7 +82,8 @@ public final class LoggerFactory {
    * <p>
    * It is assumed that all versions in the 1.6 are mutually compatible.
    * */
-  static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.6", "2.0" };
+  static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.6",
+      "2.0" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -102,40 +102,55 @@ public final class LoggerFactory {
    */
   static void reset() {
     INITIALIZATION_STATE = UNINITIALIZED;
-    GET_SINGLETON_METHOD = UNINITIALIZED;
     TEMP_FACTORY = new SubstituteLoggerFactory();
   }
 
   private final static void performInitialization() {
-    bind();
-    versionSanityCheck();
     singleImplementationSanityCheck();
-
+    bind();
+    if (INITIALIZATION_STATE == SUCCESSFUL_INITILIZATION) {
+      versionSanityCheck();
+   
+    }
   }
 
   private final static void bind() {
     try {
       // the next line does the binding
-      getSingleton();
+      StaticLoggerBinder.getSingleton();
       INITIALIZATION_STATE = SUCCESSFUL_INITILIZATION;
       emitSubstituteLoggerWarning();
     } catch (NoClassDefFoundError ncde) {
-      INITIALIZATION_STATE = FAILED_INITILIZATION;
       String msg = ncde.getMessage();
       if (msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
+        INITIALIZATION_STATE = NOP_FALLBACK_INITILIZATION;
         Util
-            .reportFailure("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
-        Util.reportFailure("See " + NO_STATICLOGGERBINDER_URL
+            .report("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
+        Util.report("Defaulting to no-operation (NOP) logger implementation");
+        Util.report("See " + NO_STATICLOGGERBINDER_URL
             + " for further details.");
-
+      } else {
+        failedBinding(ncde);
+        throw ncde;
       }
-      throw ncde;
+    } catch(java.lang.NoSuchMethodError nsme) {
+      String msg = nsme.getMessage();
+      if (msg != null && msg.indexOf("org.slf4j.impl.StaticLoggerBinder.getSingleton()") != -1) {
+        INITIALIZATION_STATE = FAILED_INITILIZATION;
+        Util.report("slf4j-api 1.6.x (or later) is incompatible with this binding.");
+        Util.report("Your binding is version 1.5.5 or earlier.");
+        Util.report("Upgrade your binding to version 1.6.x. or 2.0.x");
+      }
+      throw nsme;
     } catch (Exception e) {
-      INITIALIZATION_STATE = FAILED_INITILIZATION;
-      // we should never get here
-      Util.reportFailure("Failed to instantiate logger ["
-          + getSingleton().getLoggerFactoryClassStr() + "]", e);
+      failedBinding(e);
+      throw new IllegalStateException("Unexpected initialization failure", e);
     }
+  }
+
+  static void failedBinding(Throwable t) {
+    INITIALIZATION_STATE = FAILED_INITILIZATION;
+    Util.report("Failed to instantiate SLF4J LoggerFactory", t);
   }
 
   private final static void emitSubstituteLoggerWarning() {
@@ -144,13 +159,13 @@ public final class LoggerFactory {
       return;
     }
     Util
-        .reportFailure("The following loggers will not work becasue they were created");
+        .report("The following loggers will not work becasue they were created");
     Util
-        .reportFailure("during the default configuration phase of the underlying logging system.");
-    Util.reportFailure("See also " + SUBSTITUTE_LOGGER_URL);
+        .report("during the default configuration phase of the underlying logging system.");
+    Util.report("See also " + SUBSTITUTE_LOGGER_URL);
     for (int i = 0; i < loggerNameList.size(); i++) {
       String loggerName = (String) loggerNameList.get(i);
-      Util.reportFailure(loggerName);
+      Util.report(loggerName);
     }
   }
 
@@ -165,10 +180,10 @@ public final class LoggerFactory {
         }
       }
       if (!match) {
-        Util.reportFailure("The requested version " + requested
+        Util.report("The requested version " + requested
             + " by your slf4j binding is not compatible with "
             + Arrays.asList(API_COMPATIBILITY_LIST).toString());
-        Util.reportFailure("See " + VERSION_MISMATCH + " for further details.");
+        Util.report("See " + VERSION_MISMATCH + " for further details.");
       }
     } catch (java.lang.NoSuchFieldError nsfe) {
       // given our large user base and SLF4J's commitment to backward
@@ -177,8 +192,7 @@ public final class LoggerFactory {
       // emit compatibility warnings.
     } catch (Throwable e) {
       // we should never reach here
-      Util.reportFailure(
-          "Unexpected problem occured during version sanity check", e);
+      Util.report("Unexpected problem occured during version sanity check", e);
     }
   }
 
@@ -203,35 +217,14 @@ public final class LoggerFactory {
         implementationList.add(path);
       }
       if (implementationList.size() > 1) {
-        Util.reportFailure("Class path contains multiple SLF4J bindings.");
+        Util.report("Class path contains multiple SLF4J bindings.");
         for (int i = 0; i < implementationList.size(); i++) {
-          Util.reportFailure("Found binding in [" + implementationList.get(i)
-              + "]");
+          Util.report("Found binding in [" + implementationList.get(i) + "]");
         }
-        Util.reportFailure("See " + MULTIPLE_BINDINGS_URL
-            + " for an explanation.");
+        Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
       }
     } catch (IOException ioe) {
-      Util.reportFailure("Error getting resources from path", ioe);
-    }
-  }
-
-  private final static StaticLoggerBinder getSingleton() {
-    if (GET_SINGLETON_METHOD == GET_SINGLETON_INEXISTENT) {
-      return StaticLoggerBinder.getSingleton();
-    }
-
-    if (GET_SINGLETON_METHOD == GET_SINGLETON_EXISTS) {
-      return StaticLoggerBinder.getSingleton();
-    }
-
-    try {
-      StaticLoggerBinder singleton = StaticLoggerBinder.getSingleton();
-      GET_SINGLETON_METHOD = GET_SINGLETON_EXISTS;
-      return singleton;
-    } catch (NoSuchMethodError nsme) {
-      GET_SINGLETON_METHOD = GET_SINGLETON_INEXISTENT;
-      return StaticLoggerBinder.getSingleton();
+      Util.report("Error getting resources from path", ioe);
     }
   }
 
@@ -276,7 +269,9 @@ public final class LoggerFactory {
     }
     switch (INITIALIZATION_STATE) {
     case SUCCESSFUL_INITILIZATION:
-      return getSingleton().getLoggerFactory();
+      return StaticLoggerBinder.getSingleton().getLoggerFactory();
+    case NOP_FALLBACK_INITILIZATION:
+      return NOP_FALLBACK_FACTORY;
     case FAILED_INITILIZATION:
       throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
     case ONGOING_INITILIZATION:

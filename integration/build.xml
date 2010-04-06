@@ -14,12 +14,18 @@
 	<echo message="test classpath:    ${test_classpath}" />
 	<echo message="plugin classpath:  ${plugin_classpath}" />
 
-	<path id="path150">
+
+	<path id="path142Binding">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+		<pathelement location="./lib/slf4j-simple-1.4.2.jar" />
+	</path >
+
+	<path id="path150Binding">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
 	</path >
-
 
 	<path id="path1511API">
 		<pathelement location="target/test-classes/" />
@@ -33,14 +39,13 @@
 		<pathelement location="./lib/slf4j-simple-1.5.11.jar" />
 	</path >
 
-
-
-	<path id="pathIncompatible">
+  <!--<path id="pathIncompatible">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-INCOMPATIBLE.jar" />
 	</path >
-			
+  -->
+
 	<path id="pathCurrent">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
@@ -101,23 +106,35 @@
 	</target>
 
 	<target name="testAll" depends="init, 
-		            testMismatch, 
-		            testPre155,
+		            testMissingSingletonMethod,
+                testMismatch, 
                 testMatch,
 		            testMultiBinding,
                 testFuture_16Series">
 	</target>
 
-	<target name="testMismatch">
 
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="pathIncompatible" />
+	<target name="testMissingSingletonMethod">
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="path142Binding" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports"
-            outfile="TEST-INCOMPATIBLE" 
-            name="org.slf4j.VersionMismatchAssertionTest" />
+            outfile="TEST-142BININDING" 
+            name="org.slf4j.MissingSingletonMethodAssertionTest" />
 		</junit>
 
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="path150Binding" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-150BINDING" 
+            name="org.slf4j.MissingSingletonMethodAssertionTest" />
+		</junit>
+
+  </target>
+
+	<target name="testMismatch">
 
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path1511API" />
@@ -136,16 +153,6 @@
             name="org.slf4j.VersionMismatchAssertionTest" />
 		</junit>
 
-	</target>
-		
-	<target name="testPre155">
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="path150" />
-			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-testPre155" 
-            name="org.slf4j.CompatibilityAssertionTest" />
-		</junit>
 	</target>
 
 	<target name="testMatch">
@@ -173,7 +180,7 @@
 			<classpath refid="binding1699" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-_binding1699" 
+            outfile="TEST-binding1699" 
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 
@@ -181,7 +188,7 @@
 			<classpath refid="binding2099" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-_binding2099" 
+            outfile="TEST-binding2099" 
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 

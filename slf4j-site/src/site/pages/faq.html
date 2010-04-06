@@ -531,8 +531,8 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       to wrap SLF4J and link with it only if it is already present on
       the classpath, making SLF4J an optional dependency of Wombat. In
       addition to solving the dependency problem, the wrapper will
-      isolate Wombat from SLF4J;s API ensuring that logging in Wombat
-      is future-proof.
+      isolate Wombat from SLF4J's API ensuring that logging in Wombat
+      is future-proof. 
       </p>
 
       <p>On the other hand, any SLF4J-wrapper by definition depends on
@@ -542,7 +542,17 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       migrate to the new API as code that used SLF4J directly. Thus,
       the wrapper is not likely to future-proof your code, but to make
       it heavier by adding an additional indirection on top SLF4J
-      which is an indirection in itself.
+      which is an indirection in itself. It's actually a lot worse
+      than that. Wrappers will need to depend on certain internal
+      SLF4J interfaces which change from time to time, typical on each
+      major series, contrary to the client-facing API which never
+      changes. Thus, wrappers are usually dependent on the major
+      version they were compiled with. A wrapper compiled against
+      SLF4J version 1.5.x will not work with SLF4J 1.6 whereas client
+      code using <code>org.slf4j.Logger</code>,
+      <code>LoggerFactory</code>, <code>MarkerFactory</code>,
+      <code>org.slf4j.Marker</code>, and <code>MDC</code> will work
+      fine with any SLF4J version from version 1.0 and onwards.
       </p>
 
       <p>It is reasonable to assume that in most projects Wombat will
@@ -573,7 +583,8 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       <p>For the above reasons, developers of frameworks should resist
       the temptation to write their own logging wrapper. Not only is
       it a waste of time of the developer, it will actually make life
-      more difficult for the users of said frameworks.
+      more difficult for the users of said frameworks and make logging
+      code paradoxically more vulnerable to change.
       </p>
     </dd>
 
@@ -616,6 +627,11 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       any SLF4J-binding or any underlying logging system.
       </p>
       
+      <p>Note that as of SLF4J version 1.6, in the absence of an SLF4J
+      binding, slf4j-api will default to a no-operation
+      implementation.
+      </p>
+
       <hr/>
       
     </dd>

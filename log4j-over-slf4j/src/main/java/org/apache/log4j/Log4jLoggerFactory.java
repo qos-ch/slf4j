@@ -44,8 +44,8 @@ class Log4jLoggerFactory {
       String part2 = "See also " + LOG4J_DELEGATION_LOOP_URL
           + " for more details.";
 
-      Util.reportFailure(part1);
-      Util.reportFailure(part2);
+      Util.report(part1);
+      Util.report(part2);
             throw new IllegalStateException(part1 + part2);
     } catch (ClassNotFoundException e) {
       // this is the good case
