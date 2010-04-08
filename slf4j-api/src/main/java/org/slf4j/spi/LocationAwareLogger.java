@@ -55,6 +55,6 @@ public interface LocationAwareLogger extends Logger {
    * @param message
    * @param t
    */  
-  public void log(Marker marker, String fqcn, int level, String message, Throwable t);
+  public void log(Marker marker, String fqcn, int level, String message, Object[] argArray, Throwable t);
   
 }

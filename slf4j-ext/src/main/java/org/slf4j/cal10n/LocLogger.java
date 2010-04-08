@@ -49,9 +49,9 @@ public class LocLogger extends LoggerWrapper implements Logger {
 
   final IMessageConveyor imc;
 
-  public LocLogger(Logger logger,  IMessageConveyor imc) {
+  public LocLogger(Logger logger, IMessageConveyor imc) {
     super(logger, LoggerWrapper.class.getName());
-    if(imc == null) {
+    if (imc == null) {
       throw new IllegalArgumentException("IMessageConveyor cannot be null");
     }
     this.imc = imc;
@@ -74,7 +74,7 @@ public class LocLogger extends LoggerWrapper implements Logger {
 
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(LOCALIZED, FQCN,
-          LocationAwareLogger.TRACE_INT, translatedMsg, null);
+          LocationAwareLogger.TRACE_INT, translatedMsg, args, null);
     } else {
       logger.trace(LOCALIZED, translatedMsg, mpo);
     }
@@ -97,7 +97,7 @@ public class LocLogger extends LoggerWrapper implements Logger {
 
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(LOCALIZED, FQCN,
-          LocationAwareLogger.DEBUG_INT, translatedMsg, null);
+          LocationAwareLogger.DEBUG_INT, translatedMsg, args, null);
     } else {
       logger.debug(LOCALIZED, translatedMsg, mpo);
     }
@@ -120,7 +120,7 @@ public class LocLogger extends LoggerWrapper implements Logger {
 
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(LOCALIZED, FQCN,
-          LocationAwareLogger.INFO_INT, translatedMsg, null);
+          LocationAwareLogger.INFO_INT, translatedMsg, args, null);
     } else {
       logger.info(LOCALIZED, translatedMsg, mpo);
     }
@@ -143,7 +143,7 @@ public class LocLogger extends LoggerWrapper implements Logger {
 
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(LOCALIZED, FQCN,
-          LocationAwareLogger.WARN_INT, translatedMsg, null);
+          LocationAwareLogger.WARN_INT, translatedMsg, args, null);
     } else {
       logger.warn(LOCALIZED, translatedMsg, mpo);
     }
@@ -166,7 +166,7 @@ public class LocLogger extends LoggerWrapper implements Logger {
 
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(LOCALIZED, FQCN,
-          LocationAwareLogger.ERROR_INT, translatedMsg, null);
+          LocationAwareLogger.ERROR_INT, translatedMsg, args, null);
     } else {
       logger.error(LOCALIZED, translatedMsg, mpo);
     }

@@ -45,8 +45,6 @@ public class Category {
   protected org.slf4j.Logger slf4jLogger;
   private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
 
-  
-  
   private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 
   Category(String name) {
@@ -175,7 +173,7 @@ public class Category {
       Throwable t) {
     String m = convertToString(message);
     if (locationAwareLogger != null) {
-      locationAwareLogger.log(marker, fqcn, level, m, t);
+      locationAwareLogger.log(marker, fqcn, level, m, null, t);
     } else {
       switch (level) {
       case LocationAwareLogger.TRACE_INT:

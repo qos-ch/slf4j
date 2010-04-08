@@ -48,11 +48,11 @@ public class XLogger extends LoggerWrapper implements Logger {
   }
 
   public enum Level {
-    TRACE("TRACE", LocationAwareLogger.TRACE_INT),
-    DEBUG("DEBUG", LocationAwareLogger.DEBUG_INT),
-    INFO("INFO", LocationAwareLogger.INFO_INT),
-    WARN("WARN", LocationAwareLogger.WARN_INT),
-    ERROR("ERROR", LocationAwareLogger.ERROR_INT);
+    TRACE("TRACE", LocationAwareLogger.TRACE_INT), DEBUG("DEBUG",
+        LocationAwareLogger.DEBUG_INT), INFO("INFO",
+        LocationAwareLogger.INFO_INT), WARN("WARN",
+        LocationAwareLogger.WARN_INT), ERROR("ERROR",
+        LocationAwareLogger.ERROR_INT);
 
     private final String name;
     private final int level;
@@ -75,7 +75,7 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Given an underlying logger, construct an XLogger
    * 
    * @param logger
-   *                underlying logger
+   *          underlying logger
    */
   public XLogger(Logger logger) {
     // If class B extends A, assuming B does not override method x(), the caller
@@ -88,7 +88,7 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Log method entry.
    * 
    * @param argArray
-   *                supplied parameters
+   *          supplied parameters
    */
   public void entry(Object... argArray) {
     if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
@@ -101,7 +101,7 @@ public class XLogger extends LoggerWrapper implements Logger {
       String formattedMessage = MessageFormatter.arrayFormat(messagePattern,
           argArray);
       ((LocationAwareLogger) logger).log(ENTRY_MARKER, FQCN,
-          LocationAwareLogger.TRACE_INT, formattedMessage, null);
+          LocationAwareLogger.TRACE_INT, formattedMessage, argArray, null);
     }
   }
 
@@ -111,7 +111,7 @@ public class XLogger extends LoggerWrapper implements Logger {
   public void exit() {
     if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
       ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN,
-          LocationAwareLogger.TRACE_INT, EXIT_MESSAGE_0, null);
+          LocationAwareLogger.TRACE_INT, EXIT_MESSAGE_0, null, null);
     }
   }
 
@@ -119,13 +119,14 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Log method exit
    * 
    * @param result
-   *                The result of the method being exited
+   *          The result of the method being exited
    */
   public void exit(Object result) {
     if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
       String formattedMessage = MessageFormatter.format(EXIT_MESSAGE_1, result);
       ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN,
-          LocationAwareLogger.TRACE_INT, formattedMessage, null);
+          LocationAwareLogger.TRACE_INT, formattedMessage,
+          new Object[] { result }, null);
     }
   }
 
@@ -133,26 +134,27 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Log an exception being thrown. The generated log event uses Level ERROR.
    * 
    * @param throwable
-   *                the exception being caught.
+   *          the exception being caught.
    */
   public void throwing(Throwable throwable) {
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(THROWING_MARKER, FQCN,
-          LocationAwareLogger.ERROR_INT, "throwing", throwable);
+          LocationAwareLogger.ERROR_INT, "throwing", null, throwable);
     }
   }
 
   /**
    * Log an exception being thrown allowing the log level to be specified.
-   *
-   * @param level the logging level to use.
+   * 
+   * @param level
+   *          the logging level to use.
    * @param throwable
-   *                the exception being caught.
+   *          the exception being caught.
    */
   public void throwing(Level level, Throwable throwable) {
     if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(THROWING_MARKER, FQCN,
-          level.level, "throwing", throwable);
+      ((LocationAwareLogger) logger).log(THROWING_MARKER, FQCN, level.level,
+          "throwing", null, throwable);
     }
   }
 
@@ -160,26 +162,27 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Log an exception being caught. The generated log event uses Level ERROR.
    * 
    * @param throwable
-   *                the exception being caught.
+   *          the exception being caught.
    */
   public void catching(Throwable throwable) {
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN,
-          LocationAwareLogger.ERROR_INT, "catching", throwable);
+          LocationAwareLogger.ERROR_INT, "catching", null, throwable);
     }
   }
 
   /**
    * Log an exception being caught allowing the log level to be specified.
-   *
-   * @param level the logging level to use.
+   * 
+   * @param level
+   *          the logging level to use.
    * @param throwable
-   *                the exception being caught.
+   *          the exception being caught.
    */
   public void catching(Level level, Throwable throwable) {
     if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN,
-          level.level, "catching", throwable);
+      ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN, level.level,
+          "catching", null, throwable);
     }
   }
 

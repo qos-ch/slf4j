@@ -77,8 +77,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
   /**
    * Log a message object at level FINEST.
    * 
-   * @param msg -
-   *          the message object to be logged
+   * @param msg
+   *          - the message object to be logged
    */
   public void trace(String msg) {
     if (logger.isLoggable(Level.FINEST)) {
@@ -177,8 +177,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
   /**
    * Log a message object at level FINE.
    * 
-   * @param msg -
-   *          the message object to be logged
+   * @param msg
+   *          - the message object to be logged
    */
   public void debug(String msg) {
     if (logger.isLoggable(Level.FINE)) {
@@ -276,8 +276,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
   /**
    * Log a message object at the INFO level.
    * 
-   * @param msg -
-   *          the message object to be logged
+   * @param msg
+   *          - the message object to be logged
    */
   public void info(String msg) {
     if (logger.isLoggable(Level.INFO)) {
@@ -377,8 +377,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
   /**
    * Log a message object at the WARNING level.
    * 
-   * @param msg -
-   *          the message object to be logged
+   * @param msg
+   *          - the message object to be logged
    */
   public void warn(String msg) {
     if (logger.isLoggable(Level.WARNING)) {
@@ -478,8 +478,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
   /**
    * Log a message object at the SEVERE level.
    * 
-   * @param msg -
-   *          the message object to be logged
+   * @param msg
+   *          - the message object to be logged
    */
   public void error(String msg) {
     if (logger.isLoggable(Level.SEVERE)) {
@@ -626,9 +626,9 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
       record.setSourceMethodName(ste.getMethodName());
     }
   }
- 
+
   public void log(Marker marker, String callerFQCN, int level, String message,
-      Throwable t) {
+      Object[] argArray, Throwable t) {
     Level julLevel;
     switch (level) {
     case LocationAwareLogger.TRACE_INT:
@@ -650,12 +650,12 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
       throw new IllegalStateException("Level number " + level
           + " is not recognized.");
     }
-    // the logger.isLoggable check avoids the unconditional 
+    // the logger.isLoggable check avoids the unconditional
     // construction of location data for disabled log
-    // statements. As of 2008-07-31, callers of this method 
-    // do not perform this check. See also 
+    // statements. As of 2008-07-31, callers of this method
+    // do not perform this check. See also
     // http://bugzilla.slf4j.org/show_bug.cgi?id=90
-    if(logger.isLoggable(julLevel)) {
+    if (logger.isLoggable(julLevel)) {
       log(callerFQCN, julLevel, message, t);
     }
   }

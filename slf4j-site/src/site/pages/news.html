@@ -34,6 +34,14 @@
    series is expected to require JDK 1.5 or later.
    </p>
 
+   <p>The <code>log</code> method in <code>LocationAwareLogger</code>
+   interface now admits an additional parameter of type
+   <code>Object[]</code> representing additional arguments of the log
+   request. Due to this modification, slf4j-api version 1.6.x will not
+   work with bindings shipping with SLF4J 1.5.x -- bindings shipping
+   with 1.6.x must be used.
+   </p>
+
    <p>Note that as of SLF4J version 1.6.0, in the absence of an SLF4J
    binding, slf4j-api will default to a no-operation implementation
    discarding all log requests. Thus, instead of throwing an
