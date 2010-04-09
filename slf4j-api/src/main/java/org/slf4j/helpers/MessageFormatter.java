@@ -64,13 +64,16 @@ import java.util.Map;
  * character should be escaped. There is no need to escape the '}' character.
  * For example,
  * 
- * <pre>MessageFormatter.format(&quot;Set \\{} is not equal to {}.&quot;, &quot;1,2&quot;);</pre>
+ * <pre>
+ * MessageFormatter.format(&quot;Set \\{} is not equal to {}.&quot;, &quot;1,2&quot;);
+ * </pre>
  * 
  * will return the string "Set {} is not equal to 1,2.".
  * 
  * <p>
  * The escaping behavior just described can be overridden by escaping the escape
  * character '\'. Calling
+ * 
  * <pre>
  * MessageFormatter.format(&quot;File name is C:\\\\{}.&quot;, &quot;file.zip&quot;);
  * </pre>
@@ -90,9 +93,10 @@ import java.util.Map;
  * {@link #arrayFormat(String, Object[])} methods for more details.
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @author Joern Huxhorn
  */
 final public class MessageFormatter {
-  static final char DELIM_START = '{';
+  static final char DELIM_START = '{'; 
   static final char DELIM_STOP = '}';
   static final String DELIM_STR = "{}";
   private static final char ESCAPE_CHAR = '\\';
@@ -116,7 +120,7 @@ final public class MessageFormatter {
    *          The argument to be substituted in place of the formatting anchor
    * @return The formatted message
    */
-  final public static String format(String messagePattern, Object arg) {
+  final public static FormattingTuple format(String messagePattern, Object arg) {
     return arrayFormat(messagePattern, new Object[] { arg });
   }
 
@@ -143,11 +147,23 @@ final public class MessageFormatter {
    *          anchor
    * @return The formatted message
    */
-  final public static String format(final String messagePattern, Object arg1,
+  final public static FormattingTuple format(final String messagePattern, Object arg1,
       Object arg2) {
     return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
   }
 
+  static final Throwable getThrowableCandidate(Object[] argArray) {
+    if (argArray == null || argArray.length == 0) {
+      return null;
+    }
+    
+    final Object lastEntry = argArray[argArray.length - 1];
+    if(lastEntry instanceof Throwable) {
+      return (Throwable) lastEntry;
+    }
+    return null;
+  }
+  
   /**
    * Same principle as the {@link #format(String, Object)} and
    * {@link #format(String, Object, Object)} methods except that any number of
@@ -160,30 +176,36 @@ final public class MessageFormatter {
    *          anchors
    * @return The formatted message
    */
-  final public static String arrayFormat(final String messagePattern,
+  final public static FormattingTuple arrayFormat(final String messagePattern,
       final Object[] argArray) {
+
+    Throwable throwableCandidate = getThrowableCandidate(argArray);
+    
     if (messagePattern == null) {
-      return null;
+      return new FormattingTuple(null, throwableCandidate);
+
     }
     if (argArray == null) {
-      return messagePattern;
+      return new FormattingTuple(messagePattern);
     }
+    
     int i = 0;
     int j;
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
 
-    for (int L = 0; L < argArray.length; L++) {
+    int L;
+    for (L = 0; L < argArray.length; L++) {
 
       j = messagePattern.indexOf(DELIM_STR, i);
 
       if (j == -1) {
         // no more variables
         if (i == 0) { // this is a simple string
-          return messagePattern;
+          return  new FormattingTuple(messagePattern, throwableCandidate);
         } else { // add the tail string which contains no variables and return
           // the result.
           sbuf.append(messagePattern.substring(i, messagePattern.length()));
-          return sbuf.toString();
+          return new FormattingTuple(sbuf.toString(), throwableCandidate);;
         }
       } else {
         if (isEscapedDelimeter(messagePattern, j)) {
@@ -210,7 +232,11 @@ final public class MessageFormatter {
     }
     // append the characters following the last {} pair.
     sbuf.append(messagePattern.substring(i, messagePattern.length()));
-    return sbuf.toString();
+    if (L < argArray.length - 1) {
+      return new FormattingTuple(sbuf.toString(), throwableCandidate);
+    } else {
+      return new FormattingTuple(sbuf.toString());
+    }
   }
 
   final static boolean isEscapedDelimeter(String messagePattern,

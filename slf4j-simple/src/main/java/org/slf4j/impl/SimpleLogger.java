@@ -33,18 +33,19 @@
 
 package org.slf4j.impl;
 
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * A simple (and direct) implementation that logs messages of level
- * INFO or higher on the console (<code>System.err<code>).
- *
+ * A simple (and direct) implementation that logs messages of level INFO or
+ * higher on the console (<code>System.err<code>).
+ * 
  * <p>The output includes the relative time in milliseconds, thread
  * name, the level, logger name, and the message followed by the line
  * separator for the host.  In log4j terms it amounts to the "%r [%t]
  * %level %logger - %m%n" pattern. </p>
- *
+ * 
  * <p>Sample output follows.</p>
 <pre>
 176 [main] INFO examples.Sort - Populating an array of 2 elements in reverse order.
@@ -58,19 +59,19 @@ import org.slf4j.helpers.MessageFormatter;
         at org.log4j.examples.Sort.main(Sort.java:64)
 467 [main] INFO  examples.Sort - Exiting main method.
 </pre>
- *
+ * 
  * @author Ceki G&uuml;lc&uuml;
  */
 public class SimpleLogger extends MarkerIgnoringBase {
-  
+
   private static final long serialVersionUID = -6560244151660620173L;
- 
+
   /**
    * Mark the time when this class gets loaded into memory.
    */
   private static long startTime = System.currentTimeMillis();
-  public static final String LINE_SEPARATOR =
-    System.getProperty("line.separator");
+  public static final String LINE_SEPARATOR = System
+      .getProperty("line.separator");
   private static String INFO_STR = "INFO";
   private static String WARN_STR = "WARN";
   private static String ERROR_STR = "ERROR";
@@ -85,6 +86,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   /**
    * Always returns false.
+   * 
    * @return always false
    */
   public boolean isTraceEnabled() {
@@ -92,25 +94,24 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the TRACE level.
+   * A NOP implementation, as this logger is permanently disabled for the TRACE
+   * level.
    */
   public void trace(String msg) {
     // NOP
   }
 
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the TRACE level.
+   * A NOP implementation, as this logger is permanently disabled for the TRACE
+   * level.
    */
   public void trace(String format, Object param1) {
     // NOP
   }
 
-  
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the TRACE level.
+   * A NOP implementation, as this logger is permanently disabled for the TRACE
+   * level.
    */
   public void trace(String format, Object param1, Object param2) {
     // NOP
@@ -119,18 +120,18 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public void trace(String format, Object[] argArray) {
     // NOP
   }
-  
+
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the TRACE level.
+   * A NOP implementation, as this logger is permanently disabled for the TRACE
+   * level.
    */
   public void trace(String msg, Throwable t) {
     // NOP
   }
 
-  
   /**
    * Always returns false.
+   * 
    * @return always false
    */
   public boolean isDebugEnabled() {
@@ -138,25 +139,24 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the DEBUG level.
+   * A NOP implementation, as this logger is permanently disabled for the DEBUG
+   * level.
    */
   public void debug(String msg) {
     // NOP
   }
 
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the DEBUG level.
+   * A NOP implementation, as this logger is permanently disabled for the DEBUG
+   * level.
    */
   public void debug(String format, Object param1) {
     // NOP
   }
 
-  
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the DEBUG level.
+   * A NOP implementation, as this logger is permanently disabled for the DEBUG
+   * level.
    */
   public void debug(String format, Object param1, Object param2) {
     // NOP
@@ -165,10 +165,10 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public void debug(String format, Object[] argArray) {
     // NOP
   }
-  
+
   /**
-   * A NOP implementation, as this logger is permanently disabled for
-   * the DEBUG level.
+   * A NOP implementation, as this logger is permanently disabled for the DEBUG
+   * level.
    */
   public void debug(String msg, Throwable t) {
     // NOP
@@ -177,7 +177,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   /**
    * This is our internal implementation for logging regular (non-parameterized)
    * log messages.
-   *
+   * 
    * @param level
    * @param message
    * @param t
@@ -211,18 +211,18 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   /**
    * For formatted messages, first substitute arguments and then log.
-   *
+   * 
    * @param level
    * @param format
    * @param param1
    * @param param2
    */
-  private void formatAndLog(
-    String level, String format, Object arg1, Object arg2) {
-    String message = MessageFormatter.format(format, arg1, arg2);
-    log(level, message, null);
+  private void formatAndLog(String level, String format, Object arg1,
+      Object arg2) {
+    FormattingTuple tp = MessageFormatter.format(format, arg1, arg2);
+    log(level, tp.getMessage(), tp.getThrowable());
   }
-  
+
   /**
    * For formatted messages, first substitute arguments and then log.
    * 
@@ -231,8 +231,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * @param argArray
    */
   private void formatAndLog(String level, String format, Object[] argArray) {
-    String message = MessageFormatter.arrayFormat(format, argArray);
-    log(level, message, null);
+    FormattingTuple tp = MessageFormatter.arrayFormat(format, argArray);
+    log(level, tp.getMessage(), tp.getThrowable());
   }
 
   /**
@@ -274,7 +274,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(INFO_STR, format, argArray);
   }
 
-
   /**
    * Log a message of level INFO, including an exception.
    */
@@ -288,11 +287,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public boolean isWarnEnabled() {
     return true;
   }
-  
+
   /**
    * A simple implementation which always logs messages of level WARN according
    * to the format outlined above.
-  */
+   */
   public void warn(String msg) {
     log(WARN_STR, msg, null);
   }
@@ -367,7 +366,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(ERROR_STR, format, argArray);
   }
 
-  
   /**
    * Log a message of level ERROR, including an exception.
    */

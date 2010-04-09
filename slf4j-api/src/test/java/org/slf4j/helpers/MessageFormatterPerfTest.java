@@ -9,7 +9,7 @@ public class MessageFormatterPerfTest extends TestCase {
   Integer i1 = new Integer(1);
   static long RUN_LENGTH = 100000;
   static long REFERENCE_BIPS = 9000;
-  
+
   public MessageFormatterPerfTest(String name) {
     super(name);
   }
@@ -23,9 +23,9 @@ public class MessageFormatterPerfTest extends TestCase {
   public void XtestJDKFormatterPerf() {
     jdkMessageFormatter(RUN_LENGTH);
     double duration = jdkMessageFormatter(RUN_LENGTH);
-    System.out.println("jdk duration = "+duration+" nanos");
+    System.out.println("jdk duration = " + duration + " nanos");
   }
-  
+
   public void testSLF4JPerf() {
     slf4jMessageFormatter(RUN_LENGTH);
     double duration = slf4jMessageFormatter(RUN_LENGTH);
@@ -34,25 +34,27 @@ public class MessageFormatterPerfTest extends TestCase {
   }
 
   public double slf4jMessageFormatter(long len) {
-    String s = ""; 
+    String s = "";
     s += ""; // keep compiler happy
     long start = System.currentTimeMillis();
     for (int i = 0; i < len; i++) {
-      s = MessageFormatter.format("This is some rather short message {} ", i1);
+      s = MessageFormatter.format("This is some rather short message {} ", i1)
+          .getMessage();
     }
     long end = System.currentTimeMillis();
-    return (1.0*end - start);
-  }  
+    return (1.0 * end - start);
+  }
+
   public double jdkMessageFormatter(long len) {
-    String s = ""; 
+    String s = "";
     s += ""; // keep compiler happy
     long start = System.currentTimeMillis();
-    Object[] oa = new Object[] {i1};
+    Object[] oa = new Object[] { i1 };
     for (int i = 0; i < len; i++) {
       s = MessageFormat.format("This is some rather short message {0}", oa);
     }
     long end = System.currentTimeMillis();
-    return (1.0*end - start);
+    return (1.0 * end - start);
   }
 
 }

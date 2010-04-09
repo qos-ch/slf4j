@@ -29,6 +29,7 @@ import java.io.Serializable;
 import org.apache.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
@@ -125,8 +126,9 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void trace(String format, Object arg) {
     if (isTraceEnabled()) {
-      String msgStr = MessageFormatter.format(format, arg);
-      logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg);
+      logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft
+          .getMessage(), ft.getThrowable());
     }
   }
 
@@ -148,8 +150,9 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void trace(String format, Object arg1, Object arg2) {
     if (isTraceEnabled()) {
-      String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
+      logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft
+          .getMessage(), ft.getThrowable());
     }
   }
 
@@ -169,8 +172,9 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void trace(String format, Object[] argArray) {
     if (isTraceEnabled()) {
-      String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msgStr, null);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft
+          .getMessage(), ft.getThrowable());
     }
   }
 
@@ -221,8 +225,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void debug(String format, Object arg) {
     if (logger.isDebugEnabled()) {
-      String msgStr = MessageFormatter.format(format, arg);
-      logger.log(FQCN, Level.DEBUG, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg);
+      logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -244,8 +248,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void debug(String format, Object arg1, Object arg2) {
     if (logger.isDebugEnabled()) {
-      String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.log(FQCN, Level.DEBUG, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
+      logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -265,8 +269,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void debug(String format, Object[] argArray) {
     if (logger.isDebugEnabled()) {
-      String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.log(FQCN, Level.DEBUG, msgStr, null);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -316,8 +320,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void info(String format, Object arg) {
     if (logger.isInfoEnabled()) {
-      String msgStr = MessageFormatter.format(format, arg);
-      logger.log(FQCN, Level.INFO, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg);
+      logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -339,8 +343,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void info(String format, Object arg1, Object arg2) {
     if (logger.isInfoEnabled()) {
-      String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.log(FQCN, Level.INFO, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
+      logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -360,8 +364,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void info(String format, Object[] argArray) {
     if (logger.isInfoEnabled()) {
-      String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.log(FQCN, Level.INFO, msgStr, null);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -413,8 +417,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void warn(String format, Object arg) {
     if (logger.isEnabledFor(Level.WARN)) {
-      String msgStr = MessageFormatter.format(format, arg);
-      logger.log(FQCN, Level.WARN, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg);
+      logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -436,8 +440,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void warn(String format, Object arg1, Object arg2) {
     if (logger.isEnabledFor(Level.WARN)) {
-      String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.log(FQCN, Level.WARN, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
+      logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -457,8 +461,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void warn(String format, Object[] argArray) {
     if (logger.isEnabledFor(Level.WARN)) {
-      String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.log(FQCN, Level.WARN, msgStr, null);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -510,8 +514,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void error(String format, Object arg) {
     if (logger.isEnabledFor(Level.ERROR)) {
-      String msgStr = MessageFormatter.format(format, arg);
-      logger.log(FQCN, Level.ERROR, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg);
+      logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -533,8 +537,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void error(String format, Object arg1, Object arg2) {
     if (logger.isEnabledFor(Level.ERROR)) {
-      String msgStr = MessageFormatter.format(format, arg1, arg2);
-      logger.log(FQCN, Level.ERROR, msgStr, null);
+      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
+      logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());
     }
   }
 
@@ -554,8 +558,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    */
   public void error(String format, Object[] argArray) {
     if (logger.isEnabledFor(Level.ERROR)) {
-      String msgStr = MessageFormatter.arrayFormat(format, argArray);
-      logger.log(FQCN, Level.ERROR, msgStr, null);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());
     }
   }
 
