@@ -8,7 +8,7 @@ public class MessageFormatterPerfTest extends TestCase {
 
   Integer i1 = new Integer(1);
   Integer i2 = new Integer(2);
-  static long RUN_LENGTH = 200 * 1000;
+  static long RUN_LENGTH = 100 * 1000;
   // 
   static long REFERENCE_BIPS = 48416;
 
@@ -32,7 +32,7 @@ public class MessageFormatterPerfTest extends TestCase {
     slf4jMessageFormatter_OneArg(RUN_LENGTH);
     double duration = slf4jMessageFormatter_OneArg(RUN_LENGTH);
     System.out.println("duration=" + duration);
-    long referencePerf = 72;
+    long referencePerf = 36;
     BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
   }
 
@@ -40,7 +40,7 @@ public class MessageFormatterPerfTest extends TestCase {
     slf4jMessageFormatter_TwoArg(RUN_LENGTH);
     double duration = slf4jMessageFormatter_TwoArg(RUN_LENGTH);
     System.out.println("duration2=" + duration);
-    long referencePerf = 120;
+    long referencePerf = 60;
     BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
   }
 
