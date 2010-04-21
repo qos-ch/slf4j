@@ -3,6 +3,7 @@ package org.slf4j.ext;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -98,10 +99,9 @@ public class XLogger extends LoggerWrapper implements Logger {
       } else {
         messagePattern = buildMessagePattern(argArray.length);
       }
-      String formattedMessage = MessageFormatter.arrayFormat(messagePattern,
-          argArray);
+      FormattingTuple tp = MessageFormatter.arrayFormat(messagePattern, argArray);
       ((LocationAwareLogger) logger).log(ENTRY_MARKER, FQCN,
-          LocationAwareLogger.TRACE_INT, formattedMessage, argArray, null);
+          LocationAwareLogger.TRACE_INT, tp.getMessage(), argArray, tp.getThrowable());
     }
   }
 
@@ -123,10 +123,10 @@ public class XLogger extends LoggerWrapper implements Logger {
    */
   public void exit(Object result) {
     if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
-      String formattedMessage = MessageFormatter.format(EXIT_MESSAGE_1, result);
+      FormattingTuple tp = MessageFormatter.format(EXIT_MESSAGE_1, result);
       ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN,
-          LocationAwareLogger.TRACE_INT, formattedMessage,
-          new Object[] { result }, null);
+          LocationAwareLogger.TRACE_INT, tp.getMessage(),
+          new Object[] { result }, tp.getThrowable());
     }
   }
 
