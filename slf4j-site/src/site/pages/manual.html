@@ -102,25 +102,12 @@ public class HelloWorld {
       <h3><a name="swapping" href="#binding">Binding with a logging
       framework at deployment time</a></h3>
 
-      <p>As mentioned previously, SLF4J supports multiple logging
+      <p>As mentioned previously, SLF4J supports various logging
       frameworks. The SLF4J distribution ships with several jar files
-      referred to as "SLF4J bindings".  </p>
+      referred to as "SLF4J bindings", with each binding corresponding
+      to a supported framework.  </p>
 
       <dl>
-
-        <dt><em>slf4j-nop-${project.version}.jar</em></dt>
-        <dd>Binding for <a
-        href="http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html">NOP</a>,
-        silently discarding all logging.<p/></dd>
-        
-        
-        <dt><em>slf4j-simple-${project.version}.jar</em></dt>
-        <dd>Binding for <a
-        href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple
-        </a> implementation, which outputs all events to
-        System.err. Only messages of level INFO and higher are
-        printed. This binding may be useful in the context of small
-        applications.<p/></dd>
 
         <dt><em>slf4j-log4j12-${project.version}.jar</em>
         </dt>
@@ -132,6 +119,19 @@ public class HelloWorld {
         <dt><em>slf4j-jdk14-${project.version}.jar</em> </dt>
         <dd>Binding for java.util.logging, also referred to as JDK 1.4
         logging <p/></dd>
+
+        <dt><em>slf4j-nop-${project.version}.jar</em></dt>
+        <dd>Binding for <a
+        href="http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html">NOP</a>,
+        silently discarding all logging.<p/></dd>
+        
+        <dt><em>slf4j-simple-${project.version}.jar</em></dt>
+        <dd>Binding for <a
+        href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple
+        </a> implementation, which outputs all events to
+        System.err. Only messages of level INFO and higher are
+        printed. This binding may be useful in the context of small
+        applications.<p/></dd>
         
         <dt><em>slf4j-jcl-${project.version}.jar</em></dt>
         
@@ -181,7 +181,6 @@ public class HelloWorld {
 
       <p>&nbsp;</p>
 
-
       <p>The SLF4J interfaces and their various adapters are extremely
       simple. Most developers familiar with the Java language should
       be able to read and fully understand the code in less than one
@@ -209,6 +208,21 @@ public class HelloWorld {
       approach has proven to be simple and very robust.
       </p>
         
+      <p><b>As of SLF4J version 1.6.0</b>, if no binding is found on
+      the class path, then slf4j-api will default to a no-operation
+      implementation discarding all log requests. Thus, instead of
+      throwing an exception, SLF4J will emit a single warning message
+      about the absence of a binding and proceed to discard all log
+      requests without further protest. For example, let Wombat be
+      some biology-related framework depending on SLF4J for
+      logging. In order to avoid imposing a logging framework on the
+      end-user, Wombat's distribution includes <em>slf4j-api.jar</em>
+      but no binding. Even in the absence of any SLF4J binding on the
+      class path, Wombat's distribution will still work
+      out-of-the-box, and without requiring the end-user to download a
+      binding from SLF4J's web-site. Only when the end-user wishes to
+      enable logging will she need to install a binding.
+      </p>
 
       <h3><a name="consolidate" href="#consolidate">Consolidate
       logging via SLF4J</a></h3>

@@ -16,7 +16,9 @@ document.write('    <a href="http://www.qos.ch/shop/products/professionalSupport
 document.write('    <a href="http://www.qos.ch/shop/products/training">Training</a>');
 
 document.write('  <p class="menu_header">Native implementations</p>');
+document.write('    <a href="http://bmc.github.com/avsl/">AVSL</a>');
 document.write('    <a href="http://logback.qos.ch/">Logback</a>');
+
 document.write('    <p class="menu_header">Wrapped implementations</p>');
 document.write('    <a href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14</a>');
 document.write('    <a href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4j</a>');
