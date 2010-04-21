@@ -7,9 +7,11 @@ import junit.framework.TestCase;
 public class MessageFormatterPerfTest extends TestCase {
 
   Integer i1 = new Integer(1);
+  Integer i2 = new Integer(2);
   static long RUN_LENGTH = 100000;
-  static long REFERENCE_BIPS = 9000;
-  
+  // 
+  static long REFERENCE_BIPS = 48416;
+
   public MessageFormatterPerfTest(String name) {
     super(name);
   }
@@ -23,36 +25,56 @@ public class MessageFormatterPerfTest extends TestCase {
   public void XtestJDKFormatterPerf() {
     jdkMessageFormatter(RUN_LENGTH);
     double duration = jdkMessageFormatter(RUN_LENGTH);
-    System.out.println("jdk duration = "+duration+" nanos");
+    System.out.println("jdk duration = " + duration + " nanos");
   }
-  
-  public void testSLF4JPerf() {
-    slf4jMessageFormatter(RUN_LENGTH);
-    double duration = slf4jMessageFormatter(RUN_LENGTH);
-    long referencePerf = 140;
+
+  public void testSLF4JPerf_OneArg() { 
+    slf4jMessageFormatter_OneArg(RUN_LENGTH);
+    double duration = slf4jMessageFormatter_OneArg(RUN_LENGTH);
+    long referencePerf = 36;
     BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
   }
 
-  public double slf4jMessageFormatter(long len) {
-    String s = ""; 
+  
+  public void testSLF4JPerf_TwoArg() { 
+    slf4jMessageFormatter_TwoArg(RUN_LENGTH);
+    double duration = slf4jMessageFormatter_TwoArg(RUN_LENGTH);
+    long referencePerf = 60;
+    BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
+  }
+
+  public double slf4jMessageFormatter_OneArg(long len) {
+    String s = "";
     s += ""; // keep compiler happy
-    long start = System.currentTimeMillis();
+    long start = System.nanoTime();
     for (int i = 0; i < len; i++) {
       s = MessageFormatter.format("This is some rather short message {} ", i1);
     }
-    long end = System.currentTimeMillis();
-    return (1.0*end - start);
-  }  
+    long end = System.nanoTime();
+    return (end - start)/(1000*1000.0);
+  }
+
+  public double slf4jMessageFormatter_TwoArg(long len) {
+    String s = "";
+    s += ""; // keep compiler happy
+    long start = System.nanoTime();
+    for (int i = 0; i < len; i++) {
+      s = MessageFormatter.format("This is some {} short message {} ", i1, i2);
+    }
+    long end = System.nanoTime();
+    return (end - start)/(1000*1000.0);
+  }
+  
   public double jdkMessageFormatter(long len) {
-    String s = ""; 
+    String s = "";
     s += ""; // keep compiler happy
     long start = System.currentTimeMillis();
-    Object[] oa = new Object[] {i1};
+    Object[] oa = new Object[] { i1 };
     for (int i = 0; i < len; i++) {
       s = MessageFormat.format("This is some rather short message {0}", oa);
     }
     long end = System.currentTimeMillis();
-    return (1.0*end - start);
+    return (1.0 * end - start);
   }
 
 }
