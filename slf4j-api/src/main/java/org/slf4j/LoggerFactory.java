@@ -55,13 +55,15 @@ import org.slf4j.impl.StaticLoggerBinder;
  */
 public final class LoggerFactory {
 
-  static final String NO_STATICLOGGERBINDER_URL = "http://www.slf4j.org/codes.html#StaticLoggerBinder";
-  static final String MULTIPLE_BINDINGS_URL = "http://www.slf4j.org/codes.html#multiple_bindings";
-  static final String NULL_LF_URL = "http://www.slf4j.org/codes.html#null_LF";
-  static final String VERSION_MISMATCH = "http://www.slf4j.org/codes.html#version_mismatch";
-  static final String SUBSTITUTE_LOGGER_URL = "http://www.slf4j.org/codes.html#substituteLogger";
+  static final String CODES_PREFIX = "http://www.slf4j.org/codes.html";
+    
+  static final String NO_STATICLOGGERBINDER_URL = CODES_PREFIX+"#StaticLoggerBinder";
+  static final String MULTIPLE_BINDINGS_URL = CODES_PREFIX+"#multiple_bindings";
+  static final String NULL_LF_URL = CODES_PREFIX+"#null_LF";
+  static final String VERSION_MISMATCH = CODES_PREFIX+"#version_mismatch";
+  static final String SUBSTITUTE_LOGGER_URL = CODES_PREFIX+"#substituteLogger";
 
-  static final String UNSUCCESSFUL_INIT_URL = "http://www.slf4j.org/codes.html#unsuccessfulInit";
+  static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX+"#unsuccessfulInit";
   static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also "
       + UNSUCCESSFUL_INIT_URL;
 
