@@ -96,7 +96,7 @@ import java.util.Map;
  * @author Joern Huxhorn
  */
 final public class MessageFormatter {
-  static final char DELIM_START = '{'; 
+  static final char DELIM_START = '{';
   static final char DELIM_STOP = '}';
   static final String DELIM_STR = "{}";
   private static final char ESCAPE_CHAR = '\\';
@@ -147,8 +147,8 @@ final public class MessageFormatter {
    *          anchor
    * @return The formatted message
    */
-  final public static FormattingTuple format(final String messagePattern, Object arg1,
-      Object arg2) {
+  final public static FormattingTuple format(final String messagePattern,
+      Object arg1, Object arg2) {
     return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
   }
 
@@ -156,14 +156,14 @@ final public class MessageFormatter {
     if (argArray == null || argArray.length == 0) {
       return null;
     }
-    
+
     final Object lastEntry = argArray[argArray.length - 1];
-    if(lastEntry instanceof Throwable) {
+    if (lastEntry instanceof Throwable) {
       return (Throwable) lastEntry;
     }
     return null;
   }
-  
+
   /**
    * Same principle as the {@link #format(String, Object)} and
    * {@link #format(String, Object, Object)} methods except that any number of
@@ -180,15 +180,15 @@ final public class MessageFormatter {
       final Object[] argArray) {
 
     Throwable throwableCandidate = getThrowableCandidate(argArray);
-    
-    if (messagePattern == null) {
-      return new FormattingTuple(null, throwableCandidate);
 
+    if (messagePattern == null) {
+      return new FormattingTuple(null, argArray, throwableCandidate);
     }
+
     if (argArray == null) {
       return new FormattingTuple(messagePattern);
     }
-    
+
     int i = 0;
     int j;
     StringBuffer sbuf = new StringBuffer(messagePattern.length() + 50);
@@ -201,11 +201,14 @@ final public class MessageFormatter {
       if (j == -1) {
         // no more variables
         if (i == 0) { // this is a simple string
-          return  new FormattingTuple(messagePattern, throwableCandidate);
+          return new FormattingTuple(messagePattern, argArray,
+              throwableCandidate);
         } else { // add the tail string which contains no variables and return
           // the result.
           sbuf.append(messagePattern.substring(i, messagePattern.length()));
-          return new FormattingTuple(sbuf.toString(), throwableCandidate);;
+          return new FormattingTuple(sbuf.toString(), argArray,
+              throwableCandidate);
+          ;
         }
       } else {
         if (isEscapedDelimeter(messagePattern, j)) {
@@ -233,7 +236,7 @@ final public class MessageFormatter {
     // append the characters following the last {} pair.
     sbuf.append(messagePattern.substring(i, messagePattern.length()));
     if (L < argArray.length - 1) {
-      return new FormattingTuple(sbuf.toString(), throwableCandidate);
+      return new FormattingTuple(sbuf.toString(), argArray, throwableCandidate);
     } else {
       return new FormattingTuple(sbuf.toString());
     }

@@ -30,19 +30,20 @@ public class MessageFormatterPerfTest extends TestCase {
     slf4jMessageFormatter(RUN_LENGTH);
     double duration = slf4jMessageFormatter(RUN_LENGTH);
     long referencePerf = 140;
+    System.out.println("duration="+duration);
     BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
   }
 
   public double slf4jMessageFormatter(long len) {
     String s = "";
     s += ""; // keep compiler happy
-    long start = System.currentTimeMillis();
+    long start = System.nanoTime();
     for (int i = 0; i < len; i++) {
       s = MessageFormatter.format("This is some rather short message {} ", i1)
           .getMessage();
     }
-    long end = System.currentTimeMillis();
-    return (1.0 * end - start);
+    long end = System.nanoTime();
+    return (end - start)/(1000*1000.0);
   }
 
   public double jdkMessageFormatter(long len) {

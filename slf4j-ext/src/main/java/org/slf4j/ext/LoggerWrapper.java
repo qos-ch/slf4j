@@ -2,6 +2,7 @@ package org.slf4j.ext;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -285,10 +286,10 @@ public class LoggerWrapper implements Logger {
       return;
 
     if (instanceofLAL) {
-      String formattedMessage = MessageFormatter.arrayFormat(format, argArray)
-          .getMessage();
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.DEBUG_INT, formattedMessage, argArray, null);
+          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
+              .getThrowable());
     } else {
       logger.debug(format, argArray);
     }
@@ -330,11 +331,10 @@ public class LoggerWrapper implements Logger {
     if (!logger.isDebugEnabled())
       return;
     if (instanceofLAL) {
-      String formattedMessage = MessageFormatter.format(format, arg)
-          .getMessage();
+      FormattingTuple ft = MessageFormatter.format(format, arg);
       ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, formattedMessage,
-          new Object[] { arg }, null);
+          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
+              .getThrowable());
     } else {
       logger.debug(marker, format, arg);
     }
@@ -364,10 +364,11 @@ public class LoggerWrapper implements Logger {
     if (!logger.isDebugEnabled())
       return;
     if (instanceofLAL) {
-      String formattedMessage = MessageFormatter.arrayFormat(format, argArray)
-          .getMessage();
+
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, formattedMessage, argArray, null);
+          LocationAwareLogger.DEBUG_INT, ft.getMessage(), argArray, ft
+              .getThrowable());
     } else {
       logger.debug(marker, format, argArray);
     }
