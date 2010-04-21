@@ -29,7 +29,7 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>April Xth, 2010 - Release of SLF4J 1.6.0</h3>
+   <h3>April 21st, 2010 - Release of SLF4J 1.6.0-RC0</h3>
 
    <p>It is expected that <em>all</em> SLF4J releases in the 1.6.x and
    2.0.x series will be mutually compatible. Note that the 2.0.x
@@ -45,23 +45,11 @@
    </p>
 
    <p>In the presence of multiple parameters and if the last argument
-   in a logging statement is an exception or more precisely of type
-   <code>java.lang.Throwable</code>, then SLF4J will now presume that
-   the user wants the last argument to be treated as an exception and
-   not a simple parameters. For example, in the following catch
-   clause:
-   </p>
-   
-   <pre class="prettyprint">try {
-  ..
-  } catch(IOException e) {
-    logger.error("Failed connect to {}", hostname, e);
-  }</pre>
-   
-   <p>the <code>IOException</code> 'e' will now be treated as an
-   exception and have its stack trace printed out. In previous
-   versions of SLF4J, the exception was treated as an unused
-   parameter. This fixes <a
+   in a logging statement is an exception, then SLF4J will now presume
+   that the user wants the last argument to be treated as an exception
+   and not a simple parameter. See the relevant <a
+   href="faq.html#paramException">FAQ entry</a> for further
+   details. This fixes <a
    href="http://bugzilla.slf4j.org/show_bug.cgi?id=70">bug 70</a>
    submitted by Joern Huxhorn who also provided the relevant patch.
    </p>

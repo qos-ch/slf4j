@@ -238,7 +238,7 @@ final public class MessageFormatter {
     if (L < argArray.length - 1) {
       return new FormattingTuple(sbuf.toString(), argArray, throwableCandidate);
     } else {
-      return new FormattingTuple(sbuf.toString());
+      return new FormattingTuple(sbuf.toString(), argArray, null);
     }
   }
 

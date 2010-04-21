@@ -1109,50 +1109,33 @@ logger.debug("The new entry is {}.", entry);</pre>
 
 
     <dd>
-      <p>No. The SLF4J API does not support parametization in the
-    presence of an exception. Thus,
+      <p>Yes, as of SLF4J 1.6.0, but not in previous versions. The
+      SLF4J API supports parametrization in the presence of an
+      exception, assuming the exception is the last parameter. Thus,
     </p>
     <pre class="prettyprint">String s = "Hello world";
 try {
-  throw new NumberFormatException("...");
+  Integer i = Integer.valueOf(s);
 } catch (NumberFormatException e) {
   logger.error("Failed to format {}", s, e);
 }</pre>
 
-    <p>will <b>NOT</b> print the <code>NumberFormatException</code> nor its
-    stack trace. The java compiler will invoke the <a
-    href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html#error%28java.lang.String,%20java.lang.Object,%20java.lang.Object%29">error
-    method taking a String and two Object arguments</a>, which,
-    contrary to the programmer's most probable intention, will cause
-    the <code>NumberFormatException</code> to be ignored. This is one
-    of the unfortunate warts present in the SLF4J API.
-    </p>
+     <p>will print the <code>NumberFormatException</code> with its
+     stack trace as expected. The java compiler will invoke the <a
+     href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html#error%28java.lang.String,%20java.lang.Object,%20java.lang.Object%29">error
+     method taking a String and two Object arguments</a>. SLF4J, in
+     accordance with the programmer's most probable intention, will
+     interpret <code>NumberFormatException</code> instance as a
+     throwable instead of an unused <code>Object</code> parameter. In
+     SLF4J versions prior to 1.6.0, the
+     <code>NumberFormatException</code> instance was simply ignored.
+     </p>
 
-    <p>The only way to have the exception treated properly, is to
-    invoke the <a
-    href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html#error%28java.lang.String,%20java.lang.Throwable%29">error
-    method taking a String and a Throwable</a>. The correct code is
-    then,</p>
-
- <pre class="prettyprint">String s = "Hello world";
-try {
-  throw new NumberFormatException("...");
-} catch (NumberFormatException e) {
-  // concatenation instead of parametrization!
-  <b>logger.error("Failed to format "+ s, e);</b>
-}</pre>
+     <p>If the exception is not the last argument, it will be treated
+     as a plain object and its stack trace will NOT be printed.
+     However, such situations should not occur in practice.
+     </p>
     
-    <p>The second form MUST be employed in the presence of
-    exceptions. Given that exceptions are rare by definition, the cost
-    of concatenating "Failed format " and <em>s</em> should be
-    negligible in pracice. 
-    </p>
-
-    <p>If you are user of the SLF4J API, and do not understand the
-    explanations in this question, you are advised to dwell on the
-    matter until it becomes clear. You have been warned.
-    </p>
-
     </dd>
 
 
