@@ -7,8 +7,10 @@ import junit.framework.TestCase;
 public class MessageFormatterPerfTest extends TestCase {
 
   Integer i1 = new Integer(1);
-  static long RUN_LENGTH = 100000;
-  static long REFERENCE_BIPS = 9000;
+  Integer i2 = new Integer(2);
+  static long RUN_LENGTH = 200 * 1000;
+  // 
+  static long REFERENCE_BIPS = 48416;
 
   public MessageFormatterPerfTest(String name) {
     super(name);
@@ -26,24 +28,48 @@ public class MessageFormatterPerfTest extends TestCase {
     System.out.println("jdk duration = " + duration + " nanos");
   }
 
-  public void testSLF4JPerf() {
-    slf4jMessageFormatter(RUN_LENGTH);
-    double duration = slf4jMessageFormatter(RUN_LENGTH);
-    long referencePerf = 140;
-    System.out.println("duration="+duration);
+  public void testSLF4JPerf_OneArg() {
+    slf4jMessageFormatter_OneArg(RUN_LENGTH);
+    double duration = slf4jMessageFormatter_OneArg(RUN_LENGTH);
+    System.out.println("duration=" + duration);
+    long referencePerf = 72;
     BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
   }
 
-  public double slf4jMessageFormatter(long len) {
+  public void testSLF4JPerf_TwoArg() {
+    slf4jMessageFormatter_TwoArg(RUN_LENGTH);
+    double duration = slf4jMessageFormatter_TwoArg(RUN_LENGTH);
+    System.out.println("duration2=" + duration);
+    long referencePerf = 120;
+    BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
+  }
+
+  public double slf4jMessageFormatter_OneArg(long len) {
+    long start = System.nanoTime();
+    for (int i = 0; i < len; i++) {
+      final FormattingTuple tp = MessageFormatter.format(
+          "This is some rather short message {} ", i1);
+      tp.getMessage();
+      tp.getArgArray();
+      tp.getThrowable();
+    }
+    long end = System.nanoTime();
+    return (end - start) / (1000 * 1000.0);
+  }
+
+  public double slf4jMessageFormatter_TwoArg(long len) {
     String s = "";
     s += ""; // keep compiler happy
     long start = System.nanoTime();
     for (int i = 0; i < len; i++) {
-      s = MessageFormatter.format("This is some rather short message {} ", i1)
-          .getMessage();
+      final FormattingTuple tp = MessageFormatter.format(
+          "This is some {} short message {} ", i1, i2);
+      tp.getMessage();
+      tp.getArgArray();
+      tp.getThrowable();
     }
     long end = System.nanoTime();
-    return (end - start)/(1000*1000.0);
+    return (end - start) / (1000 * 1000.0);
   }
 
   public double jdkMessageFormatter(long len) {
