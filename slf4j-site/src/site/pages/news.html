@@ -6,9 +6,11 @@
     <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
     <title>SLF4J News</title>
     <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+    <link rel="stylesheet" type="text/css" href="css/prettify.css" />
   </head>
-  <body>
+ <body onload="prettyPrint()">
     <script type="text/javascript">prefix='';</script>
+    <script type="text/javascript" src="js/prettify.js"></script>
     
     <script src="templates/header.js" type="text/javascript"></script>
     <div id="left">
@@ -34,6 +36,36 @@
    series is expected to require JDK 1.5 or later.
    </p>
 
+   <p>Note that as of SLF4J version 1.6.0, in the absence of an SLF4J
+   binding, slf4j-api will default to a no-operation implementation
+   discarding all log requests. Thus, instead of throwing an
+   exception, SLF4J will emit a single warning message about the
+   absence of a binding and proceed to discard all log requests
+   without further protest.
+   </p>
+
+   <p>In the presence of multiple parameters and if the last argument
+   in a logging statement is an exception or more precisely of type
+   <code>java.lang.Throwable</code>, then SLF4J will now presume that
+   the user wants the last argument to be treated as an exception and
+   not a simple parameters. For example, in the following catch
+   clause:
+   </p>
+   
+   <pre class="prettyprint">try {
+  ..
+  } catch(IOException e) {
+    logger.error("Failed connect to {}", hostname, e);
+  }</pre>
+   
+   <p>the <code>IOException</code> 'e' will now be treated as an
+   exception and have its stack trace printed out. In previous
+   versions of SLF4J, the exception was treated as an unused
+   parameter. This fixes <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=70">bug 70</a>
+   submitted by Joern Huxhorn who also provided the relevant patch.
+   </p>
+  
    <p>The <code>log</code> method in <code>LocationAwareLogger</code>
    interface now admits an additional parameter of type
    <code>Object[]</code> representing additional arguments of the log
@@ -42,13 +74,6 @@
    with 1.6.x must be used.
    </p>
 
-   <p>Note that as of SLF4J version 1.6.0, in the absence of an SLF4J
-   binding, slf4j-api will default to a no-operation implementation
-   discarding all log requests. Thus, instead of throwing an
-   exception, SLF4J will emit a single warning message about the
-   absence of a binding and proceed to discard all log requests
-   without further protest.
-   </p>
 
    <p>Fixed <a
    href="http://bugzilla.slf4j.org/show_bug.cgi?id=150">bug 150</a> by

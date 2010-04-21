@@ -36,9 +36,15 @@ public class MessageFormatterPerfTest extends TestCase {
     BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
   }
 
+  public void testSLF4JPerf_TwoArg() {
+    slf4jMessageFormatter_TwoArg(RUN_LENGTH);
+    double duration = slf4jMessageFormatter_TwoArg(RUN_LENGTH);
+    long referencePerf = 60;
+    BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
+  }
+
+  
   public double slf4jMessageFormatter_OneArg(long len) {
-    String s = "";
-    s += ""; // keep compiler happy
     long start = System.nanoTime();
     for (int i = 0; i < len; i++) {
       final FormattingTuple tp = MessageFormatter.format("This is some rather short message {} ", i1);
@@ -52,14 +58,6 @@ public class MessageFormatterPerfTest extends TestCase {
     return (end - start)/(1000*1000.0);
   }
   
-  public void testSLF4JPerf_TwoArg() {
-    slf4jMessageFormatter_TwoArg(RUN_LENGTH);
-    double duration = slf4jMessageFormatter_TwoArg(RUN_LENGTH);
-    System.out.println("duration2=" + duration);
-    long referencePerf = 60;
-    BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
-  }
-
   public double slf4jMessageFormatter_TwoArg(long len) {
     long start = System.nanoTime();
     for (int i = 0; i < len; i++) {
