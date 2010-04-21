@@ -33,7 +33,6 @@
 
 package org.slf4j.helpers;
 
-import java.text.NumberFormat;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
@@ -356,14 +355,4 @@ public class MessageFormatterTest extends TestCase {
     assertTrue(Arrays.equals(ia, ft.getArgArray()));
     assertNull(ft.getThrowable());
   }
-
-  public void testx() {
-    String s = "Hello world";
-    try {
-      Integer i = Integer.valueOf(s);
-    } catch (NumberFormatException e) {
-      System.out.println(e);
-    }
-  }
-
 }

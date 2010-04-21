@@ -208,7 +208,6 @@ final public class MessageFormatter {
           sbuf.append(messagePattern.substring(i, messagePattern.length()));
           return new FormattingTuple(sbuf.toString(), argArray,
               throwableCandidate);
-          ;
         }
       } else {
         if (isEscapedDelimeter(messagePattern, j)) {

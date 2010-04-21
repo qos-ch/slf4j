@@ -41,7 +41,6 @@
     <module>slf4j-jcl</module>
     <module>slf4j-ext</module>  
     <module>jcl-over-slf4j</module>
-    <module>jcl104-over-slf4j</module>
     <module>log4j-over-slf4j</module>
     <module>jul-to-slf4j</module>
     <module>integration</module>
