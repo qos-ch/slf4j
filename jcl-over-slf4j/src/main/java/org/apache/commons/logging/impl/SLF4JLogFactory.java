@@ -16,11 +16,12 @@
 
 package org.apache.commons.logging.impl;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogConfigurationException;
@@ -103,14 +104,14 @@ public class SLF4JLogFactory extends LogFactory {
    */
   public String[] getAttributeNames() {
 
-    Vector names = new Vector();
+    List names = new ArrayList();
     Enumeration keys = attributes.keys();
     while (keys.hasMoreElements()) {
-      names.addElement((String) keys.nextElement());
+      names.add((String) keys.nextElement());
     }
     String results[] = new String[names.size()];
     for (int i = 0; i < results.length; i++) {
-      results[i] = (String) names.elementAt(i);
+      results[i] = (String) names.get(i);
     }
     return (results);
 
@@ -149,7 +150,7 @@ public class SLF4JLogFactory extends LogFactory {
   public Log getInstance(String name) throws LogConfigurationException {
     Log instance = null;
     // protect against concurrent access of loggerMap
-    synchronized (this) {
+    synchronized (loggerMap) {
       instance = (Log) loggerMap.get(name);
       if (instance == null) {
         Logger logger = LoggerFactory.getLogger(name);
