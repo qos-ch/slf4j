@@ -88,12 +88,6 @@
 		<pathelement location="./lib/slf4j-api-1.6.99.jar" />
 	</path >
 
-  <path id="api2099">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-api-2.0.99.jar" />
-	</path >
-
 
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
@@ -184,15 +178,7 @@
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 
-	<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="binding2099" />
-			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-binding2099" 
-            name="org.slf4j.CompatibilityAssertionTest" />
-		</junit>
-
-
+    
     <junit printsummary="yes" fork="no" haltonfailure="yes">
       <classpath refid="api1699" />
       <formatter type="plain" />
@@ -201,12 +187,5 @@
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 
-    <junit printsummary="yes" fork="no" haltonfailure="yes">
-      <classpath refid="api2099" />
-      <formatter type="plain" />
-      <test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-api2099" 
-            name="org.slf4j.CompatibilityAssertionTest" />
-    </junit>
 	</target>
 </project>
