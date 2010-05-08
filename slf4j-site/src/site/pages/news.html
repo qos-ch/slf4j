@@ -39,7 +39,9 @@
    slf4j-api will default to a no-operation implementation discarding
    all log requests. Thus, instead of throwing an exception, SLF4J
    will emit a single warning message about the absence of a binding
-   and proceed to discard all log requests without further protest.
+   and proceed to discard all log requests without further
+   protest. See also the <a href="manual.html#libraries">relevant
+   section</a> in the user manual.
    </p>
 
    <p>In the presence of multiple parameters and if the last argument
@@ -106,7 +108,7 @@
 
   <p>Users yet unfamiliar with SLF4J sometimes unknowingly place both
   <em>log4j-over-slf4j.jar</em> and <em>slf4j-log4j12.jar</em>
-  simultanously on the class path causing stack overflow
+  simultaneously on the class path causing stack overflow
   errors. Simultaneously placing both <em>jcl-over-slf4j.jar</em> and
   <em>slf4j-jcl.jar</em> on the class path, is another occurrence of
   the same general problem. As of this version, SLF4J preempts the
@@ -120,7 +122,7 @@
   168</a>. In case log4j-over-slf4j is used and a logback appender
   requires a third party library which depends on log4j, the
   <code>log(String FQCN, Priority p, Object msg, Throwable t)</code>
-  method in log4j-over-slf4j's Categotry class would throw an
+  method in log4j-over-slf4j's Category class would throw an
   <code>UnsupportedOperationException</code>. Problem reported by Seth
   Call.</p>
   
