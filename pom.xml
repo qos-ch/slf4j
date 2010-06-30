@@ -29,6 +29,7 @@
   <properties>
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.7.2</cal10n.version>
+    <log4j.version>1.2.14</log4j.version>
   </properties>
 
 
@@ -76,7 +77,7 @@
       <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
-        <version>1.2.14</version>
+        <version>${log4j.version}</version>
       </dependency>
 
     <dependency>
