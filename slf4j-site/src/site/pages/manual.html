@@ -191,9 +191,9 @@ public class HelloWorld {
       (JCL).
       </p>
 
-      <p>Hopefully, the simplicity of the SLF4J interfaces and the
-      deployment model will make it easy for developers of other
-      logging frameworks to conform to the SLF4J model.
+      <p>Given the simplicity of the SLF4J interfaces and its
+      deployment model, developers of new logging frameworks should
+      find it very easy to write SLF4J bindings.
       </p>
      
       <h3><a name="libraries" href="#libraries">Libraries</a></h3>
@@ -201,17 +201,20 @@ public class HelloWorld {
       <p>Authors of widely-distributed components and libraries may
       code against the SLF4J interface in order to avoid imposing an
       logging framework on the end-user of the component or library.
-      He or she may choose the desired logging framework at deployment
-      time by inserting the desired slf4j binding on the classpath,
-      which may be changed later by replacing an existing binding with
-      another on the class path and restarting the application.  This
-      approach has proven to be simple and very robust.
+      Thus, the end-user may choose the desired logging framework at
+      deployment time by inserting the corresponding slf4j binding on
+      the classpath, which may be changed later by replacing an
+      existing binding with another on the class path and restarting
+      the application.  This approach has proven to be simple and very
+      robust.
       </p>
         
       <p><b>As of SLF4J version 1.6.0</b>, if no binding is found on
       the class path, then slf4j-api will default to a no-operation
       implementation discarding all log requests. Thus, instead of
-      throwing an exception, SLF4J will emit a single warning message
+      throwing a <code>NoClassDefFoundError</code> because the
+      <code>org.slf4j.impl.StaticLoggerBinder</code> class is missing,
+      SLF4J version 1.6.0 and later will emit a single warning message
       about the absence of a binding and proceed to discard all log
       requests without further protest. For example, let Wombat be
       some biology-related framework depending on SLF4J for
@@ -220,8 +223,9 @@ public class HelloWorld {
       but no binding. Even in the absence of any SLF4J binding on the
       class path, Wombat's distribution will still work
       out-of-the-box, and without requiring the end-user to download a
-      binding from SLF4J's web-site. Only when the end-user wishes to
-      enable logging will she need to install a binding.
+      binding from SLF4J's web-site. Only when the end-user decides to
+      enable logging will she need to install the SLF4J binding
+      corresponding to the logging framework chosen by the end-user.
       </p>
 
       <h3><a name="consolidate" href="#consolidate">Consolidate

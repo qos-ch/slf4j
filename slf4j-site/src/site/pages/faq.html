@@ -1245,9 +1245,9 @@ try {
     
     <dd>
       <p>The version check performed by SLF4J API during its
-      initialization is an elective process. Conforming SLF4J
-      implementations may choose <em>not</em> to participate, in
-      which case, no version check will be performed.
+      initialization is an <em>elective</em> process. Conforming SLF4J
+      implementations may choose <em>not</em> to participate, in which
+      case, no version check will be performed.
       </p>
       
       <p>However, if an SLF4J implementation decides to participate,
@@ -1273,23 +1273,17 @@ try {
       <p><b>As of SLF4J 1.5.5</b>, all bindings shipped within the
       SLF4J distribution, e.g. slf4j-logj12, slf4j-simple and
       slf4j-jdk14, declare the REQUESTED_API_VERSION field with a
-      value equal to their SLF4J version. It follows that, for
-      example if slf4j-simple-1.5.6.jar is mixed with
-      slf4j-api-1.5.5.jar, then a version mismatch warning will be
-      issued. Note that SLF4J versions prior to 1.5.5 did not have a
-      version check mechanism.  Only slf4j-api-1.5.5.jar and later
-      can emit version mismatch warnings. (Actually, version 1.5.4
-      offered a check policy which was much too restrictive and
-      inconsistent with the size of our user base. Consequently,
-      SLF4J version 1.5.5 was released just a day after 1.5.4.)
+      value equal to their SLF4J version. It follows that, for example
+      if slf4j-simple-1.5.8.jar is mixed with slf4j-api-1.6.0.jar,
+      given that 1.5.8 is not on the compatibility list of SLF4J
+      version 1.6.x, a version mismatch warning will be issued.
       </p>
-      
-      <p>Given its large installed user base and several external
-      implementations, it would have been unwise to expect all SLF4J
-      implementations to closely follow SLF4J's release schedule, let
-      alone align their release schedules with SLF4J. Hence, the
-      elective version check policy.
+
+      <p>Note that SLF4J versions prior to 1.5.5 did not have a
+      version check mechanism.  Only slf4j-api-1.5.5.jar and later can
+      emit version mismatch warnings.
       </p>
+
       
     </dd>
     

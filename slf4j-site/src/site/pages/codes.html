@@ -320,21 +320,20 @@
     version does not match that of the binding</a></h3>
 
     <p>Mixing mixing different versions of slf4j artifacts can cause
-    problems. For example, if you are using slf4j-api-1.5.5.jar, then
-    you should also use slf4j-simple-1.5.5.jar, using
-    slf4j-simple-1.4.2.jar will not work.
+    problems. For example, if you are using
+    slf4j-api-${project.version}.jar, then you should also use
+    slf4j-simple-${project.version}.jar, using slf4j-simple-1.5.5.jar
+    will not work.
     </p>
 
-    <p>In general, you should make sure that the slf4j-api version
-    matches that of the slf4j binding.
+    <p class="red">In general, you should make sure that the
+    slf4j-api version matches that of the slf4j binding.
     </p>
 
     <p>At initialization time, if SLF4J suspects that there may be a
-    mismatch problem, it emits a warning about the said mismatch.
-    </p>
-
-    <p>For the exact details of the version mismatch detection
-    mechanism, please refer to the <a
+    version mismatch problem, it will emit a warning about the
+    suspected mismatch. For the exact details of the version mismatch
+    detection mechanism, please refer to the <a
     href="faq.html#version_checks">relevant entry</a> in the FAQ.
     </p>
 
