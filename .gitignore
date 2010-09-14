@@ -3,5 +3,7 @@ target
 .classpath
 .project
 *~
+*.tmproj
+.scala_dependencies
 integration/bundle/
 integration/felix-cache/
