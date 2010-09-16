@@ -12,7 +12,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-api</artifactId>
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
   <name>SLF4J API Module</name>
 
   <url>http://www.slf4j.org</url>
@@ -20,7 +20,7 @@
 
   <dependencies>
 
-  </dependencies> 
+  </dependencies>
 
   <build>
     <plugins>
@@ -39,6 +39,21 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Export-Package>org.slf4j.*;version="${project.version}"</Export-Package>
+            <Import-Package>
+              !org.slf4j.impl.*,
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+
+      <!-- That will be done by the Felix Bundle plugin (BND)! -->
+      <!--plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
@@ -61,7 +76,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -85,7 +100,7 @@
     </plugins>
 
   </build>
-  
+
   <reporting>
     <plugins>
       <plugin>
