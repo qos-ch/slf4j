@@ -541,11 +541,13 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       along, code that uses the wrapper will be equally difficult to
       migrate to the new API as code that used SLF4J directly. Thus,
       the wrapper is not likely to future-proof your code, but to make
-      it heavier by adding an additional indirection on top SLF4J
-      which is an indirection in itself. It's actually a lot worse
-      than that. Wrappers will need to depend on certain internal
-      SLF4J interfaces which change from time to time, typical on each
-      major series, contrary to the client-facing API which never
+      it more complex by adding an additional indirection on top of
+      SLF4J, which is an indirection in itself. 
+      </p>
+
+      <p>It is actually worse than that. Wrappers will need to depend
+      on certain internal SLF4J interfaces which change from time to
+      time, contrary to the client-facing API which never
       changes. Thus, wrappers are usually dependent on the major
       version they were compiled with. A wrapper compiled against
       SLF4J version 1.5.x will not work with SLF4J 1.6 whereas client
