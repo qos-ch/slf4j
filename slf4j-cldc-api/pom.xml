@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-parent</artifactId>
+		<version>1.6.2-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.slf4j</groupId>
+	<artifactId>slf4j-cldc-api</artifactId>
+	<packaging>jar</packaging>
+	<name>SLF4J-CLDC API Module</name>
+
+	<url>http://www.slf4j.org</url>
+	<description>The slf4j-cldc API</description>
+
+	<build>
+		<plugins>
+			<!-- TODO: compile against CLDC API (stubs) -->
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
+							<Bundle-Description>${project.description}</Bundle-Description>
+							<Implementation-Version>${project.version}</Implementation-Version>
+						</manifestEntries>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>bundle-test-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<tasks>
+						<echo>Removing slf4j-cldc-api's dummy StaticLoggerBinder</echo>
+						<delete dir="target/classes/org/slf4j/impl" />
+					</tasks>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<aggregate>true</aggregate>
+					<links>
+						<link>
+							http://download.oracle.com/javame/config/cldc/ref-impl/cldc1.1/jsr139
+						</link>
+					</links>
+					<groups>
+						<group>
+							<title>SLF4J packages</title>
+							<packages>org.slf4j:org.slf4j.*</packages>
+						</group>
+
+					</groups>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>clirr-maven-plugin</artifactId>
+				<configuration>
+					<comparisonVersion>1.5.6</comparisonVersion>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+</project>
