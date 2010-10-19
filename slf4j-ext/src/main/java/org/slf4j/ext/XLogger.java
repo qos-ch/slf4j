@@ -8,7 +8,7 @@ import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * A utility that provides standard mechanisms for loxx certain kinds of
+ * A utility that provides standard mechanisms for logging certain kinds of
  * activities.
  * 
  * @author Ralph Goers
@@ -147,7 +147,7 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Log an exception being thrown allowing the log level to be specified.
    * 
    * @param level
-   *          the loxx level to use.
+   *          the logging level to use.
    * @param throwable
    *          the exception being caught.
    */
@@ -175,7 +175,7 @@ public class XLogger extends LoggerWrapper implements Logger {
    * Log an exception being caught allowing the log level to be specified.
    * 
    * @param level
-   *          the loxx level to use.
+   *          the logging level to use.
    * @param throwable
    *          the exception being caught.
    */

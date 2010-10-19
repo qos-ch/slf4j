@@ -36,7 +36,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <code>CommonsLoggingTester</code> tests org.apache.commons.loxx functionality.
+ * <code>CommonsLoggingTester</code> tests org.apache.commons.logging functionality.
  * 
  * @author John Conlon
  */

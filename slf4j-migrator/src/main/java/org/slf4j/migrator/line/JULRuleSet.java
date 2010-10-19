@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 /**
- * This class represents java.util.loxx (JUL) to SLF4J conversion rules
+ * This class represents java.util.logging (JUL) to SLF4J conversion rules
  * 
  * @author Jean-Noel Charpin
  * @author Ceki Gulcu

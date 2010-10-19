@@ -18,12 +18,12 @@
 package org.apache.commons.logging;
 
 /**
- * <p>A simple loxx interface abstracting loxx APIs.  In order to be
+ * <p>A simple logging interface abstracting logging APIs.  In order to be
  * instantiated successfully by {@link LogFactory}, classes that implement
  * this interface must have a constructor that takes a single String
  * parameter representing the "name" of this Log.</p>
  *
- * <p> The six loxx levels used by <code>Log</code> are (in order):
+ * <p> The six logging levels used by <code>Log</code> are (in order):
  * <ol>
  * <li>trace (the least serious)</li>
  * <li>debug</li>
@@ -33,11 +33,11 @@ package org.apache.commons.logging;
  * <li>fatal (the most serious)</li>
  * </ol>
  * The mapping of these log levels to the concepts used by the underlying
- * loxx system is implementation dependent.
+ * logging system is implementation dependent.
  * The implementation should ensure, though, that this ordering behaves
  * as expected.</p>
  *
- * <p>Performance is often a loxx concern.
+ * <p>Performance is often a logging concern.
  * By examining the appropriate property,
  * a component can avoid expensive operations (producing information
  * to be logged).</p>
@@ -51,7 +51,7 @@ package org.apache.commons.logging;
  * </pre></code>
  * </p>
  *
- * <p>Configuration of the underlying loxx system will generally be done
+ * <p>Configuration of the underlying logging system will generally be done
  * external to the Logging APIs, through whatever mechanism is supported by
  * that system.</p>
  *
@@ -68,7 +68,7 @@ public interface Log {
 
 
     /**
-     * <p> Is debug loxx currently enabled? </p>
+     * <p> Is debug logging currently enabled? </p>
      *
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
@@ -78,7 +78,7 @@ public interface Log {
 
 
     /**
-     * <p> Is error loxx currently enabled? </p>
+     * <p> Is error logging currently enabled? </p>
      *
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
@@ -88,7 +88,7 @@ public interface Log {
 
 
     /**
-     * <p> Is fatal loxx currently enabled? </p>
+     * <p> Is fatal logging currently enabled? </p>
      *
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
@@ -98,7 +98,7 @@ public interface Log {
 
 
     /**
-     * <p> Is info loxx currently enabled? </p>
+     * <p> Is info logging currently enabled? </p>
      *
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
@@ -108,7 +108,7 @@ public interface Log {
 
 
     /**
-     * <p> Is trace loxx currently enabled? </p>
+     * <p> Is trace logging currently enabled? </p>
      *
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
@@ -118,7 +118,7 @@ public interface Log {
 
 
     /**
-     * <p> Is warn loxx currently enabled? </p>
+     * <p> Is warn logging currently enabled? </p>
      *
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)

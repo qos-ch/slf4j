@@ -16,12 +16,12 @@ public class JCLRuleSet implements RuleSet {
   private ArrayList<ConversionRule> conversionRuleList;
   
   public JCLRuleSet() {
-    // matching : import org.apache.commons.loxx.LogFactory;
+    // matching : import org.apache.commons.logging.LogFactory;
     SingleConversionRule cr0 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.commons.logging.LogFactory;"),
         "import org.slf4j.LoggerFactory;");
 
-    // matching : import org.apache.commons.loxx.Log;
+    // matching : import org.apache.commons.logging.Log;
     SingleConversionRule cr1 = new SingleConversionRule(Pattern
         .compile("import\\s*+org.apache.commons.logging.Log;"), 
         "import org.slf4j.Logger;");

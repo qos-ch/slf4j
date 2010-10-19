@@ -34,7 +34,7 @@ import org.slf4j.Marker;
  * An almost trivial implementation of the {@link IMarkerFactory}
  * interface which creates {@link BasicMarker} instances.
  * 
- * <p>Simple loxx systems can conform to the SLF4J API by binding
+ * <p>Simple logging systems can conform to the SLF4J API by binding
  * {@link org.slf4j.MarkerFactory} with an instance of this class.
  *
  * @author Ceki G&uuml;lc&uuml;

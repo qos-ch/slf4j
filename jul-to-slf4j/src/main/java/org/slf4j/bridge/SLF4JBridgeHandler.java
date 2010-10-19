@@ -70,23 +70,23 @@ import org.slf4j.spi.LocationAwareLogger;
  * SLF4JBridgeHandler.install();
  * 
  * // usual pattern: get a Logger and then log a message
- * java.util.loxx.Logger julLogger = java.util.loxx.Logger
+ * java.util.logging.Logger julLogger = java.util.logging.Logger
  *     .getLogger(&quot;org.wombat&quot;);
  * julLogger.fine(&quot;hello world&quot;); // this will get redirected to SLF4J
  * </pre>
  * 
  * <p>
- * Please note that translating a java.util.loxx event into SLF4J incurs the
+ * Please note that translating a java.util.logging event into SLF4J incurs the
  * cost of constructing {@link LogRecord} instance regardless of whether the
  * SLF4J logger is disabled for the given level. <b>Consequently, j.u.l. to
- * SLF4J translation can seriously impact on the cost of disabled loxx
+ * SLF4J translation can seriously impact on the cost of disabled logging
  * statements (60 fold increase) and a measurable impact on enabled log
  * statements (20% overall increase). </b>
  * </p>
  * 
  * <p>
  * If application performance is a concern, then use of SLF4JBridgeHandler is
- * appropriate only if few j.u.l. loxx statements are in play.
+ * appropriate only if few j.u.l. logging statements are in play.
  * 
  * @author Christian Stein
  * @author Joern Huxhorn
@@ -97,7 +97,7 @@ import org.slf4j.spi.LocationAwareLogger;
  */
 public class SLF4JBridgeHandler extends Handler {
 
-  // The caller is java.util.loxx.Logger
+  // The caller is java.util.logging.Logger
   private static final String FQCN = java.util.logging.Logger.class.getName();
   private static final String UNKNOWN_LOGGER_NAME = "unknown.jul.logger";
 
@@ -110,7 +110,7 @@ public class SLF4JBridgeHandler extends Handler {
    * Adds a SLF4JBridgeHandler instance to jul's root logger.
    * 
    * <p>
-   * This handler will redirect jul loxx to SLF4J. However, only logs enabled
+   * This handler will redirect jul logging to SLF4J. However, only logs enabled
    * in j.u.l. will be redirected. For example, if a log statement invoking a
    * j.u.l. logger disabled that statement, by definition, will <em>not</em>
    * reach any SLF4JBridgeHandler instance and cannot be redirected.
@@ -162,7 +162,7 @@ public class SLF4JBridgeHandler extends Handler {
   }
 
   /**
-   * Return the Logger instance that will be used for loxx.
+   * Return the Logger instance that will be used for logging.
    */
   protected Logger getSLF4JLogger(LogRecord record) {
     String name = record.getLoggerName();
@@ -238,7 +238,7 @@ public class SLF4JBridgeHandler extends Handler {
   /**
    * Publish a LogRecord.
    * <p>
-   * The loxx request was made initially to a Logger object, which
+   * The logging request was made initially to a Logger object, which
    * initialized the LogRecord and forwarded it here.
    * <p>
    * This handler ignores the Level attached to the LogRecord, as SLF4J cares
@@ -256,9 +256,9 @@ public class SLF4JBridgeHandler extends Handler {
 
     Logger slf4jLogger = getSLF4JLogger(record);
     String message = record.getMessage(); // can be null!
-    // this is a check to avoid calling the underlying loxx system
+    // this is a check to avoid calling the underlying logging system
     // with a null message. While it is legitimate to invoke j.u.l. with
-    // a null message, other loxx frameworks do not support this.
+    // a null message, other logging frameworks do not support this.
     // see also http://bugzilla.slf4j.org/show_bug.cgi?id=108
     if (message == null) {
       message = "";

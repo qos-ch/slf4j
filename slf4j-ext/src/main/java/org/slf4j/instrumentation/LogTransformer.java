@@ -21,10 +21,10 @@ import org.slf4j.helpers.MessageFormatter;
 /**
  * <p>
  * LogTransformer does the work of analyzing each class, and if appropriate add
- * log statements to each method to allow loxx entry/exit.
+ * log statements to each method to allow logging entry/exit.
  * </p>
  * <p>
- * This class is based on the article <a href="http://today.java.net/pub/a/today/2008/04/24/add-loxx-at-class-load-time-with-instrumentation.html"
+ * This class is based on the article <a href="http://today.java.net/pub/a/today/2008/04/24/add-logging-at-class-load-time-with-instrumentation.html"
  * >Add Logging at Class Load Time with Java Instrumentation</a>.
  * </p>
  */
@@ -265,7 +265,7 @@ public class LogTransformer implements ClassFileTransformer {
   }
 
   /**
-   * process a single method - this means add entry/exit loxx if requested.
+   * process a single method - this means add entry/exit logging if requested.
    * It is only called for methods with a body.
    * 
    * @param method

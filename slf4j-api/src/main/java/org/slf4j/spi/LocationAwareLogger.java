@@ -28,9 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 
 /**
- * An <b>optional</b> interface helping integration with loxx systems capable of
+ * An <b>optional</b> interface helping integration with logging systems capable of 
  * extracting location information. This interface is mainly used by SLF4J bridges 
- * such as jcl104-over-slf4j which need to provide hints so that the underlying loxx
+ * such as jcl104-over-slf4j which need to provide hints so that the underlying logging
  * system can extract the correct location information (method name, line number, etc.).
  * 
  * 

@@ -46,7 +46,7 @@ import java.util.Hashtable;
 
 /**
  * <code>Activator</code> implements a simple bundle to test OSGi slf4j
- * loxx components.
+ * logging components.
  * 
  * Upon startup, shutdown, and receiving a service event, it logs event
  * details.

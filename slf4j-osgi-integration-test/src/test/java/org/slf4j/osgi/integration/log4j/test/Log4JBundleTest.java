@@ -91,12 +91,12 @@ public class Log4JBundleTest extends ConfigurableBundleCreatorTests implements I
 	 * package phase of the maven build (these tests will run after the
 	 * packaging phase, in the integration-test phase).
 	 * 
-	 * JUnit, commons-loxx, spring-core and the spring OSGi test bundle are
+	 * JUnit, commons-logging, spring-core and the spring OSGi test bundle are
 	 * automatically included so they do not need to be specified here.
 	 * 
 	 * Except in the case of slf4j.log4j12 using the log4j bundle associated
 	 * with the Spring-OSGi testing framework our test bundles are using package
-	 * import and export versions to keep these other loxx bundles from
+	 * import and export versions to keep these other logging bundles from
 	 * getting mixed up with our test bundles.
 	 */
 	protected String[] getBundleLocations() {

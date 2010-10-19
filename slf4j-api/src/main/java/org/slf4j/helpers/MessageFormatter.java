@@ -85,7 +85,7 @@ import java.util.Map;
  * which ships with the Java platform. This is justified by the fact that
  * SLF4J's implementation is 10 times faster than that of {@link MessageFormat}.
  * This local performance difference is both measurable and significant in the
- * larger context of the complete loxx processing chain.
+ * larger context of the complete logging processing chain.
  * 
  * <p>
  * See also {@link #format(String, Object)},

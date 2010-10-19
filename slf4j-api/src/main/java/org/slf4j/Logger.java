@@ -27,7 +27,7 @@ package org.slf4j;
 
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API. 
- * It is expected that loxx takes place through concrete implementations
+ * It is expected that logging takes place through concrete implementations 
  * of this interface.
  *
  * <h3>Typical usage pattern:</h3>

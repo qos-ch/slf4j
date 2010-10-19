@@ -29,7 +29,7 @@ import org.slf4j.Marker;
 
 
 /**
- * This class serves as base for adapters or native implementations of loxx systems
+ * This class serves as base for adapters or native implementations of logging systems 
  * lacking Marker support. In this implementation, methods taking marker data 
  * simply invoke the corresponding method without the Marker argument, discarding 
  * any marker data passed as argument.

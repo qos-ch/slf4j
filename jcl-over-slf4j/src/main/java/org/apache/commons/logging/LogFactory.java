@@ -51,7 +51,7 @@ public abstract class LogFactory {
 
   /**
    * The name (<code>use_tccl</code>) of the key in the config file used to
-   * specify whether loxx classes should be loaded via the thread context
+   * specify whether logging classes should be loaded via the thread context
    * class loader (TCCL), or not. By default, the TCCL is used.
    * 
    * <p>
@@ -94,9 +94,9 @@ public abstract class LogFactory {
       "META-INF/services/org.apache.commons.logging.LogFactory";
   
   /**
-   * The name (<code>org.apache.commons.loxx.diagnostics.dest</code>) of
-   * the property used to enable internal commons-loxx diagnostic output, in
-   * order to get information on what loxx implementations are being
+   * The name (<code>org.apache.commons.logging.diagnostics.dest</code>) of
+   * the property used to enable internal commons-logging diagnostic output, in
+   * order to get information on what logging implementations are being
    * discovered, what classloaders they are loaded through, etc.
    * 
    * <p>
@@ -182,7 +182,7 @@ public abstract class LogFactory {
    * @param name
    *                Logical name of the <code>Log</code> instance to be
    *                returned (the meaning of this name is only known to the
-   *                underlying loxx implementation that is being wrapped)
+   *                underlying logging implementation that is being wrapped)
    * 
    * @exception LogConfigurationException
    *                    if a suitable <code>Log</code> instance cannot be
@@ -230,16 +230,16 @@ public abstract class LogFactory {
    * implementation class to be loaded.
    * </p>
    * <ul>
-   * <li>The <code>org.apache.commons.loxx.LogFactory</code> system
+   * <li>The <code>org.apache.commons.logging.LogFactory</code> system
    * property.</li>
    * <li>The JDK 1.3 Service Discovery mechanism</li>
-   * <li>Use the properties file <code>commons-loxx.properties</code>
+   * <li>Use the properties file <code>commons-logging.properties</code>
    * file, if found in the class path of this class. The configuration file is
    * in standard <code>java.util.Properties</code> format and contains the
    * fully qualified name of the implementation class with the key being the
    * system property defined above.</li>
    * <li>Fall back to a default implementation class (
-   * <code>org.apache.commons.loxx.impl.SLF4FLogFactory</code>).</li>
+   * <code>org.apache.commons.logging.impl.SLF4FLogFactory</code>).</li>
    * </ul>
    * 
    * <p>
@@ -279,7 +279,7 @@ public abstract class LogFactory {
    * @param name
    *                Logical name of the <code>Log</code> instance to be
    *                returned (the meaning of this name is only known to the
-   *                underlying loxx implementation that is being wrapped)
+   *                underlying logging implementation that is being wrapped)
    * 
    * @exception LogConfigurationException
    *                    if a suitable <code>Log</code> instance cannot be

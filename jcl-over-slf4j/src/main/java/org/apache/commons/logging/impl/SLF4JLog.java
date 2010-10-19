@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of {@link Log org.apache.commons.loxx.Log} interface which
+ * Implementation of {@link Log org.apache.commons.logging.Log} interface which
  * delegates all processing to a wrapped {@link Logger org.slf4j.Logger}
  * instance.
  * 
