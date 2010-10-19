@@ -33,19 +33,19 @@ import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
 
 /**
- * This class hides and serves as a substitute for the underlying logging
+ * This class hides and serves as a substitute for the underlying loxx
  * system's MDC implementation.
  * 
  * <p>
- * If the underlying logging system offers MDC functionality, then SLF4J's MDC,
+ * If the underlying loxx system offers MDC functionality, then SLF4J's MDC,
  * i.e. this class, will delegate to the underlying system's MDC. Note that at
- * this time, only two logging systems, namely log4j and logback, offer MDC
+ * this time, only two loxx systems, namely log4j and logback, offer MDC
  * functionality. If the underlying system does not support MDC, e.g.
- * java.util.logging, then SLF4J will use a {@link BasicMDCAdapter}.
+ * java.util.loxx, then SLF4J will use a {@link BasicMDCAdapter}.
  * 
  * <p>
  * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j
- * logback, or java.util.logging, but without forcing these systems as
+ * logback, or java.util.loxx, but without forcing these systems as
  * dependencies upon your users.
  * 
  * <p>
@@ -95,7 +95,7 @@ public class MDC {
    * can be null only if the underlying implementation supports it.
    * 
    * <p>
-   * This method delegates all work to the MDC of the underlying logging system.
+   * This method delegates all work to the MDC of the underlying loxx system.
    * 
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
@@ -117,7 +117,7 @@ public class MDC {
    * <code>key</code> parameter cannot be null.
    * 
    * <p>
-   * This method delegates all work to the MDC of the underlying logging system.
+   * This method delegates all work to the MDC of the underlying loxx system.
    * 
    * @return the string value identified by the <code>key</code> parameter.
    * @throws IllegalArgumentException

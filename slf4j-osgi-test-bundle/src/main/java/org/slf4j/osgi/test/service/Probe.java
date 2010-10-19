@@ -46,7 +46,7 @@ public interface Probe {
 	 * testCommonslogging 
 	 *
 	 * @return true if all the tests were executed.
-	 * @throws ClassNotFoundError if a org.apache.commons.logging package
+	 * @throws ClassNotFoundError if a org.apache.commons.loxx package
 	 * could not be dynamically imported from the OSGi runtime.
 	 * @throws Exception if testing fails
 	 */

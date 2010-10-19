@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Basic MDC implementation, which can be used with logging systems that lack
+ * Basic MDC implementation, which can be used with loxx systems that lack
  * out-of-the-box MDC support.
  * 
  * This code is largely based on logback's <a

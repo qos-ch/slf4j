@@ -28,9 +28,9 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 /**
- * Markers are named objects used to enrich log statements. Conforming logging
+ * Markers are named objects used to enrich log statements. Conforming loxx
  * system Implementations of SLF4J determine how information conveyed by markers
- * are used, if at all. In particular, many conforming logging systems ignore
+ * are used, if at all. In particular, many conforming loxx systems ignore
  * marker data.
  * 
  * <p>

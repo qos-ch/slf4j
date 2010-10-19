@@ -30,7 +30,7 @@ package org.slf4j;
  * instances.
  * 
  * <p>See the section <a href="http://slf4j.org/faq.html#3">Implementing 
- * the SLF4J API</a> in the FAQ for details on how to make your logging 
+ * the SLF4J API</a> in the FAQ for details on how to make your loxx
  * system conform to SLF4J.
  * 
  * @author Ceki G&uuml;lc&uuml;

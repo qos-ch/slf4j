@@ -39,9 +39,9 @@ import org.slf4j.spi.LocationAwareLogger;
  * conforming to the {@link Logger} interface.
  * 
  * <p>
- * Note that the logging levels mentioned in this class refer to those defined
+ * Note that the loxx levels mentioned in this class refer to those defined
  * in the <a
- * href="http://logging.apache.org/log4j/docs/api/org/apache/log4j/Level.html">
+ * href="http://loxx.apache.org/log4j/docs/api/org/apache/log4j/Level.html">
  * <code>org.apache.log4j.Level</code></a> class.
  * 
  * <p>

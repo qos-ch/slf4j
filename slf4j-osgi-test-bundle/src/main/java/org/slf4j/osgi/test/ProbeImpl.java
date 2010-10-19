@@ -45,7 +45,7 @@ public class ProbeImpl implements Probe{
 	/**
 	 * 
 	 * @throws ClassNotFoundException If there is not a bundle exporting
-	 * the org.apache.commons.logging package  
+	 * the org.apache.commons.loxx package
 	 * 
 	 */
 	public boolean testCommonslogging() throws Exception{

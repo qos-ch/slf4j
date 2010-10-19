@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * Implementation of {@link Log org.apache.commons.logging.Log} interface which
+ * Implementation of {@link Log org.apache.commons.loxx.Log} interface which
  * delegates all processing to a wrapped {@link Logger org.slf4j.Logger}
  * instance.
  * 

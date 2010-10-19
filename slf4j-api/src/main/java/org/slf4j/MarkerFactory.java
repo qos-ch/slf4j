@@ -30,7 +30,7 @@ import org.slf4j.impl.StaticMarkerBinder;
 
 /**
  * MarkerFactory is a utility class producing {@link Marker} instances as
- * appropriate for the logging system currently in use.
+ * appropriate for the loxx system currently in use.
  * 
  * <p>
  * This class is essentially implemented as a wrapper around an

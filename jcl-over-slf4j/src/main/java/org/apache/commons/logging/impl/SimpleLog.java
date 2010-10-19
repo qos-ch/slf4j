@@ -37,24 +37,24 @@ import org.apache.commons.logging.LogConfigurationException;
  * to configure the behavior of this logger:
  * </p>
  * <ul>
- * <li><code>org.apache.commons.logging.simplelog.defaultlog</code> - Default
- * logging detail level for all instances of SimpleLog. Must be one of ("trace",
+ * <li><code>org.apache.commons.loxx.simplelog.defaultlog</code> - Default
+ * loxx detail level for all instances of SimpleLog. Must be one of ("trace",
  * "debug", "info", "warn", "error", or "fatal"). If not specified, defaults to
  * "info".</li>
- * <li><code>org.apache.commons.logging.simplelog.log.xxxxx</code> - Logging
+ * <li><code>org.apache.commons.loxx.simplelog.log.xxxxx</code> - Logging
  * detail level for a SimpleLog instance named "xxxxx". Must be one of ("trace",
  * "debug", "info", "warn", "error", or "fatal"). If not specified, the default
- * logging detail level is used.</li>
- * <li><code>org.apache.commons.logging.simplelog.showlogname</code> - Set to
+ * loxx detail level is used.</li>
+ * <li><code>org.apache.commons.loxx.simplelog.showlogname</code> - Set to
  * <code>true</code> if you want the Log instance name to be included in output
  * messages. Defaults to <code>false</code>.</li>
- * <li><code>org.apache.commons.logging.simplelog.showShortLogname</code> - Set
+ * <li><code>org.apache.commons.loxx.simplelog.showShortLogname</code> - Set
  * to <code>true</code> if you want the last component of the name to be
  * included in output messages. Defaults to <code>true</code>.</li>
- * <li><code>org.apache.commons.logging.simplelog.showdatetime</code> - Set to
+ * <li><code>org.apache.commons.loxx.simplelog.showdatetime</code> - Set to
  * <code>true</code> if you want the current date and time to be included in
  * output messages. Default is <code>false</code>.</li>
- * <li><code>org.apache.commons.logging.simplelog.dateTimeFormat</code> - The
+ * <li><code>org.apache.commons.loxx.simplelog.dateTimeFormat</code> - The
  * date and time format to be used in the output messages. The pattern
  * describing the date and time format is the same that is used in
  * <code>java.text.SimpleDateFormat</code>. If the format is not specified or is
@@ -107,23 +107,23 @@ public class SimpleLog implements Log, Serializable {
 
   // ---------------------------------------------------- Log Level Constants
 
-  /** "Trace" level logging. */
+  /** "Trace" level loxx. */
   public static final int LOG_LEVEL_TRACE = 1;
-  /** "Debug" level logging. */
+  /** "Debug" level loxx. */
   public static final int LOG_LEVEL_DEBUG = 2;
-  /** "Info" level logging. */
+  /** "Info" level loxx. */
   public static final int LOG_LEVEL_INFO = 3;
-  /** "Warn" level logging. */
+  /** "Warn" level loxx. */
   public static final int LOG_LEVEL_WARN = 4;
-  /** "Error" level logging. */
+  /** "Error" level loxx. */
   public static final int LOG_LEVEL_ERROR = 5;
-  /** "Fatal" level logging. */
+  /** "Fatal" level loxx. */
   public static final int LOG_LEVEL_FATAL = 6;
 
-  /** Enable all logging levels */
+  /** Enable all loxx levels */
   public static final int LOG_LEVEL_ALL = (LOG_LEVEL_TRACE - 1);
 
-  /** Enable no logging levels */
+  /** Enable no loxx levels */
   public static final int LOG_LEVEL_OFF = (LOG_LEVEL_FATAL + 1);
 
   // ------------------------------------------------------------ Initializer
@@ -245,11 +245,11 @@ public class SimpleLog implements Log, Serializable {
 
   /**
    * <p>
-   * Set logging level.
+   * Set loxx level.
    * </p>
    * 
    * @param currentLogLevel
-   *          new logging level
+   *          new loxx level
    */
   public void setLevel(int currentLogLevel) {
 
@@ -259,7 +259,7 @@ public class SimpleLog implements Log, Serializable {
 
   /**
    * <p>
-   * Get logging level.
+   * Get loxx level.
    * </p>
    */
   public int getLevel() {
@@ -271,7 +271,7 @@ public class SimpleLog implements Log, Serializable {
 
   /**
    * <p>
-   * Do the actual logging. This method assembles the message and then calls
+   * Do the actual loxx. This method assembles the message and then calls
    * <code>write()</code> to cause it to be written.
    * </p>
    * 

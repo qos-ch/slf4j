@@ -33,7 +33,7 @@ import org.slf4j.helpers.MessageFormatter;
 
 /**
  * A wrapper over {@link org.apache.commons.logging.Log
- * org.apache.commons.logging.Log} in conformance with the {@link Logger}
+ * org.apache.commons.loxx.Log} in conformance with the {@link Logger}
  * interface.
  * 
  * @author Ceki G&uuml;lc&uuml;

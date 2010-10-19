@@ -44,9 +44,12 @@ public class Level extends Priority implements Serializable {
     */
   public static final int TRACE_INT = 5000;
 
+  // match jboss' xlevel
+  public static final int X_TRACE_INT = DEBUG_INT - 100;
+
   /**
      The <code>OFF</code> has the highest possible rank and is
-     intended to turn off logging.  */
+     intended to turn off loxx.  */
   final static public Level OFF = new Level(OFF_INT, "OFF", 0);
 
   /**
@@ -87,7 +90,7 @@ public class Level extends Priority implements Serializable {
 
   /**
      The <code>ALL</code> has the lowest possible rank and is intended to
-     turn on all logging.  */
+     turn on all loxx.  */
   final static public Level ALL = new Level(ALL_INT, "ALL", 7);
 
   /**

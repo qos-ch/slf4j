@@ -31,7 +31,7 @@ import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageParameterObj;
 
 /**
- * A logger specialized in localized logging. Localization is based in the <a
+ * A logger specialized in localized loxx. Localization is based in the <a
  * href="http://cal10n.qos.ch">CAL10N project</p>.
  * 
  * @author Ceki G&uuml;lc&uuml;

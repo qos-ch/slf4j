@@ -39,7 +39,7 @@ public class SLF4JBridgeHandlerPerfTest extends TestCase {
   static int RUN_LENGTH = 100*1000;
 
 
-  // set to false to test enabled logging performance
+  // set to false to test enabled loxx performance
   boolean disabledLogger = true;
   
   FileAppender fileAppender; 

@@ -175,7 +175,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * This is our internal implementation for logging regular (non-parameterized)
+   * This is our internal implementation for loxx regular (non-parameterized)
    * log messages.
    * 
    * @param level
@@ -251,7 +251,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform single parameter substitution before logging the message of level
+   * Perform single parameter substitution before loxx the message of level
    * INFO according to the format outlined above.
    */
   public void info(String format, Object arg) {
@@ -259,7 +259,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform double parameter substitution before logging the message of level
+   * Perform double parameter substitution before loxx the message of level
    * INFO according to the format outlined above.
    */
   public void info(String format, Object arg1, Object arg2) {
@@ -267,7 +267,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform double parameter substitution before logging the message of level
+   * Perform double parameter substitution before loxx the message of level
    * INFO according to the format outlined above.
    */
   public void info(String format, Object[] argArray) {
@@ -297,7 +297,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform single parameter substitution before logging the message of level
+   * Perform single parameter substitution before loxx the message of level
    * WARN according to the format outlined above.
    */
   public void warn(String format, Object arg) {
@@ -305,7 +305,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform double parameter substitution before logging the message of level
+   * Perform double parameter substitution before loxx the message of level
    * WARN according to the format outlined above.
    */
   public void warn(String format, Object arg1, Object arg2) {
@@ -313,7 +313,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform double parameter substitution before logging the message of level
+   * Perform double parameter substitution before loxx the message of level
    * WARN according to the format outlined above.
    */
   public void warn(String format, Object[] argArray) {
@@ -343,7 +343,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform single parameter substitution before logging the message of level
+   * Perform single parameter substitution before loxx the message of level
    * ERROR according to the format outlined above.
    */
   public void error(String format, Object arg) {
@@ -351,7 +351,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform double parameter substitution before logging the message of level
+   * Perform double parameter substitution before loxx the message of level
    * ERROR according to the format outlined above.
    */
   public void error(String format, Object arg1, Object arg2) {
@@ -359,7 +359,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   /**
-   * Perform double parameter substitution before logging the message of level
+   * Perform double parameter substitution before loxx the message of level
    * ERROR according to the format outlined above.
    */
   public void error(String format, Object[] argArray) {

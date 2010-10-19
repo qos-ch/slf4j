@@ -84,11 +84,11 @@ public class NopBundleTest extends ConfigurableBundleCreatorTests implements Int
 	 * package phase of the maven build (these tests will run after the
 	 * packaging phase, in the integration-test phase).
 	 * 
-	 * JUnit, commons-logging, spring-core and the spring OSGi test bundle are
+	 * JUnit, commons-loxx, spring-core and the spring OSGi test bundle are
 	 * automatically included so they do not need to be specified here.
 	 * 
 	 * Our test bundles are using package import and export versions to keep
-	 * these other logging bundles from getting mixed up with our test bundles. 
+	 * these other loxx bundles from getting mixed up with our test bundles.
 	 */
 	protected String[] getBundleLocations() {
 		return new String[] {

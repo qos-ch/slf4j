@@ -141,7 +141,7 @@ public class SLF4JLogFactory extends LogFactory {
    * 
    * @param name
    *          Logical name of the <code>Log</code> instance to be returned
-   *          (the meaning of this name is only known to the underlying logging
+   *          (the meaning of this name is only known to the underlying loxx
    *          implementation that is being wrapped)
    * 
    * @exception LogConfigurationException
@@ -177,7 +177,7 @@ public class SLF4JLogFactory extends LogFactory {
     // This method is never called by jcl-over-slf4j classes. However,
     // in certain deployment scenarios, in particular if jcl-over-slf4j.jar
     // is
-    // in the the web-app class loader and the official commons-logging.jar is
+    // in the the web-app class loader and the official commons-loxx.jar is
     // deployed in some parent class loader (e.g. commons/lib), then it is
     // possible
     // for the parent class loader to mask the classes shipping in

@@ -44,9 +44,9 @@ import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * A wrapper over {@link java.util.logging.Logger java.util.logging.Logger} in
- * conformity with the {@link Logger} interface. Note that the logging levels
- * mentioned in this class refer to those defined in the java.util.logging
+ * A wrapper over {@link java.util.logging.Logger java.util.loxx.Logger} in
+ * conformity with the {@link Logger} interface. Note that the loxx levels
+ * mentioned in this class refer to those defined in the java.util.loxx
  * package.
  * 
  * @author Ceki G&uuml;lc&uuml;

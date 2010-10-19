@@ -35,8 +35,8 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- To get org.apache.commons.logging package for
-		 commons logging testing.-->
+		<!-- To get org.apache.commons.loxx package for
+		 commons loxx testing.-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>

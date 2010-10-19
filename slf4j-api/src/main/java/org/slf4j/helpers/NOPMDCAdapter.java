@@ -6,7 +6,7 @@ import org.slf4j.spi.MDCAdapter;
 
 /**
  * This adapter is an empty implementation of the {@link MDCAdapter} interface.
- * It is used for all logging systems which do not support mapped
+ * It is used for all loxx systems which do not support mapped
  * diagnostic contexts such as JDK14, simple and NOP. 
  * 
  * @author Ceki G&uuml;lc&uuml;
