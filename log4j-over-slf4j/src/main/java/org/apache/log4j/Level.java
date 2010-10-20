@@ -44,6 +44,9 @@ public class Level extends Priority implements Serializable {
     */
   public static final int TRACE_INT = 5000;
 
+  // match jboss' xlevel
+  public static final int X_TRACE_INT = DEBUG_INT - 100;
+
   /**
      The <code>OFF</code> has the highest possible rank and is
      intended to turn off logging.  */

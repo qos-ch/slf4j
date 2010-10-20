@@ -49,7 +49,7 @@ public interface LoggerRepository {
     boolean isDisabled(int level);
 
     /**
-     * Set the repository-wide threshold. All loxx requests below the
+     * Set the repository-wide threshold. All logging requests below the
      * threshold are immediately dropped. By default, the threshold is
      * set to <code>Level.ALL</code> which has the lowest possible rank.
      */
