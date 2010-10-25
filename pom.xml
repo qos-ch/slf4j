@@ -50,6 +50,7 @@
 		<module>slf4j-site</module>
 		<module>slf4j-migrator</module>
 		<module>slf4j-cldc-api</module>
+		<module>slf4j-cldc-simple</module>
 	</modules>
 
 	<dependencies>

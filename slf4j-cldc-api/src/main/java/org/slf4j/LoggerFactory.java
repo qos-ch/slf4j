@@ -78,7 +78,7 @@ public final class LoggerFactory {
                 failedBinding(ncde);
                 throw ncde;
             }
-        } catch (java.lang.NoSuchMethodError nsme) {
+        } catch (java.lang.Error nsme) {
             String msg= nsme.getMessage();
             if (msg != null && msg.indexOf("org.slf4j.impl.StaticLoggerBinder.getSingleton()") != -1) {
                 INITIALIZATION_STATE= FAILED_INITILIZATION;
@@ -89,7 +89,7 @@ public final class LoggerFactory {
             throw nsme;
         } catch (Exception e) {
             failedBinding(e);
-            throw new IllegalStateException("Unexpected initialization failure", e);
+            throw new RuntimeException("Unexpected initialization failure: " + e.getMessage());
         }
     }
 
@@ -144,12 +144,12 @@ public final class LoggerFactory {
             case NOP_FALLBACK_INITILIZATION:
                 return NOP_FALLBACK_FACTORY;
             case FAILED_INITILIZATION:
-                throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
+                throw new RuntimeException(UNSUCCESSFUL_INIT_MSG);
             case ONGOING_INITILIZATION:
                 // support re-entrant behavior.
                 // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
                 return NOP_FALLBACK_FACTORY;
         }
-        throw new IllegalStateException("Unreachable code");
+        throw new RuntimeException("Unreachable code");
     }
 }
