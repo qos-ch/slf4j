@@ -28,7 +28,13 @@
     to behave as if they were made to the SLF4J API instead. The
     figure below illustrates the idea.
     </p>
-    
+
+    <p>Please note that for source code under your control, you really
+    should use the <a href="migrator.html">slf4j-migrator</a>. The
+    binary-based solutions described in this page are appropriate for
+    software beyond your control.
+    </p>
+
     <p></p>
     <p></p>
     
@@ -112,8 +118,7 @@
     </p>
     
     
-    <h3><a name="log4j-over-slf4j" href="#log4j-over-slf4j">Log4j over
-    SLF4J</a></h3>
+    <h3><a name="log4j-over-slf4j" href="#log4j-over-slf4j">log4j-over-slf4j</a></h3>
     
     <p>SLF4J ship with a module called <em>log4j-over-slf4j</em>.  It
     allows log4j users to migrate existing applications to SLF4J without
@@ -143,7 +148,7 @@
     <p>In most situations, replacing a jar file is all it takes in
     order to migrate from log4j to SLF4J.
     </p>
-    
+
     <p>Note that as a result of this migration, log4j configuration
     files will no longer be picked up. If you need to migrate your
     log4j.properties file to logback, the <a
@@ -156,15 +161,15 @@
     
     <p>The <em>log4j-over-slf4j</em> module will not work when the
     application calls log4j components that are not present in the
-    bridge.  For example, direct references to log4j appenders,
-    filters or PropertyConfigurator are not supported by
-    log4j-over-slf4j.  While the number of cases where
-    log4j-over-slf4j is insufficient is not completely negligible, in
-    the vast majority of cases where log4j is configured through a
-    configuration file, be it <em>log4j.properties</em> or
-    <em>log4j.xml</em>, log4j-over-slf4j is enough in order to migrate
-    your application to SLF4J.
+    bridge.  For example, when application code directly references
+    log4j appenders, filters or the PropertyConfigurator, then
+    log4j-over-slf4j would be an insufficient replacement for
+    log4j. However, when log4j is configured through a configuration
+    file, be it <em>log4j.properties</em> or <em>log4j.xml</em>, the
+    log4j-over-slf4j module should just work fine.
     </p>
+
+    
     
     <h4>What about the overhead?</h4>
     
@@ -193,35 +198,46 @@
     log4j, and log4j calls redirected to SLF4j, resulting in an <a
     href="codes.html#log4jDelegationLoop">endless loop</a>.
     </p>
+
+
     
-    <h3><a name="jul-to-slf4j" href="jul-to-slf4j">JUL to SLF4J</a></h3>
+    <h3><a name="jul-to-slf4j" href="#jul-to-slf4j">jul-to-slf4j bridge</a></h3>
     
-    <p>The jul-to-slf4j module includes a jul handler, namely
-    SLF4JBridgeHandler, that routes all incoming jul records to the
-    SLF4j API. Please see <a
+    <p>The jul-to-slf4j module includes a java.util.logging (jul)
+    handler, namely <code>SLF4JBridgeHandler</code>, which routes all
+    incoming jul records to the SLF4j API. Please see <a
     href="api/org/slf4j/bridge/SLF4JBridgeHandler.html">SLF4JBridgeHandler
-    javadocs</a> for usage instructions. 
+    javadocs</a> for usage instructions.
     </p>
 
-    <p>Contrary to other bridging modules such as jcl-over-slf4j and
-    log4j-over-slf4j, which re-implement JCL and respectively log4j,
-    the jul-to-slf4j modules does not re-implement the
-    java.util.logging package because packages under the java.*
-    namespace cannot be replaced. Instead, translates <a
+    <p>Contrary to other bridging modules, namely jcl-over-slf4j and
+    log4j-over-slf4j, which reimplement JCL and respectively log4j,
+    the jul-to-slf4j module does not reimplement the java.util.logging
+    because packages under the java.* namespace cannot be
+    replaced. Instead, jul-to-slf4j translates <a
     href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/LogRecord.html?is-external=true">LogRecord</a>
-    object into its SLF4J equivalent on each logging event.  Please
-    note this traslation process incurs the cost of constructing a
-    <code>LogRecord</code> instance regardless of whether the SLF4J
-    logger is disabled for the given level or nor. <b>Consequently,
-    j.u.l. to SLF4J translation can seriously impact on the cost of
-    disabled logging statements (60 fold increase) and a measurable
-    impact on enabled log statements (20% overall increase).</b>
+    objects into their SLF4J equivalent.  Please note this traslation
+    process incurs the cost of constructing a <code>LogRecord</code>
+    instance regardless of whether the SLF4J logger is disabled for
+    the given level or nor. <b>Consequently, j.u.l. to SLF4J
+    translation can seriously impact on the cost of disabled logging
+    statements (60 fold increase) and a measurable impact on enabled
+    log statements (20% overall increase).</b> Please note that as of
+    logback-version 0.9.25, it is possible to completely eliminate the
+    60 fold translation overhead for disabled log statements with the
+    help of <a
+    href="http://logback.qos.ch/manual/configuration.html#LevelChangePropagator">LevelChangePropagator</a>.
     </p>
 
-    <p>If application performance is a concern, then use of
-    SLF4JBridgeHandler is appropriate only if few j.u.l. logging
-    statements are in play. </p>
-   
+    <p>If you are concerned about application performance, then use of
+    <code>SLF4JBridgeHandler</code> is appropriate only if one the
+    following two conditions is true:
+    </p>
+    <ol>
+      <li>few j.u.l. logging statements are in play </li>
+      <li><code>LevelChangePropagator</code> has been installed</li>
+    </ol>
+    
     
     <h4>jul-to-slf4j.jar and slf4j-jdk14.jar cannot be present
     simultaneously
