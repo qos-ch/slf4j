@@ -646,8 +646,8 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     </dt>
     
     <dd>
-      <p>A large number of Maven projects declare commons-logging as a
-      dependency. Thus, if you wish to migrate to SLF4J or use
+      <p>Many software projects using Maven declare commons-logging as
+      a dependency. Thus, if you wish to migrate to SLF4J or use
       jcl-over-slf4j, you would need to declare a commons-logging
       exclusion in all of your dependencies which transitively depend
       on commons-logging. This can be an error prone process. To
@@ -676,6 +676,13 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
   &lt;version>${project.version}&lt;/version>
 &lt;/dependency></pre>
 
+      <p>The first dependency declaration essentially states that
+      commons-logging will be "somehow" provided by your
+      environment. The second decleration includes jcl-over-slf4j into
+      your project. As jcl-over-slf4j is a perfect binary-compatible
+      replacement for commons-logging, the first assertion becomes
+      true.
+      </p>
 
     </dd>
     
