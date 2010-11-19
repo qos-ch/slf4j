@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.slf4j</groupId>
+	<groupId>com.github.mcpat.slf4j</groupId>
 	<artifactId>slf4j-cldc-simple</artifactId>
 	<packaging>jar</packaging>
 	<name>SLF4J-CLDC Simple Binding</name>
@@ -17,16 +17,56 @@
 	<url>http://www.slf4j.org</url>
 	<description>SLF4J Simple binding for Connected Limited Device Configuration 1.1</description>
 
+	<properties>
+		<cldc-stub-version>0.1-SNAPSHOT</cldc-stub-version>
+		<cldc-stub-jar>${settings.localRepository}/com/github/mcpat/apistubs/cldc-1.1-stub/${cldc-stub-version}/cldc-1.1-stub-${cldc-stub-version}.jar</cldc-stub-jar>
+	</properties>
+	
+	<distributionManagement>
+		<repository>
+			<id>${release-repo-id}</id>
+			<name>${release-repo-id}</name>
+			<url>${release-repo-url}</url>
+		</repository>
+		<snapshotRepository>
+			<id>${snapshot-repo-id}</id>
+			<name>${snapshot-repo-id}</name>
+			<url>${snapshot-repo-url}</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<dependencies>
 		<dependency>
-			<groupId>org.slf4j</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>slf4j-cldc-api</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.mcpat.apistubs</groupId>
+			<artifactId>cldc-1.1-stub</artifactId>
+			<version>${cldc-stub-version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.3</source>
+						<target>1.3</target>
+						<compilerArguments>
+							<bootclasspath>${cldc-stub-jar}</bootclasspath>
+						</compilerArguments>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	
 		<plugins>
 			<!-- TODO: compile against CLDC API (stubs) -->
 			<plugin>

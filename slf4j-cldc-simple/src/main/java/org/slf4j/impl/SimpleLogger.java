@@ -68,7 +68,7 @@ public class SimpleLogger implements Logger {
     /**
      * Mark the time when this class gets loaded into memory.
      */
-    private static long startTime= System.currentTimeMillis();
+    private static final long startTime;
     public static final String LINE_SEPARATOR;
     private static String TRACE_STR= "TRACE";
     private static String DEBUG_STR= "DEBUG";
@@ -78,6 +78,7 @@ public class SimpleLogger implements Logger {
     
     static {
         LINE_SEPARATOR= System.getProperty("line.separator");
+        startTime= System.currentTimeMillis();
     }
 
     private final String name;
