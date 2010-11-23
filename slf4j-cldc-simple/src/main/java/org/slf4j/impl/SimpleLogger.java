@@ -68,18 +68,12 @@ public class SimpleLogger implements Logger {
     /**
      * Mark the time when this class gets loaded into memory.
      */
-    private static final long startTime;
-    public static final String LINE_SEPARATOR;
+    private static final long startTime= System.currentTimeMillis();
     private static String TRACE_STR= "TRACE";
     private static String DEBUG_STR= "DEBUG";
     private static String INFO_STR= "INFO";
     private static String WARN_STR= "WARN";
     private static String ERROR_STR= "ERROR";
-    
-    static {
-        LINE_SEPARATOR= System.getProperty("line.separator");
-        startTime= System.currentTimeMillis();
-    }
 
     private final String name;
     private final int logLevel;
@@ -155,13 +149,10 @@ public class SimpleLogger implements Logger {
 
         buf.append(message);
 
-        buf.append(LINE_SEPARATOR);
-
-        System.err.print(buf.toString());
+        System.err.println(buf.toString());
         if (t != null) {
             t.printStackTrace();
         }
-        System.err.flush();
     }
 
     public boolean isInfoEnabled() {
