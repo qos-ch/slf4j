@@ -140,6 +140,24 @@ public class SLF4JBridgeHandler extends Handler {
     }
   }
 
+    /**
+     * Returns true if SLF4JBridgeHandler has been previously installed, returns false otherwise.
+     * @return
+     * @throws SecurityException
+     */
+    public static boolean isInstalled() throws SecurityException {
+        java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger(
+            "");
+        Handler[] handlers = rootLogger.getHandlers();
+        for (int i = 0; i < handlers.length; i++) {
+          if (handlers[i] instanceof SLF4JBridgeHandler) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+
   /**
    * Initialize this handler.
    * 
