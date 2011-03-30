@@ -5,9 +5,11 @@ target
 *~
 *.tmproj
 *.iml
+*.iws
+*.ipr
 .idea
 .scala_dependencies
 integration/bundle/
 integration/felix-cache/
 runner
-
+.DS_Store
