@@ -70,7 +70,7 @@
             <phase>package</phase>
             <configuration>
               <tasks>      
-                <property name="currentVersion" value="${version}" />
+                <property name="currentVersion" value="${project.version}" />
                 <property name="compile_classpath" refid="maven.compile.classpath"/>
                 <property name="runtime_classpath" refid="maven.runtime.classpath"/>
                 <property name="test_classpath" refid="maven.test.classpath"/>
@@ -87,7 +87,7 @@
             <phase>package</phase>
             <configuration>
               <tasks>      
-                <property name="currentVersion" value="${version}" />
+                <property name="currentVersion" value="${project.version}" />
                 <property name="test_classpath" refid="maven.test.classpath"/>
                 <property name="basedir" value="${basedir}"/>
                 <ant antfile="${basedir}/osgi-build.xml"/>

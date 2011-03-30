@@ -46,6 +46,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
         <configuration>
           <archive>
             <manifestEntries>
@@ -66,6 +67,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
+        <version>2.3</version>
         <configuration>
           <comparisonArtifacts>            
             <comparisonArtifact>
