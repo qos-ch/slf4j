@@ -358,9 +358,12 @@
     </dt>
 
     <dd>
-      <p>With rare theoretical exceptions, SLF4J versions are backward
-      compatible. This means than you can upgrade from SLF4J version
-      1.0 to any later version without problems.</p>
+      <p>From the clients perspective, the SLF4J API is backward
+      compatible between all versions. This means than you can upgrade
+      from SLF4J version 1.0 to any later version without
+      problems. Code compiled with <em>slf4j-api-versionN.jar</em>
+      will work with <em>slf4j-api-versionM.jar</em> for any versionN
+      and any versionM</p>
 
       <p>However, while the SLF4J API is very stable from the client's
       perspective, SLF4J bindings such as slf4j-simple or
