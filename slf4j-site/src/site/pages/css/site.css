@@ -12,6 +12,9 @@ body {
   font-size: small;
 }
 
+#job img { border:1px solid #DDDDDD; }
+#job:hover img {   border:1px solid #8888EE; }
+
 p, h2, pre {
  margin: 0px; 
  padding-top: 5px;
