@@ -88,7 +88,7 @@
 
     <h3>
       <a name="StaticLoggerBinder" href="#StaticLoggerBinder">
-        Failed to load class
+        Failedto load class
         <code>org.slf4j.impl.StaticLoggerBinder</code>
       </a>
     </h3>
@@ -169,38 +169,33 @@
     <h3><a name="version_mismatch" href="#version_mismatch">slf4j-api
     version does not match that of the binding</a></h3>
 
-    <p>An slf4j binding designates an artifact such as
+    <p>An SLF4J binding designates an artifact such as
     <em>slf4j-jdk14.jar</em> or <em>slf4j-log4j12.jar</em> used to
     <em>bind</em> slf4j to an underlying logging framework, say,
     java.util.logging or log4j.
     </p>
 
-    <p>Mixing mixing different versions of slf4j-api and slf4j
-    bindings can cause problems. For example, if you are using
+    <p>Mixing mixing different versions of <em>slf4j-api.jar</em> and
+    SLF4J binding can cause problems. For example, if you are using
     slf4j-api-${project.version}.jar, then you should also use
     slf4j-simple-${project.version}.jar, using slf4j-simple-1.5.5.jar
-    will not work.
-    </p>
+    will not work.</p>
 
-    <p><b>Note that from the client's perspective all versions of
-    slf4j-api are compatible.</b> Customer code compiled with a given
-    version of <em>slf4j-api.jar</em> will run perfectly fine with any
-    other version of <em>slf4j-api.jar</em>. You only need to verify
-    that the version of your binding matches that of the slf4j-api.
-    </p>
-
-    <p><span class="red">In general, you should make sure that the
-    slf4j-api version matches that of the slf4j binding. However, you
-    do <b>not</b> have to worry about the version of slf4j-api
-    customer code was compiled against.</span> See also the <a
-    href="faq.html#compatibility">relevant FAQ entry</a>.
+    <p>It should be noted that from the client's perspective all
+    versions of slf4j-api are compatible. Client code compiled with
+    <em>slf4j-api-N.jar</em> will run perfectly fine with
+    <em>slf4j-api-M.jar</em> for any N and M. You only need to ensure
+    that the version of your binding matches that of the
+    slf4j-api.jar. You do not have to worry about the version of
+    slf4j-api.jar used by a given dependendency in your project. You
+    can always use any version of <em>slf4j-api.jar</em>, and as long
+    as the version of <em>slf4j-api.jar</em> and its binding match,
+    you should be fine.
     </p>
 
     <p>At initialization time, if SLF4J suspects that there may be a
-    version mismatch problem, it will emit a warning about the
-    suspected mismatch. For the exact details of the version mismatch
-    detection mechanism, please refer to the <a
-    href="faq.html#version_checks">relevant entry</a> in the FAQ.
+    api vs. binding version mismatch problem, it will emit a warning
+    about the suspected mismatch.
     </p>
 
 

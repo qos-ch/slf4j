@@ -25,16 +25,21 @@
     simple facade or abstraction for various logging frameworks, e.g.
     java.util.logging, log4j and logback, allowing the end-user to
     plug in the desired logging framework at <em>deployment</em> time.
+    Note that SLF4J-enabling your library/application implies the
+    addition of only a single mandatory dependency, namely
+    <em>slf4j-api-${project.version}.jar</em>.  If no binding is found
+    on the class path, then SLF4J will default to a no-operation
+    implementation.
     </p>
       
     <h3>
       <a name="hello_world" href="#hello_world">Hello World</a>
     </h3>
 
-    <p>In accordance with programming tradition, here is an example
+    <p>As customary in programming tradition, here is an example
     illustrating the simplest way to output "Hello world" using SLF4J.
     It begins by getting a logger with the name "HelloWorld". This
-    logger is in turn used to log the message "Hello World". 
+    logger is in turn used to log the message "Hello World".
     </p>
 
 <pre class="prettyprint source">import org.slf4j.Logger;
@@ -49,16 +54,31 @@ public class HelloWorld {
 
      <p>To run this example, you first need to <a
      href="download.html">download the slf4j distribution</a>, and
-     then to unpack it. Once that is done, add these two jar files to
-     your class path:</p>
+     then to unpack it. Once that is done, add the file
+     <em>slf4j-api-${project.version}.jar</em> to your class path.</p>
 
+     <p>Compiling and running <em>HelloWorld</em> will result in the
+     following output being printed on the console.</p>
+
+<pre>SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.</pre>
+
+     <p>This warning is printed because no slf4j binding could be
+     found on your class path.</p>
+
+     <p>The warning will disappear as soon as you add a binding to
+     your class path. Assuming you add
+     <em>slf4j-simple-${project.version}.jar</em> so that your class
+     path contains:</p>
+     
      <ul>
        <li>slf4j-api-${project.version}.jar</li>
        <li>slf4j-simple-${project.version}.jar</li>
      </ul>
 
-     <p>Compiling and running <em>HelloWorld</em> will result in the
-     following output being printed on the console.</p>
+     <p>Compiling and running <em>HelloWorld</em> will now result in
+     the following output on the console.</p>
 
      <pre class="output">0 [main] INFO HelloWorld - Hello World</pre>
       
@@ -225,7 +245,7 @@ public class HelloWorld {
       out-of-the-box, and without requiring the end-user to download a
       binding from SLF4J's web-site. Only when the end-user decides to
       enable logging will she need to install the SLF4J binding
-      corresponding to the logging framework chosen by the end-user.
+      corresponding to the logging framework chosen by her.
       </p>
 
       <h3><a name="consolidate" href="#consolidate">Consolidate

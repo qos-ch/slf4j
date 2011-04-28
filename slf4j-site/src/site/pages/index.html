@@ -29,11 +29,17 @@
   <p>The Simple Logging Facade for Java or (SLF4J) serves as a simple
   facade or abstraction for various logging frameworks, e.g.
   java.util.logging, log4j and logback, allowing the end user to plug
-  in the desired logging framework at <em>deployment</em> time.
-  </p>
+  in the desired logging framework at <em>deployment</em>
+  time. </p>
 
   <p>Before you start using SLF4J, we highly recommend that you read
   the two-page <a href="manual.html">SLF4J user manual</a>. 
+  </p>
+
+  <p>Note that SLF4J-enabling your library implies the addition of
+  only a single mandatory dependency, namely <em>slf4j-api.jar</em>.
+  If no binding is found on the class path, then SLF4J will default to
+  a no-operation implementation.
   </p>
 
   <p>In case you wish to migrate your Java source files to SLF4J,
@@ -42,7 +48,7 @@
 
   <p>In case an externally-maintained component you depend on uses a
   logging API other than SLF4J, such as commons logging, log4j or
-  j.u.l, have a look at SLF4J's binary-support for <a
+  java.util.logging, have a look at SLF4J's binary-support for <a
   href="legacy.html">legacy APIs</a>.
   </p>
 
