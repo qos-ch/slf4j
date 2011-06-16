@@ -194,12 +194,13 @@
     
     <dd>
       <p>In short, libraries and other embedded components should
-      consider SLF4J for their logging needs because libraries
-      cannot afford to impose their choice of logging system on the
-      end-user. On the other hand, it does not necessarily make
-      sense for stand-alone applications to use SLF4J. Stand-alone
-      applications can invoke the logging system of their choice
-      directly.
+      consider SLF4J for their logging needs because libraries cannot
+      afford to impose their choice of logging framework on the
+      end-user. On the other hand, it does not necessarily make sense
+      for stand-alone applications to use SLF4J. Stand-alone
+      applications can invoke the logging framework of their choice
+      directly. In the case of logback, the question is moot because
+      logback exposes its logger API via SLF4J.
       </p>
       
       <p>SLF4J is only a facade, meaning that it does not provide a
