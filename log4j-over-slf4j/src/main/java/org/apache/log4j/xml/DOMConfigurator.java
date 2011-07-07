@@ -19,14 +19,48 @@ import org.apache.log4j.spi.Configurator;
 import org.apache.log4j.spi.LoggerRepository;
 
 import javax.xml.parsers.FactoryConfigurationError;
+import java.io.InputStream;
+import java.io.Reader;
 import java.net.URL;
+import java.util.Properties;
 
+
+import org.w3c.dom.Element;
 
 public class DOMConfigurator implements Configurator {
-    static  public void configure(URL url) throws FactoryConfigurationError {
-    }
 
+  public static void configure(Element element) {
+  }
 
-    public void doConfigure(URL url, LoggerRepository repository) {
-    }
+  public static void configure(String filename) throws FactoryConfigurationError {
+  }
+
+  static public void configure(URL url) throws FactoryConfigurationError {
+  }
+
+  static public void configureAndWatch(String configFilename) {
+  }
+
+  public static void configureAndWatch(String configFilename, long delay) {
+  }
+
+  public void doConfigure(Element element, LoggerRepository repository) {
+  }
+
+  public void doConfigure(InputStream inputStream, LoggerRepository repository) throws FactoryConfigurationError {
+  }
+
+  public void doConfigure(Reader reader, LoggerRepository repository) throws FactoryConfigurationError {
+  }
+
+  public void doConfigure(String filename, LoggerRepository repository) {
+  }
+
+  public void doConfigure(URL url, LoggerRepository repository) {
+  }
+
+  public static String subst(String value, Properties props) {
+    return value;
+  }
+
 }

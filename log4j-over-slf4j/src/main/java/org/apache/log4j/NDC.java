@@ -17,18 +17,26 @@
 
 package org.apache.log4j;
 
+import org.slf4j.MDC;
+
 import java.util.Stack;
 
 /**
- * A bare-bones implementation of log4j's NDC which compiles and prevents run
- * time exceptions.
- * 
+ * A log4j's NDC implemented in terms of SLF4J MDC primitives.
+ *
  * @since SLF4J 1.6.0
  */
 
 public class NDC {
 
+  public final static String PREFIX = "NDC";
+
   public static void clear() {
+    int depth = getDepth();
+    for (int i = 0; i < depth; i++) {
+      String key = PREFIX + i;
+      MDC.remove(key);
+    }
   }
 
   public static Stack cloneStack() {
@@ -43,21 +51,48 @@ public class NDC {
   }
 
   public static int getDepth() {
-    return 0;
+    int i = 0;
+    while (true) {
+      String val = MDC.get(PREFIX + i);
+      if (val != null) {
+        i++;
+      } else {
+        break;
+      }
+    }
+    return i;
   }
 
   public static String pop() {
-    return "";
+    int next = getDepth();
+    if (next == 0) {
+      return "";
+    }
+    int last = next - 1;
+    String key = PREFIX + last;
+    String val = MDC.get(key);
+    MDC.remove(key);
+    return val;
   }
 
   public static String peek() {
-    return "";
+    int next = getDepth();
+    if (next == 0) {
+      return "";
+    }
+    int last = next - 1;
+    String key = PREFIX + last;
+    String val = MDC.get(key);
+    return val;
   }
 
   public static void push(String message) {
+    int next = getDepth();
+    MDC.put(PREFIX + next, message);
   }
 
   static public void remove() {
+    clear();
   }
 
   static public void setMaxDepth(int maxDepth) {
