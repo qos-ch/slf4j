@@ -994,38 +994,63 @@ logger.debug("The new entry is {}.", entry);</pre>
     
     <dt>
       <a name="fatal" href="#fatal"> Why doesn't the
-      <code>org.slf4j.Logger</code> interface have methods for the FATAL
-      level? </a>
+      <code>org.slf4j.Logger</code> interface have methods for the
+      FATAL level? </a>
     </dt>
     
     <dd>      
-      <p>From the stand point of a logging system, the distinction
-      between a fatal error and an error is usually not very
-      useful. Most programmers exit the application when a fatal
-      error is encountered. However, a logging library cannot (and
-      should not) decide on its own to terminate an
-      application. The initiative to exit the application must be
-      left to the developer.
+      <p>The <a href="apidocs/org/slf4j/Marker.html">Marker</a>
+      interface, part of the <code>org.slf4j</code> package, renders
+      the FATAL level largely redundant. If a given error requires
+      attention beyond that allocated for ordinary errors, simply mark
+      the logging statement with a specially designated marker which
+      can be named "FATAL" or any other name to your liking.
       </p>
-      
-      
-      <p>Thus, the most the FATAL level can do is to
-      <em>highlight</em> a given error as the cause for
-      application to crash. However, errors are by definition
-      exceptional events that merit attention. If a given
-      situation causes errors to be logged, the causes should be
-      attended to as soon as possible. However, if the "error" is
-      actually a normal situation which cannot be prevented but
-      merits being aware of, then it should be marked as WARN, not
-      ERROR.
+
+      <p>Here is an example,</p>
+    
+<pre class="prettyprint">import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
+class Bar {
+  void foo() {
+    <b>Marker fatal = MarkerFactory.getMarker("FATAL");</b>
+    Logger logger = LoggerFactory.getLogger("aLogger");
+
+    try {
+      ... obtain a JDBC connection
+    } catch (JDBException e) {
+      logger.error(<b>fatal</b>, "Failed to obtain JDBC connection", e);
+    }
+  }
+}</pre>
+
+
+      <p>While markers are part of the SLF4J API, only logback
+      supports markers off the shelf. For example, if you add the
+      <code>%marker</code> conversion word to its pattern, logback's
+      <code>PatternLayout</code> will add marker data to its
+      output. Marker data can be used to <a
+      href="http://logback.qos.ch/manual/filters.html">filter
+      messages</a> or even <a
+      href="http://logback.qos.ch/manual/appenders.html#OnMarkerEvaluator">trigger</a>
+      an outgoing email <a
+      href="http://logback.qos.ch/recipes/emailPerTransaction.html">at
+      the end of an individual transaction</a>.
       </p>
-      
-      <p>Assuming the ERROR level designates exceptional situations
-      meriting close attention, we are inclined to believe that the
-      FATAL level is superfluous.
+
+      <p>In combination with logging frameworks such as log4j and
+      java.util.logging which do not support markers, marker data will
+      be silently ignored.</p>
+
+      <p>Markers add a new dimension with infinite possible values for
+      processing log statements compared to five values, namely ERROR,
+      WARN, INFO, DEBUG and TRACE, allowed by levels. At present time,
+      only logback supports marker data. However, nothing prevents
+      other logging frameworks from making use of marker data.
       </p>
-      
-      
       <hr />
     </dd>
     

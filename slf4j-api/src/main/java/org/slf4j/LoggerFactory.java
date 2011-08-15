@@ -26,10 +26,7 @@ package org.slf4j;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -212,15 +209,19 @@ public final class LoggerFactory {
         paths = loggerFactoryClassLoader
             .getResources(STATIC_LOGGER_BINDER_PATH);
       }
-      List implementationList = new ArrayList();
+      // use Set instead of list in order to deal with  bug #138
+      // LinkedHashSet appropriate here because it preserves insertion order during iteration
+      Set implementationSet = new LinkedHashSet();
       while (paths.hasMoreElements()) {
         URL path = (URL) paths.nextElement();
-        implementationList.add(path);
+        implementationSet.add(path);
       }
-      if (implementationList.size() > 1) {
+      if (implementationSet.size() > 1) {
         Util.report("Class path contains multiple SLF4J bindings.");
-        for (int i = 0; i < implementationList.size(); i++) {
-          Util.report("Found binding in [" + implementationList.get(i) + "]");
+        Iterator iterator = implementationSet.iterator();
+        while(iterator.hasNext()) {
+          URL path = (URL) iterator.next();
+          Util.report("Found binding in [" + path + "]");
         }
         Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
       }
