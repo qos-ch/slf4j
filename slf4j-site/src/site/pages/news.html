@@ -38,6 +38,15 @@
    bindings when running under a Weblogic server.
    </p>
 
+   <p>Fixed <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=228">bug
+   #228</a>. When running under IBM's JDK, and if no binding can be
+   found, SLF4J will no longer throw a
+   <code>NoClassDefFoundError</code>. Instead, it will default to an
+   NOP implementation instead. Under the same circumstances but with
+   Sun's JDK, SLF4J already defaulted to an NOP implementation since
+   release 1.6.0.</p>
+
    <p>Added certain missing classes to the log4j-over-slf4j module as
    requested in <a
    href="http://bugzilla.slf4j.org/show_bug.cgi?id=225">bug 225</a> by
