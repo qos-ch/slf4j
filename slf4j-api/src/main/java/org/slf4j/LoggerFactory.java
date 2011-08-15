@@ -112,6 +112,19 @@ public final class LoggerFactory {
     }
   }
 
+  private static boolean messageContainsOrgSlf4jImplStaticLoggerBinder(String msg) {
+      if(msg == null)
+          return false;
+
+      if(msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1)
+          return true;
+
+      if(msg.indexOf("org.slf4j.impl.StaticLoggerBinder") != -1)
+           return true;
+
+      return false;
+  }
+
   private final static void bind() {
     try {
       // the next line does the binding
@@ -120,7 +133,7 @@ public final class LoggerFactory {
       emitSubstituteLoggerWarning();
     } catch (NoClassDefFoundError ncde) {
       String msg = ncde.getMessage();
-      if (msg != null && msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1) {
+      if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
         INITIALIZATION_STATE = NOP_FALLBACK_INITILIZATION;
         Util
             .report("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
@@ -194,8 +207,8 @@ public final class LoggerFactory {
     }
   }
 
-  // We need to use the name of the StaticLoggerBinder class, we can't reference
-  // the class itseld.
+  // We need to use the name of the StaticLoggerBinder class, but we can't reference
+  // the class itself.
   private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
   private static void singleImplementationSanityCheck() {
