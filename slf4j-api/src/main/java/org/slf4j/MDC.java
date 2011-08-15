@@ -74,7 +74,7 @@ public class MDC {
     } catch (NoClassDefFoundError ncde) {
       mdcAdapter = new NOPMDCAdapter();
       String msg = ncde.getMessage();
-      if (msg != null && msg.indexOf("org/slf4j/impl/StaticMDCBinder") != -1) {
+      if (msg != null && msg.indexOf("StaticMDCBinder") != -1) {
         Util.report("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
         Util.report("Defaulting to no-operation MDCAdapter implementation.");
         Util

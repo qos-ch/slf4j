@@ -113,16 +113,13 @@ public final class LoggerFactory {
   }
 
   private static boolean messageContainsOrgSlf4jImplStaticLoggerBinder(String msg) {
-      if(msg == null)
-          return false;
-
-      if(msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1)
-          return true;
-
-      if(msg.indexOf("org.slf4j.impl.StaticLoggerBinder") != -1)
-           return true;
-
+    if(msg == null)
       return false;
+    if(msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1)
+      return true;
+    if(msg.indexOf("org.slf4j.impl.StaticLoggerBinder") != -1)
+      return true;
+    return false;
   }
 
   private final static void bind() {
