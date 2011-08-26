@@ -364,7 +364,8 @@
       from SLF4J version 1.0 to any later version without
       problems. Code compiled with <em>slf4j-api-versionN.jar</em>
       will work with <em>slf4j-api-versionM.jar</em> for any versionN
-      and any versionM</p>
+      and any versionM. <b>To date, binary compatibility in slf4j-api
+      has never been broken.</b></p>
 
       <p>However, while the SLF4J API is very stable from the client's
       perspective, SLF4J bindings, e.g. slf4j-simple.jar or
@@ -399,13 +400,13 @@
 org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
    at org.slf4j.LoggerFactory.&lt;clinit>(LoggerFactory.java:60)</pre>
 
-   <p>This error is caused by the static initilizer of the
-   <code>LoggerFactory</code> class attempting to directly access
-   the SINGLETON field of
-   <code>org.slf4j.impl.StaticLoggerBinder</code>. While this was
-   allowed in SLF4J 1.5.5 and earlier, in 1.5.6 and later the
-   SINGLETON field has been marked as private access.
-   </p>
+      <p>This error is caused by the static initilizer of the
+      <code>LoggerFactory</code> class attempting to directly access
+      the SINGLETON field of
+      <code>org.slf4j.impl.StaticLoggerBinder</code>. While this was
+      allowed in SLF4J 1.5.5 and earlier, in 1.5.6 and later the
+      SINGLETON field has been marked as private access.
+      </p>
 
 
       <p>If you get the exception shown above, then you are using an
@@ -431,6 +432,10 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       dependecy on slf4j-api matching the version of the declared
       binding will make the problem go away.
       </p>
+
+      <p>Please also read the FAQ entry on <a
+      href="#compatibility">backward compatibility</a> for a more
+      general explanation.</p>
 
       <hr />
     </dd>
