@@ -12,6 +12,7 @@ import org.slf4j.spi.LocationAwareLogger;
  *
  * @author Ralph Goers
  * @author Ceki G&uuml;lc&uuml;
+ * @author John Vasileff
  */
 public class LoggerWrapper implements Logger {
 
@@ -55,163 +56,6 @@ public class LoggerWrapper implements Logger {
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
-  public void trace(String msg) {
-    if (!logger.isTraceEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.TRACE_INT, msg, null, null);
-    } else {
-      logger.trace(msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(String format, Object arg) {
-    if (!logger.isTraceEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.TRACE_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.trace(format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(String format, Object arg1, Object arg2) {
-    if (!logger.isTraceEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.TRACE_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.trace(format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(String format, Object[] argArray) {
-    if (!logger.isTraceEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.TRACE_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.trace(format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(String msg, Throwable t) {
-    if (!logger.isTraceEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.TRACE_INT, msg, null, t);
-    } else {
-      logger.trace(msg, t);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(Marker marker, String msg) {
-    if (!logger.isTraceEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.TRACE_INT, msg, null, null);
-    } else {
-      logger.trace(marker, msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(Marker marker, String format, Object arg) {
-    if (!logger.isTraceEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.TRACE_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.trace(marker, format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isTraceEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.TRACE_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.trace(marker, format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(Marker marker, String format, Object[] argArray) {
-    if (!logger.isTraceEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.TRACE_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.trace(marker, format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void trace(Marker marker, String msg, Throwable t) {
-    if (!logger.isTraceEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.TRACE_INT, msg, null, t);
-    } else {
-      logger.trace(marker, msg, t);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
   public boolean isDebugEnabled() {
     return logger.isDebugEnabled();
   }
@@ -221,164 +65,6 @@ public class LoggerWrapper implements Logger {
    */
   public boolean isDebugEnabled(Marker marker) {
     return logger.isDebugEnabled(marker);
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(String msg) {
-    if (!logger.isDebugEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.DEBUG_INT, msg, null, null);
-    } else {
-      logger.debug(msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(String format, Object arg) {
-    if (!logger.isDebugEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.debug(format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(String format, Object arg1, Object arg2) {
-    if (!logger.isDebugEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.debug(format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(String format, Object[] argArray) {
-    if (!logger.isDebugEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.debug(format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(String msg, Throwable t) {
-    if (!logger.isDebugEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.DEBUG_INT, msg, null, t);
-    } else {
-      logger.debug(msg, t);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(Marker marker, String msg) {
-    if (!logger.isDebugEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, msg, null, null);
-    } else {
-      logger.debug(marker, msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(Marker marker, String format, Object arg) {
-    if (!logger.isDebugEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.debug(marker, format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isDebugEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.debug(marker, format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(Marker marker, String format, Object[] argArray) {
-    if (!logger.isDebugEnabled())
-      return;
-    if (instanceofLAL) {
-
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.debug(marker, format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void debug(Marker marker, String msg, Throwable t) {
-    if (!logger.isDebugEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.DEBUG_INT, msg, null, t);
-    } else {
-      logger.debug(marker, msg, t);
-    }
   }
 
   /**
@@ -398,160 +84,6 @@ public class LoggerWrapper implements Logger {
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
-  public void info(String msg) {
-    if (!logger.isInfoEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.INFO_INT, msg, null, null);
-    } else {
-      logger.info(msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(String format, Object arg) {
-    if (!logger.isInfoEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.INFO_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.info(format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(String format, Object arg1, Object arg2) {
-    if (!logger.isInfoEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.INFO_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.info(format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(String format, Object[] argArray) {
-    if (!logger.isInfoEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.INFO_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.info(format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(String msg, Throwable t) {
-    if (!logger.isInfoEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.INFO_INT, msg, null, t);
-    } else {
-      logger.info(msg, t);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(Marker marker, String msg) {
-    if (!logger.isInfoEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.INFO_INT, msg, null, null);
-    } else {
-      logger.info(marker, msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(Marker marker, String format, Object arg) {
-    if (!logger.isInfoEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.INFO_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.info(marker, format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isInfoEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.INFO_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.info(marker, format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(Marker marker, String format, Object[] argArray) {
-    if (!logger.isInfoEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.INFO_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.info(marker, format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void info(Marker marker, String msg, Throwable t) {
-    if (!logger.isInfoEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.INFO_INT, msg, null, t);
-    } else {
-      logger.info(marker, msg, t);
-    }
-  }
-
   public boolean isWarnEnabled() {
     return logger.isWarnEnabled();
   }
@@ -561,163 +93,6 @@ public class LoggerWrapper implements Logger {
    */
   public boolean isWarnEnabled(Marker marker) {
     return logger.isWarnEnabled(marker);
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(String msg) {
-    if (!logger.isWarnEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.WARN_INT, msg, null, null);
-    } else {
-      logger.warn(msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(String format, Object arg) {
-    if (!logger.isWarnEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.WARN_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.warn(format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(String format, Object arg1, Object arg2) {
-    if (!logger.isWarnEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.WARN_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.warn(format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(String format, Object[] argArray) {
-    if (!logger.isWarnEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.WARN_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.warn(format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(String msg, Throwable t) {
-    if (!logger.isWarnEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.WARN_INT, msg, null, t);
-    } else {
-      logger.warn(msg, t);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(Marker marker, String msg) {
-    if (!logger.isWarnEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.WARN_INT, msg, null, null);
-    } else {
-      logger.warn(marker, msg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(Marker marker, String format, Object arg) {
-    if (!logger.isWarnEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.WARN_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.warn(marker, format, arg);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isWarnEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.WARN_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.warn(marker, format, arg1, arg2);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(Marker marker, String format, Object[] argArray) {
-    if (!logger.isWarnEnabled())
-      return;
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.WARN_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.warn(marker, format, argArray);
-    }
-  }
-
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void warn(Marker marker, String msg, Throwable t) {
-    if (!logger.isWarnEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.WARN_INT, msg, null, t);
-    } else {
-      logger.warn(marker, msg, t);
-    }
   }
 
   /**
@@ -737,164 +112,584 @@ public class LoggerWrapper implements Logger {
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
-  public void error(String msg) {
-    if (!logger.isErrorEnabled())
-      return;
+  public String getName() {
+    return logger.getName();
+  }
 
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.ERROR_INT, msg, null, null);
-    } else {
-      logger.error(msg);
-    }
+  //////////////////////////////////////
+  // TRACE
+  //////////////////////////////////////
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(String format) {
+    maybeLog(Level.TRACE, null, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(String format, Throwable t) {
+    maybeLog(Level.TRACE, null, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(String format, Object arg) {
+    maybeLog(Level.TRACE, null, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(String format, Object arg1, Object arg2) {
+    maybeLog(Level.TRACE, null, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(String format, Object[] objects) {
+    maybeLog(Level.TRACE, null, format, objects);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(Marker marker, String format) {
+    maybeLog(Level.TRACE, marker, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(Marker marker, String format, Throwable t) {
+    maybeLog(Level.TRACE, marker, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(Marker marker, String format, Object arg) {
+    maybeLog(Level.TRACE, marker, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(Marker marker, String format, Object arg1,
+      Object arg2) {
+    maybeLog(Level.TRACE, marker, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void trace(Marker marker, String format, Object[] objects) {
+    maybeLog(Level.TRACE, marker, format, objects);
+  }
+
+  //////////////////////////////////////
+  // DEBUG
+  //////////////////////////////////////
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(String format) {
+    maybeLog(Level.DEBUG, null, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(String format, Throwable t) {
+    maybeLog(Level.DEBUG, null, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(String format, Object arg) {
+    maybeLog(Level.DEBUG, null, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(String format, Object arg1, Object arg2) {
+    maybeLog(Level.DEBUG, null, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(String format, Object[] objects) {
+    maybeLog(Level.DEBUG, null, format, objects);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(Marker marker, String format) {
+    maybeLog(Level.DEBUG, marker, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(Marker marker, String format, Throwable t) {
+    maybeLog(Level.DEBUG, marker, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(Marker marker, String format, Object arg) {
+    maybeLog(Level.DEBUG, marker, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(Marker marker, String format, Object arg1,
+      Object arg2) {
+    maybeLog(Level.DEBUG, marker, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void debug(Marker marker, String format, Object[] objects) {
+    maybeLog(Level.DEBUG, marker, format, objects);
+  }
+
+  //////////////////////////////////////
+  // INFO
+  //////////////////////////////////////
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(String format) {
+    maybeLog(Level.INFO, null, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(String format, Throwable t) {
+    maybeLog(Level.INFO, null, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(String format, Object arg) {
+    maybeLog(Level.INFO, null, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(String format, Object arg1, Object arg2) {
+    maybeLog(Level.INFO, null, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(String format, Object[] objects) {
+    maybeLog(Level.INFO, null, format, objects);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(Marker marker, String format) {
+    maybeLog(Level.INFO, marker, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(Marker marker, String format, Throwable t) {
+    maybeLog(Level.INFO, marker, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(Marker marker, String format, Object arg) {
+    maybeLog(Level.INFO, marker, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(Marker marker, String format, Object arg1,
+      Object arg2) {
+    maybeLog(Level.INFO, marker, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void info(Marker marker, String format, Object[] objects) {
+    maybeLog(Level.INFO, marker, format, objects);
+  }
+
+  //////////////////////////////////////
+  // WARN
+  //////////////////////////////////////
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(String format) {
+    maybeLog(Level.WARN, null, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(String format, Throwable t) {
+    maybeLog(Level.WARN, null, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(String format, Object arg) {
+    maybeLog(Level.WARN, null, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(String format, Object arg1, Object arg2) {
+    maybeLog(Level.WARN, null, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(String format, Object[] objects) {
+    maybeLog(Level.WARN, null, format, objects);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(Marker marker, String format) {
+    maybeLog(Level.WARN, marker, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(Marker marker, String format, Throwable t) {
+    maybeLog(Level.WARN, marker, format, t);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(Marker marker, String format, Object arg) {
+    maybeLog(Level.WARN, marker, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(Marker marker, String format, Object arg1,
+      Object arg2) {
+    maybeLog(Level.WARN, marker, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void warn(Marker marker, String format, Object[] objects) {
+    maybeLog(Level.WARN, marker, format, objects);
+  }
+
+  //////////////////////////////////////
+  // ERROR
+  //////////////////////////////////////
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void error(String format) {
+    maybeLog(Level.ERROR, null, format);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void error(String format, Throwable t) {
+    maybeLog(Level.ERROR, null, format, t);
   }
 
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(String format, Object arg) {
-    if (!logger.isErrorEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.ERROR_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.error(format, arg);
-    }
+    maybeLog(Level.ERROR, null, format, arg);
   }
 
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(String format, Object arg1, Object arg2) {
-    if (!logger.isErrorEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.ERROR_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.error(format, arg1, arg2);
-    }
+    maybeLog(Level.ERROR, null, format, arg1, arg2);
   }
 
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
-  public void error(String format, Object[] argArray) {
-    if (!logger.isErrorEnabled())
-      return;
-
-    if (instanceofLAL) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.ERROR_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
-    } else {
-      logger.error(format, argArray);
-    }
+  public void error(String format, Object[] objects) {
+    maybeLog(Level.ERROR, null, format, objects);
   }
 
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
-  public void error(String msg, Throwable t) {
-    if (!logger.isErrorEnabled())
-      return;
-
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(null, fqcn,
-          LocationAwareLogger.ERROR_INT, msg, null, t);
-    } else {
-      logger.error(msg, t);
-    }
+  public void error(Marker marker, String format) {
+    maybeLog(Level.ERROR, marker, format);
   }
 
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
-  public void error(Marker marker, String msg) {
-    if (!logger.isErrorEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.ERROR_INT, msg, null, null);
-    } else {
-      logger.error(marker, msg);
-    }
+  public void error(Marker marker, String format, Throwable t) {
+    maybeLog(Level.ERROR, marker, format, t);
   }
 
   /**
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(Marker marker, String format, Object arg) {
-    if (!logger.isErrorEnabled())
-      return;
+    maybeLog(Level.ERROR, marker, format, arg);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void error(Marker marker, String format, Object arg1,
+      Object arg2) {
+    maybeLog(Level.ERROR, marker, format, arg1, arg2);
+  }
+
+  /**
+   * Delegate to the appropriate method of the underlying logger.
+   */
+  public void error(Marker marker, String format, Object[] objects) {
+    maybeLog(Level.ERROR, marker, format, objects);
+  }
+
+  //////////////////////////////////////
+  // Private Utility Methods
+  //////////////////////////////////////
+
+  private boolean isEnabled(Level level) {
+    switch (level) {
+      case TRACE :
+        return isTraceEnabled();
+      case DEBUG :
+        return isDebugEnabled();
+      case INFO :
+        return isInfoEnabled();
+      case WARN :
+        return isWarnEnabled();
+      case ERROR :
+        return isErrorEnabled();
+    }
+    return false;
+  }
+
+  private void maybeLog(Level level, Marker marker, String format) {
+    if (isEnabled(level)) {
+      log(level, marker, format);
+    }
+  }
+
+  private void maybeLog(Level level, Marker marker, String format,
+      Throwable t) {
+    if (isEnabled(level)) {
+      log(level, marker, format, t);
+    }
+  }
+
+  private void maybeLog(Level level, Marker marker, String format,
+      Object arg) {
+    if (isEnabled(level)) {
+      log(level, marker, format, arg);
+    }
+  }
+
+  private void maybeLog(Level level, Marker marker, String format, Object arg1,
+      Object arg2) {
+    if (isEnabled(level)) {
+      log(level, marker, format, arg1, arg2);
+    }
+  }
+
+  private void maybeLog(Level level, Marker marker, String format,
+      Object[] argArray) {
+    if (isEnabled(level)) {
+      log(level, marker, format, argArray);
+    }
+  }
+
+  private void log(Level level, Marker marker, String format) {
+    if (instanceofLAL) {
+      ((LocationAwareLogger) logger).log(marker, fqcn, level.getIntId(),
+          format, null, null);
+    } else {
+      switch (level) {
+        case TRACE :
+          logger.trace(marker, format);
+          break;
+        case DEBUG :
+          logger.debug(marker, format);
+          break;
+        case INFO :
+          logger.info(marker, format);
+          break;
+        case WARN :
+          logger.warn(marker, format);
+          break;
+        case ERROR :
+          logger.error(marker, format);
+          break;
+      }
+    }
+  }
+
+  private void log(Level level, Marker marker, String format, Throwable t) {
+    if (instanceofLAL) {
+      ((LocationAwareLogger) logger).log(marker, fqcn, level.getIntId(),
+          format, null, t);
+    } else {
+      switch (level) {
+        case TRACE :
+          logger.trace(marker, format, t);
+          break;
+        case DEBUG :
+          logger.debug(marker, format, t);
+          break;
+        case INFO :
+          logger.info(marker, format, t);
+          break;
+        case WARN :
+          logger.warn(marker, format, t);
+          break;
+        case ERROR :
+          logger.error(marker, format, t);
+          break;
+      }
+    }
+  }
+
+  private void log(Level level, Marker marker, String format, Object arg) {
     if (instanceofLAL) {
       FormattingTuple ft = MessageFormatter.format(format, arg);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.ERROR_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
+      ((LocationAwareLogger) logger).log(marker, fqcn, level.getIntId(),
+          ft.getMessage(), ft.getArgArray(), ft.getThrowable());
     } else {
-      logger.error(marker, format, arg);
+      switch (level) {
+        case TRACE :
+          logger.trace(marker, format, arg);
+          break;
+        case DEBUG :
+          logger.debug(marker, format, arg);
+          break;
+        case INFO :
+          logger.info(marker, format, arg);
+          break;
+        case WARN :
+          logger.warn(marker, format, arg);
+          break;
+        case ERROR :
+          logger.error(marker, format, arg);
+          break;
+      }
     }
   }
 
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void error(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isErrorEnabled())
-      return;
+  private void log(Level level, Marker marker, String format, Object arg1,
+      Object arg2) {
     if (instanceofLAL) {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.ERROR_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
+      ((LocationAwareLogger) logger).log(marker, fqcn, level.getIntId(),
+          ft.getMessage(), ft.getArgArray(), ft.getThrowable());
     } else {
-      logger.error(marker, format, arg1, arg2);
+      switch (level) {
+        case TRACE :
+          logger.trace(marker, format, arg1, arg2);
+          break;
+        case DEBUG :
+          logger.debug(marker, format, arg1, arg2);
+          break;
+        case INFO :
+          logger.info(marker, format, arg1, arg2);
+          break;
+        case WARN :
+          logger.warn(marker, format, arg1, arg2);
+          break;
+        case ERROR :
+          logger.error(marker, format, arg1, arg2);
+          break;
+      }
     }
   }
 
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void error(Marker marker, String format, Object[] argArray) {
-    if (!logger.isErrorEnabled())
-      return;
+  private void log(Level level, Marker marker, String format,
+      Object[] argArray) {
     if (instanceofLAL) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.ERROR_INT, ft.getMessage(), ft.getArgArray(), ft
-              .getThrowable());
+      ((LocationAwareLogger) logger).log(marker, fqcn, level.getIntId(),
+          ft.getMessage(), argArray, ft.getThrowable());
     } else {
-      logger.error(marker, format, argArray);
+      switch (level) {
+        case TRACE :
+          logger.trace(marker, format, argArray);
+          break;
+        case DEBUG :
+          logger.debug(marker, format, argArray);
+          break;
+        case INFO :
+          logger.info(marker, format, argArray);
+          break;
+        case WARN :
+          logger.warn(marker, format, argArray);
+          break;
+        case ERROR :
+          logger.error(marker, format, argArray);
+          break;
+      }
     }
   }
 
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public void error(Marker marker, String msg, Throwable t) {
-    if (!logger.isErrorEnabled())
-      return;
-    if (instanceofLAL) {
-      ((LocationAwareLogger) logger).log(marker, fqcn,
-          LocationAwareLogger.ERROR_INT, msg, null, t);
-    } else {
-      logger.error(marker, msg, t);
-    }
-  }
+  private enum Level {
+    TRACE(LocationAwareLogger.TRACE_INT),
+    DEBUG(LocationAwareLogger.DEBUG_INT),
+    INFO(LocationAwareLogger.INFO_INT),
+    WARN(LocationAwareLogger.WARN_INT),
+    ERROR(LocationAwareLogger.ERROR_INT);
 
-  /**
-   * Delegate to the appropriate method of the underlying logger.
-   */
-  public String getName() {
-    return logger.getName();
+    private int intId;
+
+    private Level(int intId) {
+      this.intId = intId;
+    }
+
+    public int getIntId() {
+      return intId;
+    }
   }
 }
