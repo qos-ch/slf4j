@@ -34,7 +34,7 @@ public class EventLogger {
   public static void logEvent(EventData data) {
     if (eventLogger.instanceofLAL) {
       ((LocationAwareLogger) eventLogger.logger).log(EVENT_MARKER, FQCN,
-          LocationAwareLogger.INFO_INT, data.toXML(), null, null);
+          LocationAwareLogger.INFO_INT, data.toXML(), new Object[] {data}, null);
     } else {
       eventLogger.logger.info(EVENT_MARKER, data.toXML(), data);
     }
