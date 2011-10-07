@@ -378,13 +378,18 @@
     loggers.
     </p>
 
-    <p>The only way to obtain output from the listed loggers, is to
-    isolate the components invoking these loggers and to exclude them
-    from the default configuration. Both logback and log4j allow
-    multi-step configuration. It follows that the problematic
-    components should be configured in a second step separate from
-    default configuration.
+    <p>To obtain output from the listed loggers, isolate the
+    components invoking these loggers and to exclude them from the
+    default configuration. Once default configuration is finished,
+    those excluded components can be configured in a second-step
+    configuration. In principle, both logback and log4j allow
+    multi-step configuration. For logback, second-step configuration
+    is described in the <a
+    href="http://logback.qos.ch/manual/configuration.html#joranDirectly">
+    relevant section.</a>.
     </p>
+
+
 
     <p>If you are not interested in the output from any of the
     substitute loggers, then no action is required on your part.</p>
