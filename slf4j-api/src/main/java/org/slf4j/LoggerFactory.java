@@ -167,7 +167,7 @@ public final class LoggerFactory {
       return;
     }
     Util
-        .report("The following loggers will not work becasue they were created");
+        .report("The following loggers will not work because they were created");
     Util
         .report("during the default configuration phase of the underlying logging system.");
     Util.report("See also " + SUBSTITUTE_LOGGER_URL);
