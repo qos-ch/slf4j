@@ -16,10 +16,13 @@
 
 package org.apache.log4j;
 
+import org.apache.log4j.helpers.NullEnumeration;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.slf4j.spi.LocationAwareLogger;
+
+import java.util.Enumeration;
 
 /**
  * <p>
@@ -64,6 +67,7 @@ public class Category {
     return Log4jLoggerFactory.getLogger(name);
   }
 
+
   /**
    * Returns the obvious.
    *
@@ -71,6 +75,10 @@ public class Category {
    */
   public String getName() {
     return name;
+  }
+
+  public Enumeration getAllAppenders() {
+    return NullEnumeration.getInstance();
   }
 
   /**
