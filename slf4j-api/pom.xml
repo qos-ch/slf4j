@@ -85,17 +85,5 @@
     </plugins>
 
   </build>
-  
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <configuration>
-          <comparisonVersion>1.5.6</comparisonVersion>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 
 </project>

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-parent</artifactId>
-	<version>1.6.3</version>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-parent</artifactId>
+  <version>1.6.3</version>
 
-	<packaging>pom</packaging>
-	<name>SLF4J</name>
+  <packaging>pom</packaging>
+  <name>SLF4J</name>
 
-	<url>http://www.slf4j.org</url>
+  <url>http://www.slf4j.org</url>
 
-	<organization>
-		<name>QOS.ch</name>
-		<url>http://www.qos.ch</url>
-	</organization>
-	<inceptionYear>2005</inceptionYear>
+  <organization>
+    <name>QOS.ch</name>
+    <url>http://www.qos.ch</url>
+  </organization>
+  <inceptionYear>2005</inceptionYear>
 
   <licenses>
     <license>
@@ -27,21 +29,22 @@
   </licenses>
 
   <properties>
-    <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
+    <slf4j.api.minimum.compatible.version>1.6.0
+    </slf4j.api.minimum.compatible.version>
     <cal10n.version>0.7.4</cal10n.version>
     <log4j.version>1.2.16</log4j.version>
   </properties>
 
 
-	<modules>
-		<module>slf4j-api</module>
+  <modules>
+    <module>slf4j-api</module>
     <!--<module>slf4j-scala-api</module>-->
-    <module>slf4j-simple</module>  
+    <module>slf4j-simple</module>
     <module>slf4j-nop</module>
-		<module>slf4j-jdk14</module>
+    <module>slf4j-jdk14</module>
     <module>slf4j-log4j12</module>
     <module>slf4j-jcl</module>
-    <module>slf4j-ext</module>  
+    <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
     <module>log4j-over-slf4j</module>
     <module>jul-to-slf4j</module>
@@ -50,17 +53,17 @@
     <module>slf4j-migrator</module>
   </modules>
 
-	<dependencies>
+  <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
-		</dependency>
-	</dependencies>
+    </dependency>
+  </dependencies>
 
- 
- <dependencyManagement>
+
+  <dependencyManagement>
     <dependencies>
 
       <dependency>
@@ -81,17 +84,17 @@
         <version>${log4j.version}</version>
       </dependency>
 
-    <dependency>
-      <groupId>ch.qos.cal10n</groupId>
-      <artifactId>cal10n-api</artifactId>
-      <version>${cal10n.version}</version>
-    </dependency>		
+      <dependency>
+        <groupId>ch.qos.cal10n</groupId>
+        <artifactId>cal10n-api</artifactId>
+        <version>${cal10n.version}</version>
+      </dependency>
 
-   </dependencies>
- </dependencyManagement>
+    </dependencies>
+  </dependencyManagement>
 
 
-	<build>
+  <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -99,37 +102,47 @@
       </resource>
     </resources>
 
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.3</source>
-					<target>1.3</target>
-				</configuration>
-			</plugin>
- 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>once</forkMode>
-					<reportFormat>plain</reportFormat>
-					<trimStackTrace>false</trimStackTrace>
-					<excludes>
-						<exclude>**/AllTest.java</exclude>
-						<exclude>**/PackageTest.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>		
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.3</source>
+          <target>1.3</target>
+        </configuration>
+      </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>        
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+      </plugin>
+
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.10</version>
+        <configuration>
+          <forkMode>once</forkMode>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+          <excludes>
+            <exclude>**/AllTest.java</exclude>
+            <exclude>**/PackageTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
         <executions>
           <execution>
             <phase>package</phase>
-            <goals>              
+            <goals>
               <goal>jar</goal>
             </goals>
           </execution>
@@ -139,14 +152,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8</version>
         <configuration>
-        	<aggregate>true</aggregate>
-          <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
-					<links>
-						<link>
-							http://java.sun.com/j2se/1.5.0/docs/api
-						</link>
-					</links>
+          <aggregate>true</aggregate>
+          <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*
+          </excludePackageNames>
+          <links>
+            <link>
+              http://java.sun.com/j2se/1.5.0/docs/api
+            </link>
+          </links>
           <groups>
             <group>
               <title>SLF4J packages</title>
@@ -155,7 +170,9 @@
 
             <group>
               <title>SLF4J extensions</title>
-              <packages>org.slf4j.profiler:org.slf4j.ext:org.slf4j.instrumentation:org.slf4j.agent</packages>
+              <packages>
+                org.slf4j.profiler:org.slf4j.ext:org.slf4j.instrumentation:org.slf4j.agent
+              </packages>
             </group>
 
             <group>
@@ -177,11 +194,25 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/source.xml</descriptor>
+          </descriptors>
+          <finalName>slf4j-${project.version}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+          <outputDirectory>target/site/dist/</outputDirectory>
+        </configuration>
+      </plugin>
 
       <!-- as suggested in http://bugzilla.slf4j.org/show_bug.cgi?id=152 -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
         <executions>
           <execution>
             <id>parse-version</id>
@@ -191,23 +222,24 @@
           </execution>
         </executions>
       </plugin>
+
     </plugins>
 
-	</build>
+  </build>
 
   <profiles>
     <profile>
-      <id>skipTests</id>     
+      <id>skipTests</id>
       <properties>
         <maven.test.skip>true</maven.test.skip>
       </properties>
     </profile>
-     <profile>
+    <profile>
       <id>osgi</id>
       <modules>
-         <module>osgi-over-slf4j</module>
-         <module>slf4j-osgi-test-bundle</module>
-         <module>slf4j-osgi-integration-test</module>
+        <module>osgi-over-slf4j</module>
+        <module>slf4j-osgi-test-bundle</module>
+        <module>slf4j-osgi-integration-test</module>
       </modules>
 
       <repositories>
@@ -242,7 +274,7 @@
             <enabled>false</enabled>
           </releases>
           <snapshots>
-            <enabled>true</enabled> 
+            <enabled>true</enabled>
           </snapshots>
         </pluginRepository>
       </pluginRepositories>
@@ -324,44 +356,35 @@
         <enabled>false</enabled>
       </releases>
       <snapshots>
-        <enabled>true</enabled> 
-     </snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
-  
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<reportSets>
-					<reportSet><reports/></reportSet>
-				</reportSets>
-			</plugin>	    
-      
+  <reporting>
+    <plugins>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <descriptors>
-            <descriptor>
-              src/main/assembly/source.xml
-            </descriptor>
-          </descriptors>
-					<finalName>slf4j-${project.version}</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
-					<outputDirectory>target/site/dist/</outputDirectory>
-				</configuration>
-			</plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.0.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.4</version>
+
+        <reportSets>
+          <reportSet>
+            <reports/>
+          </reportSet>
+        </reportSets>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
         <configuration>
           <aggregate>true</aggregate>
           <javadocDir>target/site/apidocs/</javadocDir>
@@ -372,26 +395,27 @@
 
     </plugins>
 
-	</reporting>
-	
-	  
+  </reporting>
+
+
   <scm>
-		<connection>scm:svn:http://svn.slf4j.org/repos/slf4j/trunk</connection>
-		<developerConnection>scm:svn:https://svn.slf4j.org/repos/slf4j/trunk</developerConnection>
-		<url>http://svn.slf4j.org/viewvc/slf4j/trunk/</url>
-	</scm>
-	
-	<distributionManagement>
-		<site>
-			<id>pixie</id>
-			<url>scp://pixie.qos.ch/var/www/www.slf4j.org/htdocs/</url>
-		</site>
+    <connection>scm:svn:http://svn.slf4j.org/repos/slf4j/trunk</connection>
+    <developerConnection>scm:svn:https://svn.slf4j.org/repos/slf4j/trunk
+    </developerConnection>
+    <url>http://svn.slf4j.org/viewvc/slf4j/trunk/</url>
+  </scm>
+
+  <distributionManagement>
+    <site>
+      <id>pixie</id>
+      <url>scp://pixie.qos.ch/var/www/www.slf4j.org/htdocs/</url>
+    </site>
 
     <repository>
       <id>pixie</id>
       <url>scp://pixie.qos.ch/var/mvnrepo/</url>
     </repository>
 
-	</distributionManagement>
-  
+  </distributionManagement>
+
 </project>

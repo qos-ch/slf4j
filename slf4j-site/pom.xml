@@ -12,7 +12,6 @@
 
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-site</artifactId>
-	<version>${parent.version}</version>
 	<packaging>jar</packaging>
 	<name>SLF4J Site</name>
 
