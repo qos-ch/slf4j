@@ -117,6 +117,7 @@
       <includes>
         <include>pom.xml</include>
         <include>build.xml</include>
+        <include>osgi-build.xml</include>
         <include>lib/*</include>
       </includes>
     </fileSet>
