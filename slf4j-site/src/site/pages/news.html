@@ -29,6 +29,19 @@
 
    <hr noshade="noshade" size="1"/>
 
+   <h3>October 31st, 2011 - Release of SLF4J 1.6.4</h3>
+
+   <p>Fixed in thread-safety issues in <code>BasicMDCAdapter</code>
+   fixing <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=203">bug
+   #203</a> and <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=224">bug
+   #224</a>. Note that <code>BasicMDCAdapter</code> is only used with
+   the slf4j-jdk14.jar binding.
+   </p>
+
+   <p><code>BasicMDCAdapter</code> invoked a method introduced in JDK
+   1.5 preventing it from running under JDK 1.4. Interestingly enough,
+   this issue has never been reported by the user community.</p>
 
    <h3>October 17th, 2011 - Release of SLF4J 1.6.3</h3>
 

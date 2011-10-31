@@ -216,8 +216,7 @@
         <executions>
           <execution>
             <id>parse-version</id>
-            <goals>
-              <goal>parse-version</goal>
+            <goals>                                                                                    <goal>parse-version</goal>
             </goals>
           </execution>
         </executions>

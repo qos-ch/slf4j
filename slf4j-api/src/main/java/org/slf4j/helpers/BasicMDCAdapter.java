@@ -26,18 +26,16 @@ package org.slf4j.helpers;
 
 import org.slf4j.spi.MDCAdapter;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Basic MDC implementation, which can be used with logging systems that lack
  * out-of-the-box MDC support.
  * 
- * This code is largely based on logback's <a
- * href="http://svn.qos.ch/viewvc/logback/trunk/logback-classic/src/main/java/org/slf4j/impl/LogbackMDCAdapter.java">
- * LogbackMDCAdapter</a>.
- * 
+ * This code was initially inspired by  logback's LogbackMDCAdapter. However,
+ * LogbackMDCAdapter has evolved and is now considerably more sophisticated.
+ *
  * @author Ceki Gulcu
  * @author Maarten Bosteels
  * 
@@ -46,6 +44,19 @@ import java.util.Set;
 public class BasicMDCAdapter implements MDCAdapter {
 
   private InheritableThreadLocal inheritableThreadLocal = new InheritableThreadLocal();
+
+  static boolean isJDK14() {
+    try {
+      String javaVersion = System.getProperty("java.version");
+      return javaVersion.startsWith("1.4");
+    } catch(SecurityException se) {
+      // punt and assume JDK 1.5 or later
+      return false;
+    }
+  }
+
+  static boolean IS_JDK14 = isJDK14();
+
 
   /**
    * Put a context value (the <code>val</code> parameter) as identified with
@@ -63,9 +74,9 @@ public class BasicMDCAdapter implements MDCAdapter {
     if (key == null) {
       throw new IllegalArgumentException("key cannot be null");
     }
-    HashMap map = (HashMap) inheritableThreadLocal.get();
+    Map map = (Map) inheritableThreadLocal.get();
     if (map == null) {
-      map = new HashMap();
+      map = Collections.synchronizedMap(new HashMap());
       inheritableThreadLocal.set(map);
     }
     map.put(key, val);
@@ -75,9 +86,9 @@ public class BasicMDCAdapter implements MDCAdapter {
    * Get the context identified by the <code>key</code> parameter.
    */
   public String get(String key) {
-    HashMap hashMap = (HashMap) inheritableThreadLocal.get();
-    if ((hashMap != null) && (key != null)) {
-      return (String) hashMap.get(key);
+    Map Map = (Map) inheritableThreadLocal.get();
+    if ((Map != null) && (key != null)) {
+      return (String) Map.get(key);
     } else {
       return null;
     }
@@ -87,7 +98,7 @@ public class BasicMDCAdapter implements MDCAdapter {
    * Remove the the context identified by the <code>key</code> parameter.
    */
   public void remove(String key) {
-    HashMap map = (HashMap) inheritableThreadLocal.get();
+    Map map = (Map) inheritableThreadLocal.get();
     if (map != null) {
       map.remove(key);
     }
@@ -97,12 +108,16 @@ public class BasicMDCAdapter implements MDCAdapter {
    * Clear all entries in the MDC.
    */
   public void clear() {
-    HashMap hashMap = (HashMap) inheritableThreadLocal.get();
-    if (hashMap != null) {
-      hashMap.clear();
+    Map map = (Map) inheritableThreadLocal.get();
+    if (map != null) {
+      map.clear();
       // the InheritableThreadLocal.remove method was introduced in JDK 1.5
-      // Thus, invoking clear() on previous JDK's will fail
-      inheritableThreadLocal.remove();
+      // Thus, invoking clear() on previous JDK 1.4 will fail
+      if(isJDK14()) {
+        inheritableThreadLocal.set(null);
+      }  else {
+        inheritableThreadLocal.remove();
+      }
     }
   }
 
@@ -113,9 +128,9 @@ public class BasicMDCAdapter implements MDCAdapter {
    * @return the keys in the MDC
    */
   public Set getKeys() {
-    HashMap hashMap = (HashMap) inheritableThreadLocal.get();
-    if (hashMap != null) {
-      return hashMap.keySet();
+    Map map = (Map) inheritableThreadLocal.get();
+    if (map != null) {
+      return map.keySet();
     } else {
       return null;
     }
@@ -126,23 +141,21 @@ public class BasicMDCAdapter implements MDCAdapter {
    * 
    */
   public Map getCopyOfContextMap() {
-    HashMap hashMap = (HashMap) inheritableThreadLocal.get();
-    if (hashMap != null) {
-      return new HashMap(hashMap);
+    Map oldMap = (Map) inheritableThreadLocal.get();
+    if (oldMap != null) {
+       Map newMap = Collections.synchronizedMap(new HashMap());
+       synchronized (oldMap) {
+         newMap.putAll(oldMap);
+       }
+       return  newMap;
     } else {
       return null;
     }
   }
 
   public void setContextMap(Map contextMap) {
-    HashMap hashMap = (HashMap) inheritableThreadLocal.get();
-    if (hashMap != null) {
-      hashMap.clear();
-      hashMap.putAll(contextMap);
-    } else {
-      hashMap = new HashMap(contextMap);
-      inheritableThreadLocal.set(hashMap);
-    }
+    Map map = Collections.synchronizedMap(new HashMap(contextMap));
+    inheritableThreadLocal.set(map);
   }
 
 }

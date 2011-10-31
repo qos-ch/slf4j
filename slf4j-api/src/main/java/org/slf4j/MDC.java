@@ -26,8 +26,8 @@ package org.slf4j;
 
 import java.util.Map;
 
-import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.NOPMDCAdapter;
+import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
@@ -40,9 +40,10 @@ import org.slf4j.spi.MDCAdapter;
  * If the underlying logging system offers MDC functionality, then SLF4J's MDC,
  * i.e. this class, will delegate to the underlying system's MDC. Note that at
  * this time, only two logging systems, namely log4j and logback, offer MDC
- * functionality. If the underlying system does not support MDC, e.g.
- * java.util.logging, then SLF4J will use a {@link BasicMDCAdapter}.
- * 
+ * functionality. For java.util.logging which does not support MDC,
+ * {@link BasicMDCAdapter} will be used. For other systems, i.e slf4j-simple
+ * and slf4j-nop, {@link NOPMDCAdapter} will be used.
+ *
  * <p>
  * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j
  * logback, or java.util.logging, but without forcing these systems as
