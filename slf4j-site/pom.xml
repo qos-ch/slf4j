@@ -1,43 +1,42 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<parent>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-parent</artifactId>
-    <version>1.6.4-SNAPSHOT</version>
-	</parent>
-	
-	<modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.6.4</version>
+  </parent>
 
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-site</artifactId>
-	<packaging>jar</packaging>
-	<name>SLF4J Site</name>
+  <modelVersion>4.0.0</modelVersion>
 
-	<url>http://www.slf4j.org</url>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-site</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J Site</name>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>src/site/pages</directory>
-				<!-- 
-					We're saving filtered html docs in a temporary folder
-					and telling the site plug in to get the docs there.
-				-->
+  <url>http://www.slf4j.org</url>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/site/pages</directory>
+        <!--We're saving filtered html docs in a temporary folder-->
+        <!--and telling the site plug in to get the docs there.-->
         <targetPath>../../../target/site</targetPath>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-      <plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
-				</configuration>
-			</plugin>
-      </plugins>
-	</build>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <outputDirectory>${project.parent.basedir}/target/site
+          </outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
