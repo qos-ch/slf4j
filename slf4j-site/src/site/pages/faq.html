@@ -666,11 +666,15 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       <p><b>alternative 1) explicit exlusion</b></p>
 
       <p>Many software projects using Maven declare commons-logging as
-      a dependency. Thus, if you wish to migrate to SLF4J or use
+      a dependency. Therefore, if you wish to migrate to SLF4J or use
       jcl-over-slf4j, you would need to exclude commons-logging in all
       of your project's dependencies which transitively depend on
-      commons-logging. Excluding commons-logging explicitly can be a
-      cumbersome and an error prone process.
+      commons-logging. <a
+      href="http://maven.apache.org/guides/introduction/introduction-to-optional-and-excludes-dependencies.htm">Dependency
+      exclusion</a> is described in the Maven documentation. Excluding
+      commons-logging explicitly for multiple dependencies distributed
+      on several <em>pom.xml</em> files can be a cumbersome and a
+      relatively error prone process.
       </p>
 
       <p><b>alternative 2) provided scope</b></p>
@@ -713,19 +717,23 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p><b>alternative 3) empty artifacts</b></p>
       
-      <p>An alternative approach is to depend on an empty
+      <p>An alternative approach is to depend on an <b>empty</b>
       <em>commons-logging.jar</em> artifact. This clever <a
       href="http://day-to-day-stuff.blogspot.com/2007/10/announcement-version-99-does-not-exist.html">approach
-      was imagined</a> imagined and initially supported by Erik van
+      first was imagined</a> imagined and initially supported by Erik van
       Oosten.
       </p>
 
       <p>The empty artifact is available from a <a
       href="http://version99.qos.ch">http://version99.qos.ch</a> a
-      highly available Maven repository, replicated by several hosts
-      located in different geographical regions. The following
-      decleration adds the version99 repository to the set of remote
-      repositories searched by Maven.
+      high-availability Maven repository, replicated on several hosts
+      located in different geographical regions.</p>
+
+      <p>The following decleration adds the version99 repository to
+      the set of remote repositories searched by Maven. This
+      repository contains empty artifacts for commons-logging and
+      log4j. By the way, if you use the version99 repository, please
+      drop us a line at &lt;version99 AT qos.ch&gt;.
       </p>
 
       <pre class="prettyprint source">&lt;repositories>
@@ -736,30 +744,38 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
   &lt;/repository>
 &lt;/repositories></pre>
       
-    <p>Once you declare version 99-empty of commons-logging in the
-    <code>&lt;dependencyManagement></code> section of your project,
-    all transtive dependencies for commons-logging will also use
-    version 99-empty, thus nicely addressing the commons-logging
-    exclusion problem.
+    <p>Declaring version 99-empty of commons-logging in the
+    <code>&lt;dependencyManagement></code> section of your project
+    will direct all transtive dependencies for commons-logging to
+    import version 99-empty, thus nicely addressing the
+    commons-logging exclusion problem. The classes for commons-logging
+    will be provided by jcl-over-slf4j. The following lines declare
+    commons-logging version 99-empty (in the dependency management
+    section) and declare jcl-over-slf4j as a dependency.
     </p>
     
 <pre class="prettyprint source">&lt;dependencyManagement>
-  &lt;dependency>
-    &lt;groupId>commons-logging&lt;/groupId>
-    &lt;artifactId>commons-logging&lt;/artifactId>
-    &lt;version><b>99-empty</b>&lt;/version>
-  &lt;/dependency>
-  ... other declarations...
+  &lt;dependencies>
+    &lt;dependency>
+      &lt;groupId>commons-logging&lt;/groupId>
+      &lt;artifactId>commons-logging&lt;/artifactId>
+      &lt;version><b>99-empty</b>&lt;/version>
+    &lt;/dependency>
+    ... other declarations...
+  &lt;/dependencies>
 &lt;/dependencyManagement>
 
-&lt;!-- let's not forget to declare a dependency on jcl-over-slf4j --&gt;
+&lt;!-- Do not forget to declare a dependency on jcl-over-slf4j in the        --&gt;
+&lt;!-- dependencies section. Note that the dependency on commons-logging     --&gt;
+&lt;!-- will be imported transitively. You don't have to declare it yourself. --&gt;
 &lt;dependencies>
   &lt;dependency>
     &lt;groupId>org.slf4j&lt;/groupId>
     &lt;artifactId>jcl-over-slf4j&lt;/artifactId>
     &lt;version>${project.version}&lt;/version>
   &lt;/dependency>
-&lt;dependencies>
+  ... other dependency declarations
+&lt;/dependencies>
 </pre>
 
 
