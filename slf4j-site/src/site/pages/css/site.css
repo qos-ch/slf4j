@@ -42,7 +42,7 @@ a {
 .source { 
   border-top: 1px solid #DDDDDD;
   border-bottom: 1px solid #DDDDDD;
-  background:#eee;
+  background:#f5f5f5;
   font-family: Courier, "MS Courier New", Prestige, Everson Monocourrier, monospace;
   padding-bottom: 0.5ex;
   padding-top: 0.5ex;
@@ -52,11 +52,15 @@ a {
   margin-top: 0.5ex; 
   margin-bottom: 0.5ex; 
   white-space: pre;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 pre { 
  background-color:transparent;
- font-family: Courier, Monaco, Monospace;
+ font-family: Monaco, Andale Mono, Courier New, monospace;
 }
 
 .alignright {
@@ -305,5 +309,25 @@ table.bodyTable tr.alt {
 	background-color: #eee;
 }
 
+.striped tr:nth-child(odd) td {
+  background-color: #f9f9f9;
+}
+.striped td {
+  background-color: #f0f0f0;
+}
+
 /* EOF =============== bodyTable =============== */
+
+.label {
+  padding: 1px 3px 2px;
+  font-size: 9.75px;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background-color: #bfbfbf;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
 

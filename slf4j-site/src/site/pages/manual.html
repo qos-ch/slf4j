@@ -22,13 +22,15 @@
     <h2>SLF4J user manual</h2>
     
     <p>The Simple Logging Facade for Java or (SLF4J) serves as a
-    simple facade or abstraction for various logging frameworks, e.g.
-    java.util.logging, log4j and logback, allowing the end-user to
-    plug in the desired logging framework at <em>deployment</em> time.
-    Note that SLF4J-enabling your library/application implies the
-    addition of only a single mandatory dependency, namely
-    <em>slf4j-api-${project.version}.jar</em>.  If no binding is found
-    on the class path, then SLF4J will default to a no-operation
+    simple facade or abstraction for various logging frameworks, such
+    as java.util.logging, log4j and logback. SLF4J allows the end-user
+    to plug in the desired logging framework at <em>deployment</em>
+    time.  Note that SLF4J-enabling your library/application implies
+    the addition of only a single mandatory dependency, namely
+    <em>slf4j-api-${project.version}.jar</em>.</p>
+
+    <p><span class="label">New</span> If no binding is found on the
+    class path, then SLF4J will default to a no-operation
     implementation.
     </p>
       
@@ -193,13 +195,9 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       the general idea.
       </p>
 
-      <p>&nbsp;</p>
-
       <p><a href="images/concrete-bindings.png">
-      <img border="1" src="images/concrete-bindings.png" alt="click to enlarge" width="500"/>
+      <img border="1" src="images/concrete-bindings.png" alt="click to enlarge" width="800"/>
       </a></p>
-
-      <p>&nbsp;</p>
 
       <p>The SLF4J interfaces and their various adapters are extremely
       simple. Most developers familiar with the Java language should
@@ -294,13 +292,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       summary</a>
       </h3>
       
-      <table  class="bodyTable" cellspacing="4" cellpadding="4">
+      <table  class="bodyTable striped" cellspacing="4" cellpadding="4">
         <tr>
           <th align="left">Advantage</th>
           <th align="left">Description</th>
         </tr>
         
-        <tr  class="a">
+        <tr>
 
           <td>Select your logging framework at deployment time</td>
 
@@ -311,7 +309,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         </tr>
 
 
-        <tr class="alt">
+        <tr>
           <td>Fail-fast operation</td>
 
           <td>Due to the way that classes are loaded by the JVM, the
@@ -322,7 +320,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         </tr>
 
        
-        <tr class="a">
+        <tr>
           <td>Bindings for popular logging frameworks
           </td>
           
@@ -333,7 +331,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
           
         </tr>
         
-        <tr class="alt">
+        <tr>
           <td>Bridging legacy logging APIs</td>
           
           <td>
@@ -350,7 +348,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
           </td>
         </tr>
         
-        <tr class="a">
+        <tr>
           <td>Migrate your source code</td>
           <td>The <a href="migrator.html">slf4j-migrator</a> utility
           can help you migrate your source to use SLF4J.
@@ -359,7 +357,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         
         
         
-        <tr class="alt">
+        <tr>
           <td>Support for parameterized log messages</td>
           
           <td>All SLF4J bindings support parameterized log messages
