@@ -139,10 +139,13 @@ strong {
 }
 
 .menuGroup {
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
+  border: 1px solid #cccccc;  
+  background-color: #fff8e8;
   color: #564b47;
   border: 1px solid #cccccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .menuGroup a {
@@ -150,7 +153,7 @@ strong {
   width: 95.5%; 
   margin: 0px; 
   padding: 2px; 
-  border: solid 1px #FFFFFF; 
+  border: solid 1px #fff8e8; 
   color: #0066cc; 
   text-decoration: none;
 }
@@ -159,6 +162,9 @@ strong {
   border: solid 1px #FFFFFF; 
   background-color: #3333CC; 
   color: #ffffff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
 .pub {
@@ -330,4 +336,6 @@ table.bodyTable tr.alt {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
-
+.label.notice {
+  background-color: #62cffc;
+}

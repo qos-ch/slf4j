@@ -103,7 +103,7 @@
     problem.
     </p>
 
-    <p>As of SLF4J version 1.6, in the absence of a binding, SLF4J
+    <p><span class="label">since 1.6.0</span> As of SLF4J version 1.6, in the absence of a binding, SLF4J
     will default to a no-operation (NOP) logger implementation.
     </p>
 
@@ -160,9 +160,9 @@
     to use the nop (no-operation) binding, then remove
     <em>slf4j-simple-${version}.jar</em> from the class path.</p>
 
-    <p>Note that the warning emitted by SLF4J is just that, a
-    warning. SLF4J will still bind with the first framework it finds
-    on the class path.
+    <p><span class="label notice">Note</span> The warning emitted by
+    SLF4J is just that, a warning. SLF4J will still bind with the
+    first framework it finds on the class path.
     </p>
 
     <!-- ====================================================== -->
@@ -181,11 +181,11 @@
     slf4j-simple-${project.version}.jar, using slf4j-simple-1.5.5.jar
     will not work.</p>
 
-    <p>It should be noted that from the client's perspective all
-    versions of slf4j-api are compatible. Client code compiled with
-    <em>slf4j-api-N.jar</em> will run perfectly fine with
-    <em>slf4j-api-M.jar</em> for any N and M. You only need to ensure
-    that the version of your binding matches that of the
+    <p><span class="label notice">Note</span> From the client's
+    perspective all versions of slf4j-api are compatible. Client code
+    compiled with <em>slf4j-api-N.jar</em> will run perfectly fine
+    with <em>slf4j-api-M.jar</em> for any N and M. You only need to
+    ensure that the version of your binding matches that of the
     slf4j-api.jar. You do not have to worry about the version of
     slf4j-api.jar used by a given dependendency in your project. You
     can always use any version of <em>slf4j-api.jar</em>, and as long
@@ -250,10 +250,10 @@
   at org.apache.log4j.LogManager.getLogger(LogManager.java:39)
   subsequent lines omitted...</pre>
 
-    <p>As of SLF4J version 1.5.11, the code preempts the inevitable
-    stack overflow error by throwing an exception with details about
-    the actual cause of the problem. This is deemed to be better than
-    leaving the user wondering about the reasons of the
+    <p><span class="label">Since 1.5.11</span> SLF4J software preempts
+    the inevitable stack overflow error by throwing an exception with
+    details about the actual cause of the problem. This is deemed to
+    be better than leaving the user wondering about the reasons of the
     <code>StackOverflowError</code>.
     </p>
 
@@ -295,10 +295,10 @@
   subsequent lines omitted...</pre>
 
 
-    <p>As of SLF4J version 1.5.11, the code preempts the inevitable
-    stack overflow error by throwing an exception with details about
-    the actual cause of the problem.  This is deemed to be better than
-    leaving the user wondering about the reasons of the
+    <p><span class="label">Since 1.5.11</span> SLF4J software preempts
+    the inevitable stack overflow error by throwing an exception with
+    details about the actual cause of the problem.  This is deemed to
+    be better than leaving the user wondering about the reasons of the
     <code>StackOverflowError</code>.
     </p>
 
