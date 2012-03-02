@@ -40,13 +40,13 @@ import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * Bridge/route all JUL log records to the SLF4J API.
- * 
+ *
  * <p>
  * Essentially, the idea is to install on the root logger an instance of
  * SLF4JBridgeHandler as the sole JUL handler in the system. Subsequently, the
  * SLF4JBridgeHandler instance will redirect all JUL log records are redirected
  * to the SLF4J API based on the following mapping of levels:
- * 
+ *
  * <pre>
  * FINEST  -&gt; TRACE
  * FINER   -&gt; DEBUG
@@ -55,19 +55,19 @@ import org.slf4j.spi.LocationAwareLogger;
  * WARNING -&gt; WARN
  * SEVER   -&gt; ERROR
  * </pre>
- * 
+ *
  * Usage:
- * 
+ *
  * <pre>
  * // call only once during initialization time of your application
  * SLF4JBridgeHandler.install();
- * 
+ *
  * // usual pattern: get a Logger and then log a message
  * java.util.logging.Logger julLogger = java.util.logging.Logger
  *     .getLogger(&quot;org.wombat&quot;);
  * julLogger.fine(&quot;hello world&quot;); // this will get redirected to SLF4J
  * </pre>
- * 
+ *
  * <p>
  * Please note that translating a java.util.logging event into SLF4J incurs the
  * cost of constructing {@link LogRecord} instance regardless of whether the
@@ -76,16 +76,16 @@ import org.slf4j.spi.LocationAwareLogger;
  * statements (60 fold increase) and a measurable impact on enabled log
  * statements (20% overall increase). </b>
  * </p>
- * 
+ *
  * <p>
  * If application performance is a concern, then use of SLF4JBridgeHandler is
  * appropriate only if few j.u.l. logging statements are in play.
- * 
+ *
  * @author Christian Stein
  * @author Joern Huxhorn
  * @author Ceki G&uuml;lc&uuml;
  * @author Darryl Smith
- * 
+ *
  * @since 1.5.1
  */
 public class SLF4JBridgeHandler extends Handler {
@@ -101,7 +101,7 @@ public class SLF4JBridgeHandler extends Handler {
 
   /**
    * Adds a SLF4JBridgeHandler instance to jul's root logger.
-   * 
+   *
    * <p>
    * This handler will redirect jul logging to SLF4J. However, only logs enabled
    * in j.u.l. will be redirected. For example, if a log statement invoking a
@@ -109,22 +109,21 @@ public class SLF4JBridgeHandler extends Handler {
    * reach any SLF4JBridgeHandler instance and cannot be redirected.
    */
   public static void install() {
-    LogManager.getLogManager().getLogger("").addHandler(
-        new SLF4JBridgeHandler());
+    getRootLogger().addHandler(
+            new SLF4JBridgeHandler());
   }
 
   /**
    * Removes previously installed SLF4JBridgeHandler instances. See also
    * {@link #install()}.
-   * 
+   *
    * @throws SecurityException
    *           A <code>SecurityException</code> is thrown, if a security manager
    *           exists and if the caller does not have
    *           LoggingPermission("control").
    */
   public static void uninstall() throws SecurityException {
-    java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger(
-        "");
+    java.util.logging.Logger rootLogger = getRootLogger();
     Handler[] handlers = rootLogger.getHandlers();
     for (int i = 0; i < handlers.length; i++) {
       if (handlers[i] instanceof SLF4JBridgeHandler) {
@@ -133,14 +132,13 @@ public class SLF4JBridgeHandler extends Handler {
     }
   }
 
-    /**
+  /**
      * Returns true if SLF4JBridgeHandler has been previously installed, returns false otherwise.
      * @return
      * @throws SecurityException
      */
     public static boolean isInstalled() throws SecurityException {
-        java.util.logging.Logger rootLogger = LogManager.getLogManager().getLogger(
-            "");
+        java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
           if (handlers[i] instanceof SLF4JBridgeHandler) {
@@ -150,10 +148,13 @@ public class SLF4JBridgeHandler extends Handler {
         return false;
       }
 
+  private static java.util.logging.Logger getRootLogger() {
+    return LogManager.getLogManager().getLogger("");
+  }
 
   /**
    * Initialize this handler.
-   * 
+   *
    */
   public SLF4JBridgeHandler() {
   }
@@ -221,7 +222,7 @@ public class SLF4JBridgeHandler extends Handler {
 
   /**
    * Get the record's message, possibly via a resource bundle.
-   * 
+   *
    * @param record
    * @return
    */
@@ -254,7 +255,7 @@ public class SLF4JBridgeHandler extends Handler {
    * <p>
    * This handler ignores the Level attached to the LogRecord, as SLF4J cares
    * about discarding log statements.
-   * 
+   *
    * @param record
    *          Description of the log event. A null record is silently ignored
    *          and is not published.
