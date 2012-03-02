@@ -109,8 +109,10 @@ public class SLF4JBridgeHandler extends Handler {
    * reach any SLF4JBridgeHandler instance and cannot be redirected.
    */
   public static void install() {
-    getRootLogger().addHandler(
-            new SLF4JBridgeHandler());
+    if (!isInstalled()) {
+      getRootLogger().addHandler(
+              new SLF4JBridgeHandler());
+    }
   }
 
   /**
