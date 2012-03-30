@@ -598,7 +598,8 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
       throw new IllegalStateException("Level number " + level
           + " is not recognized.");
     }
-    logger.log(callerFQCN, log4jLevel, msg, t);
+    final FormattingTuple ft = MessageFormatter.arrayFormat(msg, argArray, t);
+    logger.log(callerFQCN, log4jLevel, ft.getMessage(), ft.getThrowable());
   }
 
 }
