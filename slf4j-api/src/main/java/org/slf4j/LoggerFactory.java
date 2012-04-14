@@ -74,6 +74,9 @@ public final class LoggerFactory {
   static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
   static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
+  static final String STATIC_LOGGER_BINDER_CLASS_PROPERTY = "org.slf4j.binder.class";
+  static volatile IStaticLoggerBinder staticLoggerBinder;
+
   /**
    * It is LoggerFactory's responsibility to track version changes and manage
    * the compatibility list.
@@ -104,11 +107,24 @@ public final class LoggerFactory {
   }
 
   private final static void performInitialization() {
+    checkBindProperty();
     singleImplementationSanityCheck();
     bind();
     if (INITIALIZATION_STATE == SUCCESSFUL_INITILIZATION) {
       versionSanityCheck();
    
+    }
+  }
+
+  private static void checkBindProperty() {
+    String className = System.getProperty(STATIC_LOGGER_BINDER_CLASS_PROPERTY, null);
+    if (className != null) {
+      try {
+        staticLoggerBinder = (IStaticLoggerBinder)Class.forName(className).newInstance();
+      } catch (Exception e) {
+        failedBinding(e);
+        throw new IllegalStateException("Could not load binding class: " + className, e);
+      }
     }
   }
 
@@ -122,12 +138,27 @@ public final class LoggerFactory {
     return false;
   }
 
+  private static final class StaticLoggerBinderImpl implements IStaticLoggerBinder {
+    public ILoggerFactory getLoggerFactory() {
+      return StaticLoggerBinder.getSingleton().getLoggerFactory();
+    }
+
+    public String getRequestedApiVersion() {
+      return StaticLoggerBinder.REQUESTED_API_VERSION;
+    }
+  }
+
   private final static void bind() {
     try {
-      // the next line does the binding
-      StaticLoggerBinder.getSingleton();
-      INITIALIZATION_STATE = SUCCESSFUL_INITILIZATION;
-      emitSubstituteLoggerWarning();
+      if ( staticLoggerBinder == null ) {
+        // the next line does the binding
+        StaticLoggerBinder.getSingleton();
+        staticLoggerBinder = new StaticLoggerBinderImpl();
+        INITIALIZATION_STATE = SUCCESSFUL_INITILIZATION;
+        emitSubstituteLoggerWarning();
+      } else {
+        INITIALIZATION_STATE = SUCCESSFUL_INITILIZATION;
+      }
     } catch (NoClassDefFoundError ncde) {
       String msg = ncde.getMessage();
       if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
@@ -179,7 +210,7 @@ public final class LoggerFactory {
 
   private final static void versionSanityCheck() {
     try {
-      String requested = StaticLoggerBinder.REQUESTED_API_VERSION;
+      String requested = staticLoggerBinder.getRequestedApiVersion();
 
       boolean match = false;
       for (int i = 0; i < API_COMPATIBILITY_LIST.length; i++) {
@@ -281,7 +312,7 @@ public final class LoggerFactory {
     }
     switch (INITIALIZATION_STATE) {
     case SUCCESSFUL_INITILIZATION:
-      return StaticLoggerBinder.getSingleton().getLoggerFactory();
+      return staticLoggerBinder.getLoggerFactory();
     case NOP_FALLBACK_INITILIZATION:
       return NOP_FALLBACK_FACTORY;
     case FAILED_INITILIZATION:
