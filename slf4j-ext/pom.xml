@@ -14,9 +14,9 @@
   <artifactId>slf4j-ext</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J Extensions Module</name>
+  <description>Extensions to the SLF4J API</description>
 
   <url>http://www.slf4j.org</url>
-  <description>Extensions to the SLF4J API</description>
 
   <dependencies>
     <dependency>

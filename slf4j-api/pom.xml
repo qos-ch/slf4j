@@ -14,9 +14,9 @@
   <artifactId>slf4j-api</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J API Module</name>
+  <description>The slf4j API</description>
 
   <url>http://www.slf4j.org</url>
-  <description>The slf4j API</description>
 
   <dependencies>
 

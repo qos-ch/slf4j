@@ -1,31 +1,31 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
     <version>1.6.5-SNAPSHOT</version>
   </parent>
-	
-	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-simple</artifactId>
-	<packaging>jar</packaging>
-	<name>SLF4J Simple Binding</name>
+  <modelVersion>4.0.0</modelVersion>
 
-	<url>http://www.slf4j.org</url>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-simple</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J Simple Binding</name>
   <description>SLF4J Simple binding</description>
+  <url>http://www.slf4j.org</url>
 
   <dependencies>
-	  <dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-		</dependency>
+    </dependency>
   </dependencies>
 
 
   <build>
-    <plugins>		
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -38,11 +38,11 @@
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>			
-      </plugin>      
- 
-		</plugins>
-	</build>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
 
 
 </project>

@@ -16,11 +16,9 @@
 
   <packaging>jar</packaging>
   <name>JUL to SLF4J bridge</name>
+  <description>JUL to SLF4J bridge</description>
 
   <url>http://www.slf4j.org</url>
-  <description>
-    JUL to SLF4J bridge
-  </description>
 
   <dependencies>
     <dependency>

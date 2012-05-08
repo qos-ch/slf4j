@@ -12,11 +12,9 @@
 	<artifactId>jcl-over-slf4j</artifactId>
 	<packaging>jar</packaging>
 	<name>JCL 1.1.1 implemented over SLF4J</name>
-
+  <description>JCL 1.1.1 implemented over SLF4J</description>
 	<url>http://www.slf4j.org</url>
-	<description>
-		JCL 1.1.1 implementation over SLF4J
-	</description>
+
 
   <dependencies>
     <!--

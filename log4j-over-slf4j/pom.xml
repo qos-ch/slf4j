@@ -14,17 +14,10 @@
 	<artifactId>log4j-over-slf4j</artifactId>
 	<packaging>jar</packaging>
 	<name>Log4j Implemented Over SLF4J</name>
+  <description>Log4j implemented over SLF4J</description>
 
 	<url>http://www.slf4j.org</url>
 
-  <description>
-    <!-- 
-      Never _never_ let Eclipse's auto format function add
-      a line return in the description.
-      The generated jar will contain a corrupt MANIFEST file.
-    -->
-  	Log4j implemented over SLF4J
-  </description>
   <licenses>
     <license>
       <name>Apache Software Licenses</name>

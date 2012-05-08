@@ -1,32 +1,30 @@
-<project 
-  xmlns="http://maven.apache.org/POM/4.0.0" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<parent>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-parent</artifactId>
-    	<version>1.6.5-SNAPSHOT</version>
-	</parent>
-	
-	<modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.6.5-SNAPSHOT</version>
+  </parent>
 
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-jdk14</artifactId>
+  <modelVersion>4.0.0</modelVersion>
 
-	<packaging>jar</packaging>
-	<name>SLF4J JDK14 Binding</name>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-jdk14</artifactId>
 
-	<url>http://www.slf4j.org</url>
-	<description>
-		The slf4j JDK14 binding
-	</description>
+  <packaging>jar</packaging>
+  <name>SLF4J JDK14 Binding</name>
+  <description>SLF4J JDK14 Binding</description>
+  <url>http://www.slf4j.org</url>
+
 
   <dependencies>
-	  <dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-		</dependency>
+    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -38,19 +36,19 @@
   </dependencies>
 
   <build>
-		<plugins>
+    <plugins>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-				</configuration>
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.4</source>
+          <target>1.4</target>
+        </configuration>
+      </plugin>
 
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
@@ -61,7 +59,7 @@
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>			
+        </configuration>
       </plugin>
     </plugins>
   </build>

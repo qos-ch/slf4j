@@ -11,7 +11,7 @@
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
-
+  <description>Top SLF4J project pom.xml file</description>
   <url>http://www.slf4j.org</url>
 
   <organization>
@@ -28,6 +28,11 @@
     </license>
   </licenses>
 
+  <scm>
+    <url>https://github.com/ceki/slf4j</url>
+    <connection>git@github.com:ceki/slf4j.git</connection>
+  </scm>
+
   <properties>
     <slf4j.api.minimum.compatible.version>1.6.0
     </slf4j.api.minimum.compatible.version>
@@ -35,6 +40,13 @@
     <log4j.version>1.2.16</log4j.version>
   </properties>
 
+  <developers>
+    <developer>
+      <id>ceki</id>
+      <name>Ceki Gulcu</name>
+      <email>ceki@qos.ch</email>
+    </developer>
+  </developers>
 
   <modules>
     <module>slf4j-api</module>
@@ -373,6 +385,28 @@
       </pluginRepositories>
     </profile>
 
+    <profile>
+      <id>sign-artifacts</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
   </profiles>
 
   <pluginRepositories>
@@ -389,13 +423,6 @@
     </pluginRepository>
   </pluginRepositories>
 
-  <scm>
-    <connection>scm:svn:http://svn.slf4j.org/repos/slf4j/trunk</connection>
-    <developerConnection>scm:svn:https://svn.slf4j.org/repos/slf4j/trunk
-    </developerConnection>
-    <url>http://svn.slf4j.org/viewvc/slf4j/trunk/</url>
-  </scm>
-
   <distributionManagement>
     <site>
       <id>pixie</id>
@@ -403,8 +430,10 @@
     </site>
 
     <repository>
-      <id>pixie</id>
-      <url>scp://pixie.qos.ch/var/mvnrepo/</url>
+      <!--<id>pixie</id>-->
+      <!--<url>scp://pixie.qos.ch/var/mvnrepo/</url>-->
+      <id>sonatype-nexus-staging</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
 
   </distributionManagement>

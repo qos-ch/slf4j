@@ -14,7 +14,7 @@
   <artifactId>slf4j-site</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J Site</name>
-
+  <description>SLF4J Site</description>
   <url>http://www.slf4j.org</url>
 
   <build>
