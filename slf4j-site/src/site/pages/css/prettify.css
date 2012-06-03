@@ -12,6 +12,7 @@
 
 pre.prettyprint{
   padding:2px;
+  border-top: 1px solid #888; border-bottom: 1px solid #888;
 }
 @media print{.str{color:#060}
 

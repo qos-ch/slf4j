@@ -246,6 +246,74 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       corresponding to the logging framework chosen by her.
       </p>
 
+
+      <h3><a name="projectDep" href="#projectDep">Declaring project
+      dependencies for your project</a></h3>
+
+      <p><b>Please note that embedded components such as libraries or
+      frameworks should not declare a dependency on any slf4j binding
+      but only on slf4j-api.</b> SLF4J usage in embedded components is
+      also discussed in the FAQ in relation with <a
+      href="faq.html#configure_logging">logging configuration</a>, <a
+      href="faq.html#optional_dependency">dependency reduction</a> and
+      <a href="faq.html#optional_dependency">testing</a>.</p>
+
+      <p>Given Maven's transitive dependency rules, for "regular"
+      projects (not libraries or frameworks) declaring logging
+      dependencies can be accomplished with a single dependency
+      declaration.
+      </p>
+
+      <p><span class="label notice">declaring logback-classic</span>
+      If you wish to use logback-classic as the underlying logging
+      framework, all you need to do is to declare
+      "ch.qos.logback:logback-classic" as a dependency in your
+      <em>pom.xml</em> file as shown below. In addition to
+      <em>logback-classic-${logback.version}.jar</em>, this will pull
+      <em>slf4j-api-${project.version}.jar</em> as well as
+      <em>logback-core-${logback.version}.jar</em> into your
+      project.</p>
+
+<pre class="prettyprint source">&lt;dependency> 
+  &lt;groupId>ch.qos.logback&lt;/groupId>
+  &lt;artifactId>logback-classic&lt;/artifactId>
+  &lt;version>${logback.version}&lt;/version>
+&lt;/dependency></pre>
+
+     <p/>
+
+      <p><span class="label notice">declaring log4j</span> If you wish
+      to use log4j as the underlying logging framework, all you need
+      to do is to declare "org.slf4j:slf4j-log4j12" as a dependency in
+      your <em>pom.xml</em> file as shown below. In addition to
+      <em>slf4j-log4j12-${project.version}.jar</em>, this will pull
+      <em>slf4j-api-${project.version}.jar</em> as well as
+      <em>log4j-${log4j.version}.jar</em> into your project.</p>
+
+<pre class="prettyprint source">&lt;dependency> 
+  &lt;groupId>org.slf4j&lt;/groupId>
+  &lt;artifactId>slf4j-log4j12&lt;/artifactId>
+  &lt;version>${project.version}&lt;/version>
+&lt;/dependency></pre>
+
+     <p/>
+
+      <p><span class="label notice">declaring j.u.l</span> If you wish
+      to use java.util.logging as the underlying logging framework,
+      all you need to do is to declare "org.slf4j:slf4j-jdk14" as a
+      dependency in your <em>pom.xml</em> file as shown below. In
+      addition to <em>slf4j-jdk14-${project.version}.jar</em>, this
+      will pull <em>slf4j-api-${project.version}.jar</em> into your
+      project.</p>
+
+<pre class="prettyprint source">&lt;dependency> 
+  &lt;groupId>org.slf4j&lt;/groupId>
+  &lt;artifactId>slf4j-jdk14&lt;/artifactId>
+  &lt;version>${project.version}&lt;/version>
+&lt;/dependency></pre>
+
+
+   
       <h3><a name="compatibility" href="#compatibility">Binary
       compatibility</a></h3>
 
@@ -271,7 +339,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       slf4j-simple-1.5.5.jar will not work.</p>
 
      
-      From the client's perspective all versions of slf4j-api are
+      <p>From the client's perspective all versions of slf4j-api are
       compatible. Client code compiled with <em>slf4j-api-N.jar</em>
       will run perfectly fine with <em>slf4j-api-M.jar</em> for any N
       and M. You only need to ensure that the version of your binding

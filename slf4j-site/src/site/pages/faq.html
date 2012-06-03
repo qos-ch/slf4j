@@ -552,8 +552,9 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       SLF4J, which is an indirection in itself. 
       </p>
 
-      <p>It is actually worse than that. Wrappers will need to depend
-      on certain internal SLF4J interfaces which change from time to
+      <p><span class="label">increased vulnerability</span> It is
+      actually worse than that. Wrappers will need to depend on
+      certain internal SLF4J interfaces which change from time to
       time, contrary to the client-facing API which never
       changes. Thus, wrappers are usually dependent on the major
       version they were compiled with. A wrapper compiled against
