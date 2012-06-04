@@ -31,7 +31,7 @@ public class Logger extends Category {
   
   private static final String LOGGER_FQCN = Logger.class.getName();
   
-  Logger(String name) {
+  protected Logger(String name) {
     super(name);
   }
 
