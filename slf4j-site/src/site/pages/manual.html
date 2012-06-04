@@ -248,7 +248,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 
       <h3><a name="projectDep" href="#projectDep">Declaring project
-      dependencies for your project</a></h3>
+      dependencies for logging</a></h3>
 
       <p><b>Please note that embedded components such as libraries or
       frameworks should not declare a dependency on any slf4j binding
@@ -264,14 +264,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       declaration.
       </p>
 
-      <p><span class="label notice">declaring logback-classic</span>
-      If you wish to use logback-classic as the underlying logging
-      framework, all you need to do is to declare
-      "ch.qos.logback:logback-classic" as a dependency in your
-      <em>pom.xml</em> file as shown below. In addition to
-      <em>logback-classic-${logback.version}.jar</em>, this will pull
-      <em>slf4j-api-${project.version}.jar</em> as well as
-      <em>logback-core-${logback.version}.jar</em> into your
+      <p><span class="label notice">logback-classic</span> If you wish
+      to use logback-classic as the underlying logging framework, all
+      you need to do is to declare "ch.qos.logback:logback-classic" as
+      a dependency in your <em>pom.xml</em> file as shown below. In
+      addition to <em>logback-classic-${logback.version}.jar</em>,
+      this will pull <em>slf4j-api-${project.version}.jar</em> as well
+      as <em>logback-core-${logback.version}.jar</em> into your
       project.</p>
 
 <pre class="prettyprint source">&lt;dependency> 
@@ -282,10 +281,10 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <p/>
 
-      <p><span class="label notice">declaring log4j</span> If you wish
-      to use log4j as the underlying logging framework, all you need
-      to do is to declare "org.slf4j:slf4j-log4j12" as a dependency in
-      your <em>pom.xml</em> file as shown below. In addition to
+      <p><span class="label notice">log4j</span> If you wish to use
+      log4j as the underlying logging framework, all you need to do is
+      to declare "org.slf4j:slf4j-log4j12" as a dependency in your
+      <em>pom.xml</em> file as shown below. In addition to
       <em>slf4j-log4j12-${project.version}.jar</em>, this will pull
       <em>slf4j-api-${project.version}.jar</em> as well as
       <em>log4j-${log4j.version}.jar</em> into your project.</p>
@@ -298,13 +297,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <p/>
 
-      <p><span class="label notice">declaring j.u.l</span> If you wish
-      to use java.util.logging as the underlying logging framework,
-      all you need to do is to declare "org.slf4j:slf4j-jdk14" as a
-      dependency in your <em>pom.xml</em> file as shown below. In
-      addition to <em>slf4j-jdk14-${project.version}.jar</em>, this
-      will pull <em>slf4j-api-${project.version}.jar</em> into your
-      project.</p>
+      <p><span class="label notice">java.util.logging</span> If you
+      wish to use java.util.logging as the underlying logging
+      framework, all you need to do is to declare
+      "org.slf4j:slf4j-jdk14" as a dependency in your <em>pom.xml</em>
+      file as shown below. In addition to
+      <em>slf4j-jdk14-${project.version}.jar</em>, this will pull
+      <em>slf4j-api-${project.version}.jar</em> into your project.</p>
 
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>
