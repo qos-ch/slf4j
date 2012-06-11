@@ -80,7 +80,7 @@ public class MissingSingletonMethodAssertionTest extends TestCase {
     {
       String s = (String) sps.stringList.get(2);
       assertTrue(s
-          .contains("SLF4J: Upgrade your binding to version 1.6.x. or 2.0.x"));
+          .contains("SLF4J: Upgrade your binding to version 1.6.x."));
     }
 
   }

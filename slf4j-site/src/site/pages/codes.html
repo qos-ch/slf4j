@@ -150,19 +150,22 @@
     <p>SLF4J API is desinged to bind with one and only one underlying
     logging framework at a time. If more than one binding is present
     on the class path, SLF4J will emit a warning, listing the location
-    of those bindings. When this happens, select the one and only one
-    binding you wish to use, and remove the other bindings.
-    </p>
+    of those bindings.</p>
 
-    <p>For example, if you have both
+    <p>When multiple bindings are available on the class path, select
+    one and only one binding you wish to use, and remove the other
+    bindings. For example, if you have both
     <em>slf4j-simple-${version}.jar</em> and
     <em>slf4j-nop-${version}.jar</em> on the class path and you wish
     to use the nop (no-operation) binding, then remove
-    <em>slf4j-simple-${version}.jar</em> from the class path.</p>
+    <em>slf4j-simple-${version}.jar</em> from the class path. If it is
+    not possible to remove the superflous bindings, SLF4J will still
+    bind with one logging framework/implementation. As of version
+    1.6.6, SLF4J will name the framework/implementation class it is
+    actually bound to.</p>
 
     <p><span class="label notice">Note</span> The warning emitted by
-    SLF4J is just that, a warning. SLF4J will still bind with the
-    first framework it finds on the class path.
+    SLF4J is just that, a warning.
     </p>
 
     <!-- ====================================================== -->

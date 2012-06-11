@@ -51,22 +51,15 @@ public class MultiBindingAssertionTest extends TestCase {
   }
 
   public void test() throws Exception {
-    try {
-      Logger logger = LoggerFactory.getLogger(this.getClass());
-      String msg = "hello world " + diff;
-      logger.info(msg);
-      fail("was expecting NoSuchMethodError");
-    } catch (NoSuchMethodError e) {
-    }
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+    String msg = "hello world " + diff;
+    logger.info(msg);
     List list = sps.stringList;
     assertMsgContains(list, 0, "Class path contains multiple SLF4J bindings.");
     assertMsgContains(list, 1, "Found binding in");
     assertMsgContains(list, 2, "Found binding in");
     assertMsgContains(list, 3, "See http://www.slf4j.org/codes.html");
-    assertMsgContains(list, 4,
-        "slf4j-api 1.6.x (or later) is incompatible with this binding");
-    assertMsgContains(list, 5, "Your binding is version 1.5.5 or earlier.");
-
+    assertMsgContains(list, 4, "Actual binding is of type [");
   }
 
   void assertMsgContains(List strList, int index, String msg) {

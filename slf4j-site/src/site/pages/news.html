@@ -29,7 +29,20 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3> ... - Release of SLF4J 1.6.6</h3>
+   <h3>11th of June, 2012 of SLF4J 1.6.6</h3>
+ 
+   <p>In case multiple binding are found on the class path, SLF4J will
+   now output the name the framework/implementation class it is
+   isbound to. This should make</p>
+
+   <p><a
+   href="apidocs/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>
+   now supports configuration properties. </p>
+
+   <p>LoggerWrapper in the slf4j-ext module now correctly deals with
+   markers. This fixes <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=265">bug #265</a>
+   reported by Dario Campagna.</p>
 
    <p>The log4j-over-slf4j module now supports legacy projects
    providing their own log4j <code>LoggerFactory</code>. This fixes <a

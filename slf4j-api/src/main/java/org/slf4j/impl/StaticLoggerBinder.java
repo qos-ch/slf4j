@@ -60,14 +60,14 @@ public class StaticLoggerBinder {
   public static String REQUESTED_API_VERSION = "1.6";  // !final
   
   private StaticLoggerBinder() {
-    throw new UnsupportedOperationException("This code should have never made it into the jar");
+    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
   }
 
   public ILoggerFactory getLoggerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
   }
 
   public String getLoggerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
   }
 }

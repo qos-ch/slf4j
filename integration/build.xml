@@ -53,21 +53,19 @@
 	</path >
 
 	
-	<path id="multiBinding">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
-		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
-	</path >
-			
-
-	<path id="multiBinding">
+	<path id="incompatibleMultiBinding">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
 		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
 	</path >
 
+  <path id="multiBinding">
+ 		<pathelement location="target/test-classes/" />
+ 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+    <pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
+    <pathelement location="../slf4j-nop/target/slf4j-nop-${currentVersion}.jar" />
+ 	</path >
 
   <path id="binding1699">
 		<pathelement location="target/test-classes/" />
@@ -104,6 +102,7 @@
                 testMismatch, 
                 testMatch,
 		            testMultiBinding,
+		            testIncompatibleMultiBinding,
                 testFuture_16Series">
 	</target>
 
@@ -159,15 +158,25 @@
 		</junit>
 	</target>
 
-	<target name="testMultiBinding">
+	<target name="testIncompatibleMultiBinding">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="multiBinding" />
+			<classpath refid="incompatibleMultiBinding" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-MultiBinding" 
-            name="org.slf4j.MultiBindingAssertionTest" />
+            outfile="TEST-IncompatibleMultiBinding"
+            name="org.slf4j.IncompatibleMultiBindingAssertionTest" />
 		</junit>
 	</target>
+
+  <target name="testMultiBinding">
+ 		<junit printsummary="yes" fork="no" haltonfailure="yes">
+ 			<classpath refid="multiBinding" />
+ 			<formatter type="plain" />
+ 			<test fork="yes" todir="target/unit-reports"
+             outfile="TEST-MultiBinding"
+             name="org.slf4j.MultiBindingAssertionTest" />
+ 		</junit>
+ 	</target>
 
 	<target name="testFuture_16Series">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
