@@ -11,7 +11,7 @@ document.write('  <p class="menu_header">Support</p>');
 
 document.write('    <a href="mailing-lists.html">Mailing Lists</a>');
 document.write('    <a href="bug-reporting.html">Bug Reporting</a>');
-document.write('    <a href="repos.html">Source Repository</a>');
+document.write('    <a href="https://github.com/qos-ch/slf4j">Source Repository</a>');
 document.write('    <a href="http://www.qos.ch/shop/products/professionalSupport">Support offerings</a>');
 document.write('    <a href="http://www.qos.ch/shop/products/training">Training</a>');
 
