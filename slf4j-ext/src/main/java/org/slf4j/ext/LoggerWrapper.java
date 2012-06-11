@@ -163,7 +163,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void trace(Marker marker, String msg) {
-    if (!logger.isTraceEnabled())
+    if (!logger.isTraceEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -177,7 +177,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void trace(Marker marker, String format, Object arg) {
-    if (!logger.isTraceEnabled())
+    if (!logger.isTraceEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg)
@@ -194,7 +194,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void trace(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isTraceEnabled())
+    if (!logger.isTraceEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg1, arg2)
@@ -211,7 +211,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void trace(Marker marker, String format, Object[] argArray) {
-    if (!logger.isTraceEnabled())
+    if (!logger.isTraceEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.arrayFormat(format, argArray)
@@ -227,7 +227,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void trace(Marker marker, String msg, Throwable t) {
-    if (!logger.isTraceEnabled())
+    if (!logger.isTraceEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -338,7 +338,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void debug(Marker marker, String msg) {
-    if (!logger.isDebugEnabled())
+    if (!logger.isDebugEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -352,7 +352,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void debug(Marker marker, String format, Object arg) {
-    if (!logger.isDebugEnabled())
+    if (!logger.isDebugEnabled(marker))
       return;
     if (instanceofLAL) {
       FormattingTuple ft = MessageFormatter.format(format, arg);
@@ -368,7 +368,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void debug(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isDebugEnabled())
+    if (!logger.isDebugEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg1, arg2)
@@ -385,7 +385,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void debug(Marker marker, String format, Object[] argArray) {
-    if (!logger.isDebugEnabled())
+    if (!logger.isDebugEnabled(marker))
       return;
     if (instanceofLAL) {
 
@@ -402,7 +402,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void debug(Marker marker, String msg, Throwable t) {
-    if (!logger.isDebugEnabled())
+    if (!logger.isDebugEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -513,7 +513,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void info(Marker marker, String msg) {
-    if (!logger.isInfoEnabled())
+    if (!logger.isInfoEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -527,7 +527,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void info(Marker marker, String format, Object arg) {
-    if (!logger.isInfoEnabled())
+    if (!logger.isInfoEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg)
@@ -544,7 +544,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void info(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isInfoEnabled())
+    if (!logger.isInfoEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg1, arg2)
@@ -561,7 +561,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void info(Marker marker, String format, Object[] argArray) {
-    if (!logger.isInfoEnabled())
+    if (!logger.isInfoEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.arrayFormat(format, argArray)
@@ -577,7 +577,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void info(Marker marker, String msg, Throwable t) {
-    if (!logger.isInfoEnabled())
+    if (!logger.isInfoEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -685,7 +685,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void warn(Marker marker, String msg) {
-    if (!logger.isWarnEnabled())
+    if (!logger.isWarnEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -699,7 +699,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void warn(Marker marker, String format, Object arg) {
-    if (!logger.isWarnEnabled())
+    if (!logger.isWarnEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg)
@@ -716,7 +716,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void warn(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isWarnEnabled())
+    if (!logger.isWarnEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg1, arg2)
@@ -733,7 +733,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void warn(Marker marker, String format, Object[] argArray) {
-    if (!logger.isWarnEnabled())
+    if (!logger.isWarnEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.arrayFormat(format, argArray)
@@ -749,7 +749,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void warn(Marker marker, String msg, Throwable t) {
-    if (!logger.isWarnEnabled())
+    if (!logger.isWarnEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -860,7 +860,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(Marker marker, String msg) {
-    if (!logger.isErrorEnabled())
+    if (!logger.isErrorEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
@@ -874,7 +874,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(Marker marker, String format, Object arg) {
-    if (!logger.isErrorEnabled())
+    if (!logger.isErrorEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg)
@@ -891,7 +891,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(Marker marker, String format, Object arg1, Object arg2) {
-    if (!logger.isErrorEnabled())
+    if (!logger.isErrorEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.format(format, arg1, arg2)
@@ -908,7 +908,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(Marker marker, String format, Object[] argArray) {
-    if (!logger.isErrorEnabled())
+    if (!logger.isErrorEnabled(marker))
       return;
     if (instanceofLAL) {
       String formattedMessage = MessageFormatter.arrayFormat(format, argArray)
@@ -924,7 +924,7 @@ public class LoggerWrapper implements Logger {
    * Delegate to the appropriate method of the underlying logger.
    */
   public void error(Marker marker, String msg, Throwable t) {
-    if (!logger.isErrorEnabled())
+    if (!logger.isErrorEnabled(marker))
       return;
     if (instanceofLAL) {
       ((LocationAwareLogger) logger).log(marker, fqcn,
