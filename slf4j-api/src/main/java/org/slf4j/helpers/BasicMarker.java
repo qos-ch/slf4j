@@ -46,7 +46,7 @@ public class BasicMarker implements Marker {
 
   BasicMarker(String name) {
     if (name == null) {
-      throw new IllegalArgumentException("A merker name cannot be null");
+      throw new IllegalArgumentException("A marker name cannot be null");
     }
     this.name = name;
   }
