@@ -5,12 +5,21 @@
   <title>SLF4J Error Codes</title>
   <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
   <link rel="stylesheet" type="text/css" href="css/prettify.css" />
+
+  <style>
+    h3.doAnchor {
+      border-top: 2px solid #888;
+      padding-top: 1ex;
+    }
+  </style>
 </head>
-<body onload="prettyPrint()">
+<body onload="prettyPrint(); decorate();">
     <script type="text/javascript" src="js/prettify.js"></script>
     <script type="text/javascript">prefix='';</script>
+    <script type="text/javascript" src="templates/header.js"></script>
+    <script type="text/javascript" src="js/jquery-min.js"></script>
+    <script type="text/javascript" src="js/decorator.js"></script>
 
-    <script src="templates/header.js" type="text/javascript"></script>
     <div id="left">
       <script src="templates/left.js" type="text/javascript"></script>
     </div>
@@ -24,12 +33,9 @@
     </center>
     
 
-    <h3>
-      <a name="release" href="#release">
-        The method
-        <code>o.a.commons.logging.impl.SLF4FLogFactory#release</code>
-        was invoked.
-      </a>
+    <h3 class="doAnchor" name="release">The method
+    <code>o.a.commons.logging.impl.SLF4FLogFactory#release</code> was
+    invoked.      
     </h3>
 
     <p>Given the structure of the commons-logging API, in particular
@@ -60,10 +66,9 @@
     
      <!-- ====================================================== -->
 
-    <h3>
-      <a name="unsupported_operation_in_jcl_over_slf4j" href="#unsupported_operation_in_jcl_over_slf4j">
-        Operation [suchAndSuch] is not supported in jcl-over-slf4j.
-      </a>
+    <h3 class="doAnchor"
+    name="unsupported_operation_in_jcl_over_slf4j">Operation
+    [suchAndSuch] is not supported in jcl-over-slf4j.
     </h3>
 
     <p>An <code>UnsuportedOperationException</code> is thrown whenever
@@ -86,12 +91,8 @@
 
     <!-- ====================================================== -->
 
-    <h3>
-      <a name="StaticLoggerBinder" href="#StaticLoggerBinder">
-        Failedto load class
-        <code>org.slf4j.impl.StaticLoggerBinder</code>
-      </a>
-    </h3>
+    <h3 class="doAnchor" name="StaticLoggerBinder">Failedto load class
+    <code>org.slf4j.impl.StaticLoggerBinder</code></h3>
     
     <p>This error is reported when the
     <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
@@ -140,10 +141,10 @@
     href="faq.html#compatibility">FAQ entry</a>.
     </p>
 -->
+
     <!-- ====================================================== -->
-    <h3>
-      <a name="multiple_bindings" href="#multiple_bindings">Multiple
-      bindings were found on the class path</a>
+    <h3 class="doAnchor" name="multiple_bindings">Multiple bindings
+    were found on the class path
     </h3>
 
 
@@ -169,8 +170,9 @@
     </p>
 
     <!-- ====================================================== -->
-    <h3><a name="version_mismatch" href="#version_mismatch">slf4j-api
-    version does not match that of the binding</a></h3>
+
+    <h3 class="doAnchor" name="version_mismatch">slf4j-api version
+    does not match that of the binding</h3>
 
     <p>An SLF4J binding designates an artifact such as
     <em>slf4j-jdk14.jar</em> or <em>slf4j-log4j12.jar</em> used to
@@ -201,11 +203,10 @@
     about the suspected mismatch.
     </p>
 
-
-    <h3>
-      <a name="null_LF" href="#null_LF">Logging factory implementation
-      cannot be null</a>
-    </h3>
+    <!-- ====================================================== -->
+    
+    <h3 class="doAnchor" name="null_LF">Logging factory implementation
+    cannot be null</h3>
 
     <p>This error is reported when the <code>LoggerFactory</code>
     class could not find an appropriate binding. Placing one (and only
@@ -217,11 +218,9 @@
 
     <!-- ====================================================== -->
 
-    <h3>
-      <a name="log4jDelegationLoop"
-      href="#log4jDelegationLoop">Detected both log4j-over-slf4j.jar
-      AND slf4j-log4j12.jar on the class path, preempting
-      <code>StackOverflowError</code>.</a>
+    <h3 class="doAnchor" name="log4jDelegationLoop">Detected both
+    log4j-over-slf4j.jar AND slf4j-log4j12.jar on the class path,
+    preempting <code>StackOverflowError</code>.
     </h3>
 
     <p>The purpose of slf4j-log4j12 module is to delegate or redirect
@@ -267,10 +266,9 @@
     <!-- ====================================================== -->
 
 
-    <h3>
-      <a name="jclDelegationLoop" href="#jclDelegationLoop">Detected
-      both jcl-over-slf4j.jar AND slf4j-jcl.jar on the class path,
-      preempting <code>StackOverflowError</code>.</a>
+    <h3 class="doAnchor" name="jclDelegationLoop">Detected both
+    jcl-over-slf4j.jar AND slf4j-jcl.jar on the class path, preempting
+    <code>StackOverflowError</code>.
     </h3>
 
     <p>The purpose of slf4j-jcl module is to delegate or redirect
@@ -311,12 +309,8 @@
 
     <!-- ====================================================== -->
 
-    <h3>
-      <a name="no_static_mdc_binder"
-      href="#no_static_mdc_binder">Failed to load class
-      "org.slf4j.impl.StaticMDCBinder"
-      </a>
-    </h3>
+    <h3 class="doAnchor" name="no_static_mdc_binder">Failed to load
+    class "org.slf4j.impl.StaticMDCBinder"</h3>
     
     <p>This error indicates that appropriate SLF4J binding could not
     be found on the class path. Placing one (and only one) of
@@ -326,9 +320,9 @@
     problem.
     </p>
 
-    <h3>
-      <a name="null_MDCA" href="#null_MDCA">MDCAdapter cannot be null
-      </a>
+    <!-- ====================================================== -->
+
+    <h3 class="doAnchor" name="null_MDCA">MDCAdapter cannot be null 
     </h3>
 
     <p>This error is reported when <code>org.slf4j.MDC</code> class
@@ -336,9 +330,10 @@
     previously listed item.
     </p>
 
-    
-    <h3><a name="log4j_version" href="#log4j_version">SLF4J versions
-    1.4.0 and later requires log4j 1.2.12 or later</a></h3>
+    <!-- ====================================================== -->
+
+    <h3 class="doAnchor" name="log4j_version">SLF4J versions 1.4.0 and
+    later requires log4j 1.2.12 or later</h3>
 
     <p>The trace level was added to log4j in version 1.2.12 released
     on August 29, 2005. The trace level was added to the SLF4J API in
@@ -355,9 +350,9 @@
     DEBUG.</p>
     
 
-    <h3><a name="substituteLogger" href="#substituteLogger">Substitute
-    loggers were created during the default configuration phase of the
-    underlying logging system</a></h3>
+    <h3 class="doAnchor" name="substituteLogger" >Substitute loggers
+    were created during the default configuration phase of the
+    underlying logging system</h3>
 
     <p>Highly configurable logging systems such as logback and log4j
     may create components which invoke loggers during their own
@@ -392,14 +387,14 @@
     relevant section.</a>.
     </p>
 
-
-
     <p>If you are not interested in the output from any of the
     substitute loggers, then no action is required on your part.</p>
 
 
 
-</div>
+    <script src="templates/footer.js" type="text/javascript"></script>
+  </div>
+  
 </body>
 </html>
  

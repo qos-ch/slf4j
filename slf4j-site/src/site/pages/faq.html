@@ -8,12 +8,15 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />   
     <link rel="stylesheet" type="text/css" href="css/prettify.css" />
   </head>
-  <body  onload="prettyPrint()">
+  <body  onload="prettyPrint(); decorate();">
 
   <script type="text/javascript" src="js/prettify.js"></script>
 	<script type="text/javascript">prefix='';</script>
 
-  <script src="templates/header.js" type="text/javascript"></script>
+  <script type="text/javascript" src="templates/header.js"></script>
+  <script type="text/javascript" src="js/jquery-min.js"></script>
+  <script type="text/javascript" src="js/decorator.js"></script>
+
   <div id="left">
     <script src="templates/left.js" type="text/javascript"></script>
   </div>
@@ -149,10 +152,10 @@
   
   <ol type="1">
     
-    <li><a href="#slf4j_compatible"> How do I make my logging
+    <li><a href="#slf4j_compatible">How do I make my logging
     framework SLF4J compatible?  </a></li>
     
-    <li><a href="#marker_interface"> How can my logging system add
+    <li><a href="#marker_interface">How can my logging system add
     support for the <code>Marker</code> interface?  </a></li>
     
     <li><a href="#version_checks">How does SLF4J's version check
@@ -179,18 +182,15 @@
   <h2>Generalities</h2>
   
   <dl>
-    <dt><a name="what_is" href="#what_is">What is SLF4J?</a></dt>
+    <dt class="doAnchor" name="what_is">What is SLF4J?</dt>
     <dd>
       <p>SLF4J is a simple facade for logging systems allowing the
       end-user to plug-in the desired logging system at deployment
       time.
-      </p>
-      
-      <hr />
+      </p>      
     </dd>
     
-    <dt><a name="when" href="#when"> When should SLF4J be used?
-    </a></dt>
+    <dt class="doAnchor" name="when">When should SLF4J be used?</dt>
     
     <dd>
       <p>In short, libraries and other embedded components should
@@ -231,14 +231,12 @@
       to be made.
       </p>
       
-      <hr />
+      
       
     </dd>
     
-    <dt>
-      <a name="yet_another_facade" href="#yet_another_facade">
-      Is SLF4J yet another logging facade?  </a>
-    </dt>
+    <dt class="doAnchor" name="yet_another_facade">Is SLF4J yet
+    another logging facade?</dt>
     
     <dd>
       <p>SLF4J is conceptually very similar to JCL. As such, it can
@@ -247,14 +245,12 @@
       nutshell, SLF4J avoid the class loader issues that plague JCL.
       </p>
       
-      <hr />
+      
       
     </dd>
-    <dt>
-      <a name="why_new_project" href="#why_new_project">
-        If SLF4J fixes JCL, then why wasn't the fix made in JCL
-        instead of creating a new project?
-      </a>
+    <dt class="doAnchor" name="why_new_project">If SLF4J fixes JCL,
+    then why wasn't the fix made in JCL instead of creating a new
+    project?
     </dt>
     
     <dd>
@@ -276,13 +272,12 @@
       need be.
       </p>
       
-      <hr />
+      
     </dd>
     
-    <dt>
-      <a name="need_to_recompile" href="#need_to_recompile"> When
-      using SLF4J, do I have to recompile my application to switch
-      to a different logging system?  </a>
+    <dt class="doAnchor" name="need_to_recompile">When using SLF4J, do
+    I have to recompile my application to switch to a different
+    logging system?
     </dt>
     
     <dd>
@@ -299,11 +294,11 @@
       <em>slf4j-log4j12.jar</em> with <em>slf4j-jdk14.jar</em>.
       </p>
       
-      <hr />
+      
     </dd>
-    <dt>
-      <a name="requirements" href="#requirements">What are SLF4J's
-      requirements?</a>
+
+    <dt class="doAnchor" name="requirements">What are SLF4J's
+    requirements?
     </dt>
     
     <dd>
@@ -317,7 +312,7 @@
       
       <p>&nbsp;</p>
       
-      <table border="1">
+      <table class="bodyTable striped">
         <tr align="left">
           <th>Binding</th>
           <th>Requirements</th>
@@ -349,13 +344,14 @@
         
       </table>
       
-      <hr />
+      
     </dd>
 
     <!-- ==================================================== -->
     <!-- entry has order dependees -->
-    <dt><a name="compatibility" href="#compatibility">Are SLF4J
-    versions backward compatible?</a>
+
+    <dt class="doAnchor" name="compatibility">Are SLF4J versions
+    backward compatible?
     </dt>
 
     <dd>
@@ -382,14 +378,14 @@
       mismatch. 
       </p>
 
-      <hr />
+      
     </dd>
 
     <!-- ==================================================== -->
 
-    <dt><a name="IllegalAccessError" href="#IllegalAccessError">I am getting
+    <dt class="doAnchor" name="IllegalAccessError">I am getting
     <code>IllegalAccessError</code> exceptions when using SLF4J. Why
-    is that?</a>
+    is that?
     </dt>
 
     <dd>
@@ -437,17 +433,14 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       href="#compatibility">backward compatibility</a> for a more
       general explanation.</p>
 
-      <hr />
+      
     </dd>
     
 
     <!-- ==================================================== -->
 
-    <dt>
-      <a name="license" href="#license">
-        Why is SLF4J licensed under X11 type license instead of the
-        Apache Software License?
-      </a> 
+    <dt class="doAnchor" name="license">Why is SLF4J licensed under
+    X11 type license instead of the Apache Software License?
     </dt>
     
     <dd>
@@ -460,14 +453,12 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       compatible with their respective licenses.
       </p>
       
-      <hr />
+      
     </dd>
 
     <!-- ==================================================== -->
-    <dt>
-      <a name="where_is_binding" href="#where_is_binding">
-        Where can I get a particular SLF4J binding?
-      </a>
+    <dt class="doAnchor" name="where_is_binding">Where can I get a
+    particular SLF4J binding?
     </dt>
     
     <dd>
@@ -491,11 +482,11 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       logback-classic binding requires <em>slf4j-api.jar</em>.
       </p>
       
-      <hr />
+      
     </dd>
     
-    <dt><a name="configure_logging" href="#configure_logging">
-    Should my library attempt to configure logging?  </a>
+    <dt class="doAnchor" name="configure_logging">Should my library
+    attempt to configure logging?
     </dt>
     
     <dd>
@@ -510,17 +501,14 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       configured.
       </p>      
       
-      <hr/>
+      
     </dd>
     
     <!-- ======================================================= -->
 
-    <dt>
-      <a name="optional_dependency" href="#optional_dependency">In
-      order to reduce the number of dependencies of our software we
-      would like to make SLF4J an optional dependency. Is that a good
-      idea?
-      </a>
+    <dt class="doAnchor" name="optional_dependency">In order to reduce
+    the number of dependencies of our software we would like to make
+    SLF4J an optional dependency. Is that a good idea?      
     </dt>
 
     <dd>
@@ -610,8 +598,8 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
    <!-- ======================================================= -->
 
-    <dt><a name="maven2" href="#maven2">What about Maven
-    transitive dependencies? </a>
+    <dt class="doAnchor" name="maven2">What about Maven transitive
+    dependencies?
     </dt>
     
     <dd>
@@ -652,15 +640,13 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       implementation.
       </p>
 
-      <hr/>
+      
       
     </dd>
     
-    
-    <dt>
-      <a name="excludingJCL" href="#excludingJCL">How do I exclude
-      commons-logging as a Maven dependency?
-      </a>
+    <!-- ====================================================== -->
+    <dt class="doAnchor" name="excludingJCL">How do I exclude
+    commons-logging as a Maven dependency?
     </dt>
     
     <dd>
@@ -783,6 +769,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     </dd>
     
     
+    
   </dl>
   
   
@@ -790,9 +777,9 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
   
   <dl>
     
-    <dt><a name="string_or_object" href="#string_or_object"> Why
-    don't the printing methods in the Logger interface accept
-    message of type Object, but only messages of type String?  </a>
+    <dt class="doAnchor" name="string_or_object">Why don't the
+    printing methods in the Logger interface accept message of type
+    Object, but only messages of type String?
     </dt>
     
     <dd>
@@ -842,14 +829,15 @@ debug(String msg, Throwable t);</pre>
       ensures that every logged exception is accompanied with a
       descriptive message.</p>
       
-      <hr />
+      
     </dd>
     
-    <dt>      
-      <a name="exception_message"  href="#exception_message">
-        Can I log an exception without an accompanying message?
-      </a>
+    <!-- ====================================================== -->
+
+    <dt class="doAnchor" name="exception_message">Can I log an
+    exception without an accompanying message?
     </dt>
+
     <dd>
       <p>In short, no.</p>
       
@@ -899,17 +887,16 @@ debug(String msg, Throwable t);</pre>
       accompanying message as a good a thing (TM).
       </p>
       
-      <hr/>
     </dd>     
     
+    <!-- ====================================================== -->
     
     
-    <dt>
-      <a name="logging_performance" href="#logging_performance">
-        What is the fastest way of (not) logging?</a>
+    <dt class="doAnchor" name="logging_performance">What is the
+    fastest way of (not) logging?
     </dt>
-    <dd>
-    
+
+    <dd>    
       <p>SLF4J supports an advanced feature called parameterized
       logging which can significantly boost logging performance for
       <em>disabled</em> logging statement.</p>
@@ -1039,16 +1026,12 @@ logger.debug("The new entry is {}.", entry);</pre>
       <pre class="prettyprint source">logger.debug("File name is C:\\\\{}.", "file.zip");</pre>
       <p>will print as "File name is C:\file.zip".</p>
       
-      <hr />
-      
     </dd>
     
+    <!-- ================================================= -->
     
-    <dt><a name="string_contents" href="#string_contents"> How can
-    I log the string contents of a single (possibly complex)
-    object?
-    </a>
-    </dt>
+    <dt class="doAnchor" name="string_contents">How can I log the
+    string contents of a single (possibly complex) object?</dt>
     
     <dd>
       <p> In relatively rare cases where the message to be logged
@@ -1070,17 +1053,16 @@ logger.debug("The new entry is {}.", entry);</pre>
       advantageously avoided.
       </p>
       
-      <hr />
+      
       
     </dd>
     
+    <!-- ================================================= -->
     
     
-    
-    <dt>
-      <a name="fatal" href="#fatal"> Why doesn't the
-      <code>org.slf4j.Logger</code> interface have methods for the
-      FATAL level? </a>
+    <dt class="doAnchor" name="fatal">Why doesn't the
+    <code>org.slf4j.Logger</code> interface have methods for the FATAL
+    level?
     </dt>
     
     <dd>      
@@ -1136,14 +1118,12 @@ class Bar {
       only logback supports marker data. However, nothing prevents
       other logging frameworks from making use of marker data.
       </p>
-      <hr />
+      
     </dd>
     
-    <dt>
-      <a name="trace" href="#trace">Why was the TRACE level introduced only in
-      SLF4J version 1.4.0?
-      </a>
-    </dt>
+    <!-- ======================================================= -->
+    <dt class="doAnchor" name="trace">Why was the TRACE level
+    introduced only in SLF4J version 1.4.0?</dt>
     
     <dd>
       
@@ -1182,14 +1162,13 @@ class Bar {
       requests of level TRACE are wasteful, given that people kept
       asking for it, we decided to bow to popular demand.
       </p>
-      <hr/>
+      
       
     </dd>
-    
-    <dt>
-      <a name="i18n" href="#i18n">Does the SLF4J logging API support
-      I18N (internationalization)?
-      </a>
+
+    <!-- ================================================= -->
+    <dt class="doAnchor" name="i18n">Does the SLF4J logging API
+    support I18N (internationalization)?
     </dt>
     
     <dd>
@@ -1199,12 +1178,14 @@ class Bar {
       support as a thin layer built upon the <a
       href="http://cal10n.qos.ch">CAL10N API</a>.</p>
 
-      <hr/>
+      
     </dd>          
 
-    <dt><a name="noLoggerFactory" href="#noLoggerFactory">Is it
-    possible to retrieve loggers without going through the static
-    methods in <code>LoggerFactory</code>?</a>
+    <!-- ================================================= -->
+
+    <dt class="doAnchor" name="noLoggerFactory">Is it possible to
+    retrieve loggers without going through the static methods in
+    <code>LoggerFactory</code>?
     </dt>
 
     <dd>
@@ -1233,9 +1214,11 @@ class Bar {
       inventing your own logging API.</p>
     </dd>
     
-    <dt><a name="paramException" href="#paramException">In the presence of an
+    <!-- ================================================= -->
+
+    <dt class="doAnchor" name="paramException">In the presence of an
     exception/throwable, is it possible to parametizere a logging
-    statement?</a></dt>
+    statement?</dt>
 
 
     <dd>
@@ -1267,9 +1250,6 @@ try {
      </p>
     
     </dd>
-
-
-
   </dl>
 
 
@@ -1277,9 +1257,11 @@ try {
   <h2>Implementing the SLF4J API</h2>
   
   <dl>
-    <dt><a name="slf4j_compatible" href="#slf4j_compatible"> How do
-    I make my logging framework SLF4J compatible?
-    </a>
+
+    <!-- ============================================================= -->
+
+    <dt class="doAnchor" name="slf4j_compatible">How do I make my
+    logging framework SLF4J compatible?
     </dt>
     
     
@@ -1332,13 +1314,13 @@ try {
         factory you created in the previous step</li>
       </ol>
       
-      <hr/>
+      
     </dd>
-    <dt>
-      <a name="marker_interface" href="#marker_interface"> How
-      can my logging system add support for the <code>Marker</code>
-      interface?
-      </a>
+
+    <!-- ============================================================= -->
+
+    <dt class="doAnchor" name="marker_interface">How can my logging
+    system add support for the <code>Marker</code> interface?
     </dt>
     <dd>
       
@@ -1366,11 +1348,13 @@ try {
       <code>Marker</code> as the first argument.
       </p>
       
-      <hr/>
+      
     </dd>
     
-    <dt><a name="version_checks" href="#version_checks"> How does
-    SLF4J's version check mechanism work?</a>
+    <!-- ============================================================= -->
+
+    <dt class="doAnchor" name="version_checks">How does SLF4J's
+    version check mechanism work?
     </dt>
     
     <dd>
@@ -1422,9 +1406,12 @@ try {
   <h2>General questions about logging</h2>
   
   
+
   <dl>
-    <dt><a name="declared_static"  href="#declared_static"> Should Logger
-    members of a class be declared as static?  </a>
+
+    <!-- ============================================================= -->
+    <dt class="doAnchor" name="declared_static">Should Logger members
+    of a class be declared as static?
     </dt>
     <dd>
       
@@ -1586,10 +1573,10 @@ try {
     </dd>       
   </dl>
   
+  <!-- ============================================================= -->
   <dl>
-    <dt> <a name="declaration_pattern"
-    href="#declaration_pattern">Is there a recommended idiom for
-    declaring a logger in a class?</a>
+    <dt class="doAnchor" name="declaration_pattern">Is there a
+    recommended idiom for declaring a logger in a class?
     </dt>
     
     <dd>

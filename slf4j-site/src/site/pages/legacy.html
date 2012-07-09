@@ -8,10 +8,14 @@
   <link rel="stylesheet" type="text/css" media="print" href="css/print.css" />
   
 </head>
-<body>
+
+<body onload="decorate();">
   <script type="text/javascript">prefix='';</script>
 
-  <script src="templates/header.js" type="text/javascript"></script>
+  <script type="text/javascript" src="templates/header.js"></script>
+  <script type="text/javascript" src="js/jquery-min.js"></script>
+  <script type="text/javascript" src="js/decorator.js"></script>
+
   <div id="left">
     <script src="templates/left.js" type="text/javascript"></script>
   </div>
@@ -46,10 +50,10 @@
     <p>
     </p>
     
-    <h3><a name="jcl-over-slf4j" href="#jcl-over-slf4j">Gradual migration to
-    SLF4J from Jakarta Commons Logging (JCL)</a></h3>
+    <h2 class="doAnchor" name="jcl-over-slf4j">Gradual migration to
+    SLF4J from Jakarta Commons Logging (JCL)</h2>
     
-    <h4><em>jcl-over-slf4j.jar</em></h4>
+    <h4 class="doAnchor" name="jclOverSLF4J"><em>jcl-over-slf4j.jar</em></h4>
     
     <p>To ease migration to SLF4J from JCL, SLF4J distributions
     include the jar file <em>jcl-over-slf4j.jar</em>. This jar file is
@@ -74,7 +78,7 @@
     class loader issues related to commons logging.
     </p>
     
-    <h3><em>slf4j-jcl.jar</em></h3>
+    <h3  class="doAnchor" name="slf4jJCL"><em>slf4j-jcl.jar</em></h3>
     
     <p>Some of our users after having switched to SLF4J API realize that
     in some contexts the use of JCL is mandatory and their use of SLF4J
@@ -88,8 +92,9 @@
     of the application which can continue to use JCL.
     </p>
     
-    <h3><em>jcl-over-slf4j.jar</em> should not be confused with
-    <em>slf4j-jcl.jar</em></h3>
+    <h3 class="doAnchor"
+    name="jclRecursion"><em>jcl-over-slf4j.jar</em> should not be
+    confused with <em>slf4j-jcl.jar</em></h3>
     
     
     <p>JCL-over-SLF4J, i.e. <em>jcl-over-slf4j.jar</em>, comes in handy
@@ -118,7 +123,7 @@
     </p>
     
     
-    <h3><a name="log4j-over-slf4j" href="#log4j-over-slf4j">log4j-over-slf4j</a></h3>
+    <h2 class="doAnchor" name="log4j-over-slf4j">log4j-over-slf4j</h2>
     
     <p>SLF4J ship with a module called <em>log4j-over-slf4j</em>.  It
     allows log4j users to migrate existing applications to SLF4J without
@@ -127,7 +132,7 @@
     described below.
     </p>
     
-    <h4>How does it work?</h4>
+    <h4 class="doAnchor" name="losHow">How does it work?</h4>
     
     <p>The log4j-over-slf4j module contains replacements of most widely
     used log4j classes, namely <code>org.apache.log4j.Category</code>,
@@ -157,7 +162,7 @@
     href="http://logback.qos.ch/manual/index.html">its manual</a>.
     </p>
     
-    <h4>When does it not work?</h4>
+    <h4 class="doAnchor" name="losFail">When does it not work?</h4>
     
     <p>The <em>log4j-over-slf4j</em> module will not work when the
     application calls log4j components that are not present in the
@@ -171,7 +176,8 @@
 
     
     
-    <h4>What about the overhead?</h4>
+    <h4 class="doAnchor" name="losOverhead">What about the
+    overhead?</h4>
     
     <p>There overhead of using log4j-over-slf4j instead of log4j
     directly is relatively small. Given that log4j-over-slf4j
@@ -186,8 +192,8 @@
     log4j-over-slf4j instead of log4j directly.
     </p>
     
-    <h4>log4j-over-slf4j.jar and slf4j-logj12.jar cannot be present
-    simultaneously
+    <h4 class="doAnchor" name="log4jRecursion">log4j-over-slf4j.jar
+    and slf4j-logj12.jar cannot be present simultaneously
     </h4>
     
     <p>The presence of <em>slf4j-logj12.jar</em>, that is the log4j
@@ -201,7 +207,7 @@
 
 
     
-    <h3><a name="jul-to-slf4j" href="#jul-to-slf4j">jul-to-slf4j bridge</a></h3>
+    <h2 class="doAnchor" name="jul-to-slf4j">jul-to-slf4j bridge</h2>
     
     <p>The jul-to-slf4j module includes a java.util.logging (jul)
     handler, namely <code>SLF4JBridgeHandler</code>, which routes all
@@ -240,7 +246,7 @@
     </ol>
     
     
-    <h4>jul-to-slf4j.jar and slf4j-jdk14.jar cannot be present
+    <h4 class="doAnchor" name="julRecursion">jul-to-slf4j.jar and slf4j-jdk14.jar cannot be present
     simultaneously
     </h4>
     

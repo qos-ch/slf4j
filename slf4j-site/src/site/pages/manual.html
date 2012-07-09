@@ -8,13 +8,14 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
     <link rel="stylesheet" type="text/css" href="css/prettify.css" />
   </head>
-  <body onload="prettyPrint()">
+  <body onload="prettyPrint(); decorate();">
     <script type="text/javascript">prefix='';</script>
-
     <script type="text/javascript" src="js/prettify.js"></script>
-    <script src="templates/header.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery-min.js"></script>
+    <script type="text/javascript" src="js/decorator.js"></script>
+    <script type="text/javascript" src="templates/header.js"></script>
     <div id="left">
-      <script src="templates/left.js" type="text/javascript"></script>
+      <script type="text/javascript" src="templates/left.js"></script>
     </div>
     <div id="content">
 
@@ -34,9 +35,7 @@
     implementation.
     </p>
       
-    <h3>
-      <a name="hello_world" href="#hello_world">Hello World</a>
-    </h3>
+    <h3 class="doAnchor" name="hello_world">Hello World</h3>
 
     <p>As customary in programming tradition, here is an example
     illustrating the simplest way to output "Hello world" using SLF4J.
@@ -84,10 +83,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <pre class="output">0 [main] INFO HelloWorld - Hello World</pre>
       
-     <h3>
-       <a name="typical_usage" href="#typical_usage">Typical usage
-       pattern</a>
-     </h3>
+     <h3 class="doAnchor" name="typical_usage">Typical usage
+     pattern</h3>
  
      <p>The sample code below illustrates the typical usage pattern
      for SLF4J. Note the use of {}-placeholders on line 15. See the
@@ -121,8 +118,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       
      
 
-      <h3><a name="swapping" href="#binding">Binding with a logging
-      framework at deployment time</a></h3>
+      <h3 class="doAnchor" name="swapping">Binding with a logging
+      framework at deployment time</h3>
 
       <p>As mentioned previously, SLF4J supports various logging
       frameworks. The SLF4J distribution ships with several jar files
@@ -214,7 +211,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       find it very easy to write SLF4J bindings.
       </p>
      
-      <h3><a name="libraries" href="#libraries">Libraries</a></h3>
+      <h3 class="doAnchor" name="libraries">Libraries</h3>
 
       <p>Authors of widely-distributed components and libraries may
       code against the SLF4J interface in order to avoid imposing an
@@ -247,8 +244,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       </p>
 
 
-      <h3><a name="projectDep" href="#projectDep">Declaring project
-      dependencies for logging</a></h3>
+      <h3 class="doAnchor" name="projectDep">Declaring project
+      dependencies for logging</h3>
 
       <p><b>Please note that embedded components such as libraries or
       frameworks should not declare a dependency on any slf4j binding
@@ -313,8 +310,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 
    
-      <h3><a name="compatibility" href="#compatibility">Binary
-      compatibility</a></h3>
+      <h3 class="doAnchor" name="compatibility">Binary
+      compatibility</h3>
 
       <p>An SLF4J binding designates an artifact such as
       <em>slf4j-jdk14.jar</em> or <em>slf4j-log4j12.jar</em> used to
@@ -356,8 +353,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       </p>
 
 
-      <h3><a name="consolidate" href="#consolidate">Consolidate
-      logging via SLF4J</a></h3>
+      <h3 class="doAnchor" name="consolidate">Consolidate logging via
+      SLF4J</h3>
 
       <p>Often times, a given project will depend on various
       components which rely on logging APIs other than SLF4J. It is
@@ -370,8 +367,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       APIs</b></a>.
       </p>
 
-      <h3><a name="mdc" href="#mdc">Mapped Diagnostic Context (MDC)
-      support</a></h3>
+      <h3 class="doAnchor" name="mdc">Mapped Diagnostic Context (MDC) support</h3>
+
       <p>"Mapped Diagnostic Context" is essentially a map maintained by the
       logging framework where the application can provided key-value pairs,
       which can then be inserted by the logging framework in log messages.</p>
@@ -398,9 +395,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
     
       
-      <h3><a name="summary" href="#summary">Executive
-      summary</a>
-      </h3>
+      <h3 class="doAnchor" name="summary">Executive summary</h3>
       
       <table  class="bodyTable striped" cellspacing="4" cellpadding="4">
         <tr>
