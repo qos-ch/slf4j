@@ -7,7 +7,7 @@ function decorate() {
   var anchor = findAnchorInURL(document.URL);
   decoratePropertiesInTables(anchor);
   decorateDoAnchor(anchor);
-  decorateConversionWordInTables();
+  decorateConversionWordInTables(anchor);
 }
 
 // ----------------------------------------------
@@ -50,7 +50,7 @@ function decoratePropertiesInTables(anchor) {
  } // for 
 }
 
-function decorateConversionWordInTables() {
+function decorateConversionWordInTables(anchor) {
  var elems = $('tr td.word');
  for(var i = 0; i < elems.length; i++) {
    var e = elems[i];
