@@ -184,7 +184,8 @@ public class BasicMarker implements Marker {
     sb.append(' ').append(OPEN);
     while (it.hasNext()) {
       reference = (Marker) it.next();
-      sb.append(reference.getName());
+      // recursively process nested Markers
+      sb.append(reference.toString());
       if (it.hasNext()) {
         sb.append(SEP);
       }

@@ -54,7 +54,7 @@ public class BasicMarkerTest extends TestCase {
   final Marker multiComp;
 
   short diff = Differentiator.getDiffentiator();
-  
+
   public BasicMarkerTest() {
     factory = new BasicMarkerFactory();
 
@@ -143,7 +143,7 @@ public class BasicMarkerTest extends TestCase {
   }
 
   public void testSelfRecursion() {
-    final String diffPrefix = "NEW_"+diff;
+    final String diffPrefix = "NEW_" + diff;
     final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
     final String NOT_CONTAINED_NAME = diffPrefix + NOT_CONTAINED_MARKER_STR;
     Marker parent = factory.getMarker(PARENT_NAME);
@@ -156,10 +156,10 @@ public class BasicMarkerTest extends TestCase {
   }
 
   public void testIndirectRecursion() {
-    final String diffPrefix = "NEW_"+diff;
-    final String PARENT_NAME=diffPrefix+PARENT_MARKER_STR;
-    final String CHILD_NAME=diffPrefix+CHILD_MARKER_STR;
-    final String NOT_CONTAINED_NAME=diffPrefix+NOT_CONTAINED_MARKER_STR;
+    final String diffPrefix = "NEW_" + diff;
+    final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
+    final String CHILD_NAME = diffPrefix + CHILD_MARKER_STR;
+    final String NOT_CONTAINED_NAME = diffPrefix + NOT_CONTAINED_MARKER_STR;
 
     Marker parent = factory.getMarker(PARENT_NAME);
     Marker child = factory.getMarker(CHILD_NAME);
@@ -176,21 +176,26 @@ public class BasicMarkerTest extends TestCase {
   }
 
   public void testHomonyms() {
-    final String diffPrefix = "homonym"+diff;
-    final String PARENT_NAME=diffPrefix+PARENT_MARKER_STR;
-    final String CHILD_NAME=diffPrefix+CHILD_MARKER_STR;
+    final String diffPrefix = "homonym" + diff;
+    final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
+    final String CHILD_NAME = diffPrefix + CHILD_MARKER_STR;
     Marker parent = factory.getMarker(PARENT_NAME);
     Marker child = factory.getMarker(CHILD_NAME);
     parent.add(child);
-   
+
     IMarkerFactory otherFactory = new BasicMarkerFactory();
     Marker otherParent = otherFactory.getMarker(PARENT_NAME);
     Marker otherChild = otherFactory.getMarker(CHILD_NAME);
-    
+
     assertTrue(parent.contains(otherParent));
     assertTrue(parent.contains(otherChild));
-    
+
     assertTrue(parent.remove(otherChild));
   }
-  
+
+  public void testToString() {
+    assertEquals(MULTI_COMP_STR + " [ " + GREEN_STR + ", " + COMP_STR + " [ "
+        + BLUE_STR + " ] ]", multiComp.toString());
+  }
+
 }
