@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (c) 2004-2005 QOS.ch
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to  deal in  the Software without  restriction, including
@@ -12,7 +12,7 @@
  * copyright notice(s) and this permission notice appear in all copies of
  * the  Software and  that both  the above  copyright notice(s)  and this
  * permission notice appear in supporting documentation.
- * 
+ *
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
  * MERCHANTABILITY, FITNESS FOR  A PARTICULAR PURPOSE AND NONINFRINGEMENT
@@ -22,7 +22,7 @@
  * RESULTING FROM LOSS  OF USE, DATA OR PROFITS, WHETHER  IN AN ACTION OF
  * CONTRACT, NEGLIGENCE  OR OTHER TORTIOUS  ACTION, ARISING OUT OF  OR IN
  * CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- * 
+ *
  * Except as  contained in  this notice, the  name of a  copyright holder
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
@@ -40,9 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <code>LogServiceImpl</code> is a simple OSGi LogService implemenation that delegates to a slf4j 
+ * <code>LogServiceImpl</code> is a simple OSGi LogService implementation that delegates to a slf4j
  * Logger.
- * 
+ *
  * @author John Conlon
  */
 public class LogServiceImpl implements LogService {
@@ -53,7 +53,7 @@ public class LogServiceImpl implements LogService {
 
 	/**
 	 * Creates a new instance of LogServiceImpl.
-	 * 
+	 *
 	 */
 	public LogServiceImpl(Bundle bundle) {
 		String name = (String) bundle.getHeaders().get(
@@ -65,7 +65,7 @@ public class LogServiceImpl implements LogService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.log.LogService#log(int, java.lang.String)
 	 */
 	public void log(int level, String message) {
@@ -85,12 +85,11 @@ public class LogServiceImpl implements LogService {
 		default:
 			break;
 		}
-
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.log.LogService#log(int, java.lang.String,
 	 *      java.lang.Throwable)
 	 */
@@ -115,12 +114,12 @@ public class LogServiceImpl implements LogService {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference,
 	 *      int, java.lang.String)
 	 */
 	public void log(ServiceReference sr, int level, String message) {
-		
+
 		switch (level) {
 		case LOG_DEBUG:
 			if(delegate.isDebugEnabled()){
@@ -148,26 +147,27 @@ public class LogServiceImpl implements LogService {
 	}
 
 	/**
-	 * createMessage.
+	 * Formats the log message to indicate the service sending it, if known.
 	 *
-	 * @param sr
-	 * @param message
-	 * @return
+	 * @param sr the ServiceReference sending the message.
+	 * @param message The message to log.
+	 * @return The formatted log message.
 	 */
 	private String createMessage(ServiceReference sr, String message) {
-		StringBuffer output = new StringBuffer();
+		StringBuilder output = new StringBuilder();
 		if (sr != null) {
-			output.append('[').append(sr.toString()).append(']')
-			.append(message);
+			output.append('[').append(sr.toString()).append(']');
 		} else {
-			output.append(UNKNOWN).append(message);
+			output.append(UNKNOWN);
 		}
+		output.append(message);
+
 		return output.toString();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference,
 	 *      int, java.lang.String, java.lang.Throwable)
 	 */
@@ -199,5 +199,4 @@ public class LogServiceImpl implements LogService {
 			break;
 		}
 	}
-
 }
