@@ -1,4 +1,0 @@
-scan-bundle:file:slf4j-api/target/slf4j-api-1.6.2-SNAPSHOT.jar
-scan-bundle:file:slf4j-simple/target/slf4j-simple-1.6.2-SNAPSHOT.jar
-scan-bundle:file:slf4j-scala-api/target/slf4j-scala-api-1.6.2-SNAPSHOT.jar
-scan-bundle:mvn:http://scala-tools.org/repo-releases!com.weiglewilczek.scala-lang-osgi/scala-library/2.8.0

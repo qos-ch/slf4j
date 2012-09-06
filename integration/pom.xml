@@ -1,14 +1,14 @@
-<project 
- xmlns="http://maven.apache.org/POM/4.0.0" 
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project
+ xmlns="http://maven.apache.org/POM/4.0.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
 		<groupId>org.slf4j</groupId>
 		<artifactId>slf4j-parent</artifactId>
-    	<version>1.6.7-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.slf4j</groupId>
@@ -35,7 +35,7 @@
     <dependency>
       <groupId>ant</groupId>
       <artifactId>ant-junit</artifactId>
-      <version>1.6.5</version>    
+      <version>1.6.5</version>
     </dependency>
 
 
@@ -61,7 +61,7 @@
           <dependency>
             <groupId>ant</groupId>
             <artifactId>ant-junit</artifactId>
-            <version>1.6.5</version>    
+            <version>1.6.5</version>
           </dependency>
         </dependencies>
         <executions>
@@ -69,7 +69,7 @@
             <id>ant-test</id>
             <phase>package</phase>
             <configuration>
-              <tasks>      
+              <tasks>
                 <property name="currentVersion" value="${project.version}" />
                 <property name="compile_classpath" refid="maven.compile.classpath"/>
                 <property name="runtime_classpath" refid="maven.runtime.classpath"/>
@@ -86,7 +86,7 @@
             <id>ant-osgi-test</id>
             <phase>package</phase>
             <configuration>
-              <tasks>      
+              <tasks>
                 <property name="currentVersion" value="${project.version}" />
                 <property name="test_classpath" refid="maven.test.classpath"/>
                 <property name="basedir" value="${basedir}"/>

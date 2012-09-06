@@ -167,12 +167,12 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    * 
    * @param format
    *          the format string
-   * @param argArray
+   * @param arguments
    *          an array of arguments
    */
-  public void trace(String format, Object[] argArray) {
+  public void trace(String format, Object... arguments) {
     if (isTraceEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft
           .getMessage(), ft.getThrowable());
     }
@@ -264,12 +264,11 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    * 
    * @param format
    *          the format string
-   * @param argArray
-   *          an array of arguments
+   * @param arguments an array of arguments
    */
-  public void debug(String format, Object[] argArray) {
+  public void debug(String format, Object... arguments) {
     if (logger.isDebugEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
     }
   }
@@ -362,7 +361,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void info(String format, Object[] argArray) {
+  public void info(String format, Object... argArray) {
     if (logger.isInfoEnabled()) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
@@ -459,7 +458,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void warn(String format, Object[] argArray) {
+  public void warn(String format, Object... argArray) {
     if (logger.isEnabledFor(Level.WARN)) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
@@ -556,7 +555,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void error(String format, Object[] argArray) {
+  public void error(String format, Object... argArray) {
     if (logger.isEnabledFor(Level.ERROR)) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());

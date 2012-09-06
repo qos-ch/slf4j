@@ -56,8 +56,8 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
     trace(format, arg1, arg2);
   }
 
-  public void trace(Marker marker, String format, Object[] argArray) {
-    trace(format, argArray);
+  public void trace(Marker marker, String format, Object... arguments) {
+    trace(format, arguments);
   }
 
   public void trace(Marker marker, String msg, Throwable t) {
@@ -80,8 +80,8 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
     debug(format, arg1, arg2);
   }
 
-  public void debug(Marker marker, String format, Object[] argArray) {
-    debug(format, argArray);
+  public void debug(Marker marker, String format, Object... arguments) {
+    debug(format, arguments);
   }
 
   public void debug(Marker marker, String msg, Throwable t) {
@@ -104,8 +104,8 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
     info(format, arg1, arg2);
   }
 
-  public void info(Marker marker, String format, Object[] argArray) {
-    info(format, argArray);
+  public void info(Marker marker, String format, Object... arguments) {
+    info(format, arguments);
   }
 
   public void info(Marker marker, String msg, Throwable t) {
@@ -128,8 +128,8 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
     warn(format, arg1, arg2);
   }
 
-  public void warn(Marker marker, String format, Object[] argArray) {
-    warn(format, argArray);
+  public void warn(Marker marker, String format, Object... arguments) {
+    warn(format, arguments);
   }
 
   public void warn(Marker marker, String msg, Throwable t) {
@@ -153,8 +153,8 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
     error(format, arg1, arg2);
   }
 
-  public void error(Marker marker, String format, Object[] argArray) {
-    error(format, argArray);
+  public void error(Marker marker, String format, Object... arguments) {
+    error(format, arguments);
   }
 
   public void error(Marker marker, String msg, Throwable t) {

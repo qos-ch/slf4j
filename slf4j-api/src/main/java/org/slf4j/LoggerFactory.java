@@ -81,7 +81,7 @@ public final class LoggerFactory {
    * <p/>
    * It is assumed that all versions in the 1.6 are mutually compatible.
    */
-  static private final String[] API_COMPATIBILITY_LIST = new String[]{"1.6"};
+  static private final String[] API_COMPATIBILITY_LIST = new String[]{"1.6", "1.7"};
 
   // private constructor prevents instantiation
   private LoggerFactory() {

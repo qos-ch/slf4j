@@ -364,8 +364,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
    *
    * @param level
    * @param format
-   * @param param1
-   * @param param2
+   * @param arg1
+   * @param arg2
    */
   private void formatAndLog(int level, String format, Object arg1,
       Object arg2) {
@@ -381,13 +381,13 @@ public class SimpleLogger extends MarkerIgnoringBase {
    *
    * @param level
    * @param format
-   * @param argArray
+   * @param arguments a list of 3 ore more arguments
    */
-  private void formatAndLog(int level, String format, Object[] argArray) {
+  private void formatAndLog(int level, String format, Object... arguments) {
     if (! isLevelEnabled(level)) {
       return;
     }
-    FormattingTuple tp = MessageFormatter.arrayFormat(format, argArray);
+    FormattingTuple tp = MessageFormatter.arrayFormat(format, arguments);
     log(level, tp.getMessage(), tp.getThrowable());
   }
 
