@@ -29,7 +29,17 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>2012 - Release of SLF4J 1.6.7</h3>
+   <h3>6th of September, 2012 - Release of SLF4J 1.7.0</h3>
+
+   <p><span class="bold">SLF4J now requires JDK 1.5.</span></p>
+
+   <p>Printing methods in the <a href="">Logger</a> interface now
+   offers variants accepting <a
+   href="http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html">varargs</a>
+   instead of Object[]. Given that under the hood, the Java compiler
+   transforms varargs into an array, this change is totally 100%
+   no-ifs-or-buts backward compatible with all existing client
+   code. </p>
 
    <p>The logger field (of type <code>java.util.logging.Logger</code>)
    in <code>JDK14LoggerAdapter</code> is now marked as transient. This

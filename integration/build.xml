@@ -67,10 +67,10 @@
     <pathelement location="../slf4j-nop/target/slf4j-nop-${currentVersion}.jar" />
  	</path >
 
-  <path id="binding1699">
+  <path id="binding166">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-1.6.99.jar" />
+		<pathelement location="./lib/slf4j-simple-1.6.6.jar" />
 	</path >
 
   <path id="binding2099">
@@ -80,10 +80,10 @@
 	</path >
 
 
-  <path id="api1699">
+  <path id="api166">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-api-1.6.99.jar" />
+		<pathelement location="./lib/slf4j-api-1.6.6.jar" />
 	</path >
 
 
@@ -180,19 +180,19 @@
 
 	<target name="testFuture_16Series">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="binding1699" />
+			<classpath refid="binding166" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-binding1699" 
+            outfile="TEST-binding166"
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 
     
     <junit printsummary="yes" fork="no" haltonfailure="yes">
-      <classpath refid="api1699" />
+      <classpath refid="api166" />
       <formatter type="plain" />
       <test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-api1699" 
+            outfile="TEST-api166"
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
 

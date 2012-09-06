@@ -35,6 +35,14 @@
     implementation.
     </p>
       
+    <p><span class="label">since 1.7.0</span> In order to support <a
+    href="http://docs.oracle.com/javase/1.5.0/docs/guide/language/varargs.html">varargs</a>,
+    SLF4J version 1.7.0 and later require JDK 1.5 or greater. Given
+    that under the hood, the Java compiler transforms the varaargs
+    part in methods into an array, SLF4J version 1.7.0 is 100% binary
+    compatible, i.e. indistinguishable, from SLF4J version 1.6.x.
+    </p>
+
     <h3 class="doAnchor" name="hello_world">Hello World</h3>
 
     <p>As customary in programming tradition, here is an example
@@ -419,8 +427,9 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
           <td>Due to the way that classes are loaded by the JVM, the
           framework binding will be verified automatically very early
-          on.  SLF4J will abort execution with a warning if no binding
-          is present.
+          on.  If SLF4J cannot find a binding on the class path it
+          will emit a signle warning message and default to
+          no-operation implementation.
           </td>
         </tr>
 
