@@ -246,9 +246,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
   }
 
-
-  /** The name of this simple log instance */
-  //protected String logName = null;// == name
   /** The current log level */
   protected int currentLogLevel = LOG_LEVEL_INFO;
   /** The short name of this simple log instance */
@@ -270,7 +267,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     } else {
       this.currentLogLevel = DEFAULT_LOG_LEVEL;
     }
-
   }
 
   String recursivelyComputeLevelString() {
