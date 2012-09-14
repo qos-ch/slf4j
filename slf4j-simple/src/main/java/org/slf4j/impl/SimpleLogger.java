@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2012 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -46,42 +46,45 @@ import org.slf4j.spi.LocationAwareLogger;
  * <p>Simple implementation of {@link Logger} that sends all enabled log messages,
  * for all defined loggers, to the console ({@code System.err}).
  * The following system properties are supported to configure the behavior of this logger:</p>
+ *
  * <ul>
- * <li><code>org.slf4j.simpleLogger.defaultLog</code> -
- * Default logging level for all instances of SimpleLogger.
- * Must be one of ("trace", "debug", "info", "warn", or "error").
- * If not specified, defaults to "info". </li>
- * <li><code>org.slf4j.simpleLogger.log.xxxxx</code> -
- * Logging detail level for a SimpleLogger instance named "xxxxx".
- * Must be one of ("trace", "debug", "info", "warn", or "error").
- * If not specified, the level of parent logger will be used, and if none is set, then
- * the default level is used.</li>
- * <li><code>org.slf4j.simpleLogger.showDateTime</code> -
- * Set to <code>true</code> if you want the current date and time
- * to be included in output messages. Default is <code>true</code></li>
- * <li><code>org.slf4j.simpleLogger.dateTimeFormat</code> -
- * The date and time format to be used in the output messages.
- * The pattern describing the date and time format is the same that is
- * used in <code>java.text.SimpleDateFormat</code>. If the format is not
- * specified or is invalid, the number of milliseconds since start up will be output.
- * </li>
- * <li><code>org.slf4j.simpleLogger.showThreadName</code> -
- * Set to <code>true</code> if you want to output the current thread name.
- * Defaults to <code>true</code>.</li>
- * <li><code>org.slf4j.simpleLogger.showLogName</code> -
- * Set to <code>true</code> if you want the Logger instance name to be
- * included in output messages. Defaults to <code>true</code>.</li>
- * <li><code>org.slf4j.simpleLogger.showShortLogName</code> -
- * Set to <code>true</code> if you want the last component of the name to be
- * included in output messages. Defaults to <code>false</code>.</li>
+ * <li><code>org.slf4j.simpleLogger.logFile</code> - The output target which can be the <em>path</em> to a file, or
+ * the special values "System.out" and "System.err". Default is "System.err".
+ *
+ * <li><code>org.slf4j.simpleLogger.defaultLogLevel</code> - Default log level for all instances of SimpleLogger.
+ * Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, defaults to "info". </li>
+ *
+ * <li><code>org.slf4j.simpleLogger.log.xxxxx</code> - Logging detail level for a SimpleLogger instance named "xxxxx".
+ * Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, the level the nearest parent logger
+ * will be used, and if none is set, then the default level will be used.</li>
+ *
+ * <li><code>org.slf4j.simpleLogger.showDateTime</code> - Set to <code>true</code> if you want the current date and
+ * time to be included in output messages. Default is <code>true</code></li>
+ *
+ * <li><code>org.slf4j.simpleLogger.dateTimeFormat</code> - The date and time format to be used in the output messages.
+ * The pattern describing the date and time format is defined by
+ * <a href="http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html"><code>SimpleDateFormat</code></a>.
+ * If the format is not specified or is invalid, the number of milliseconds since start up will be output. </li>
+ *
+ * <li><code>org.slf4j.simpleLogger.showThreadName</code> -Set to <code>true</code> if you want to output the current
+ * thread name. Defaults to <code>true</code>.</li>
+ *
+ * <li><code>org.slf4j.simpleLogger.showLogName</code> - Set to <code>true</code> if you want the Logger instance name
+ * to be included in output messages. Defaults to <code>true</code>.</li>
+ *
+ * <li><code>org.slf4j.simpleLogger.showShortLogName</code> - Set to <code>true</code> if you want the last component
+ * of the name to be included in output messages. Defaults to <code>false</code>.</li>
+ *
+ * <li><code>org.slf4j.simpleLogger.levelInBrackets</code> - Should the level string be output in brackets? Defaults
+ * to <code>false</code>.</li>
  * </ul>
- * <p>In addition to looking for system properties with the names specified
- * above, this implementation also checks for a class loader resource named
- * <code>"simplelogger.properties"</code>, and includes any matching definitions
+ *
+ * <p>In addition to looking for system properties with the names specified above, this implementation also checks for
+ * a class loader resource named <code>"simplelogger.properties"</code>, and includes any matching definitions
  * from this resource (if it exists).</p>
- * <p>With no configurationn, the default output includes the relative time in milliseconds,
- * thread name, the level, logger name, and the message followed by the line
- * separator for the host.  In log4j terms it amounts to the "%r [%t]
+ *
+ * <p>With no configuration, the default output includes the relative time in milliseconds, thread name, the level,
+ * logger name, and the message followed by the line separator for the host.  In log4j terms it amounts to the "%r [%t]
  * %level %logger - %m%n" pattern. </p>
  * <p>Sample output follows.</p>
  * <pre>
@@ -92,13 +95,13 @@ import org.slf4j.spi.LocationAwareLogger;
  * 331 [main] INFO examples.SortAlgo - Element [1] = 1
  * 343 [main] INFO examples.Sort - The next log statement should be an error message.
  * 346 [main] ERROR examples.SortAlgo - Tried to dump an uninitialized array.
- * at org.log4j.examples.SortAlgo.dump(SortAlgo.java:58)
- * at org.log4j.examples.Sort.main(Sort.java:64)
+ *   at org.log4j.examples.SortAlgo.dump(SortAlgo.java:58)
+ *   at org.log4j.examples.Sort.main(Sort.java:64)
  * 467 [main] INFO  examples.Sort - Exiting main method.
  * </pre>
- * <p/>
+ *
  * <p>This implementation is heavily inspired by
- * <a href="http://commons.apache.org/logging/">Apache Commons Logging</a>'s SimpleLog.
+ * <a href="http://commons.apache.org/logging/">Apache Commons Logging</a>'s SimpleLog.</p>
  *
  * @author Ceki G&uuml;lc&uuml;
  * @author <a href="mailto:sanders@apache.org">Scott Sanders</a>
@@ -120,43 +123,34 @@ public class SimpleLogger extends MarkerIgnoringBase {
   private static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
   private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
 
-  private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
-
-
-  private static boolean SHOW_SHORT_LOG_NAME = false;
-  private static boolean SHOW_DATE_TIME = false;
-
-  private static String DATE_TIME_FORMAT_STR = null;
-  private static boolean SHOW_THREAD_NAME = true;
-  private static boolean SHOW_LOG_NAME = true;
-
-
-  private static String LOG_FILE = "System.err";
-  private static boolean LEVEL_IN_BRACKETS = false;
-
-  private static DateFormat DATE_FORMATTER = null;
-
   private static boolean INITIALIZED = false;
 
-  /**
-   * All system properties used by <code>SimpleLogger</code> start with this prefix
-   */
+  private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
+  private static boolean SHOW_DATE_TIME = false;
+  private static String DATE_TIME_FORMAT_STR = null;
+  private static DateFormat DATE_FORMATTER = null;
+  private static boolean SHOW_THREAD_NAME = true;
+  private static boolean SHOW_LOG_NAME = true;
+  private static boolean SHOW_SHORT_LOG_NAME = false;
+  private static String LOG_FILE = "System.err";
+  private static PrintStream TARGET_STREAM = null;
+  private static boolean LEVEL_IN_BRACKETS = false;
+
+
+  /** All system properties used by <code>SimpleLogger</code> start with this prefix */
   public static final String SYSTEM_PREFIX = "org.slf4j.simpleLogger.";
 
-  public static final String DEFAULT_LOG_KEY = SYSTEM_PREFIX + "defaultLog";
+  public static final String DEFAULT_LOG_LEVEL_KEY = SYSTEM_PREFIX + "defaultLogLevel";
+  public static final String SHOW_DATE_TIME_KEY = SYSTEM_PREFIX + "showDateTime";
+  public static final String DATE_TIME_FORMAT_KEY = SYSTEM_PREFIX + "dateTimeFormat";
+  public static final String SHOW_THREAD_NAME_KEY = SYSTEM_PREFIX + "showThreadName";
   public static final String SHOW_LOG_NAME_KEY = SYSTEM_PREFIX + "showLogName";
   public static final String SHOW_SHORT_LOG_NAME_KEY = SYSTEM_PREFIX + "showShortLogName";
-  public static final String SHOW_THREAD_NAME_KEY = SYSTEM_PREFIX + "showThreadName";
-  public static final String DATE_TIME_FORMAT_KEY = SYSTEM_PREFIX + "dateTimeFormat";
-  public static final String SHOW_DATE_TIME_KEY = SYSTEM_PREFIX + "showDateTime";
   public static final String LOG_FILE_KEY = SYSTEM_PREFIX + "logFile";
   public static final String LEVEL_IN_BRACKETS_KEY = SYSTEM_PREFIX + "levelInBrackets";
 
-
   public static final String LOG_KEY_PREFIX = SYSTEM_PREFIX + "log.";
 
-
-  private static PrintStream TARGET_STREAM = null;
 
   private static String getStringProperty(String name) {
     String prop = null;
@@ -186,7 +180,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     INITIALIZED = true;
     loadProperties();
 
-    String defaultLogLevelString = getStringProperty(DEFAULT_LOG_KEY, null);
+    String defaultLogLevelString = getStringProperty(DEFAULT_LOG_LEVEL_KEY, null);
     if (defaultLogLevelString != null)
       DEFAULT_LOG_LEVEL = stringToLevel(defaultLogLevelString);
 
@@ -204,11 +198,10 @@ public class SimpleLogger extends MarkerIgnoringBase {
       try {
         DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
       } catch (IllegalArgumentException e) {
-        Util.report("Bad date format in " + CONFIGURATION_FILE + "; will default to relative time ", e);
+        Util.report("Bad date format in " + CONFIGURATION_FILE + "; will output relative time", e);
       }
     }
   }
-
 
 
   private static PrintStream computeTargetStream(String logFile) {
@@ -254,13 +247,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   /** The name of this simple log instance */
   //protected String logName = null;// == name
-  /**
-   * The current log level
-   */
+  /** The current log level */
   protected int currentLogLevel = LOG_LEVEL_INFO;
-  /**
-   * The short name of this simple log instance
-   */
+  /** The short name of this simple log instance */
   private transient String shortLogName = null;
 
   /**
@@ -268,7 +257,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * SimpleLogger instances.
    */
   SimpleLogger(String name) {
-    if(!INITIALIZED) {
+    if (!INITIALIZED) {
       init();
     }
     this.name = name;
@@ -446,9 +435,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     return (logLevel >= currentLogLevel);
   }
 
-  /**
-   * Are {@code trace} messages currently enabled?
-   */
+  /** Are {@code trace} messages currently enabled? */
   public boolean isTraceEnabled() {
     return isLevelEnabled(LOG_LEVEL_TRACE);
   }
@@ -485,16 +472,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(LOG_LEVEL_TRACE, format, argArray);
   }
 
-  /**
-   * Log a message of level TRACE, including an exception.
-   */
+  /** Log a message of level TRACE, including an exception. */
   public void trace(String msg, Throwable t) {
     log(LOG_LEVEL_TRACE, msg, t);
   }
 
-  /**
-   * Are {@code debug} messages currently enabled?
-   */
+  /** Are {@code debug} messages currently enabled? */
   public boolean isDebugEnabled() {
     return isLevelEnabled(LOG_LEVEL_DEBUG);
   }
@@ -531,16 +514,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(LOG_LEVEL_DEBUG, format, argArray);
   }
 
-  /**
-   * Log a message of level DEBUG, including an exception.
-   */
+  /** Log a message of level DEBUG, including an exception. */
   public void debug(String msg, Throwable t) {
     log(LOG_LEVEL_DEBUG, msg, t);
   }
 
-  /**
-   * Are {@code info} messages currently enabled?
-   */
+  /** Are {@code info} messages currently enabled? */
   public boolean isInfoEnabled() {
     return isLevelEnabled(LOG_LEVEL_INFO);
   }
@@ -577,16 +556,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(LOG_LEVEL_INFO, format, argArray);
   }
 
-  /**
-   * Log a message of level INFO, including an exception.
-   */
+  /** Log a message of level INFO, including an exception. */
   public void info(String msg, Throwable t) {
     log(LOG_LEVEL_INFO, msg, t);
   }
 
-  /**
-   * Are {@code warn} messages currently enabled?
-   */
+  /** Are {@code warn} messages currently enabled? */
   public boolean isWarnEnabled() {
     return isLevelEnabled(LOG_LEVEL_WARN);
   }
@@ -623,16 +598,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(LOG_LEVEL_WARN, format, argArray);
   }
 
-  /**
-   * Log a message of level WARN, including an exception.
-   */
+  /** Log a message of level WARN, including an exception. */
   public void warn(String msg, Throwable t) {
     log(LOG_LEVEL_WARN, msg, t);
   }
 
-  /**
-   * Are {@code error} messages currently enabled?
-   */
+  /** Are {@code error} messages currently enabled? */
   public boolean isErrorEnabled() {
     return isLevelEnabled(LOG_LEVEL_ERROR);
   }
@@ -669,9 +640,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     formatAndLog(LOG_LEVEL_ERROR, format, argArray);
   }
 
-  /**
-   * Log a message of level ERROR, including an exception.
-   */
+  /** Log a message of level ERROR, including an exception. */
   public void error(String msg, Throwable t) {
     log(LOG_LEVEL_ERROR, msg, t);
   }
