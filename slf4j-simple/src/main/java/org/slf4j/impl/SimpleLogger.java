@@ -44,30 +44,30 @@ import org.slf4j.spi.LocationAwareLogger;
  * for all defined loggers, to the console ({@code System.err}).
  * The following system properties are supported to configure the behavior of this logger:</p>
  * <ul>
- * <li><code>org.slf4j.simplelogger.defaultlog</code> -
+ * <li><code>org.slf4j.simpleLogger.defaultLog</code> -
  * Default logging detail level for all instances of SimpleLogger.
  * Must be one of ("trace", "debug", "info", "warn", or "error").
  * If not specified, defaults to "info". </li>
- * <li><code>org.slf4j.simplelogger.log.xxxxx</code> -
+ * <li><code>org.slf4j.simpleLogger.log.xxxxx</code> -
  * Logging detail level for a SimpleLogger instance named "xxxxx".
  * Must be one of ("trace", "debug", "info", "warn", or "error").
  * If not specified, the default logging detail level is used.</li>
- * <li><code>org.slf4j.simplelogger.showdatetime</code> -
+ * <li><code>org.slf4j.simpleLogger.showDateTime</code> -
  * Set to <code>true</code> if you want the current date and time
  * to be included in output messages. Default is <code>true</code></li>
- * <li><code>org.slf4j.simplelogger.dateTimeFormat</code> -
+ * <li><code>org.slf4j.simpleLogger.dateTimeFormat</code> -
  * The date and time format to be used in the output messages.
  * The pattern describing the date and time format is the same that is
  * used in <code>java.text.SimpleDateFormat</code>. If the format is not
- * specified or is invalid, the number of milliseonds since start up will be output.
+ * specified or is invalid, the number of milliseconds since start up will be output.
  * </li>
- * <li><code>org.slf4j.simplelogger.showthreadname</code> -
+ * <li><code>org.slf4j.simpleLogger.showThreadName</code> -
  * Set to <code>true</code> if you want to output the current thread name.
  * Defaults to <code>true</code>.</li>
- * <li><code>org.slf4j.simplelogger.showlogname</code> -
+ * <li><code>org.slf4j.simpleLogger.showLogName</code> -
  * Set to <code>true</code> if you want the Logger instance name to be
  * included in output messages. Defaults to <code>true</code>.</li>
- * <li><code>org.slf4j.simplelogger.showShortLogname</code> -
+ * <li><code>org.slf4j.simpleLogger.showShortLogName</code> -
  * Set to <code>true</code> if you want the last component of the name to be
  * included in output messages. Defaults to <code>false</code>.</li>
  * </ul>
@@ -241,20 +241,24 @@ public class SimpleLogger extends MarkerIgnoringBase {
       }
     }
 
-    SHOW_LOG_NAME = getBooleanProperty(systemPrefix + "showlogname", SHOW_LOG_NAME);
-    SHOW_SHORT_NAME = getBooleanProperty(systemPrefix + "showShortLogname", SHOW_SHORT_NAME);
-    SHOW_DATE_TIME = getBooleanProperty(systemPrefix + "showdatetime", SHOW_DATE_TIME);
-    SHOW_THREAD_NAME = getBooleanProperty(systemPrefix + "showthreadname", SHOW_THREAD_NAME);
-    DATE_TIME_FORMAT_STR = getStringProperty(systemPrefix + "dateTimeFormat", DATE_TIME_FORMAT_STR);
-    logFile = getStringProperty(systemPrefix + "logFile", logFile);
-    String defaultLogLevelString = getStringProperty(systemPrefix + "defaultlog", null);
+    String defaultLogLevelString = getStringProperty(systemPrefix + "defaultLog", null);
     if (defaultLogLevelString != null)
       defaultLogLevel = stringToLevel(defaultLogLevelString);
 
-    try {
-      DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
-    } catch (IllegalArgumentException e) {
-      Util.report("Bad date format in " + CONFIGURATION_FILE + "; will default to relative time ", e);
+    SHOW_LOG_NAME = getBooleanProperty(systemPrefix + "showLogName", SHOW_LOG_NAME);
+    SHOW_SHORT_NAME = getBooleanProperty(systemPrefix + "showShortLogName", SHOW_SHORT_NAME);
+    SHOW_DATE_TIME = getBooleanProperty(systemPrefix + "showDateTime", SHOW_DATE_TIME);
+    SHOW_THREAD_NAME = getBooleanProperty(systemPrefix + "showThreadName", SHOW_THREAD_NAME);
+    DATE_TIME_FORMAT_STR = getStringProperty(systemPrefix + "dateTimeFormat", DATE_TIME_FORMAT_STR);
+
+    logFile = getStringProperty(systemPrefix + "logFile", logFile);
+
+    if (DATE_TIME_FORMAT_STR != null) {
+      try {
+        DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
+      } catch (IllegalArgumentException e) {
+        Util.report("Bad date format in " + CONFIGURATION_FILE + "; will default to relative time ", e);
+      }
     }
   }
 
