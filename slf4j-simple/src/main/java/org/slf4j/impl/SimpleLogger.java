@@ -117,7 +117,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
   private static boolean SHOW_DATE_TIME = false;
   private static String DATE_TIME_FORMAT_STR = null;
   private static boolean SHOW_THREAD_NAME = true;
-  private static String logFile = "System.err";
+  private static String LOG_FILE = "System.err";
+  private static boolean LEVEL_IN_BRACKETS = false;
 
   private static DateFormat DATE_FORMATTER = null;
 
@@ -140,11 +141,13 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public static final String SHOW_DATE_TIME_KEY = SYSTEM_PREFIX + "showDateTime";
   public static final String LOG_FILE_KEY = SYSTEM_PREFIX + "logFile";
 
+  public static final String LEVEL_IN_BRACKETS_KEY = SYSTEM_PREFIX + "levelInBrackets";
+
   public static final String LOG_KEY_PREFIX = SYSTEM_PREFIX + "log.";
 
 
   private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
-  private static PrintStream TARGET_STREAM = System.err;
+  private static PrintStream TARGET_STREAM = null;
 
   private static String getStringProperty(String name) {
     String prop = null;
@@ -183,10 +186,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
     SHOW_DATE_TIME = getBooleanProperty(SHOW_DATE_TIME_KEY, SHOW_DATE_TIME);
     SHOW_THREAD_NAME = getBooleanProperty(SHOW_THREAD_NAME_KEY, SHOW_THREAD_NAME);
     DATE_TIME_FORMAT_STR = getStringProperty(DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR);
+    LEVEL_IN_BRACKETS = getBooleanProperty(LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS);
 
 
-    logFile = getStringProperty(LOG_FILE_KEY, logFile);
-    TARGET_STREAM = computeTargetStream(logFile);
+    LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
+    TARGET_STREAM = computeTargetStream(LOG_FILE);
 
     if (DATE_TIME_FORMAT_STR != null) {
       try {
@@ -198,9 +202,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   private static PrintStream computeTargetStream(String logFile) {
-    if("System.err".equalsIgnoreCase(logFile))
+    if ("System.err".equalsIgnoreCase(logFile))
       return System.err;
-    else if("System.out".equalsIgnoreCase(logFile)) {
+    else if ("System.out".equalsIgnoreCase(logFile)) {
       return System.out;
     } else {
       try {
@@ -277,16 +281,16 @@ public class SimpleLogger extends MarkerIgnoringBase {
     return levelString;
   }
 
-  private static int stringToLevel(String lvl) {
-    if ("trace".equalsIgnoreCase(lvl)) {
+  private static int stringToLevel(String levelStr) {
+    if ("trace".equalsIgnoreCase(levelStr)) {
       return LOG_LEVEL_TRACE;
-    } else if ("debug".equalsIgnoreCase(lvl)) {
+    } else if ("debug".equalsIgnoreCase(levelStr)) {
       return LOG_LEVEL_DEBUG;
-    } else if ("info".equalsIgnoreCase(lvl)) {
+    } else if ("info".equalsIgnoreCase(levelStr)) {
       return LOG_LEVEL_INFO;
-    } else if ("warn".equalsIgnoreCase(lvl)) {
+    } else if ("warn".equalsIgnoreCase(levelStr)) {
       return LOG_LEVEL_WARN;
-    } else if ("error".equalsIgnoreCase(lvl)) {
+    } else if ("error".equalsIgnoreCase(levelStr)) {
       return LOG_LEVEL_ERROR;
     }
     // assume INFO by default
@@ -327,6 +331,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
       buf.append("] ");
     }
 
+    if (LEVEL_IN_BRACKETS) buf.append('[');
+
     // Append a readable representation of the log level
     switch (level) {
       case LOG_LEVEL_TRACE:
@@ -345,6 +351,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         buf.append("ERROR");
         break;
     }
+    if (LEVEL_IN_BRACKETS) buf.append(']');
     buf.append(' ');
 
     // Append the name of the log instance if so configured
@@ -364,7 +371,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   void write(StringBuffer buf, Throwable t) {
     TARGET_STREAM.println(buf.toString());
-    // Append stack trace if not null
     if (t != null) {
       t.printStackTrace(TARGET_STREAM);
     }
