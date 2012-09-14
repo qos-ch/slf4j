@@ -30,6 +30,7 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.fail;
 
 public class SimpleLoggerTest {
 
@@ -41,6 +42,12 @@ public class SimpleLoggerTest {
 
   @After public void after() {
     System.clearProperty(A_KEY);
+  }
+
+  @Test
+  public void emptyLoggerName() {
+    SimpleLogger simpleLogger = new SimpleLogger("a");
+    assertEquals("info", simpleLogger.recursivelyComputeLevelString());
   }
 
   @Test

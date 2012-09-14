@@ -54,9 +54,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li><code>org.slf4j.simpleLogger.defaultLogLevel</code> - Default log level for all instances of SimpleLogger.
  * Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, defaults to "info". </li>
  *
- * <li><code>org.slf4j.simpleLogger.log.xxxxx</code> - Logging detail level for a SimpleLogger instance named "xxxxx".
- * Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, the level the nearest parent logger
- * will be used, and if none is set, then the default level will be used.</li>
+ * <li><code>org.slf4j.simpleLogger.log.<em>a.b.c</em></code> - Logging detail level for a SimpleLogger instance
+ * named "a.b.c". Right-side value must be one of "trace", "debug", "info", "warn", or "error". When a SimpleLogger
+ * named "a.b.c" is initialized, its level is assigned from this property. If unspecified, the level of nearest parent
+ * logger will be used, and if none is set, then the value specified by
+ * <code>org.slf4j.simpleLogger.defaultLogLevel</code> will be used.</li>
  *
  * <li><code>org.slf4j.simpleLogger.showDateTime</code> - Set to <code>true</code> if you want the current date and
  * time to be included in output messages. Default is <code>true</code></li>
