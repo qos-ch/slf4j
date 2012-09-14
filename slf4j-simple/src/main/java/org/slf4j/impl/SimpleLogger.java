@@ -48,13 +48,14 @@ import org.slf4j.spi.LocationAwareLogger;
  * The following system properties are supported to configure the behavior of this logger:</p>
  * <ul>
  * <li><code>org.slf4j.simpleLogger.defaultLog</code> -
- * Default logging detail level for all instances of SimpleLogger.
+ * Default logging level for all instances of SimpleLogger.
  * Must be one of ("trace", "debug", "info", "warn", or "error").
  * If not specified, defaults to "info". </li>
  * <li><code>org.slf4j.simpleLogger.log.xxxxx</code> -
  * Logging detail level for a SimpleLogger instance named "xxxxx".
  * Must be one of ("trace", "debug", "info", "warn", or "error").
- * If not specified, the default logging detail level is used.</li>
+ * If not specified, the level of parent logger will be used, and if none is set, then
+ * the default level is used.</li>
  * <li><code>org.slf4j.simpleLogger.showDateTime</code> -
  * Set to <code>true</code> if you want the current date and time
  * to be included in output messages. Default is <code>true</code></li>
@@ -112,21 +113,30 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   private static long START_TIME = System.currentTimeMillis();
   private static final Properties SIMPLE_LOGGER_PROPS = new Properties();
-  private static boolean SHOW_LOG_NAME = true;
-  private static boolean SHOW_SHORT_LOG_NAME = false;
-  private static boolean SHOW_DATE_TIME = false;
-  private static String DATE_TIME_FORMAT_STR = null;
-  private static boolean SHOW_THREAD_NAME = true;
-  private static String LOG_FILE = "System.err";
-  private static boolean LEVEL_IN_BRACKETS = false;
-
-  private static DateFormat DATE_FORMATTER = null;
 
   private static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
   private static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;
   private static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
   private static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
   private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
+
+  private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
+
+
+  private static boolean SHOW_SHORT_LOG_NAME = false;
+  private static boolean SHOW_DATE_TIME = false;
+
+  private static String DATE_TIME_FORMAT_STR = null;
+  private static boolean SHOW_THREAD_NAME = true;
+  private static boolean SHOW_LOG_NAME = true;
+
+
+  private static String LOG_FILE = "System.err";
+  private static boolean LEVEL_IN_BRACKETS = false;
+
+  private static DateFormat DATE_FORMATTER = null;
+
+  private static boolean INITIALIZED = false;
 
   /**
    * All system properties used by <code>SimpleLogger</code> start with this prefix
@@ -140,13 +150,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public static final String DATE_TIME_FORMAT_KEY = SYSTEM_PREFIX + "dateTimeFormat";
   public static final String SHOW_DATE_TIME_KEY = SYSTEM_PREFIX + "showDateTime";
   public static final String LOG_FILE_KEY = SYSTEM_PREFIX + "logFile";
-
   public static final String LEVEL_IN_BRACKETS_KEY = SYSTEM_PREFIX + "levelInBrackets";
+
 
   public static final String LOG_KEY_PREFIX = SYSTEM_PREFIX + "log.";
 
 
-  private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
   private static PrintStream TARGET_STREAM = null;
 
   private static String getStringProperty(String name) {
@@ -173,9 +182,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
   // Initialize class attributes.
   // Load properties file, if found.
   // Override with system properties.
-  static {
+  static void init() {
+    INITIALIZED = true;
     loadProperties();
-
 
     String defaultLogLevelString = getStringProperty(DEFAULT_LOG_KEY, null);
     if (defaultLogLevelString != null)
@@ -188,7 +197,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     DATE_TIME_FORMAT_STR = getStringProperty(DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR);
     LEVEL_IN_BRACKETS = getBooleanProperty(LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS);
 
-
     LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
     TARGET_STREAM = computeTargetStream(LOG_FILE);
 
@@ -200,6 +208,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
       }
     }
   }
+
+
 
   private static PrintStream computeTargetStream(String logFile) {
     if ("System.err".equalsIgnoreCase(logFile))
@@ -258,6 +268,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * SimpleLogger instances.
    */
   SimpleLogger(String name) {
+    if(!INITIALIZED) {
+      init();
+    }
     this.name = name;
 
     String levelString = recursivelyComputeLevelString();
