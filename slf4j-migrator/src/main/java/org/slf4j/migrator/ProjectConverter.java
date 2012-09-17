@@ -57,9 +57,9 @@ public class ProjectConverter {
    * Ask for concrete matcher implementation depending on the conversion mode
    * Ask for user confirmation to convert the selected source directory if valid
    * Ask for user confirmation in case of number of files to convert > 1000
-   * 
-   * @return true if init operation complete
-   * @throws IOException
+   *
+   * @param conversionType 
+   * @param progressListener 
    */
   public ProjectConverter(int conversionType, ProgressListener progressListener) {
     this.progressListener = progressListener;

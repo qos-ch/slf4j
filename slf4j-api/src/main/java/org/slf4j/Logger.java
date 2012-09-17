@@ -52,6 +52,13 @@ package org.slf4j;
  * }
  * </pre>
  *
+ * Be sure to read the FAQ entry relating to <a href="../../../faq.html#logging_performance">parameterized
+ * logging</a>. Note that logging statements can be parameterized in
+ * <a href="../../../faq.html#paramException">presence of an exception/throwable</a>.
+ *
+ * <p>Once you are comfortable using loggers, i.e. instances of this interface, consider using
+ * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.</p>
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public interface Logger {
@@ -66,6 +73,7 @@ public interface Logger {
 
   /**
    * Return the name of this <code>Logger</code> instance.
+   * @return name of this logger instance 
    */
   public String getName();
 
@@ -148,6 +156,9 @@ public interface Logger {
    * marker data is also taken into account.
    *
    * @param marker The marker data to take into consideration
+   * @return True if this Logger is enabled for the TRACE level,
+   *         false otherwise.
+   *         
    * @since 1.4
    */
   public boolean isTraceEnabled(Marker marker);
@@ -285,6 +296,8 @@ public interface Logger {
    * marker data is also taken into account.
    *
    * @param marker The marker data to take into consideration
+   * @return True if this Logger is enabled for the DEBUG level,
+   *         false otherwise. 
    */
   public boolean isDebugEnabled(Marker marker);
 
@@ -415,6 +428,7 @@ public interface Logger {
    * data is also taken into consideration.
    *
    * @param marker The marker data to take into consideration
+   * @return true if this logger is warn enabled, false otherwise 
    */
   public boolean isInfoEnabled(Marker marker);
 
@@ -544,6 +558,8 @@ public interface Logger {
    * data is also taken into consideration.
    *
    * @param marker The marker data to take into consideration
+   * @return True if this Logger is enabled for the WARN level,
+   *         false otherwise.
    */
   public boolean isWarnEnabled(Marker marker);
 
@@ -671,6 +687,8 @@ public interface Logger {
    * marker data is also taken into consideration.
    *
    * @param marker The marker data to take into consideration
+   * @return True if this Logger is enabled for the ERROR level,
+   *         false otherwise.
    */
   public boolean isErrorEnabled(Marker marker);
 

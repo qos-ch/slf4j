@@ -140,8 +140,8 @@ public abstract class LogFactory {
    * Return the configuration attribute with the specified name (if any), or
    * <code>null</code> if there is no such attribute.
    * 
-   * @param name
-   *                Name of the attribute to return
+   * @param name Name of the attribute to return
+   * @return configuration attribute
    */
   public abstract Object getAttribute(String name);
 
@@ -149,6 +149,8 @@ public abstract class LogFactory {
    * Return an array containing the names of all currently defined configuration
    * attributes. If there are no such attributes, a zero length array is
    * returned.
+   * 
+   * @return names of all currently defined configuration attributes
    */
   public abstract String[] getAttributeNames();
 

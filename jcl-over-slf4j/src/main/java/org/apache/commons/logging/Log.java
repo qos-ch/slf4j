@@ -102,6 +102,8 @@ public interface Log {
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
      * when the log level is more than info. </p>
+     * 
+     * @return true if info enabled, false otherwise
      */
     public boolean isInfoEnabled();
 
@@ -112,6 +114,8 @@ public interface Log {
      * <p> Call this method to prevent having to perform expensive operations
      * (for example, <code>String</code> concatenation)
      * when the log level is more than trace. </p>
+     * 
+     * @return true if trace enabled, false otherwise
      */
     public boolean isTraceEnabled();
 

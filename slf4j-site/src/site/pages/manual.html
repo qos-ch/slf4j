@@ -281,7 +281,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       addition to <em>logback-classic-${logback.version}.jar</em>,
       this will pull <em>slf4j-api-${project.version}.jar</em> as well
       as <em>logback-core-${logback.version}.jar</em> into your
-      project.</p>
+      project. Note that explicitly declaring a dependency on
+      <em>logback-core-${logback.version}</em> or
+      <em>slf4j-api-${project.version}.jar</em> is not wrong and may
+      be necessary to impose the correct version of said artifacts by
+      virtue of Maven's "nearest definition" dependency mediation
+      rule.
+      </p>
 
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>ch.qos.logback&lt;/groupId>
@@ -297,7 +303,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       <em>pom.xml</em> file as shown below. In addition to
       <em>slf4j-log4j12-${project.version}.jar</em>, this will pull
       <em>slf4j-api-${project.version}.jar</em> as well as
-      <em>log4j-${log4j.version}.jar</em> into your project.</p>
+      <em>log4j-${log4j.version}.jar</em> into your project.  Note
+      that explicitly declaring a dependency on
+      <em>log4j-${log4j.version}.jar</em> or
+      <em>slf4j-api-${project.version}.jar</em> is not wrong and may
+      be necessary to impose the correct version of said artifacts by
+      virtue of Maven's "nearest definition" dependency mediation
+      rule.</p>
 
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>
@@ -313,7 +325,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       "org.slf4j:slf4j-jdk14" as a dependency in your <em>pom.xml</em>
       file as shown below. In addition to
       <em>slf4j-jdk14-${project.version}.jar</em>, this will pull
-      <em>slf4j-api-${project.version}.jar</em> into your project.</p>
+      <em>slf4j-api-${project.version}.jar</em> into your project.
+      Note that explicitly declaring a dependency on
+      <em>slf4j-api-${project.version}.jar</em> is not wrong and may
+      be necessary to impose the correct version of said artifact by
+      virtue of Maven's "nearest definition" dependency mediation
+      rule.</p>
 
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>

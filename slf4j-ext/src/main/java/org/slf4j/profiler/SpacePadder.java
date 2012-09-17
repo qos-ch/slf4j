@@ -60,6 +60,9 @@ public class SpacePadder {
   
   /**
    * Fast space padding method.
+   * 
+   * @param sbuf the buffer to pad
+   * @param length the target size of the buffer after padding
    */
   final static public void spacePad(StringBuffer sbuf, int length) {
     while (length >= 32) {

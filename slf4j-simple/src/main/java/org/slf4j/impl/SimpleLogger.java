@@ -466,7 +466,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * Perform double parameter substitution before logging the message of level
    * TRACE according to the format outlined above.
    */
-  public void trace(String format, Object[] argArray) {
+  public void trace(String format, Object... argArray) {
     formatAndLog(LOG_LEVEL_TRACE, format, argArray);
   }
 
@@ -508,7 +508,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * Perform double parameter substitution before logging the message of level
    * DEBUG according to the format outlined above.
    */
-  public void debug(String format, Object[] argArray) {
+  public void debug(String format, Object... argArray) {
     formatAndLog(LOG_LEVEL_DEBUG, format, argArray);
   }
 
@@ -550,7 +550,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * Perform double parameter substitution before logging the message of level
    * INFO according to the format outlined above.
    */
-  public void info(String format, Object[] argArray) {
+  public void info(String format, Object... argArray) {
     formatAndLog(LOG_LEVEL_INFO, format, argArray);
   }
 
@@ -592,7 +592,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * Perform double parameter substitution before logging the message of level
    * WARN according to the format outlined above.
    */
-  public void warn(String format, Object[] argArray) {
+  public void warn(String format, Object... argArray) {
     formatAndLog(LOG_LEVEL_WARN, format, argArray);
   }
 
@@ -634,7 +634,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
    * Perform double parameter substitution before logging the message of level
    * ERROR according to the format outlined above.
    */
-  public void error(String format, Object[] argArray) {
+  public void error(String format, Object... argArray) {
     formatAndLog(LOG_LEVEL_ERROR, format, argArray);
   }
 

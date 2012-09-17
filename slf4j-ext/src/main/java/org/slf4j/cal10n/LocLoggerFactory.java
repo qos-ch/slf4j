@@ -56,7 +56,7 @@ public class LocLoggerFactory {
    * Get an LocLogger instance by name.
    * 
    * @param name
-   * @return
+   * @return LocLogger instance by name.
    */
   public LocLogger getLocLogger(String name) {
     return new LocLogger(LoggerFactory.getLogger(name), imc);
@@ -67,9 +67,8 @@ public class LocLoggerFactory {
    * after the class.
    * 
    * @param clazz
-   * @return
+   * @return LocLogger instance by class
    */
-  @SuppressWarnings("unchecked")
   public LocLogger getLocLogger(Class clazz) {
     return getLocLogger(clazz.getName());
   }
