@@ -56,7 +56,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    */ 
   
   //to avoid constant folding by the compiler, this field must *not* be final
-  public static String REQUESTED_API_VERSION = "1.6";  
+  public static String REQUESTED_API_VERSION = "1.6.99";
   
   // Binding specific code:
   private static final String loggerFactoryClassStr = JCLLoggerFactory.class

@@ -52,6 +52,7 @@ public interface ILoggerFactory {
    * return the same logger instance regardless of the requested name.
    * 
    * @param name the name of the Logger to return
+   * @return a Logger instance 
    */
   public Logger getLogger(String name);
 }

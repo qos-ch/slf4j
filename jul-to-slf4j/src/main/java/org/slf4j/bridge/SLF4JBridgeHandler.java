@@ -146,7 +146,7 @@ public class SLF4JBridgeHandler extends Handler {
   /**
    * Returns true if SLF4JBridgeHandler has been previously installed, returns false otherwise.
    *
-   * @return
+   * @return true if SLF4JBridgeHandler is already installed, false other wise
    * @throws SecurityException
    */
   public static boolean isInstalled() throws SecurityException {

@@ -136,7 +136,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void trace(String format, Object[] argArray) {
+  public void trace(String format, Object... argArray) {
     if (logger.isLoggable(Level.FINEST)) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
@@ -235,7 +235,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void debug(String format, Object[] argArray) {
+  public void debug(String format, Object... argArray) {
     if (logger.isLoggable(Level.FINE)) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
@@ -334,7 +334,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void info(String format, Object[] argArray) {
+  public void info(String format, Object... argArray) {
     if (logger.isLoggable(Level.INFO)) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
@@ -436,7 +436,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
    * @param argArray
    *          an array of arguments
    */
-  public void warn(String format, Object[] argArray) {
+  public void warn(String format, Object... argArray) {
     if (logger.isLoggable(Level.WARNING)) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
       log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
@@ -534,12 +534,12 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
    * 
    * @param format
    *          the format string
-   * @param argArray
+   * @param arguments
    *          an array of arguments
    */
-  public void error(String format, Object[] argArray) {
+  public void error(String format, Object... arguments) {
     if (logger.isLoggable(Level.SEVERE)) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
     }
   }

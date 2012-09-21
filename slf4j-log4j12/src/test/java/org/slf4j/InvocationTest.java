@@ -159,7 +159,7 @@ public class InvocationTest extends TestCase {
   }
   
   public void testMDCContextMapValues() {
-    Map map = new HashMap();
+    Map<String, String> map = new HashMap<String, String>();
     map.put("ka", "va");
     map.put("kb", "vb");
     

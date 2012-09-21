@@ -45,7 +45,7 @@ import org.slf4j.spi.MDCAdapter;
  * and slf4j-nop, {@link NOPMDCAdapter} will be used.
  *
  * <p>
- * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j
+ * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j,
  * logback, or java.util.logging, but without forcing these systems as
  * dependencies upon your users.
  * 
@@ -90,13 +90,16 @@ public class MDC {
   }
 
   /**
-   * Put a context value (the <code>val</code> parameter) as identified with the
-   * <code>key</code> parameter into the current thread's context map. The
+   * Put a diagnostic context value (the <code>val</code> parameter) as identified with the
+   * <code>key</code> parameter into the current thread's diagnostic context map. The
    * <code>key</code> parameter cannot be null. The <code>val</code> parameter
    * can be null only if the underlying implementation supports it.
    * 
    * <p>
    * This method delegates all work to the MDC of the underlying logging system.
+   *
+   * @param key non-null key 
+   * @param val value to put in the map
    * 
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
@@ -114,12 +117,13 @@ public class MDC {
   }
 
   /**
-   * Get the context identified by the <code>key</code> parameter. The
+   * Get the diagnostic context identified by the <code>key</code> parameter. The
    * <code>key</code> parameter cannot be null.
    * 
    * <p>
    * This method delegates all work to the MDC of the underlying logging system.
-   * 
+   *
+   * @param key  
    * @return the string value identified by the <code>key</code> parameter.
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
@@ -137,11 +141,12 @@ public class MDC {
   }
 
   /**
-   * Remove the the context identified by the <code>key</code> parameter using
+   * Remove the diagnostic context identified by the <code>key</code> parameter using
    * the underlying system's MDC implementation. The <code>key</code> parameter
    * cannot be null. This method does nothing if there is no previous value
    * associated with <code>key</code>.
-   * 
+   *
+   * @param key  
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */

@@ -125,11 +125,11 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    * </p>
    * 
    * @param format the format string
-   * @param argArray an array of arguments
+   * @param arguments a list of 3 or more arguments
    */
-  public void trace(String format, Object[] argArray) {
+  public void trace(String format, Object... arguments) {
     if (log.isDebugEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log.trace(ft.getMessage(), ft.getThrowable());
     }
   }
@@ -223,11 +223,11 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    * </p>
    * 
    * @param format the format string
-   * @param argArray an array of arguments
+   * @param arguments a list of 3 or more arguments
    */
-  public void debug(String format, Object[] argArray) {
+  public void debug(String format, Object... arguments) {
     if (log.isDebugEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log.debug(ft.getMessage(), ft.getThrowable());
     }
   }
@@ -318,11 +318,11 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    * </p>
    * 
    * @param format the format string
-   * @param argArray an array of arguments
+   * @param arguments a list of 3 or more arguments
    */
-  public void info(String format, Object[] argArray) {
+  public void info(String format, Object... arguments) {
     if (log.isInfoEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log.info(ft.getMessage(), ft.getThrowable());
     }
   }
@@ -413,11 +413,11 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    * </p>
    * 
    * @param format the format string
-   * @param argArray an array of arguments
+   * @param arguments a list of 3 or more arguments
    */
-  public void warn(String format, Object[] argArray) {
+  public void warn(String format, Object... arguments) {
     if (log.isWarnEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log.warn(ft.getMessage(), ft.getThrowable());
     }
   }
@@ -510,11 +510,11 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    * </p>
    * 
    * @param format the format string
-   * @param argArray an array of arguments
+   * @param arguments a list of 3 or more arguments
    */
-  public void error(String format, Object[] argArray) {
+  public void error(String format, Object... arguments) {
     if (log.isErrorEnabled()) {
-      FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+      FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log.error(ft.getMessage(), ft.getThrowable());
     }
   }

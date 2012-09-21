@@ -159,16 +159,60 @@
     <em>slf4j-simple-${version}.jar</em> and
     <em>slf4j-nop-${version}.jar</em> on the class path and you wish
     to use the nop (no-operation) binding, then remove
-    <em>slf4j-simple-${version}.jar</em> from the class path. If it is
-    not possible to remove the superflous bindings, SLF4J will still
-    bind with one logging framework/implementation. As of version
-    1.6.6, SLF4J will name the framework/implementation class it is
-    actually bound to.</p>
-
-    <p><span class="label notice">Note</span> The warning emitted by
-    SLF4J is just that, a warning.
+    <em>slf4j-simple-${version}.jar</em> from the class path. 
     </p>
 
+    <p>The list of locations that SLF4J provides in this warning
+    usually provides sufficient information to identify the dependency
+    transitively pulling in an unwanted SLF4J binding into your
+    project. In your project's pom.xml file, exclude this SLF4J
+    binding when declaring the unscrupulous dependency. For example,
+    <em>cassandra-all</em> version 0.8.1 declares both <em>log4j</em>
+    and <em>slf4j-log4j12</em> as compile-time dependencies. Thus,
+    when you include <em>cassandra-all</em> as a dependency in your
+    project, the <em>cassandra-all</em> declaration will cause both
+    <em>slf4j-log4j12.jar</em> and <em>log4j.jar</em> to be pulled in
+    as dependencies. In case you do not wish to use log4j as the the
+    SLF4J backend, you can instruct Maven to exclude these two
+    artifacts as shown next:</p>
+
+    <pre class="prettyprint">&lt;dependencies>
+  &lt;dependency>
+    &lt;groupId> org.apache.cassandra&lt;/groupId>
+    &lt;artifactId>cassandra-all&lt;/artifactId>
+    &lt;version>0.8.1&lt;/version>
+
+    &lt;exclusions>
+      &lt;exclusion> 
+        &lt;groupId>org.slf4j&lt;/groupId>
+        &lt;artifactId>slf4j-log4j12&lt;/artifactId>
+      &lt;/exclusion>
+      &lt;exclusion> 
+        &lt;groupId>log4j&lt;/groupId>
+        &lt;artifactId>log4j&lt;/artifactId>
+      &lt;/exclusion>
+    &lt;/exclusions> 
+
+  &lt;/dependency>
+&lt;/dependencies></pre>
+
+   <p><span class="label notice">Note</span> The warning emitted by
+   SLF4J is just that, a warning. Even when multiple bindings are
+   present, SLF4J will pick one logging framework/implementation and
+   bind with it. The way SLF4J picks a binding is determined by the
+   JVM and for all practical purposes should be considered random. As
+   of version 1.6.6, SLF4J will name the framework/implementation
+   class it is actually bound to.</p>
+
+   <p>Embedded components such as libraries or frameworks should not
+   declare a dependency on any SLF4J binding but only depend on
+   slf4j-api. When a library declares a compile-time dependency on a
+   SLF4J binding, it imposes that binding on the end-user, thus
+   negating SLF4J's purpose. When you come across an embedded
+   component declaring a compile-time dependency on any SLF4J binding,
+   please take the time to contact the authors of said
+   component/library and kindly ask them to mend their ways.</p>
+  
     <!-- ====================================================== -->
 
     <h3 class="doAnchor" name="version_mismatch">slf4j-api version

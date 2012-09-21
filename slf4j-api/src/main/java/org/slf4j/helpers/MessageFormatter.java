@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // contributors: lizongbo: proposed special treatment of array parameter values
-// Jörn Huxhorn: pointed out double[] omission, suggested deep array copy
+// Joern Huxhorn: pointed out double[] omission, suggested deep array copy
 /**
  * Formats messages according to very simple substitution rules. Substitutions
  * can be made 1, 2 or more arguments.

@@ -46,7 +46,9 @@ public class StaticMDCBinder {
   
   /**
    * Currently this method always returns an instance of 
-   * {@link StaticMDCBinder}.
+   * {@link NOPMDCAdapter}.
+   * 
+   * @return instance of NOPMDCAdapter
    */
   public MDCAdapter getMDCA() {
      return new NOPMDCAdapter();

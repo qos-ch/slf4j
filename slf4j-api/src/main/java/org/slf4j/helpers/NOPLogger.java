@@ -80,7 +80,7 @@ public class NOPLogger extends MarkerIgnoringBase {
   }
 
   /** A NOP implementation.  */
-  public final void trace(String format, Object[] argArray) {
+  public final void trace(String format, Object... argArray) {
     // NOP
   }
   
@@ -113,7 +113,7 @@ public class NOPLogger extends MarkerIgnoringBase {
   }
 
   /** A NOP implementation.  */
-  public final void debug(String format, Object[] argArray) {
+  public final void debug(String format, Object... argArray) {
     // NOP
   }
   
@@ -150,7 +150,7 @@ public class NOPLogger extends MarkerIgnoringBase {
   }
   
   /** A NOP implementation.  */
-  public final void info(String format, Object[] argArray) {
+  public final void info(String format, Object... argArray) {
     // NOP
   }
 
@@ -185,7 +185,7 @@ public class NOPLogger extends MarkerIgnoringBase {
   }
   
   /** A NOP implementation.  */
-  public final void warn(String format, Object[] argArray) {
+  public final void warn(String format, Object... argArray) {
     // NOP
   }
 
@@ -217,7 +217,7 @@ public class NOPLogger extends MarkerIgnoringBase {
   }
   
   /** A NOP implementation.  */
-  public final void error(String format, Object[] argArray) {
+  public final void error(String format, Object... argArray) {
     // NOP
   }
 

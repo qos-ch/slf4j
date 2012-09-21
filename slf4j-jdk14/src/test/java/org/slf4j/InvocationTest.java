@@ -71,7 +71,7 @@ public class InvocationTest extends TestCase {
     logger.debug("Hello world {}", i1);
     logger.debug("val={} val={}", i1, i2);
     logger.debug("val={} val={} val={}", new Object[]{i1, i2, i3});
-    
+
     logger.debug("Hello world 2", e);
     logger.info("Hello world 2.");
  

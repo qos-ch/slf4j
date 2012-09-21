@@ -97,6 +97,7 @@ public class EventData implements Serializable {
   /**
    * Serialize all the EventData items into an XML representation.
    * 
+   * @param map the Map to transform
    * @return an XML String containing all the EventDAta items.
    */
   public static String toXML(Map<String, Object> map) {
