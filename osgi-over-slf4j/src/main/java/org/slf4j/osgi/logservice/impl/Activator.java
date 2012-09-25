@@ -32,10 +32,11 @@
 
 package org.slf4j.osgi.logservice.impl;
 
-import java.util.Properties;
+import java.util.Hashtable;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceFactory;
 import org.osgi.service.log.LogService;
 
@@ -52,9 +53,15 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
-    public void start(BundleContext bundleContext) throws Exception {
-        Properties props = new Properties();
-        props.put("description", "An slf4j implementation.");
+    public void start(BundleContext bundleContext) throws Exception {    
+    	// Prepare service properties
+    	Hashtable<String, Object> props = new Hashtable<String, Object>();        
+    	props.put("description", "An SLF4J implementation.");        
+		// Highest service ranking property of this implementation increases
+        // probability to be selected by service clients
+        props.put(Constants.SERVICE_RANKING, Integer.MAX_VALUE);
+       
+        // Create and register service factory
         ServiceFactory factory = new LogServiceFactory();
         bundleContext.registerService(LogService.class.getName(), factory, props);
     }
@@ -67,7 +74,6 @@ public class Activator implements BundleActivator {
      * @throws Exception
      */
     public void stop(BundleContext bundleContext) throws Exception {
-
         // Note: It is not required that we remove the service here, since
         // the framework will do it automatically anyway.
     }
