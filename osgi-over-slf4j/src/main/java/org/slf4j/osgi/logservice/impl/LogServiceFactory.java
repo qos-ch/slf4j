@@ -37,7 +37,8 @@ import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;
 
 /**
- * <code>LogServiceFactory</code> creates LogService implementations.
+ * <code>LogServiceFactory</code> creates LogService implementations per
+ * bundle requesting LogService.
  *
  * @author John Conlon
  * @version $Rev$, $Date$
