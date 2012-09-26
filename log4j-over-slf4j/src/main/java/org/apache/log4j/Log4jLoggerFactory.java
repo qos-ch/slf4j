@@ -18,6 +18,7 @@ package org.apache.log4j;
 
 import java.util.Hashtable;
 
+import org.apache.log4j.spi.LoggerFactory;
 import org.slf4j.helpers.Util;
 
 /**
@@ -62,5 +63,16 @@ class Log4jLoggerFactory {
       return log4jLogger;
     }
   }
+  
+  public static synchronized Logger getLogger(String name, LoggerFactory loggerFactory) {
+	    if (log4jLoggers.containsKey(name)) {
+	      return (org.apache.log4j.Logger) log4jLoggers.get(name);
+	    } else {
+	      Logger log4jLogger = loggerFactory.makeNewLoggerInstance(name);
+
+	      log4jLoggers.put(name, log4jLogger);
+	      return log4jLogger;
+	    }
+	  }
 
 }
