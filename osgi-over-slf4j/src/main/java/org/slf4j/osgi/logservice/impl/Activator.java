@@ -45,6 +45,14 @@ import org.osgi.service.log.LogService;
  * {@link LogServiceFactory} for the creation of {@link LogService} implementations.
 **/
 public class Activator implements BundleActivator {
+	
+	/**
+	 * System property indicating whether SLF4J LogService should NOT receive
+	 * highest service ranking.
+	 */
+	public static final String SYSPROP_NOT_DOMINATE = "sfl4j.osgi-over-slf4j.notDominate";
+	
+	
     /**
      *
 	 * Implements <code>BundleActivator.start()</code> to register a
@@ -58,9 +66,12 @@ public class Activator implements BundleActivator {
     	// Prepare service properties
     	Hashtable<String, Object> props = new Hashtable<String, Object>();        
     	props.put("description", "An SLF4J implementation.");        
-		// Highest service ranking property of this implementation increases
-        // probability to be selected by service clients
-        props.put(Constants.SERVICE_RANKING, Integer.MAX_VALUE);
+
+		// To dominate? Highest service ranking property of this implementation
+		// increases probability to be selected by service clients    	
+    	if (!Boolean.getBoolean(SYSPROP_NOT_DOMINATE)) {
+    		props.put(Constants.SERVICE_RANKING, Integer.MAX_VALUE);
+    	}
        
         // Register standard OSGi LogService
         ServiceFactory logServiceFactory = new LogServiceFactory();
