@@ -40,9 +40,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <code>LogServiceImpl</code> is a simple OSGi LogService implementation that delegates to a slf4j
- * Logger.
- *
+ * <code>LogServiceImpl</code> is a simple OSGi LogService implementation that
+ * delegates to a slf4j Logger.
+ * 
+ * <p>Conversion of OSGi log severity levels to SLFJ4 equivalents:
+ * <table border="1">
+ * <tr><th>LogEntry.getLevel()</th><th>SLF4J</th></tr>
+ * <tr><td><tt>LogService.LOG_ERROR</tt></td><td>ERROR</th></tr>
+ * <tr><td>LogService.LOG_WARNING</td><td>WARN</th></tr>
+ * <tr><td>LogService.LOG_INFO</td><td>INFO</th></tr>
+ * <tr><td>LogService.LOG_DEBUG</td><td>DEBUG</th></tr>
+ * <tr><td>(no equivalent)</td><td>TRACE</th></tr>
+ * </table></p>
+ * 
  * @author John Conlon
  */
 public class LogServiceImpl implements LogService {
