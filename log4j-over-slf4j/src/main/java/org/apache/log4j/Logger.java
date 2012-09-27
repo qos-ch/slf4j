@@ -48,10 +48,6 @@ public class Logger extends Category {
     return getLogger(clazz.getName());
   }
   
-  protected void forcedLog(String FQCN, Priority p, Object msg, Throwable t) {
-	  log(FQCN, p, msg, t);
-  } 
-  
   /**
    * Does the obvious.
    * 

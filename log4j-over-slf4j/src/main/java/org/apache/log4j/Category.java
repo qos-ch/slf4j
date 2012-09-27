@@ -290,6 +290,10 @@ public class Category {
         LocationAwareLogger.ERROR_INT, message, t);
   }
 
+  protected void forcedLog(String FQCN, Priority p, Object msg, Throwable t) {
+	  log(FQCN, p, msg, t);
+  }
+
   // See also http://bugzilla.slf4j.org/show_bug.cgi?id=168
   public void log(String FQCN, Priority p, Object msg, Throwable t) {
     int levelInt = priorityToLevelInt(p);
