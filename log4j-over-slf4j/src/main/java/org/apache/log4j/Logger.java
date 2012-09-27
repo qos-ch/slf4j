@@ -16,6 +16,7 @@
 
 package org.apache.log4j;
 
+import org.apache.log4j.spi.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -39,9 +40,17 @@ public class Logger extends Category {
     return Log4jLoggerFactory.getLogger(name);
   }
 
+  public static Logger getLogger(String name, LoggerFactory loggerFactory) {
+	  return Log4jLoggerFactory.getLogger(name,loggerFactory);
+  }
+
   public static Logger getLogger(Class clazz) {
     return getLogger(clazz.getName());
   }
+  
+  protected void forcedLog(String FQCN, Priority p, Object msg, Throwable t) {
+	  log(FQCN, p, msg, t);
+  } 
   
   /**
    * Does the obvious.
