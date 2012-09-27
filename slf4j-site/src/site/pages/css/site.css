@@ -387,3 +387,25 @@ dt:hover .anchor {
   display: inline-block;
   text-decoration: none;
 }
+
+
+/* ------------ twitter botton ------- */
+.twitter_button {
+  vertical-align: text-bottom;
+  padding-top: 3px;
+  padding-right: 16px;
+  float: left;
+  height: 18px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  background-color: white;
+  background-image: -moz-linear-gradient(top, #ffffff, #dedede);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedede));
+  background-image: -ms-linear-gradient(top, #ffffff, #dedede);
+  background-image: linear-gradient(top, #ffffff, #dedede);
+  background-image: -o-linear-gradient(top, #ffffff, #dedede);
+  border: #CCC solid 1px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
