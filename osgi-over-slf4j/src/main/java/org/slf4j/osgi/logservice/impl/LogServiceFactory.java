@@ -48,7 +48,8 @@ public class LogServiceFactory implements ServiceFactory
     /* (non-Javadoc)
      * @see org.osgi.framework.ServiceFactory#getService(org.osgi.framework.Bundle, org.osgi.framework.ServiceRegistration)
      */
-    public Object getService( Bundle bundle, ServiceRegistration arg1 )
+    @Override
+	public Object getService( Bundle bundle, ServiceRegistration arg1 )
     {
         return new LogServiceImpl(bundle);
     }
@@ -57,7 +58,8 @@ public class LogServiceFactory implements ServiceFactory
     /* (non-Javadoc)
      * @see org.osgi.framework.ServiceFactory#ungetService(org.osgi.framework.Bundle, org.osgi.framework.ServiceRegistration, java.lang.Object)
      */
-    public void ungetService( Bundle bundle, ServiceRegistration arg1, Object arg2 )
+    @Override
+	public void ungetService( Bundle bundle, ServiceRegistration arg1, Object arg2 )
     {
         //nothing to do.
     }

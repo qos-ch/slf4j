@@ -53,7 +53,8 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
-    public void start(BundleContext bundleContext) throws Exception {    
+    @Override
+	public void start(BundleContext bundleContext) throws Exception {    
     	// Prepare service properties
     	Hashtable<String, Object> props = new Hashtable<String, Object>();        
     	props.put("description", "An SLF4J implementation.");        
@@ -61,9 +62,12 @@ public class Activator implements BundleActivator {
         // probability to be selected by service clients
         props.put(Constants.SERVICE_RANKING, Integer.MAX_VALUE);
        
-        // Create and register service factory
-        ServiceFactory factory = new LogServiceFactory();
-        bundleContext.registerService(LogService.class.getName(), factory, props);
+        // Register standard OSGi LogService
+        ServiceFactory logServiceFactory = new LogServiceFactory();
+        bundleContext.registerService(
+        		LogService.class.getName(),
+        		logServiceFactory,
+        		props);
     }
 
     /**
@@ -73,7 +77,8 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
-    public void stop(BundleContext bundleContext) throws Exception {
+    @Override
+	public void stop(BundleContext bundleContext) throws Exception {
         // Note: It is not required that we remove the service here, since
         // the framework will do it automatically anyway.
     }
