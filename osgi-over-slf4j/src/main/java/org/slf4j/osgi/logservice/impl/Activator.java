@@ -34,11 +34,13 @@ package org.slf4j.osgi.logservice.impl;
 
 import java.util.Hashtable;
 
+import org.eclipse.equinox.log.ExtendedLogService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceFactory;
 import org.osgi.service.log.LogService;
+import org.slf4j.osgi.logservice.impl.equinox.ExtendedLogServiceFactory;
 
 /**
  * <code>Activator</code> implements a simple bundle that registers a
@@ -74,11 +76,16 @@ public class Activator implements BundleActivator {
     	}
        
         // Register standard OSGi LogService
-        ServiceFactory logServiceFactory = new LogServiceFactory();
         bundleContext.registerService(
         		LogService.class.getName(),
-        		logServiceFactory,
+        		new LogServiceFactory(),
         		props);
+        
+        // Register Equinox OSGi ExtendedLogService
+        bundleContext.registerService(
+	    		ExtendedLogService.class.getName(),
+	    		new ExtendedLogServiceFactory(),
+	    		props);
     }
 
     /**
