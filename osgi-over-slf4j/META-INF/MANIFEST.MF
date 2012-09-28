@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: osgi-over-slf4j
-Bundle-SymbolicName: osgi-over-slf4j
+Bundle-Name: OSGi over SLF4J Logging Bridge
+Bundle-SymbolicName: org.slf4j.osgi-over-slf4j
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.slf4j.osgi.logservice.impl
 Import-Package: org.eclipse.equinox.log;version="1.0.0",
