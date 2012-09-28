@@ -42,7 +42,10 @@ import org.osgi.service.log.LogService;
 /**
  * <code>Activator</code> implements a simple bundle that registers a
  * {@link LogServiceFactory} for the creation of {@link LogService} implementations.
-**/
+ *
+ * @author John Conlon
+ * @author Matt Bishop
+ **/
 public class Activator implements BundleActivator {
     /**
      *
@@ -53,8 +56,9 @@ public class Activator implements BundleActivator {
      * @throws Exception
      */
     public void start(BundleContext bundleContext) throws Exception {
+
         Properties props = new Properties();
-        props.put("description", "An slf4j implementation.");
+        props.put("description", "An SLF4J LogService implementation.");
         ServiceFactory factory = new LogServiceFactory();
         bundleContext.registerService(LogService.class.getName(), factory, props);
     }
@@ -69,6 +73,6 @@ public class Activator implements BundleActivator {
     public void stop(BundleContext bundleContext) throws Exception {
 
         // Note: It is not required that we remove the service here, since
-        // the framework will do it automatically anyway.
+        // the framework will do it automatically.
     }
 }
