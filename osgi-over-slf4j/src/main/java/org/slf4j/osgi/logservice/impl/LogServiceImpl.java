@@ -33,8 +33,8 @@
 package org.slf4j.osgi.logservice.impl;
 
 import org.osgi.framework.Bundle;
-import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.Version;
 import org.osgi.service.log.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,12 +66,16 @@ public class LogServiceImpl implements LogService {
 	 *
 	 */
 	public LogServiceImpl(Bundle bundle) {
-		String name = (String) bundle.getHeaders().get(
-				Constants.BUNDLE_SYMBOLICNAME);
-		String version = (String) bundle.getHeaders().get(
-				Constants.BUNDLE_VERSION);
-		delegate = LoggerFactory.getLogger(name + '.' + version);
+		String name = bundle.getSymbolicName();
+		Version version = bundle.getVersion();		
+		delegate = LoggerFactory.getLogger(name + '_' + version);
 	}
+	
+	
+	public LogServiceImpl(String loggerName) {
+		delegate = LoggerFactory.getLogger(loggerName);
+	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -212,5 +216,10 @@ public class LogServiceImpl implements LogService {
 		default:
 			break;
 		}
+	}
+	
+	
+	protected Logger getDelegate() {
+		return delegate;
 	}
 }
