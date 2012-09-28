@@ -63,11 +63,11 @@ public class ExtendedLogServiceImpl extends LogServiceImpl implements ExtendedLo
 	//--------------------------------------------------------------------------
 	// Overrides and implementations
 	//--------------------------------------------------------------------------
-	// Equinox ExtendedLogService methods	
+	// Equinox ExtendedLogService methods
 
 	@Override
 	public void log(Object context, int level, String message) {
-		super.log(LOG_DEBUG, "Discarding Equinox context object of " +
+		super.getDelegate().trace("Discarding Equinox context object of " +
 				context.getClass() + " (contexts unsupported " +
 				"by osgi-over-slf4j bridge).");
 		super.log(level, message);
@@ -76,7 +76,7 @@ public class ExtendedLogServiceImpl extends LogServiceImpl implements ExtendedLo
 	@Override
 	public void log(Object context, int level, String message,
 			Throwable exception) {
-		super.log(LOG_DEBUG, "Discarding Equinox context object of " +
+		super.getDelegate().trace("Discarding Equinox context object of " +
 				context.getClass() + " (contexts unsupported " +
 				"by osgi-over-slf4j bridge).");
 		super.log(level, message, exception);
