@@ -33,8 +33,8 @@
 package org.slf4j.osgi.logservice.impl;
 
 import org.osgi.framework.Bundle;
-import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
+import org.osgi.framework.Version;
 import org.osgi.service.log.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
  * Logger.
  *
  * @author John Conlon
+ * @author Matt Bishop
  */
 public class LogServiceImpl implements LogService {
 
@@ -51,15 +52,19 @@ public class LogServiceImpl implements LogService {
 
 	private final Logger delegate;
 
+
 	/**
 	 * Creates a new instance of LogServiceImpl.
 	 *
+	 * @param bundle The bundle to create a new LogService for.
 	 */
 	public LogServiceImpl(Bundle bundle) {
-		String name = (String) bundle.getHeaders().get(
-				Constants.BUNDLE_SYMBOLICNAME);
-		String version = (String) bundle.getHeaders().get(
-				Constants.BUNDLE_VERSION);
+
+		String name = bundle.getSymbolicName();
+		Version version = bundle.getVersion();
+		if (version == null) {
+			version = Version.emptyVersion;
+		}
 		delegate = LoggerFactory.getLogger(name + '.' + version);
 	}
 
@@ -69,6 +74,7 @@ public class LogServiceImpl implements LogService {
 	 * @see org.osgi.service.log.LogService#log(int, java.lang.String)
 	 */
 	public void log(int level, String message) {
+
 		switch (level) {
 		case LOG_DEBUG:
 			delegate.debug(message);
@@ -94,6 +100,7 @@ public class LogServiceImpl implements LogService {
 	 *      java.lang.Throwable)
 	 */
 	public void log(int level, String message, Throwable exception) {
+
 		switch (level) {
 		case LOG_DEBUG:
 			delegate.debug(message, exception);
@@ -154,6 +161,7 @@ public class LogServiceImpl implements LogService {
 	 * @return The formatted log message.
 	 */
 	private String createMessage(ServiceReference sr, String message) {
+
 		StringBuilder output = new StringBuilder();
 		if (sr != null) {
 			output.append('[').append(sr.toString()).append(']');
@@ -171,8 +179,7 @@ public class LogServiceImpl implements LogService {
 	 * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference,
 	 *      int, java.lang.String, java.lang.Throwable)
 	 */
-	public void log(ServiceReference sr, int level, String message,
-			Throwable exception) {
+	public void log(ServiceReference sr, int level, String message, Throwable exception) {
 
 		switch (level) {
 		case LOG_DEBUG:

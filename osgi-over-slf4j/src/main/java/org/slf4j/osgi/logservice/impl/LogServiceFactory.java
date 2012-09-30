@@ -42,13 +42,11 @@ import org.osgi.framework.ServiceRegistration;
  * @author John Conlon
  * @version $Rev$, $Date$
  */
-public class LogServiceFactory implements ServiceFactory
-{
+public class LogServiceFactory implements ServiceFactory {
     /* (non-Javadoc)
      * @see org.osgi.framework.ServiceFactory#getService(org.osgi.framework.Bundle, org.osgi.framework.ServiceRegistration)
      */
-    public Object getService( Bundle bundle, ServiceRegistration arg1 )
-    {
+    public Object getService(Bundle bundle, ServiceRegistration arg1) {
         return new LogServiceImpl(bundle);
     }
 
@@ -56,8 +54,7 @@ public class LogServiceFactory implements ServiceFactory
     /* (non-Javadoc)
      * @see org.osgi.framework.ServiceFactory#ungetService(org.osgi.framework.Bundle, org.osgi.framework.ServiceRegistration, java.lang.Object)
      */
-    public void ungetService( Bundle bundle, ServiceRegistration arg1, Object arg2 )
-    {
+    public void ungetService(Bundle bundle, ServiceRegistration arg1, Object arg2) {
         //nothing to do.
     }
 }
