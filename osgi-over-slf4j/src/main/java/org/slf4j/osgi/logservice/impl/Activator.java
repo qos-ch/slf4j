@@ -32,18 +32,29 @@
 
 package org.slf4j.osgi.logservice.impl;
 
-import java.util.Properties;
+import java.util.Hashtable;
 
+import org.eclipse.equinox.log.ExtendedLogService;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceFactory;
 import org.osgi.service.log.LogService;
+import org.slf4j.osgi.logservice.impl.equinox.ExtendedLogServiceFactory;
 
 /**
  * <code>Activator</code> implements a simple bundle that registers a
  * {@link LogServiceFactory} for the creation of {@link LogService} implementations.
 **/
 public class Activator implements BundleActivator {
+	
+	/**
+	 * System property indicating whether SLF4J LogService should NOT receive
+	 * highest service ranking.
+	 */
+	public static final String SYSPROP_NOT_DOMINATE = "sfl4j.osgi-over-slf4j.notDominate";
+	
+	
     /**
      *
 	 * Implements <code>BundleActivator.start()</code> to register a
@@ -52,11 +63,29 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
-    public void start(BundleContext bundleContext) throws Exception {
-        Properties props = new Properties();
-        props.put("description", "An slf4j implementation.");
-        ServiceFactory factory = new LogServiceFactory();
-        bundleContext.registerService(LogService.class.getName(), factory, props);
+    @Override
+	public void start(BundleContext bundleContext) throws Exception {    
+    	// Prepare service properties
+    	Hashtable<String, Object> props = new Hashtable<String, Object>();        
+    	props.put("description", "An SLF4J implementation.");        
+
+		// To dominate? Highest service ranking property of this implementation
+		// increases probability to be selected by service clients    	
+    	if (!Boolean.getBoolean(SYSPROP_NOT_DOMINATE)) {
+    		props.put(Constants.SERVICE_RANKING, Integer.MAX_VALUE);
+    	}
+       
+        // Register standard OSGi LogService
+        bundleContext.registerService(
+        		LogService.class.getName(),
+        		new LogServiceFactory(),
+        		props);
+        
+        // Register Equinox OSGi ExtendedLogService
+        bundleContext.registerService(
+	    		ExtendedLogService.class.getName(),
+	    		new ExtendedLogServiceFactory(),
+	    		props);
     }
 
     /**
@@ -66,8 +95,8 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
-    public void stop(BundleContext bundleContext) throws Exception {
-
+    @Override
+	public void stop(BundleContext bundleContext) throws Exception {
         // Note: It is not required that we remove the service here, since
         // the framework will do it automatically anyway.
     }

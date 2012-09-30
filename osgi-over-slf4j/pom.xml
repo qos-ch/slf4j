@@ -47,6 +47,12 @@
         <version>2.3.7</version>
         <extensions>true</extensions>
         <configuration>
+        <!--
+        Configuration described at:        
+        	http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html 
+        or shorter ref-style:
+        	http://svn.apache.org/repos/asf/felix/releases/maven-bundle-plugin-2.3.7/doc/site/index.html
+        -->
           <instructions>
             <Export-Package>org.osgi.service.log</Export-Package>
             <Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
