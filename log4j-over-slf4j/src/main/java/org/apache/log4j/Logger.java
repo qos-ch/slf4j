@@ -41,7 +41,7 @@ public class Logger extends Category {
   }
 
   public static Logger getLogger(String name, LoggerFactory loggerFactory) {
-	  return Log4jLoggerFactory.getLogger(name,loggerFactory);
+    return Log4jLoggerFactory.getLogger(name,loggerFactory);
   }
 
   public static Logger getLogger(Class clazz) {
