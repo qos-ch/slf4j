@@ -79,6 +79,10 @@ import org.slf4j.spi.LocationAwareLogger;
  *
  * <li><code>org.slf4j.simpleLogger.levelInBrackets</code> - Should the level string be output in brackets? Defaults
  * to <code>false</code>.</li>
+ *
+ * <li><code>org.slf4j.simpleLogger.warnLevelString</code> - The string value output for the warn level. Defaults
+ * to <code>WARN</code>.</li>
+
  * </ul>
  *
  * <p>In addition to looking for system properties with the names specified above, this implementation also checks for
@@ -137,6 +141,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   private static String LOG_FILE = "System.err";
   private static PrintStream TARGET_STREAM = null;
   private static boolean LEVEL_IN_BRACKETS = false;
+  private static String WARN_LEVEL_STRING = "WARN";
 
 
   /** All system properties used by <code>SimpleLogger</code> start with this prefix */
@@ -150,6 +155,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
   public static final String SHOW_SHORT_LOG_NAME_KEY = SYSTEM_PREFIX + "showShortLogName";
   public static final String LOG_FILE_KEY = SYSTEM_PREFIX + "logFile";
   public static final String LEVEL_IN_BRACKETS_KEY = SYSTEM_PREFIX + "levelInBrackets";
+  public static final String WARN_LEVEL_STRING_KEY = SYSTEM_PREFIX + "warnLevelString";
+
 
   public static final String LOG_KEY_PREFIX = SYSTEM_PREFIX + "log.";
 
@@ -192,6 +199,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     SHOW_THREAD_NAME = getBooleanProperty(SHOW_THREAD_NAME_KEY, SHOW_THREAD_NAME);
     DATE_TIME_FORMAT_STR = getStringProperty(DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR);
     LEVEL_IN_BRACKETS = getBooleanProperty(LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS);
+    WARN_LEVEL_STRING = getStringProperty(WARN_LEVEL_STRING_KEY, WARN_LEVEL_STRING);
 
     LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
     TARGET_STREAM = computeTargetStream(LOG_FILE);
@@ -345,7 +353,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         buf.append("INFO");
         break;
       case LOG_LEVEL_WARN:
-        buf.append("WARN");
+        buf.append(WARN_LEVEL_STRING);
         break;
       case LOG_LEVEL_ERROR:
         buf.append("ERROR");
