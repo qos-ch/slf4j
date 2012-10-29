@@ -17,11 +17,18 @@
 // Contributors:  Christian Trutz <christian.trutz@belaso.de>
 package org.apache.log4j;
 
+//Contributors:  Octavian Ciubotaru <octavian.ciubotaru@optimo.it>
+
 /**
  * This class is a minimal implementation of the original Log4J class.
  * 
  * @author Christian Trutz <christian.trutz@belaso.de>
  * */
 public class PatternLayout extends Layout {
-
+    
+    public PatternLayout() {
+    }
+    
+    public PatternLayout(String pattern) {
+    }
 }
