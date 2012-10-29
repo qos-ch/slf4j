@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-// Contributors:  Christian Trutz <christian.trutz@belaso.de>
+// Contributors:  Octavian Ciubotaru <octavian.ciubotaru@optimo.it>
 package org.apache.log4j;
-
-//Contributors:  Octavian Ciubotaru <octavian.ciubotaru@optimo.it>
 
 /**
  * This class is a minimal implementation of the original Log4J class.
  * 
- * @author Christian Trutz <christian.trutz@belaso.de>
+ * @author Octavian Ciubotaru <octavian.ciubotaru@optimo.it>
  * */
-public class PatternLayout extends Layout {
-    
-    public PatternLayout() {
-    }
-    
-    public PatternLayout(String pattern) {
-    }
+public class SimpleLayout extends Layout {
+
 }
