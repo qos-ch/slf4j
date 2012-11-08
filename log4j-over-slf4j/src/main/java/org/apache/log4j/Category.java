@@ -338,4 +338,12 @@ public class Category {
     }
   }
 
+  public void setAdditivity(boolean additive) {
+    // nothing to do
+  }
+  
+  public void addAppender(Appender newAppender) {
+    // nothing to do
+  }
+
 }

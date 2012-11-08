@@ -17,19 +17,34 @@
 // Contributors:  Christian Trutz <christian.trutz@belaso.de>
 package org.apache.log4j;
 
+import java.io.IOException;
+
 /**
  * This class is a minimal implementation of the original Log4J class.
  * 
  * @author Christian Trutz <christian.trutz@belaso.de>
  * */
-public class PatternLayout extends Layout {
+public class RollingFileAppender {
 
-  public PatternLayout() {
+  public RollingFileAppender() {
     super();
   }
 
-  public PatternLayout(String pattern) {
+  public RollingFileAppender(Layout layout, String filename) throws IOException {
     super();
+  }
+
+  public RollingFileAppender(Layout layout, String filename, boolean append)
+      throws IOException {
+    super();
+  }
+
+  public void setMaxBackupIndex(int maxBackups) {
+    // nothing to do
+  }
+
+  public void setMaximumFileSize(long maxFileSize) {
+    // nothing to do
   }
 
 }
