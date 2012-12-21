@@ -210,25 +210,24 @@ final public class MessageFormatter {
               throwableCandidate);
         }
       } else {
-        if (isEscapedDelimeter(messagePattern, j)) {
-          if (!isDoubleEscaped(messagePattern, j)) {
-            L--; // DELIM_START was escaped, thus should not be incremented
-            sbuf.append(messagePattern.substring(i, j - 1));
-            sbuf.append(DELIM_START);
-            i = j + 1;
-          } else {
-            // The escape character preceding the delimiter start is
-            // itself escaped: "abc x:\\{}"
-            // we have to consume one backward slash
-            sbuf.append(messagePattern.substring(i, j - 1));
-            deeplyAppendParameter(sbuf, argArray[L], new HashMap());
-            i = j + 2;
-          }
-        } else {
-          // normal case
+        // successive escape chars before the DELIM_STR
+        int cnt = countSuccessiveEscapeChar(messagePattern, j, i);
+        if (cnt == 0) { // all escaped itself
           sbuf.append(messagePattern.substring(i, j));
           deeplyAppendParameter(sbuf, argArray[L], new HashMap());
-          i = j + 2;
+          i = j + DELIM_STR.length();
+        } else {
+          int escapeItselfCnt = cnt / 2;
+          sbuf.append(messagePattern.substring(i, (j - cnt + escapeItselfCnt)));
+          if (cnt % 2 != 0) { 
+            L--; // DELIM_START was escaped, thus should not be incremented
+            sbuf.append(DELIM_STR.charAt(0));
+            i = j + 1;
+          } else {
+            deeplyAppendParameter(sbuf, argArray[L],
+            new HashMap());
+            i = j + DELIM_STR.length();
+          }
         }
       }
     }
@@ -263,6 +262,22 @@ final public class MessageFormatter {
     } else {
       return false;
     }
+  }
+  
+  final static int countSuccessiveEscapeChar(String messagePattern, 
+      int delimeterStartIndex, int delimeterStopIndex) {
+    if (delimeterStartIndex == 0) {
+      return 0;
+    }
+    int cnt = 0;
+    for (int i = delimeterStartIndex - 1; i >= delimeterStopIndex; i--) {
+      if (messagePattern.charAt(i) == ESCAPE_CHAR) {
+        ++cnt;
+      } else {
+        break;
+      }
+    }
+    return cnt;
   }
 
   // special treatment of array values was suggested by 'lizongbo'
