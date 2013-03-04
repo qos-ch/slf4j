@@ -30,7 +30,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-
+import org.slf4j.bean.AbstractSingleInstanceBuilder;
 
 // +  Profiler [BAS]
 // |-- elapsed time            [doX]     0 milliseconds.
@@ -41,7 +41,6 @@ import org.slf4j.MarkerFactory;
 //    |-- Total elapsed time        [Y]    78 milliseconds.
 // |-- elapsed time            [doZ]    21 milliseconds.
 // |-- Total elapsed time      [BAS]    78 milliseconds.
-
 
 /**
  * A poor man's profiler to measure the time elapsed performing some lengthy
@@ -66,6 +65,10 @@ public class Profiler implements TimeInstrument {
   // optional field
   Logger logger;
 
+  /**
+   * @deprecated use {@link Builder} instead
+   */
+  @Deprecated
   public Profiler(String name) {
     this.name = name;
     this.globalStopWatch = new StopWatch(name);
@@ -79,6 +82,10 @@ public class Profiler implements TimeInstrument {
     return profilerRegistry;
   }
 
+  /**
+   * @deprecated use {@link Builder#registerWith(ProfilerRegistry)} instead
+   */
+  @Deprecated
   public void registerWith(ProfilerRegistry profilerRegistry) {
     if (profilerRegistry == null) {
       return;
@@ -91,6 +98,10 @@ public class Profiler implements TimeInstrument {
     return logger;
   }
 
+  /**
+   * @deprecated use {@link Builder#logger(Logger)} instead
+   */
+  @Deprecated
   public void setLogger(Logger logger) {
     this.logger = logger;
   }
@@ -107,9 +118,8 @@ public class Profiler implements TimeInstrument {
 
   public Profiler startNested(String name) {
     stopLastTimeInstrument();
-    Profiler nestedProfiler = new Profiler(name);
-    nestedProfiler.registerWith(profilerRegistry);
-    nestedProfiler.setLogger(logger);
+    Profiler nestedProfiler = Profiler.builder(name)
+        .registerWith(profilerRegistry).logger(logger).build();
     childTimeInstrumentList.add(nestedProfiler);
     return nestedProfiler;
   }
@@ -192,7 +202,8 @@ public class Profiler implements TimeInstrument {
   @Override
   public String toString() {
     DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
-    return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "", "");
+    return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED,
+        "", "");
   }
 
   public void log() {
@@ -209,7 +220,6 @@ public class Profiler implements TimeInstrument {
     }
   }
 
-
   /**
    * Return a copy of the child instrument list for this Profiler instance.
    * 
@@ -217,7 +227,8 @@ public class Profiler implements TimeInstrument {
    * @since 1.5.9
    */
   public List<TimeInstrument> getCopyOfChildTimeInstruments() {
-    List<TimeInstrument> copy = new ArrayList<TimeInstrument>(childTimeInstrumentList);
+    List<TimeInstrument> copy = new ArrayList<TimeInstrument>(
+        childTimeInstrumentList);
     return copy;
   }
 
@@ -231,12 +242,12 @@ public class Profiler implements TimeInstrument {
     StopWatch copy = new StopWatch(globalStopWatch);
     return copy;
   }
-  
+
   private String buildProfilerString(DurationUnit du, String firstPrefix,
       String label, String prefixIndentation, String indentation) {
     StringBuffer buf = new StringBuffer();
 
-	buf.append(prefixIndentation);
+    buf.append(prefixIndentation);
     buf.append(firstPrefix);
     buf.append(" Profiler [");
     buf.append(name);
@@ -247,10 +258,10 @@ public class Profiler implements TimeInstrument {
         buildStopWatchString(buf, du, ELAPSED_TIME, indentation,
             (StopWatch) child);
       } else if (child instanceof Profiler) {
-		  Profiler profiler = (Profiler) child;
-		  String subString = profiler.buildProfilerString(du,
-            NESTED_PROFILER_FIRST_PREFIX, SUBTOTAL_ELAPSED, indentation,  indentation
-			  + "    ");
+        Profiler profiler = (Profiler) child;
+        String subString = profiler.buildProfilerString(du,
+            NESTED_PROFILER_FIRST_PREFIX, SUBTOTAL_ELAPSED, indentation,
+            indentation + "    ");
         buf.append(subString);
         buildStopWatchString(buf, du, ELAPSED_TIME, indentation,
             profiler.globalStopWatch);
@@ -273,5 +284,38 @@ public class Profiler implements TimeInstrument {
     buf.append(" ");
     Util.appendDurationUnitAsStr(buf, du);
     buf.append(SpacePadder.LINE_SEP);
+  }
+
+  public static Builder builder(String name) {
+    return new Builder(name);
+  }
+
+  public static final class Builder extends
+      AbstractSingleInstanceBuilder<Profiler> {
+    private final String name;
+
+    private Builder(String name) {
+      super(Profiler.class);
+      this.name = name;
+    }
+
+    public Builder registerWith(ProfilerRegistry profilerRegistry) {
+      if (profilerRegistry != null) {
+        Profiler profiler = bean();
+        profiler.profilerRegistry = profilerRegistry;
+        profilerRegistry.put(profiler);
+      }
+      return this;
+    }
+
+    public Builder logger(Logger logger) {
+      bean().logger = logger;
+      return this;
+    }
+
+    @Override
+    protected Profiler initialBeanState() {
+      return new Profiler(name);
+    }
   }
 }
