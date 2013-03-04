@@ -54,7 +54,7 @@ public class BasicProfilerDemo {
 
   public static void main(String[] args) {
     // create a profiler called "BASIC"
-    Profiler profiler = new Profiler("BASIC");
+    Profiler profiler = Profiler.builder("BASIC").build();
     profiler.start("A");
     doA();
 
