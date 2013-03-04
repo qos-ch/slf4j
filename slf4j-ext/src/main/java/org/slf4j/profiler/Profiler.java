@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.slf4j.bean.AbstractSingleInstanceBuilder;
+import org.slf4j.bean.BeanBuilder;
 import org.slf4j.profiler.logging.LoggerOutput;
 
 // +  Profiler [BAS]
@@ -89,7 +90,9 @@ public class Profiler implements TimeInstrument {
   }
 
   /**
-   * @deprecated use {@link Builder#registerWith(ProfilerRegistry)} instead
+   * @deprecated use
+   *             {@link org.slf4j.profiler.Profiler.DefaultBuilder#registerWith(ProfilerRegistry)}
+   *             instead
    */
   @Deprecated
   public void registerWith(ProfilerRegistry profilerRegistry) {
@@ -105,7 +108,9 @@ public class Profiler implements TimeInstrument {
   }
 
   /**
-   * @deprecated use {@link Builder#logger(Logger)} instead
+   * @deprecated use
+   *             {@link org.slf4j.profiler.Profiler.DefaultBuilder#logger(Logger)}
+   *             instead
    */
   @Deprecated
   public void setLogger(Logger logger) {
@@ -240,15 +245,25 @@ public class Profiler implements TimeInstrument {
   }
 
   public static Builder builder(String name) {
-    return new Builder().name(name)
+    return new DefaultBuilder().name(name)
         .loggerOutput(DefaultLoggerOutput.getInstance())
         .markerName(PROFILER_MARKER_NAME);
   }
 
-  public static final class Builder extends
-      AbstractSingleInstanceBuilder<Profiler> {
+  public static interface Builder extends BeanBuilder<Profiler> {
+    Builder registerWith(ProfilerRegistry profilerRegistry);
 
-    private Builder() {
+    Builder logger(Logger logger);
+
+    Builder loggerOutput(LoggerOutput loggerOutput);
+
+    Builder markerName(String markerName);
+  }
+
+  private static final class DefaultBuilder extends
+      AbstractSingleInstanceBuilder<Profiler> implements Builder {
+
+    private DefaultBuilder() {
       super(Profiler.class);
     }
 
