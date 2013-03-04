@@ -76,6 +76,8 @@ public class Profiler implements TimeInstrument {
   public Profiler(String name) {
     this.name = name;
     this.globalStopWatch = new StopWatch(name);
+    this.loggerOutput = DefaultLoggerOutput.getInstance();
+    this.markerName = PROFILER_MARKER_NAME;
   }
 
   private Profiler() {
