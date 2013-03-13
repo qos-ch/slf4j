@@ -170,7 +170,7 @@ public class SLF4JBridgeHandlerTest extends TestCase {
 
   public void testLogWithPlaceholderNoParameters() {
     SLF4JBridgeHandler.install();
-    String msg = "msg {}";
+    String msg = "msg {non-number-string}";
     julLogger.logp(Level.INFO, "SLF4JBridgeHandlerTest", "testLogWithPlaceholderNoParameters", msg, new Object[0]);
 
     assertEquals(1, listAppender.list.size());

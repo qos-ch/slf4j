@@ -29,8 +29,15 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3> November, 2012 - Release of SLF4J 1.7.3</h3>
+   <h3>13th of March, 2013 - Release of SLF4J 1.7.3</h3>
 
+   <p>The jul-to-slf4j bridge now correctly handles cases where the
+   message string contains {}-placeholders but has no or zero
+   parameters. This fixes <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=212">bug
+   #212</a>. The relevant patch was provided by Matthew Preston in a
+   git pull request.</p>
+   
    <p>Added missing methods and classes in log4j-over-slf4j module for
    Velocity compatibility.  This isssue was reported in <a
    href="http://bugzilla.slf4j.org/show_bug.cgi?id=280">bug 280</a> by

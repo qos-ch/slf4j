@@ -262,6 +262,8 @@ public class SLF4JBridgeHandler extends Handler {
       }
     }
     Object[] params = record.getParameters();
+    // avoid formatting when there are no or 0 parameters. see also
+    // http://bugzilla.slf4j.org/show_bug.cgi?id=212
     if (params != null && params.length > 0) {
       message = MessageFormat.format(message, params);
     }
