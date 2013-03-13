@@ -399,9 +399,11 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <h3 class="doAnchor" name="mdc">Mapped Diagnostic Context (MDC) support</h3>
 
-      <p>"Mapped Diagnostic Context" is essentially a map maintained by the
-      logging framework where the application can provided key-value pairs,
-      which can then be inserted by the logging framework in log messages.</p>
+      <p>"Mapped Diagnostic Context" is essentially a map maintained
+      by the logging framework where the application code provides
+      key-value pairs which can then be inserted by the logging
+      framework in log messages. MDC data can also be highly helpful
+      in filtering messages or triggering certain actions.</p>
 
       <p>SLF4J supports MDC, or mapped diagnostic context. If the
       underlying logging framework offers MDC functionality, then
