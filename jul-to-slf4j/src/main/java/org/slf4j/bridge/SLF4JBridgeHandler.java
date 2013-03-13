@@ -262,7 +262,7 @@ public class SLF4JBridgeHandler extends Handler {
       }
     }
     Object[] params = record.getParameters();
-    if (params != null) {
+    if (params != null && params.length > 0) {
       message = MessageFormat.format(message, params);
     }
     return message;
