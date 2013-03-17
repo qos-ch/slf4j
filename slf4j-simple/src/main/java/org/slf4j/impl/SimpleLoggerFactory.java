@@ -61,4 +61,17 @@ public class SimpleLoggerFactory implements ILoggerFactory {
     }
     return slogger;
   }
+
+  /**
+   * Clear the internal logger cache.
+   *
+   * This method is intended to be called by classes (in the same package) for
+   * testing purposes. This method is internal. It can be modified, renamed or
+   * removed at any time without notice.
+   *
+   * You are strongly discouraged from calling this method in production code.
+   */
+  void reset() {
+    loggerMap.clear();
+  }
 }
