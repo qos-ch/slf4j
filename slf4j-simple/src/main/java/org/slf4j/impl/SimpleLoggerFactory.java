@@ -38,8 +38,6 @@ import org.slf4j.ILoggerFactory;
  */
 public class SimpleLoggerFactory implements ILoggerFactory {
 
-  final static SimpleLoggerFactory INSTANCE = new SimpleLoggerFactory();
-
   Map loggerMap;
 
   public SimpleLoggerFactory() {
