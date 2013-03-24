@@ -26,6 +26,8 @@ package org.slf4j.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.ILoggerFactory;
@@ -59,10 +61,10 @@ public class JCLLoggerFactory implements ILoggerFactory {
   }
 
   // key: name (String), value: a JCLLoggerAdapter;
-  Map loggerMap;
+  ConcurrentMap<String, Logger> loggerMap;
 
   public JCLLoggerFactory() {
-    loggerMap = new HashMap();
+    loggerMap = new ConcurrentHashMap<String, Logger>();
   }
 
   /*
@@ -71,16 +73,14 @@ public class JCLLoggerFactory implements ILoggerFactory {
    * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
    */
   public Logger getLogger(String name) {
-    Logger logger = null;
-    // protect against concurrent access of loggerMap
-    synchronized (this) {
-      logger = (Logger) loggerMap.get(name);
-      if (logger == null) {
-        org.apache.commons.logging.Log jclLogger = LogFactory.getLog(name);
-        logger = new JCLLoggerAdapter(jclLogger, name);
-        loggerMap.put(name, logger);
-      }
+    Logger slf4jLogger = loggerMap.get(name);
+    if (slf4jLogger != null) {
+      return slf4jLogger;
+    } else {
+      org.apache.commons.logging.Log jclLogger = LogFactory.getLog(name);
+      Logger newInstance = new JCLLoggerAdapter(jclLogger, name);
+      Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
+      return oldInstance == null ? newInstance : oldInstance;
     }
-    return logger;
   }
 }

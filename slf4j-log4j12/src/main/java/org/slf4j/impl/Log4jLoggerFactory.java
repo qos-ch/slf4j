@@ -26,6 +26,8 @@ package org.slf4j.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.log4j.LogManager;
 import org.slf4j.ILoggerFactory;
@@ -40,10 +42,11 @@ import org.slf4j.Logger;
 public class Log4jLoggerFactory implements ILoggerFactory {
 
   // key: name (String), value: a Log4jLoggerAdapter;
-  Map loggerMap;
+  ConcurrentMap<String, Logger> loggerMap;
+
 
   public Log4jLoggerFactory() {
-    loggerMap = new HashMap();
+    loggerMap = new ConcurrentHashMap<String, Logger>();
   }
 
   /*
@@ -52,21 +55,19 @@ public class Log4jLoggerFactory implements ILoggerFactory {
    * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
    */
   public Logger getLogger(String name) {
-    Logger slf4jLogger = null;
-    // protect against concurrent access of loggerMap
-    synchronized (this) {
-        slf4jLogger = (Logger) loggerMap.get(name);
-      if (slf4jLogger == null) {
-        org.apache.log4j.Logger log4jLogger;
-        if(name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
-           log4jLogger = LogManager.getRootLogger();
-        } else {
-          log4jLogger = LogManager.getLogger(name);
-        }
-        slf4jLogger = new Log4jLoggerAdapter(log4jLogger);
-        loggerMap.put(name, slf4jLogger);
-      }
+    Logger slf4jLogger = loggerMap.get(name);
+    if (slf4jLogger != null) {
+      return slf4jLogger;
+    } else {
+      org.apache.log4j.Logger log4jLogger;
+      if(name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME))
+        log4jLogger = LogManager.getRootLogger();
+      else
+        log4jLogger = LogManager.getLogger(name);
+
+      Logger newInstance = new Log4jLoggerAdapter(log4jLogger);
+      Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
+      return oldInstance == null ? newInstance : oldInstance;
     }
-    return slf4jLogger;
   }
 }
