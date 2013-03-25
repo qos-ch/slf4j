@@ -70,12 +70,10 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
         loggerFactory = new AndroidLoggerFactory();
     }
 
-    @Override
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }
 
-    @Override
     public String getLoggerFactoryClassStr() {
         return loggerFactoryClassStr;
     }

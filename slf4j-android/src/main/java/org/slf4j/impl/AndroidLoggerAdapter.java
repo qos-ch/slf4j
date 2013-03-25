@@ -66,7 +66,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      *
      * @return True if this Logger is enabled for level VERBOSE, false otherwise.
      */
-    @Override
     public boolean isTraceEnabled() {
         return Log.isLoggable(name, Log.VERBOSE);
     }
@@ -77,7 +76,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    @Override
     public void trace(final String msg) {
         Log.v(name, msg);
     }
@@ -96,7 +94,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    @Override
     public void trace(final String format, final Object arg) {
         if (Log.isLoggable(name, Log.VERBOSE)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
@@ -120,7 +117,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    @Override
     public void trace(final String format, final Object arg1, final Object arg2) {
         if (Log.isLoggable(name, Log.VERBOSE)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
@@ -142,7 +138,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    @Override
     public void trace(final String format, final Object... argArray) {
         if (Log.isLoggable(name, Log.VERBOSE)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
@@ -158,7 +153,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    @Override
     public void trace(final String msg, final Throwable t) {
         Log.v(name, msg, t);
     }
@@ -168,7 +162,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      *
      * @return True if this Logger is enabled for level DEBUG, false otherwise.
      */
-    @Override
     public boolean isDebugEnabled() {
         return Log.isLoggable(name, Log.DEBUG);
     }
@@ -179,7 +172,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    @Override
     public void debug(final String msg) {
         Log.d(name, msg);
     }
@@ -197,7 +189,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    @Override
     public void debug(final String format, final Object arg) {
         if (Log.isLoggable(name, Log.DEBUG)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
@@ -221,7 +212,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    @Override
     public void debug(final String format, final Object arg1, final Object arg2) {
         if (Log.isLoggable(name, Log.DEBUG)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
@@ -243,7 +233,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    @Override
     public void debug(final String format, final Object... argArray) {
         if (Log.isLoggable(name, Log.DEBUG)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
@@ -259,7 +248,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    @Override
     public void debug(final String msg, final Throwable t) {
         Log.d(name, msg, t);
     }
@@ -269,7 +257,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      *
      * @return True if this Logger is enabled for the INFO level, false otherwise.
      */
-    @Override
     public boolean isInfoEnabled() {
         return Log.isLoggable(name, Log.INFO);
     }
@@ -280,7 +267,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    @Override
     public void info(final String msg) {
         Log.i(name, msg);
     }
@@ -298,7 +284,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    @Override
     public void info(final String format, final Object arg) {
         if (Log.isLoggable(name, Log.INFO)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
@@ -322,7 +307,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    @Override
     public void info(final String format, final Object arg1, final Object arg2) {
         if (Log.isLoggable(name, Log.INFO)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
@@ -344,7 +328,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    @Override
     public void info(final String format, final Object... argArray) {
         if (Log.isLoggable(name, Log.INFO)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
@@ -361,7 +344,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    @Override
     public void info(final String msg, final Throwable t) {
         Log.i(name, msg, t);
     }
@@ -372,7 +354,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @return True if this Logger is enabled for the WARN level, false
      *         otherwise.
      */
-    @Override
     public boolean isWarnEnabled() {
         return Log.isLoggable(name, Log.WARN);
     }
@@ -383,7 +364,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    @Override
     public void warn(final String msg) {
         Log.w(name, msg);
     }
@@ -402,7 +382,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    @Override
     public void warn(final String format, final Object arg) {
         if (Log.isLoggable(name, Log.WARN)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
@@ -426,7 +405,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    @Override
     public void warn(final String format, final Object arg1, final Object arg2) {
         if (Log.isLoggable(name, Log.WARN)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
@@ -448,7 +426,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    @Override
     public void warn(final String format, final Object... argArray) {
         if (Log.isLoggable(name, Log.WARN)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
@@ -465,7 +442,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    @Override
     public void warn(final String msg, final Throwable t) {
         Log.w(name, msg, t);
     }
@@ -475,7 +451,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      *
      * @return True if this Logger is enabled for level ERROR, false otherwise.
      */
-    @Override
     public boolean isErrorEnabled() {
         return Log.isLoggable(name, Log.ERROR);
     }
@@ -486,7 +461,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    @Override
     public void error(final String msg) {
         Log.e(name, msg);
     }
@@ -505,7 +479,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    @Override
     public void error(final String format, final Object arg) {
         if (Log.isLoggable(name, Log.ERROR)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
@@ -529,7 +502,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    @Override
     public void error(final String format, final Object arg1, final Object arg2) {
         if (Log.isLoggable(name, Log.ERROR)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
@@ -551,7 +523,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    @Override
     public void error(final String format, final Object... argArray) {
         if (Log.isLoggable(name, Log.ERROR)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
@@ -568,7 +539,6 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    @Override
     public void error(final String msg, final Throwable t) {
         Log.e(name, msg, t);
     }

@@ -54,7 +54,6 @@ public class AndroidLoggerFactory implements ILoggerFactory {
      *
      * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
      */
-    @Override
     public Logger getLogger(String name) {
         final String passedName = name;
         name = forceValidName(passedName); // fix for bug #173

@@ -35,7 +35,6 @@ import org.slf4j.spi.MDCAdapter;
  */
 public class StaticMDCBinder {
 
-  
   /**
    * The unique instance of this class.
    */
@@ -54,7 +53,7 @@ public class StaticMDCBinder {
     return new BasicMDCAdapter();
   }
   
-  public String  getMDCAdapterClassStr() {
+  public String getMDCAdapterClassStr() {
     return BasicMDCAdapter.class.getName();
   }
 }
