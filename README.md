@@ -10,5 +10,5 @@ As slf4j-jdk14, slf4j-log4j etc. slf4j-android is a maven module that depends on
 so it can easily be built with maven and synced with [the original slf4j codebase](https://github.com/qos-ch/slf4j).
 
 ### Status
-The implementation is currently fully functional but has not yet been fully tested in a
-production environment. Let us know if you have used it in production!
+The implementation is currently fully functional and has been fully tested in a
+production environment.
