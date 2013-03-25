@@ -48,7 +48,7 @@ import org.slf4j.helpers.MessageFormatter;
  * <tr><td>ERROR</td><td>{@link android.util.Log#ERROR}</td></tr>
  * </table>
  *
- * @author Andrey Korzhevskiy
+ * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
 public class AndroidLoggerAdapter extends MarkerIgnoringBase {
     private static final long serialVersionUID = -1227274521521287937L;

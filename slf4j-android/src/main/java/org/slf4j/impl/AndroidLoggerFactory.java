@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentMap;
  * AndroidLoggerFactory is an implementation of {@link ILoggerFactory} returning
  * the appropriately named {@link AndroidLoggerFactory} instance.
  *
- * @author Andrey Korzhevskiy
+ * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
 public class AndroidLoggerFactory implements ILoggerFactory {
     private final ConcurrentMap<String, Logger> loggerMap;
