@@ -1,0 +1,9 @@
+/target
+/.settings
+/.classpath
+/.project
+/gen
+.DS_Store
+*.iml
+*.ipr
+*.iws
