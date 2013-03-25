@@ -12,7 +12,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>slf4j-android</artifactId>
-
     <packaging>jar</packaging>
     <name>SLF4J Android Binding</name>
     <description>SLF4J Android Binding</description>
@@ -30,6 +29,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -55,12 +55,12 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifest>
+                        <manifestEntries>
                             <addClasspath>false</addClasspath>
                             <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
                             <Bundle-Description>${project.description}</Bundle-Description>
                             <Implementation-Version>${project.version}</Implementation-Version>
-                        </manifest>
+                        </manifestEntries>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
