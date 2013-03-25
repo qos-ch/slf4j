@@ -56,7 +56,6 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <addClasspath>false</addClasspath>
                             <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
                             <Bundle-Description>${project.description}</Bundle-Description>
                             <Implementation-Version>${project.version}</Implementation-Version>
