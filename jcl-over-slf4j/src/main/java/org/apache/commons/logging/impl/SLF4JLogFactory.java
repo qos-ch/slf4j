@@ -16,19 +16,19 @@
 
 package org.apache.commons.logging.impl;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogConfigurationException;
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * <p>
@@ -58,13 +58,13 @@ public class SLF4JLogFactory extends LogFactory {
    * The {@link org.apache.commons.logging.Log}instances that have already been
    * created, keyed by logger name.
    */
-  Map loggerMap;
+  ConcurrentMap<String, Log> loggerMap;
 
   /**
    * Public no-arguments constructor required by the lookup mechanism.
    */
   public SLF4JLogFactory() {
-    loggerMap = new HashMap();
+    loggerMap = new ConcurrentHashMap<String, Log>();
   }
 
   // ----------------------------------------------------- Manifest Constants
@@ -148,22 +148,20 @@ public class SLF4JLogFactory extends LogFactory {
    *              if a suitable <code>Log</code> instance cannot be returned
    */
   public Log getInstance(String name) throws LogConfigurationException {
-    Log instance = null;
-    // protect against concurrent access of loggerMap
-    synchronized (loggerMap) {
-      instance = (Log) loggerMap.get(name);
-      if (instance == null) {
-        Logger logger = LoggerFactory.getLogger(name);
-        if(logger instanceof LocationAwareLogger) {
-          instance = new SLF4JLocationAwareLog((LocationAwareLogger) logger);
-        } else {
-          instance = new SLF4JLog(logger);
-        }
-        loggerMap.put(name, instance);
+    Log instance = loggerMap.get(name);
+    if (instance != null) {
+      return instance;
+    } else {
+      Log newInstance;
+      Logger slf4jLogger = LoggerFactory.getLogger(name);
+      if (slf4jLogger instanceof LocationAwareLogger) {
+        newInstance = new SLF4JLocationAwareLog((LocationAwareLogger) slf4jLogger);
+      } else {
+        newInstance = new SLF4JLog(slf4jLogger);
       }
+      Log oldInstance = loggerMap.putIfAbsent(name, newInstance);
+      return oldInstance == null ? newInstance : oldInstance;
     }
-    return (instance);
-
   }
 
   /**
