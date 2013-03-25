@@ -16,14 +16,6 @@
     <description>SLF4J Android Binding</description>
     <url>http://www.slf4j.org</url>
 
-    <developers>
-        <developer>
-            <id>nordligulv</id>
-            <name>Andrey Korzhevskiy</name>
-            <organization>Investment holding "FINAM" CJSC</organization>
-        </developer>
-    </developers>
-
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
