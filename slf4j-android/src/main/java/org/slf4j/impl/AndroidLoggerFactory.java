@@ -28,9 +28,9 @@ import android.util.Log;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * AndroidLoggerFactory is an implementation of {@link ILoggerFactory} returning
@@ -39,14 +39,14 @@ import java.util.StringTokenizer;
  * @author Andrey Korzhevskiy
  */
 public class AndroidLoggerFactory implements ILoggerFactory {
-    private final Map<String, Logger> loggerMap;
+    private final ConcurrentMap<String, Logger> loggerMap;
 
     static final int TAG_MAX_LENGTH = 23; // tag names cannot be longer on Android platform
     // see also android/system/core/include/cutils/property.h
     // and android/frameworks/base/core/jni/android_util_Log.cpp
 
     public AndroidLoggerFactory() {
-        loggerMap = new HashMap<String, Logger>();
+        loggerMap = new ConcurrentHashMap<String, Logger>();
     }
 
     /*
@@ -62,16 +62,14 @@ public class AndroidLoggerFactory implements ILoggerFactory {
                     "Logger name '" + passedName + "' exceeds maximum length of " + TAG_MAX_LENGTH +
                             " characters, using '" + name + "' instead.");
         }
-        Logger ulogger;
-        // protect against concurrent access of loggerMap
-        synchronized (this) {
-            ulogger = loggerMap.get(name);
-            if (ulogger == null) {
-                ulogger = new AndroidLoggerAdapter(name);
-                loggerMap.put(name, ulogger);
-            }
+
+        Logger logger = loggerMap.get(name);
+        if (logger == null) {
+            Logger newInstance = new AndroidLoggerAdapter(name);
+            Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
+            logger = oldInstance == null ? newInstance : oldInstance;
         }
-        return ulogger;
+        return logger;
     }
 
     /**
