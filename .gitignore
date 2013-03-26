@@ -11,7 +11,3 @@ integration/bundle/
 integration/felix-cache/
 runner
 .DS_Store
-*.iml
-*.ipr
-*.iws
-
