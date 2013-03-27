@@ -76,8 +76,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    public void trace(final String msg) {
-        Log.v(name, msg);
+    public void trace(String msg) {
+        log(Log.VERBOSE, msg, null);
     }
 
     /**
@@ -94,11 +94,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    public void trace(final String format, final Object arg) {
-        if (Log.isLoggable(name, Log.VERBOSE)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            Log.v(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void trace(String format, Object arg) {
+        formatAndLog(Log.VERBOSE, format, arg);
     }
 
     /**
@@ -117,11 +114,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    public void trace(final String format, final Object arg1, final Object arg2) {
-        if (Log.isLoggable(name, Log.VERBOSE)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            Log.v(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void trace(String format, Object arg1, Object arg2) {
+        formatAndLog(Log.VERBOSE, format, arg1, arg2);
     }
 
     /**
@@ -138,11 +132,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    public void trace(final String format, final Object... argArray) {
-        if (Log.isLoggable(name, Log.VERBOSE)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            Log.v(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void trace(String format, Object... argArray) {
+        formatAndLog(Log.VERBOSE, format, argArray);
     }
 
     /**
@@ -153,8 +144,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    public void trace(final String msg, final Throwable t) {
-        Log.v(name, msg, t);
+    public void trace(String msg, Throwable t) {
+        log(Log.VERBOSE, msg, t);
     }
 
     /**
@@ -172,8 +163,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    public void debug(final String msg) {
-        Log.d(name, msg);
+    public void debug(String msg) {
+        log(Log.DEBUG, msg, null);
     }
 
     /**
@@ -189,11 +180,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    public void debug(final String format, final Object arg) {
-        if (Log.isLoggable(name, Log.DEBUG)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            Log.d(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void debug(String format, Object arg) {
+        formatAndLog(Log.DEBUG, format, arg);
     }
 
     /**
@@ -212,11 +200,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    public void debug(final String format, final Object arg1, final Object arg2) {
-        if (Log.isLoggable(name, Log.DEBUG)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            Log.d(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void debug(String format, Object arg1, Object arg2) {
+        formatAndLog(Log.DEBUG, format, arg1, arg2);
     }
 
     /**
@@ -233,11 +218,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    public void debug(final String format, final Object... argArray) {
-        if (Log.isLoggable(name, Log.DEBUG)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            Log.d(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void debug(String format, Object... argArray) {
+        formatAndLog(Log.DEBUG, format, argArray);
     }
 
     /**
@@ -248,8 +230,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    public void debug(final String msg, final Throwable t) {
-        Log.d(name, msg, t);
+    public void debug(String msg, Throwable t) {
+        log(Log.VERBOSE, msg, t);
     }
 
     /**
@@ -267,8 +249,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    public void info(final String msg) {
-        Log.i(name, msg);
+    public void info(String msg) {
+        log(Log.INFO, msg, null);
     }
 
     /**
@@ -284,11 +266,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    public void info(final String format, final Object arg) {
-        if (Log.isLoggable(name, Log.INFO)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            Log.i(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void info(String format, Object arg) {
+        formatAndLog(Log.INFO, format, arg);
     }
 
     /**
@@ -307,11 +286,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    public void info(final String format, final Object arg1, final Object arg2) {
-        if (Log.isLoggable(name, Log.INFO)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            Log.i(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void info(String format, Object arg1, Object arg2) {
+        formatAndLog(Log.INFO, format, arg1, arg2);
     }
 
     /**
@@ -328,11 +304,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    public void info(final String format, final Object... argArray) {
-        if (Log.isLoggable(name, Log.INFO)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            Log.i(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void info(String format, Object... argArray) {
+        formatAndLog(Log.INFO, format, argArray);
     }
 
     /**
@@ -344,8 +317,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    public void info(final String msg, final Throwable t) {
-        Log.i(name, msg, t);
+    public void info(String msg, Throwable t) {
+        log(Log.INFO, msg, t);
     }
 
     /**
@@ -364,8 +337,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    public void warn(final String msg) {
-        Log.w(name, msg);
+    public void warn(String msg) {
+        log(Log.WARN, msg, null);
     }
 
     /**
@@ -382,11 +355,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    public void warn(final String format, final Object arg) {
-        if (Log.isLoggable(name, Log.WARN)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            Log.w(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void warn(String format, Object arg) {
+        formatAndLog(Log.WARN, format, arg);
     }
 
     /**
@@ -405,11 +375,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    public void warn(final String format, final Object arg1, final Object arg2) {
-        if (Log.isLoggable(name, Log.WARN)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            Log.w(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void warn(String format, Object arg1, Object arg2) {
+        formatAndLog(Log.WARN, format, arg1, arg2);
     }
 
     /**
@@ -426,11 +393,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    public void warn(final String format, final Object... argArray) {
-        if (Log.isLoggable(name, Log.WARN)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            Log.w(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void warn(String format, Object... argArray) {
+        formatAndLog(Log.WARN, format, argArray);
     }
 
     /**
@@ -442,8 +406,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    public void warn(final String msg, final Throwable t) {
-        Log.w(name, msg, t);
+    public void warn(String msg, Throwable t) {
+        log(Log.WARN, msg, t);
     }
 
     /**
@@ -461,8 +425,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param msg
      *          - the message object to be logged
      */
-    public void error(final String msg) {
-        Log.e(name, msg);
+    public void error(String msg) {
+        log(Log.ERROR, msg, null);
     }
 
     /**
@@ -479,11 +443,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg
      *          the argument
      */
-    public void error(final String format, final Object arg) {
-        if (Log.isLoggable(name, Log.ERROR)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            Log.e(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void error(String format, Object arg) {
+        formatAndLog(Log.ERROR, format, arg);
     }
 
     /**
@@ -502,11 +463,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param arg2
      *          the second argument
      */
-    public void error(final String format, final Object arg1, final Object arg2) {
-        if (Log.isLoggable(name, Log.ERROR)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            Log.e(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void error(String format, Object arg1, Object arg2) {
+        formatAndLog(Log.ERROR, format, arg1, arg2);
     }
 
     /**
@@ -523,11 +481,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param argArray
      *          an array of arguments
      */
-    public void error(final String format, final Object... argArray) {
-        if (Log.isLoggable(name, Log.ERROR)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            Log.e(name, ft.getMessage(), ft.getThrowable());
-        }
+    public void error(String format, Object... argArray) {
+        formatAndLog(Log.ERROR, format, argArray);
     }
 
     /**
@@ -539,7 +494,27 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @param t
      *          the exception (throwable) to log
      */
-    public void error(final String msg, final Throwable t) {
-        Log.e(name, msg, t);
+    public void error(String msg, Throwable t) {
+        log(Log.ERROR, msg, t);
+    }
+
+    private void formatAndLog(int priority, String format, Object... argArray) {
+        if (Log.isLoggable(name, priority)) {
+            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
+            _log(name, priority, ft.getMessage(), ft.getThrowable());
+        }
+    }
+
+    private void log(int priority, String message, Throwable throwable) {
+        if (Log.isLoggable(name, priority)) {
+            _log(name, priority, message, throwable);
+        }
+    }
+
+    private static void _log(String tag, int priority, String message, Throwable throwable) {
+        if (throwable != null) {
+            message += '\n' + Log.getStackTraceString(throwable);
+        }
+        Log.println(priority, tag, message);
     }
 }
