@@ -30,6 +30,13 @@ import static junit.framework.Assert.assertEquals;
 
 public class AndroidLoggerFactoryTest {
     @Test
+    public void shortLoggerNames() {
+        assertEquals("o.test.p.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.p.TestClass"));
+        assertEquals("ex.test.TestClass", AndroidLoggerFactory.loggerNameToTag("ex.test.TestClass"));
+        assertEquals("MyClass", AndroidLoggerFactory.loggerNameToTag("MyClass"));
+    }
+
+    @Test
     public void emptyLoggerNames() {
         assertEquals(AndroidLoggerFactory.ANONYMOUS_TAG, AndroidLoggerFactory.loggerNameToTag(null));
         assertEquals("", AndroidLoggerFactory.loggerNameToTag(""));
@@ -42,8 +49,8 @@ public class AndroidLoggerFactoryTest {
 
     @Test
     public void loggerNameWithOneCharPackage() {
-        assertEquals("o.t*.p*.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.package.TestClass"));
-        assertEquals("o.t*.p.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.p.TestClass"));
+        assertEquals("o.t*.p*.p*.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.project.package.TestClass"));
+        assertEquals("o.t*.p*.p.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.project.p.TestClass"));
     }
 
     @Test
