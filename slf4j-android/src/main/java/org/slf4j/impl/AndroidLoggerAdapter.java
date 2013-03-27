@@ -32,8 +32,8 @@ import org.slf4j.helpers.MessageFormatter;
 /**
  * A simple implementation that delegates all log requests to the Google Android
  * logging facilities. Note that this logger does not support {@link org.slf4j.Marker}.
- * That is, methods taking marker data simply invoke the corresponding method
- * without the Marker argument, discarding any marker data passed as argument.
+ * Methods taking marker data as parameter simply invoke the eponymous method
+ * without the Marker argument, discarding any marker data in the process.
  * <p/>
  * The logging levels specified for SLF4J can be almost directly mapped to
  * the levels that exist in the Google Android platform. The following table

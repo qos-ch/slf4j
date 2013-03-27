@@ -23,10 +23,10 @@ document.write('    <a href="http://bmc.github.com/avsl/">AVSL</a>');
 document.write('    <a href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14</a>');
 document.write('    <a href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4j</a>');
 document.write('    <a href="api/org/slf4j/impl/SimpleLogger.html">Simple</a>');
+document.write('    <a href="api/org/slf4j/impl/AndroidLoggerAdapter.html">Android</a>');
 document.write('  </p>');
 
 document.write('  <p class="menu_header">Sub-projects</p>');
-document.write('    <a href="http://www.slf4j.org/android/">slf4j-android</a>');
 document.write('    <a href="http://www.slf4j.org/taglib/">slf4j-taglib</a>');
 document.write('  </p>');
 

@@ -34,6 +34,7 @@
   </scm>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.7.4</cal10n.version>
     <log4j.version>1.2.17</log4j.version>
