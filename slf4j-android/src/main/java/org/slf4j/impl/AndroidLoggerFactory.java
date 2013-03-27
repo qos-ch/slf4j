@@ -96,9 +96,9 @@ public class AndroidLoggerFactory implements ILoggerFactory {
             // token of one character appended as is otherwise truncate it to one character
             int tokenLength = lastPeriodIndex - lastTokenIndex;
             if (tokenLength > 1) {
-                tagName.append("*");
+                tagName.append('*');
             }
-            tagName.append(".");
+            tagName.append('.');
             lastTokenIndex = lastPeriodIndex + 1;
         }
         // last token (usually class name) appended as is
@@ -109,9 +109,9 @@ public class AndroidLoggerFactory implements ILoggerFactory {
 
         // Either we had no useful dot location at all or name still too long.
         // Take leading part and append '*' to indicate that it was truncated
-        lastPeriodIndex = loggerName.lastIndexOf(".");
+        lastPeriodIndex = loggerName.lastIndexOf('.');
         return lastPeriodIndex != -1 && length - (lastPeriodIndex + 1) <= TAG_MAX_LENGTH
                 ? loggerName.substring(lastPeriodIndex + 1)
-                : "*" + loggerName.substring(length - TAG_MAX_LENGTH + 1);
+                : '*' + loggerName.substring(length - TAG_MAX_LENGTH + 1);
     }
 }
