@@ -39,19 +39,15 @@ import java.util.concurrent.ConcurrentMap;
 public class AndroidLoggerFactory implements ILoggerFactory {
     private final ConcurrentMap<String, Logger> loggerMap;
 
-    static final String ANONYMOUS_TAG = "null"; //taken from dalvik.system.DalvikLogging
-    static final int TAG_MAX_LENGTH = 23; // tag names cannot be longer on Android platform
-    // see also android/system/core/include/cutils/property.h
-    // and android/frameworks/base/core/jni/android_util_Log.cpp
+    static final String ANONYMOUS_TAG = "null";
+    static final int TAG_MAX_LENGTH = 23;
 
     public AndroidLoggerFactory() {
         loggerMap = new ConcurrentHashMap<String, Logger>();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
+    /**
+     * Return an appropriate {@link AndroidLoggerAdapter} instance by name.
      */
     public Logger getLogger(String name) {
         String tag = loggerNameToTag(name); // fix for bug #173
@@ -73,9 +69,17 @@ public class AndroidLoggerFactory implements ILoggerFactory {
     }
 
     /**
-     * Returns the short logger tag (up to {@value #TAG_MAX_LENGTH} chars) for the given logger name.
+     * Tag names cannot be longer than {@value #TAG_MAX_LENGTH} characters on Android platform.
+     *
+     * Returns the short logger tag (up to {@value #TAG_MAX_LENGTH} characters) for the given logger name.
      * Traditionally loggers are named by fully-qualified Java classes; this
      * method attempts to return a concise identifying part of such names.
+     *
+     * See also:
+     * android/system/core/include/cutils/property.h
+     * android/frameworks/base/core/jni/android_util_Log.cpp
+     * dalvik.system.DalvikLogging
+     *
      */
     static String loggerNameToTag(String loggerName) {
         // Anonymous logger

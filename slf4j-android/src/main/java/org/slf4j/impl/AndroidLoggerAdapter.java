@@ -30,15 +30,15 @@ import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
- * A simple implementation that delegates all log requests to the Google Android
+ * <p>A simple implementation that delegates all log requests to the Google Android
  * logging facilities. Note that this logger does not support {@link org.slf4j.Marker}.
  * Methods taking marker data as parameter simply invoke the eponymous method
- * without the Marker argument, discarding any marker data in the process.
- * <p/>
- * The logging levels specified for SLF4J can be almost directly mapped to
+ * without the Marker argument, discarding any marker data in the process.</p>
+ *
+ * <p>The logging levels specified for SLF4J can be almost directly mapped to
  * the levels that exist in the Google Android platform. The following table
- * shows the mapping implemented by this logger.
- * <p/>
+ * shows the mapping implemented by this logger.</p>
+ *
  * <table border="1">
  * <tr><th><b>SLF4J<b></th><th><b>Android</b></th></tr>
  * <tr><td>TRACE</td><td>{@link android.util.Log#VERBOSE}</td></tr>
@@ -47,6 +47,34 @@ import org.slf4j.helpers.MessageFormatter;
  * <tr><td>WARN</td><td>{@link android.util.Log#WARN}</td></tr>
  * <tr><td>ERROR</td><td>{@link android.util.Log#ERROR}</td></tr>
  * </table>
+ *
+ * <p>Use loggers as usual:
+ * <ul>
+ *     <li>
+ *         Declare a logger<br/>
+ *         <code>private static final Logger logger = LoggerFactory.getLogger(MyClass.class);</code>
+ *     </li>
+ *     <li>
+ *         Invoke logging methods, e.g.,<br/>
+ *         <code>logger.debug("Some log message. Details: {}", someObject);</code><br/>
+ *         <code>logger.debug("Some log message with varargs. Details: {}, {}, {}", someObject1, someObject2, someObject3);</code>
+ *     </li>
+ * </ul>
+ * </p>
+ *
+ * <p>Logger instances created using the LoggerFactory are named either according to the name
+ * or the fully qualified class name of the class given as a parameter.
+ * Each logger name will be used as the log message tag on the Android platform.
+ * However, tag names cannot be longer than 23 characters so if logger name exceeds this limit then
+ * it will be truncated by the LoggerFactory. The following examples illustrate this.
+ * <table border="1">
+ * <tr><th><b>Original Name<b></th><th><b>Truncated Name</b></th></tr>
+ * <tr><td>org.example.myproject.mypackage.MyClass</td><td>o*.e*.m*.m*.MyClass</td></tr>
+ * <tr><td>o.e.myproject.mypackage.MyClass</td><td>o.e.m*.m*.MyClass</td></tr>
+ * <tr><td>org.example.ThisNameIsWayTooLongAndWillBeTruncated</td><td>*LongAndWillBeTruncated</td></tr>
+ * <tr><td>ThisNameIsWayTooLongAndWillBeTruncated</td><td>*LongAndWillBeTruncated</td></tr>
+ * </table>
+ * </p>
  *
  * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
