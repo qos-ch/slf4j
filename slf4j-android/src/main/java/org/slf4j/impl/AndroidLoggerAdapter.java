@@ -57,8 +57,8 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * Package access allows only {@link AndroidLoggerFactory} to instantiate
      * SimpleLogger instances.
      */
-    AndroidLoggerAdapter(final String name) {
-        this.name = name;
+    AndroidLoggerAdapter(final String tag) {
+        this.name = tag;
     }
 
     /**
