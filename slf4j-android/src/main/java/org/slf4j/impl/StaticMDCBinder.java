@@ -24,14 +24,15 @@
  */
 package org.slf4j.impl;
 
-import org.slf4j.helpers.BasicMDCAdapter;
+import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
 
 /**
- * This implementation is bound to {@link BasicMDCAdapter}.
+ * This implementation is bound to {@link NOPMDCAdapter}.
  *
  * @author Ceki G&uuml;lc&uuml;
+ * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
 public class StaticMDCBinder {
 
@@ -45,15 +46,13 @@ public class StaticMDCBinder {
   
   /**
    * Currently this method always returns an instance of 
-   * {@link BasicMDCAdapter}.
+   * {@link NOPMDCAdapter}.
    */
   public MDCAdapter getMDCA() {
-    // note that this method is invoked only from within the static initializer of 
-    // the org.slf4j.MDC class.
-    return new BasicMDCAdapter();
+    return new NOPMDCAdapter();
   }
   
   public String getMDCAdapterClassStr() {
-    return BasicMDCAdapter.class.getName();
+    return NOPMDCAdapter.class.getName();
   }
 }

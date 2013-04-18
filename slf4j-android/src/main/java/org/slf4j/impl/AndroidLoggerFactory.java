@@ -50,15 +50,7 @@ public class AndroidLoggerFactory implements ILoggerFactory {
      * Return an appropriate {@link AndroidLoggerAdapter} instance by name.
      */
     public Logger getLogger(String name) {
-        String tag = loggerNameToTag(name); // fix for bug #173
-/*
-        if (name != null && !name.equals(tag)) {
-            Log.i(AndroidLoggerFactory.class.getSimpleName(),
-                    "Logger name '" + name + "' exceeds maximum length of " + TAG_MAX_LENGTH +
-                            " characters, using '" + tag + "' instead.");
-        }
-*/
-
+        String tag = loggerNameToTag(name);
         Logger logger = loggerMap.get(tag);
         if (logger == null) {
             Logger newInstance = new AndroidLoggerAdapter(tag);
