@@ -5,9 +5,9 @@ document.write('<tr>')
 
 document.write('  <td valign="top" align="left">Copyright &copy; 2004-2013  <a href="http://www.qos.ch/">QOS.ch</a></td>')
 
-document.write('  <td>');
-document.write('    <a class="twitter_button" href="http://twitter.com/qos_ch">');
-document.write('    <img style="float:left;" src="images/twitter-bird-light-bgs.png" height="16" alt=""/> Follow @qos_ch');
+document.write('  <td rowspan="2">');
+document.write('    <a href="http://twitter.com/qos_ch">');
+document.write('      <img alt="Follow @qos_ch" src="images/twitter.png" />');
 document.write('    </a>');
 document.write('  </td>');
 
