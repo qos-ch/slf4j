@@ -78,14 +78,15 @@ import org.slf4j.helpers.MessageFormatter;
  *
  * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
-public class AndroidLoggerAdapter extends MarkerIgnoringBase {
+class AndroidLoggerAdapter extends MarkerIgnoringBase {
     private static final long serialVersionUID = -1227274521521287937L;
+
 
     /**
      * Package access allows only {@link AndroidLoggerFactory} to instantiate
      * SimpleLogger instances.
      */
-    AndroidLoggerAdapter(final String tag) {
+    AndroidLoggerAdapter(String tag) {
         this.name = tag;
     }
 
@@ -95,7 +96,7 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @return True if this Logger is enabled for level VERBOSE, false otherwise.
      */
     public boolean isTraceEnabled() {
-        return Log.isLoggable(name, Log.VERBOSE);
+        return isLoggable(Log.VERBOSE);
     }
 
     /**
@@ -182,7 +183,7 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @return True if this Logger is enabled for level DEBUG, false otherwise.
      */
     public boolean isDebugEnabled() {
-        return Log.isLoggable(name, Log.DEBUG);
+        return isLoggable(Log.DEBUG);
     }
 
     /**
@@ -268,7 +269,7 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @return True if this Logger is enabled for the INFO level, false otherwise.
      */
     public boolean isInfoEnabled() {
-        return Log.isLoggable(name, Log.INFO);
+        return isLoggable(Log.INFO);
     }
 
     /**
@@ -356,7 +357,7 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      *         otherwise.
      */
     public boolean isWarnEnabled() {
-        return Log.isLoggable(name, Log.WARN);
+        return isLoggable(Log.WARN);
     }
 
     /**
@@ -444,7 +445,7 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
      * @return True if this Logger is enabled for level ERROR, false otherwise.
      */
     public boolean isErrorEnabled() {
-        return Log.isLoggable(name, Log.ERROR);
+        return isLoggable(Log.ERROR);
     }
 
     /**
@@ -527,22 +528,26 @@ public class AndroidLoggerAdapter extends MarkerIgnoringBase {
     }
 
     private void formatAndLog(int priority, String format, Object... argArray) {
-        if (Log.isLoggable(name, priority)) {
+        if (isLoggable(priority)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            _log(name, priority, ft.getMessage(), ft.getThrowable());
+            _log(priority, ft.getMessage(), ft.getThrowable());
         }
     }
 
     private void log(int priority, String message, Throwable throwable) {
-        if (Log.isLoggable(name, priority)) {
-            _log(name, priority, message, throwable);
+        if (isLoggable(priority)) {
+            _log(priority, message, throwable);
         }
     }
 
-    private static void _log(String tag, int priority, String message, Throwable throwable) {
+    private boolean isLoggable(int priority) {
+        return Log.isLoggable(name, priority);
+    }
+
+    private void _log(int priority, String message, Throwable throwable) {
         if (throwable != null) {
             message += '\n' + Log.getStackTraceString(throwable);
         }
-        Log.println(priority, tag, message);
+        Log.println(priority, name, message);
     }
 }
