@@ -7,7 +7,7 @@ document.write('  <td valign="top" align="left">Copyright &copy; 2004-2013  <a h
 
 document.write('  <td rowspan="2">');
 document.write('    <a href="http://twitter.com/qos_ch">');
-document.write('      <img alt="Follow @qos_ch" src="images/twitter.png" />');
+document.write('      <img alt="Follow @qos_ch" src="images/follow_us.png" />');
 document.write('    </a>');
 document.write('  </td>');
 
