@@ -65,13 +65,13 @@ public class FormatConversionRule implements ConversionRule {
         for(matcher = concatPatternStart.matcher(text); matcher.find(); matcher = concatPatternStart.matcher(text)) {
             replacementLine.append(text.substring(0, matcher.start()));//Keep everything up to the concat
             Matcher matcherEndMiddle = concatPatternEndMiddle.matcher(text);
-            if(matcherEndMiddle.find()) {
+            if(matcherEndMiddle.find(matcher.end())) {
                 concatObjects.add(text.substring(matcher.end(), matcherEndMiddle.start()));
                 replacementLine.append("{}");
                 text = text.substring(matcherEndMiddle.end());
             } else {
                 Matcher matcherEndfinal = concatPatternEndFinal.matcher(text);
-                if(matcherEndfinal.find()) {
+                if(matcherEndfinal.find(matcher.end())) {
                     concatObjects.add(text.substring(matcher.end(), matcherEndfinal.start()));
                     replacementLine.append("{}");
                     text = "\");" + text.substring(matcherEndfinal.end());
@@ -85,8 +85,19 @@ public class FormatConversionRule implements ConversionRule {
         Matcher endMatcher = logEndPattern.matcher(text);
         if(endMatcher.find()) {
             replacementLine.append(text.substring(0, endMatcher.start()));
-            for(String concatObject : concatObjects) {
-                replacementLine.append(", ").append(concatObject);
+            if(concatObjects.size() > 2) {
+                replacementLine.append(", new Object[]{");
+                for(int concatObjecIndex = 0; concatObjecIndex < concatObjects.size(); concatObjecIndex++) {
+                    if(concatObjecIndex > 0) {
+                        replacementLine.append(", ");
+                    }
+                    replacementLine.append(concatObjects.get(concatObjecIndex));
+                }
+                replacementLine.append("}");
+            } else {
+                for(String concatObject : concatObjects) {
+                    replacementLine.append(", ").append(concatObject);
+                }
             }
             replacementLine.append(");");
             return new String[]{replacementLine.toString()};
