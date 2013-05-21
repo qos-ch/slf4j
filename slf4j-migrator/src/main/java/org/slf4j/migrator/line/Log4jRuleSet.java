@@ -61,6 +61,8 @@ public class Log4jRuleSet implements RuleSet {
     SingleConversionRule crFactory1 = new SingleConversionRule(Pattern
         .compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
 
+    FormatConversionRule fc0 = new FormatConversionRule(Pattern
+        .compile("log(log)?\\.(trace)|(debug)|(info)|(warn)|(error)|(fatal)\\(\""));
     conversionRuleList = new ArrayList<ConversionRule>();
     conversionRuleList.add(crImport0);
     conversionRuleList.add(crImport1);
@@ -68,6 +70,7 @@ public class Log4jRuleSet implements RuleSet {
     conversionRuleList.add(crImportMDC);
     conversionRuleList.add(crFactory0);
     conversionRuleList.add(crFactory1);
+    conversionRuleList.add(fc0);
   }
 
   public Iterator<ConversionRule> iterator() {

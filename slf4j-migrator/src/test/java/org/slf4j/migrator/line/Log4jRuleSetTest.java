@@ -156,4 +156,17 @@ public class Log4jRuleSetTest extends TestCase {
    log4jConverter
    .getOneLineReplacement(" = LogManager.getLogger(MyComponent.class);"));
    }
+
+  public void testParamertizedReplacement()  {
+    assertEquals("Debug call with one variable", "log.debug(\"blah={}\", blah);", log4jConverter
+      .getOneLineReplacement("log.debug(\"blah=\" + blah);"));
+    assertEquals("info call with two variables", "log.info(\"foo={} bar={}\", foo, bar);", log4jConverter
+      .getOneLineReplacement("log.info(\"foo=\" + foo + \" bar=\" + bar);"));
+    assertEquals("wrapped line", "log.debug(\"foo=\" + foo//TODO SLF4J Migrator unable to automatically change to parameterized logging", log4jConverter
+      .getOneLineReplacement("log.debug(\"foo=\" + foo"));
+    assertEquals("warn call with one variable and throwable", "log.warn(\"foo={}\", foo, e);", log4jConverter
+      .getOneLineReplacement("log.warn(\"foo=\" + foo, e);"));
+    assertEquals("error call with two variables and throwable", "log.warn(\"foo={} bar={}\", foo, bar, e);", log4jConverter
+      .getOneLineReplacement("log.warn(\"foo=\" + foo + \" bar=\" + bar, e);"));
+  }
 }
