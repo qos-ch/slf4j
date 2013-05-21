@@ -29,23 +29,11 @@ import java.util.regex.Pattern;
 
 public interface ConversionRule {
 
-  public Pattern getPattern();
-
   /**
-   * Given replacement rules, replace each capturing group in matcher's pattern
-   * 
-   * @param matcher
-   * @return String
+   * Apply replacement rules to text and return replacement line(s)
+   *
+   * @param line Original line
+   * @return String replacement line
    */
-  public String replace(Matcher matcher);
-  
-  /**
-   * Returns a non-null value if there should be an additional line
-   * following a match of this rule. In most cases this method 
-   * returns null.
-   * 
-   * @return String
-   */
-  public String getAdditionalLine();
-
+  public String[] getReplacement(String line);
 }

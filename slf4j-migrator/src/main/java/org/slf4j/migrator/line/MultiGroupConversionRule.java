@@ -48,13 +48,6 @@ public class MultiGroupConversionRule implements ConversionRule {
     this.pattern = pattern;
   }
 
-  /* (non-Javadoc)
-   * @see org.slf4j.converter.ConversionRule#getPattern()
-   */
-  public Pattern getPattern() {
-    return pattern;
-  }
-
   public void addReplacement(int groupIndex, String replacement) {
     if(groupIndex == 0) {
       throw new IllegalArgumentException("regex groups start at 1, not zero");
@@ -70,26 +63,25 @@ public class MultiGroupConversionRule implements ConversionRule {
   }
 
   /* (non-Javadoc)
-   * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
+   * @see org.slf4j.converter.ConversionRule#getReplacement(String)
    */
-  public String replace(Matcher matcher) {
-    StringBuffer replacementBuffer = new StringBuffer();
-    String replacementText;
-    
-    for (int group = 1; group <= matcher.groupCount(); group++) {
-      replacementText = getReplacement(group);
-      if (replacementText != null) {
-        //System.out.println("replacing group " + group + " : "
-        //    + matcher.group(group) + " with " + replacementText);
-        replacementBuffer.append(replacementText);
-      } else  {
-        replacementBuffer.append(matcher.group(group));
-      }
+  public String[] getReplacement(String text) {
+    Matcher matcher = pattern.matcher(text);
+    if(matcher.find()) {
+        StringBuffer replacementBuffer = new StringBuffer();
+        for (int group = 1; group <= matcher.groupCount(); group++) {
+          String replacementText = getReplacement(group);
+          if (replacementText != null) {
+            //System.out.println("replacing group " + group + " : "
+            //    + matcher.group(group) + " with " + replacementText);
+            replacementBuffer.append(replacementText);
+          } else  {
+            replacementBuffer.append(matcher.group(group));
+          }
+        }
+        return new String[]{replacementBuffer.toString()};
+    } else {
+        return new String[]{text};
     }
-    return replacementBuffer.toString();
-  }
-
-  public String getAdditionalLine() {
-    return null;
   }
 }
