@@ -159,6 +159,8 @@ public class Log4jRuleSetTest extends TestCase {
    }
 
   public void testParamertizedReplacement()  {
+    assertEquals("Debug call with one variable", "logger.debug(\"blah={}\", blah);", log4jConverter
+      .getOneLineReplacement("logger.debug(\"blah=\" + blah);"));
     assertEquals("Debug call with one variable", "log.debug(\"blah={}\", blah);", log4jConverter
       .getOneLineReplacement("log.debug(\"blah=\" + blah);"));
     assertEquals("info call with two variables", "log.info(\"foo={} bar={}\", foo, bar);", log4jConverter
@@ -172,7 +174,7 @@ public class Log4jRuleSetTest extends TestCase {
     assertEquals("error call with two variables and throwable", "log.warn(\"foo={} bar={}\", foo, bar, e);", log4jConverter
       .getOneLineReplacement("log.warn(\"foo=\" + foo + \" bar=\" + bar, e);"));
 
-    String unchangedMessage = "                    throw new Exception(\"Unable to match the SenderName and ReceiverName to the BuyerName and SellerName from partnership info provided in JMS header. SenderName=\"+senderName+\"/ReceiverName=\"+receiverName);";
+    String unchangedMessage = "    throw new Exception(\"No info provided. foo=\"+foo+\"/bar=\"+bar);";
     assertEquals("Don't change exception", unchangedMessage, log4jConverter
       .getOneLineReplacement(unchangedMessage));
   }
