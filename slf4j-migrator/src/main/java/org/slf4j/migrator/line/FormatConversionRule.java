@@ -76,8 +76,10 @@ public class FormatConversionRule implements ConversionRule {
                     replacementLine.append("{}");
                     text = "\");" + text.substring(matcherEndfinal.end());
                     break;
-                } else {
+                } else if(!originalText.contains("{}")) {
                     return new String[]{originalText + "//TODO SLF4J Migrator unable to automatically change to parameterized logging"};
+                } else {//probably already converted
+                    return new String[]{originalText};
                 }
                 
             }
@@ -101,11 +103,10 @@ public class FormatConversionRule implements ConversionRule {
             }
             replacementLine.append(");");
             return new String[]{replacementLine.toString()};
-        } else {//Didn't find end of log call so probably wrapped to multiple lines
+        } else if(!originalText.contains("{}")) {//Didn't find end of log call so probably wrapped to multiple lines
             return new String[]{originalText + "//TODO SLF4J Migrator unable to automatically change to parameterized logging because it appears the line wraps"};
-        }
-    } else {
-        return new String[]{originalText};
+        }//else probably already converted
     }
+    return new String[]{originalText};
   }
 }
