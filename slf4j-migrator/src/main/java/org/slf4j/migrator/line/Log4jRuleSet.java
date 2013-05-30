@@ -62,7 +62,7 @@ public class Log4jRuleSet implements RuleSet {
         .compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
 
     FormatConversionRule fc0 = new FormatConversionRule(Pattern
-        .compile("log(log)?\\.((trace)|(debug)|(info)|(warn)|(error))\\(\""));
+        .compile("((log)|(logger))\\.((debug)|(info)|(warn)|(error))\\(\""));
     conversionRuleList = new ArrayList<ConversionRule>();
     conversionRuleList.add(crImport0);
     conversionRuleList.add(crImport1);
