@@ -25,11 +25,11 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * Implementation of {@link Log org.apache.commons.logging.Log} interface which
+ * Implementation of {@link Log org.apache.juli.logging.Log} interface which
  * delegates all processing to a wrapped {@link Logger org.slf4j.Logger}
  * instance.
  * <p>
- * JCL's FATAL level is mapped to ERROR. All other levels map one to one.
+ * JULI's FATAL level is mapped to ERROR. All other levels map one to one.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */

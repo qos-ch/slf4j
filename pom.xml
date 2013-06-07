@@ -252,6 +252,11 @@
                   </group>
 
                   <group>
+                    <title>Apache Juli Logging packages</title>
+                    <packages>org.apache.juli.*</packages>
+                  </group>
+
+                  <group>
                     <title>java.util.logging (JUL) to SLF4J bridge</title>
                     <packages>org.slf4j.bridge</packages>
                   </group>

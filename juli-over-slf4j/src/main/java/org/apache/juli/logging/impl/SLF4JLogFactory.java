@@ -13,7 +13,7 @@ import org.slf4j.spi.LocationAwareLogger;
 public class SLF4JLogFactory extends LogFactory {
 
   /**
-   * The {@link org.apache.commons.logging.Log}instances that have already been
+   * The {@link org.apache.juli.logging.Log}instances that have already been
    * created, keyed by logger name.
    */
   private final ConcurrentMap<String, Log> loggerMap;

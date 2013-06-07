@@ -88,6 +88,14 @@
     </fileSet>
 
     <fileSet>
+      <directory>juli-over-slf4j/</directory>
+      <outputDirectory>juli-over-slf4j/</outputDirectory>
+      <includes>
+        <include>pom.xml</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
       <directory>jul-to-slf4j/</directory>
       <outputDirectory>jul-to-slf4j/</outputDirectory>
       <includes>
@@ -175,7 +183,11 @@
     </fileSet>  
     <fileSet>
       <directory>jcl-over-slf4j/src/</directory>
-			<outputDirectory>jcl-over-slf4j/src/</outputDirectory>    
+            <outputDirectory>jcl-over-slf4j/src/</outputDirectory>    
+    </fileSet>
+    <fileSet>
+      <directory>juli-over-slf4j/src/</directory>
+            <outputDirectory>juli-over-slf4j/src/</outputDirectory>    
     </fileSet>
     <fileSet>
       <directory>jul-to-slf4j/src/</directory>
@@ -279,13 +291,21 @@
 		
 		
     <fileSet>
-			<directory>jcl-over-slf4j/target/</directory>
-			<outputDirectory>/</outputDirectory>
-			<includes>
-				<include>jcl-over-slf4j-${project.version}-sources.jar</include>
-				<include>jcl-over-slf4j-${project.version}.jar</include>
-			</includes>    
-		</fileSet>
+            <directory>jcl-over-slf4j/target/</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>jcl-over-slf4j-${project.version}-sources.jar</include>
+                <include>jcl-over-slf4j-${project.version}.jar</include>
+            </includes>    
+        </fileSet>
+    <fileSet>
+            <directory>juli-over-slf4j/target/</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>juli-over-slf4j-${project.version}-sources.jar</include>
+                <include>juli-over-slf4j-${project.version}.jar</include>
+            </includes>    
+        </fileSet>
     <fileSet>
       <directory>jul-to-slf4j/target/</directory>
       <outputDirectory>/</outputDirectory>
