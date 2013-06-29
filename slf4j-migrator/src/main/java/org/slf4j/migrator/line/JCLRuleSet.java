@@ -64,6 +64,13 @@ public class JCLRuleSet implements RuleSet {
         .compile("LogFactory.getLog\\("),"LoggerFactory.getLogger(");
     
 
+    SingleConversionRule cr6 = new SingleConversionRule(Pattern
+            .compile("\\sLogFactory\\b"),"LoggerFactory");
+        
+    SingleConversionRule cr7 = new SingleConversionRule(Pattern
+            .compile("\\s.getLog\\("),".getLogger(");
+        
+
     conversionRuleList = new ArrayList<ConversionRule>();
     conversionRuleList.add(cr0);
     conversionRuleList.add(cr1);
@@ -71,6 +78,8 @@ public class JCLRuleSet implements RuleSet {
     conversionRuleList.add(cr3);
     conversionRuleList.add(cr4);
     conversionRuleList.add(cr5);
+    conversionRuleList.add(cr6);
+    conversionRuleList.add(cr7);
   }
 
 
