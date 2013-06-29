@@ -46,12 +46,12 @@ public class NoConversionTest extends TestCase {
     // no changes on log4j.Logger import
     assertEquals("import org.apache.log4j.Logger;", jclLineConverter
         .getOneLineReplacement("import org.apache.log4j.Logger;"));
-    // no changes on Logger instanciation using LogManager
+    // no changes on Logger instantiation using LogManager
     assertEquals(
         "Logger log = LogManager.getLogger(MyClass.class);",
         jclLineConverter
             .getOneLineReplacement("Logger log = LogManager.getLogger(MyClass.class);"));
-    // no changes on Logger instanciation using Logger.getLogger
+    // no changes on Logger instantiation using Logger.getLogger
     assertEquals(
         "public static Logger mylog1 = Logger.getLogger(MyClass.class);",
         jclLineConverter
@@ -72,12 +72,12 @@ public class NoConversionTest extends TestCase {
     // no changes on Log import
     assertEquals("import org.apache.commons.logging.Log;", log4jConverter
         .getOneLineReplacement("import org.apache.commons.logging.Log;"));
-    // no changes on Log instanciation using Logfactory.getLog
+    // no changes on Log instantiation using Logfactory.getLog
     assertEquals(
         "public static Log mylog1 = LogFactory.getLog(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("public static Log mylog1 = LogFactory.getLog(MyClass.class);"));
-    // no changes on log instanciation using LogFactory.getFactory().getInstance
+    // no changes on log instantiation using LogFactory.getFactory().getInstance
     assertEquals(
         "public Log mylog=LogFactory.getFactory().getInstance(MyClass.class);",
         log4jConverter
