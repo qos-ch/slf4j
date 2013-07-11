@@ -154,4 +154,9 @@ public class XLoggerTest extends TestCase {
     }
 
   }
+
+  public void testDefaultClassLogger() {
+    XLogger logger = XLoggerFactory.getXLogger();
+    assertEquals(this.getClass().getName(),logger.getName());
+  }
 }
