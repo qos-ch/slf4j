@@ -24,6 +24,8 @@
  */
 package org.slf4j;
 
+import javax.annotation.Nonnull;
+
 
 /**
  * <code>ILoggerFactory</code> instances manufacture {@link Logger}
@@ -54,5 +56,6 @@ public interface ILoggerFactory {
    * @param name the name of the Logger to return
    * @return a Logger instance 
    */
-  public Logger getLogger(String name);
+  @Nonnull
+  public Logger getLogger(@Nonnull String name);
 }

@@ -26,7 +26,14 @@ package org.slf4j;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -265,7 +272,8 @@ public final class LoggerFactory {
    * @param name The name of the logger.
    * @return logger
    */
-  public static Logger getLogger(String name) {
+  @Nonnull
+  public static Logger getLogger(@Nonnull String name) {
     ILoggerFactory iLoggerFactory = getILoggerFactory();
     return iLoggerFactory.getLogger(name);
   }
@@ -277,7 +285,8 @@ public final class LoggerFactory {
    * @param clazz the returned logger will be named after clazz
    * @return logger
    */
-  public static Logger getLogger(Class clazz) {
+  @Nonnull
+  public static Logger getLogger(@Nonnull Class clazz) {
     return getLogger(clazz.getName());
   }
 
@@ -289,6 +298,7 @@ public final class LoggerFactory {
    *
    * @return the ILoggerFactory instance in use
    */
+  @Nonnull
   public static ILoggerFactory getILoggerFactory() {
     if (INITIALIZATION_STATE == UNINITIALIZED) {
       INITIALIZATION_STATE = ONGOING_INITIALIZATION;
