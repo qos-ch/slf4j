@@ -85,7 +85,7 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    *          the argument
    */
   public void trace(String format, Object arg) {
-    if (log.isDebugEnabled()) {
+    if (log.isTraceEnabled()) {
       FormattingTuple ft = MessageFormatter.format(format, arg);
       log.trace(ft.getMessage(), ft.getThrowable());
     }
@@ -108,7 +108,7 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    *          the second argument
    */
   public void trace(String format, Object arg1, Object arg2) {
-    if (log.isDebugEnabled()) {
+    if (log.isTraceEnabled()) {
       FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
       log.trace(ft.getMessage(), ft.getThrowable());
     }
@@ -128,7 +128,7 @@ public final class JCLLoggerAdapter extends MarkerIgnoringBase {
    * @param arguments a list of 3 or more arguments
    */
   public void trace(String format, Object... arguments) {
-    if (log.isDebugEnabled()) {
+    if (log.isTraceEnabled()) {
       FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
       log.trace(ft.getMessage(), ft.getThrowable());
     }
