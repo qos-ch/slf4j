@@ -53,7 +53,7 @@ public class JavassistHelper {
 			throws NotFoundException {
 
 		CtClass returnType = methodReturnType(method);
-		if (returnType != null) {
+		if (returnType == null) {
 			return "";
 		} else if (returnType.isPrimitive()) {
 			// let the compiler handle primitive -> string
