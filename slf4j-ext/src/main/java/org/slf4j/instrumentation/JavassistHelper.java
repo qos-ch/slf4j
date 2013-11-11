@@ -53,14 +53,14 @@ public class JavassistHelper {
 			throws NotFoundException {
 
 		CtClass returnType = methodReturnType(method);
-		if (!returnType) {
+		if (returnType != null) {
 			return "";
 		} else if (returnType.isPrimitive()) {
 			// let the compiler handle primitive -> string
 			return "returns: \" + $_ + \"";
 		} else {
 			String render = "org.slf4j.instrumentation.ToStringHelper.render";
-			return "returns: \" + " + render + "($_)");
+			return "returns: \" + " + render + "($_)";
 		}
 	}
 
@@ -76,7 +76,7 @@ public class JavassistHelper {
 			throws NotFoundException {
 
 		if (method instanceof CtMethod == false) {
-			return false;
+			return null;
 		}
 
 		CtClass returnType = ((CtMethod) method).getReturnType();
