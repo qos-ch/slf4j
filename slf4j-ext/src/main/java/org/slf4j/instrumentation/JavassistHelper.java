@@ -52,11 +52,16 @@ public class JavassistHelper {
 	public static String returnValue(CtBehavior method)
 			throws NotFoundException {
 
-		String returnValue = "";
-		if (methodReturnsValue(method)) {
-			returnValue = " returns: \" + $_ + \".";
+		CtClass returnType = methodReturnType(method);
+		if (!returnType) {
+			return "";
+		} else if (returnType.isPrimitive()) {
+			// let the compiler handle primitive -> string
+			return "returns: \" + $_ + \"";
+		} else {
+			String render = "org.slf4j.instrumentation.ToStringHelper.render";
+			return "returns: \" + " + render + "($_)");
 		}
-		return returnValue;
 	}
 
 	/**
@@ -67,7 +72,7 @@ public class JavassistHelper {
 	 * @return
 	 * @throws NotFoundException
 	 */
-	private static boolean methodReturnsValue(CtBehavior method)
+	private static CtClass methodReturnType(CtBehavior method)
 			throws NotFoundException {
 
 		if (method instanceof CtMethod == false) {
@@ -77,10 +82,11 @@ public class JavassistHelper {
 		CtClass returnType = ((CtMethod) method).getReturnType();
 		String returnTypeName = returnType.getName();
 
-		boolean isVoidMethod = "void".equals(returnTypeName);
-
-		boolean methodReturnsValue = isVoidMethod == false;
-		return methodReturnsValue;
+		if ("void".equals(returnTypeName)) {
+			return null;
+		} else {
+			return returnType;
+		}
 	}
 
 	/**
