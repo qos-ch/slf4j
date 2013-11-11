@@ -57,10 +57,10 @@ public class JavassistHelper {
 			return "";
 		} else if (returnType.isPrimitive()) {
 			// let the compiler handle primitive -> string
-			return "returns: \" + $_ + \"";
+			return " returns: \" + $_ + \"";
 		} else {
 			String render = "org.slf4j.instrumentation.ToStringHelper.render";
-			return "returns: \" + " + render + "($_)";
+			return " returns: \" + " + render + "($_) + \"";
 		}
 	}
 
