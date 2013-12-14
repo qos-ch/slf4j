@@ -27,7 +27,6 @@ package org.slf4j.helpers;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
-
 /**
  * This class serves as base for adapters or native implementations of logging systems 
  * lacking Marker support. In this implementation, methods taking marker data 
@@ -136,7 +135,6 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
     warn(msg, t);
   }
 
- 
   public boolean isErrorEnabled(Marker marker) {
     return isErrorEnabled();
   }
@@ -162,7 +160,7 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
   }
 
   public String toString() {
-	  return this.getClass().getName()+"("+getName()+")";
+	  return this.getClass().getName() + "(" + getName() + ")";
   }
   
 }

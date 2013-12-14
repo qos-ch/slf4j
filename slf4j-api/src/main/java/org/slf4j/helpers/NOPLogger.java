@@ -25,8 +25,6 @@
 package org.slf4j.helpers;
 
 import org.slf4j.Logger;
-import org.slf4j.helpers.MarkerIgnoringBase;
-
 
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
@@ -116,9 +114,7 @@ public class NOPLogger extends MarkerIgnoringBase {
   public final void debug(String format, Object... argArray) {
     // NOP
   }
-  
-  
-  
+
   /** A NOP implementation. */
   final public void debug(String msg, Throwable t) {
     // NOP
@@ -132,7 +128,6 @@ public class NOPLogger extends MarkerIgnoringBase {
     // NOP
     return false;
   }
-
 
   /** A NOP implementation. */
   final public void info(String msg) {
@@ -154,12 +149,10 @@ public class NOPLogger extends MarkerIgnoringBase {
     // NOP
   }
 
-
   /** A NOP implementation. */
   final public void info(String msg, Throwable t) {
     // NOP
   }
-
 
   /**
    * Always returns false.
@@ -189,12 +182,10 @@ public class NOPLogger extends MarkerIgnoringBase {
     // NOP
   }
 
-
   /** A NOP implementation. */
   final public void warn(String msg, Throwable t) {
     // NOP
   }
-
 
   /** A NOP implementation. */
   final public boolean isErrorEnabled() {
@@ -220,7 +211,6 @@ public class NOPLogger extends MarkerIgnoringBase {
   public final void error(String format, Object... argArray) {
     // NOP
   }
-
 
   /** A NOP implementation. */
   final public void error(String msg, Throwable t) {

@@ -39,12 +39,11 @@ import org.slf4j.Marker;
  */
 public interface LocationAwareLogger extends Logger {
 
-  final public int TRACE_INT = 00;
+  final public int TRACE_INT = 0;
   final public int DEBUG_INT = 10;
   final public int INFO_INT = 20;
   final public int WARN_INT = 30;
   final public int ERROR_INT = 40;
-  
   
   /**
    * Printing method with support for location information. 

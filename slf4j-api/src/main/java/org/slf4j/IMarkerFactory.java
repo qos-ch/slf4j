@@ -24,7 +24,6 @@
  */
 package org.slf4j;
 
-
 /**
  * Implementations of this interface are used to manufacture {@link Marker}
  * instances.
@@ -70,8 +69,7 @@ public interface IMarkerFactory {
    * @return whether the marker  could be detached or not
    */
   boolean detachMarker(String name);
-  
-  
+
   /**
    * Create a marker which is detached (even at birth) from this IMarkerFactory.
    * 

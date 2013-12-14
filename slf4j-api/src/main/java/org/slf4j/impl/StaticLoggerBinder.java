@@ -25,9 +25,10 @@
 package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
+import org.slf4j.helpers.Util;
 
 /**
- * The binding of {@link LoggerFactory} class with an actual instance of
+ * The binding of {@link org.slf4j.LoggerFactory} class with an actual instance of
  * {@link ILoggerFactory} is performed using information returned by this class.
  * 
  * This class is meant to provide a dummy StaticLoggerBinder to the slf4j-api module. 
@@ -37,18 +38,18 @@ import org.slf4j.ILoggerFactory;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class StaticLoggerBinder {
- 
+
   /**
    * The unique instance of this class.
    */
   private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
-  
+
   /**
    * Return the singleton of this class.
    * 
    * @return the StaticLoggerBinder singleton
    */
-  public static final StaticLoggerBinder getSingleton() {
+  public static StaticLoggerBinder getSingleton() {
     return SINGLETON;
   }
   
@@ -60,14 +61,14 @@ public class StaticLoggerBinder {
   public static String REQUESTED_API_VERSION = "1.6.99";  // !final
   
   private StaticLoggerBinder() {
-    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
 
   public ILoggerFactory getLoggerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
 
   public String getLoggerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
 }

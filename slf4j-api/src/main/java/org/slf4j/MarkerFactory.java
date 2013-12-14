@@ -42,12 +42,13 @@ import org.slf4j.impl.StaticMarkerBinder;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MarkerFactory {
-  static IMarkerFactory markerFactory;
+  static final IMarkerFactory markerFactory = createMarkerFactory();
 
   private MarkerFactory() {
   }
 
-  static {
+  static IMarkerFactory createMarkerFactory() {
+    IMarkerFactory markerFactory = null;
     try {
       markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
     } catch (NoClassDefFoundError e) {
@@ -57,6 +58,7 @@ public class MarkerFactory {
       // we should never get here
       Util.report("Unexpected failure while binding MarkerFactory", e);
     }
+    return markerFactory;
   }
 
   /**
@@ -68,6 +70,7 @@ public class MarkerFactory {
    * @return marker
    */
   public static Marker getMarker(String name) {
+    checkState();
     return markerFactory.getMarker(name);
   }
 
@@ -79,6 +82,7 @@ public class MarkerFactory {
    * @since 1.5.1
    */
   public static Marker getDetachedMarker(String name) {
+    checkState();
     return markerFactory.getDetachedMarker(name);
   }
   
@@ -91,6 +95,11 @@ public class MarkerFactory {
    * @return the IMarkerFactory instance in use
    */
   public static IMarkerFactory getIMarkerFactory() {
+    checkState();
     return markerFactory;
+  }
+
+  private static void checkState() {
+    Util.checkState(markerFactory != null, "MarkerFactory cannot be null.");
   }
 }

@@ -44,7 +44,7 @@ import org.slf4j.Logger;
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
   // keep a record of requested logger names
-  final List loggerNameList = new ArrayList();
+  final List<String> loggerNameList = new ArrayList<String>();
 
   public Logger getLogger(String name) {
     synchronized (loggerNameList) {
@@ -54,11 +54,9 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
   }
 
   public List getLoggerNameList() {
-    List copy = new ArrayList();
     synchronized (loggerNameList) {
-      copy.addAll(loggerNameList);
+      return new ArrayList<String>(loggerNameList);
     }
-    return copy;
   }
 
 }

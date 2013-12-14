@@ -64,22 +64,22 @@ public class MDC {
 
   static final String NULL_MDCA_URL = "http://www.slf4j.org/codes.html#null_MDCA";
   static final String NO_STATIC_MDC_BINDER_URL = "http://www.slf4j.org/codes.html#no_static_mdc_binder";
-  static MDCAdapter mdcAdapter;
+  static final MDCAdapter mdcAdapter = createMdcAdapter();
 
   private MDC() {
   }
 
-  static {
+  private static MDCAdapter createMdcAdapter() {
+    MDCAdapter mdcAdapter = null;
     try {
       mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
     } catch (NoClassDefFoundError ncde) {
       mdcAdapter = new NOPMDCAdapter();
       String msg = ncde.getMessage();
-      if (msg != null && msg.indexOf("StaticMDCBinder") != -1) {
+      if (msg != null && msg.contains("StaticMDCBinder")) {
         Util.report("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
         Util.report("Defaulting to no-operation MDCAdapter implementation.");
-        Util
-            .report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
+        Util.report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
       } else {
         throw ncde;
       }
@@ -87,6 +87,7 @@ public class MDC {
       // we should never get here
       Util.report("MDC binding unsuccessful.", e);
     }
+    return mdcAdapter;
   }
 
   /**
@@ -104,15 +105,9 @@ public class MDC {
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static void put(String key, String val)
-      throws IllegalArgumentException {
-    if (key == null) {
-      throw new IllegalArgumentException("key parameter cannot be null");
-    }
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+  public static void put(String key, String val) {
+    checkKey(key);
+    checkState();
     mdcAdapter.put(key, val);
   }
 
@@ -123,20 +118,14 @@ public class MDC {
    * <p>
    * This method delegates all work to the MDC of the underlying logging system.
    *
-   * @param key  
+   * @param key non-null key
    * @return the string value identified by the <code>key</code> parameter.
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static String get(String key) throws IllegalArgumentException {
-    if (key == null) {
-      throw new IllegalArgumentException("key parameter cannot be null");
-    }
-
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+  public static String get(String key) {
+    checkKey(key);
+    checkState();
     return mdcAdapter.get(key);
   }
 
@@ -146,19 +135,13 @@ public class MDC {
    * cannot be null. This method does nothing if there is no previous value
    * associated with <code>key</code>.
    *
-   * @param key  
+   * @param key non-null key
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static void remove(String key) throws IllegalArgumentException {
-    if (key == null) {
-      throw new IllegalArgumentException("key parameter cannot be null");
-    }
-
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+  public static void remove(String key) {
+    checkKey(key);
+    checkState();
     mdcAdapter.remove(key);
   }
 
@@ -166,10 +149,7 @@ public class MDC {
    * Clear all entries in the MDC of the underlying implementation.
    */
   public static void clear() {
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+    checkState();
     mdcAdapter.clear();
   }
 
@@ -181,10 +161,7 @@ public class MDC {
    * @since 1.5.1
    */
   public static Map getCopyOfContextMap() {
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+    checkState();
     return mdcAdapter.getCopyOfContextMap();
   }
 
@@ -198,10 +175,7 @@ public class MDC {
    * @since 1.5.1
    */
   public static void setContextMap(Map contextMap) {
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+    checkState();
     mdcAdapter.setContextMap(contextMap);
   }
 
@@ -212,7 +186,16 @@ public class MDC {
    * @since 1.4.2
    */
   public static MDCAdapter getMDCAdapter() {
+    checkState();
     return mdcAdapter;
   }
 
+  private static void checkKey(String key) {
+    Util.checkNotNull(key, "key parameter cannot be null");
+  }
+
+  private static void checkState() {
+    Util.checkState(mdcAdapter != null, "MDCAdapter cannot be null. See also "
+      + NULL_MDCA_URL);
+  }
 }

@@ -123,7 +123,7 @@ public interface Marker extends Serializable {
   /**
    * Markers are considered equal if they have the same name.
    *
-   * @param o
+   * @param o the object to compare this instance with
    * @return true, if this.name equals o.name
    *
    * @since 1.5.1
