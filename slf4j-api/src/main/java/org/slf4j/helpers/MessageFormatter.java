@@ -191,6 +191,7 @@ final public class MessageFormatter {
 
     int i = 0;
     int j;
+    // use string builder for better multicore performance 
     StringBuilder sbuf = new StringBuilder(messagePattern.length() + 50);
 
     int L;
