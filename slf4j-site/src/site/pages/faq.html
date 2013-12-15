@@ -141,7 +141,7 @@
     <code>LoggerFactory</code>?  </a></li>
 
     <li><a href="#paramException">In the presence of an
-    exception/throwable, is it possible to parametizere a logging
+    exception/throwable, is it possible to parameterize a logging
     statement?</a></li>
     
   </ol>
@@ -394,7 +394,7 @@
 org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
    at org.slf4j.LoggerFactory.&lt;clinit>(LoggerFactory.java:60)</pre>
 
-      <p>This error is caused by the static initilizer of the
+      <p>This error is caused by the static initializer of the
       <code>LoggerFactory</code> class attempting to directly access
       the SINGLETON field of
       <code>org.slf4j.impl.StaticLoggerBinder</code>. While this was
@@ -406,7 +406,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       <p>If you get the exception shown above, then you are using an
       older version of slf4j-api, e.g. 1.4.3, with a new version of a
       slf4j binding, e.g. 1.5.6. Typically, this occurs when your
-      Maven <em>pom.ml</em> file incoprporates hibernate 3.3.0 which
+      Maven <em>pom.ml</em> file incorporates hibernate 3.3.0 which
       declares a dependency on slf4j-api version 1.4.2. If your
       <em>pom.xml</em> declares a dependency on an slf4j binding, say
       slf4j-log4j12 version 1.5.6, then you will get illegal access
@@ -418,12 +418,12 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p class="source">mvn dependency:tree</p>
 
-      <p>If you are usig Eclipse, please do not rely on the dependency
+      <p>If you are using Eclipse, please do not rely on the dependency
       tree shown by <a
       href="http://m2eclipse.codehaus.org/">m2eclipse</a>.</p>
 
-      <p>In your <em>pom.xml</em> file, excplicitly declaring a
-      dependecy on slf4j-api matching the version of the declared
+      <p>In your <em>pom.xml</em> file, explicitly declaring a
+      dependency on slf4j-api matching the version of the declared
       binding will make the problem go away.
       </p>
 
@@ -574,7 +574,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p>Some projects try to detect the presence of SLF4J on the
       class path and switch to it if present. While this approach
-      seems transperent enough, it will result in erroneous location
+      seems transparent enough, it will result in erroneous location
       information. Underlying logging frameworks will print the
       location (class name and line number) of the wrapper instead of
       the real caller. Then there is the question of API coverage as
@@ -648,7 +648,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     </dt>
     
     <dd>
-      <p><b>alternative 1) explicit exlusion</b></p>
+      <p><b>alternative 1) explicit exclusion</b></p>
 
       <p>Many software projects using Maven declare commons-logging as
       a dependency. Therefore, if you wish to migrate to SLF4J or use
@@ -686,7 +686,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p>The first dependency declaration essentially states that
       commons-logging will be "somehow" provided by your
-      environment. The second decleration includes jcl-over-slf4j into
+      environment. The second declaration includes jcl-over-slf4j into
       your project. As jcl-over-slf4j is a perfect binary-compatible
       replacement for commons-logging, the first assertion becomes
       true.
@@ -694,7 +694,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p>Unfortunately, while declaring commons-logging in the
       provided scope gets the job done, your IDE, e.g. Eclipse, will
-      still place <em>commons-logging.jar</em> on your projet's class
+      still place <em>commons-logging.jar</em> on your project's class
       path as seen by your IDE. You would need to make sure that
       <em>jcl-over-slf4j.jar</em> is visible before
       <em>commons-logging.jar</em> by your IDE.
@@ -714,7 +714,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       high-availability Maven repository, replicated on several hosts
       located in different geographical regions.</p>
 
-      <p>The following decleration adds the version99 repository to
+      <p>The following declaration adds the version99 repository to
       the set of remote repositories searched by Maven. This
       repository contains empty artifacts for commons-logging and
       log4j. By the way, if you use the version99 repository, please
@@ -731,7 +731,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       
     <p>Declaring version 99-empty of commons-logging in the
     <code>&lt;dependencyManagement></code> section of your project
-    will direct all transtive dependencies for commons-logging to
+    will direct all transitive dependencies for commons-logging to
     import version 99-empty, thus nicely addressing the
     commons-logging exclusion problem. The classes for commons-logging
     will be provided by jcl-over-slf4j. The following lines declare
@@ -1022,7 +1022,7 @@ logger.debug("The new entry is {}.", entry);</pre>
       <pre class="prettyprint source">logger.debug("Set \\{} differs from {}", "3");</pre>
       
       <p>will print as "Set {} differs from 3". Note that within
-      Java code, the backslash cracacter needs to be written as
+      Java code, the backslash character needs to be written as
       '\\'.</p>
       
       <p>In the rare case where the "\{}" occurs naturally in the
@@ -1224,7 +1224,7 @@ class Bar {
     <!-- ================================================= -->
 
     <dt class="doAnchor" name="paramException">In the presence of an
-    exception/throwable, is it possible to parametizere a logging
+    exception/throwable, is it possible to parameterize a logging
     statement?</dt>
 
 
@@ -1392,7 +1392,7 @@ try {
       participates in version checks.</p>
       
       <p><b>As of SLF4J 1.5.5</b>, all bindings shipped within the
-      SLF4J distribution, e.g. slf4j-logj12, slf4j-simple and
+      SLF4J distribution, e.g. slf4j-log4j12, slf4j-simple and
       slf4j-jdk14, declare the REQUESTED_API_VERSION field with a
       value equal to their SLF4J version. It follows that, for example
       if slf4j-simple-1.5.8.jar is mixed with slf4j-api-1.6.0.jar,
@@ -1563,7 +1563,7 @@ try {
       <p>In summary, declaring logger members as static variables
       requires less CPU time and have a slightly smaller memory
       footprint. On the other hand, declaring logger members as
-      instance variables requires more CPU time and have a slighlty
+      instance variables requires more CPU time and have a slightly
       higher memory overhead.  However, instance variables make it
       possible to create a distinct logger environment for each
       application, even for loggers declared in shared

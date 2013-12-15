@@ -162,11 +162,11 @@
 8     static String NESTED_PROFILER_NAME = "SORT_AND_PRUNE";
 9     
 10    final int[] originalArray;
-11    final int originalArrrayLength;
+11    final int originalArrayLength;
 12    
 13    public SortAndPruneComposites(int[] randomArray) {
 14      this.originalArray = randomArray;
-15      this.originalArrrayLength = randomArray.length;
+15      this.originalArrayLength = randomArray.length;
 16     
 17    }
 18    
@@ -343,7 +343,7 @@
      <li>aid in problem diagnosis in production where no debugging is
      possible</li> 
      
-     <li>help educate new deveopers in learning the application.</li>
+     <li>help educate new developers in learning the application.</li>
    </ul>
    
 
@@ -369,7 +369,7 @@
    
    <p>The throwing() method can be used by an application when it is
    throwing an exception that is unlikely to be handled, such as a
-   RuntimeExcpetion. This will insure that proper diagnostics are
+   RuntimeException. This will insure that proper diagnostics are
    available if needed. The logging event generated will have a level
    of ERROR and will have an associated Marker with a name of
    "THROWING" which is also an "EXCEPTION" Marker.
@@ -394,7 +394,7 @@
    utility class.</p>
 
    <p>The following example shows a simple application using these
-   methods in a fairly typcial manner. The <code>throwing()</code>
+   methods in a fairly typical manner. The <code>throwing()</code>
    method is not present since no Exceptions are explicitly thrown and
    not handled.
    </p>
@@ -585,14 +585,14 @@ java.lang.ArrayIndexOutOfBoundsException: 3
 
   <h2><a name="event_logger"></a>Event Logging</h2>
 
-  <p>The EventLogger class provides a simple mechansim for logging events that occur in an application.
+  <p>The EventLogger class provides a simple mechanism for logging events that occur in an application.
   While the EventLogger is useful as a way of initiating events that should be processed by an audit
   Logging system, it does not implement any of the features an audit logging system would require
   such as guaranteed delivery.</p>
 
   <p>The recommended way of using the EventLogger in a typical web application is to populate
   the SLF4J MDC with data that is related to the entire lifespan of the request such as the user's id,
-  the user's ip address, the product name, etc. This can easily be done in a servlet fileter where
+  the user's ip address, the product name, etc. This can easily be done in a servlet filter where
   the MDC can also be cleared at the end of the request. When an event that needs to be recorded
   occurs an EventData object should be created and populated. Then call EventLogger.logEvent(data)
   where data is a reference to the EventData object.</p>
@@ -695,7 +695,7 @@ public class MyApp {
 }  </pre>
  
   <p>The EventLogger class uses a Logger named "EventLogger". EventLogger uses a logging level
-  of INFO. The following shows a configuraton using Logback.</p>
+  of INFO. The following shows a configuration using Logback.</p>
   <pre class="prettyprint source">&lt;configuration&gt;
   &lt;appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"&gt;
     &lt;layout class="ch.qos.logback.classic.PatternLayout"&gt;
@@ -867,7 +867,7 @@ Hello World
     printed, may be silently swallowed by the JVM.</li>
     <li>The javaagent only logs to System.err.</li>
     <li>The name of the logger variable is fixed (to a value unlikely to be used) so if that
-    name is already used, a failure occures.  This should be changed to determine
+    name is already used, a failure occurs.  This should be changed to determine
     an unused name and use that instead.</li>
     <li>Empty methods are not instrumented (an incorrect check for an interface).  They should be</li>
     
