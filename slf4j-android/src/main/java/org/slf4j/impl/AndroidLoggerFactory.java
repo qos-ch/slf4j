@@ -42,7 +42,6 @@ class AndroidLoggerFactory implements ILoggerFactory {
 
     private final ConcurrentMap<String, Logger> loggerMap = new ConcurrentHashMap<String, Logger>();
 
-
     /**
      * Return an appropriate {@link AndroidLoggerAdapter} instance by name.
      */
@@ -81,9 +80,10 @@ class AndroidLoggerFactory implements ILoggerFactory {
             return loggerName;
         }
 
+        int tagLength = 0;
         int lastTokenIndex = 0;
         int lastPeriodIndex;
-        StringBuilder tagName = new StringBuilder();
+        StringBuilder tagName = new StringBuilder(TAG_MAX_LENGTH + 3);
         while ((lastPeriodIndex = loggerName.indexOf('.', lastTokenIndex)) != -1) {
             tagName.append(loggerName.charAt(lastTokenIndex));
             // token of one character appended as is otherwise truncate it to one character
@@ -93,18 +93,32 @@ class AndroidLoggerFactory implements ILoggerFactory {
             }
             tagName.append('.');
             lastTokenIndex = lastPeriodIndex + 1;
-        }
-        // last token (usually class name) appended as is
-        tagName.append(loggerName, lastTokenIndex, length);
-        if (tagName.length() <= TAG_MAX_LENGTH) {
-            return tagName.toString();
+
+            // check if name is already too long
+            tagLength = tagName.length();
+            if (tagLength > TAG_MAX_LENGTH) {
+                return getSimpleName(loggerName);
+            }
         }
 
-        // Either we had no useful dot location at all or name still too long.
+        // Either we had no useful dot location at all
+        // or last token would exceed TAG_MAX_LENGTH
+        int tokenLength = length - lastTokenIndex;
+        if (tagLength == 0 || (tagLength + tokenLength) > TAG_MAX_LENGTH) {
+            return getSimpleName(loggerName);
+        }
+
+        // last token (usually class name) appended as is
+        tagName.append(loggerName, lastTokenIndex, length);
+        return tagName.toString();
+    }
+
+    private static String getSimpleName(String loggerName) {
         // Take leading part and append '*' to indicate that it was truncated
-        lastPeriodIndex = loggerName.lastIndexOf('.');
+        int length = loggerName.length();
+        int lastPeriodIndex = loggerName.lastIndexOf('.');
         return lastPeriodIndex != -1 && length - (lastPeriodIndex + 1) <= TAG_MAX_LENGTH
-                ? loggerName.substring(lastPeriodIndex + 1)
-                : '*' + loggerName.substring(length - TAG_MAX_LENGTH + 1);
+            ? loggerName.substring(lastPeriodIndex + 1)
+            : '*' + loggerName.substring(length - TAG_MAX_LENGTH + 1);
     }
 }
