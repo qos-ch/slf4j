@@ -92,8 +92,8 @@ public class XLoggerTest extends TestCase {
   public void testExiting() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     logger.exit();
-    logger.exit(0);
-    logger.exit(false);
+    assertEquals(Integer.valueOf(0), logger.exit(0));
+    assertEquals(Boolean.FALSE, logger.exit(false));
 
     assertEquals(3, listAppender.list.size());
     verify((LoggingEvent) listAppender.list.get(0), "exit");
@@ -104,8 +104,8 @@ public class XLoggerTest extends TestCase {
   public void testThrowing() {
     XLogger logger = XLoggerFactory.getXLogger("UnitTest");
     Throwable t = new UnsupportedOperationException("Test");
-    logger.throwing(t);
-    logger.throwing(XLogger.Level.DEBUG,t);
+    assertEquals(t, logger.throwing(t));
+    assertEquals(t, logger.throwing(XLogger.Level.DEBUG,t));
     assertEquals(2, listAppender.list.size());
     verifyWithException((LoggingEvent) listAppender.list.get(0), "throwing", t);
     LoggingEvent event = (LoggingEvent)listAppender.list.get(1);
