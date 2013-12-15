@@ -193,10 +193,10 @@
     </p>
     
     <h4 class="doAnchor" name="log4jRecursion">log4j-over-slf4j.jar
-    and slf4j-logj12.jar cannot be present simultaneously
+    and slf4j-log4j12.jar cannot be present simultaneously
     </h4>
     
-    <p>The presence of <em>slf4j-logj12.jar</em>, that is the log4j
+    <p>The presence of <em>slf4j-log4j12.jar</em>, that is the log4j
     binding for SLF4J, will force all SLF4J calls to be delegated to
     log4j. The presence of <em>log4j-over-slf4j.jar</em> will in turn
     delegate all log4j API calls to their SLF4J equivalents. If both

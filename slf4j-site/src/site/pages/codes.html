@@ -71,7 +71,7 @@
     [suchAndSuch] is not supported in jcl-over-slf4j.
     </h3>
 
-    <p>An <code>UnsuportedOperationException</code> is thrown whenever
+    <p>An <code>UnsupportedOperationException</code> is thrown whenever
     one of the protected methods introduced in JCL 1.1 are
     invoked. These methods are invoked by <code>LogFactory</code>
     implementations shipping with
@@ -127,7 +127,7 @@
   at org.slf4j.LoggerFactory.&lt;clinit&gt;(LoggerFactory.java:60)
   ... </p>
 
-    <p>The error is caused by the static initilizer of the
+    <p>The error is caused by the static initializer of the
     <code>LoggerFactory</code> class attempting to directly access the
     SINGLETON field of
     <code>org.slf4j.impl.StaticLoggerBinder</code>. While this was
@@ -148,7 +148,7 @@
     </h3>
 
 
-    <p>SLF4J API is desinged to bind with one and only one underlying
+    <p>SLF4J API is designed to bind with one and only one underlying
     logging framework at a time. If more than one binding is present
     on the class path, SLF4J will emit a warning, listing the location
     of those bindings.</p>
@@ -441,4 +441,3 @@
   
 </body>
 </html>
- 
