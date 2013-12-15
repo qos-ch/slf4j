@@ -24,7 +24,6 @@
  */
 package org.slf4j.helpers;
 
-
 /**
  *
  * An internal utility class.
@@ -32,14 +31,39 @@ package org.slf4j.helpers;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class Util {
-    
-  static final public void report(String msg, Throwable t) {
-    System.err.println(msg);
-    System.err.println("Reported exception:");
-    t.printStackTrace();
+  public static final String DUMMY_API_FAIL_MESSAGE =
+      "This code should have never made it into slf4j-api.jar";
+
+  private Util() {
+  }
+
+  static public void report(String msg, Throwable t) {
+    System.err.println("SLF4J: " + msg);
+    if (t != null) {
+      System.err.println("Reported exception:");
+      t.printStackTrace();
+    }
   }
   
-  static final public void report(String msg) {
-    System.err.println("SLF4J: " +msg);
+  static public void report(String msg) {
+    report(msg, null);
+  }
+
+  public static void checkNotNull(Object reference, String errorMessage) {
+    if (reference == null) {
+      throw new IllegalArgumentException(errorMessage);
+    }
+  }
+
+  public static void checkArgument(boolean expression, String errorMessage) {
+    if (!expression) {
+      throw new IllegalArgumentException(errorMessage);
+    }
+  }
+
+  public static void checkState(boolean expression, String errorMessage) {
+    if (!expression) {
+      throw new IllegalStateException(errorMessage);
+    }
   }
 }

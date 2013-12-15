@@ -47,9 +47,9 @@ public interface LoggerFactoryBinder {
    * The String form of the {@link ILoggerFactory} object that this 
    * <code>LoggerFactoryBinder</code> instance is <em>intended</em> to return. 
    * 
-   * <p>This method allows the developer to intterogate this binder's intention 
+   * <p>This method allows the developer to interrogate this binder's intention
    * which may be different from the {@link ILoggerFactory} instance it is able to 
-   * yield in practice. The discrepency should only occur in case of errors.
+   * yield in practice. The discrepancy should only occur in case of errors.
    * 
    * @return the class name of the intended {@link ILoggerFactory} instance
    */

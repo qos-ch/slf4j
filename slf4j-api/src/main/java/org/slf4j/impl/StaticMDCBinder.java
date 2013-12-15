@@ -24,8 +24,8 @@
  */
 package org.slf4j.impl;
 
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.MDCAdapter;
-
 
 /**
  * This class is only a stub. Real implementations are found in 
@@ -35,14 +35,13 @@ import org.slf4j.spi.MDCAdapter;
  */
 public class StaticMDCBinder {
 
-  
   /**
    * The unique instance of this class.
    */
   public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
   private StaticMDCBinder() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
   
   /**
@@ -50,10 +49,10 @@ public class StaticMDCBinder {
    * {@link StaticMDCBinder}.
    */
   public MDCAdapter getMDCA() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
   
-  public String  getMDCAdapterClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+  public String getMDCAdapterClassStr() {
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
 }

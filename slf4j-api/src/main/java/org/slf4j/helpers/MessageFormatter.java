@@ -25,8 +25,8 @@
 package org.slf4j.helpers;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 // contributors: lizongbo: proposed special treatment of array parameter values
 // Joern Huxhorn: pointed out double[] omission, suggested deep array copy
@@ -116,11 +116,11 @@ final public class MessageFormatter {
    * 
    * @param messagePattern
    *          The message pattern which will be parsed and formatted
-   * @param argument
+   * @param arg
    *          The argument to be substituted in place of the formatting anchor
    * @return The formatted message
    */
-  final public static FormattingTuple format(String messagePattern, Object arg) {
+  public static FormattingTuple format(String messagePattern, Object arg) {
     return arrayFormat(messagePattern, new Object[] { arg });
   }
 
@@ -147,12 +147,12 @@ final public class MessageFormatter {
    *          anchor
    * @return The formatted message
    */
-  final public static FormattingTuple format(final String messagePattern,
+  public static FormattingTuple format(final String messagePattern,
       Object arg1, Object arg2) {
     return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
   }
 
-  static final Throwable getThrowableCandidate(Object[] argArray) {
+  static Throwable getThrowableCandidate(Object[] argArray) {
     if (argArray == null || argArray.length == 0) {
       return null;
     }
@@ -176,7 +176,7 @@ final public class MessageFormatter {
    *          anchors
    * @return The formatted message
    */
-  final public static FormattingTuple arrayFormat(final String messagePattern,
+  public static FormattingTuple arrayFormat(final String messagePattern,
       final Object[] argArray) {
 
     Throwable throwableCandidate = getThrowableCandidate(argArray);
@@ -189,15 +189,15 @@ final public class MessageFormatter {
       return new FormattingTuple(messagePattern);
     }
 
-    int i = 0;
-    int j;
-    // use string builder for better multicore performance 
+    // use string builder for better multicore performance
     StringBuilder sbuf = new StringBuilder(messagePattern.length() + 50);
 
-    int L;
-    for (L = 0; L < argArray.length; L++) {
+    HashSet<Object> seenSet = null;
+    int i = 0;
+    int L = 0;
+    for (; L < argArray.length; L++) {
 
-      j = messagePattern.indexOf(DELIM_STR, i);
+      int j = messagePattern.indexOf(DELIM_STR, i);
 
       if (j == -1) {
         // no more variables
@@ -222,13 +222,19 @@ final public class MessageFormatter {
             // itself escaped: "abc x:\\{}"
             // we have to consume one backward slash
             sbuf.append(messagePattern.substring(i, j - 1));
-            deeplyAppendParameter(sbuf, argArray[L], new HashMap());
+            if (seenSet == null) {
+              seenSet = new HashSet<Object>();
+            }
+            deeplyAppendParameter(sbuf, argArray[L], seenSet);
             i = j + 2;
           }
         } else {
           // normal case
           sbuf.append(messagePattern.substring(i, j));
-          deeplyAppendParameter(sbuf, argArray[L], new HashMap());
+          if (seenSet == null) {
+            seenSet = new HashSet<Object>();
+          }
+          deeplyAppendParameter(sbuf, argArray[L], seenSet);
           i = j + 2;
         }
       }
@@ -242,37 +248,32 @@ final public class MessageFormatter {
     }
   }
 
-  final static boolean isEscapedDelimeter(String messagePattern,
+  static boolean isEscapedDelimeter(String messagePattern,
       int delimeterStartIndex) {
 
     if (delimeterStartIndex == 0) {
       return false;
     }
     char potentialEscape = messagePattern.charAt(delimeterStartIndex - 1);
-    if (potentialEscape == ESCAPE_CHAR) {
-      return true;
-    } else {
-      return false;
-    }
+    return potentialEscape == ESCAPE_CHAR;
   }
 
-  final static boolean isDoubleEscaped(String messagePattern,
+  static boolean isDoubleEscaped(String messagePattern,
       int delimeterStartIndex) {
-    if (delimeterStartIndex >= 2
-        && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
-      return true;
-    } else {
-      return false;
-    }
+
+    return delimeterStartIndex >= 2 &&
+        messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR;
   }
 
   // special treatment of array values was suggested by 'lizongbo'
   private static void deeplyAppendParameter(StringBuilder sbuf, Object o,
-      Map seenMap) {
+      Set<Object> seenSet) {
+
     if (o == null) {
       sbuf.append("null");
       return;
     }
+
     if (!o.getClass().isArray()) {
       safeObjectAppend(sbuf, o);
     } else {
@@ -295,7 +296,7 @@ final public class MessageFormatter {
       } else if (o instanceof double[]) {
         doubleArrayAppend(sbuf, (double[]) o);
       } else {
-        objectArrayAppend(sbuf, (Object[]) o, seenMap);
+        objectArrayAppend(sbuf, (Object[]) o, seenSet);
       }
     }
   }
@@ -305,28 +306,29 @@ final public class MessageFormatter {
       String oAsString = o.toString();
       sbuf.append(oAsString);
     } catch (Throwable t) {
-      System.err
-          .println("SLF4J: Failed toString() invocation on an object of type ["
-              + o.getClass().getName() + "]");
-      t.printStackTrace();
+      Util.report("Failed toString() invocation on an object of type ["
+        + o.getClass().getName() + "]", t);
       sbuf.append("[FAILED toString()]");
     }
-
   }
 
   private static void objectArrayAppend(StringBuilder sbuf, Object[] a,
-      Map seenMap) {
+      Set<Object> seenSet) {
+
     sbuf.append('[');
-    if (!seenMap.containsKey(a)) {
-      seenMap.put(a, null);
-      final int len = a.length;
+    final int len = a.length;
+    if (len > 0 && !seenSet.contains(a)) {
+      seenSet.add(a);
+
       for (int i = 0; i < len; i++) {
-        deeplyAppendParameter(sbuf, a[i], seenMap);
-        if (i != len - 1)
+        deeplyAppendParameter(sbuf, a[i], seenSet);
+        if (i != len - 1) {
           sbuf.append(", ");
+        }
       }
+
       // allow repeats in siblings
-      seenMap.remove(a);
+      seenSet.remove(a);
     } else {
       sbuf.append("...");
     }
@@ -338,8 +340,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -349,8 +352,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -360,8 +364,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -371,8 +376,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -382,8 +388,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -393,8 +400,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -404,8 +412,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }
@@ -415,8 +424,9 @@ final public class MessageFormatter {
     final int len = a.length;
     for (int i = 0; i < len; i++) {
       sbuf.append(a[i]);
-      if (i != len - 1)
+      if (i != len - 1) {
         sbuf.append(", ");
+      }
     }
     sbuf.append(']');
   }

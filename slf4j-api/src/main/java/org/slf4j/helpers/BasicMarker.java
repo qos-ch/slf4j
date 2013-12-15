@@ -24,10 +24,10 @@
  */
 package org.slf4j.helpers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import org.slf4j.Marker;
 
@@ -42,12 +42,10 @@ public class BasicMarker implements Marker {
   private static final long serialVersionUID = 1803952589649545191L;
 
   private final String name;
-  private List refereceList;
+  private List<Marker> refereceList;
 
   BasicMarker(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("A marker name cannot be null");
-    }
+    Util.checkNotNull(name, "A marker name cannot be null");
     this.name = name;
   }
 
@@ -56,32 +54,29 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized void add(Marker reference) {
-    if (reference == null) {
-      throw new IllegalArgumentException(
-          "A null value cannot be added to a Marker as reference.");
-    }
+    Util.checkNotNull(reference, "A null value cannot be added to a Marker as reference");
 
     // no point in adding the reference multiple times
     if (this.contains(reference)) {
       return;
-
-    } else if (reference.contains(this)) { // avoid recursion
-      // a potential reference should not its future "parent" as a reference
-      return;
-    } else {
-      // let's add the reference
-      if (refereceList == null) {
-        refereceList = new Vector();
-      }
-      refereceList.add(reference);
     }
 
+    if (reference.contains(this)) { // avoid recursion
+      // a potential reference should not its future "parent" as a reference
+      return;
+    }
+
+    // let's add the reference
+    if (refereceList == null) {
+      refereceList = new ArrayList<Marker>();
+    }
+    refereceList.add(reference);
   }
 
   public synchronized boolean hasReferences() {
-    return ((refereceList != null) && (refereceList.size() > 0));
+    return refereceList != null && !refereceList.isEmpty();
   }
-  
+
   public boolean hasChildren() {
     return hasReferences();
   }
@@ -95,33 +90,30 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized boolean remove(Marker referenceToRemove) {
-    if (refereceList == null) {
-      return false;
-    }
+    Util.checkNotNull(referenceToRemove, "referenceToRemove cannot be null");
 
-    int size = refereceList.size();
-    for (int i = 0; i < size; i++) {
-      Marker m = (Marker) refereceList.get(i);
-      if (referenceToRemove.equals(m)) {
-        refereceList.remove(i);
-        return true;
+    if (hasReferences()) {
+      int size = refereceList.size();
+      for (int i = 0; i < size; i++) {
+        Marker m = refereceList.get(i);
+        if (referenceToRemove.equals(m)) {
+          refereceList.remove(i);
+          return true;
+        }
       }
     }
     return false;
   }
 
-  public boolean contains(Marker other) {
-    if (other == null) {
-      throw new IllegalArgumentException("Other cannot be null");
-    }
+  public synchronized boolean contains(Marker other) {
+    Util.checkNotNull(other, "Other cannot be null");
 
     if (this.equals(other)) {
       return true;
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
+      for (Marker ref : refereceList) {
         if (ref.contains(other)) {
           return true;
         }
@@ -133,18 +125,15 @@ public class BasicMarker implements Marker {
   /**
    * This method is mainly used with Expression Evaluators.
    */
-  public boolean contains(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("Other cannot be null");
-    }
+  public synchronized boolean contains(String name) {
+    Util.checkNotNull(name, "name cannot be null");
 
     if (this.name.equals(name)) {
       return true;
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
+      for (Marker ref : refereceList) {
         if (ref.contains(name)) {
           return true;
         }
@@ -152,11 +141,6 @@ public class BasicMarker implements Marker {
     }
     return false;
   }
-
-  private static String OPEN = "[ ";
-  private static String CLOSE = " ]";
-  private static String SEP = ", ";
-
 
   public boolean equals(Object obj) {
     if (this == obj)
@@ -175,22 +159,20 @@ public class BasicMarker implements Marker {
   }
 
   public String toString() {
-    if (!this.hasReferences()) {
-      return this.getName();
+    if (!hasReferences()) {
+      return getName();
     }
-    Iterator it = this.iterator();
-    Marker reference;
-    StringBuffer sb = new StringBuffer(this.getName());
-    sb.append(' ').append(OPEN);
-    while (it.hasNext()) {
-      reference = (Marker) it.next();
+
+    StringBuilder sb = new StringBuilder(getName());
+    sb.append(' ').append("[ ");
+    for (Iterator it = this.iterator(); it.hasNext();) {
+      Marker reference = (Marker) it.next();
       sb.append(reference.getName());
       if (it.hasNext()) {
-        sb.append(SEP);
+        sb.append(", ");
       }
     }
-    sb.append(CLOSE);
-
+    sb.append(" ]");
     return sb.toString();
   }
 }

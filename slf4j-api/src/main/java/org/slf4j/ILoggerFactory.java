@@ -24,7 +24,6 @@
  */
 package org.slf4j;
 
-
 /**
  * <code>ILoggerFactory</code> instances manufacture {@link Logger}
  * instances by name.

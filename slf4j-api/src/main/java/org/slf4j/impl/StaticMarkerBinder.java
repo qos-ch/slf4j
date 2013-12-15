@@ -27,6 +27,7 @@ package org.slf4j.impl;
 import org.slf4j.IMarkerFactory;
 import org.slf4j.MarkerFactory;
 import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
@@ -48,7 +49,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
   public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
  
   private StaticMarkerBinder() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
   
   /**
@@ -56,7 +57,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
    * {@link BasicMarkerFactory}.
    */
   public IMarkerFactory getMarkerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
   
   /**
@@ -64,8 +65,6 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
    * {@link BasicMarkerFactory}.
    */
   public String getMarkerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException(Util.DUMMY_API_FAIL_MESSAGE);
   }
-  
-  
 }
