@@ -42,7 +42,7 @@ public class StaticMDCBinder {
   public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
   private StaticMDCBinder() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
   }
   
   /**
@@ -50,10 +50,10 @@ public class StaticMDCBinder {
    * {@link StaticMDCBinder}.
    */
   public MDCAdapter getMDCA() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
   }
   
   public String  getMDCAdapterClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
   }
 }

@@ -45,9 +45,7 @@ public class BasicMarker implements Marker {
   private List refereceList;
 
   BasicMarker(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("A marker name cannot be null");
-    }
+    Util.checkNotNull(name, "A marker name cannot be null");
     this.name = name;
   }
 
@@ -56,10 +54,7 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized void add(Marker reference) {
-    if (reference == null) {
-      throw new IllegalArgumentException(
-          "A null value cannot be added to a Marker as reference.");
-    }
+    Util.checkNotNull(reference, "A null value cannot be added to a Marker as reference");
 
     // no point in adding the reference multiple times
     if (this.contains(reference)) {
@@ -95,6 +90,8 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized boolean remove(Marker referenceToRemove) {
+    Util.checkNotNull(referenceToRemove, "referenceToRemove cannot be null");
+
     if (refereceList == null) {
       return false;
     }
@@ -111,9 +108,7 @@ public class BasicMarker implements Marker {
   }
 
   public boolean contains(Marker other) {
-    if (other == null) {
-      throw new IllegalArgumentException("Other cannot be null");
-    }
+    Util.checkNotNull(other, "Other cannot be null");
 
     if (this.equals(other)) {
       return true;
@@ -134,9 +129,7 @@ public class BasicMarker implements Marker {
    * This method is mainly used with Expression Evaluators.
    */
   public boolean contains(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("Other cannot be null");
-    }
+    Util.checkNotNull(name, "name cannot be null");
 
     if (this.name.equals(name)) {
       return true;

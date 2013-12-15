@@ -32,14 +32,37 @@ package org.slf4j.helpers;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class Util {
-    
-  static final public void report(String msg, Throwable t) {
-    System.err.println(msg);
-    System.err.println("Reported exception:");
-    t.printStackTrace();
+
+  private Util() {
   }
-  
-  static final public void report(String msg) {
-    System.err.println("SLF4J: " +msg);
+
+  public static void report(String msg, Throwable t) {
+    System.err.println("SLF4J: " + msg);
+    if (t != null) {
+      System.err.println("Reported exception:");
+      t.printStackTrace();
+    }
+  }
+
+  public static void report(String msg) {
+    report(msg, null);
+  }
+
+  public static void checkNotNull(Object reference, String errorMessage) {
+    if (reference == null) {
+      throw new IllegalArgumentException(errorMessage);
+    }
+  }
+
+  public static void checkArgument(boolean expression, String errorMessage) {
+    if (!expression) {
+      throw new IllegalArgumentException(errorMessage);
+    }
+  }
+
+  public static void checkState(boolean expression, String errorMessage) {
+    if (!expression) {
+      throw new IllegalStateException(errorMessage);
+    }
   }
 }

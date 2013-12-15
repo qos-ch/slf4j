@@ -71,9 +71,8 @@ public class BasicMDCAdapter implements MDCAdapter {
    *                 in case the "key" parameter is null
    */
   public void put(String key, String val) {
-    if (key == null) {
-      throw new IllegalArgumentException("key cannot be null");
-    }
+    Util.checkNotNull(key, "key cannot be null");
+
     Map map = (Map) inheritableThreadLocal.get();
     if (map == null) {
       map = Collections.synchronizedMap(new HashMap());

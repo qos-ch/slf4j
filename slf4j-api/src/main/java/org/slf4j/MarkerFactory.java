@@ -68,6 +68,7 @@ public class MarkerFactory {
    * @return marker
    */
   public static Marker getMarker(String name) {
+    checkState();
     return markerFactory.getMarker(name);
   }
 
@@ -79,6 +80,7 @@ public class MarkerFactory {
    * @since 1.5.1
    */
   public static Marker getDetachedMarker(String name) {
+    checkState();
     return markerFactory.getDetachedMarker(name);
   }
   
@@ -91,6 +93,11 @@ public class MarkerFactory {
    * @return the IMarkerFactory instance in use
    */
   public static IMarkerFactory getIMarkerFactory() {
+    checkState();
     return markerFactory;
+  }
+
+  private static void checkState() {
+    Util.checkState(markerFactory != null, "MarkerFactory cannot be null.");
   }
 }

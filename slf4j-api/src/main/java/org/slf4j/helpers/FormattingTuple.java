@@ -53,9 +53,9 @@ public class FormattingTuple {
   }
 
   static Object[] trimmedCopy(Object[] argArray) {
-    if(argArray == null || argArray.length == 0) {
-      throw new  IllegalStateException("non-sensical empty or null argument array");
-    }
+    Util.checkArgument(argArray != null && argArray.length != 0,
+        "non-sensical empty or null argument array");
+
     final int trimemdLen = argArray.length -1;
     Object[] trimmed = new Object[trimemdLen];
     System.arraycopy(argArray, 0, trimmed, 0, trimemdLen);
