@@ -24,10 +24,10 @@
  */
 package org.slf4j.helpers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import org.slf4j.Marker;
 
@@ -42,7 +42,7 @@ public class BasicMarker implements Marker {
   private static final long serialVersionUID = 1803952589649545191L;
 
   private final String name;
-  private List refereceList;
+  private List<Marker> refereceList;
 
   BasicMarker(String name) {
     if (name == null) {
@@ -71,7 +71,7 @@ public class BasicMarker implements Marker {
     } else {
       // let's add the reference
       if (refereceList == null) {
-        refereceList = new Vector();
+        refereceList = new ArrayList<Marker>();
       }
       refereceList.add(reference);
     }
@@ -79,7 +79,7 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized boolean hasReferences() {
-    return ((refereceList != null) && (refereceList.size() > 0));
+    return ((refereceList != null) && (!refereceList.isEmpty()));
   }
   
   public boolean hasChildren() {
@@ -101,7 +101,7 @@ public class BasicMarker implements Marker {
 
     int size = refereceList.size();
     for (int i = 0; i < size; i++) {
-      Marker m = (Marker) refereceList.get(i);
+      Marker m = refereceList.get(i);
       if (referenceToRemove.equals(m)) {
         refereceList.remove(i);
         return true;
@@ -120,8 +120,7 @@ public class BasicMarker implements Marker {
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
+      for (Marker ref : refereceList) {
         if (ref.contains(other)) {
           return true;
         }
@@ -143,8 +142,7 @@ public class BasicMarker implements Marker {
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
+      for (Marker ref : refereceList) {
         if (ref.contains(name)) {
           return true;
         }
@@ -180,7 +178,7 @@ public class BasicMarker implements Marker {
     }
     Iterator it = this.iterator();
     Marker reference;
-    StringBuffer sb = new StringBuffer(this.getName());
+    StringBuilder sb = new StringBuilder(this.getName());
     sb.append(' ').append(OPEN);
     while (it.hasNext()) {
       reference = (Marker) it.next();

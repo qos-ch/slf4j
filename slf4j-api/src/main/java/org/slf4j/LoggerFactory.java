@@ -81,7 +81,7 @@ public final class LoggerFactory {
    * <p/>
    * It is assumed that all versions in the 1.6 are mutually compatible.
    */
-  static private final String[] API_COMPATIBILITY_LIST = new String[]{"1.6", "1.7"};
+  static private final String[] API_COMPATIBILITY_LIST = {"1.6", "1.7"};
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -113,16 +113,16 @@ public final class LoggerFactory {
   private static boolean messageContainsOrgSlf4jImplStaticLoggerBinder(String msg) {
     if (msg == null)
       return false;
-    if (msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1)
+    if (msg.contains("org/slf4j/impl/StaticLoggerBinder"))
       return true;
-    if (msg.indexOf("org.slf4j.impl.StaticLoggerBinder") != -1)
+    if (msg.contains("org.slf4j.impl.StaticLoggerBinder"))
       return true;
     return false;
   }
 
   private final static void bind() {
     try {
-      Set staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
+      Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
       reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
       // the next line does the binding
       StaticLoggerBinder.getSingleton();
@@ -143,7 +143,7 @@ public final class LoggerFactory {
       }
     } catch (java.lang.NoSuchMethodError nsme) {
       String msg = nsme.getMessage();
-      if (msg != null && msg.indexOf("org.slf4j.impl.StaticLoggerBinder.getSingleton()") != -1) {
+      if (msg != null && msg.contains("org.slf4j.impl.StaticLoggerBinder.getSingleton()")) {
         INITIALIZATION_STATE = FAILED_INITIALIZATION;
         Util.report("slf4j-api 1.6.x (or later) is incompatible with this binding.");
         Util.report("Your binding is version 1.5.5 or earlier.");
@@ -163,15 +163,14 @@ public final class LoggerFactory {
 
   private final static void emitSubstituteLoggerWarning() {
     List loggerNameList = TEMP_FACTORY.getLoggerNameList();
-    if (loggerNameList.size() == 0) {
+    if (loggerNameList.isEmpty()) {
       return;
     }
     Util.report("The following loggers will not work because they were created");
     Util.report("during the default configuration phase of the underlying logging system.");
     Util.report("See also " + SUBSTITUTE_LOGGER_URL);
-    for (int i = 0; i < loggerNameList.size(); i++) {
-      String loggerName = (String) loggerNameList.get(i);
-      Util.report(loggerName);
+    for (Object loggerName : loggerNameList) {
+      Util.report((String) loggerName);
     }
   }
 
@@ -180,15 +179,15 @@ public final class LoggerFactory {
       String requested = StaticLoggerBinder.REQUESTED_API_VERSION;
 
       boolean match = false;
-      for (int i = 0; i < API_COMPATIBILITY_LIST.length; i++) {
-        if (requested.startsWith(API_COMPATIBILITY_LIST[i])) {
+      for (String compatVersion : API_COMPATIBILITY_LIST) {
+        if (requested.startsWith(compatVersion)) {
           match = true;
         }
       }
       if (!match) {
         Util.report("The requested version " + requested
                 + " by your slf4j binding is not compatible with "
-                + Arrays.asList(API_COMPATIBILITY_LIST).toString());
+                + Arrays.toString(API_COMPATIBILITY_LIST));
         Util.report("See " + VERSION_MISMATCH + " for further details.");
       }
     } catch (java.lang.NoSuchFieldError nsfe) {
@@ -206,14 +205,14 @@ public final class LoggerFactory {
   // the class itself.
   private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
-  private static Set findPossibleStaticLoggerBinderPathSet() {
+  private static Set<URL> findPossibleStaticLoggerBinderPathSet() {
     // use Set instead of list in order to deal with  bug #138
     // LinkedHashSet appropriate here because it preserves insertion order during iteration
-    Set staticLoggerBinderPathSet = new LinkedHashSet();
+    Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
     try {
       ClassLoader loggerFactoryClassLoader = LoggerFactory.class
               .getClassLoader();
-      Enumeration paths;
+      Enumeration<URL> paths;
       if (loggerFactoryClassLoader == null) {
         paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
       } else {
@@ -221,7 +220,7 @@ public final class LoggerFactory {
                 .getResources(STATIC_LOGGER_BINDER_PATH);
       }
       while (paths.hasMoreElements()) {
-        URL path = (URL) paths.nextElement();
+        URL path = paths.nextElement();
         staticLoggerBinderPathSet.add(path);
       }
     } catch (IOException ioe) {
@@ -230,7 +229,7 @@ public final class LoggerFactory {
     return staticLoggerBinderPathSet;
   }
 
-  private static boolean isAmbiguousStaticLoggerBinderPathSet(Set staticLoggerBinderPathSet) {
+  private static boolean isAmbiguousStaticLoggerBinderPathSet(Set<URL> staticLoggerBinderPathSet) {
     return staticLoggerBinderPathSet.size() > 1;
   }
 
@@ -239,19 +238,17 @@ public final class LoggerFactory {
    * No reporting is done otherwise.
    *
    */
-  private static void reportMultipleBindingAmbiguity(Set staticLoggerBinderPathSet) {
+  private static void reportMultipleBindingAmbiguity(Set<URL> staticLoggerBinderPathSet) {
     if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
       Util.report("Class path contains multiple SLF4J bindings.");
-      Iterator iterator = staticLoggerBinderPathSet.iterator();
-      while (iterator.hasNext()) {
-        URL path = (URL) iterator.next();
+      for (URL path : staticLoggerBinderPathSet) {
         Util.report("Found binding in [" + path + "]");
       }
       Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
     }
   }
 
-  private static void reportActualBinding(Set staticLoggerBinderPathSet) {
+  private static void reportActualBinding(Set<URL> staticLoggerBinderPathSet) {
     if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
       Util.report("Actual binding is of type ["+StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr()+"]");
     }
