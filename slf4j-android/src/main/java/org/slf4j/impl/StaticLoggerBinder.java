@@ -33,7 +33,7 @@ import org.slf4j.spi.LoggerFactoryBinder;
  * {@link ILoggerFactory} is performed using information returned by this class.
  *
  * @author Ceki G&uuml;lc&uuml;
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
+ * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
 public class StaticLoggerBinder implements LoggerFactoryBinder {
 

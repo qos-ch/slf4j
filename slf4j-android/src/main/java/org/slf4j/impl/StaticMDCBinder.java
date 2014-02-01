@@ -32,7 +32,7 @@ import org.slf4j.spi.MDCAdapter;
  * This implementation is bound to {@link NOPMDCAdapter}.
  *
  * @author Ceki G&uuml;lc&uuml;
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
+ * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
 public class StaticMDCBinder {
 

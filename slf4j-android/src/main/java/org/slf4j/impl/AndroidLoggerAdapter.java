@@ -76,7 +76,7 @@ import org.slf4j.helpers.MessageFormatter;
  * </table>
  * </p>
  *
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
+ * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
 class AndroidLoggerAdapter extends MarkerIgnoringBase {
     private static final long serialVersionUID = -1227274521521287937L;

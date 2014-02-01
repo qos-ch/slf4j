@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentMap;
  * AndroidLoggerFactory is an implementation of {@link ILoggerFactory} returning
  * the appropriately named {@link AndroidLoggerFactory} instance.
  *
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
+ * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
 class AndroidLoggerFactory implements ILoggerFactory {
     static final String ANONYMOUS_TAG = "null";
