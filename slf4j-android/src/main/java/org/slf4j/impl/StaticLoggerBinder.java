@@ -40,7 +40,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   /**
    * The unique instance of this class.
    */
-  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+  public static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
   /**
    * Return the singleton of this class.
@@ -62,12 +62,10 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
    * The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
    * should always be the same object
    */
-  private final ILoggerFactory loggerFactory;
+  private final ILoggerFactory loggerFactory = new AndroidLoggerFactory();
 
   private StaticLoggerBinder() {
-    loggerFactory = new AndroidLoggerFactory();
   }
-
 
   public ILoggerFactory getLoggerFactory() {
     return loggerFactory;
