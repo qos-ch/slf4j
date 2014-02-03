@@ -409,30 +409,18 @@
     <code>NullPointerException</code>.</p>
 
     <p>To avoid this chicken-and-egg problem, SLF4J substitutes a
-    no-operation logger factory during this initialization
-    phase. However, the substitute loggers returned during this phase
-    are not operational. They are nop implementations.
+    substitutable logger which initially delegates to no-operation logger factory
+    during this initialization phase. Later after the LoggerFactory initialization
+    is completed then the delegates in the SubstituteLoggers are replaced with actual
+    logger implementations.
     </p>
   
     <p>If any substitute logger had to be created, SLF4J will emit a
-    warning listing such nop loggers. This warning is intended to let
-    you know that you should not expect any logging output from these
-    loggers.
+    a listing of such loggers. This list is intended to let
+    you know that some of the initial logging statements from these
+    loggers might have been missed
     </p>
 
-    <p>To obtain output from the listed loggers, isolate the
-    components invoking these loggers and to exclude them from the
-    default configuration. Once default configuration is finished,
-    those excluded components can be configured in a second-step
-    configuration. In principle, both logback and log4j allow
-    multi-step configuration. For logback, second-step configuration
-    is described in the <a
-    href="http://logback.qos.ch/manual/configuration.html#joranDirectly">
-    relevant section.</a>.
-    </p>
-
-    <p>If you are not interested in the output from any of the
-    substitute loggers, then no action is required on your part.</p>
 
 
 
