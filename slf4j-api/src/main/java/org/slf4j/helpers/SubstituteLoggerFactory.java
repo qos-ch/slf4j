@@ -24,17 +24,19 @@
  */
 package org.slf4j.helpers;
 
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
-
 /**
  * SubstituteLoggerFactory manages instances of {@link SubstituteLogger}.
+ *
  * @author Ceki G&uuml;lc&uuml;
+ * @author Chetan Mehrotra
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
@@ -42,16 +44,16 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
 
   public Logger getLogger(String name) {
     SubstituteLogger logger = loggers.get(name);
-     if (logger == null) {
-        logger = new SubstituteLogger(name);
-        SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
-        if (oldLogger != null)
-          logger = oldLogger;
-      }
+    if (logger == null) {
+      logger = new SubstituteLogger(name);
+      SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
+      if (oldLogger != null)
+        logger = oldLogger;
+    }
     return logger;
   }
 
-  public List getLoggerNameList() {
+  public List getLoggerNames() {
     return new ArrayList<String>(loggers.keySet());
   }
 

@@ -48,7 +48,7 @@ public class SubstituteLoggerFactoryTest extends TestCase{
     factory.getLogger("foo2");
 
     Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1","foo2"));
-    Set<String> actualNames = new HashSet<String>(factory.getLoggerNameList());
+    Set<String> actualNames = new HashSet<String>(factory.getLoggerNames());
 
     assertEquals(expectedNames, actualNames);
   }
