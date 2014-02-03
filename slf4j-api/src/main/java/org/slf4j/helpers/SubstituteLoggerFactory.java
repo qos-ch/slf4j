@@ -26,6 +26,8 @@ package org.slf4j.helpers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
@@ -33,32 +35,50 @@ import org.slf4j.Logger;
 /**
  * SubstituteLoggerFactory is an trivial implementation of
  * {@link ILoggerFactory} which always returns the unique instance of NOPLogger.
- * 
+ * <p/>
  * <p>
  * It used as a temporary substitute for the real ILoggerFactory during its
  * auto-configuration which may re-enter LoggerFactory to obtain logger
  * instances. See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
- * 
+ * <p/>
+ * <p>
+ * Logger implementations can swap out the NOPLogger with actual Logger
+ * implementation once they are properly configured by changing the delegate
+ * in {@link org.slf4j.helpers.SubstitutableLogger}
+ * </p>
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
   // keep a record of requested logger names
-  final List loggerNameList = new ArrayList();
+  final ConcurrentMap<String, SubstitutableLogger> loggers = new ConcurrentHashMap<String, SubstitutableLogger>();
 
   public Logger getLogger(String name) {
-    synchronized (loggerNameList) {
-      loggerNameList.add(name);
+    SubstitutableLogger logger;
+    synchronized (loggers) {
+      logger = loggers.get(name);
+      if (logger == null) {
+        logger = new SubstitutableLogger(name);
+        loggers.put(name, logger);
+      }
     }
-    return NOPLogger.NOP_LOGGER;
+    return logger;
   }
 
   public List getLoggerNameList() {
-    List copy = new ArrayList();
-    synchronized (loggerNameList) {
-      copy.addAll(loggerNameList);
+    List<String> copy = new ArrayList<String>();
+    synchronized (loggers) {
+      copy.addAll(loggers.keySet());
     }
     return copy;
   }
 
+  public Iterable<SubstitutableLogger> getLoggers() {
+    return loggers.values();
+  }
+
+  public void clear() {
+    loggers.clear();
+  }
 }
