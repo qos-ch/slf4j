@@ -78,12 +78,12 @@ import org.slf4j.helpers.MessageFormatter;
  *
  * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
-class AndroidLoggerAdapter extends MarkerIgnoringBase {
+final class AndroidLoggerAdapter extends MarkerIgnoringBase {
   private static final long serialVersionUID = -1227274521521287937L;
 
   /**
    * Package access allows only {@link AndroidLoggerFactory} to instantiate
-   * SimpleLogger instances.
+   * AndroidLoggerAdapter instances.
    */
   AndroidLoggerAdapter(String tag) {
     this.name = tag;

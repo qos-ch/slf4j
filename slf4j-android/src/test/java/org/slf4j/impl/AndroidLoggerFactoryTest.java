@@ -28,6 +28,11 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
+/**
+ * Test logger name truncation.
+ *
+ * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
+ */
 public class AndroidLoggerFactoryTest {
   @Test
   public void shortLoggerNames() {

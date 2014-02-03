@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
-class AndroidLoggerFactory implements ILoggerFactory {
+final class AndroidLoggerFactory implements ILoggerFactory {
   static final String ANONYMOUS_TAG = "null";
   static final int TAG_MAX_LENGTH = 23;
 

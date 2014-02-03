@@ -53,6 +53,10 @@
     users are highly encouraged to migrate to SLF4J 1.7.5 or later.
     </p>
 
+    <p><span class="label">since 1.7.6</span> New SLF4J implementation
+    for android.util.Log, <a href="#android">slf4j-android</a>.
+    </p>
+
     <h3 class="doAnchor" name="hello_world">Hello World</h3>
 
     <p>As customary in programming tradition, here is an example
@@ -146,8 +150,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <dl>
 
-        <dt><em>slf4j-log4j12-${project.version}.jar</em>
-        </dt>
+        <dt><em>slf4j-log4j12-${project.version}.jar</em></dt>
         <dd>Binding for <a
         href="http://logging.apache.org/log4j/1.2/index.html">log4j
         version 1.2</a>, a widely used logging framework. You also
@@ -171,7 +174,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         applications.<p/></dd>
         
         <dt><em>slf4j-jcl-${project.version}.jar</em></dt>
-        
+
         <dd>Binding for <a
         href="http://commons.apache.org/logging/">Jakarta Commons
         Logging</a>. This binding will delegate all SLF4J logging to
@@ -191,7 +194,11 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         <code>org.slf4j.Logger</code></a> interface. Thus, using SLF4J
         in conjunction with logback involves strictly zero memory and
         computational overhead.
+        </dd>
 
+        <dt><em class="doAnchor" name="android">slf4j-android-${project.version}.jar</em></dt>
+        <dd>Binding for <a href="http://www.slf4j.org/api/org/slf4j/impl/AndroidLoggerAdapter.html">Android</a>,
+        simple android.util.Log wrapper.<p/>
         </dd>
       </dl>
 
@@ -480,7 +487,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
           </td>
           
           <td>SLF4J supports popular logging frameworks, namely log4j,
-          java.util.logging, Simple logging and NOP. The <a
+          java.util.logging, android.util.Log, Simple logging and NOP. The <a
           href="http://logback.qos.ch">logback</a> project supports
           SLF4J natively.  </td>
           
