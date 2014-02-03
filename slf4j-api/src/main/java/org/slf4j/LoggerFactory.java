@@ -29,6 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 import org.slf4j.helpers.NOPLoggerFactory;
+import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteLoggerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
@@ -128,7 +129,7 @@ public final class LoggerFactory {
       StaticLoggerBinder.getSingleton();
       INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
       reportActualBinding(staticLoggerBinderPathSet);
-      emitSubstituteLoggerWarning();
+      fixSubstitutedLoggers();
     } catch (NoClassDefFoundError ncde) {
       String msg = ncde.getMessage();
       if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
@@ -161,18 +162,24 @@ public final class LoggerFactory {
     Util.report("Failed to instantiate SLF4J LoggerFactory", t);
   }
 
-  private final static void emitSubstituteLoggerWarning() {
-    List loggerNameList = TEMP_FACTORY.getLoggerNameList();
-    if (loggerNameList.size() == 0) {
+  private final static void fixSubstitutedLoggers() {
+    List<SubstituteLogger> loggers = TEMP_FACTORY.getLoggers();
+
+    if(loggers.isEmpty()){
       return;
     }
-    Util.report("The following loggers will not work because they were created");
-    Util.report("during the default configuration phase of the underlying logging system.");
+
+    Util.report("The following set of substitute loggers may have been accessed");
+    Util.report("during the initialization phase. Logging calls during this");
+    Util.report("phase were not honored. However, subsequent logging calls to these");
+    Util.report("loggers will work as normally expected.");
     Util.report("See also " + SUBSTITUTE_LOGGER_URL);
-    for (int i = 0; i < loggerNameList.size(); i++) {
-      String loggerName = (String) loggerNameList.get(i);
-      Util.report(loggerName);
+    for(SubstituteLogger subLogger : loggers){
+      subLogger.setDelegate(getLogger(subLogger.getName()));
+      Util.report(subLogger.getName());
     }
+
+    TEMP_FACTORY.clear();
   }
 
   private final static void versionSanityCheck() {

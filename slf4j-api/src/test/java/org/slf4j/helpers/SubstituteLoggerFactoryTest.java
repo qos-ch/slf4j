@@ -24,44 +24,47 @@
  */
 package org.slf4j.helpers;
 
-import org.slf4j.ILoggerFactory;
+import junit.framework.TestCase;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-/**
- * SubstituteLoggerFactory manages instances of {@link SubstituteLogger}.
- *
- * @author Ceki G&uuml;lc&uuml;
- * @author Chetan Mehrotra
- */
-public class SubstituteLoggerFactory implements ILoggerFactory {
+public class SubstituteLoggerFactoryTest extends TestCase{
+  private SubstituteLoggerFactory factory = new SubstituteLoggerFactory();
 
-  final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
+  public void testFactory() {
+    Logger log = factory.getLogger("foo");
+    assertNotNull(log);
 
-  public Logger getLogger(String name) {
-    SubstituteLogger logger = loggers.get(name);
-    if (logger == null) {
-      logger = new SubstituteLogger(name);
-      SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
-      if (oldLogger != null)
-        logger = oldLogger;
+    Logger log2 = factory.getLogger("foo");
+    assertTrue("Loggers with same name must be same",log == log2);
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testLoggerNameList() {
+    factory.getLogger("foo1");
+    factory.getLogger("foo2");
+
+    Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1","foo2"));
+    Set<String> actualNames = new HashSet<String>(factory.getLoggerNames());
+
+    assertEquals(expectedNames, actualNames);
+  }
+
+  public void testLoggers() {
+    factory.getLogger("foo1");
+    factory.getLogger("foo2");
+
+    Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1","foo2"));
+
+    Set<String> actualNames = new HashSet<String>();
+    for(SubstituteLogger slog : factory.getLoggers()){
+      actualNames.add(slog.getName());
     }
-    return logger;
+
+    assertEquals(expectedNames, actualNames);
   }
 
-  public List getLoggerNames() {
-    return new ArrayList<String>(loggers.keySet());
-  }
-
-  public List<SubstituteLogger> getLoggers() {
-    return new ArrayList<SubstituteLogger>(loggers.values());
-  }
-
-  public void clear() {
-    loggers.clear();
-  }
 }
