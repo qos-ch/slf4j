@@ -60,7 +60,7 @@ public class SubstituteLoggerFactoryTest extends TestCase{
     Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1","foo2"));
 
     Set<String> actualNames = new HashSet<String>();
-    for(SubstitutableLogger slog : factory.getLoggers()){
+    for(SubstituteLogger slog : factory.getLoggers()){
       actualNames.add(slog.getName());
     }
 

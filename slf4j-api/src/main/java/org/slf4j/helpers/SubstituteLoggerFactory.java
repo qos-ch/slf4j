@@ -33,36 +33,21 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * SubstituteLoggerFactory is an trivial implementation of
- * {@link ILoggerFactory} which always returns the unique instance of NOPLogger.
- * <p/>
- * <p>
- * It used as a temporary substitute for the real ILoggerFactory during its
- * auto-configuration which may re-enter LoggerFactory to obtain logger
- * instances. See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
- * <p/>
- * <p>
- * Logger implementations can swap out the NOPLogger with actual Logger
- * implementation once they are properly configured by changing the delegate
- * in {@link org.slf4j.helpers.SubstitutableLogger}
- * </p>
- *
+ * SubstituteLoggerFactory manages instances of {@link SubstituteLogger}.
  * @author Ceki G&uuml;lc&uuml;
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
-  // keep a record of requested logger names
-  final ConcurrentMap<String, SubstitutableLogger> loggers = new ConcurrentHashMap<String, SubstitutableLogger>();
+  final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
 
   public Logger getLogger(String name) {
-    SubstitutableLogger logger;
-    synchronized (loggers) {
-      logger = loggers.get(name);
-      if (logger == null) {
-        logger = new SubstitutableLogger(name);
-        loggers.put(name, logger);
+    SubstituteLogger logger = loggers.get(name);
+     if (logger == null) {
+        logger = new SubstituteLogger(name);
+        SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
+        if (oldLogger != null)
+          logger = oldLogger;
       }
-    }
     return logger;
   }
 
@@ -70,8 +55,8 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     return new ArrayList<String>(loggers.keySet());
   }
 
-  public List<SubstitutableLogger> getLoggers() {
-    return new ArrayList<SubstitutableLogger>(loggers.values());
+  public List<SubstituteLogger> getLoggers() {
+    return new ArrayList<SubstituteLogger>(loggers.values());
   }
 
   public void clear() {

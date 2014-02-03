@@ -401,27 +401,26 @@
     <p>Highly configurable logging systems such as logback and log4j
     may create components which invoke loggers during their own
     initialization.  See issue <a
-    href="http://jira.qos.ch/browse/LBCORE-47">lbcore-47</a> for a
+    href="http://jira.qos.ch/browse/LOGBACK-127">LOGBACK-127</a> for a
     typical occurrence. However, since the binding process with SLF4J
     has not yet completed (because the underlying logging system was
     not yet completely loaded into memory), it is not possible to
-    honor such logger creation requests, resulting in a
-    <code>NullPointerException</code>.</p>
+    honor such logger creation requests.</p>
 
-    <p>To avoid this chicken-and-egg problem, SLF4J substitutes a
-    substitutable logger which initially delegates to no-operation logger factory
-    during this initialization phase. Later after the LoggerFactory initialization
-    is completed then the delegates in the SubstituteLoggers are replaced with actual
-    logger implementations.
+    <p>To avoid this chicken-and-egg problem, SLF4J creates substitute
+    loggers during this phase (initialization). Calls made to the
+    substitute loggers during this phase are simply dropped. After the
+    initialization completes, the substitute logger will delegate
+    logging calls to the appropriate logger implementation and
+    otherwise will function as any other logger returned by
+    <code>LoggerFactory</code>.
     </p>
   
-    <p>If any substitute logger had to be created, SLF4J will emit a
-    a listing of such loggers. This list is intended to let
-    you know that some of the initial logging statements from these
-    loggers might have been missed
+    <p>If any substitute logger had to be created, SLF4J will emit a a
+    listing of such loggers. This list is intended to let you know
+    that any logging calls made to these loggers during initialization
+    have been dropped.
     </p>
-
-
 
 
     <script src="templates/footer.js" type="text/javascript"></script>

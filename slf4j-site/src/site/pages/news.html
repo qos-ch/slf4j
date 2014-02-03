@@ -33,6 +33,16 @@
 
    <p>Added slf4j-android module to the slf4j distribution. This
    module is contributed by Andrey Korzhevskiy.</p>
+
+   <p>Loggers created during the initialization phase are no longer
+   <code>NOPLoggers</code> which drop all logging calls. Instead,
+   SLF4J now creates substitute loggers which delegate to the
+   appropriate logger implementation after the initilization phase
+   completes. Only calls made to these loggers during the
+   initialization phase are dropped. This enhacement was proposed in
+   <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=311">bug 311</a>
+   by Chetan Mehrotra.
+   </p>
    
    <p>Concunrrency improvement in
    <code>BasicMarkerFactory</code>. This improvement was contributed

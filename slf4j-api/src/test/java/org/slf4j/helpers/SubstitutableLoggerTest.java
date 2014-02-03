@@ -44,7 +44,7 @@ public class SubstitutableLoggerTest extends TestCase {
   private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName"));
 
   public void testDelegate() throws Exception {
-    SubstitutableLogger log = new SubstitutableLogger("foo");
+    SubstituteLogger log = new SubstituteLogger("foo");
     assertTrue(log.delegate() instanceof NOPLogger);
 
     Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);

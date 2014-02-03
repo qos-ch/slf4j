@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 import org.slf4j.helpers.NOPLoggerFactory;
-import org.slf4j.helpers.SubstitutableLogger;
+import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteLoggerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticLoggerBinder;
@@ -163,18 +163,18 @@ public final class LoggerFactory {
   }
 
   private final static void fixSubstitutedLoggers() {
-    List<SubstitutableLogger> loggers = TEMP_FACTORY.getLoggers();
+    List<SubstituteLogger> loggers = TEMP_FACTORY.getLoggers();
 
     if(loggers.isEmpty()){
       return;
     }
 
     Util.report("The following set of substitute loggers may have been accessed");
-    Util.report("during the initialization phase and logging calls during this");
-    Util.report("phase were not honored but that calls in the future to these loggers");
-    Util.report("will be honored.");
+    Util.report("during the initialization phase. Logging calls during this");
+    Util.report("phase were not honored. However, subsequent logging calls to these");
+    Util.report("loggers will work as normally expected.");
     Util.report("See also " + SUBSTITUTE_LOGGER_URL);
-    for(SubstitutableLogger subLogger : loggers){
+    for(SubstituteLogger subLogger : loggers){
       subLogger.setDelegate(getLogger(subLogger.getName()));
       Util.report(subLogger.getName());
     }
