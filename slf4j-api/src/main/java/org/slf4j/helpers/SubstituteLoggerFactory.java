@@ -67,15 +67,11 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
   }
 
   public List getLoggerNameList() {
-    List<String> copy = new ArrayList<String>();
-    synchronized (loggers) {
-      copy.addAll(loggers.keySet());
-    }
-    return copy;
+    return new ArrayList<String>(loggers.keySet());
   }
 
-  public Iterable<SubstitutableLogger> getLoggers() {
-    return loggers.values();
+  public List<SubstitutableLogger> getLoggers() {
+    return new ArrayList<SubstitutableLogger>(loggers.values());
   }
 
   public void clear() {
