@@ -47,7 +47,7 @@ public class SubstitutableLoggerTest extends TestCase {
     SubstitutableLogger log = new SubstitutableLogger("foo");
     assertTrue(log.delegate() instanceof NOPLogger);
 
-    Set<String> methodSignatures = determinemethodSignatures(Logger.class);
+    Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);
     LoggerInvocationHandler ih = new LoggerInvocationHandler();
     Logger proxyLogger = (Logger) Proxy.newProxyInstance(getClass().getClassLoader(),
         new Class[]{Logger.class}, ih);
@@ -56,9 +56,9 @@ public class SubstitutableLoggerTest extends TestCase {
     invokeMethods(log);
 
     //Assert that all methods are delegated
-    methodSignatures.removeAll(ih.getMethodSignatures());
-    if (!methodSignatures.isEmpty()) {
-      fail("Following methods are not delegated " + methodSignatures.toString());
+    expectedMethodSignatures.removeAll(ih.getInvokedMethodSignatures());
+    if (!expectedMethodSignatures.isEmpty()) {
+      fail("Following methods are not delegated " + expectedMethodSignatures.toString());
     }
   }
 
@@ -71,22 +71,22 @@ public class SubstitutableLoggerTest extends TestCase {
   }
 
   private class LoggerInvocationHandler implements InvocationHandler {
-    private final Set<String> methodSignatures = new HashSet<String>();
+    private final Set<String> invokedMethodSignatures = new HashSet<String>();
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-      methodSignatures.add(getMethodSignature(method));
+      invokedMethodSignatures.add(getMethodSignature(method));
       if (method.getName().startsWith("is")) {
         return true;
       }
       return null;
     }
 
-    public Set<String> getMethodSignatures() {
-      return methodSignatures;
+    public Set<String> getInvokedMethodSignatures() {
+      return invokedMethodSignatures;
     }
   }
 
-  private static Set<String> determinemethodSignatures(Class<Logger> loggerClass) {
+  private static Set<String> determineMethodSignatures(Class<Logger> loggerClass) {
     Set<String> methodSignatures = new HashSet<String>();
     for (Method m : loggerClass.getDeclaredMethods()) {
       if (!EXCLUDED_METHODS.contains(m.getName())) {
