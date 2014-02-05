@@ -51,25 +51,20 @@ public class LineConverter {
    */
   public String[] getReplacement(String text) {
     ConversionRule conversionRule;
-    Pattern pattern;
-    Matcher matcher;
     Iterator<ConversionRule> conversionRuleIterator = ruleSet.iterator();
     String additionalLine = null;
     while (conversionRuleIterator.hasNext()) {
       conversionRule = conversionRuleIterator.next();
-      pattern = conversionRule.getPattern();
-      matcher = pattern.matcher(text);
-      if (matcher.find()) {
-        // System.out.println("matching " + text);
+      String[] replacementLines = conversionRule.getReplacement(text);
+      if(!text.equals(replacementLines[0])) {
         atLeastOneMatchOccured = true;
-        String replacementText = conversionRule.replace(matcher);
-        text = matcher.replaceAll(replacementText);
-        if(conversionRule.getAdditionalLine() != null) {
-          additionalLine = conversionRule.getAdditionalLine();
+        text = replacementLines[0];
+        if(replacementLines.length > 1) {
+          additionalLine = replacementLines[1];
         }
       }
     }
-    
+
     if(additionalLine == null) {
       return new String[] {text};
     } else {

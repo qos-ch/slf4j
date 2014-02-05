@@ -25,6 +25,7 @@
 package org.slf4j.migrator.line;
 
 import java.util.Arrays;
+import java.util.regex.*;
 
 import org.slf4j.migrator.line.LineConverter;
 import org.slf4j.migrator.line.Log4jRuleSet;
@@ -156,4 +157,25 @@ public class Log4jRuleSetTest extends TestCase {
    log4jConverter
    .getOneLineReplacement(" = LogManager.getLogger(MyComponent.class);"));
    }
+
+  public void testParamertizedReplacement()  {
+    assertEquals("Debug call with one variable", "logger.debug(\"blah={}\", blah);", log4jConverter
+      .getOneLineReplacement("logger.debug(\"blah=\" + blah);"));
+    assertEquals("Debug call with one variable", "log.debug(\"blah={}\", blah);", log4jConverter
+      .getOneLineReplacement("log.debug(\"blah=\" + blah);"));
+    assertEquals("info call with two variables", "log.info(\"foo={} bar={}\", foo, bar);", log4jConverter
+      .getOneLineReplacement("log.info(\"foo=\" + foo + \" bar=\" + bar);"));
+    assertEquals("info call with three variables", "log.info(\"foo={} bar={} info={}\", new Object[]{foo, bar, info});", log4jConverter
+      .getOneLineReplacement("log.info(\"foo=\" + foo + \" bar=\" + bar + \" info=\" + info);"));
+    assertEquals("wrapped line", "log.debug(\"foo=\" + foo//TODO SLF4J Migrator unable to automatically change to parameterized logging", log4jConverter
+      .getOneLineReplacement("log.debug(\"foo=\" + foo"));
+    assertEquals("warn call with one variable and throwable", "log.warn(\"foo={}\", foo, e);", log4jConverter
+      .getOneLineReplacement("log.warn(\"foo=\" + foo, e);"));
+    assertEquals("error call with two variables and throwable", "log.warn(\"foo={} bar={}\", foo, bar, e);", log4jConverter
+      .getOneLineReplacement("log.warn(\"foo=\" + foo + \" bar=\" + bar, e);"));
+
+    String unchangedMessage = "    throw new Exception(\"No info provided. foo=\"+foo+\"/bar=\"+bar);";
+    assertEquals("Don't change exception", unchangedMessage, log4jConverter
+      .getOneLineReplacement(unchangedMessage));
+  }
 }

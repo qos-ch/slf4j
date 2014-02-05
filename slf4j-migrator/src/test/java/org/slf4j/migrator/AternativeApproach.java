@@ -39,17 +39,16 @@ public class AternativeApproach extends TestCase {
    * 
    */
   public void test() {
-    MultiGroupConversionRule cr2 = new MultiGroupConversionRule(Pattern
-        .compile("(.*)(Log)"));
+    Pattern pat = Pattern.compile("(.*)(Log)");
+    MultiGroupConversionRule cr2 = new MultiGroupConversionRule(pat);
     cr2.addReplacement(2, "LOGGER");
 
     String s = "abcd Log";
-    Pattern pat = cr2.getPattern();
     Matcher m = pat.matcher(s);
 
     assertTrue(m.matches());
-    String r = cr2.replace(m);
-    assertEquals("abcd LOGGER", r);
+    String[] r = cr2.getReplacement(s);
+    assertEquals("abcd LOGGER", r[0]);
 
     System.out.println(r);
   }

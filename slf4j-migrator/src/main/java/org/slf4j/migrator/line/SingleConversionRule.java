@@ -37,8 +37,8 @@ import java.util.regex.Pattern;
  */
 public class SingleConversionRule implements ConversionRule {
 
-  final  private Pattern pattern;
-  final private String replacementText ;
+  final private Pattern pattern;
+  final private String replacementText;
   final private String additionalLine;
   
   public SingleConversionRule(Pattern pattern, String replacementText) {
@@ -52,23 +52,19 @@ public class SingleConversionRule implements ConversionRule {
   }
   
   /* (non-Javadoc)
-   * @see org.slf4j.converter.ConversionRule#getPattern()
+   * @see org.slf4j.converter.ConversionRule#getReplacement(String)
    */
-  public Pattern getPattern() {
-    return pattern;
+  public String[] getReplacement(String text) {
+    Matcher matcher = pattern.matcher(text);
+    if(matcher.find()) {
+        String replacementLine = matcher.replaceAll(replacementText);
+        if(additionalLine != null) {
+            return new String[]{replacementLine, additionalLine};
+        } else {
+            return new String[]{replacementLine};
+        }
+    } else {
+        return new String[]{text};
+    }
   }
-
-
-
-  /* (non-Javadoc)
-   * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
-   */
-  public String replace(Matcher matcher) {
-    return replacementText;
-  }
-
-  public String getAdditionalLine() {
-    return additionalLine;
-  }
-
 }
