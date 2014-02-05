@@ -29,7 +29,7 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>, 2013 - Release of SLF4J 1.7.6</h3>
+   <h3>February 5th, 2014 - Release of SLF4J 1.7.6</h3>
 
    <p>Added slf4j-android module to the slf4j distribution. This
    module is contributed by Andrey Korzhevskiy.</p>
@@ -43,11 +43,23 @@
    <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=311">bug 311</a>
    by Chetan Mehrotra.
    </p>
+
+   <p>Improvements to the <code>exit()</code> and
+   <code>throwing()</code> methods in <code>XLogger</code>. This
+   enhacement was requested in <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=197">bug 197</a>.
+   </p>
    
+   <p>Concunrrency improvement in <code>MessageFormatter</code>. This
+   improvement was contributed by Vivek Pathak in a <a
+   href="https://github.com/qos-ch/slf4j/pull/52">pull
+   request</a>.</p>
+
    <p>Concunrrency improvement in
    <code>BasicMarkerFactory</code>. This improvement was contributed
-   by Mikhail Mazursky.</p>
-
+   by Mikhail Mazursky in a <a
+   href="https://github.com/qos-ch/slf4j/pull/40">pull
+   request</a>.</p>
 
    <p><code>JCLLoggerAdapter</code> was incorrectly invoking
    <code>isDebugEnabled</code> calls in its <code>trace()</code>
@@ -67,8 +79,6 @@
    <code>ConsoleAppender</code> and <code>AppenderSkeleton</code>
    classes.
    </p>
-
-
 
    <hr noshade="noshade" size="1"/>
 
