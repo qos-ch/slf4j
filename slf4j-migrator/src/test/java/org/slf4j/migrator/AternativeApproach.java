@@ -56,7 +56,7 @@ public class AternativeApproach extends TestCase {
 
   /**
    * In this test we replace, using the simple Pattern (Log), the full Log
-   * declaration and instanciation. This is not convenient because we will also
+   * declaration and instantiation. This is not convenient because we will also
    * replace all String containing "Log".
    */
   public void test2() {
@@ -83,7 +83,7 @@ public class AternativeApproach extends TestCase {
   }
 
   /**
-   * In this test we use a simple Pattern to replace the log instanciation
+   * In this test we use a simple Pattern to replace the log instantiation
    * without influence on Log declaration.
    * 
    */

@@ -46,79 +46,79 @@ public class Log4jRuleSetTest extends TestCase {
   }
 
   public void testLogManagerGetLoggerReplacement() {
-    // Logger declaration and instanciation without modifier
+    // Logger declaration and instantiation without modifier
     assertEquals(" Logger l = LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement(" Logger l = LogManager.getLogger(MyClass.class);"));
-    // Logger declaration and instanciation with one modifier
+    // Logger declaration and instantiation with one modifier
     assertEquals(
         "public Logger mylog=LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("public Logger mylog=LogManager.getLogger(MyClass.class);"));
-    // Logger declaration and instanciation with two modifier
+    // Logger declaration and instantiation with two modifier
     assertEquals(
         "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("public static Logger mylog1 = LogManager.getLogger(MyClass.class);"));
-    // Logger declaration and instanciation with two modifier and comment at the
+    // Logger declaration and instantiation with two modifier and comment at the
     // end of line
     assertEquals(
-        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);//logger instanciation and declaration",
+        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);//logger instantiation and declaration",
         log4jConverter
-            .getOneLineReplacement("public static Logger mylog1 = LogManager.getLogger(MyClass.class);//logger instanciation and declaration"));
-    // Logger instanciation without declaration and comment at the end of line
+            .getOneLineReplacement("public static Logger mylog1 = LogManager.getLogger(MyClass.class);//logger instantiation and declaration"));
+    // Logger instantiation without declaration and comment at the end of line
     assertEquals(
-        " myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation",
+        " myLog = LoggerFactory.getLogger(MyClass.class);//logger instantiation",
         log4jConverter
-            .getOneLineReplacement(" myLog = LogManager.getLogger(MyClass.class);//logger instanciation"));
-    // commented Logger declaration and instanciation with two modifier
+            .getOneLineReplacement(" myLog = LogManager.getLogger(MyClass.class);//logger instantiation"));
+    // commented Logger declaration and instantiation with two modifier
     assertEquals(
         "//public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("//public static Logger mylog1 = LogManager.getLogger(MyClass.class);"));
-    // commented Logger instanciation without declaration
+    // commented Logger instantiation without declaration
     assertEquals(
-        "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation",
+        "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instantiation",
         log4jConverter
-            .getOneLineReplacement("// myLog = LogManager.getLogger(MyClass.class);//logger instanciation"));
+            .getOneLineReplacement("// myLog = LogManager.getLogger(MyClass.class);//logger instantiation"));
   }
 
   public void testLoggerGetLoggerReplacement() {
-    // Logger declaration and instanciation without modifier
+    // Logger declaration and instantiation without modifier
     assertEquals("Logger l = LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("Logger l = Logger.getLogger(MyClass.class);"));
-    // Logger declaration and instanciation with one modifier
+    // Logger declaration and instantiation with one modifier
     assertEquals(
         "public Logger mylog=LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("public Logger mylog=Logger.getLogger(MyClass.class);"));
-    // Logger declaration and instanciation with modifiers
+    // Logger declaration and instantiation with modifiers
     assertEquals(
         "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("public static Logger mylog1 = Logger.getLogger(MyClass.class);"));
-    // Logger declaration and instanciation with two modifier and comment at the
+    // Logger declaration and instantiation with two modifier and comment at the
     // end of line
     assertEquals(
-        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class); // logger instanciation and declaration",
+        "public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class); // logger instantiation and declaration",
         log4jConverter
-            .getOneLineReplacement("public static Logger mylog1 = Logger.getLogger(MyClass.class); // logger instanciation and declaration"));
-    // Logger instanciation without declaration and comment at the end of line
+            .getOneLineReplacement("public static Logger mylog1 = Logger.getLogger(MyClass.class); // logger instantiation and declaration"));
+    // Logger instantiation without declaration and comment at the end of line
     assertEquals(
-        " myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation",
+        " myLog = LoggerFactory.getLogger(MyClass.class);//logger instantiation",
         log4jConverter
-            .getOneLineReplacement(" myLog = Logger.getLogger(MyClass.class);//logger instanciation"));
-    // commented Logger declaration and instanciation with two modifier
+            .getOneLineReplacement(" myLog = Logger.getLogger(MyClass.class);//logger instantiation"));
+    // commented Logger declaration and instantiation with two modifier
     assertEquals(
         "//public static Logger mylog1 = LoggerFactory.getLogger(MyClass.class);",
         log4jConverter
             .getOneLineReplacement("//public static Logger mylog1 = Logger.getLogger(MyClass.class);"));
-    // commented Logger instanciation without declaration
+    // commented Logger instantiation without declaration
     assertEquals(
-        "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation",
+        "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instantiation",
         log4jConverter
-            .getOneLineReplacement("// myLog = Logger.getLogger(MyClass.class);//logger instanciation"));
+            .getOneLineReplacement("// myLog = Logger.getLogger(MyClass.class);//logger instantiation"));
   }
 
   public void testLogDeclarationReplacement() {
@@ -144,13 +144,13 @@ public class Log4jRuleSetTest extends TestCase {
    assertEquals("protected Logger log =", log4jConverter
    .getOneLineReplacement("protected Logger log ="));
     
-   // Logger instanciation on the next line
+   // Logger instantiation on the next line
    assertEquals(" LoggerFactory.getLogger(MyComponent.class);", log4jConverter
    .getOneLineReplacement(" LogManager.getLogger(MyComponent.class);"));
    // Logger declaration on a line
    assertEquals("protected Logger log ", log4jConverter
    .getOneLineReplacement("protected Logger log "));
-   // Logger instanciation on the next line
+   // Logger instantiation on the next line
    assertEquals(
    " = LoggerFactory.getLogger(MyComponent.class);",
    log4jConverter
