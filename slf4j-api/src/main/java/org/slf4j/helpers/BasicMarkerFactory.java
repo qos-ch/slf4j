@@ -60,9 +60,7 @@ public class BasicMarkerFactory implements IMarkerFactory {
    * @return a Marker instance
    */
   public Marker getMarker(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("Marker name cannot be null");
-    }
+    Util.checkNotNull(name, "Marker name cannot be null");
 
     Marker marker = markerMap.get(name);
     if (marker == null) {

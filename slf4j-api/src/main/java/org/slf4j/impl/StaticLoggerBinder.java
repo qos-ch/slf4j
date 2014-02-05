@@ -64,10 +64,10 @@ public class StaticLoggerBinder {
   }
 
   public ILoggerFactory getLoggerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
+    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
   }
 
   public String getLoggerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
+    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
   }
 }

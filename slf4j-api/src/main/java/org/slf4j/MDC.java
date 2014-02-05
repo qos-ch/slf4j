@@ -104,15 +104,9 @@ public class MDC {
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static void put(String key, String val)
-      throws IllegalArgumentException {
-    if (key == null) {
-      throw new IllegalArgumentException("key parameter cannot be null");
-    }
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+  public static void put(String key, String val) {
+    checkKey(key);
+    checkState();
     mdcAdapter.put(key, val);
   }
 
@@ -128,15 +122,9 @@ public class MDC {
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static String get(String key) throws IllegalArgumentException {
-    if (key == null) {
-      throw new IllegalArgumentException("key parameter cannot be null");
-    }
-
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+  public static String get(String key) {
+    checkKey(key);
+    checkState();
     return mdcAdapter.get(key);
   }
 
@@ -150,15 +138,9 @@ public class MDC {
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static void remove(String key) throws IllegalArgumentException {
-    if (key == null) {
-      throw new IllegalArgumentException("key parameter cannot be null");
-    }
-
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+  public static void remove(String key) {
+    checkKey(key);
+    checkState();
     mdcAdapter.remove(key);
   }
 
@@ -166,10 +148,7 @@ public class MDC {
    * Clear all entries in the MDC of the underlying implementation.
    */
   public static void clear() {
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+    checkState();
     mdcAdapter.clear();
   }
 
@@ -181,10 +160,7 @@ public class MDC {
    * @since 1.5.1
    */
   public static Map getCopyOfContextMap() {
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+    checkState();
     return mdcAdapter.getCopyOfContextMap();
   }
 
@@ -198,10 +174,7 @@ public class MDC {
    * @since 1.5.1
    */
   public static void setContextMap(Map contextMap) {
-    if (mdcAdapter == null) {
-      throw new IllegalStateException("MDCAdapter cannot be null. See also "
-          + NULL_MDCA_URL);
-    }
+    checkState();
     mdcAdapter.setContextMap(contextMap);
   }
 
@@ -215,4 +188,12 @@ public class MDC {
     return mdcAdapter;
   }
 
+  private static void checkKey(String key) {
+    Util.checkNotNull(key, "key parameter cannot be null");
+  }
+
+  private static void checkState() {
+    Util.checkState(mdcAdapter != null, "MDCAdapter cannot be null. See also "
+      + NULL_MDCA_URL);
+  }
 }
