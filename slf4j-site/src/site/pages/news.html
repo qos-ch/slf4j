@@ -48,6 +48,28 @@
    <code>BasicMarkerFactory</code>. This improvement was contributed
    by Mikhail Mazursky.</p>
 
+
+   <p><code>JCLLoggerAdapter</code> was incorrectly invoking
+   <code>isDebugEnabled</code> calls in its <code>trace()</code>
+   methods. This issue was reported in <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=281">bug 281</a>.
+
+   </p>
+
+   <p>In the log4j-over-slf4j module, the <code>setLevel</code>
+   method in the <code>Category</code> class. This fixes <a
+   href="http://bugzilla.slf4j.org/show_bug.cgi?id=279">bug
+   279</a>. Alfredo Ramos provied the relevant patch.
+   </p>
+
+   <p>In the log4j-over-slf4j module, added empty implementations for
+   <code>OptionHander</code>, <code>WriterAppender</code>,
+   <code>ConsoleAppender</code> and <code>AppenderSkeleton</code>
+   classes.
+   </p>
+
+
+
    <hr noshade="noshade" size="1"/>
 
    <h3>25th of March, 2013 - Release of SLF4J 1.7.5</h3>
