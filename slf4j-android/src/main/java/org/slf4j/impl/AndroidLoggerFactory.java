@@ -36,11 +36,14 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
-final class AndroidLoggerFactory implements ILoggerFactory {
+public final class AndroidLoggerFactory implements ILoggerFactory {
   static final String ANONYMOUS_TAG = "null";
   static final int TAG_MAX_LENGTH = 23;
 
   private final ConcurrentMap<String, Logger> loggerMap = new ConcurrentHashMap<String, Logger>();
+
+  AndroidLoggerFactory() {
+  }
 
   /**
    * Return an appropriate {@link AndroidLoggerAdapter} instance by name.
