@@ -162,12 +162,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
         <dt><em>slf4j-nop-${project.version}.jar</em></dt>
         <dd>Binding for <a
-        href="http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html">NOP</a>,
+        href="apidocs/org/slf4j/helpers/NOPLogger.html">NOP</a>,
         silently discarding all logging.<p/></dd>
         
         <dt><em>slf4j-simple-${project.version}.jar</em></dt>
         <dd>Binding for <a
-        href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple
+        href="apidocs/org/slf4j/impl/SimpleLogger.html">Simple
         </a> implementation, which outputs all events to
         System.err. Only messages of level INFO and higher are
         printed. This binding may be useful in the context of small
@@ -190,7 +190,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         <a href="http://logback.qos.ch/apidocs/ch/qos/logback/classic/Logger.html">
         <code>ch.qos.logback.classic.Logger</code></a> class is a
         direct implementation of SLF4J's <a
-        href="http://www.slf4j.org/apidocs/org/slf4j/Logger.html">
+        href="apidocs/org/slf4j/Logger.html">
         <code>org.slf4j.Logger</code></a> interface. Thus, using SLF4J
         in conjunction with logback involves strictly zero memory and
         computational overhead.
@@ -200,14 +200,14 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
           <em class="doAnchor" name="android">slf4j-android-${project.version}.jar</em>
         </dt>
         <dd>
-            A <a href="http://www.slf4j.org/api/org/slf4j/impl/AndroidLoggerAdapter.html">simple binding</a>
+            A <a href="apidocs/org/slf4j/impl/AndroidLoggerAdapter.html">simple binding</a>
             that delegates all log requests to the Google Android logging facilities.
             This module is very simple and provides "near zero" overhead. The log messages are delegated
             to <a href="http://developer.android.com/reference/android/util/Log.html"><code>android.util.Log</code></a>
             class.<br/>
             Note that tag names cannot be longer than 23 characters
             so if logger name exceeds this limit then it will be truncated by the
-            <a href="http://www.slf4j.org/api/org/slf4j/impl/AndroidLoggerAdapter.html"><code>LoggerFactory</code></a>.
+            <a href="apidocs/org/slf4j/impl/AndroidLoggerAdapter.html"><code>LoggerFactory</code></a>.
         </dd>
       </dl>
 
