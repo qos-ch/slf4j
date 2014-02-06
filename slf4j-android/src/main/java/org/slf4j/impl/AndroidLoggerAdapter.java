@@ -36,7 +36,9 @@ import org.slf4j.helpers.MessageFormatter;
  * without the Marker argument, discarding any marker data in the process.</p>
  *
  * <p>The logging levels specified for SLF4J can be almost directly mapped to
- * the levels that exist in the Google Android platform. The following table
+ * the levels that exist in the Google Android platform defined in the
+ * <a href="http://developer.android.com/reference/android/util/Log.html">
+ * <code>android.util.Log</code></a> class. The following table
  * shows the mapping implemented by this logger.</p>
  *
  * <table border="1">

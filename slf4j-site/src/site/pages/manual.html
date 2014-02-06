@@ -154,11 +154,11 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         <dd>Binding for <a
         href="http://logging.apache.org/log4j/1.2/index.html">log4j
         version 1.2</a>, a widely used logging framework. You also
-        need to place <em>log4j.jar</em> on your class path.<p/></dd>
+        need to place <em>log4j.jar</em> on your class path.</dd>
 
         <dt><em>slf4j-jdk14-${project.version}.jar</em> </dt>
         <dd>Binding for java.util.logging, also referred to as JDK 1.4
-        logging <p/></dd>
+        logging.</dd>
 
         <dt><em>slf4j-nop-${project.version}.jar</em></dt>
         <dd>Binding for <a
@@ -171,14 +171,14 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         </a> implementation, which outputs all events to
         System.err. Only messages of level INFO and higher are
         printed. This binding may be useful in the context of small
-        applications.<p/></dd>
+        applications.</dd>
         
         <dt><em>slf4j-jcl-${project.version}.jar</em></dt>
 
         <dd>Binding for <a
         href="http://commons.apache.org/logging/">Jakarta Commons
         Logging</a>. This binding will delegate all SLF4J logging to
-        JCL.<p/>
+        JCL.
         </dd>     
         
         <dt><em>logback-classic-${logback.version}.jar (requires logback-core-${logback.version}.jar)</em></dt>
@@ -196,9 +196,18 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         computational overhead.
         </dd>
 
-        <dt><em class="doAnchor" name="android">slf4j-android-${project.version}.jar</em></dt>
-        <dd>Binding for <a href="http://www.slf4j.org/api/org/slf4j/impl/AndroidLoggerAdapter.html">Android</a>,
-        simple android.util.Log wrapper.<p/>
+        <dt>
+          <em class="doAnchor" name="android">slf4j-android-${project.version}.jar</em>
+        </dt>
+        <dd>
+            A <a href="http://www.slf4j.org/api/org/slf4j/impl/AndroidLoggerAdapter.html">simple binding</a>
+            that delegates all log requests to the Google Android logging facilities.
+            This module is very simple and provides "near zero" overhead. The log messages are delegated
+            to <a href="http://developer.android.com/reference/android/util/Log.html"><code>android.util.Log</code></a>
+            class.<br/>
+            Note that tag names cannot be longer than 23 characters
+            so if logger name exceeds this limit then it will be truncated by the
+            <a href="http://www.slf4j.org/api/org/slf4j/impl/AndroidLoggerAdapter.html"><code>LoggerFactory</code></a>.
         </dd>
       </dl>
 

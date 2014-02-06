@@ -31,9 +31,14 @@
 
    <h3>, 2013 - Release of SLF4J 1.7.6</h3>
 
-   <p><a href="apidocs/org/slf4j/impl/AndroidLoggerAdapter.html"><code>AndroidLoggerAdapter</code></a>
-   Added slf4j-android module to the slf4j distribution. This
-   module is contributed by Andrei Korzhevskii.</p>
+   <p>
+       Added slf4j-android module to the slf4j distribution.
+       This is simple wrapper around <a href="http://developer.android.com/reference/android/util/Log.html">
+       <code>android.util.Log</code></a> class.
+       You can find more information in <a href="manual.html#android">the manual</a> and
+       in javadoc for <a href="apidocs/org/slf4j/impl/AndroidLoggerAdapter.html"><code>AndroidLoggerAdapter</code></a>.
+       This module is contributed by Andrei Korzhevskii.
+   </p>
 
    <p>Loggers created during the initialization phase are no longer
    <code>NOPLoggers</code> which drop all logging calls. Instead,
