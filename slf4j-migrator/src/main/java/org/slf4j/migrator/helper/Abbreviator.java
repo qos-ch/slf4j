@@ -48,12 +48,12 @@ public class Abbreviator {
         // we cant't process this string
         return filename;
       }
-      StringBuffer buf = new StringBuffer(desiredLength);
-      buf.append(filename.substring(0, firstIndex + 1));
+      StringBuilder buf = new StringBuilder(desiredLength);
+      buf.append(filename, 0, firstIndex + 1);
       buf.append(FILLER);
       int nextIndex = computeNextIndex(filename, firstIndex);
       if (nextIndex != -1) {
-        buf.append(filename.substring(nextIndex));
+        buf.append(filename, nextIndex, filename.length());
       } else {
         // better long than wrong
         return filename;

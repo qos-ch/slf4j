@@ -75,7 +75,7 @@ public class StopWatch implements TimeInstrument {
   
   @Override
   public String toString() {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     buf.append("StopWatch [");
     buf.append(name);
     buf.append("] ");

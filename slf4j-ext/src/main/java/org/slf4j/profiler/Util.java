@@ -68,13 +68,13 @@ class Util {
     return ((double) nanos / NANOS_IN_ONE_SECOND);
   }
   
-  static String durationInDurationUnitsAsStr(StringBuffer buf, StopWatch sw) {
+  static String durationInDurationUnitsAsStr(StringBuilder buf, StopWatch sw) {
     DurationUnit du = selectDurationUnitForDisplay(sw);
     return durationInDurationUnitsAsStr(sw.elapsedTime(), du);
   }
   
   static String durationInDurationUnitsAsStr(long nanos, DurationUnit durationUnit) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     switch (durationUnit) {
     case NANOSECOND:
       buf.append(nanos);

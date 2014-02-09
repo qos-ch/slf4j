@@ -106,9 +106,9 @@ public class ToStringHelper {
 	 * @param objectClass
 	 * @return
 	 */
-	private static StringBuffer renderArray(Object o, Class<?> objectClass) {
+	private static StringBuilder renderArray(Object o, Class<?> objectClass) {
 		Class<?> componentType = objectClass.getComponentType();
-		StringBuffer sb = new StringBuffer(ARRAY_PREFIX);
+		StringBuilder sb = new StringBuilder(ARRAY_PREFIX);
 
 		if (componentType.isPrimitive() == false) {
 			Object[] oa = (Object[]) o;

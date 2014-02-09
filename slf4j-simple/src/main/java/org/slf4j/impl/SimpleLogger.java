@@ -319,7 +319,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
       return;
     }
 
-    StringBuffer buf = new StringBuffer(32);
+    StringBuilder buf = new StringBuilder(32);
 
     // Append date-time if so configured
     if (SHOW_DATE_TIME) {
@@ -377,7 +377,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   }
 
-  void write(StringBuffer buf, Throwable t) {
+  void write(StringBuilder buf, Throwable t) {
     TARGET_STREAM.println(buf.toString());
     if (t != null) {
       t.printStackTrace(TARGET_STREAM);

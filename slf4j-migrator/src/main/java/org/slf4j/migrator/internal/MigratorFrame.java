@@ -364,7 +364,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
   }
 
   void showDialogBox(List<String> errorList) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     buf.append("<html>");
     int i = 1;
     for (String msg : errorList) {
