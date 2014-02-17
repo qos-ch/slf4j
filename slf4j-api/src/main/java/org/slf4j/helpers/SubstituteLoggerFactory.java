@@ -53,7 +53,7 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     return logger;
   }
 
-  public List getLoggerNames() {
+  public List<String> getLoggerNames() {
     return new ArrayList<String>(loggers.keySet());
   }
 
