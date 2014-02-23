@@ -123,7 +123,7 @@ public final class LoggerFactory {
 
   private final static void bind() {
     try {
-      Set staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
+      Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
       reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
       // the next line does the binding
       StaticLoggerBinder.getSingleton();
@@ -213,14 +213,14 @@ public final class LoggerFactory {
   // the class itself.
   private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
-  private static Set findPossibleStaticLoggerBinderPathSet() {
+  private static Set<URL> findPossibleStaticLoggerBinderPathSet() {
     // use Set instead of list in order to deal with  bug #138
     // LinkedHashSet appropriate here because it preserves insertion order during iteration
-    Set staticLoggerBinderPathSet = new LinkedHashSet();
+    Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
     try {
       ClassLoader loggerFactoryClassLoader = LoggerFactory.class
               .getClassLoader();
-      Enumeration paths;
+      Enumeration<URL> paths;
       if (loggerFactoryClassLoader == null) {
         paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
       } else {
@@ -237,7 +237,7 @@ public final class LoggerFactory {
     return staticLoggerBinderPathSet;
   }
 
-  private static boolean isAmbiguousStaticLoggerBinderPathSet(Set staticLoggerBinderPathSet) {
+  private static boolean isAmbiguousStaticLoggerBinderPathSet(Set<URL> staticLoggerBinderPathSet) {
     return staticLoggerBinderPathSet.size() > 1;
   }
 
@@ -246,10 +246,10 @@ public final class LoggerFactory {
    * No reporting is done otherwise.
    *
    */
-  private static void reportMultipleBindingAmbiguity(Set staticLoggerBinderPathSet) {
+  private static void reportMultipleBindingAmbiguity(Set<URL> staticLoggerBinderPathSet) {
     if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
       Util.report("Class path contains multiple SLF4J bindings.");
-      Iterator iterator = staticLoggerBinderPathSet.iterator();
+      Iterator<URL> iterator = staticLoggerBinderPathSet.iterator();
       while (iterator.hasNext()) {
         URL path = (URL) iterator.next();
         Util.report("Found binding in [" + path + "]");
@@ -258,7 +258,7 @@ public final class LoggerFactory {
     }
   }
 
-  private static void reportActualBinding(Set staticLoggerBinderPathSet) {
+  private static void reportActualBinding(Set<URL> staticLoggerBinderPathSet) {
     if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
       Util.report("Actual binding is of type ["+StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr()+"]");
     }
