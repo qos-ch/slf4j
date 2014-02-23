@@ -24,15 +24,12 @@
  */
 package org.slf4j.migrator;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-public class PackageTest extends TestCase {
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(AternativeApproach.class);
-    return suite;
-  }
+@RunWith(Suite.class)
+@SuiteClasses({AternativeApproach.class})
+public class PackageTest {
 }

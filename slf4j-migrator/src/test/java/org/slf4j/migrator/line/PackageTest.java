@@ -24,21 +24,14 @@
  */
 package org.slf4j.migrator.line;
 
-import org.slf4j.migrator.line.JCLRuleSetTest;
-import org.slf4j.migrator.line.Log4jRuleSetTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class PackageTest extends TestCase {
-
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(TrivialMatcherTest.class);
-    suite.addTestSuite(JCLRuleSetTest.class);
-    suite.addTestSuite(Log4jRuleSetTest.class);
-    suite.addTestSuite(NoConversionTest.class);
-    return suite;
-  }
+@RunWith(Suite.class)
+@SuiteClasses({TrivialMatcherTest.class,
+        JCLRuleSetTest.class,
+        Log4jRuleSetTest.class,
+        NoConversionTest.class})
+public class PackageTest {
 }

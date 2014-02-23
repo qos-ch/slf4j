@@ -26,15 +26,20 @@ package org.slf4j.migrator.line;
 
 import java.util.Arrays;
 
+import org.junit.Test;
 import org.slf4j.migrator.line.LineConverter;
 import org.slf4j.migrator.line.Log4jRuleSet;
 
 import junit.framework.TestCase;
 
-public class Log4jRuleSetTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class Log4jRuleSetTest {
 
   LineConverter log4jConverter = new LineConverter(new Log4jRuleSet());
-  
+
+  @Test
   public void testImportReplacement() {
     // LogFactory import replacement
     assertEquals("import org.slf4j.LoggerFactory;", log4jConverter
@@ -45,6 +50,7 @@ public class Log4jRuleSetTest extends TestCase {
         log4jConverter.getReplacement("import org.apache.log4j.Logger;")));
   }
 
+  @Test
   public void testLogManagerGetLoggerReplacement() {
     // Logger declaration and instanciation without modifier
     assertEquals(" Logger l = LoggerFactory.getLogger(MyClass.class);",
@@ -83,6 +89,7 @@ public class Log4jRuleSetTest extends TestCase {
             .getOneLineReplacement("// myLog = LogManager.getLogger(MyClass.class);//logger instanciation"));
   }
 
+  @Test
   public void testLoggerGetLoggerReplacement() {
     // Logger declaration and instanciation without modifier
     assertEquals("Logger l = LoggerFactory.getLogger(MyClass.class);",
@@ -121,6 +128,7 @@ public class Log4jRuleSetTest extends TestCase {
             .getOneLineReplacement("// myLog = Logger.getLogger(MyClass.class);//logger instanciation"));
   }
 
+  @Test
   public void testLogDeclarationReplacement() {
     // simple Logger declaration
     assertEquals("Logger mylog;", log4jConverter.getOneLineReplacement("Logger mylog;"));
@@ -139,6 +147,7 @@ public class Log4jRuleSetTest extends TestCase {
         .getOneLineReplacement("//private Logger myLog;"));
   }
 
+  @Test
   public void testMultiLineReplacement()  {
    // Logger declaration on a line
    assertEquals("protected Logger log =", log4jConverter
@@ -156,4 +165,16 @@ public class Log4jRuleSetTest extends TestCase {
    log4jConverter
    .getOneLineReplacement(" = LogManager.getLogger(MyComponent.class);"));
    }
+
+
+  @Test
+  public void categoryReplacement()  {
+    // Category declaration on a line
+    assertEquals("protected Logger cat =", log4jConverter
+            .getOneLineReplacement("protected Category cat ="));
+
+    assertEquals(" LoggerFactory.getLogger(MyComponent.class);", log4jConverter
+            .getOneLineReplacement(" Category.getInstance(MyComponent.class);"));
+  }
+
 }

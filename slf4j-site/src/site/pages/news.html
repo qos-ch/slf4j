@@ -33,6 +33,13 @@
 
    <p>SFL4J API now uses generics. </p>
 
+   <p>The slf4j-migrator can now convert statements using the long deprecated 
+   <code>Category</code> class. The following statement 
+   </p>
+   <pre>Category cat = Category.getInstance(Foo.class);</pre>
+   <p>will be converted as</p>
+   <pre>Logger cat = LoggerFactory.getLogger(Foo.class);</pre>
+
    <h3>February 5th, 2014 - Release of SLF4J 1.7.6</h3>
 
    <p>Added slf4j-android module to the slf4j distribution. This

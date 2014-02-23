@@ -24,18 +24,15 @@
  */
 package org.slf4j.migrator;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class AllTest extends TestCase {
+@RunWith(Suite.class)
+@SuiteClasses({org.slf4j.migrator.PackageTest.class,
+        org.slf4j.migrator.line.PackageTest.class,
+        org.slf4j.migrator.helper.PackageTest.class})
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTest(org.slf4j.migrator.PackageTest.suite());
-    suite.addTest(org.slf4j.migrator.line.PackageTest.suite());
-    suite.addTest(org.slf4j.migrator.helper.PackageTest.suite());
-    
-    return suite;
-  }
+public class AllTest {
+
 }
