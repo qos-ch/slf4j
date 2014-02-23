@@ -95,7 +95,7 @@ public interface Marker extends Serializable {
    * 
    * @return Iterator over the references of this marker
    */
-  public Iterator iterator();
+  public Iterator<Marker> iterator();
 
   /**
    * Does this marker contain a reference to the 'other' marker? Marker A is defined 

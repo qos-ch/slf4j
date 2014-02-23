@@ -180,7 +180,7 @@ public class MDC {
    * @return A copy of the current thread's context map. May be null.
    * @since 1.5.1
    */
-  public static Map getCopyOfContextMap() {
+  public static Map<String, String> getCopyOfContextMap() {
     if (mdcAdapter == null) {
       throw new IllegalStateException("MDCAdapter cannot be null. See also "
           + NULL_MDCA_URL);
@@ -197,7 +197,7 @@ public class MDC {
    *          must contain only keys and values of type String
    * @since 1.5.1
    */
-  public static void setContextMap(Map contextMap) {
+  public static void setContextMap(Map<String, String> contextMap) {
     if (mdcAdapter == null) {
       throw new IllegalStateException("MDCAdapter cannot be null. See also "
           + NULL_MDCA_URL);

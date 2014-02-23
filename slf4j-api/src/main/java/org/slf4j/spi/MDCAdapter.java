@@ -76,7 +76,7 @@ public interface MDCAdapter {
    * @return A copy of the current thread's context map. May be null.
    * @since 1.5.1
    */
-  public Map getCopyOfContextMap();
+  public Map<String, String> getCopyOfContextMap();
   
   /**
    * Set the current thread's context map by first clearing any existing 
@@ -87,5 +87,5 @@ public interface MDCAdapter {
    * 
    * @since 1.5.1
    */
-  public void setContextMap(Map contextMap);
+  public void setContextMap(Map<String, String> contextMap);
 }

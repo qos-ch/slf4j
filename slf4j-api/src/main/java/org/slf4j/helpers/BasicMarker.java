@@ -42,7 +42,7 @@ public class BasicMarker implements Marker {
   private static final long serialVersionUID = 1803952589649545191L;
 
   private final String name;
-  private List refereceList;
+  private List<Marker> refereceList;
 
   BasicMarker(String name) {
     if (name == null) {
@@ -71,7 +71,7 @@ public class BasicMarker implements Marker {
     } else {
       // let's add the reference
       if (refereceList == null) {
-        refereceList = new Vector();
+        refereceList = new Vector<Marker>();
       }
       refereceList.add(reference);
     }
@@ -86,11 +86,11 @@ public class BasicMarker implements Marker {
     return hasReferences();
   }
 
-  public synchronized Iterator iterator() {
+  public synchronized Iterator<Marker> iterator() {
     if (refereceList != null) {
       return refereceList.iterator();
     } else {
-      return Collections.EMPTY_LIST.iterator();
+      return Collections.emptyIterator();
     }
   }
 
@@ -178,7 +178,7 @@ public class BasicMarker implements Marker {
     if (!this.hasReferences()) {
       return this.getName();
     }
-    Iterator it = this.iterator();
+    Iterator<Marker> it = this.iterator();
     Marker reference;
     StringBuffer sb = new StringBuffer(this.getName());
     sb.append(' ').append(OPEN);
