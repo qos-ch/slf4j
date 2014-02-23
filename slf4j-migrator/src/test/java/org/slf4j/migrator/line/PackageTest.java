@@ -29,8 +29,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({TrivialMatcherTest.class,
-        JCLRuleSetTest.class,
+@SuiteClasses({JCLRuleSetTest.class,
         Log4jRuleSetTest.class,
         NoConversionTest.class})
 public class PackageTest {
