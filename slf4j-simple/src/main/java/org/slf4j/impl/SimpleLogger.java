@@ -233,9 +233,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   private static void loadProperties() {
     // Add props from the resource simplelogger.properties
-    InputStream in = (InputStream) AccessController.doPrivileged(
-            new PrivilegedAction() {
-              public Object run() {
+    InputStream in = AccessController.doPrivileged(
+            new PrivilegedAction<InputStream>() {
+              public InputStream run() {
                 ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
                 if (threadCL != null) {
                   return threadCL.getResourceAsStream(CONFIGURATION_FILE);
