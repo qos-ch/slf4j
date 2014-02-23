@@ -90,7 +90,7 @@ public class BasicMarker implements Marker {
     if (refereceList != null) {
       return refereceList.iterator();
     } else {
-      return Collections.emptyIterator();
+      return Collections.EMPTY_LIST.iterator();
     }
   }
 
