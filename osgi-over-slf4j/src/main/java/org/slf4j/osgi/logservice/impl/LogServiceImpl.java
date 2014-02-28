@@ -38,6 +38,7 @@ import org.osgi.framework.Version;
 import org.osgi.service.log.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * <code>LogServiceImpl</code> is a simple OSGi LogService implementation that delegates to a slf4j
@@ -45,12 +46,17 @@ import org.slf4j.LoggerFactory;
  *
  * @author John Conlon
  * @author Matt Bishop
+ * @author Christoph Läubrich
  */
 public class LogServiceImpl implements LogService {
 
 	private static final String UNKNOWN = "[Unknown]";
 
 	private final Logger delegate;
+
+        private String bundleName;
+
+        private Version version;
 
 
 	/**
@@ -59,13 +65,14 @@ public class LogServiceImpl implements LogService {
 	 * @param bundle The bundle to create a new LogService for.
 	 */
 	public LogServiceImpl(Bundle bundle) {
-
-		String name = bundle.getSymbolicName();
+		this.bundleName = bundle.getSymbolicName();
 		Version version = bundle.getVersion();
 		if (version == null) {
-			version = Version.emptyVersion;
+		    this.version = Version.emptyVersion;
+		} else {
+		    this.version = version;
 		}
-		delegate = LoggerFactory.getLogger(name + '.' + version);
+		delegate = LoggerFactory.getLogger(this.bundleName + '.' + this.version);
 	}
 
 	/*
@@ -74,23 +81,27 @@ public class LogServiceImpl implements LogService {
 	 * @see org.osgi.service.log.LogService#log(int, java.lang.String)
 	 */
 	public void log(int level, String message) {
-
-		switch (level) {
-		case LOG_DEBUG:
-			delegate.debug(message);
-			break;
-		case LOG_ERROR:
-			delegate.error(message);
-			break;
-		case LOG_INFO:
-			delegate.info(message);
-			break;
-		case LOG_WARNING:
-			delegate.warn(message);
-			break;
-		default:
-			break;
-		}
+    	    try {
+    	        setMDC(null);
+    		switch (level) {
+    		case LOG_DEBUG:
+    			delegate.debug(message);
+    			break;
+    		case LOG_ERROR:
+    			delegate.error(message);
+    			break;
+    		case LOG_INFO:
+    			delegate.info(message);
+    			break;
+    		case LOG_WARNING:
+    			delegate.warn(message);
+    			break;
+    		default:
+    			break;
+    		}
+    	    } finally {
+    	        resetMDC();
+    	    }
 	}
 
 	/*
@@ -100,7 +111,8 @@ public class LogServiceImpl implements LogService {
 	 *      java.lang.Throwable)
 	 */
 	public void log(int level, String message, Throwable exception) {
-
+	    try {
+	        setMDC(null);
 		switch (level) {
 		case LOG_DEBUG:
 			delegate.debug(message, exception);
@@ -117,6 +129,9 @@ public class LogServiceImpl implements LogService {
 		default:
 			break;
 		}
+	    } finally {
+	        resetMDC();
+	    }
 	}
 
 	/*
@@ -126,7 +141,8 @@ public class LogServiceImpl implements LogService {
 	 *      int, java.lang.String)
 	 */
 	public void log(ServiceReference sr, int level, String message) {
-
+	    try {
+	        setMDC(sr);
 		switch (level) {
 		case LOG_DEBUG:
 			if(delegate.isDebugEnabled()){
@@ -151,6 +167,9 @@ public class LogServiceImpl implements LogService {
 		default:
 			break;
 		}
+	    } finally {
+	        resetMDC();
+	    }
 	}
 
 	/**
@@ -161,7 +180,6 @@ public class LogServiceImpl implements LogService {
 	 * @return The formatted log message.
 	 */
 	private String createMessage(ServiceReference sr, String message) {
-
 		StringBuilder output = new StringBuilder();
 		if (sr != null) {
 			output.append('[').append(sr.toString()).append(']');
@@ -180,7 +198,8 @@ public class LogServiceImpl implements LogService {
 	 *      int, java.lang.String, java.lang.Throwable)
 	 */
 	public void log(ServiceReference sr, int level, String message, Throwable exception) {
-
+	    try {
+	        setMDC(sr);
 		switch (level) {
 		case LOG_DEBUG:
 			if(delegate.isDebugEnabled()){
@@ -205,5 +224,22 @@ public class LogServiceImpl implements LogService {
 		default:
 			break;
 		}
+	    } finally {
+	        resetMDC();
+	    }
+	}
+	
+	private void setMDC(ServiceReference sr) {
+	    MDC.put("bundle", bundleName);
+	    MDC.put("version", version.toString());
+	    if (sr!=null) {
+	        MDC.put("service", sr.toString());
+	    }
+	}
+	
+	private void resetMDC() {
+	    MDC.remove("bundle");
+            MDC.remove("version");
+            MDC.remove("service");
 	}
 }
