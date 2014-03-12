@@ -24,43 +24,41 @@
  */
 package org.slf4j.impl;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.slf4j.helpers.NOPMDCAdapter;
-import org.slf4j.spi.MDCAdapter;
+import org.slf4j.Logger;
+import org.slf4j.ILoggerFactory;
 
 /**
- * This implementation is bound to {@link NOPMDCAdapter}.
- *
+ * An implementation of {@link ILoggerFactory} which always returns
+ * {@link SimpleLogger} instances.
+ * 
  * @author Ceki G&uuml;lc&uuml;
- * @author Thomas Pérennou (ServiceLoader use)
  */
-public class StaticMDCBinder {
+public class SimpleLoggerFactory implements ILoggerFactory {
 
-	/**
-	 * The unique instance of this class.
-	 */
-	public static final StaticMDCBinder SINGLETON = new StaticMDCBinder ();
-	private final MDCAdapter mdcAdapter;
+  final static SimpleLoggerFactory INSTANCE = new SimpleLoggerFactory();
 
-	private StaticMDCBinder () {
-		Iterator <MDCAdapter> mdcAdapterIterator = ServiceLoader.load (MDCAdapter.class).iterator ();
-		mdcAdapter = mdcAdapterIterator.hasNext ()? mdcAdapterIterator.next (): new NOPMDCAdapter ();
-		if (mdcAdapterIterator.hasNext ()) {
-			throw new IllegalStateException ("SLF4J contains more than one declared MDCAdapter");
-		}
-	}
+  Map loggerMap;
 
-	/**
-	 * Currently this method always returns an instance of 
-	 * {@link StaticMDCBinder}.
-	 */
-	public MDCAdapter getMDCA () {
-		return mdcAdapter;
-	}
+  public SimpleLoggerFactory() {
+    loggerMap = new HashMap();
+  }
 
-	public String getMDCAdapterClassStr () {
-		return mdcAdapter.getClass ().getName ();
-	}
+  /**
+   * Return an appropriate {@link SimpleLogger} instance by name.
+   */
+  public Logger getLogger(String name) {
+    Logger slogger = null;
+    // protect against concurrent access of the loggerMap
+    synchronized (this) {
+      slogger = (Logger) loggerMap.get(name);
+      if (slogger == null) {
+        slogger = new SimpleLogger(name);
+        loggerMap.put(name, slogger);
+      }
+    }
+    return slogger;
+  }
 }

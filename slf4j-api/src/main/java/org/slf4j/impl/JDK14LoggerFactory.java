@@ -24,43 +24,48 @@
  */
 package org.slf4j.impl;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
+import org.slf4j.Logger;
+import org.slf4j.ILoggerFactory;
 
-import org.slf4j.helpers.NOPMDCAdapter;
-import org.slf4j.spi.MDCAdapter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * This implementation is bound to {@link NOPMDCAdapter}.
- *
+ * JDK14LoggerFactory is an implementation of {@link ILoggerFactory} returning
+ * the appropriately named {@link JDK14LoggerAdapter} instance.
+ * 
  * @author Ceki G&uuml;lc&uuml;
- * @author Thomas Pérennou (ServiceLoader use)
  */
-public class StaticMDCBinder {
+public class JDK14LoggerFactory implements ILoggerFactory {
 
-	/**
-	 * The unique instance of this class.
-	 */
-	public static final StaticMDCBinder SINGLETON = new StaticMDCBinder ();
-	private final MDCAdapter mdcAdapter;
+  // key: name (String), value: a JDK14LoggerAdapter;
+  Map loggerMap;
 
-	private StaticMDCBinder () {
-		Iterator <MDCAdapter> mdcAdapterIterator = ServiceLoader.load (MDCAdapter.class).iterator ();
-		mdcAdapter = mdcAdapterIterator.hasNext ()? mdcAdapterIterator.next (): new NOPMDCAdapter ();
-		if (mdcAdapterIterator.hasNext ()) {
-			throw new IllegalStateException ("SLF4J contains more than one declared MDCAdapter");
-		}
-	}
+  public JDK14LoggerFactory() {
+    loggerMap = new HashMap();
+  }
 
-	/**
-	 * Currently this method always returns an instance of 
-	 * {@link StaticMDCBinder}.
-	 */
-	public MDCAdapter getMDCA () {
-		return mdcAdapter;
-	}
-
-	public String getMDCAdapterClassStr () {
-		return mdcAdapter.getClass ().getName ();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
+   */
+  public synchronized Logger getLogger(String name) {
+    Logger ulogger = null;
+    // protect against concurrent access of loggerMap
+    synchronized (this) {
+      // the root logger is called "" in JUL
+      if(name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
+        name = "";
+      }
+      ulogger = (Logger) loggerMap.get(name);
+      if (ulogger == null) {
+        java.util.logging.Logger logger = java.util.logging.Logger
+            .getLogger(name);
+        ulogger = new JDK14LoggerAdapter(logger);
+        loggerMap.put(name, ulogger);
+      }
+    }
+    return ulogger;
+  }
 }
