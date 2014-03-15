@@ -73,11 +73,11 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   private final ILoggerFactory loggerFactory;
   
   private StaticLoggerBinder() {
-		Iterator <ILoggerFactory> loggerFactoryIterator = ServiceLoader.load (ILoggerFactory.class).iterator ();
-		loggerFactory = loggerFactoryIterator.hasNext ()? loggerFactoryIterator.next (): new NOPLoggerFactory ();
-		if (loggerFactoryIterator.hasNext ()) {
-			throw new IllegalStateException ("SLF4J contains more than one declared ILoggerFactory");
-		}
+    Iterator<ILoggerFactory> loggerFactoryIterator = ServiceLoader.load(ILoggerFactory.class).iterator();
+    loggerFactory = loggerFactoryIterator.hasNext()? loggerFactoryIterator.next(): new NOPLoggerFactory();
+    if (loggerFactoryIterator.hasNext()) {
+      throw new IllegalStateException("SLF4J contains more than one declared ILoggerFactory");
+    }
   }
   
   public ILoggerFactory getLoggerFactory() {
@@ -85,6 +85,6 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   }
   
   public String getLoggerFactoryClassStr() {
-    return loggerFactory.getClass ().getName ();
+    return loggerFactory.getClass().getName();
   }   
 }

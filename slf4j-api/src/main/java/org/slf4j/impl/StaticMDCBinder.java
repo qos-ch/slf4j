@@ -38,29 +38,29 @@ import org.slf4j.spi.MDCAdapter;
  */
 public class StaticMDCBinder {
 
-	/**
-	 * The unique instance of this class.
-	 */
-	public static final StaticMDCBinder SINGLETON = new StaticMDCBinder ();
-	private final MDCAdapter mdcAdapter;
+  /**
+   * The unique instance of this class.
+   */
+  public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+  private final MDCAdapter mdcAdapter;
 
-	private StaticMDCBinder () {
-		Iterator <MDCAdapter> mdcAdapterIterator = ServiceLoader.load (MDCAdapter.class).iterator ();
-		mdcAdapter = mdcAdapterIterator.hasNext ()? mdcAdapterIterator.next (): new NOPMDCAdapter ();
-		if (mdcAdapterIterator.hasNext ()) {
-			throw new IllegalStateException ("SLF4J contains more than one declared MDCAdapter");
-		}
-	}
+  private StaticMDCBinder () {
+    Iterator<MDCAdapter> mdcAdapterIterator = ServiceLoader.load(MDCAdapter.class).iterator();
+    mdcAdapter = mdcAdapterIterator.hasNext()? mdcAdapterIterator.next(): new NOPMDCAdapter();
+    if (mdcAdapterIterator.hasNext()) {
+      throw new IllegalStateException ("SLF4J contains more than one declared MDCAdapter");
+    }
+  }
 
-	/**
-	 * Currently this method always returns an instance of 
-	 * {@link StaticMDCBinder}.
-	 */
-	public MDCAdapter getMDCA () {
-		return mdcAdapter;
-	}
+  /**
+   * Currently this method always returns an instance of 
+   * {@link StaticMDCBinder}.
+   */
+  public MDCAdapter getMDCA() {
+    return mdcAdapter;
+  }
 
-	public String getMDCAdapterClassStr () {
-		return mdcAdapter.getClass ().getName ();
-	}
+  public String getMDCAdapterClassStr() {
+    return mdcAdapter.getClass().getName();
+  }
 }

@@ -40,38 +40,37 @@ import org.slf4j.spi.MarkerFactoryBinder;
  * @author Ceki G&uuml;lc&uuml;
  * @author Thomas Pérennou (ServiceLoader use)
  */
-public class StaticMarkerBinder implements
-		MarkerFactoryBinder {
+public class StaticMarkerBinder implements MarkerFactoryBinder {
 
-	/**
-	 * The unique instance of this class.
-	 */
-	public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder ();
+  /**
+   * The unique instance of this class.
+   */
+  public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
-	private final IMarkerFactory markerFactory;
+  private final IMarkerFactory markerFactory;
 
-	private StaticMarkerBinder () {
-		Iterator <IMarkerFactory> loader = ServiceLoader.load (IMarkerFactory.class).iterator ();
-		markerFactory = loader.hasNext ()? loader.next (): new BasicMarkerFactory ();
-		if (loader.hasNext ()) {
-			throw new IllegalStateException ("SLF4J contains more than one declared IMarkerFactory");
-		}
-	}
+  private StaticMarkerBinder () {
+    Iterator<IMarkerFactory> loader = ServiceLoader.load(IMarkerFactory.class).iterator();
+    markerFactory = loader.hasNext()? loader.next(): new BasicMarkerFactory();
+    if (loader.hasNext()) {
+      throw new IllegalStateException ("SLF4J contains more than one declared IMarkerFactory");
+    }
+  }
 
-	/**
-	 * Currently this method always returns an instance of 
-	 * {@link BasicMarkerFactory}.
-	 */
-	public IMarkerFactory getMarkerFactory () {
-		return markerFactory;
-	}
+  /**
+   * Currently this method always returns an instance of 
+   * {@link BasicMarkerFactory}.
+   */
+  public IMarkerFactory getMarkerFactory() {
+    return markerFactory;
+  }
 
-	/**
-	 * Currently, this method returns the class name of
-	 * {@link BasicMarkerFactory}.
-	 */
-	public String getMarkerFactoryClassStr () {
-		return markerFactory.getClass ().getName ();
-	}
+  /**
+   * Currently, this method returns the class name of
+   * {@link BasicMarkerFactory}.
+   */
+  public String getMarkerFactoryClassStr() {
+    return markerFactory.getClass().getName();
+  }
 
 }
