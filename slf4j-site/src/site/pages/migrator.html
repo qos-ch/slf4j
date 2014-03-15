@@ -89,7 +89,7 @@ public MyClass {
 
   <br/>
 
-  <p>Altough its conversion rules are elementary, the SLF4J migrator
+  <p>Although its conversion rules are elementary, the SLF4J migrator
   can still alleviate much of the grunt-work involved in migrating a
   Java project from JCL to SLF4J.
   </p>
@@ -101,9 +101,9 @@ public MyClass {
 
   <ul>
 
-    <li>Build scipts are not modified
+    <li>Build scripts are not modified
     
-    <p>Your Ant/Maven/Ivy build scripts need to be modified manualy to
+    <p>Your Ant/Maven/Ivy build scripts need to be modified manually to
     use SLF4J instead of JCL or log4j.</p>
 
     <p></p>
@@ -135,7 +135,7 @@ public MyClass {
     </p>
     </li>
 
-    <li>if a method declares multipe loggers on the same line, the
+    <li>if a method declares multiple loggers on the same line, the
     conversion will not be complete. Example:
     
     <p class="source">  public void someMethod(Log l1, Log l2) {
@@ -157,12 +157,12 @@ will be converted as
 
     <p>Since NDC is not supported by SLF4J, the migrator cannot
     properly handle NDC statements. You have to migrate them to MDC
-    manually. Again, this limitation is not deemed serious bebause
+    manually. Again, this limitation is not deemed serious because
     there are usually very few NDC statements even in large projects.
     </p>
 
     <p>Please note that contrary to NDC, MDC statements are migrated
-    correctly because SLF4J suports such statements.</p>
+    correctly because SLF4J supports such statements.</p>
 
     <p></p>
     </li>
@@ -183,7 +183,7 @@ will be converted as
   <ul>
     <li>Calls to <code>finest()</code>, <code>finer()</code> or
     <code>finest()</code> methods of
-    <code>java.util.loggging.Logger</code> are left as is.
+    <code>java.util.logging.Logger</code> are left as is.
 
     <p>Given that <code>finest()</code>, <code>finer()</code> or
     <code>finest()</code> calls could map to both trace() or debug()
@@ -198,7 +198,7 @@ will be converted as
 
 
     <li>All strings matching ".severe(" are replaced by the string
-    ".error(" without any contexual analysys. Similarly, all strings
+    ".error(" without any contextual analysis. Similarly, all strings
     matching ".warning(" are replaced by ".warn(".
 
     <p>Since the match/replace operation is not contextual, if your

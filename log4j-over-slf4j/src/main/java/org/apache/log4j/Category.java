@@ -345,5 +345,9 @@ public class Category {
   public void addAppender(Appender newAppender) {
     // nothing to do
   }
+  
+  public void setLevel(Level level) {
+    // nothing to do
+  }
 
 }

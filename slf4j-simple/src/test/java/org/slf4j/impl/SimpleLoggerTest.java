@@ -30,7 +30,6 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.fail;
 
 public class SimpleLoggerTest {
 
@@ -74,6 +73,5 @@ public class SimpleLoggerTest {
     SimpleLogger simpleLogger = new SimpleLogger("x.y");
     assertNull(simpleLogger.recursivelyComputeLevelString());
   }
-
 
 }

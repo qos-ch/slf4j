@@ -26,7 +26,7 @@ package org.slf4j;
 
 
 /**
- * Implementaitons of this interface are used to manufacture {@link Marker}
+ * Implementations of this interface are used to manufacture {@link Marker}
  * instances.
  * 
  * <p>See the section <a href="http://slf4j.org/faq.html#3">Implementing 

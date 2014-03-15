@@ -25,10 +25,11 @@
 package org.slf4j.cal10n_dummy;
 
 import ch.qos.cal10n.BaseName;
+import ch.qos.cal10n.Locale;
+import ch.qos.cal10n.LocaleData;
 
 @BaseName("months")
+@LocaleData(@Locale("en"))
 public enum Months {
-
   JAN, FEB, MAR, APR, MAY, JUN;
-
 }

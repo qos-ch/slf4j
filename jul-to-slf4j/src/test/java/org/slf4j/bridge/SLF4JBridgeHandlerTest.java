@@ -168,6 +168,17 @@ public class SLF4JBridgeHandlerTest extends TestCase {
     assertEquals(expectedMsg3, le.getMessage());
   }
 
+  public void testLogWithPlaceholderNoParameters() {
+    SLF4JBridgeHandler.install();
+    String msg = "msg {non-number-string}";
+    julLogger.logp(Level.INFO, "SLF4JBridgeHandlerTest", "testLogWithPlaceholderNoParameters", msg, new Object[0]);
+
+    assertEquals(1, listAppender.list.size());
+    LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+    assertEquals(LOGGER_NAME, le.getLoggerName());
+    assertEquals(msg, le.getMessage());
+  }
+
   void assertLevel(int index, org.apache.log4j.Level expectedLevel) {
     LoggingEvent le = (LoggingEvent) listAppender.list.get(index);
     assertEquals(expectedLevel, le.getLevel());

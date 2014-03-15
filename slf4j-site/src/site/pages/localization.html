@@ -49,7 +49,7 @@
 
 
     <p>Let us assume that you have defined localized message in your
-    application. In accordance with the CAL10N's philopshopy, you have
+    application. In accordance with the CAL10N's philosophy, you have
     the declared the keys for those messages in the enum type
     <code>Production</code>.</p>
 
@@ -79,8 +79,8 @@ APPLICATION_STOPPED=Application <b>{0}</b> has stopped.
 ... </pre>
 
     <p>Then, you
-    can instantiate a <code>IMessageCoveyor</code>, inject it into a
-    <code>LogLoggerFactory</code>, retreive multiple
+    can instantiate a <code>IMessageConveyor</code>, inject it into a
+    <code>LogLoggerFactory</code>, retrieve multiple
     <code>LogLogger</code> instances by name and log away, as the next
     sample code illustrates.
     </p>
@@ -148,7 +148,7 @@ public class MyApplication {
     locLogger.info(Production.APPLICATION_STARTED, "fooApp");
 
    // follows the {} convention
-   logLogger.ingo("Hello {}", name);   
+   logLogger.info("Hello {}", name);
    ...  
   }  
 }</pre>

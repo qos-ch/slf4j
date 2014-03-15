@@ -1,7 +1,7 @@
 Implementation-Title: slf4j-ext
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: slf4j.ext
-Bundle-Name: slf4j-log4j12
+Bundle-Name: slf4j-ext
 Bundle-Vendor: SLF4J.ORG
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.slf4j.profiler;version=${parsedVersion.osgiVersion}, org.slf4j.cal10n;version=${parsedVersion.osgiVersion}, org.slf4j.ext;version=${parsedVersion.osgiVersion}

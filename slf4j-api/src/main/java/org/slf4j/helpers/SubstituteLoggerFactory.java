@@ -24,41 +24,44 @@
  */
 package org.slf4j.helpers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
- * SubstituteLoggerFactory is an trivial implementation of
- * {@link ILoggerFactory} which always returns the unique instance of NOPLogger.
- * 
- * <p>
- * It used as a temporary substitute for the real ILoggerFactory during its
- * auto-configuration which may re-enter LoggerFactory to obtain logger
- * instances. See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
- * 
+ * SubstituteLoggerFactory manages instances of {@link SubstituteLogger}.
+ *
  * @author Ceki G&uuml;lc&uuml;
+ * @author Chetan Mehrotra
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
-  // keep a record of requested logger names
-  final List loggerNameList = new ArrayList();
+  final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
 
   public Logger getLogger(String name) {
-    synchronized (loggerNameList) {
-      loggerNameList.add(name);
+    SubstituteLogger logger = loggers.get(name);
+    if (logger == null) {
+      logger = new SubstituteLogger(name);
+      SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
+      if (oldLogger != null)
+        logger = oldLogger;
     }
-    return NOPLogger.NOP_LOGGER;
+    return logger;
   }
 
-  public List getLoggerNameList() {
-    List copy = new ArrayList();
-    synchronized (loggerNameList) {
-      copy.addAll(loggerNameList);
-    }
-    return copy;
+  public List getLoggerNames() {
+    return new ArrayList<String>(loggers.keySet());
   }
 
+  public List<SubstituteLogger> getLoggers() {
+    return new ArrayList<SubstituteLogger>(loggers.values());
+  }
+
+  public void clear() {
+    loggers.clear();
+  }
 }

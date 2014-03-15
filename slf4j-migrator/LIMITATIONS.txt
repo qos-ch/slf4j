@@ -10,7 +10,7 @@ General limitations
   very few log statements bearing the FATAL level. 
 
 
-- if a method declares multipe loggers on the same line, the conversion will not be complete. Example:
+- if a method declares multiple loggers on the same line, the conversion will not be complete. Example:
 
 
   public void someMethod(Log l1, Log l2) {
@@ -32,4 +32,3 @@ When migrating from log4j
   
 - Calls to PropertyConfigurator or DomConfigurator cannot be migrated since
   SLF4J the equivalents.
-  

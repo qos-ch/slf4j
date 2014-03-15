@@ -193,10 +193,10 @@
     </p>
     
     <h4 class="doAnchor" name="log4jRecursion">log4j-over-slf4j.jar
-    and slf4j-logj12.jar cannot be present simultaneously
+    and slf4j-log4j12.jar cannot be present simultaneously
     </h4>
     
-    <p>The presence of <em>slf4j-logj12.jar</em>, that is the log4j
+    <p>The presence of <em>slf4j-log4j12.jar</em>, that is the log4j
     binding for SLF4J, will force all SLF4J calls to be delegated to
     log4j. The presence of <em>log4j-over-slf4j.jar</em> will in turn
     delegate all log4j API calls to their SLF4J equivalents. If both
@@ -223,14 +223,14 @@
     because packages under the java.* namespace cannot be
     replaced. Instead, jul-to-slf4j translates <a
     href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/LogRecord.html?is-external=true">LogRecord</a>
-    objects into their SLF4J equivalent.  Please note this traslation
+    objects into their SLF4J equivalent.  Please note this translation
     process incurs the cost of constructing a <code>LogRecord</code>
     instance regardless of whether the SLF4J logger is disabled for
     the given level or nor. <b>Consequently, j.u.l. to SLF4J
     translation can seriously increase the cost of disabled logging
     statements (60 fold or 6000%) and measurably impact the
     performance of enabled log statements (20% overall increase).</b>
-    As of logback-version 0.9.25, it is possible to completely
+    As of logback version 0.9.25, it is possible to completely
     eliminate the 60 fold translation overhead for disabled log
     statements with the help of <a
     href="http://logback.qos.ch/manual/configuration.html#LevelChangePropagator">LevelChangePropagator</a>.
