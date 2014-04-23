@@ -67,6 +67,7 @@
     <module>integration</module>
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
+    <module>slf4j-jdk18</module>
   </modules>
 
   <dependencies>
