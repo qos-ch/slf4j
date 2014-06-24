@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2014 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -24,8 +24,6 @@
  */
 package org.slf4j.impl;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -40,10 +38,10 @@ import org.slf4j.ILoggerFactory;
  */
 public class SimpleLoggerFactory implements ILoggerFactory {
 
-  ConcurrentMap<String, Logger> loggerMap;
+  ConcurrentMap<String, SimpleLogger> loggerMap;
 
   public SimpleLoggerFactory() {
-    loggerMap = new ConcurrentHashMap<String, Logger>();
+    loggerMap = new ConcurrentHashMap<String, SimpleLogger>();
   }
 
   /**
@@ -54,7 +52,7 @@ public class SimpleLoggerFactory implements ILoggerFactory {
     if (simpleLogger != null) {
       return simpleLogger;
     } else {
-      Logger newInstance = new SimpleLogger(name);
+      SimpleLogger newInstance = new SimpleLogger(name);
       Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
       return oldInstance == null ? newInstance : oldInstance;
     }
