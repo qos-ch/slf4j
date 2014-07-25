@@ -24,6 +24,8 @@
  */
 package org.slf4j;
 
+import java.io.Closeable;
+import java.io.IOException;
 import junit.framework.TestCase;
 
 
@@ -114,6 +116,14 @@ public class InvocationTest extends TestCase {
     MDC.put("k", "v");
     assertNull(MDC.get("k"));
     MDC.remove("k");
+    assertNull(MDC.get("k"));
+    MDC.clear();
+  }
+
+  public void testMDCCloseable() throws IOException {
+    Closeable closeable = MDC.putCloseable("k", "v");
+    assertNull(MDC.get("k"));
+    closeable.close();
     assertNull(MDC.get("k"));
     MDC.clear();
   }
