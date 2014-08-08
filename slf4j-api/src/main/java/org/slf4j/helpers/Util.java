@@ -30,16 +30,24 @@ package org.slf4j.helpers;
  * An internal utility class.
  *
  * @author Ceki G&uuml;lc&uuml;
+ * @author Michael Vorburger - isInitFailed()
  */
 public class Util {
+
+  static private boolean failedInit = false;
     
   static final public void report(String msg, Throwable t) {
-    System.err.println(msg);
-    System.err.println("Reported exception:");
+    report(msg);
+    System.err.println("SLF4J Reported exception:");
     t.printStackTrace();
   }
   
   static final public void report(String msg) {
+    failedInit = true;
     System.err.println("SLF4J: " +msg);
+  }
+
+  static final public boolean isInitFailed() {
+    return failedInit;
   }
 }
