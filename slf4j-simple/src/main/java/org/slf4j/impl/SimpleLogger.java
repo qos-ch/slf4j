@@ -61,7 +61,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * <code>org.slf4j.simpleLogger.defaultLogLevel</code> will be used.</li>
  *
  * <li><code>org.slf4j.simpleLogger.showDateTime</code> - Set to <code>true</code> if you want the current date and
- * time to be included in output messages. Default is <code>true</code></li>
+ * time to be included in output messages. Default is <code>false</code></li>
  *
  * <li><code>org.slf4j.simpleLogger.dateTimeFormat</code> - The date and time format to be used in the output messages.
  * The pattern describing the date and time format is defined by
