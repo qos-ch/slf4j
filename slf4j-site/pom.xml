@@ -10,7 +10,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.slf4j</groupId>
   <artifactId>slf4j-site</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J Site</name>

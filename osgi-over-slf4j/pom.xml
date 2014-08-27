@@ -8,7 +8,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.slf4j</groupId>
   <artifactId>osgi-over-slf4j</artifactId>
   <packaging>bundle</packaging>
   <name>OSGi LogService implemented over SLF4J</name>
