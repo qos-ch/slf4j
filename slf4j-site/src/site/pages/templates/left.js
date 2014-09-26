@@ -1,4 +1,3 @@
-
 document.write('<div class="menuGroup">');
 document.write('  <p class="menu_header">SLF4J Project</p>');
 document.write('    <a href="index.html">Introduction</a>');
@@ -23,7 +22,7 @@ document.write('    <a href="http://bmc.github.com/avsl/">AVSL</a>');
 document.write('    <a href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14</a>');
 document.write('    <a href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4j</a>');
 document.write('    <a href="api/org/slf4j/impl/SimpleLogger.html">Simple</a>');
-document.write('    <a href="api/org/slf4j/impl/AndroidLoggerAdapter.html">Android</a>');
+document.write('    <a href="android/">Android</a>');
 document.write('  </p>');
 
 document.write('  <p class="menu_header">Sub-projects</p>');
