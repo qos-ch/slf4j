@@ -30,7 +30,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
-
+import org.slf4j.bean.AbstractSingleInstanceBuilder;
+import org.slf4j.bean.BeanBuilder;
+import org.slf4j.profiler.logging.LoggerOutput;
 
 // +  Profiler [BAS]
 // |-- elapsed time            [doX]     0 milliseconds.
@@ -42,7 +44,6 @@ import org.slf4j.MarkerFactory;
 // |-- elapsed time            [doZ]    21 milliseconds.
 // |-- Total elapsed time      [BAS]    78 milliseconds.
 
-
 /**
  * A poor man's profiler to measure the time elapsed performing some lengthy
  * task.
@@ -53,11 +54,8 @@ public class Profiler implements TimeInstrument {
 
   final static String PROFILER_MARKER_NAME = "PROFILER";
 
-  final static int MIN_SW_NAME_LENGTH = 24;
-  final static int MIN_SW_ELAPSED_TIME_NUMBER_LENGTH = 9;
-
-  final String name;
-  final StopWatch globalStopWatch;
+  String name;
+  StopWatch globalStopWatch;
 
   List<TimeInstrument> childTimeInstrumentList = new ArrayList<TimeInstrument>();
 
@@ -66,9 +64,23 @@ public class Profiler implements TimeInstrument {
   // optional field
   Logger logger;
 
+  // defaulted field; configurable
+  LoggerOutput loggerOutput;
+  // defaulted field; configurable
+  String markerName;
+
+  /**
+   * @deprecated use {@link #builder(String)} instead
+   */
+  @Deprecated
   public Profiler(String name) {
     this.name = name;
     this.globalStopWatch = new StopWatch(name);
+    this.loggerOutput = DefaultLoggerOutput.getInstance();
+    this.markerName = PROFILER_MARKER_NAME;
+  }
+
+  private Profiler() {
   }
 
   public String getName() {
@@ -79,6 +91,12 @@ public class Profiler implements TimeInstrument {
     return profilerRegistry;
   }
 
+  /**
+   * @deprecated use
+   *             {@link org.slf4j.profiler.Profiler.DefaultBuilder#registerWith(ProfilerRegistry)}
+   *             instead
+   */
+  @Deprecated
   public void registerWith(ProfilerRegistry profilerRegistry) {
     if (profilerRegistry == null) {
       return;
@@ -91,6 +109,12 @@ public class Profiler implements TimeInstrument {
     return logger;
   }
 
+  /**
+   * @deprecated use
+   *             {@link org.slf4j.profiler.Profiler.DefaultBuilder#logger(Logger)}
+   *             instead
+   */
+  @Deprecated
   public void setLogger(Logger logger) {
     this.logger = logger;
   }
@@ -107,9 +131,8 @@ public class Profiler implements TimeInstrument {
 
   public Profiler startNested(String name) {
     stopLastTimeInstrument();
-    Profiler nestedProfiler = new Profiler(name);
-    nestedProfiler.registerWith(profilerRegistry);
-    nestedProfiler.setLogger(logger);
+    Profiler nestedProfiler = Profiler.builder(name)
+        .registerWith(profilerRegistry).logger(logger).build();
     childTimeInstrumentList.add(nestedProfiler);
     return nestedProfiler;
   }
@@ -179,36 +202,26 @@ public class Profiler implements TimeInstrument {
     }
   }
 
-  static String TOP_PROFILER_FIRST_PREFIX = "+";
-  static String NESTED_PROFILER_FIRST_PREFIX = "|---+";
-  static String TOTAL_ELAPSED = " Total        ";
-  static String SUBTOTAL_ELAPSED = " Subtotal     ";
-  static String ELAPSED_TIME = " elapsed time ";
-
   public void print() {
     System.out.println(toString());
   }
 
   @Override
   public String toString() {
-    DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
-    return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "");
+    return loggerOutput.format(this);
   }
 
   public void log() {
-    Marker profilerMarker = MarkerFactory.getMarker(PROFILER_MARKER_NAME);
+    Marker profilerMarker = MarkerFactory.getMarker(markerName);
     if (logger == null) {
       throw new NullPointerException(
           "If you invoke the log() method, then you must associate a logger with this profiler.");
     }
     if (logger.isDebugEnabled(profilerMarker)) {
-      DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
-      String r = buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX,
-          TOTAL_ELAPSED, "");
+      String r = loggerOutput.format(this);
       logger.debug(profilerMarker, SpacePadder.LINE_SEP + r);
     }
   }
-
 
   /**
    * Return a copy of the child instrument list for this Profiler instance.
@@ -217,7 +230,8 @@ public class Profiler implements TimeInstrument {
    * @since 1.5.9
    */
   public List<TimeInstrument> getCopyOfChildTimeInstruments() {
-    List<TimeInstrument> copy = new ArrayList<TimeInstrument>(childTimeInstrumentList);
+    List<TimeInstrument> copy = new ArrayList<TimeInstrument>(
+        childTimeInstrumentList);
     return copy;
   }
 
@@ -231,46 +245,68 @@ public class Profiler implements TimeInstrument {
     StopWatch copy = new StopWatch(globalStopWatch);
     return copy;
   }
-  
-  private String buildProfilerString(DurationUnit du, String firstPrefix,
-      String label, String indentation) {
-    StringBuffer buf = new StringBuffer();
 
-    buf.append(firstPrefix);
-    buf.append(" Profiler [");
-    buf.append(name);
-    buf.append("]");
-    buf.append(SpacePadder.LINE_SEP);
-    for (TimeInstrument child : childTimeInstrumentList) {
-      if (child instanceof StopWatch) {
-        buildStopWatchString(buf, du, ELAPSED_TIME, indentation,
-            (StopWatch) child);
-      } else if (child instanceof Profiler) {
-        Profiler profiler = (Profiler) child;
-        String subString = profiler.buildProfilerString(du,
-            NESTED_PROFILER_FIRST_PREFIX, SUBTOTAL_ELAPSED, indentation
-                + "    ");
-        buf.append(subString);
-        buildStopWatchString(buf, du, ELAPSED_TIME, indentation,
-            profiler.globalStopWatch);
-      }
-    }
-    buildStopWatchString(buf, du, label, indentation, globalStopWatch);
-    return buf.toString();
+  public static Builder builder(String name) {
+    return new DefaultBuilder().name(name)
+        .loggerOutput(DefaultLoggerOutput.getInstance())
+        .markerName(PROFILER_MARKER_NAME);
   }
 
-  private static void buildStopWatchString(StringBuffer buf, DurationUnit du,
-      String prefix, String indentation, StopWatch sw) {
+  public static interface Builder extends BeanBuilder<Profiler> {
+    Builder registerWith(ProfilerRegistry profilerRegistry);
 
-    buf.append(indentation);
-    buf.append("|--");
-    buf.append(prefix);
-    SpacePadder.leftPad(buf, "[" + sw.getName() + "]", MIN_SW_NAME_LENGTH);
-    buf.append(" ");
-    String timeStr = Util.durationInDurationUnitsAsStr(sw.elapsedTime(), du);
-    SpacePadder.leftPad(buf, timeStr, MIN_SW_ELAPSED_TIME_NUMBER_LENGTH);
-    buf.append(" ");
-    Util.appendDurationUnitAsStr(buf, du);
-    buf.append(SpacePadder.LINE_SEP);
+    Builder logger(Logger logger);
+
+    Builder loggerOutput(LoggerOutput loggerOutput);
+
+    Builder markerName(String markerName);
+  }
+
+  private static final class DefaultBuilder extends
+      AbstractSingleInstanceBuilder<Profiler> implements Builder {
+
+    private DefaultBuilder() {
+      super(Profiler.class);
+    }
+
+    private Builder name(String name) {
+      Profiler profiler = bean();
+      profiler.name = name;
+      profiler.globalStopWatch = new StopWatch(name);
+      return this;
+    }
+
+    public Builder registerWith(ProfilerRegistry profilerRegistry) {
+      if (null != profilerRegistry) {
+        Profiler profiler = bean();
+        profiler.profilerRegistry = profilerRegistry;
+        profilerRegistry.put(profiler);
+      }
+      return this;
+    }
+
+    public Builder logger(Logger logger) {
+      bean().logger = logger;
+      return this;
+    }
+
+    public Builder loggerOutput(LoggerOutput loggerOutput) {
+      if (null != loggerOutput) {
+        bean().loggerOutput = loggerOutput;
+      }
+      return this;
+    }
+
+    public Builder markerName(String markerName) {
+      if (null != markerName) {
+        bean().markerName = markerName;
+      }
+      return this;
+    }
+
+    @Override
+    protected Profiler initialBeanState() {
+      return new Profiler();
+    }
   }
 }

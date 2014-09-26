@@ -29,27 +29,28 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProfilerTest  extends TestCase {
+public class ProfilerTest extends TestCase {
 
   Logger logger = LoggerFactory.getLogger(ProfilerTest.class);
 
   public void setUp() throws Exception {
     super.setUp();
   }
+
   public void testSmoke() {
-    Profiler profiler = new Profiler("SMOKE");
+    Profiler profiler = Profiler.builder("SMOKE").build();
     profiler.stop();
     StopWatch gSW = profiler.globalStopWatch;
-    
+
     // verify
     profiler.sanityCheck();
-    assertEquals(TimeInstrumentStatus.STOPPED,  gSW.status);
+    assertEquals(TimeInstrumentStatus.STOPPED, gSW.status);
     assertEquals(0, profiler.childTimeInstrumentList.size());
     assertNull(profiler.getLastTimeInstrument());
   }
 
   public void testBasicProfiling() {
-    Profiler profiler = new Profiler("BAS");
+    Profiler profiler = Profiler.builder("BAS").build();
 
     profiler.start("doX");
     doX(1);
@@ -60,29 +61,28 @@ public class ProfilerTest  extends TestCase {
     profiler.start("doZ");
     doZ(2);
     profiler.stop();
-    
+
     // verify
     profiler.sanityCheck();
     StopWatch gSW = profiler.globalStopWatch;
-    assertEquals(TimeInstrumentStatus.STOPPED,  gSW.status);
+    assertEquals(TimeInstrumentStatus.STOPPED, gSW.status);
     assertEquals(3, profiler.childTimeInstrumentList.size());
     assertNotNull(profiler.getLastTimeInstrument());
     assertEquals("doZ", profiler.getLastTimeInstrument().getName());
   }
 
   // + Profiler [BAS]
-  // |-- elapsed time                          [doX]     1.272 milliseconds.
-  // |-- elapsed time                      [doYYYYY]    25.398 milliseconds.
+  // |-- elapsed time [doX] 1.272 milliseconds.
+  // |-- elapsed time [doYYYYY] 25.398 milliseconds.
   // |--+ Profiler [subtask]
-  //    |-- elapsed time                           [n1]     1.434 milliseconds.
-  //    |-- elapsed time                           [n2]     5.855 milliseconds.
-  //    |-- Total elapsed time                [subtask]     7.321 milliseconds.
-  // |-- elapsed time                          [doZ]     3.211 milliseconds.
-  // |-- Total elapsed time                    [BAS]    30.317 milliseconds.
+  // |-- elapsed time [n1] 1.434 milliseconds.
+  // |-- elapsed time [n2] 5.855 milliseconds.
+  // |-- Total elapsed time [subtask] 7.321 milliseconds.
+  // |-- elapsed time [doZ] 3.211 milliseconds.
+  // |-- Total elapsed time [BAS] 30.317 milliseconds.
   public void testNestedProfiling() {
-    
-    Profiler profiler = new Profiler("BAS");
-    profiler.setLogger(logger);
+
+    Profiler profiler = Profiler.builder("BAS").logger(logger).build();
     profiler.start("doX");
     doX(1);
 
@@ -95,24 +95,26 @@ public class ProfilerTest  extends TestCase {
     profiler.start("doZ");
     doZ(2);
     profiler.stop();
-    
+
     // verify
     profiler.sanityCheck();
     StopWatch gSW = profiler.globalStopWatch;
-    assertEquals(TimeInstrumentStatus.STOPPED,  gSW.status);
-    //assertEquals(3, profiler.stopwatchList.size());
+    assertEquals(TimeInstrumentStatus.STOPPED, gSW.status);
+    // assertEquals(3, profiler.stopwatchList.size());
     assertEquals(4, profiler.childTimeInstrumentList.size());
     assertNotNull(profiler.getLastTimeInstrument());
     assertEquals("doZ", profiler.getLastTimeInstrument().getName());
-    
+
   }
 
   private void doX(int millis) {
     delay(millis);
   }
+
   private void doY(int millis) {
     delay(millis);
   }
+
   private void doZ(int millis) {
     delay(millis);
   }
@@ -125,7 +127,6 @@ public class ProfilerTest  extends TestCase {
     doX(5);
     nested.stop();
   }
-
 
   void delay(int millis) {
     try {
