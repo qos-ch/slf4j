@@ -8,7 +8,6 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-jcl</artifactId>
 	<packaging>jar</packaging>
 	<name>SLF4J JCL Binding</name>

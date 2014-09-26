@@ -11,7 +11,6 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.slf4j</groupId>
 	<artifactId>integration</artifactId>
 	<packaging>jar</packaging>
 	<name>SLF4J Integration tests</name>

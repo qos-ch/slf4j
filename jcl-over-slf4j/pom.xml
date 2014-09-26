@@ -9,7 +9,6 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.slf4j</groupId>
   <artifactId>jcl-over-slf4j</artifactId>
   <packaging>jar</packaging>
   <name>JCL 1.1.1 implemented over SLF4J</name>
