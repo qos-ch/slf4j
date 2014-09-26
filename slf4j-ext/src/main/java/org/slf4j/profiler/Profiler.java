@@ -192,7 +192,7 @@ public class Profiler implements TimeInstrument {
   @Override
   public String toString() {
     DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
-    return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "");
+    return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "", "");
   }
 
   public void log() {
@@ -204,7 +204,7 @@ public class Profiler implements TimeInstrument {
     if (logger.isDebugEnabled(profilerMarker)) {
       DurationUnit du = Util.selectDurationUnitForDisplay(globalStopWatch);
       String r = buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX,
-          TOTAL_ELAPSED, "");
+          TOTAL_ELAPSED, "", "");
       logger.debug(profilerMarker, SpacePadder.LINE_SEP + r);
     }
   }
@@ -233,9 +233,10 @@ public class Profiler implements TimeInstrument {
   }
   
   private String buildProfilerString(DurationUnit du, String firstPrefix,
-      String label, String indentation) {
+      String label, String prefixIndentation, String indentation) {
     StringBuffer buf = new StringBuffer();
 
+	buf.append(prefixIndentation);
     buf.append(firstPrefix);
     buf.append(" Profiler [");
     buf.append(name);
@@ -246,10 +247,10 @@ public class Profiler implements TimeInstrument {
         buildStopWatchString(buf, du, ELAPSED_TIME, indentation,
             (StopWatch) child);
       } else if (child instanceof Profiler) {
-        Profiler profiler = (Profiler) child;
-        String subString = profiler.buildProfilerString(du,
-            NESTED_PROFILER_FIRST_PREFIX, SUBTOTAL_ELAPSED, indentation
-                + "    ");
+		  Profiler profiler = (Profiler) child;
+		  String subString = profiler.buildProfilerString(du,
+            NESTED_PROFILER_FIRST_PREFIX, SUBTOTAL_ELAPSED, indentation,  indentation
+			  + "    ");
         buf.append(subString);
         buildStopWatchString(buf, du, ELAPSED_TIME, indentation,
             profiler.globalStopWatch);
