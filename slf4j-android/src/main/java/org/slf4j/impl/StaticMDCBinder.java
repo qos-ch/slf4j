@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2004-2013 QOS.ch
  * All rights reserved.
  *
@@ -27,12 +27,11 @@ package org.slf4j.impl;
 import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
-
 /**
  * This implementation is bound to {@link NOPMDCAdapter}.
  *
  * @author Ceki G&uuml;lc&uuml;
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
+ * @author Andrei Korzhevskii <a.korzhevskiy@gmail.com>
  */
 public class StaticMDCBinder {
 
@@ -43,15 +42,15 @@ public class StaticMDCBinder {
 
   private StaticMDCBinder() {
   }
-  
+
   /**
-   * Currently this method always returns an instance of 
+   * Currently this method always returns an instance of
    * {@link NOPMDCAdapter}.
    */
   public MDCAdapter getMDCA() {
     return new NOPMDCAdapter();
   }
-  
+
   public String getMDCAdapterClassStr() {
     return NOPMDCAdapter.class.getName();
   }
