@@ -234,7 +234,7 @@ public class Profiler implements TimeInstrument {
   
   private String buildProfilerString(DurationUnit du, String firstPrefix,
       String label, String indentation) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
 
     buf.append(firstPrefix);
     buf.append(" Profiler [");
@@ -259,7 +259,7 @@ public class Profiler implements TimeInstrument {
     return buf.toString();
   }
 
-  private static void buildStopWatchString(StringBuffer buf, DurationUnit du,
+  private static void buildStopWatchString(StringBuilder buf, DurationUnit du,
       String prefix, String indentation, StopWatch sw) {
 
     buf.append(indentation);

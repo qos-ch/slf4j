@@ -32,19 +32,19 @@ public class ToStringHelper {
 	/**
 	 * Prefix to use at the start of the representation. Always used.
 	 */
-	private static final String ARRAY_PREFIX = "[";
+	private static final char ARRAY_PREFIX = '[';
 
 	/**
 	 * Suffix to use at the end of the representation. Always used.
 	 */
-	private static final String ARRAY_SUFFIX = "]";
+	private static final char ARRAY_SUFFIX = ']';
 
 	/**
 	 * String separating each element when rendering an array. To be compatible
 	 * with lists comma-space is used.
 	 */
 
-	private static final String ELEMENT_SEPARATOR = ", ";
+	private static final char[] ELEMENT_SEPARATOR = ", ".toCharArray();
 
 	/**
 	 * unrenderableClasses is essentially a Set of Class objects which has for
@@ -106,9 +106,9 @@ public class ToStringHelper {
 	 * @param objectClass
 	 * @return
 	 */
-	private static StringBuffer renderArray(Object o, Class<?> objectClass) {
+	private static StringBuilder renderArray(Object o, Class<?> objectClass) {
 		Class<?> componentType = objectClass.getComponentType();
-		StringBuffer sb = new StringBuffer(ARRAY_PREFIX);
+		StringBuilder sb = new StringBuilder(ARRAY_PREFIX);
 
 		if (componentType.isPrimitive() == false) {
 			Object[] oa = (Object[]) o;
