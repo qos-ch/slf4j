@@ -180,7 +180,7 @@ public class BasicMarker implements Marker {
     }
     Iterator<Marker> it = this.iterator();
     Marker reference;
-    StringBuffer sb = new StringBuffer(this.getName());
+    StringBuilder sb = new StringBuilder(this.getName());
     sb.append(' ').append(OPEN);
     while (it.hasNext()) {
       reference = (Marker) it.next();

@@ -73,7 +73,7 @@ public class MultiGroupConversionRule implements ConversionRule {
    * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
    */
   public String replace(Matcher matcher) {
-    StringBuffer replacementBuffer = new StringBuffer();
+    StringBuilder replacementBuffer = new StringBuilder();
     String replacementText;
     
     for (int group = 1; group <= matcher.groupCount(); group++) {
