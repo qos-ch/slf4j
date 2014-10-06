@@ -32,7 +32,7 @@ public class ToStringHelper {
 	/**
 	 * Prefix to use at the start of the representation. Always used.
 	 */
-	private static final char ARRAY_PREFIX = '[';
+	private static final String ARRAY_PREFIX = "[";
 
 	/**
 	 * Suffix to use at the end of the representation. Always used.
