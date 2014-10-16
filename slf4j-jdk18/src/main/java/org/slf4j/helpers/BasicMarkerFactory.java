@@ -41,7 +41,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class BasicMarkerFactory implements IMarkerFactory {
 
-  private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<String, Marker>();
+  private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<>();
 
   /**
    * Regular users should <em>not</em> create
@@ -59,6 +59,7 @@ public class BasicMarkerFactory implements IMarkerFactory {
    * @param name the name of the marker to be created
    * @return a Marker instance
    */
+  @Override
   public Marker getMarker(String name) {
     if (name == null) {
       throw new IllegalArgumentException("Marker name cannot be null");
@@ -78,6 +79,7 @@ public class BasicMarkerFactory implements IMarkerFactory {
   /**
    * Does the name marked already exist?
    */
+  @Override
   public boolean exists(String name) {
     if (name == null) {
       return false;
@@ -85,6 +87,7 @@ public class BasicMarkerFactory implements IMarkerFactory {
     return markerMap.containsKey(name);
   }
 
+  @Override
   public boolean detachMarker(String name) {
     if(name == null) {
       return false;
@@ -93,6 +96,7 @@ public class BasicMarkerFactory implements IMarkerFactory {
   }
 
   
+  @Override
   public Marker getDetachedMarker(String name) {
     return  new BasicMarker(name);
   }

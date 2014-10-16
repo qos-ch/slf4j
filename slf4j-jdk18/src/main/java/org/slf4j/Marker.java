@@ -80,7 +80,10 @@ public interface Marker extends Serializable {
   /**
    * @deprecated Replaced by {@link #hasReferences()}.
    */
-  public boolean hasChildren();
+  @Deprecated
+  public default boolean hasChildren(){
+      return hasReferences();
+  }
   
   /**
    * Does this marker have any references?
@@ -128,6 +131,7 @@ public interface Marker extends Serializable {
    *
    * @since 1.5.1
    */
+  @Override
   public boolean equals(Object o);
 
   /**
@@ -137,6 +141,7 @@ public interface Marker extends Serializable {
    * @return the computed hashCode
    * @since 1.5.1
    */
+  @Override
   public int hashCode();
 
 }

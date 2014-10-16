@@ -40,8 +40,9 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
-  final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
+  final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<>();
 
+  @Override
   public Logger getLogger(String name) {
     SubstituteLogger logger = loggers.get(name);
     if (logger == null) {

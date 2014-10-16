@@ -28,7 +28,6 @@ import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticMarkerBinder;
 
-import java.util.function.Function;
 
 /**
  * MarkerFactory is a utility class producing {@link Marker} instances as

@@ -71,21 +71,19 @@ public class BasicMarker implements Marker {
     } else {
       // let's add the reference
       if (refereceList == null) {
-        refereceList = new Vector<Marker>();
+        refereceList = new Vector<>();
       }
       refereceList.add(reference);
     }
 
   }
 
+  @Override
   public synchronized boolean hasReferences() {
     return ((refereceList != null) && (refereceList.size() > 0));
   }
   
-  public boolean hasChildren() {
-    return hasReferences();
-  }
-
+  @Override
   public synchronized Iterator<Marker> iterator() {
     if (refereceList != null) {
       return refereceList.iterator();
@@ -94,6 +92,7 @@ public class BasicMarker implements Marker {
     }
   }
 
+  @Override
   public synchronized boolean remove(Marker referenceToRemove) {
     if (refereceList == null) {
       return false;
@@ -110,6 +109,7 @@ public class BasicMarker implements Marker {
     return false;
   }
 
+  @Override
   public boolean contains(Marker other) {
     if (other == null) {
       throw new IllegalArgumentException("Other cannot be null");
@@ -120,12 +120,9 @@ public class BasicMarker implements Marker {
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
-        if (ref.contains(other)) {
-          return true;
+        if (refereceList.stream().anyMatch((ref) -> (ref.contains(other)))) {
+            return true;
         }
-      }
     }
     return false;
   }
@@ -133,6 +130,7 @@ public class BasicMarker implements Marker {
   /**
    * This method is mainly used with Expression Evaluators.
    */
+  @Override
   public boolean contains(String name) {
     if (name == null) {
       throw new IllegalArgumentException("Other cannot be null");
@@ -158,6 +156,7 @@ public class BasicMarker implements Marker {
   private static String SEP = ", ";
 
 
+  @Override
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
@@ -170,17 +169,19 @@ public class BasicMarker implements Marker {
     return name.equals(other.getName());
   }
 
+  @Override
   public int hashCode() {
     return name.hashCode();
   }
 
+  @Override
   public String toString() {
     if (!this.hasReferences()) {
       return this.getName();
     }
     Iterator<Marker> it = this.iterator();
     Marker reference;
-    StringBuffer sb = new StringBuffer(this.getName());
+    StringBuilder sb = new StringBuilder(this.getName());
     sb.append(' ').append(OPEN);
     while (it.hasNext()) {
       reference = (Marker) it.next();

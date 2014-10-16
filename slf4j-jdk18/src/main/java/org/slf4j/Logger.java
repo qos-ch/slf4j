@@ -23,8 +23,6 @@
  */
 package org.slf4j;
 
-
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -930,6 +928,7 @@ public interface Logger {
      */
     public default void error(Marker marker, Supplier<String> msg, Throwable t) {
         if (isErrorEnabled(marker)) error(marker, msg.get(), t);
-    }
+    }  
+   
 
 }

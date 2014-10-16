@@ -22,6 +22,7 @@
  */
 package org.slf4j.helpers;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -91,7 +92,6 @@ public class SubstituteLogger implements Logger {
     public void trace(Marker marker, String msg) {
         delegate().trace(marker, msg);
     }
-
     @Override
     public void trace(Marker marker, String format, Object arg) {
         delegate().trace(marker, format, arg);
