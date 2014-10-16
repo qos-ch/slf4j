@@ -45,8 +45,7 @@ import java.util.function.Function;
  */
 public class MarkerFactory {
   static IMarkerFactory markerFactory;
-  static Function<String,Marker> markerFactoryFunction = markerFactory::getMarker;
-
+  
   private MarkerFactory() {
   }
 
@@ -71,7 +70,7 @@ public class MarkerFactory {
    * @return marker
    */
   public static Marker getMarker(String name) {
-    return markerFactoryFunction.apply(name) ;
+      return markerFactory.getMarker(name);
   }
 
   /**
