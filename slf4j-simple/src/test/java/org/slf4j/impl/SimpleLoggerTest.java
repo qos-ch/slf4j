@@ -24,23 +24,40 @@
  */
 package org.slf4j.impl;
 
+import mockit.Deencapsulation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.slf4j.impl.SimpleLogger.DATE_TIME_FORMAT_KEY;
+import static org.slf4j.impl.SimpleLogger.LOG_KEY_PREFIX;
+import static org.slf4j.impl.SimpleLogger.SHOW_DATE_TIME_KEY;
 
 public class SimpleLoggerTest {
 
-  String A_KEY = SimpleLogger.LOG_KEY_PREFIX+"a";
+  String A_KEY = LOG_KEY_PREFIX + "a";
 
   @Before public void before() {
     System.setProperty(A_KEY, "info");
+    Deencapsulation.setField(SimpleLogger.class, "INITIALIZED", false);
   }
 
   @After public void after() {
     System.clearProperty(A_KEY);
+    System.clearProperty(SHOW_DATE_TIME_KEY);
+    Deencapsulation.setField(SimpleLogger.class, "SHOW_DATE_TIME", false);
+    System.clearProperty(DATE_TIME_FORMAT_KEY);
+    Deencapsulation.setField(SimpleLogger.class, "DATE_TIME_FORMAT_STR", null);
+
+    final ThreadLocal<DateFormat> formatThreadLocal = Deencapsulation.getField(SimpleLogger.class, "DATE_FORMATTER");
+    formatThreadLocal.remove();
   }
 
   @Test
@@ -74,4 +91,26 @@ public class SimpleLoggerTest {
     assertNull(simpleLogger.recursivelyComputeLevelString());
   }
 
+  @Test
+  public void loggerDateFormatString_IsNull() {
+    new SimpleLogger("a");
+    ThreadLocal<DateFormat> formatThreadLocal = Deencapsulation.getField(SimpleLogger.class, "DATE_FORMATTER");
+    assertFalse(formatThreadLocal.get() instanceof SimpleDateFormat);
+  }
+
+  @Test
+  public void loggerDateFormatString_IsNotNull() {
+    System.setProperty(DATE_TIME_FORMAT_KEY, "");
+    new SimpleLogger("a");
+    ThreadLocal<DateFormat> formatThreadLocal = Deencapsulation.getField(SimpleLogger.class, "DATE_FORMATTER");
+    assertTrue(formatThreadLocal.get() instanceof SimpleDateFormat);
+  }
+
+  @Test
+  public void loggerDateFormatString_IsWrong() {
+    System.setProperty(DATE_TIME_FORMAT_KEY, "f00b4r!#&^$*(&!@^#($");
+    new SimpleLogger("a");
+    ThreadLocal<DateFormat> formatThreadLocal = Deencapsulation.getField(SimpleLogger.class, "DATE_FORMATTER");
+    assertFalse(formatThreadLocal.get() instanceof SimpleDateFormat);
+  }
 }
