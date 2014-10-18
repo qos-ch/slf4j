@@ -45,8 +45,8 @@ public class SimpleLoggerTest {
 
   @Test
   public void emptyLoggerName() {
-    SimpleLogger simpleLogger = new SimpleLogger("a");
-    assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+    SimpleLogger simpleLogger = new SimpleLogger("");
+    assertNull(simpleLogger.recursivelyComputeLevelString());
   }
 
   @Test
