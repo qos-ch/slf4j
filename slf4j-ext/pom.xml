@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -48,21 +48,12 @@
   </dependencies>
 
   <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${required.jdk.version}</source>
-					<target>${required.jdk.version}</target>
-				</configuration>
-			</plugin>
-
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
          <configuration>
-		  <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
+         <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
          <printSummary>false</printSummary>
           <forkMode>once</forkMode>
           <reportFormat>plain</reportFormat>
@@ -74,32 +65,21 @@
         </configuration>
       </plugin>
 
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
             <manifestEntries>
-              <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-              <Bundle-Description>${project.description}</Bundle-Description>
-              <Implementation-Version>${project.version}</Implementation-Version>
               <Premain-Class>org.slf4j.agent.AgentPremain</Premain-Class>
               <!-- what is the proper way to specify the maven full name? /ravn -->
               <Boot-Class-Path>../../../../javassist/javassist/3.4.GA/javassist-3.4.GA.jar javassist-3.4.GA.jar javassist.jar</Boot-Class-Path>
             </manifestEntries>
-            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>			
-      </plugin>      
+        </configuration>
+      </plugin>
     </plugins>
 
   </build>
-
-  <reporting>
-    <plugins>
-    
-    </plugins>
-  </reporting>
 
 </project>

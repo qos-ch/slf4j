@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -20,11 +20,14 @@
   <build>
     <resources>
       <resource>
-        <directory>src/site/pages</directory>
+        <directory>${project.basedir}/src/site/pages</directory>
         <!--We're saving filtered html docs in a temporary folder-->
         <!--and telling the site plug in to get the docs there.-->
         <targetPath>../../../target/site</targetPath>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
       </resource>
     </resources>
     <plugins>
@@ -33,8 +36,7 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>${maven-site-plugin.version}</version>
         <configuration>
-          <outputDirectory>${project.parent.basedir}/target/site
-          </outputDirectory>
+          <outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
