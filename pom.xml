@@ -30,7 +30,7 @@
 
   <scm>
     <url>https://github.com/ceki/slf4j</url>
-    <connection>git@github.com:ceki/slf4j.git</connection>
+    <connection>git@github.com:qos-ch/slf4j.git</connection>
   </scm>
 
   <properties>
