@@ -312,6 +312,7 @@ public class Category {
 
   private int priorityToLevelInt(Priority p) {
     switch (p.level) {
+    case Level.ALL_INT:    
     case Level.TRACE_INT:
     case Level.X_TRACE_INT:
       return LocationAwareLogger.TRACE_INT;
@@ -326,7 +327,7 @@ public class Category {
     case Priority.FATAL_INT:
       return LocationAwareLogger.ERROR_INT;
     default:
-      throw new IllegalStateException("Unknown Priority " + p);
+      return LocationAwareLogger.DEBUG_INT;
     }
   }
 
