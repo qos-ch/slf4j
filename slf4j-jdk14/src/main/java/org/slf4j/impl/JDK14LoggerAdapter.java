@@ -648,8 +648,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements
     // do not perform this check. See also
     // http://bugzilla.slf4j.org/show_bug.cgi?id=90
     if (logger.isLoggable(julLevel)) {
-      final FormattingTuple ft = MessageFormatter.arrayFormat(message, argArray, t);
-      log(callerFQCN, julLevel, ft.getMessage(), ft.getThrowable());
+      log(callerFQCN, julLevel, message, t);
     }
   }
 }

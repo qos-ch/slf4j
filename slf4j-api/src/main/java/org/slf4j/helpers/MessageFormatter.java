@@ -180,27 +180,6 @@ final public class MessageFormatter {
       final Object[] argArray) {
 
     Throwable throwableCandidate = getThrowableCandidate(argArray);
-    return arrayFormat(messagePattern, argArray, throwableCandidate);
-  }
-
-  /**
-   * Same principle as the {@link #format(String, Object)} and
-   * {@link #format(String, Object, Object)} methods except that any number of
-   * arguments can be passed in an array.
-   *
-   * @param messagePattern
-   *          The message pattern which will be parsed and formatted
-   * @param argArray
-   *          An array of arguments to be substituted in place of formatting
-   *          anchors
-   * @param t
-   *          {@link Throwable} or {@code null} if not present
-   * @return The formatted message
-   */
-  final public static FormattingTuple arrayFormat(final String messagePattern,
-      final Object[] argArray, final Throwable t) {
-
-    Throwable throwableCandidate = t;
 
     if (messagePattern == null) {
       return new FormattingTuple(null, argArray, throwableCandidate);
