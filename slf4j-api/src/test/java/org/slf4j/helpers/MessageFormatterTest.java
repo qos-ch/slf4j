@@ -48,7 +48,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals(null, result);
   }
 
-  public void testNullParam() {
+  public void nullParametersShouldBeHandledWithoutBarfing() {
     result = MessageFormatter.format("Value is {}.", null).getMessage();
     assertEquals("Value is null.", result);
 
@@ -77,7 +77,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Val1 is null, val2 is null, val3 is 3", result);
   }
 
-  public void testOneParameter() {
+  public void verifyOneParameterIsHandledCorrectly() {
     result = MessageFormatter.format("Value is {}.", i3).getMessage();
     assertEquals("Value is 3.", result);
 
