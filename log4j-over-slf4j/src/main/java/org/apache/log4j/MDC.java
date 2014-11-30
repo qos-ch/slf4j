@@ -16,6 +16,9 @@
 
 package org.apache.log4j;
 
+import java.util.Hashtable;
+import java.util.Map;
+
 public class MDC {
 
   public static void put(String key, String value) {
@@ -40,5 +43,22 @@ public class MDC {
   
   public static void clear() {
     org.slf4j.MDC.clear();
+  }
+  
+  /** 
+   * This method is not part of the Log4J public API. However it 
+   * has been called by other projects. This method is here temporarily  
+   * until projects who are depending on this method release fixes. 
+   */
+  @Deprecated
+  public static Hashtable getContext() {
+    Map map = org.slf4j.MDC.getCopyOfContextMap();
+
+    if (map != null) {
+      return new Hashtable(map);
+    }
+    else {
+      return new Hashtable();
+    }
   }
 }

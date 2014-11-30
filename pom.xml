@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -30,7 +30,7 @@
 
   <scm>
     <url>https://github.com/ceki/slf4j</url>
-    <connection>git@github.com:ceki/slf4j.git</connection>
+    <connection>git@github.com:qos-ch/slf4j.git</connection>
   </scm>
 
   <properties>
@@ -356,6 +356,35 @@
                 <phase>verify</phase>
                 <goals>
                   <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>format</id>
+      <!-- Off for the time being
+      <activation>
+        <file>
+          <exists>../codeStyle.xml</exists>
+        </file>
+      </activation>
+      -->
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+            <artifactId>maven-java-formatter-plugin</artifactId>
+            <configuration>
+              <configFile>../codeStyle.xml</configFile>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>format</goal>
                 </goals>
               </execution>
             </executions>

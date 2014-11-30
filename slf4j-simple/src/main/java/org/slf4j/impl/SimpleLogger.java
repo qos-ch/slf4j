@@ -61,7 +61,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * <code>org.slf4j.simpleLogger.defaultLogLevel</code> will be used.</li>
  *
  * <li><code>org.slf4j.simpleLogger.showDateTime</code> - Set to <code>true</code> if you want the current date and
- * time to be included in output messages. Default is <code>true</code></li>
+ * time to be included in output messages. Default is <code>false</code></li>
  *
  * <li><code>org.slf4j.simpleLogger.dateTimeFormat</code> - The date and time format to be used in the output messages.
  * The pattern describing the date and time format is defined by
@@ -233,9 +233,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   private static void loadProperties() {
     // Add props from the resource simplelogger.properties
-    InputStream in = (InputStream) AccessController.doPrivileged(
-            new PrivilegedAction() {
-              public Object run() {
+    InputStream in = AccessController.doPrivileged(
+            new PrivilegedAction<InputStream>() {
+              public InputStream run() {
                 ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
                 if (threadCL != null) {
                   return threadCL.getResourceAsStream(CONFIGURATION_FILE);
@@ -319,7 +319,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
       return;
     }
 
-    StringBuffer buf = new StringBuffer(32);
+    StringBuilder buf = new StringBuilder(32);
 
     // Append date-time if so configured
     if (SHOW_DATE_TIME) {
@@ -377,7 +377,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   }
 
-  void write(StringBuffer buf, Throwable t) {
+  void write(StringBuilder buf, Throwable t) {
     TARGET_STREAM.println(buf.toString());
     if (t != null) {
       t.printStackTrace(TARGET_STREAM);

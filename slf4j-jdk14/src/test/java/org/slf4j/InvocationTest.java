@@ -24,81 +24,110 @@
  */
 package org.slf4j;
 
-import java.util.logging.Level;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 /**
  * Test whether invoking the SLF4J API causes problems or not.
- * 
- * @author Ceki Gulcu
  *
+ * @author Ceki Gulcu
  */
-public class InvocationTest extends TestCase {
+public class InvocationTest {
 
   Level oldLevel;
   java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-  
-  public InvocationTest (String arg0) {
-    super(arg0);
-  }
 
-  protected void setUp() throws Exception {
-    super.setUp();
+  ListHandler listHandler = new ListHandler();
+
+  @Before
+  public void setUp() throws Exception {
     oldLevel = root.getLevel();
-    root.setLevel(Level.OFF);
+    root.setLevel(Level.FINE);
+    //removeAllHandlers(root);
+    root.addHandler(listHandler);
   }
 
-  protected void tearDown() throws Exception {
-    super.tearDown();
+
+  @After
+  public void tearDown() throws Exception {
     root.setLevel(oldLevel);
+    removeListHandlers(root);
   }
-  
+
+  @Test
   public void test1() {
     Logger logger = LoggerFactory.getLogger("test1");
     logger.debug("Hello world.");
+    assertLogMessage("Hello world.", 0);
   }
-  
-  public void test2() {
+
+
+  @Test
+  public void verifyMessageFormatting() {
     Integer i1 = new Integer(1);
     Integer i2 = new Integer(2);
     Integer i3 = new Integer(3);
     Exception e = new Exception("This is a test exception.");
     Logger logger = LoggerFactory.getLogger("test2");
-    
-    logger.debug("Hello world 1.");
+
+    int index = 0;
+    logger.debug("Hello world");
+    assertLogMessage("Hello world", index++);
+
     logger.debug("Hello world {}", i1);
+    assertLogMessage("Hello world " + i1, index++);
+
     logger.debug("val={} val={}", i1, i2);
+    assertLogMessage("val=1 val=2", index++);
+
     logger.debug("val={} val={} val={}", new Object[]{i1, i2, i3});
+    assertLogMessage("val=1 val=2 val=3", index++);
 
     logger.debug("Hello world 2", e);
+    assertLogMessage("Hello world 2", index);
+    assertException(e.getClass(), index++);
     logger.info("Hello world 2.");
- 
-    
+
     logger.warn("Hello world 3.");
     logger.warn("Hello world 3", e);
- 
-  
+
     logger.error("Hello world 4.");
-    logger.error("Hello world {}", new Integer(3)); 
+    logger.error("Hello world {}", new Integer(3));
     logger.error("Hello world 4.", e);
   }
-  
+
+
+  @Test
   public void testNull() {
     Logger logger = LoggerFactory.getLogger("testNull");
     logger.debug(null);
     logger.info(null);
     logger.warn(null);
     logger.error(null);
-    
+
     Exception e = new Exception("This is a test exception.");
     logger.debug(null, e);
     logger.info(null, e);
     logger.warn(null, e);
     logger.error(null, e);
   }
-  
+
+
+  @Test
   public void testMarker() {
     Logger logger = LoggerFactory.getLogger("testMarker");
     Marker blue = MarkerFactory.getMarker("BLUE");
@@ -106,7 +135,7 @@ public class InvocationTest extends TestCase {
     logger.info(blue, "hello");
     logger.warn(blue, "hello");
     logger.error(blue, "hello");
-    
+
     logger.debug(blue, "hello {}", "world");
     logger.info(blue, "hello {}", "world");
     logger.warn(blue, "hello {}", "world");
@@ -117,7 +146,9 @@ public class InvocationTest extends TestCase {
     logger.warn(blue, "hello {} and {} ", "world", "universe");
     logger.error(blue, "hello {} and {} ", "world", "universe");
   }
-  
+
+
+  @Test
   public void testMDC() {
     MDC.put("k", "v");
     assertNotNull(MDC.get("k"));
@@ -135,6 +166,52 @@ public class InvocationTest extends TestCase {
       MDC.put(null, "x");
       fail("null keys are invalid");
     } catch (IllegalArgumentException e) {
+    }
+  }
+
+  private void assertLogMessage(String expected, int index) {
+    LogRecord logRecord = listHandler.recordList.get(index);
+    Assert.assertNotNull(logRecord);
+    assertEquals(expected, logRecord.getMessage());
+  }
+
+  private void assertException(Class exceptionType, int index) {
+    LogRecord logRecord = listHandler.recordList.get(index);
+    Assert.assertNotNull(logRecord);
+    assertEquals(exceptionType, logRecord.getThrown().getClass());
+  }
+
+  private void removeAllHandlers(java.util.logging.Logger logger) {
+    Handler[] handlers = logger.getHandlers();
+    for (Handler h : handlers) {
+      logger.removeHandler(h);
+    }
+  }
+
+
+  void removeListHandlers(java.util.logging.Logger logger) {
+    Handler[] handlers = logger.getHandlers();
+    for (Handler h : handlers) {
+      if (h instanceof ListHandler)
+        logger.removeHandler(h);
+    }
+  }
+
+  static private class ListHandler extends java.util.logging.Handler {
+
+    List<LogRecord> recordList = new ArrayList<LogRecord>();
+
+    @Override
+    public void publish(LogRecord record) {
+      recordList.add(record);
+    }
+
+    @Override
+    public void flush() {
+    }
+
+    @Override
+    public void close() throws SecurityException {
     }
   }
 }

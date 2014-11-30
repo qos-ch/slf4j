@@ -109,7 +109,7 @@ public class JavassistHelper {
 
 		String methodName = method.getName();
 
-		StringBuffer sb = new StringBuffer(methodName + "(\" ");
+		StringBuilder sb = new StringBuilder(methodName).append("(\" ");
 		for (int i = 0; i < parameterTypes.length; i++) {
 			if (i > 0) {
 				// add a comma and a space between printed values
@@ -129,16 +129,16 @@ public class JavassistHelper {
 			try {
 				sb.append(parameterNameFor(method, locals, i));
 			} catch (Exception e) {
-				sb.append("" + (i + 1));
+				sb.append(i + 1);
 			}
 			sb.append("\" + \"=");
 
 			if (parameterType.isPrimitive()) {
 				// let the compiler handle primitive -> string
-				sb.append("\"+ $" + (i + 1));
+				sb.append("\"+ $").append(i + 1);
 			} else {
 				String s = "org.slf4j.instrumentation.ToStringHelper.render";
-				sb.append("\"+ " + s + "($" + (i + 1) + ")");
+				sb.append("\"+ ").append(s).append("($").append(i + 1).append(')');
 			}
 		}
 		sb.append("+\")");

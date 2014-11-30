@@ -36,7 +36,7 @@ public class RandomHelper {
   }
   
   private String randomString(int len) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     for (int i = 0; i < len; i++) {
       int offset = random.nextInt(26);
       char c = (char) ('a' + offset);
@@ -50,7 +50,7 @@ public class RandomHelper {
   }
   
   String buildRandomFileName(int averageNodeLength, int totalLength) {
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     int MAX_NODE_LENGTH = averageNodeLength * 2;
     while (buf.length() < totalLength) {
       int remaining = totalLength - buf.length();
