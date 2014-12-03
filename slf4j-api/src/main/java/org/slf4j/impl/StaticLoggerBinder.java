@@ -24,22 +24,27 @@
  */
 package org.slf4j.impl;
 
+import java.util.Iterator;
+import java.util.ServiceLoader;
+
 import org.slf4j.ILoggerFactory;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.NOPLoggerFactory;
+import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
  * The binding of {@link LoggerFactory} class with an actual instance of
  * {@link ILoggerFactory} is performed using information returned by this class.
  * 
- * This class is meant to provide a dummy StaticLoggerBinder to the slf4j-api module. 
- * Real implementations are found in  each SLF4J binding project, e.g. slf4j-nop, 
- * slf4j-log4j12 etc.
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @author Thomas Pérennou (ServiceLoader use)
  */
-public class StaticLoggerBinder {
- 
+public class StaticLoggerBinder implements LoggerFactoryBinder {
+
   /**
    * The unique instance of this class.
+   * 
    */
   private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
   
@@ -51,23 +56,35 @@ public class StaticLoggerBinder {
   public static final StaticLoggerBinder getSingleton() {
     return SINGLETON;
   }
+
   
   /**
-   * Declare the version of the SLF4J API this implementation is compiled against. 
-   * The value of this field is usually modified with each release. 
+   * Declare the version of the SLF4J API this implementation is compiled
+   * against. The value of this field is usually modified with each release.
    */
   // to avoid constant folding by the compiler, this field must *not* be final
   public static String REQUESTED_API_VERSION = "1.6.99";  // !final
   
+
+  /**
+   * The ILoggerFactory instance returned by the {@link #getLoggerFactory}
+   * method should always be the same object
+   */
+  private final ILoggerFactory loggerFactory;
+  
   private StaticLoggerBinder() {
-    throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
+    Iterator<ILoggerFactory> loggerFactoryIterator = ServiceLoader.load(ILoggerFactory.class).iterator();
+    loggerFactory = loggerFactoryIterator.hasNext()? loggerFactoryIterator.next(): new NOPLoggerFactory();
+    if (loggerFactoryIterator.hasNext()) {
+      throw new IllegalStateException("SLF4J contains more than one declared ILoggerFactory");
+    }
   }
-
+  
   public ILoggerFactory getLoggerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
+    return loggerFactory;
   }
-
+  
   public String getLoggerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into slf4j-api.jar");
-  }
+    return loggerFactory.getClass().getName();
+  }   
 }
