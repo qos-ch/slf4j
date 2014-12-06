@@ -82,6 +82,13 @@ public final class LoggerFactory {
   static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
   static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
+  // Support for the automatically-named logger field trial.
+  static final String AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY =
+      "org.slf4j.LoggerFactory.autoNamedLoggerFieldTrial";
+  static boolean AUTO_NAMED_LOGGER_FIELD_TRIAL =
+      Boolean.getBoolean(AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY);
+
+
   /**
    * It is LoggerFactory's responsibility to track version changes and manage
    * the compatibility list.
@@ -293,8 +300,21 @@ public final class LoggerFactory {
    * @return logger
    */
   @Nonnull
-  public static Logger getLogger(@Nonnull Class clazz) {
-    return getLogger(clazz.getName());
+  public static Logger getLogger(@Nonnull Class<?> clazz) {
+    Logger logger = getLogger(clazz.getName());
+    if (AUTO_NAMED_LOGGER_FIELD_TRIAL) {
+      String autoName = Util.getCallingClassName();
+      if (!logger.getName().equals(autoName)) {
+        IllegalStateException exception = new IllegalStateException(String.format(
+            "Auto-named logger field trial: mismatch detected between " +
+            "given logger name and automatic logger name. Given name: \"%s\"; " +
+            "automatic name: \"%s\". If this is unexpected, please file a bug " +
+            "against slf4j. Set property %s to \"false\" to disable this check.",
+            logger.getName(), autoName, AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY));
+        exception.printStackTrace(System.err);
+      }
+    }
+    return logger;
   }
 
   /**
