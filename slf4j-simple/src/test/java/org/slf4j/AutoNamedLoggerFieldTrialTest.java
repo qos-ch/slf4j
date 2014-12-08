@@ -33,6 +33,7 @@ import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.shape.Square;
 
 /**
  * Tests that the automatically named logger field trial works and
@@ -68,7 +69,7 @@ public class AutoNamedLoggerFieldTrialTest {
     setTrialEnabled(false);
     Logger logger = LoggerFactory.getLogger(String.class);
     assertEquals("java.lang.String", logger.getName());
-    assertIsMismatch(false);
+    assertMismatchDetected(false);
   }
 
   /*
@@ -79,7 +80,7 @@ public class AutoNamedLoggerFieldTrialTest {
   public void testTriggerWithProperty() {
     setTrialEnabled(true);
     LoggerFactory.getLogger(String.class);
-    assertIsMismatch(true);
+    assertMismatchDetected(true);
   }
 
   /*
@@ -107,15 +108,22 @@ public class AutoNamedLoggerFieldTrialTest {
     setTrialEnabled(true);
     Logger logger = LoggerFactory.getLogger(AutoNamedLoggerFieldTrialTest.class);
     assertEquals("org.slf4j.AutoNamedLoggerFieldTrialTest", logger.getName());
-    assertIsMismatch(false);
+    assertMismatchDetected(false);
   }
 
-  private void assertIsMismatch(boolean isMismatch) {
-    assertEquals(
-        isMismatch,
+  private void assertMismatchDetected(boolean mismatchDetected) {
+    assertEquals(mismatchDetected,
         String.valueOf(byteArrayOutputStream).contains(MISMATCH_STRING));
   }
 
+    @Test
+    public void verifyLoggerDefinedInBaseWithOverridenGetClassMethod() {
+        setTrialEnabled(true);
+        Square square = new Square();
+        assertEquals("org.slf4j.shape.Square", square.logger.getName());
+        assertMismatchDetected(false);
+
+    }
   private static void setTrialEnabled(boolean enabled) {
     // The system property is read into a static variable at initialization time
     // so we cannot just reset the system property to test this feature.

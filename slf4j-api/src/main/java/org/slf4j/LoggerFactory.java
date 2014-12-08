@@ -303,18 +303,23 @@ public final class LoggerFactory {
   public static Logger getLogger(@Nonnull Class<?> clazz) {
     Logger logger = getLogger(clazz.getName());
     if (AUTO_NAMED_LOGGER_FIELD_TRIAL) {
-      String autoName = Util.getCallingClassName();
-      if (!logger.getName().equals(autoName)) {
+      Class<?> autoComputedCallingClass = Util.getCallingClass();
+      if (nonMatchingClasses(clazz, autoComputedCallingClass)) {
         Util.report(String.format(
             "Auto-named logger field trial: mismatch detected between " +
             "given logger name and automatic logger name. Given name: \"%s\"; " +
             "automatic name: \"%s\". If this is unexpected, please file a bug " +
             "against slf4j. Set property %s to \"false\" to disable this check.",
-            logger.getName(), autoName, AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY));
+            logger.getName(), autoComputedCallingClass.getName(), AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY));
       }
     }
     return logger;
   }
+
+  private static boolean nonMatchingClasses(Class<?> clazz, Class<?> autoComputedCallingClass) {
+    return !autoComputedCallingClass.isAssignableFrom(clazz);
+  }
+
 
   /**
    * Return the {@link ILoggerFactory} instance in use.

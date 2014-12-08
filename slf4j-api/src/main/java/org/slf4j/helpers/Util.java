@@ -52,7 +52,7 @@ public final class Util {
    * Returns the name of the class which called the invoking method.
    * @return the name of the class which called the invoking method.
    */
-  public static String getCallingClassName() {
+  public static Class<?> getCallingClass() {
     Class<?>[] trace = SECURITY_MANAGER.getClassContext();
     String thisClassName = Util.class.getName();
 
@@ -70,7 +70,7 @@ public final class Util {
           "this should not happen");
     }
 
-    return trace[i+2].getName();
+    return trace[i+2];
   }
 
   static final public void report(String msg, Throwable t) {
