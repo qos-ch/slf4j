@@ -29,6 +29,7 @@ package org.slf4j.helpers;
  *
  * An internal utility class.
  *
+ * @author Alexandre Dorokhine
  * @author Ceki G&uuml;lc&uuml;
  */
 public final class Util {

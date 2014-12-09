@@ -41,6 +41,8 @@ import org.slf4j.shape.Square;
  * <p>
  * This test can't live inside slf4j-api because the NOP Logger doesn't
  * remember its name.
+ *
+ * @author Alexandre Dorokhine
  */
 public class AutoNamedLoggerFieldTrialTest {
 

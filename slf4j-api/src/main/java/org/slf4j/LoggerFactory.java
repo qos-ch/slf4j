@@ -55,8 +55,11 @@ import org.slf4j.impl.StaticLoggerBinder;
  * <p/>
  * Please note that all methods in <code>LoggerFactory</code> are static.
  *
- * @author Ceki G&uuml;lc&uuml;
+ *
+ * @author Alexandre Dorokhine
  * @author Robert Elliot
+ * @author Ceki G&uuml;lc&uuml;
+ *
  */
 public final class LoggerFactory {
 
