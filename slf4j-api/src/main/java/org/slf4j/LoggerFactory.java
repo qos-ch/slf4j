@@ -56,7 +56,7 @@ import org.slf4j.impl.StaticLoggerBinder;
  * Please note that all methods in <code>LoggerFactory</code> are static.
  *
  *
- * @author Alexandre Dorokhine
+ * @author Alexander Dorokhine
  * @author Robert Elliot
  * @author Ceki G&uuml;lc&uuml;
  *
@@ -85,11 +85,11 @@ public final class LoggerFactory {
   static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
   static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
-  // Support for the automatically-named logger field trial.
-  static final String AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY =
-      "org.slf4j.LoggerFactory.autoNamedLoggerFieldTrial";
-  static boolean AUTO_NAMED_LOGGER_FIELD_TRIAL =
-      Boolean.getBoolean(AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY);
+  // Support for detecting mismatched logger names.
+  static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY =
+      "org.slf4j.LoggerFactory.detectLoggerNameMismatch";
+  static boolean DETECT_LOGGER_NAME_MISMATCH =
+      Boolean.getBoolean(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
 
   /**
@@ -305,15 +305,15 @@ public final class LoggerFactory {
   @Nonnull
   public static Logger getLogger(@Nonnull Class<?> clazz) {
     Logger logger = getLogger(clazz.getName());
-    if (AUTO_NAMED_LOGGER_FIELD_TRIAL) {
+    if (DETECT_LOGGER_NAME_MISMATCH) {
       Class<?> autoComputedCallingClass = Util.getCallingClass();
       if (nonMatchingClasses(clazz, autoComputedCallingClass)) {
         Util.report(String.format(
-            "Auto-named logger field trial: mismatch detected between " +
-            "given logger name and automatic logger name. Given name: \"%s\"; " +
-            "automatic name: \"%s\". If this is unexpected, please file a bug " +
-            "against slf4j. Set property %s to \"false\" to disable this check.",
-            logger.getName(), autoComputedCallingClass.getName(), AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY));
+            "Detected logger name mismatch. Given name: \"%s\"; automatic name: \"%s\". " +
+            "See http://www.slf4j.org/codes.html#loggerNameMismatch for info. " +
+            "Set property %s to \"false\" to disable this check.",
+            logger.getName(), autoComputedCallingClass.getName(),
+            DETECT_LOGGER_NAME_MISMATCH_PROPERTY));
       }
     }
     return logger;
