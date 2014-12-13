@@ -3,6 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+  <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.slf4j</groupId>
@@ -10,9 +11,8 @@
     <version>1.7.8-SNAPSHOT</version>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
-
   <artifactId>slf4j-migrator</artifactId>
+
   <packaging>jar</packaging>
   <name>SLF4J Migrator</name>
   <description>SLF4J Migrator</description>

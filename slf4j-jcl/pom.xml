@@ -1,39 +1,39 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<parent>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-parent</artifactId>
-		<version>1.7.8-SNAPSHOT</version>
-	</parent>
-	
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>slf4j-jcl</artifactId>
-	<packaging>jar</packaging>
-	<name>SLF4J JCL Binding</name>
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.7.8-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>slf4j-jcl</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J JCL Binding</name>
   <description>SLF4J JCL Binding</description>
 
-	<url>http://www.slf4j.org</url>
-
+  <url>http://www.slf4j.org</url>
 
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>  
-		</dependency>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.1.1</version>
-		</dependency>
+    </dependency>
 
   </dependencies>
-  
+
   <build>
-    <plugins>		
-			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
@@ -44,7 +44,7 @@
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>			
+        </configuration>
       </plugin>
 
     </plugins>

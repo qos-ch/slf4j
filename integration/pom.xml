@@ -1,34 +1,35 @@
 <project
- xmlns="http://maven.apache.org/POM/4.0.0"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<parent>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-parent</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
     <version>1.7.8-SNAPSHOT</version>
-	</parent>
+  </parent>
 
-	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>integration</artifactId>
-	<packaging>jar</packaging>
-	<name>SLF4J Integration tests</name>
+  <artifactId>integration</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J Integration tests</name>
 
-	<url>http://www.slf4j.org</url>
+  <url>http://www.slf4j.org</url>
   <description>SLF4J integration tests</description>
 
   <dependencies>
-	  <dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-		</dependency>
+    </dependency>
 
     <!-- declaration to circumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>3.8.1</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
     </dependency>
     <!-- declaration to circumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
     <dependency>
@@ -38,7 +39,7 @@
     </dependency>
 
 
-	<!-- some test run Felix in hosted mode -->
+    <!-- some test run Felix in hosted mode -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.main</artifactId>
@@ -69,7 +70,7 @@
             <phase>package</phase>
             <configuration>
               <tasks>
-                <property name="currentVersion" value="${project.version}" />
+                <property name="currentVersion" value="${project.version}"/>
                 <property name="compile_classpath" refid="maven.compile.classpath"/>
                 <property name="runtime_classpath" refid="maven.runtime.classpath"/>
                 <property name="test_classpath" refid="maven.test.classpath"/>
@@ -86,7 +87,7 @@
             <phase>package</phase>
             <configuration>
               <tasks>
-                <property name="currentVersion" value="${project.version}" />
+                <property name="currentVersion" value="${project.version}"/>
                 <property name="test_classpath" refid="maven.test.classpath"/>
                 <property name="basedir" value="${basedir}"/>
                 <ant antfile="${basedir}/osgi-build.xml"/>
