@@ -26,13 +26,14 @@ package org.slf4j.helpers;
 
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Ceki Gulcu
- * 
  */
-public class MessageFormatterTest extends TestCase {
+public class MessageFormatterTest {
 
   Integer i1 = new Integer(1);
   Integer i2 = new Integer(2);
@@ -43,11 +44,13 @@ public class MessageFormatterTest extends TestCase {
 
   String result;
 
+  @Test
   public void testNull() {
     result = MessageFormatter.format(null, i1).getMessage();
     assertEquals(null, result);
   }
 
+  @Test
   public void nullParametersShouldBeHandledWithoutBarfing() {
     result = MessageFormatter.format("Value is {}.", null).getMessage();
     assertEquals("Value is null.", result);
@@ -77,6 +80,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Val1 is null, val2 is null, val3 is 3", result);
   }
 
+  @Test
   public void verifyOneParameterIsHandledCorrectly() {
     result = MessageFormatter.format("Value is {}.", i3).getMessage();
     assertEquals("Value is 3.", result);
@@ -115,6 +119,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("File name is C:\\App folder.zip.", result);
   }
 
+  @Test
   public void testTwoParameters() {
     result = MessageFormatter.format("Value {} is smaller than {}.", i1, i2)
         .getMessage();
@@ -151,6 +156,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Value {} is smaller than 1", result);
   }
 
+  @Test
   public void testExceptionIn_toString() {
     Object o = new Object() {
       public String toString() {
@@ -162,6 +168,7 @@ public class MessageFormatterTest extends TestCase {
 
   }
 
+  @Test
   public void testNullArray() {
     String msg0 = "msg0";
     String msg1 = "msg1 {}";
@@ -184,6 +191,7 @@ public class MessageFormatterTest extends TestCase {
   }
 
   // tests the case when the parameters are supplied in a single array
+  @Test
   public void testArrayFormat() {
     result = MessageFormatter.arrayFormat(
         "Value {} is smaller than {} and {}.", ia0).getMessage();
@@ -212,6 +220,7 @@ public class MessageFormatterTest extends TestCase {
     assertEquals("Val1=1, Val2={", result);
   }
 
+  @Test
   public void testArrayValues() {
     Integer p0 = i1;
     Integer[] p1 = new Integer[] { i2, i3 };
@@ -246,6 +255,7 @@ public class MessageFormatterTest extends TestCase {
 
   }
 
+  @Test
   public void testMultiDimensionalArrayValues() {
     Integer[][] multiIntegerA = new Integer[][] { ia0, ia1 };
     result = MessageFormatter.arrayFormat("{}{}",
@@ -274,6 +284,7 @@ public class MessageFormatterTest extends TestCase {
         result);
   }
 
+  @Test
   public void testCyclicArrays() {
     {
       Object[] cyclicA = new Object[1];
@@ -292,6 +303,7 @@ public class MessageFormatterTest extends TestCase {
     }
   }
 
+  @Test
   public void testArrayThrowable() {
     FormattingTuple ft;
     Throwable t = new Throwable();
