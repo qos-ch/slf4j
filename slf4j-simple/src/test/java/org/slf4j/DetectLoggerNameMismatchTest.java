@@ -33,20 +33,20 @@ import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.shape.Square;
 
 /**
- * Tests that the automatically named logger field trial works and
- * doesn't cause problems or trigger if disabled.
+ * Tests that detecting logger name mismatches works and doesn't cause problems
+ * or trigger if disabled.
  * <p>
  * This test can't live inside slf4j-api because the NOP Logger doesn't
  * remember its name.
  *
- * @author Alexandre Dorokhine
+ * @author Alexander Dorokhine
+ * @author Ceki G&uuml;lc&uuml;
  */
-public class AutoNamedLoggerFieldTrialTest {
+public class DetectLoggerNameMismatchTest {
 
-  private static final String MISMATCH_STRING = "Auto-named logger field trial: mismatch detected";
+  private static final String MISMATCH_STRING = "Detected logger name mismatch";
 
   private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
   private final PrintStream oldErr = System.err;
@@ -63,7 +63,7 @@ public class AutoNamedLoggerFieldTrialTest {
   }
 
   /*
-   * Pass in the wrong class to the Logger with the field trial disabled, and
+   * Pass in the wrong class to the Logger with the check disabled, and
    * make sure there are no errors.
    */
   @Test
@@ -75,7 +75,7 @@ public class AutoNamedLoggerFieldTrialTest {
   }
 
   /*
-   * Pass in the wrong class to the Logger with the field trial enabled, and
+   * Pass in the wrong class to the Logger with the check enabled, and
    * make sure there ARE errors.
    */
   @Test
@@ -92,24 +92,22 @@ public class AutoNamedLoggerFieldTrialTest {
   public void testTriggerWholeMessage() {
     setTrialEnabled(true);
     LoggerFactory.getLogger(String.class);
-    assertTrue(String.valueOf(byteArrayOutputStream).contains(
-      "Auto-named logger field trial: mismatch detected between given logger " +
-      "name and automatic logger name. Given name: \"java.lang.String\"; " +
-      "automatic name: \"org.slf4j.AutoNamedLoggerFieldTrialTest\". If this " +
-      "is unexpected, please file a bug against slf4j. Set property " +
-      "org.slf4j.LoggerFactory.autoNamedLoggerFieldTrial to \"false\" to " +
-      "disable this check."));
+    assertTrue(
+      "Actual value of byteArrayOutputStream: " + String.valueOf(byteArrayOutputStream),
+      String.valueOf(byteArrayOutputStream).contains(
+        "Detected logger name mismatch. Given name: \"java.lang.String\"; " +
+        "computed name: \"org.slf4j.DetectLoggerNameMismatchTest\". "));
   }
 
   /*
-   * Checks that there are no errors with the trial enabled if the
+   * Checks that there are no errors with the check enabled if the
    * class matches.
    */
   @Test
   public void testPassIfMatch() {
     setTrialEnabled(true);
-    Logger logger = LoggerFactory.getLogger(AutoNamedLoggerFieldTrialTest.class);
-    assertEquals("org.slf4j.AutoNamedLoggerFieldTrialTest", logger.getName());
+    Logger logger = LoggerFactory.getLogger(DetectLoggerNameMismatchTest.class);
+    assertEquals("org.slf4j.DetectLoggerNameMismatchTest", logger.getName());
     assertMismatchDetected(false);
   }
 
@@ -118,18 +116,25 @@ public class AutoNamedLoggerFieldTrialTest {
         String.valueOf(byteArrayOutputStream).contains(MISMATCH_STRING));
   }
 
-    @Test
-    public void verifyLoggerDefinedInBaseWithOverridenGetClassMethod() {
-        setTrialEnabled(true);
-        Square square = new Square();
-        assertEquals("org.slf4j.shape.Square", square.logger.getName());
-        assertMismatchDetected(false);
+  @Test
+  public void verifyLoggerDefinedInBaseWithOverridenGetClassMethod() {
+    setTrialEnabled(true);
+    Square square = new Square();
+    assertEquals("org.slf4j.Square", square.logger.getName());
+    assertMismatchDetected(false);
+  }
 
-    }
   private static void setTrialEnabled(boolean enabled) {
     // The system property is read into a static variable at initialization time
     // so we cannot just reset the system property to test this feature.
     // Therefore we set the variable directly.
-    LoggerFactory.AUTO_NAMED_LOGGER_FIELD_TRIAL = enabled;
+    LoggerFactory.DETECT_LOGGER_NAME_MISMATCH = enabled;
   }
 }
+
+// Used for testing that inheritance is ignored by the checker.
+class ShapeBase {
+  public Logger logger = LoggerFactory.getLogger(getClass());
+}
+
+class Square extends ShapeBase {}
