@@ -70,6 +70,7 @@ public final class LoggerFactory {
   static final String NULL_LF_URL = CODES_PREFIX + "#null_LF";
   static final String VERSION_MISMATCH = CODES_PREFIX + "#version_mismatch";
   static final String SUBSTITUTE_LOGGER_URL = CODES_PREFIX + "#substituteLogger";
+  static final String LOGGER_NAME_MISMATCH_URL = CODES_PREFIX + "#loggerNameMismatch";
 
   static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
   static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also "
@@ -302,7 +303,7 @@ public final class LoggerFactory {
       if (nonMatchingClasses(clazz, autoComputedCallingClass)) {
         Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\". ",
             logger.getName(), autoComputedCallingClass.getName()));
-        Util.report("See http://www.slf4j.org/codes.html#loggerNameMismatch for an explanation");
+        Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
       }
     }
     return logger;
