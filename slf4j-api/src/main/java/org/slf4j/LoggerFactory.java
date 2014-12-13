@@ -73,7 +73,7 @@ public final class LoggerFactory {
 
   static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
   static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also "
-          + UNSUCCESSFUL_INIT_URL;
+      + UNSUCCESSFUL_INIT_URL;
 
   static final int UNINITIALIZED = 0;
   static final int ONGOING_INITIALIZATION = 1;
@@ -86,11 +86,8 @@ public final class LoggerFactory {
   static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
   // Support for the automatically-named logger field trial.
-  static final String AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY =
-      "org.slf4j.LoggerFactory.autoNamedLoggerFieldTrial";
-  static boolean AUTO_NAMED_LOGGER_FIELD_TRIAL =
-      Boolean.getBoolean(AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY);
-
+  static final String AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY = "org.slf4j.LoggerFactory.autoNamedLoggerFieldTrial";
+  static boolean AUTO_NAMED_LOGGER_FIELD_TRIAL = Boolean.getBoolean(AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY);
 
   /**
    * It is LoggerFactory's responsibility to track version changes and manage
@@ -99,7 +96,7 @@ public final class LoggerFactory {
    * <p/>
    * It is assumed that all versions in the 1.6 are mutually compatible.
    */
-  static private final String[] API_COMPATIBILITY_LIST = new String[]{"1.6", "1.7"};
+  static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.6", "1.7" };
 
   // private constructor prevents instantiation
   private LoggerFactory() {
@@ -153,8 +150,7 @@ public final class LoggerFactory {
         INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
         Util.report("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
         Util.report("Defaulting to no-operation (NOP) logger implementation");
-        Util.report("See " + NO_STATICLOGGERBINDER_URL
-                + " for further details.");
+        Util.report("See " + NO_STATICLOGGERBINDER_URL + " for further details.");
       } else {
         failedBinding(ncde);
         throw ncde;
@@ -182,7 +178,7 @@ public final class LoggerFactory {
   private final static void fixSubstitutedLoggers() {
     List<SubstituteLogger> loggers = TEMP_FACTORY.getLoggers();
 
-    if(loggers.isEmpty()){
+    if (loggers.isEmpty()) {
       return;
     }
 
@@ -191,7 +187,7 @@ public final class LoggerFactory {
     Util.report("phase were not honored. However, subsequent logging calls to these");
     Util.report("loggers will work as normally expected.");
     Util.report("See also " + SUBSTITUTE_LOGGER_URL);
-    for(SubstituteLogger subLogger : loggers){
+    for (SubstituteLogger subLogger : loggers) {
       subLogger.setDelegate(getLogger(subLogger.getName()));
       Util.report(subLogger.getName());
     }
@@ -210,9 +206,8 @@ public final class LoggerFactory {
         }
       }
       if (!match) {
-        Util.report("The requested version " + requested
-                + " by your slf4j binding is not compatible with "
-                + Arrays.asList(API_COMPATIBILITY_LIST).toString());
+        Util.report("The requested version " + requested + " by your slf4j binding is not compatible with "
+            + Arrays.asList(API_COMPATIBILITY_LIST).toString());
         Util.report("See " + VERSION_MISMATCH + " for further details.");
       }
     } catch (java.lang.NoSuchFieldError nsfe) {
@@ -231,18 +226,16 @@ public final class LoggerFactory {
   private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
   private static Set<URL> findPossibleStaticLoggerBinderPathSet() {
-    // use Set instead of list in order to deal with  bug #138
+    // use Set instead of list in order to deal with bug #138
     // LinkedHashSet appropriate here because it preserves insertion order during iteration
     Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
     try {
-      ClassLoader loggerFactoryClassLoader = LoggerFactory.class
-              .getClassLoader();
+      ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
       Enumeration<URL> paths;
       if (loggerFactoryClassLoader == null) {
         paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
       } else {
-        paths = loggerFactoryClassLoader
-                .getResources(STATIC_LOGGER_BINDER_PATH);
+        paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
       }
       while (paths.hasMoreElements()) {
         URL path = (URL) paths.nextElement();
@@ -277,10 +270,9 @@ public final class LoggerFactory {
 
   private static void reportActualBinding(Set<URL> staticLoggerBinderPathSet) {
     if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
-      Util.report("Actual binding is of type ["+StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr()+"]");
+      Util.report("Actual binding is of type [" + StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr() + "]");
     }
   }
-
 
   /**
    * Return a logger named according to the name parameter using the statically
@@ -308,12 +300,11 @@ public final class LoggerFactory {
     if (AUTO_NAMED_LOGGER_FIELD_TRIAL) {
       Class<?> autoComputedCallingClass = Util.getCallingClass();
       if (nonMatchingClasses(clazz, autoComputedCallingClass)) {
-        Util.report(String.format(
-            "Auto-named logger field trial: mismatch detected between " +
-            "given logger name and automatic logger name. Given name: \"%s\"; " +
-            "automatic name: \"%s\". If this is unexpected, please file a bug " +
-            "against slf4j. Set property %s to \"false\" to disable this check.",
-            logger.getName(), autoComputedCallingClass.getName(), AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY));
+        Util.report(String.format("Auto-named logger field trial: mismatch detected between "
+            + "given logger name and automatic logger name. Given name: \"%s\"; "
+            + "automatic name: \"%s\". If this is unexpected, please file a bug "
+            + "against slf4j. Set property %s to \"false\" to disable this check.", logger.getName(),
+            autoComputedCallingClass.getName(), AUTO_NAMED_LOGGER_FIELD_TRIAL_PROPERTY));
       }
     }
     return logger;
@@ -322,7 +313,6 @@ public final class LoggerFactory {
   private static boolean nonMatchingClasses(Class<?> clazz, Class<?> autoComputedCallingClass) {
     return !autoComputedCallingClass.isAssignableFrom(clazz);
   }
-
 
   /**
    * Return the {@link ILoggerFactory} instance in use.
