@@ -40,6 +40,7 @@ import java.util.Enumeration;
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
  */
+@SuppressWarnings("rawtypes")
 public class Category {
 
   private static final String CATEGORY_FQCN = Category.class.getName();
@@ -76,6 +77,7 @@ public class Category {
   public String getName() {
     return name;
   }
+
 
   public Enumeration getAllAppenders() {
     return NullEnumeration.getInstance();

@@ -28,6 +28,7 @@ import org.slf4j.spi.LocationAwareLogger;
  *
  * @author Ceki G&uuml;lc&uuml; 
  * */
+@SuppressWarnings("rawtypes")
 public class Logger extends Category {
   
   private static final String LOGGER_FQCN = Logger.class.getName();

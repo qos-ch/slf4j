@@ -34,6 +34,7 @@ import java.util.Vector;
  *
  * @author Ceki G&uuml;lc&uuml;
  */
+@SuppressWarnings("rawtypes")
 public class LogManager {
 
   public static Logger getRootLogger() {

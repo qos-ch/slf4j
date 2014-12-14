@@ -26,6 +26,7 @@ import java.util.NoSuchElementException;
  * @author Anders Kristensen
  * @since version 1.0
  */
+@SuppressWarnings("rawtypes")
 public class NullEnumeration implements Enumeration {
   private static final NullEnumeration instance = new NullEnumeration();
 

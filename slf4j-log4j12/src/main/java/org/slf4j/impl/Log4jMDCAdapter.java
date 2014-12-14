@@ -64,6 +64,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
     org.apache.log4j.MDC.remove(key);
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public Map getCopyOfContextMap() {
     Map old = org.apache.log4j.MDC.getContext();
     if(old != null) {
@@ -73,6 +74,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
     }
   }
 
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public void setContextMap(Map contextMap) {
     Map old = org.apache.log4j.MDC.getContext();
     if(old == null) {

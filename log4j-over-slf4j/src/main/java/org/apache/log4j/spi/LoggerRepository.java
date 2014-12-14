@@ -81,11 +81,13 @@ public interface LoggerRepository {
     public
     abstract void shutdown();
 
+    @SuppressWarnings("rawtypes")
     public Enumeration getCurrentLoggers();
 
     /**
      * Deprecated. Please use {@link #getCurrentLoggers} instead.
      */
+    @SuppressWarnings("rawtypes")
     public Enumeration getCurrentCategories();
 
 

@@ -50,6 +50,7 @@ public class MDC {
    * has been called by other projects. This method is here temporarily  
    * until projects who are depending on this method release fixes. 
    */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   @Deprecated
   public static Hashtable getContext() {
     Map map = org.slf4j.MDC.getCopyOfContextMap();

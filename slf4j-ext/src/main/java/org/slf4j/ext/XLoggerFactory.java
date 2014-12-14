@@ -59,7 +59,7 @@ public class XLoggerFactory {
    * @param clazz
    * @return XLogger instance by name
    */
-  public static XLogger getXLogger(Class clazz) {
+  public static XLogger getXLogger(Class<?> clazz) {
     return getXLogger(clazz.getName());
   }
 }

@@ -38,10 +38,12 @@ public class NDC {
     }
   }
 
+  @SuppressWarnings("rawtypes")
   public static Stack cloneStack() {
     return null;
   }
 
+  @SuppressWarnings("rawtypes")
   public static void inherit(Stack stack) {
   }
 

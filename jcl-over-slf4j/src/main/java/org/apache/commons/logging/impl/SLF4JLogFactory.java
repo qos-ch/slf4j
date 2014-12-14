@@ -49,7 +49,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Richard A. Sitze
  * @author Ceki G&uuml;lc&uuml;
  */
-
+@SuppressWarnings("rawtypes")
 public class SLF4JLogFactory extends LogFactory {
 
   // ----------------------------------------------------------- Constructors
@@ -102,10 +102,11 @@ public class SLF4JLogFactory extends LogFactory {
    * attributes. If there are no such attributes, a zero length array is
    * returned.
    */
+  @SuppressWarnings("unchecked")
   public String[] getAttributeNames() {
 
-    List names = new ArrayList();
-    Enumeration keys = attributes.keys();
+    List<String> names = new ArrayList<String>();
+    Enumeration<String> keys = attributes.keys();
     while (keys.hasMoreElements()) {
       names.add((String) keys.nextElement());
     }
@@ -128,9 +129,7 @@ public class SLF4JLogFactory extends LogFactory {
    *              if a suitable <code>Log</code> instance cannot be returned
    */
   public Log getInstance(Class clazz) throws LogConfigurationException {
-
     return (getInstance(clazz.getName()));
-
   }
 
   /**
@@ -209,6 +208,7 @@ public class SLF4JLogFactory extends LogFactory {
    *          Value of the attribute to set, or <code>null</code> to remove
    *          any setting for this attribute
    */
+  @SuppressWarnings("unchecked")
   public void setAttribute(String name, Object value) {
 
     if (value == null) {

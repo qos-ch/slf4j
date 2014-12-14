@@ -72,10 +72,10 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
   private StaticLoggerBinder() {
     loggerFactory = new Log4jLoggerFactory();
     try {
+      @SuppressWarnings("unused")
       Level level = Level.TRACE;
     } catch (NoSuchFieldError nsfe) {
-      Util
-          .report("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
+      Util.report("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
     }
   }
 

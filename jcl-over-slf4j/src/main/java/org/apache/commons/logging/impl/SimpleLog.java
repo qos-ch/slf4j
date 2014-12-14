@@ -628,12 +628,11 @@ public class SimpleLog implements Log, Serializable {
     if (classLoader == null) {
       try {
         // Are we running on a JDK 1.2 or later system?
-        Method method = Thread.class.getMethod("getContextClassLoader", null);
+        Method method = Thread.class.getMethod("getContextClassLoader");
 
         // Get the thread context class loader (if there is one)
         try {
-          classLoader = (ClassLoader) method.invoke(Thread.currentThread(),
-              null);
+          classLoader = (ClassLoader) method.invoke(Thread.currentThread());
         } catch (IllegalAccessException e) {
           ; // ignore
         } catch (InvocationTargetException e) {
