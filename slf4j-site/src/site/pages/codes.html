@@ -89,23 +89,25 @@
     </p>
 
     <!-- ====================================================== -->
-    <h3 class="doAnchor" name="loggerNameMismatch">Detected logger name mismatch. </h3>
+    <h3 class="doAnchor" name="loggerNameMismatch">Detected logger
+    name mismatch. </h3>
 
-    <p><span class="label">inactive by default</span> Logger name
-    mismatch warnings are printed only if the
-    <code>slf4j.detectLoggerNameMismatch</code> system propery is set
-    to true.
+    <p><span class="label notice">Note</span> Logger name mismatch
+    warnings are printed only if the
+    <code>slf4j.detectLoggerNameMismatch</code> system property is set
+    to true. By default, this property is not set and no warnings will
+    be printed even in case of a logger name mismatch.
     </p>
 
-    <p>The warning will be printed in case the
-    name of the logger specified via a class passed as an argument to
-    the LoggerFactory.getLogger(Class) method differs from the name of
-    the caller as computed internally by SLF4J.
+    <p>The warning will be printed in case the name of the logger
+    specified via a class passed as an argument to the
+    <code>LoggerFactory.getLogger(Class)</code> method differs from
+    the name of the caller as computed internally by SLF4J.
     </p>
 
     <p>For example, the following code snippet</p> 
 
-<pre>package com.acme;
+<pre class="prettyprint source">package com.acme;
 import com.foo.Kangaroo;
 
 class <b>Fruit</b> {
@@ -114,26 +116,31 @@ class <b>Fruit</b> {
 
     <p>will result in the warning</p>
 
-    <pre>SLF4J: Detected logger name mismatch. Given name: "com.foo.Kangaroo"; computed name: "com.acme.Fruit".</pre>
+    <pre class="prettyprint source">SLF4J: Detected logger name mismatch. Given name: "com.foo.Kangaroo"; computed name: "com.acme.Fruit".</pre>
     
     <p>but only if <code>slf4j.detectLoggerNameMismatch</code> system
-    propery is set to true.</p>
+    property is set to true.</p>
     
     <p>No warning will be issued for the special case where the class
     in which the logger is defined is a super-type of the class
     parameter passed as argument. For example,</p>
     
-    <pre>abstract class A { 
-    // no mismatch warning as class A is a super-type of class B
+    <pre class="prettyprint source">class A { 
     Logger logger = LoggerFactory.getLogger(getClass()); 
 }
-class B extends A { }</pre>
+class B extends A { 
+    // no mismatch warning will be issued when B is instantiated 
+    // given that class A is a super-type of class B
+}</pre>
 
-    <p>In case you come across a mismatch warning which cannot be
-    explained, then you might have spotted a white elepahant, or a
+    <p>If you come across a mismatch warning which cannot be
+    explained, then you might have spotted a white elephant, that is a
     very rare occurrence where SLF4J cannot correctly compute the name
-    of the class where a logger is defined. Please do not hesitate to
-    file a <a href="bug-reporting.html">bug report</a>.
+    of the class where a logger is defined. We are very interested to
+    learn about cases where SLF4J fails to correclty compute the name
+    of the class where a logger is defined. If and when you spot such
+    a case, please do file a <a href="bug-reporting.html">bug
+    report</a> with us.
     </p>
 
     <!-- ====================================================== -->
