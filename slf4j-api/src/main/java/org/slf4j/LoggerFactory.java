@@ -87,7 +87,7 @@ public final class LoggerFactory {
   static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
   // Support for detecting mismatched logger names.
-  static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "org.slf4j.LoggerFactory.detectLoggerNameMismatch";
+  static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
   static boolean DETECT_LOGGER_NAME_MISMATCH = Boolean.getBoolean(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
   /**
@@ -301,7 +301,7 @@ public final class LoggerFactory {
     if (DETECT_LOGGER_NAME_MISMATCH) {
       Class<?> autoComputedCallingClass = Util.getCallingClass();
       if (nonMatchingClasses(clazz, autoComputedCallingClass)) {
-        Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\". ",
+        Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".",
             logger.getName(), autoComputedCallingClass.getName()));
         Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
       }

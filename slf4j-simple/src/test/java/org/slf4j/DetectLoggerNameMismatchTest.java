@@ -96,7 +96,7 @@ public class DetectLoggerNameMismatchTest {
       "Actual value of byteArrayOutputStream: " + String.valueOf(byteArrayOutputStream),
       String.valueOf(byteArrayOutputStream).contains(
         "Detected logger name mismatch. Given name: \"java.lang.String\"; " +
-        "computed name: \"org.slf4j.DetectLoggerNameMismatchTest\". "));
+        "computed name: \"org.slf4j.DetectLoggerNameMismatchTest\"."));
   }
 
   /*
