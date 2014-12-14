@@ -42,7 +42,6 @@ public class SubstituteLoggerFactoryTest extends TestCase{
     assertTrue("Loggers with same name must be same",log == log2);
   }
 
-  @SuppressWarnings("unchecked")
   public void testLoggerNameList() {
     factory.getLogger("foo1");
     factory.getLogger("foo2");

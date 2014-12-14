@@ -54,7 +54,7 @@ public class MultiBindingAssertionTest extends TestCase {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     String msg = "hello world " + diff;
     logger.info(msg);
-    List list = sps.stringList;
+    List<String> list = sps.stringList;
     assertMsgContains(list, 0, "Class path contains multiple SLF4J bindings.");
     assertMsgContains(list, 1, "Found binding in");
     assertMsgContains(list, 2, "Found binding in");
@@ -62,7 +62,7 @@ public class MultiBindingAssertionTest extends TestCase {
     assertMsgContains(list, 4, "Actual binding is of type [");
   }
 
-  void assertMsgContains(List strList, int index, String msg) {
+  void assertMsgContains(List<String> strList, int index, String msg) {
     assertTrue(((String) strList.get(index)).contains(msg));
   }
 }

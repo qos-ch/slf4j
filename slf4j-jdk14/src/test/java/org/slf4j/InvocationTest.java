@@ -175,19 +175,11 @@ public class InvocationTest {
     assertEquals(expected, logRecord.getMessage());
   }
 
-  private void assertException(Class exceptionType, int index) {
+  private void assertException(Class<? extends Throwable> exceptionType, int index) {
     LogRecord logRecord = listHandler.recordList.get(index);
     Assert.assertNotNull(logRecord);
     assertEquals(exceptionType, logRecord.getThrown().getClass());
   }
-
-  private void removeAllHandlers(java.util.logging.Logger logger) {
-    Handler[] handlers = logger.getHandlers();
-    for (Handler h : handlers) {
-      logger.removeHandler(h);
-    }
-  }
-
 
   void removeListHandlers(java.util.logging.Logger logger) {
     Handler[] handlers = logger.getHandlers();

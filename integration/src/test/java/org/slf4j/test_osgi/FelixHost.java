@@ -26,7 +26,6 @@ package org.slf4j.test_osgi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.apache.felix.framework.Felix;
@@ -61,7 +60,7 @@ public class FelixHost {
 
   public void doLaunch() {
     // Create a case-insensitive configuration property map.
-    Map configMap = new StringMap(false);
+    StringMap configMap = new StringMap(false);
     // Configure the Felix instance to be embedded.
     // configMap.put(FelixConstants.EMBEDDED_EXECUTION_PROP, "true");
     // Add core OSGi packages to be exported from the class path
@@ -81,7 +80,7 @@ public class FelixHost {
     try {
       // Create host activator;
 
-      List list = new ArrayList();
+      List<Object> list = new ArrayList<Object>();
 
       // list.add(new HostActivator());
       configMap.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA,

@@ -25,7 +25,6 @@
 package org.slf4j;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.Map;
 
 import org.slf4j.helpers.NOPMDCAdapter;

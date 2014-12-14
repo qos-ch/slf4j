@@ -116,7 +116,7 @@ public class BasicMarkerTest extends TestCase {
     }
 
     // check that the child was added once and only once
-    Iterator iterator = parent.iterator();
+    Iterator<Marker> iterator = parent.iterator();
     assertTrue(iterator.hasNext());
     assertEquals(CHILD_MARKER_STR, iterator.next().toString());
     assertFalse(iterator.hasNext());

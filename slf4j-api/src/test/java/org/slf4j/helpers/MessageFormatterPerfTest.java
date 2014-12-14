@@ -98,6 +98,7 @@ public class MessageFormatterPerfTest extends TestCase {
 
 
   public double jdkMessageFormatter(long len) {
+    @SuppressWarnings("unused")
     String s = "";
     s += ""; // keep compiler happy
     long start = System.currentTimeMillis();

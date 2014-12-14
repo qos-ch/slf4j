@@ -27,8 +27,6 @@ package org.slf4j.helpers;
 
 class MyRandom  {
 
-  private static final long serialVersionUID = -907426287094698288L;
-
   private final static long m = 200000000041L;  // a prime number
   private final static long a = 2000000011L; // a prime number
   

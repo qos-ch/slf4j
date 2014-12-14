@@ -30,8 +30,6 @@ import org.junit.Test;
 import org.slf4j.migrator.line.LineConverter;
 import org.slf4j.migrator.line.Log4jRuleSet;
 
-import junit.framework.TestCase;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

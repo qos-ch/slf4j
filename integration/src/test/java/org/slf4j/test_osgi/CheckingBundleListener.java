@@ -33,7 +33,7 @@ import org.osgi.framework.BundleListener;
 
 public class CheckingBundleListener implements BundleListener {
 
-  List eventList = new ArrayList();
+  List<BundleEvent> eventList = new ArrayList<BundleEvent>();
 
   public void bundleChanged(BundleEvent be) {
     eventList.add(be);

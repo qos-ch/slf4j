@@ -69,7 +69,7 @@ public class LocLoggerFactory {
    * @param clazz
    * @return LocLogger instance by class
    */
-  public LocLogger getLocLogger(Class clazz) {
+  public LocLogger getLocLogger(Class<?> clazz) {
     return getLocLogger(clazz.getName());
   }
 }

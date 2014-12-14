@@ -33,6 +33,7 @@ import org.slf4j.spi.MDCAdapter;
 public class Log4jMDCAdapter implements MDCAdapter {
 
   public void clear() {
+    @SuppressWarnings("rawtypes")
     Map map = org.apache.log4j.MDC.getContext();
     if (map != null) {
       map.clear();

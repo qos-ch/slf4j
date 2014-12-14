@@ -58,7 +58,7 @@ public class IncompatibleMultiBindingAssertionTest extends TestCase {
       fail("was expecting NoSuchMethodError");
     } catch (NoSuchMethodError e) {
     }
-    List list = sps.stringList;
+    List<String> list = sps.stringList;
     assertMsgContains(list, 0, "Class path contains multiple SLF4J bindings.");
     assertMsgContains(list, 1, "Found binding in");
     assertMsgContains(list, 2, "Found binding in");
@@ -69,7 +69,7 @@ public class IncompatibleMultiBindingAssertionTest extends TestCase {
 
   }
 
-  void assertMsgContains(List strList, int index, String msg) {
+  void assertMsgContains(List<String> strList, int index, String msg) {
     assertTrue(((String) strList.get(index)).contains(msg));
   }
 }
