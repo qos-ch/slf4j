@@ -92,15 +92,15 @@
     <h3 class="doAnchor" name="loggerNameMismatch">Detected logger
     name mismatch. </h3>
 
-    <p><span class="label notice">Note</span> Logger name mismatch
-    warnings are printed only if the
+    <p>Logger name mismatch warnings are printed only if the
     <code>slf4j.detectLoggerNameMismatch</code> system property is set
     to true. By default, this property is not set and no warnings will
     be printed even in case of a logger name mismatch.
     </p>
 
-    <p>The warning will be printed in case the name of the logger
-    specified via a class passed as an argument to the
+    <p><span class="label">since 1.7.9</span> The warning will
+    be printed in case the name of the logger specified via a class
+    passed as an argument to the
     <code>LoggerFactory.getLogger(Class)</code> method differs from
     the name of the caller as computed internally by SLF4J.
     </p>
