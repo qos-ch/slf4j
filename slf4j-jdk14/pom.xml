@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.9-SNAPSHOT</version>
+    <version>1.7.9</version>
   </parent>
 
   <artifactId>slf4j-jdk14</artifactId>

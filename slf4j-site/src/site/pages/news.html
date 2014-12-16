@@ -29,7 +29,18 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>14th of December, 2014 - Release of SLF4J 1.7.8 </h3>
+   <h3>16th of December, 2014 - Release of SLF4J 1.7.8</h3>
+
+   <p>The introduction of the @Nonnull JSR 305 annotation in SLF4J
+   version 1.7.8 causes the Scala compiler to fail. This is issue has
+   been documented in <a
+   href="https://issues.scala-lang.org/browse/SI-5420">SI-5420</a>. Given
+   that many Scala users will be affected by this issue for the
+   foreseeable future, we have decided to renounce the user of JSR 305
+   annotations in SLF4J for the time being.
+	 </p>
+
+   <h3>14th of December, 2014 - Release of SLF4J 1.7.8</h3>
 
    <p class="highlight"><a href="codes.html#loggerNameMismatch">Spot
    incorrectly named loggers</a> by setting the

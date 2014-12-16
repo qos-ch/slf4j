@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.9-SNAPSHOT</version>
+    <version>1.7.9</version>
   </parent>
 
   <artifactId>slf4j-api</artifactId>
@@ -19,12 +19,6 @@
   <url>http://www.slf4j.org</url>
 
   <dependencies>
-  	<dependency>
-  		<groupId>com.google.code.findbugs</groupId>
-  		<artifactId>jsr305</artifactId>
-  		<version>2.0.1</version>
-  		<optional>true</optional>
-  	</dependency>
   </dependencies> 
 
   <build>

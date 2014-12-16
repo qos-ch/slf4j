@@ -33,8 +33,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -282,8 +280,7 @@ public final class LoggerFactory {
    * @param name The name of the logger.
    * @return logger
    */
-  @Nonnull
-  public static Logger getLogger(@Nonnull String name) {
+  public static Logger getLogger(String name) {
     ILoggerFactory iLoggerFactory = getILoggerFactory();
     return iLoggerFactory.getLogger(name);
   }
@@ -304,8 +301,7 @@ public final class LoggerFactory {
    *
    * @see <a href="http://www.slf4j.org/codes.html#loggerNameMismatch">Detected logger name mismatch</a> 
    */
-  @Nonnull
-  public static Logger getLogger(@Nonnull Class<?> clazz) {
+  public static Logger getLogger(Class<?> clazz) {
     Logger logger = getLogger(clazz.getName());
     if (DETECT_LOGGER_NAME_MISMATCH) {
       Class<?> autoComputedCallingClass = Util.getCallingClass();
@@ -330,7 +326,6 @@ public final class LoggerFactory {
    *
    * @return the ILoggerFactory instance in use
    */
-  @Nonnull
   public static ILoggerFactory getILoggerFactory() {
     if (INITIALIZATION_STATE == UNINITIALIZED) {
       INITIALIZATION_STATE = ONGOING_INITIALIZATION;
