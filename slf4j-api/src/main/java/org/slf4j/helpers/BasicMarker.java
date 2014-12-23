@@ -42,7 +42,7 @@ public class BasicMarker implements Marker {
   private static final long serialVersionUID = 1803952589649545191L;
 
   private final String name;
-  private List<Marker> refereceList;
+  private List<Marker> referenceList;
 
   BasicMarker(String name) {
     if (name == null) {
@@ -70,16 +70,16 @@ public class BasicMarker implements Marker {
       return;
     } else {
       // let's add the reference
-      if (refereceList == null) {
-        refereceList = new Vector<Marker>();
+      if (referenceList == null) {
+        referenceList = new Vector<Marker>();
       }
-      refereceList.add(reference);
+      referenceList.add(reference);
     }
 
   }
 
   public synchronized boolean hasReferences() {
-    return ((refereceList != null) && (refereceList.size() > 0));
+    return ((referenceList != null) && (referenceList.size() > 0));
   }
   
   public boolean hasChildren() {
@@ -87,8 +87,8 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized Iterator<Marker> iterator() {
-    if (refereceList != null) {
-      return refereceList.iterator();
+    if (referenceList != null) {
+      return referenceList.iterator();
     } else {
       List<Marker> emptyList = Collections.emptyList();
       return emptyList.iterator();
@@ -96,15 +96,15 @@ public class BasicMarker implements Marker {
   }
 
   public synchronized boolean remove(Marker referenceToRemove) {
-    if (refereceList == null) {
+    if (referenceList == null) {
       return false;
     }
 
-    int size = refereceList.size();
+    int size = referenceList.size();
     for (int i = 0; i < size; i++) {
-      Marker m = (Marker) refereceList.get(i);
+      Marker m = (Marker) referenceList.get(i);
       if (referenceToRemove.equals(m)) {
-        refereceList.remove(i);
+        referenceList.remove(i);
         return true;
       }
     }
@@ -121,8 +121,8 @@ public class BasicMarker implements Marker {
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
+      for (int i = 0; i < referenceList.size(); i++) {
+        Marker ref = (Marker) referenceList.get(i);
         if (ref.contains(other)) {
           return true;
         }
@@ -144,8 +144,8 @@ public class BasicMarker implements Marker {
     }
 
     if (hasReferences()) {
-      for (int i = 0; i < refereceList.size(); i++) {
-        Marker ref = (Marker) refereceList.get(i);
+      for (int i = 0; i < referenceList.size(); i++) {
+        Marker ref = (Marker) referenceList.get(i);
         if (ref.contains(name)) {
           return true;
         }
