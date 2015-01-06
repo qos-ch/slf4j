@@ -120,8 +120,8 @@ public class InvocationTest extends TestCase {
     MDC.clear();
   }
 
-  public void testMDCCloseable() throws IOException {
-    Closeable closeable = MDC.putCloseable("k", "v");
+  public void testMDCCloseable() {
+    MDC.MDCCloseable closeable = MDC.putCloseable("k", "v");
     assertNull(MDC.get("k"));
     closeable.close();
     assertNull(MDC.get("k"));

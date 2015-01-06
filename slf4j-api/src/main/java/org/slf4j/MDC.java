@@ -70,7 +70,7 @@ public class MDC {
   /**
    * An adapter to remove the key when done.
    */
-  private static class MDCCloseable implements Closeable {
+  public static class MDCCloseable implements Closeable {
     private final String key;
 
     private MDCCloseable(String key) {
@@ -147,7 +147,7 @@ public class MDC {
    * <p>
    * Useful with Java 7 for example :
    * <code>
-   *   try(Closeable closeable = MDC.putCloseable(key, value)) {
+   *   try(MDC.MDCCloseable closeable = MDC.putCloseable(key, value)) {
    *     ....
    *   }
    * </code>
@@ -160,7 +160,7 @@ public class MDC {
    * @throws IllegalArgumentException
    *           in case the "key" parameter is null
    */
-  public static Closeable putCloseable(String key, String val)
+  public static MDCCloseable putCloseable(String key, String val)
     throws IllegalArgumentException {
     put(key, val);
     return new MDCCloseable(key);
