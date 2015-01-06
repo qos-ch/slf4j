@@ -27,7 +27,9 @@ package org.slf4j.helpers;
 import java.text.MessageFormat;
 
 import junit.framework.TestCase;
+import org.junit.Ignore;
 
+@Ignore
 public class MessageFormatterPerfTest extends TestCase {
 
   Integer i1 = new Integer(1);

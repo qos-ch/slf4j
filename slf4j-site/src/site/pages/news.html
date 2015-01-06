@@ -29,6 +29,20 @@
 
    <hr noshade="noshade" size="1"/>
 
+   <h3>6th of January, 2015 - Release of SLF4J 1.7.10</h3>
+
+   <p>The <code>MDC.putCloseable</code> method now explicitly returns
+   <code>MDC.MDCloseable</code> instead of the more generic
+   <code>java.io.Closeable</code>. This in turn allows one to write
+   try-with-resources statement without a catch clause. Many thanks to
+   William Delanoue for proposing this change.</p>
+
+   <p>The various constructors in <code>FileAppender</code> in the
+   log4j-over-slf4j module are now public.
+   </p>
+
+   <hr noshade="noshade" size="1"/>
+
    <h3>16th of December, 2014 - Release of SLF4J 1.7.9</h3>
 
    <p class="highlight"><a href="codes.html#loggerNameMismatch">Spot
