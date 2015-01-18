@@ -94,8 +94,7 @@ public class MDC {
       if (msg != null && msg.indexOf("StaticMDCBinder") != -1) {
         Util.report("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
         Util.report("Defaulting to no-operation MDCAdapter implementation.");
-        Util
-            .report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
+        Util.report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
       } else {
         throw ncde;
       }
