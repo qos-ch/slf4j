@@ -71,6 +71,7 @@ public class InvocationTest {
         Logger logger = LoggerFactory.getLogger("test1");
         logger.debug("Hello world.");
         assertLogMessage("Hello world.", 0);
+        assertParameters(null, 0);
     }
 
     @Test
@@ -83,28 +84,48 @@ public class InvocationTest {
 
         int index = 0;
         logger.debug("Hello world");
-        assertLogMessage("Hello world", index++);
+        assertLogMessage("Hello world", index);
+        assertParameters(null, index++);
 
         logger.debug("Hello world {}", i1);
-        assertLogMessage("Hello world " + i1, index++);
+        assertLogMessage("Hello world " + i1, index);
+        assertParameters(new Object[] { i1 }, index++);
 
         logger.debug("val={} val={}", i1, i2);
-        assertLogMessage("val=1 val=2", index++);
+        assertLogMessage("val=1 val=2", index);
+        assertParameters(new Object[] { i1, i2 }, index++);
 
         logger.debug("val={} val={} val={}", new Object[] { i1, i2, i3 });
-        assertLogMessage("val=1 val=2 val=3", index++);
+        assertLogMessage("val=1 val=2 val=3", index);
+        assertParameters(new Object[] { i1, i2, i3 }, index++);
+
+        logger.debug("val={} val={} val={}", i1, i2, i3, e);
+        assertLogMessage("val=1 val=2 val=3", index);
+        assertException(e.getClass(), index);
+        assertParameters(new Object[] { i1, i2, i3 }, index++);
 
         logger.debug("Hello world 2", e);
         assertLogMessage("Hello world 2", index);
-        assertException(e.getClass(), index++);
+        assertException(e.getClass(), index);
+        assertParameters(null, index++);
+
         logger.info("Hello world 2.");
+        assertParameters(null, index++);
 
         logger.warn("Hello world 3.");
+        assertParameters(null, index++);
+
         logger.warn("Hello world 3", e);
+        assertParameters(null, index++);
 
         logger.error("Hello world 4.");
+        assertParameters(null, index++);
+
         logger.error("Hello world {}", new Integer(3));
+        assertParameters(new Object[] { i3 }, index++);
+
         logger.error("Hello world 4.", e);
+        assertParameters(null, index++);
     }
 
     @Test
@@ -167,6 +188,12 @@ public class InvocationTest {
         LogRecord logRecord = listHandler.recordList.get(index);
         Assert.assertNotNull(logRecord);
         assertEquals(expected, logRecord.getMessage());
+    }
+
+    private void assertParameters(Object[] parameters, int index) {
+        LogRecord logRecord = listHandler.recordList.get(index);
+        Assert.assertNotNull(logRecord);
+        Assert.assertArrayEquals(parameters, logRecord.getParameters());
     }
 
     private void assertException(Class<? extends Throwable> exceptionType, int index) {
