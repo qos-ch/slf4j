@@ -31,6 +31,8 @@ import java.io.PrintStream;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -120,7 +122,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
   private static final long serialVersionUID = -632788891211436180L;
   private static final String CONFIGURATION_FILE = "simplelogger.properties";
 
-  private static long START_TIME = System.currentTimeMillis();
+  private static final long START_TIME = System.currentTimeMillis();
   private static final Properties SIMPLE_LOGGER_PROPS = new Properties();
 
   private static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
@@ -133,8 +135,33 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
   private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
   private static boolean SHOW_DATE_TIME = false;
-  private static String DATE_TIME_FORMAT_STR = null;
-  private static DateFormat DATE_FORMATTER = null;
+  private static volatile String DATE_TIME_FORMAT_STR = null;
+  private static final ThreadLocal<DateFormat> DATE_FORMATTER = new ThreadLocal<DateFormat>() {
+    @Override
+    protected DateFormat initialValue() {
+      try {
+        return DATE_TIME_FORMAT_STR != null ? new SimpleDateFormat(DATE_TIME_FORMAT_STR) :
+            getRelativeDateFormat();
+      } catch (IllegalArgumentException e) {
+        return getRelativeDateFormat();
+      }
+    }
+
+    private DateFormat getRelativeDateFormat() {
+      return new DateFormat() {
+        @Override
+        public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
+          return toAppendTo.append(date.getTime() - START_TIME);
+        }
+
+        @Override
+        public Date parse(String source, ParsePosition pos) {
+          return null;
+        }
+      };
+    }
+  };
+
   private static boolean SHOW_THREAD_NAME = true;
   private static boolean SHOW_LOG_NAME = true;
   private static boolean SHOW_SHORT_LOG_NAME = false;
@@ -206,7 +233,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     if (DATE_TIME_FORMAT_STR != null) {
       try {
-        DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
+        // Ensure the right date format
+        new SimpleDateFormat(DATE_TIME_FORMAT_STR);
       } catch (IllegalArgumentException e) {
         Util.report("Bad date format in " + CONFIGURATION_FILE + "; will output relative time", e);
       }
@@ -323,13 +351,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     // Append date-time if so configured
     if (SHOW_DATE_TIME) {
-      if (DATE_FORMATTER != null) {
         buf.append(getFormattedDate());
         buf.append(' ');
-      } else {
-        buf.append(System.currentTimeMillis() - START_TIME);
-        buf.append(' ');
-      }
     }
 
     // Append current thread name if so configured
@@ -374,7 +397,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     buf.append(message);
 
     write(buf, t);
-
   }
 
   void write(StringBuilder buf, Throwable t) {
@@ -386,12 +408,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
   }
 
   private String getFormattedDate() {
-    Date now = new Date();
-    String dateText;
-    synchronized (DATE_FORMATTER) {
-      dateText = DATE_FORMATTER.format(now);
-    }
-    return dateText;
+    final Date now = new Date();
+
+    return DATE_FORMATTER.get().format(now);
   }
 
   private String computeShortName() {
