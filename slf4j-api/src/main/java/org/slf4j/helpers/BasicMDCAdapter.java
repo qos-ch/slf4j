@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2011 QOS.ch, Copyright (C) 2015 Google Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -44,7 +44,15 @@ import java.util.Map;
 public class BasicMDCAdapter implements MDCAdapter {
 
   private InheritableThreadLocal<Map<String, String>> inheritableThreadLocal 
-    = new InheritableThreadLocal<Map<String, String>>();
+    = new InheritableThreadLocal<Map<String, String>>() {
+    @Override
+    protected Map<String,String> childValue(Map<String,String> parentValue) {
+      if (parentValue == null) {
+        return null;
+      }
+      return new HashMap<String, String>(parentValue);
+    }
+  };
 
   static boolean isJDK14() {
     try {
@@ -71,13 +79,14 @@ public class BasicMDCAdapter implements MDCAdapter {
    * @throws IllegalArgumentException
    *                 in case the "key" parameter is null
    */
+  @Override
   public void put(String key, String val) {
     if (key == null) {
       throw new IllegalArgumentException("key cannot be null");
     }
-    Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+    Map<String, String> map = inheritableThreadLocal.get();
     if (map == null) {
-      map = Collections.<String, String>synchronizedMap(new HashMap<String, String>());
+      map = new HashMap<String, String>();
       inheritableThreadLocal.set(map);
     }
     map.put(key, val);
@@ -86,10 +95,11 @@ public class BasicMDCAdapter implements MDCAdapter {
   /**
    * Get the context identified by the <code>key</code> parameter.
    */
+  @Override
   public String get(String key) {
-    Map<String, String> Map = (Map<String, String>) inheritableThreadLocal.get();
+    Map<String, String> Map = inheritableThreadLocal.get();
     if ((Map != null) && (key != null)) {
-      return (String) Map.get(key);
+      return Map.get(key);
     } else {
       return null;
     }
@@ -98,8 +108,9 @@ public class BasicMDCAdapter implements MDCAdapter {
   /**
    * Remove the the context identified by the <code>key</code> parameter.
    */
+  @Override
   public void remove(String key) {
-    Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+    Map<String, String> map = inheritableThreadLocal.get();
     if (map != null) {
       map.remove(key);
     }
@@ -108,8 +119,9 @@ public class BasicMDCAdapter implements MDCAdapter {
   /**
    * Clear all entries in the MDC.
    */
+  @Override
   public void clear() {
-    Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+    Map<String, String> map = inheritableThreadLocal.get();
     if (map != null) {
       map.clear();
       // the InheritableThreadLocal.remove method was introduced in JDK 1.5
@@ -129,34 +141,32 @@ public class BasicMDCAdapter implements MDCAdapter {
    * @return the keys in the MDC
    */
   public Set<String> getKeys() {
-    Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+    Map<String, String> map = inheritableThreadLocal.get();
     if (map != null) {
       return map.keySet();
     } else {
       return null;
     }
   }
+
   /**
    * Return a copy of the current thread's context map. 
    * Returned value may be null.
    * 
    */
+  @Override
   public Map<String, String> getCopyOfContextMap() {
-    Map<String, String> oldMap = (Map<String, String>) inheritableThreadLocal.get();
+    Map<String, String> oldMap = inheritableThreadLocal.get();
     if (oldMap != null) {
-       Map<String, String> newMap = Collections.<String, String>synchronizedMap(new HashMap<String, String>());
-       synchronized (oldMap) {
-         newMap.putAll(oldMap);
-       }
-       return  newMap;
+      return new HashMap<String, String>(oldMap);
     } else {
       return null;
     }
   }
 
+  @Override
   public void setContextMap(Map<String, String> contextMap) {
-    Map<String, String> map = Collections.<String, String>synchronizedMap(new HashMap<String, String>(contextMap));
-    inheritableThreadLocal.set(map);
+    inheritableThreadLocal.set(new HashMap<String, String>(contextMap));
   }
 
 }
