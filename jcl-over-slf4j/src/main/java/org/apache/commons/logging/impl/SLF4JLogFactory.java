@@ -56,7 +56,7 @@ public class SLF4JLogFactory extends LogFactory {
 
   /**
    * The {@link org.apache.commons.logging.Log}instances that have already been
-   * created, keyed by logger name.
+   * created, keyed by Logger instance.
    */
   ConcurrentMap<Logger, Log> loggerMap;
 
