@@ -155,32 +155,32 @@ public class SLF4JLogFactory extends LogFactory {
    * @exception LogConfigurationException
    *              if a suitable <code>Log</code> instance cannot be returned
    */
-	public Log getInstance(String name) throws LogConfigurationException {
-		Logger slf4jLogger = LoggerFactory.getLogger(name);
-		Log instance = loggerMap.get(slf4jLogger);
-		if (instance != null) {
-			return instance;
-		} else {
-			loggerMapLock.lock();
-			try {
-				instance = loggerMap.get(slf4jLogger);
-				if (instance != null) {
-					return instance;
-				} else {
-					Log newInstance;
-					if (slf4jLogger instanceof LocationAwareLogger) {
-						newInstance = new SLF4JLocationAwareLog((LocationAwareLogger) slf4jLogger);
-					} else {
-						newInstance = new SLF4JLog(slf4jLogger);
-					}
-					loggerMap.put(slf4jLogger, newInstance);
-					return newInstance;
-				}
-			} finally {
-				loggerMapLock.unlock();
-			}
-		}
-	}
+  public Log getInstance(String name) throws LogConfigurationException {
+    Logger slf4jLogger = LoggerFactory.getLogger(name);
+    Log instance = loggerMap.get(slf4jLogger);
+    if (instance != null) {
+      return instance;
+    } else {
+      loggerMapLock.lock();
+      try {
+        instance = loggerMap.get(slf4jLogger);
+        if (instance != null) {
+          return instance;
+        } else {
+          Log newInstance;
+          if (slf4jLogger instanceof LocationAwareLogger) {
+            newInstance = new SLF4JLocationAwareLog((LocationAwareLogger) slf4jLogger);
+          } else {
+            newInstance = new SLF4JLog(slf4jLogger);
+          }
+          loggerMap.put(slf4jLogger, newInstance);
+          return newInstance;
+        }
+      } finally {
+        loggerMapLock.unlock();
+      }
+    }
+  }
 
   /**
    * Release any internal references to previously created
