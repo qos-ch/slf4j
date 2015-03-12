@@ -28,4 +28,6 @@ public class AppenderSkeleton implements OptionHandler {
   public void activateOptions() {
   }
 
+  public void setThreshold(Priority threshold) {
+  }
 }
