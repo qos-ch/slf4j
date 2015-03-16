@@ -62,4 +62,14 @@ public class XLoggerFactory {
   public static XLogger getXLogger(Class<?> clazz) {
     return getXLogger(clazz.getName());
   }
+
+  /**
+   * Get a new XLogger instance by calling class. The returned XLogger
+   * will be named after the class.
+   * 
+   * @return XLogger instance by name
+   */
+  public static XLogger getXLogger() {
+    return getXLogger(Thread.currentThread().getStackTrace()[2].getClassName());
+  }
 }
