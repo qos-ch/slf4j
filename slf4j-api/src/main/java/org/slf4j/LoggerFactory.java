@@ -319,6 +319,18 @@ public final class LoggerFactory {
   }
 
   /**
+   * Return a logger named corresponding to the fully qualified name of the
+   * calling class, using the statically bound {@link ILoggerFactory} instance.
+   * <p>
+   * The name of the calling class is determined automatically using reflection.
+   *
+   * @return logger
+   */
+  public static Logger getLogger() {
+    return getLogger(Util.getCallingClass());
+  }
+
+  /**
    * Return the {@link ILoggerFactory} instance in use.
    * <p/>
    * <p/>
