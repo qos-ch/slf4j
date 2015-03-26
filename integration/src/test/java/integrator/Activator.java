@@ -37,24 +37,24 @@ import org.slf4j.LoggerFactory;
  */
 public class Activator implements BundleActivator {
 
-  private BundleContext m_context = null;
+    private BundleContext m_context = null;
 
-  public void start(BundleContext context) {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-    logger.info("Activator.start()");
-    m_context = context;
-  }
-
-  public void stop(BundleContext context) {
-    m_context = null;
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-    logger.info("Activator.stop");
-  }
-
-  public Bundle[] getBundles() {
-    if (m_context != null) {
-      return m_context.getBundles();
+    public void start(BundleContext context) {
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("Activator.start()");
+        m_context = context;
     }
-    return null;
-  }
+
+    public void stop(BundleContext context) {
+        m_context = null;
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("Activator.stop");
+    }
+
+    public Bundle[] getBundles() {
+        if (m_context != null) {
+            return m_context.getBundles();
+        }
+        return null;
+    }
 }

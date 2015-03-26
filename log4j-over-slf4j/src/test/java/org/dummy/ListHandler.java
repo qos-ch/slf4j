@@ -31,19 +31,19 @@ import java.util.logging.LogRecord;
 
 public class ListHandler extends Handler {
 
-  List<LogRecord> list = new ArrayList<LogRecord>();
-  
-  public void close() throws SecurityException {
+    List<LogRecord> list = new ArrayList<LogRecord>();
 
-  }
+    public void close() throws SecurityException {
 
-  public void flush() {
+    }
 
-  }
+    public void flush() {
 
-  public void publish(LogRecord logRecord) {
-    logRecord.getSourceClassName();
-    list.add(logRecord);
-  }
+    }
+
+    public void publish(LogRecord logRecord) {
+        logRecord.getSourceClassName();
+        list.add(logRecord);
+    }
 
 }

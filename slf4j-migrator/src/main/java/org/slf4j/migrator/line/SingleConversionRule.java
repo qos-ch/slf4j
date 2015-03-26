@@ -27,7 +27,6 @@ package org.slf4j.migrator.line;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * This class represents a conversion rule It uses a Pattern and defines for
  * each capturing group of this Pattern a replacement text
@@ -37,38 +36,40 @@ import java.util.regex.Pattern;
  */
 public class SingleConversionRule implements ConversionRule {
 
-  final  private Pattern pattern;
-  final private String replacementText ;
-  final private String additionalLine;
-  
-  public SingleConversionRule(Pattern pattern, String replacementText) {
-    this(pattern, replacementText, null);
-  }
+    final private Pattern pattern;
+    final private String replacementText;
+    final private String additionalLine;
 
-  public SingleConversionRule(Pattern pattern, String replacementText, String additionalLine) {
-    this.pattern = pattern;
-    this.replacementText = replacementText;
-    this.additionalLine = additionalLine;
-  }
-  
-  /* (non-Javadoc)
-   * @see org.slf4j.converter.ConversionRule#getPattern()
-   */
-  public Pattern getPattern() {
-    return pattern;
-  }
+    public SingleConversionRule(Pattern pattern, String replacementText) {
+        this(pattern, replacementText, null);
+    }
 
+    public SingleConversionRule(Pattern pattern, String replacementText, String additionalLine) {
+        this.pattern = pattern;
+        this.replacementText = replacementText;
+        this.additionalLine = additionalLine;
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.slf4j.converter.ConversionRule#getPattern()
+     */
+    public Pattern getPattern() {
+        return pattern;
+    }
 
-  /* (non-Javadoc)
-   * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
-   */
-  public String replace(Matcher matcher) {
-    return replacementText;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
+     */
+    public String replace(Matcher matcher) {
+        return replacementText;
+    }
 
-  public String getAdditionalLine() {
-    return additionalLine;
-  }
+    public String getAdditionalLine() {
+        return additionalLine;
+    }
 
 }

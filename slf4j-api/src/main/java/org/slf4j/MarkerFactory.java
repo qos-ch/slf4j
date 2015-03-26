@@ -42,55 +42,55 @@ import org.slf4j.impl.StaticMarkerBinder;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MarkerFactory {
-  static IMarkerFactory markerFactory;
+    static IMarkerFactory markerFactory;
 
-  private MarkerFactory() {
-  }
-
-  static {
-    try {
-      markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
-    } catch (NoClassDefFoundError e) {
-      markerFactory = new BasicMarkerFactory();
-      
-    } catch (Exception e) {
-      // we should never get here
-      Util.report("Unexpected failure while binding MarkerFactory", e);
+    private MarkerFactory() {
     }
-  }
 
-  /**
-   * Return a Marker instance as specified by the name parameter using the
-   * previously bound {@link IMarkerFactory}instance.
-   * 
-   * @param name
-   *          The name of the {@link Marker} object to return.
-   * @return marker
-   */
-  public static Marker getMarker(String name) {
-    return markerFactory.getMarker(name);
-  }
+    static {
+        try {
+            markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
+        } catch (NoClassDefFoundError e) {
+            markerFactory = new BasicMarkerFactory();
 
-  /**
-   * Create a marker which is detached (even at birth) from the MarkerFactory.
-   *
-   * @param name the name of the marker
-   * @return a dangling marker
-   * @since 1.5.1
-   */
-  public static Marker getDetachedMarker(String name) {
-    return markerFactory.getDetachedMarker(name);
-  }
-  
-  /**
-   * Return the {@link IMarkerFactory}instance in use.
-   * 
-   * <p>The IMarkerFactory instance is usually bound with this class at 
-   * compile time.
-   * 
-   * @return the IMarkerFactory instance in use
-   */
-  public static IMarkerFactory getIMarkerFactory() {
-    return markerFactory;
-  }
+        } catch (Exception e) {
+            // we should never get here
+            Util.report("Unexpected failure while binding MarkerFactory", e);
+        }
+    }
+
+    /**
+     * Return a Marker instance as specified by the name parameter using the
+     * previously bound {@link IMarkerFactory}instance.
+     * 
+     * @param name
+     *          The name of the {@link Marker} object to return.
+     * @return marker
+     */
+    public static Marker getMarker(String name) {
+        return markerFactory.getMarker(name);
+    }
+
+    /**
+     * Create a marker which is detached (even at birth) from the MarkerFactory.
+     *
+     * @param name the name of the marker
+     * @return a dangling marker
+     * @since 1.5.1
+     */
+    public static Marker getDetachedMarker(String name) {
+        return markerFactory.getDetachedMarker(name);
+    }
+
+    /**
+     * Return the {@link IMarkerFactory}instance in use.
+     * 
+     * <p>The IMarkerFactory instance is usually bound with this class at 
+     * compile time.
+     * 
+     * @return the IMarkerFactory instance in use
+     */
+    public static IMarkerFactory getIMarkerFactory() {
+        return markerFactory;
+    }
 }

@@ -54,271 +54,260 @@ import org.slf4j.helpers.MessageFormatter;
  */
 public class LogTransformer implements ClassFileTransformer {
 
-  /**
-   * Builder provides a flexible way of configuring some of many options on the
-   * parent class instead of providing many constructors.
-   * 
-   * {@link http
-   * ://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
-   * 
-   */
-  public static class Builder {
-
     /**
-     * Build and return the LogTransformer corresponding to the options set in
-     * this Builder.
+     * Builder provides a flexible way of configuring some of many options on the
+     * parent class instead of providing many constructors.
      * 
-     * @return
+     * {@link http
+     * ://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
+     * 
      */
-    public LogTransformer build() {
-      if (verbose) {
-        System.err.println("Creating LogTransformer");
-      }
-      return new LogTransformer(this);
+    public static class Builder {
+
+        /**
+         * Build and return the LogTransformer corresponding to the options set in
+         * this Builder.
+         * 
+         * @return
+         */
+        public LogTransformer build() {
+            if (verbose) {
+                System.err.println("Creating LogTransformer");
+            }
+            return new LogTransformer(this);
+        }
+
+        boolean addEntryExit;
+
+        /**
+         * Should each method log entry (with parameters) and exit (with parameters
+         * and returnvalue)?
+         * 
+         * @param b
+         *          value of flag
+         * @return
+         */
+        public Builder addEntryExit(boolean b) {
+            addEntryExit = b;
+            return this;
+        }
+
+        boolean addVariableAssignment;
+
+        // private Builder addVariableAssignment(boolean b) {
+        // System.err.println("cannot currently log variable assignments.");
+        // addVariableAssignment = b;
+        // return this;
+        // }
+
+        boolean verbose;
+
+        /**
+         * Should LogTransformer be verbose in what it does? This currently list the
+         * names of the classes being processed.
+         * 
+         * @param b
+         * @return
+         */
+        public Builder verbose(boolean b) {
+            verbose = b;
+            return this;
+        }
+
+        String[] ignore = { "org/slf4j/", "ch/qos/logback/", "org/apache/log4j/" };
+
+        public Builder ignore(String[] strings) {
+            this.ignore = strings;
+            return this;
+        }
+
+        private String level = "info";
+
+        public Builder level(String level) {
+            level = level.toLowerCase();
+            if (level.equals("info") || level.equals("debug") || level.equals("trace")) {
+                this.level = level;
+            } else {
+                if (verbose) {
+                    System.err.println("level not info/debug/trace : " + level);
+                }
+            }
+            return this;
+        }
     }
 
-    boolean addEntryExit;
+    private String level;
+    private String levelEnabled;
+
+    private LogTransformer(Builder builder) {
+        String s = "WARNING: javassist not available on classpath for javaagent, log statements will not be added";
+        try {
+            if (Class.forName("javassist.ClassPool") == null) {
+                System.err.println(s);
+            }
+        } catch (ClassNotFoundException e) {
+            System.err.println(s);
+        }
+
+        this.addEntryExit = builder.addEntryExit;
+        // this.addVariableAssignment = builder.addVariableAssignment;
+        this.verbose = builder.verbose;
+        this.ignore = builder.ignore;
+        this.level = builder.level;
+        this.levelEnabled = "is" + builder.level.substring(0, 1).toUpperCase() + builder.level.substring(1) + "Enabled";
+    }
+
+    private boolean addEntryExit;
+    // private boolean addVariableAssignment;
+    private boolean verbose;
+    private String[] ignore;
+
+    public byte[] transform(ClassLoader loader, String className, Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
+
+        try {
+            return transform0(className, clazz, domain, bytes);
+        } catch (Exception e) {
+            System.err.println("Could not instrument " + className);
+            e.printStackTrace();
+            return bytes;
+        }
+    }
 
     /**
-     * Should each method log entry (with parameters) and exit (with parameters
-     * and returnvalue)?
+     * transform0 sees if the className starts with any of the namespaces to
+     * ignore, if so it is returned unchanged. Otherwise it is processed by
+     * doClass(...)
      * 
+     * @param className
+     * @param clazz
+     * @param domain
+     * @param bytes
+     * @return
+     */
+
+    private byte[] transform0(String className, Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
+
+        try {
+            for (int i = 0; i < ignore.length; i++) {
+                if (className.startsWith(ignore[i])) {
+                    return bytes;
+                }
+            }
+            String slf4jName = "org.slf4j.LoggerFactory";
+            try {
+                if (domain != null && domain.getClassLoader() != null) {
+                    domain.getClassLoader().loadClass(slf4jName);
+                } else {
+                    if (verbose) {
+                        System.err.println("Skipping " + className + " as it doesn't have a domain or a class loader.");
+                    }
+                    return bytes;
+                }
+            } catch (ClassNotFoundException e) {
+                if (verbose) {
+                    System.err.println("Skipping " + className + " as slf4j is not available to it");
+                }
+                return bytes;
+            }
+            if (verbose) {
+                System.err.println("Processing " + className);
+            }
+            return doClass(className, clazz, bytes);
+        } catch (Throwable e) {
+            System.out.println("e = " + e);
+            return bytes;
+        }
+    }
+
+    private String loggerName;
+
+    /**
+     * doClass() process a single class by first creates a class description from
+     * the byte codes. If it is a class (i.e. not an interface) the methods
+     * defined have bodies, and a static final logger object is added with the
+     * name of this class as an argument, and each method then gets processed with
+     * doMethod(...) to have logger calls added.
+     * 
+     * @param name
+     *          class name (slashes separate, not dots)
+     * @param clazz
      * @param b
-     *          value of flag
      * @return
      */
-    public Builder addEntryExit(boolean b) {
-      addEntryExit = b;
-      return this;
+    private byte[] doClass(String name, Class<?> clazz, byte[] b) {
+        ClassPool pool = ClassPool.getDefault();
+        CtClass cl = null;
+        try {
+            cl = pool.makeClass(new ByteArrayInputStream(b));
+            if (cl.isInterface() == false) {
+
+                loggerName = "_____log";
+
+                // We have to declare the log variable.
+
+                String pattern1 = "private static org.slf4j.Logger {};";
+                String loggerDefinition = format(pattern1, loggerName).getMessage();
+                CtField field = CtField.make(loggerDefinition, cl);
+
+                // and assign it the appropriate value.
+
+                String pattern2 = "org.slf4j.LoggerFactory.getLogger({}.class);";
+                String replace = name.replace('/', '.');
+                String getLogger = format(pattern2, replace).getMessage();
+
+                cl.addField(field, getLogger);
+
+                // then check every behaviour (which includes methods). We are
+                // only
+                // interested in non-empty ones, as they have code.
+                // NOTE: This will be changed, as empty methods should be
+                // instrumented too.
+
+                CtBehavior[] methods = cl.getDeclaredBehaviors();
+                for (int i = 0; i < methods.length; i++) {
+                    if (methods[i].isEmpty() == false) {
+                        doMethod(methods[i]);
+                    }
+                }
+                b = cl.toBytecode();
+            }
+        } catch (Exception e) {
+            System.err.println("Could not instrument " + name + ", " + e);
+            e.printStackTrace(System.err);
+        } finally {
+            if (cl != null) {
+                cl.detach();
+            }
+        }
+        return b;
     }
-
-    boolean addVariableAssignment;
-
-    // private Builder addVariableAssignment(boolean b) {
-    // System.err.println("cannot currently log variable assignments.");
-    // addVariableAssignment = b;
-    // return this;
-    // }
-
-    boolean verbose;
 
     /**
-     * Should LogTransformer be verbose in what it does? This currently list the
-     * names of the classes being processed.
+     * process a single method - this means add entry/exit logging if requested.
+     * It is only called for methods with a body.
      * 
-     * @param b
-     * @return
+     * @param method
+     *          method to work on
+     * @throws NotFoundException
+     * @throws CannotCompileException
      */
-    public Builder verbose(boolean b) {
-      verbose = b;
-      return this;
-    }
+    private void doMethod(CtBehavior method) throws NotFoundException, CannotCompileException {
 
-    String[] ignore = { "org/slf4j/", "ch/qos/logback/", "org/apache/log4j/" };
+        String signature = JavassistHelper.getSignature(method);
+        String returnValue = JavassistHelper.returnValue(method);
 
-    public Builder ignore(String[] strings) {
-      this.ignore = strings;
-      return this;
-    }
+        if (addEntryExit) {
+            String messagePattern = "if ({}.{}()) {}.{}(\">> {}\");";
+            Object[] arg1 = new Object[] { loggerName, levelEnabled, loggerName, level, signature };
+            String before = MessageFormatter.arrayFormat(messagePattern, arg1).getMessage();
+            // System.out.println(before);
+            method.insertBefore(before);
 
-    private String level = "info";
-
-    public Builder level(String level) {
-      level = level.toLowerCase();
-      if (level.equals("info") || level.equals("debug")
-          || level.equals("trace")) {
-        this.level = level;
-      } else {
-        if (verbose) {
-          System.err.println("level not info/debug/trace : " + level);
+            String messagePattern2 = "if ({}.{}()) {}.{}(\"<< {}{}\");";
+            Object[] arg2 = new Object[] { loggerName, levelEnabled, loggerName, level, signature, returnValue };
+            String after = MessageFormatter.arrayFormat(messagePattern2, arg2).getMessage();
+            // System.out.println(after);
+            method.insertAfter(after);
         }
-      }
-      return this;
     }
-  }
-
-  private String level;
-  private String levelEnabled;
-
-  private LogTransformer(Builder builder) {
-    String s = "WARNING: javassist not available on classpath for javaagent, log statements will not be added";
-    try {
-      if (Class.forName("javassist.ClassPool") == null) {
-        System.err.println(s);
-      }
-    } catch (ClassNotFoundException e) {
-      System.err.println(s);
-    }
-
-    this.addEntryExit = builder.addEntryExit;
-    // this.addVariableAssignment = builder.addVariableAssignment;
-    this.verbose = builder.verbose;
-    this.ignore = builder.ignore;
-    this.level = builder.level;
-    this.levelEnabled = "is" + builder.level.substring(0, 1).toUpperCase()
-        + builder.level.substring(1) + "Enabled";
-  }
-
-  private boolean addEntryExit;
-  // private boolean addVariableAssignment;
-  private boolean verbose;
-  private String[] ignore;
-
-  public byte[] transform(ClassLoader loader, String className, Class<?> clazz,
-      ProtectionDomain domain, byte[] bytes) {
-
-    try {
-      return transform0(className, clazz, domain, bytes);
-    } catch (Exception e) {
-      System.err.println("Could not instrument " + className);
-      e.printStackTrace();
-      return bytes;
-    }
-  }
-
-  /**
-   * transform0 sees if the className starts with any of the namespaces to
-   * ignore, if so it is returned unchanged. Otherwise it is processed by
-   * doClass(...)
-   * 
-   * @param className
-   * @param clazz
-   * @param domain
-   * @param bytes
-   * @return
-   */
-
-  private byte[] transform0(String className, Class<?> clazz,
-      ProtectionDomain domain, byte[] bytes) {
-
-    try {
-      for (int i = 0; i < ignore.length; i++) {
-        if (className.startsWith(ignore[i])) {
-          return bytes;
-        }
-      }
-      String slf4jName = "org.slf4j.LoggerFactory";
-      try {
-        if (domain != null && domain.getClassLoader() != null) {
-          domain.getClassLoader().loadClass(slf4jName);
-        } else {
-          if (verbose) {
-            System.err.println("Skipping " + className
-                + " as it doesn't have a domain or a class loader.");
-          }
-          return bytes;
-        }
-      } catch (ClassNotFoundException e) {
-        if (verbose) {
-          System.err.println("Skipping " + className
-              + " as slf4j is not available to it");
-        }
-        return bytes;
-      }
-      if (verbose) {
-        System.err.println("Processing " + className);
-      }
-      return doClass(className, clazz, bytes);
-    } catch (Throwable e) {
-      System.out.println("e = " + e);
-      return bytes;
-    }
-  }
-
-  private String loggerName;
-
-  /**
-   * doClass() process a single class by first creates a class description from
-   * the byte codes. If it is a class (i.e. not an interface) the methods
-   * defined have bodies, and a static final logger object is added with the
-   * name of this class as an argument, and each method then gets processed with
-   * doMethod(...) to have logger calls added.
-   * 
-   * @param name
-   *          class name (slashes separate, not dots)
-   * @param clazz
-   * @param b
-   * @return
-   */
-  private byte[] doClass(String name, Class<?> clazz, byte[] b) {
-    ClassPool pool = ClassPool.getDefault();
-    CtClass cl = null;
-    try {
-      cl = pool.makeClass(new ByteArrayInputStream(b));
-      if (cl.isInterface() == false) {
-
-        loggerName = "_____log";
-
-        // We have to declare the log variable.
-
-        String pattern1 = "private static org.slf4j.Logger {};";
-        String loggerDefinition = format(pattern1, loggerName).getMessage();
-        CtField field = CtField.make(loggerDefinition, cl);
-
-        // and assign it the appropriate value.
-
-        String pattern2 = "org.slf4j.LoggerFactory.getLogger({}.class);";
-        String replace = name.replace('/', '.');
-        String getLogger = format(pattern2, replace).getMessage();
-
-        cl.addField(field, getLogger);
-
-        // then check every behaviour (which includes methods). We are
-        // only
-        // interested in non-empty ones, as they have code.
-        // NOTE: This will be changed, as empty methods should be
-        // instrumented too.
-
-        CtBehavior[] methods = cl.getDeclaredBehaviors();
-        for (int i = 0; i < methods.length; i++) {
-          if (methods[i].isEmpty() == false) {
-            doMethod(methods[i]);
-          }
-        }
-        b = cl.toBytecode();
-      }
-    } catch (Exception e) {
-      System.err.println("Could not instrument " + name + ", " + e);
-      e.printStackTrace(System.err);
-    } finally {
-      if (cl != null) {
-        cl.detach();
-      }
-    }
-    return b;
-  }
-
-  /**
-   * process a single method - this means add entry/exit logging if requested.
-   * It is only called for methods with a body.
-   * 
-   * @param method
-   *          method to work on
-   * @throws NotFoundException
-   * @throws CannotCompileException
-   */
-  private void doMethod(CtBehavior method) throws NotFoundException,
-      CannotCompileException {
-
-    String signature = JavassistHelper.getSignature(method);
-    String returnValue = JavassistHelper.returnValue(method);
-
-    if (addEntryExit) {
-      String messagePattern = "if ({}.{}()) {}.{}(\">> {}\");";
-      Object[] arg1 = new Object[] { loggerName, levelEnabled, loggerName,
-          level, signature };
-      String before = MessageFormatter.arrayFormat(messagePattern, arg1)
-          .getMessage();
-      // System.out.println(before);
-      method.insertBefore(before);
-
-      String messagePattern2 = "if ({}.{}()) {}.{}(\"<< {}{}\");";
-      Object[] arg2 = new Object[] { loggerName, levelEnabled, loggerName,
-          level, signature, returnValue };
-      String after = MessageFormatter.arrayFormat(messagePattern2, arg2)
-          .getMessage();
-      // System.out.println(after);
-      method.insertAfter(after);
-    }
-  }
 }

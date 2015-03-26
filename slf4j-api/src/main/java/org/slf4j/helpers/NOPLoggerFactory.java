@@ -28,7 +28,6 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.helpers.NOPLogger;
 
-
 /**
  * NOPLoggerFactory is an trivial implementation of {@link
  * ILoggerFactory} which always returns the unique instance of
@@ -37,13 +36,13 @@ import org.slf4j.helpers.NOPLogger;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class NOPLoggerFactory implements ILoggerFactory {
-  
-  public NOPLoggerFactory() {
-    // nothing to do
-  }
-  
-  public Logger getLogger(String name) {
-    return NOPLogger.NOP_LOGGER;
-  }
+
+    public NOPLoggerFactory() {
+        // nothing to do
+    }
+
+    public Logger getLogger(String name) {
+        return NOPLogger.NOP_LOGGER;
+    }
 
 }

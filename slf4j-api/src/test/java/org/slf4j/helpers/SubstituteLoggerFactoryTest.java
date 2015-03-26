@@ -31,39 +31,39 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SubstituteLoggerFactoryTest extends TestCase{
-  private SubstituteLoggerFactory factory = new SubstituteLoggerFactory();
+public class SubstituteLoggerFactoryTest extends TestCase {
+    private SubstituteLoggerFactory factory = new SubstituteLoggerFactory();
 
-  public void testFactory() {
-    Logger log = factory.getLogger("foo");
-    assertNotNull(log);
+    public void testFactory() {
+        Logger log = factory.getLogger("foo");
+        assertNotNull(log);
 
-    Logger log2 = factory.getLogger("foo");
-    assertTrue("Loggers with same name must be same",log == log2);
-  }
-
-  public void testLoggerNameList() {
-    factory.getLogger("foo1");
-    factory.getLogger("foo2");
-
-    Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1","foo2"));
-    Set<String> actualNames = new HashSet<String>(factory.getLoggerNames());
-
-    assertEquals(expectedNames, actualNames);
-  }
-
-  public void testLoggers() {
-    factory.getLogger("foo1");
-    factory.getLogger("foo2");
-
-    Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1","foo2"));
-
-    Set<String> actualNames = new HashSet<String>();
-    for(SubstituteLogger slog : factory.getLoggers()){
-      actualNames.add(slog.getName());
+        Logger log2 = factory.getLogger("foo");
+        assertTrue("Loggers with same name must be same", log == log2);
     }
 
-    assertEquals(expectedNames, actualNames);
-  }
+    public void testLoggerNameList() {
+        factory.getLogger("foo1");
+        factory.getLogger("foo2");
+
+        Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1", "foo2"));
+        Set<String> actualNames = new HashSet<String>(factory.getLoggerNames());
+
+        assertEquals(expectedNames, actualNames);
+    }
+
+    public void testLoggers() {
+        factory.getLogger("foo1");
+        factory.getLogger("foo2");
+
+        Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1", "foo2"));
+
+        Set<String> actualNames = new HashSet<String>();
+        for (SubstituteLogger slog : factory.getLoggers()) {
+            actualNames.add(slog.getName());
+        }
+
+        assertEquals(expectedNames, actualNames);
+    }
 
 }

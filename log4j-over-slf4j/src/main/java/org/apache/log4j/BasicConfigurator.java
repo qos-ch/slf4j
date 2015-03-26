@@ -20,12 +20,12 @@ package org.apache.log4j;
  * A minimal (nop) implementation of BasicConfigurator.
  */
 public class BasicConfigurator {
-  public static void configure() {
-  }
+    public static void configure() {
+    }
 
-  public static void configure(Appender appender) {
-  }
+    public static void configure(Appender appender) {
+    }
 
-  public static void resetConfiguration() {
-  }
+    public static void resetConfiguration() {
+    }
 }

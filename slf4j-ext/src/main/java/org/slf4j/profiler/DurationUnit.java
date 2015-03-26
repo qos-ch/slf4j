@@ -31,5 +31,5 @@ package org.slf4j.profiler;
  *
  */
 public enum DurationUnit {
-  NANOSECOND, MICROSECOND, MILLISSECOND, SECOND;
+    NANOSECOND, MICROSECOND, MILLISSECOND, SECOND;
 }

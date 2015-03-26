@@ -31,5 +31,5 @@ import ch.qos.cal10n.LocaleData;
 @BaseName("months")
 @LocaleData(@Locale("en"))
 public enum Months {
-  JAN, FEB, MAR, APR, MAY, JUN;
+    JAN, FEB, MAR, APR, MAY, JUN;
 }

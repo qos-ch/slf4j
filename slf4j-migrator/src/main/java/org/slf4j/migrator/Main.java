@@ -36,15 +36,15 @@ import org.slf4j.migrator.internal.MigratorFrame;
  */
 public class Main {
 
-  public static void main(String[] args) {
-    System.out.println("Starting SLF4J Migrator");
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        MigratorFrame inst = new MigratorFrame();
-        inst.setLocationRelativeTo(null);
-        inst.setVisible(true);
-      }
-    });
-  }
-  
+    public static void main(String[] args) {
+        System.out.println("Starting SLF4J Migrator");
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MigratorFrame inst = new MigratorFrame();
+                inst.setLocationRelativeTo(null);
+                inst.setVisible(true);
+            }
+        });
+    }
+
 }

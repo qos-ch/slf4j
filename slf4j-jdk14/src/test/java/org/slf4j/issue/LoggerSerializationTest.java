@@ -24,7 +24,6 @@
  */
 package org.slf4j.issue;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,41 +44,40 @@ import org.slf4j.LoggerFactory;
  */
 public class LoggerSerializationTest extends TestCase {
 
-  static class LoggerHolder implements Serializable {
- 		private static final long serialVersionUID = 1L;
+    static class LoggerHolder implements Serializable {
+        private static final long serialVersionUID = 1L;
 
- 		private Logger log = LoggerFactory.getLogger(LoggerHolder.class);
+        private Logger log = LoggerFactory.getLogger(LoggerHolder.class);
 
- 		public String toString() {
- 			return "log=" + getLog();
- 		}
+        public String toString() {
+            return "log=" + getLog();
+        }
 
- 		public Logger getLog() {
- 			return log;
- 		}
- 	}
+        public Logger getLog() {
+            return log;
+        }
+    }
 
- 	public void testCanLoggerBeSerialized() throws IOException,
- 			ClassNotFoundException {
+    public void testCanLoggerBeSerialized() throws IOException, ClassNotFoundException {
 
- 		LoggerHolder lh1 = new LoggerHolder();
+        LoggerHolder lh1 = new LoggerHolder();
 
- 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
- 		ObjectOutputStream out = new ObjectOutputStream(baos);
- 		out.writeObject(lh1);
- 		out.close();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(baos);
+        out.writeObject(lh1);
+        out.close();
 
- 		lh1 = null;
+        lh1 = null;
 
- 		byte[] serializedLoggerHolder = baos.toByteArray();
+        byte[] serializedLoggerHolder = baos.toByteArray();
 
- 		InputStream is = new ByteArrayInputStream(serializedLoggerHolder);
- 		ObjectInputStream in = new ObjectInputStream(is);
- 		LoggerHolder lh2 = (LoggerHolder) in.readObject();
+        InputStream is = new ByteArrayInputStream(serializedLoggerHolder);
+        ObjectInputStream in = new ObjectInputStream(is);
+        LoggerHolder lh2 = (LoggerHolder) in.readObject();
 
- 		Assert.assertNotNull(lh2);
- 		Assert.assertNotNull(lh2.getLog());
- 		lh2.getLog().info("You must see this message as a log message");
- 	}
+        Assert.assertNotNull(lh2);
+        Assert.assertNotNull(lh2.getLog());
+        lh2.getLog().info("You must see this message as a log message");
+    }
 
 }

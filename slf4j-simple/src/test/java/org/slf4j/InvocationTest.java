@@ -28,7 +28,6 @@ import java.io.PrintStream;
 
 import junit.framework.TestCase;
 
-
 /**
  * Test whether invoking the SLF4J API causes problems or not.
  * 
@@ -37,98 +36,96 @@ import junit.framework.TestCase;
  */
 public class InvocationTest extends TestCase {
 
-  PrintStream old = System.err;
-  
-  public InvocationTest (String arg0) {
-    super(arg0);
-  }
+    PrintStream old = System.err;
 
-  protected void setUp() throws Exception {
-    super.setUp();
-    System.setErr(new SilentPrintStream(old));
-  }
+    public InvocationTest(String arg0) {
+        super(arg0);
+    }
 
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    System.setErr(old);
-  }
-  
-  public void test1() {
-    Logger logger = LoggerFactory.getLogger("test1");
-    logger.debug("Hello world.");
-  }
-  
-  public void test2() {
-    Integer i1 = new Integer(1);
-    Integer i2 = new Integer(2);
-    Integer i3 = new Integer(3);
-    Exception e = new Exception("This is a test exception.");
-    Logger logger = LoggerFactory.getLogger("test2");
-    
-    logger.debug("Hello world 1.");
-    logger.debug("Hello world {}", i1);
-    logger.debug("val={} val={}", i1, i2);
-    logger.debug("val={} val={} val={}", new Object[]{i1, i2, i3});
-    
-    logger.debug("Hello world 2", e);
-    logger.info("Hello world 2.");
- 
-    
-    logger.warn("Hello world 3.");
-    logger.warn("Hello world 3", e);
- 
-  
-    logger.error("Hello world 4.");
-    logger.error("Hello world {}", new Integer(3)); 
-    logger.error("Hello world 4.", e);
-  }
-  
-  // http://bugzilla.slf4j.org/show_bug.cgi?id=78
-  public void testNullParameter_BUG78() {
-    Logger logger = LoggerFactory.getLogger("testNullParameter_BUG78");
-    String[] parameters = null;
-    String msg = "hello {}";
-    logger.info(msg, parameters);
-  }
-  
-  public void testNull() {
-    Logger logger = LoggerFactory.getLogger("testNull");
-    logger.debug(null);
-    logger.info(null);
-    logger.warn(null);
-    logger.error(null);
-    
-    Exception e = new Exception("This is a test exception.");
-    logger.debug(null, e);
-    logger.info(null, e);
-    logger.warn(null, e);
-    logger.error(null, e);
-  }
-  
-  public void testMarker() {
-    Logger logger = LoggerFactory.getLogger("testMarker");
-    Marker blue = MarkerFactory.getMarker("BLUE");
-    logger.debug(blue, "hello");
-    logger.info(blue, "hello");
-    logger.warn(blue, "hello");
-    logger.error(blue, "hello");
-    
-    logger.debug(blue, "hello {}", "world");
-    logger.info(blue, "hello {}", "world");
-    logger.warn(blue, "hello {}", "world");
-    logger.error(blue, "hello {}", "world");
+    protected void setUp() throws Exception {
+        super.setUp();
+        System.setErr(new SilentPrintStream(old));
+    }
 
-    logger.debug(blue, "hello {} and {} ", "world", "universe");
-    logger.info(blue, "hello {} and {} ", "world", "universe");
-    logger.warn(blue, "hello {} and {} ", "world", "universe");
-    logger.error(blue, "hello {} and {} ", "world", "universe");
-  }
-  
-  public void testMDC() {
-    MDC.put("k", "v");
-    assertNull(MDC.get("k"));
-    MDC.remove("k");
-    assertNull(MDC.get("k"));
-    MDC.clear();
-  }
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.setErr(old);
+    }
+
+    public void test1() {
+        Logger logger = LoggerFactory.getLogger("test1");
+        logger.debug("Hello world.");
+    }
+
+    public void test2() {
+        Integer i1 = new Integer(1);
+        Integer i2 = new Integer(2);
+        Integer i3 = new Integer(3);
+        Exception e = new Exception("This is a test exception.");
+        Logger logger = LoggerFactory.getLogger("test2");
+
+        logger.debug("Hello world 1.");
+        logger.debug("Hello world {}", i1);
+        logger.debug("val={} val={}", i1, i2);
+        logger.debug("val={} val={} val={}", new Object[] { i1, i2, i3 });
+
+        logger.debug("Hello world 2", e);
+        logger.info("Hello world 2.");
+
+        logger.warn("Hello world 3.");
+        logger.warn("Hello world 3", e);
+
+        logger.error("Hello world 4.");
+        logger.error("Hello world {}", new Integer(3));
+        logger.error("Hello world 4.", e);
+    }
+
+    // http://bugzilla.slf4j.org/show_bug.cgi?id=78
+    public void testNullParameter_BUG78() {
+        Logger logger = LoggerFactory.getLogger("testNullParameter_BUG78");
+        String[] parameters = null;
+        String msg = "hello {}";
+        logger.info(msg, parameters);
+    }
+
+    public void testNull() {
+        Logger logger = LoggerFactory.getLogger("testNull");
+        logger.debug(null);
+        logger.info(null);
+        logger.warn(null);
+        logger.error(null);
+
+        Exception e = new Exception("This is a test exception.");
+        logger.debug(null, e);
+        logger.info(null, e);
+        logger.warn(null, e);
+        logger.error(null, e);
+    }
+
+    public void testMarker() {
+        Logger logger = LoggerFactory.getLogger("testMarker");
+        Marker blue = MarkerFactory.getMarker("BLUE");
+        logger.debug(blue, "hello");
+        logger.info(blue, "hello");
+        logger.warn(blue, "hello");
+        logger.error(blue, "hello");
+
+        logger.debug(blue, "hello {}", "world");
+        logger.info(blue, "hello {}", "world");
+        logger.warn(blue, "hello {}", "world");
+        logger.error(blue, "hello {}", "world");
+
+        logger.debug(blue, "hello {} and {} ", "world", "universe");
+        logger.info(blue, "hello {} and {} ", "world", "universe");
+        logger.warn(blue, "hello {} and {} ", "world", "universe");
+        logger.error(blue, "hello {} and {} ", "world", "universe");
+    }
+
+    public void testMDC() {
+        MDC.put("k", "v");
+        assertNull(MDC.get("k"));
+        MDC.remove("k");
+        assertNull(MDC.get("k"));
+        MDC.clear();
+    }
 }

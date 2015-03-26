@@ -38,90 +38,89 @@ import org.slf4j.migrator.line.RuleSet;
 
 public class ProjectConverter {
 
-  private RuleSet ruleSet;
-  private List<ConversionException> exception;
+    private RuleSet ruleSet;
+    private List<ConversionException> exception;
 
-  ProgressListener progressListener;
+    ProgressListener progressListener;
 
-  public static void main(String[] args) throws IOException {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        MigratorFrame inst = new MigratorFrame();
-        inst.setLocationRelativeTo(null);
-        inst.setVisible(true);
-      }
-    });
-  }
-
-  /**
-   * Ask for concrete matcher implementation depending on the conversion mode
-   * Ask for user confirmation to convert the selected source directory if valid
-   * Ask for user confirmation in case of number of files to convert > 1000
-   *
-   * @param conversionType 
-   * @param progressListener 
-   */
-  public ProjectConverter(int conversionType, ProgressListener progressListener) {
-    this.progressListener = progressListener;
-    ruleSet = RuleSetFactory.getMatcherImpl(conversionType);
-    if (ruleSet == null) {
-      addException(new ConversionException(ConversionException.NOT_IMPLEMENTED));
+    public static void main(String[] args) throws IOException {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MigratorFrame inst = new MigratorFrame();
+                inst.setLocationRelativeTo(null);
+                inst.setVisible(true);
+            }
+        });
     }
-  }
 
-  public void convertProject(File folder) {
-    FileSelector fs = new FileSelector(progressListener);
-    List<File> fileList = fs.selectJavaFilesInFolder(folder);
-    scanFileList(fileList);
-    progressListener.onDone();
-  }
-
-  /**
-   * Convert a list of files
-   * 
-   * @param lstFiles
-   */
-  private void scanFileList(List<File> lstFiles) {
-    progressListener.onFileScanBegin();
-    Iterator<File> itFile = lstFiles.iterator();
-    while (itFile.hasNext()) {
-      File currentFile = itFile.next();
-      progressListener.onFileScan(currentFile);
-      scanFile(currentFile);
+    /**
+     * Ask for concrete matcher implementation depending on the conversion mode
+     * Ask for user confirmation to convert the selected source directory if valid
+     * Ask for user confirmation in case of number of files to convert > 1000
+     *
+     * @param conversionType 
+     * @param progressListener 
+     */
+    public ProjectConverter(int conversionType, ProgressListener progressListener) {
+        this.progressListener = progressListener;
+        ruleSet = RuleSetFactory.getMatcherImpl(conversionType);
+        if (ruleSet == null) {
+            addException(new ConversionException(ConversionException.NOT_IMPLEMENTED));
+        }
     }
-  }
 
-  /**
-   * Convert the specified file Read each line and ask matcher implementation
-   * for conversion Rewrite the line returned by matcher
-   * 
-   * @param file
-   */
-  private void scanFile(File file) {
-    try {
-      InplaceFileConverter fc = new InplaceFileConverter(ruleSet,
-          progressListener);
-      fc.convert(file);
-    } catch (IOException exc) {
-      addException(new ConversionException(exc.toString()));
+    public void convertProject(File folder) {
+        FileSelector fs = new FileSelector(progressListener);
+        List<File> fileList = fs.selectJavaFilesInFolder(folder);
+        scanFileList(fileList);
+        progressListener.onDone();
     }
-  }
 
-  public void addException(ConversionException exc) {
-    if (exception == null) {
-      exception = new ArrayList<ConversionException>();
+    /**
+     * Convert a list of files
+     * 
+     * @param lstFiles
+     */
+    private void scanFileList(List<File> lstFiles) {
+        progressListener.onFileScanBegin();
+        Iterator<File> itFile = lstFiles.iterator();
+        while (itFile.hasNext()) {
+            File currentFile = itFile.next();
+            progressListener.onFileScan(currentFile);
+            scanFile(currentFile);
+        }
     }
-    exception.add(exc);
-  }
 
-  public void printException() {
-    if (exception != null) {
-      Iterator<ConversionException> iterator = exception.iterator();
-      while (iterator.hasNext()) {
-        ConversionException exc = (ConversionException) iterator.next();
-        exc.print();
-      }
-      exception = null;
+    /**
+     * Convert the specified file Read each line and ask matcher implementation
+     * for conversion Rewrite the line returned by matcher
+     * 
+     * @param file
+     */
+    private void scanFile(File file) {
+        try {
+            InplaceFileConverter fc = new InplaceFileConverter(ruleSet, progressListener);
+            fc.convert(file);
+        } catch (IOException exc) {
+            addException(new ConversionException(exc.toString()));
+        }
     }
-  }
+
+    public void addException(ConversionException exc) {
+        if (exception == null) {
+            exception = new ArrayList<ConversionException>();
+        }
+        exception.add(exc);
+    }
+
+    public void printException() {
+        if (exception != null) {
+            Iterator<ConversionException> iterator = exception.iterator();
+            while (iterator.hasNext()) {
+                ConversionException exc = (ConversionException) iterator.next();
+                exc.print();
+            }
+            exception = null;
+        }
+    }
 }

@@ -39,25 +39,25 @@ import org.slf4j.spi.MDCAdapter;
  */
 public class NOPMDCAdapter implements MDCAdapter {
 
-  public void clear() {
-  }
+    public void clear() {
+    }
 
-  public String get(String key) {
-    return null;
-  }
+    public String get(String key) {
+        return null;
+    }
 
-  public void put(String key, String val) {
-  }
+    public void put(String key, String val) {
+    }
 
-  public void remove(String key) {
-  }
+    public void remove(String key) {
+    }
 
-  public Map<String, String> getCopyOfContextMap() {
-    return null;
-  }
+    public Map<String, String> getCopyOfContextMap() {
+        return null;
+    }
 
-  public void setContextMap(Map<String, String> contextMap) {
-    // NOP
-  }
+    public void setContextMap(Map<String, String> contextMap) {
+        // NOP
+    }
 
 }

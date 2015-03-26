@@ -27,36 +27,36 @@ package org.slf4j;
 import org.slf4j.MDC;
 
 public class NDC {
-  public final static String PREFIX = "NDC";
+    public final static String PREFIX = "NDC";
 
-  private static int size() {
-    int i = 0;
-    while (true) {
-      String val = MDC.get(PREFIX + i);
-      if (val != null) {
-        i++;
-      } else {
-        break;
-      }
+    private static int size() {
+        int i = 0;
+        while (true) {
+            String val = MDC.get(PREFIX + i);
+            if (val != null) {
+                i++;
+            } else {
+                break;
+            }
+        }
+        return i;
     }
-    return i;
-  }
 
-  public static void push(String val) {
-    int next = size();
-    MDC.put(PREFIX + next, val);
-  }
-
-  public static String pop() {
-    int next = size();
-    if(next == 0) {
-      return "";
+    public static void push(String val) {
+        int next = size();
+        MDC.put(PREFIX + next, val);
     }
-    int last = next-1; 
-    String key = PREFIX+last;
-    String val = MDC.get(key);
-    MDC.remove(key);
-    return val;
-  }
+
+    public static String pop() {
+        int next = size();
+        if (next == 0) {
+            return "";
+        }
+        int last = next - 1;
+        String key = PREFIX + last;
+        String val = MDC.get(key);
+        MDC.remove(key);
+        return val;
+    }
 
 }

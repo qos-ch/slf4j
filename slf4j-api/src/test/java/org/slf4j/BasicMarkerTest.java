@@ -37,160 +37,160 @@ import org.slf4j.helpers.BasicMarkerFactory;
  * @author Joern Huxhorn
  */
 public class BasicMarkerTest extends TestCase {
-  static final String BLUE_STR = "BLUE";
-  static final String RED_STR = "RED";
-  static final String GREEN_STR = "GREEN";
-  static final String COMP_STR = "COMP";
-  static final String MULTI_COMP_STR = "MULTI_COMP";
-  static final String PARENT_MARKER_STR = "PARENT_MARKER";
-  static final String CHILD_MARKER_STR = "CHILD_MARKER";
-  static final String NOT_CONTAINED_MARKER_STR = "NOT_CONTAINED";
+    static final String BLUE_STR = "BLUE";
+    static final String RED_STR = "RED";
+    static final String GREEN_STR = "GREEN";
+    static final String COMP_STR = "COMP";
+    static final String MULTI_COMP_STR = "MULTI_COMP";
+    static final String PARENT_MARKER_STR = "PARENT_MARKER";
+    static final String CHILD_MARKER_STR = "CHILD_MARKER";
+    static final String NOT_CONTAINED_MARKER_STR = "NOT_CONTAINED";
 
-  final IMarkerFactory factory;
-  final Marker blue;
-  final Marker red;
-  final Marker green;
-  final Marker comp;
-  final Marker multiComp;
+    final IMarkerFactory factory;
+    final Marker blue;
+    final Marker red;
+    final Marker green;
+    final Marker comp;
+    final Marker multiComp;
 
-  short diff = Differentiator.getDiffentiator();
-  
-  public BasicMarkerTest() {
-    factory = new BasicMarkerFactory();
+    short diff = Differentiator.getDiffentiator();
 
-    blue = factory.getMarker(BLUE_STR);
-    red = factory.getMarker(RED_STR);
-    green = factory.getMarker(GREEN_STR);
-    comp = factory.getMarker(COMP_STR);
-    comp.add(blue);
+    public BasicMarkerTest() {
+        factory = new BasicMarkerFactory();
 
-    multiComp = factory.getMarker(MULTI_COMP_STR);
-    multiComp.add(green);
-    multiComp.add(comp);
-  }
+        blue = factory.getMarker(BLUE_STR);
+        red = factory.getMarker(RED_STR);
+        green = factory.getMarker(GREEN_STR);
+        comp = factory.getMarker(COMP_STR);
+        comp.add(blue);
 
-  public void testPrimitive() {
-    assertEquals(BLUE_STR, blue.getName());
-    assertTrue(blue.contains(blue));
-
-    Marker blue2 = factory.getMarker(BLUE_STR);
-    assertEquals(BLUE_STR, blue2.getName());
-    assertEquals(blue, blue2);
-    assertTrue(blue.contains(blue2));
-    assertTrue(blue2.contains(blue));
-  }
-
-  public void testPrimitiveByName() {
-    assertTrue(blue.contains(BLUE_STR));
-  }
-
-  public void testComposite() {
-    assertTrue(comp.contains(comp));
-    assertTrue(comp.contains(blue));
-  }
-
-  public void testCompositeByName() {
-    assertTrue(comp.contains(COMP_STR));
-    assertTrue(comp.contains(BLUE_STR));
-  }
-
-  public void testMultiComposite() {
-    assertTrue(multiComp.contains(comp));
-    assertTrue(multiComp.contains(blue));
-    assertTrue(multiComp.contains(green));
-    assertFalse(multiComp.contains(red));
-  }
-
-  public void testMultiCompositeByName() {
-    assertTrue(multiComp.contains(COMP_STR));
-    assertTrue(multiComp.contains(BLUE_STR));
-    assertTrue(multiComp.contains(GREEN_STR));
-    assertFalse(multiComp.contains(RED_STR));
-  }
-
-  public void testMultiAdd() {
-    Marker parent = factory.getMarker(PARENT_MARKER_STR);
-    Marker child = factory.getMarker(CHILD_MARKER_STR);
-    for (int i = 0; i < 10; i++) {
-      parent.add(child);
+        multiComp = factory.getMarker(MULTI_COMP_STR);
+        multiComp.add(green);
+        multiComp.add(comp);
     }
 
-    // check that the child was added once and only once
-    Iterator<Marker> iterator = parent.iterator();
-    assertTrue(iterator.hasNext());
-    assertEquals(CHILD_MARKER_STR, iterator.next().toString());
-    assertFalse(iterator.hasNext());
-  }
+    public void testPrimitive() {
+        assertEquals(BLUE_STR, blue.getName());
+        assertTrue(blue.contains(blue));
 
-  public void testAddRemove() {
-    final String NEW_PREFIX = "NEW_";
-    Marker parent = factory.getMarker(NEW_PREFIX + PARENT_MARKER_STR);
-    Marker child = factory.getMarker(NEW_PREFIX + CHILD_MARKER_STR);
-    assertFalse(parent.contains(child));
-    assertFalse(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
-    assertFalse(parent.remove(child));
+        Marker blue2 = factory.getMarker(BLUE_STR);
+        assertEquals(BLUE_STR, blue2.getName());
+        assertEquals(blue, blue2);
+        assertTrue(blue.contains(blue2));
+        assertTrue(blue2.contains(blue));
+    }
 
-    parent.add(child);
+    public void testPrimitiveByName() {
+        assertTrue(blue.contains(BLUE_STR));
+    }
 
-    assertTrue(parent.contains(child));
-    assertTrue(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
+    public void testComposite() {
+        assertTrue(comp.contains(comp));
+        assertTrue(comp.contains(blue));
+    }
 
-    assertTrue(parent.remove(child));
+    public void testCompositeByName() {
+        assertTrue(comp.contains(COMP_STR));
+        assertTrue(comp.contains(BLUE_STR));
+    }
 
-    assertFalse(parent.contains(child));
-    assertFalse(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
-    assertFalse(parent.remove(child));
-  }
+    public void testMultiComposite() {
+        assertTrue(multiComp.contains(comp));
+        assertTrue(multiComp.contains(blue));
+        assertTrue(multiComp.contains(green));
+        assertFalse(multiComp.contains(red));
+    }
 
-  public void testSelfRecursion() {
-    final String diffPrefix = "NEW_"+diff;
-    final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
-    final String NOT_CONTAINED_NAME = diffPrefix + NOT_CONTAINED_MARKER_STR;
-    Marker parent = factory.getMarker(PARENT_NAME);
-    Marker notContained = factory.getMarker(NOT_CONTAINED_NAME);
-    parent.add(parent);
-    assertTrue(parent.contains(parent));
-    assertTrue(parent.contains(PARENT_NAME));
-    assertFalse(parent.contains(notContained));
-    assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
-  }
+    public void testMultiCompositeByName() {
+        assertTrue(multiComp.contains(COMP_STR));
+        assertTrue(multiComp.contains(BLUE_STR));
+        assertTrue(multiComp.contains(GREEN_STR));
+        assertFalse(multiComp.contains(RED_STR));
+    }
 
-  public void testIndirectRecursion() {
-    final String diffPrefix = "NEW_"+diff;
-    final String PARENT_NAME=diffPrefix+PARENT_MARKER_STR;
-    final String CHILD_NAME=diffPrefix+CHILD_MARKER_STR;
-    final String NOT_CONTAINED_NAME=diffPrefix+NOT_CONTAINED_MARKER_STR;
+    public void testMultiAdd() {
+        Marker parent = factory.getMarker(PARENT_MARKER_STR);
+        Marker child = factory.getMarker(CHILD_MARKER_STR);
+        for (int i = 0; i < 10; i++) {
+            parent.add(child);
+        }
 
-    Marker parent = factory.getMarker(PARENT_NAME);
-    Marker child = factory.getMarker(CHILD_NAME);
-    Marker notContained = factory.getMarker(NOT_CONTAINED_NAME);
+        // check that the child was added once and only once
+        Iterator<Marker> iterator = parent.iterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(CHILD_MARKER_STR, iterator.next().toString());
+        assertFalse(iterator.hasNext());
+    }
 
-    parent.add(child);
-    child.add(parent);
-    assertTrue(parent.contains(parent));
-    assertTrue(parent.contains(child));
-    assertTrue(parent.contains(PARENT_NAME));
-    assertTrue(parent.contains(CHILD_NAME));
-    assertFalse(parent.contains(notContained));
-    assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
-  }
+    public void testAddRemove() {
+        final String NEW_PREFIX = "NEW_";
+        Marker parent = factory.getMarker(NEW_PREFIX + PARENT_MARKER_STR);
+        Marker child = factory.getMarker(NEW_PREFIX + CHILD_MARKER_STR);
+        assertFalse(parent.contains(child));
+        assertFalse(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
+        assertFalse(parent.remove(child));
 
-  public void testHomonyms() {
-    final String diffPrefix = "homonym"+diff;
-    final String PARENT_NAME=diffPrefix+PARENT_MARKER_STR;
-    final String CHILD_NAME=diffPrefix+CHILD_MARKER_STR;
-    Marker parent = factory.getMarker(PARENT_NAME);
-    Marker child = factory.getMarker(CHILD_NAME);
-    parent.add(child);
-   
-    IMarkerFactory otherFactory = new BasicMarkerFactory();
-    Marker otherParent = otherFactory.getMarker(PARENT_NAME);
-    Marker otherChild = otherFactory.getMarker(CHILD_NAME);
-    
-    assertTrue(parent.contains(otherParent));
-    assertTrue(parent.contains(otherChild));
-    
-    assertTrue(parent.remove(otherChild));
-  }
-  
+        parent.add(child);
+
+        assertTrue(parent.contains(child));
+        assertTrue(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
+
+        assertTrue(parent.remove(child));
+
+        assertFalse(parent.contains(child));
+        assertFalse(parent.contains(NEW_PREFIX + CHILD_MARKER_STR));
+        assertFalse(parent.remove(child));
+    }
+
+    public void testSelfRecursion() {
+        final String diffPrefix = "NEW_" + diff;
+        final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
+        final String NOT_CONTAINED_NAME = diffPrefix + NOT_CONTAINED_MARKER_STR;
+        Marker parent = factory.getMarker(PARENT_NAME);
+        Marker notContained = factory.getMarker(NOT_CONTAINED_NAME);
+        parent.add(parent);
+        assertTrue(parent.contains(parent));
+        assertTrue(parent.contains(PARENT_NAME));
+        assertFalse(parent.contains(notContained));
+        assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
+    }
+
+    public void testIndirectRecursion() {
+        final String diffPrefix = "NEW_" + diff;
+        final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
+        final String CHILD_NAME = diffPrefix + CHILD_MARKER_STR;
+        final String NOT_CONTAINED_NAME = diffPrefix + NOT_CONTAINED_MARKER_STR;
+
+        Marker parent = factory.getMarker(PARENT_NAME);
+        Marker child = factory.getMarker(CHILD_NAME);
+        Marker notContained = factory.getMarker(NOT_CONTAINED_NAME);
+
+        parent.add(child);
+        child.add(parent);
+        assertTrue(parent.contains(parent));
+        assertTrue(parent.contains(child));
+        assertTrue(parent.contains(PARENT_NAME));
+        assertTrue(parent.contains(CHILD_NAME));
+        assertFalse(parent.contains(notContained));
+        assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
+    }
+
+    public void testHomonyms() {
+        final String diffPrefix = "homonym" + diff;
+        final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
+        final String CHILD_NAME = diffPrefix + CHILD_MARKER_STR;
+        Marker parent = factory.getMarker(PARENT_NAME);
+        Marker child = factory.getMarker(CHILD_NAME);
+        parent.add(child);
+
+        IMarkerFactory otherFactory = new BasicMarkerFactory();
+        Marker otherParent = otherFactory.getMarker(PARENT_NAME);
+        Marker otherChild = otherFactory.getMarker(CHILD_NAME);
+
+        assertTrue(parent.contains(otherParent));
+        assertTrue(parent.contains(otherChild));
+
+        assertTrue(parent.remove(otherChild));
+    }
+
 }

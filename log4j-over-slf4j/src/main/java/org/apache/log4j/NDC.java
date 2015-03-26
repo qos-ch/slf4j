@@ -28,75 +28,75 @@ import java.util.Stack;
 
 public class NDC {
 
-  public final static String PREFIX = "NDC";
+    public final static String PREFIX = "NDC";
 
-  public static void clear() {
-    int depth = getDepth();
-    for (int i = 0; i < depth; i++) {
-      String key = PREFIX + i;
-      MDC.remove(key);
+    public static void clear() {
+        int depth = getDepth();
+        for (int i = 0; i < depth; i++) {
+            String key = PREFIX + i;
+            MDC.remove(key);
+        }
     }
-  }
 
-  @SuppressWarnings("rawtypes")
-  public static Stack cloneStack() {
-    return null;
-  }
-
-  @SuppressWarnings("rawtypes")
-  public static void inherit(Stack stack) {
-  }
-
-  static public String get() {
-    return null;
-  }
-
-  public static int getDepth() {
-    int i = 0;
-    while (true) {
-      String val = MDC.get(PREFIX + i);
-      if (val != null) {
-        i++;
-      } else {
-        break;
-      }
+    @SuppressWarnings("rawtypes")
+    public static Stack cloneStack() {
+        return null;
     }
-    return i;
-  }
 
-  public static String pop() {
-    int next = getDepth();
-    if (next == 0) {
-      return "";
+    @SuppressWarnings("rawtypes")
+    public static void inherit(Stack stack) {
     }
-    int last = next - 1;
-    String key = PREFIX + last;
-    String val = MDC.get(key);
-    MDC.remove(key);
-    return val;
-  }
 
-  public static String peek() {
-    int next = getDepth();
-    if (next == 0) {
-      return "";
+    static public String get() {
+        return null;
     }
-    int last = next - 1;
-    String key = PREFIX + last;
-    String val = MDC.get(key);
-    return val;
-  }
 
-  public static void push(String message) {
-    int next = getDepth();
-    MDC.put(PREFIX + next, message);
-  }
+    public static int getDepth() {
+        int i = 0;
+        while (true) {
+            String val = MDC.get(PREFIX + i);
+            if (val != null) {
+                i++;
+            } else {
+                break;
+            }
+        }
+        return i;
+    }
 
-  static public void remove() {
-    clear();
-  }
+    public static String pop() {
+        int next = getDepth();
+        if (next == 0) {
+            return "";
+        }
+        int last = next - 1;
+        String key = PREFIX + last;
+        String val = MDC.get(key);
+        MDC.remove(key);
+        return val;
+    }
 
-  static public void setMaxDepth(int maxDepth) {
-  }
+    public static String peek() {
+        int next = getDepth();
+        if (next == 0) {
+            return "";
+        }
+        int last = next - 1;
+        String key = PREFIX + last;
+        String val = MDC.get(key);
+        return val;
+    }
+
+    public static void push(String message) {
+        int next = getDepth();
+        MDC.put(PREFIX + next, message);
+    }
+
+    static public void remove() {
+        clear();
+    }
+
+    static public void setMaxDepth(int maxDepth) {
+    }
 
 }

@@ -36,66 +36,65 @@ import junit.framework.TestCase;
  *
  */
 public class BubbleSortTest extends TestCase {
-  
-  public void testSmoke() {
-     int[] a = new int[] {5,3,2,7};
-     BubbleSort.sort(a);
-     int i = 0;
-     assertEquals(2, a[i++]);
-     assertEquals(3, a[i++]);
-     assertEquals(5, a[i++]);
-     assertEquals(7, a[i++]);
-  }
-  
-  public void testEmpty() {
-    int[] a = new int[] {};
-    BubbleSort.sort(a);
-  }
-  
-  public void testSorted() {
-    int[] a = new int[] {3,30,300,3000};
-    BubbleSort.sort(a);
-    int i = 0;
-    assertEquals(3, a[i++]);
-    assertEquals(30, a[i++]);
-    assertEquals(300, a[i++]);
-    assertEquals(3000, a[i++]);
-  }
-  
-  public void testInverted() {
-    int[] a = new int[] {3000,300,30,3};
-    BubbleSort.sort(a);
-    int i = 0;
-    assertEquals(3, a[i++]);
-    assertEquals(30, a[i++]);
-    assertEquals(300, a[i++]);
-    assertEquals(3000, a[i++]);
-  }
 
-  public void testWithSameEntry() {
-    int[] a = new int[] {10,20,10,20};
-    BubbleSort.sort(a);
-    int i = 0;
-    assertEquals(10, a[i++]);
-    assertEquals(10, a[i++]);
-    assertEquals(20, a[i++]);
-    assertEquals(20, a[i++]);
-  }
-
-  
-  public void testRandom() {
-    int len = 100;
-    Random random = new Random(156);
-    int[] a = new int[len];
-    int[] witness = new int[len];
-    for(int i = 0; i < len; i++) {
-      int r = random.nextInt();
-      a[i] = r;
-      witness[i] = r;
+    public void testSmoke() {
+        int[] a = new int[] { 5, 3, 2, 7 };
+        BubbleSort.sort(a);
+        int i = 0;
+        assertEquals(2, a[i++]);
+        assertEquals(3, a[i++]);
+        assertEquals(5, a[i++]);
+        assertEquals(7, a[i++]);
     }
-   BubbleSort.sort(a);
-   Arrays.sort(witness);
-   assertTrue(Arrays.equals(witness, a));
-  }
+
+    public void testEmpty() {
+        int[] a = new int[] {};
+        BubbleSort.sort(a);
+    }
+
+    public void testSorted() {
+        int[] a = new int[] { 3, 30, 300, 3000 };
+        BubbleSort.sort(a);
+        int i = 0;
+        assertEquals(3, a[i++]);
+        assertEquals(30, a[i++]);
+        assertEquals(300, a[i++]);
+        assertEquals(3000, a[i++]);
+    }
+
+    public void testInverted() {
+        int[] a = new int[] { 3000, 300, 30, 3 };
+        BubbleSort.sort(a);
+        int i = 0;
+        assertEquals(3, a[i++]);
+        assertEquals(30, a[i++]);
+        assertEquals(300, a[i++]);
+        assertEquals(3000, a[i++]);
+    }
+
+    public void testWithSameEntry() {
+        int[] a = new int[] { 10, 20, 10, 20 };
+        BubbleSort.sort(a);
+        int i = 0;
+        assertEquals(10, a[i++]);
+        assertEquals(10, a[i++]);
+        assertEquals(20, a[i++]);
+        assertEquals(20, a[i++]);
+    }
+
+    public void testRandom() {
+        int len = 100;
+        Random random = new Random(156);
+        int[] a = new int[len];
+        int[] witness = new int[len];
+        for (int i = 0; i < len; i++) {
+            int r = random.nextInt();
+            a[i] = r;
+            witness[i] = r;
+        }
+        BubbleSort.sort(a);
+        Arrays.sort(witness);
+        assertTrue(Arrays.equals(witness, a));
+    }
 
 }

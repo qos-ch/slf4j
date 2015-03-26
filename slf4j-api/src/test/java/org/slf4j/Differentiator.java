@@ -29,9 +29,9 @@ import java.util.Random;
 
 public class Differentiator {
 
-  static Random random = new Random(System.currentTimeMillis());
-  
-  static public short getDiffentiator() {
-    return (short) random.nextInt(Short.MAX_VALUE);
-  }
+    static Random random = new Random(System.currentTimeMillis());
+
+    static public short getDiffentiator() {
+        return (short) random.nextInt(Short.MAX_VALUE);
+    }
 }

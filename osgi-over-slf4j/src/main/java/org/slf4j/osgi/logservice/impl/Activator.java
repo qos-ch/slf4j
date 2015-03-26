@@ -49,7 +49,7 @@ import org.osgi.service.log.LogService;
 public class Activator implements BundleActivator {
     /**
      *
-	 * Implements <code>BundleActivator.start()</code> to register a
+     * Implements <code>BundleActivator.start()</code> to register a
      * LogServiceFactory.
      *
      * @param bundleContext the framework context for the bundle

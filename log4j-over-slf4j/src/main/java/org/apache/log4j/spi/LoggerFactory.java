@@ -31,7 +31,6 @@ import org.apache.log4j.Logger;
  */
 public interface LoggerFactory {
 
-  public
-  Logger makeNewLoggerInstance(String name);
+    public Logger makeNewLoggerInstance(String name);
 
 }

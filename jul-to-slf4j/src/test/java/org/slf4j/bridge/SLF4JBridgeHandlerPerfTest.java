@@ -35,81 +35,78 @@ import org.slf4j.LoggerFactory;
 
 public class SLF4JBridgeHandlerPerfTest extends TestCase {
 
-  static String LOGGER_NAME = "yay";
-  static int RUN_LENGTH = 100*1000;
+    static String LOGGER_NAME = "yay";
+    static int RUN_LENGTH = 100 * 1000;
 
+    // set to false to test enabled logging performance
+    boolean disabledLogger = true;
 
-  // set to false to test enabled logging performance
-  boolean disabledLogger = true;
-  
-  FileAppender fileAppender; 
-  org.apache.log4j.Logger log4jRoot;
-  java.util.logging.Logger julRootLogger = LogManager.getLogManager()
-  .getLogger("");
+    FileAppender fileAppender;
+    org.apache.log4j.Logger log4jRoot;
+    java.util.logging.Logger julRootLogger = LogManager.getLogManager().getLogger("");
 
-  java.util.logging.Logger julLogger = java.util.logging.Logger
-      .getLogger(LOGGER_NAME);
-  org.slf4j.Logger slf4jLogger = LoggerFactory.getLogger(LOGGER_NAME);
-  
-  Handler[] existingHandlers;
+    java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger(LOGGER_NAME);
+    org.slf4j.Logger slf4jLogger = LoggerFactory.getLogger(LOGGER_NAME);
 
-  public SLF4JBridgeHandlerPerfTest(String arg0) {
-    super(arg0);
-  }
+    Handler[] existingHandlers;
 
-  protected void setUp() throws Exception {
-    super.setUp();
-    fileAppender = new FileAppender(new PatternLayout("%r [%t] %p %c %x - %m%n"), "target/test-output/toto.log");
-
-    existingHandlers = julRootLogger.getHandlers();
-    for (int i = 0; i < existingHandlers.length; i++) {
-      julRootLogger.removeHandler(existingHandlers[i]);
+    public SLF4JBridgeHandlerPerfTest(String arg0) {
+        super(arg0);
     }
-    log4jRoot = org.apache.log4j.Logger.getRootLogger();
-    log4jRoot.addAppender(fileAppender);
-  }
 
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    SLF4JBridgeHandler.uninstall();
-    fileAppender.close();
-    log4jRoot.getLoggerRepository().resetConfiguration();
-    for (int i = 0; i < existingHandlers.length; i++) {
-      julRootLogger.addHandler(existingHandlers[i]);
-    }
-  }
+    protected void setUp() throws Exception {
+        super.setUp();
+        fileAppender = new FileAppender(new PatternLayout("%r [%t] %p %c %x - %m%n"), "target/test-output/toto.log");
 
-  double julLoggerLoop() {
-    long start = System.nanoTime();
-    for (int i = 0; i < RUN_LENGTH; i++) {
-      julLogger.info("jul");
+        existingHandlers = julRootLogger.getHandlers();
+        for (int i = 0; i < existingHandlers.length; i++) {
+            julRootLogger.removeHandler(existingHandlers[i]);
+        }
+        log4jRoot = org.apache.log4j.Logger.getRootLogger();
+        log4jRoot.addAppender(fileAppender);
     }
-    long end = System.nanoTime();
-    return (end - start) * 1.0 / RUN_LENGTH;
-  }
 
-  double slf4jLoggerLoop() {
-    long start = System.nanoTime();
-    for (int i = 0; i < RUN_LENGTH; i++) {
-      slf4jLogger.info("slf4j");
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        SLF4JBridgeHandler.uninstall();
+        fileAppender.close();
+        log4jRoot.getLoggerRepository().resetConfiguration();
+        for (int i = 0; i < existingHandlers.length; i++) {
+            julRootLogger.addHandler(existingHandlers[i]);
+        }
     }
-    long end = System.nanoTime();
-    return (end - start) * 1.0 / RUN_LENGTH;
-  }
-  
-  public void testPerf() {
-    SLF4JBridgeHandler.install();
-    
-    if(disabledLogger) {
-     log4jRoot.setLevel(org.apache.log4j.Level.ERROR);
+
+    double julLoggerLoop() {
+        long start = System.nanoTime();
+        for (int i = 0; i < RUN_LENGTH; i++) {
+            julLogger.info("jul");
+        }
+        long end = System.nanoTime();
+        return (end - start) * 1.0 / RUN_LENGTH;
     }
-    julLoggerLoop();
-    double julAvg=julLoggerLoop();
-    System.out.println("Average cost per call (JUL->SLF4J->log4j): "+julAvg +" nanos");
-     
-    slf4jLoggerLoop();
-    double slf4jAvg=slf4jLoggerLoop();
-    System.out.println("Average cost per call (SLF4J->log4j): "+slf4jAvg +" nanos");
-    System.out.println("Ratio "+(julAvg/slf4jAvg));
-  }
+
+    double slf4jLoggerLoop() {
+        long start = System.nanoTime();
+        for (int i = 0; i < RUN_LENGTH; i++) {
+            slf4jLogger.info("slf4j");
+        }
+        long end = System.nanoTime();
+        return (end - start) * 1.0 / RUN_LENGTH;
+    }
+
+    public void testPerf() {
+        SLF4JBridgeHandler.install();
+
+        if (disabledLogger) {
+            log4jRoot.setLevel(org.apache.log4j.Level.ERROR);
+        }
+        julLoggerLoop();
+        double julAvg = julLoggerLoop();
+        System.out.println("Average cost per call (JUL->SLF4J->log4j): " + julAvg + " nanos");
+
+        slf4jLoggerLoop();
+        double slf4jAvg = slf4jLoggerLoop();
+        System.out.println("Average cost per call (SLF4J->log4j): " + slf4jAvg + " nanos");
+        System.out.println("Ratio " + (julAvg / slf4jAvg));
+    }
 }

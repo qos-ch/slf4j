@@ -30,10 +30,10 @@ import java.util.List;
 
 public class EmptyRuleSet implements RuleSet {
 
-  List<ConversionRule> list = new ArrayList<ConversionRule>();
-  
-  public Iterator<ConversionRule> iterator() {
-    return list.iterator();
-  }
-  
+    List<ConversionRule> list = new ArrayList<ConversionRule>();
+
+    public Iterator<ConversionRule> iterator() {
+        return list.iterator();
+    }
+
 }

@@ -37,30 +37,28 @@ import org.slf4j.spi.LocationAwareLogger;
  */
 public class EventLogger {
 
-  private static final String FQCN = EventLogger.class.getName();
+    private static final String FQCN = EventLogger.class.getName();
 
-  static Marker EVENT_MARKER = MarkerFactory.getMarker("EVENT");
+    static Marker EVENT_MARKER = MarkerFactory.getMarker("EVENT");
 
-  private static LoggerWrapper eventLogger =
-      new LoggerWrapper(LoggerFactory.getLogger("EventLogger"), FQCN);
+    private static LoggerWrapper eventLogger = new LoggerWrapper(LoggerFactory.getLogger("EventLogger"), FQCN);
 
-  /**
-   * There can only be a single EventLogger.
-   */
-  private EventLogger() {
-  }
-
-  /**
-   * Logs the event.
-   *
-   * @param data The EventData.
-   */
-  public static void logEvent(EventData data) {
-    if (eventLogger.instanceofLAL) {
-      ((LocationAwareLogger) eventLogger.logger).log(EVENT_MARKER, FQCN,
-          LocationAwareLogger.INFO_INT, data.toXML(), new Object[] {data}, null);
-    } else {
-      eventLogger.logger.info(EVENT_MARKER, data.toXML(), data);
+    /**
+     * There can only be a single EventLogger.
+     */
+    private EventLogger() {
     }
-  }
+
+    /**
+     * Logs the event.
+     *
+     * @param data The EventData.
+     */
+    public static void logEvent(EventData data) {
+        if (eventLogger.instanceofLAL) {
+            ((LocationAwareLogger) eventLogger.logger).log(EVENT_MARKER, FQCN, LocationAwareLogger.INFO_INT, data.toXML(), new Object[] { data }, null);
+        } else {
+            eventLogger.logger.info(EVENT_MARKER, data.toXML(), data);
+        }
+    }
 }

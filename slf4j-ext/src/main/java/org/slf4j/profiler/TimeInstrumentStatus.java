@@ -23,7 +23,6 @@
  *
  */
 
-
 /**
  * A StopWatch can be in two states: STARTED or STOPPED.
  */
@@ -37,5 +36,5 @@ package org.slf4j.profiler;
  *
  */
 enum TimeInstrumentStatus {
-  STARTED, STOPPED;
+    STARTED, STOPPED;
 }

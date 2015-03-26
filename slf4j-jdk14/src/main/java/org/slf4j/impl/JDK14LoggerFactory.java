@@ -38,33 +38,32 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class JDK14LoggerFactory implements ILoggerFactory {
 
-  // key: name (String), value: a JDK14LoggerAdapter;
-  ConcurrentMap<String, Logger> loggerMap;
+    // key: name (String), value: a JDK14LoggerAdapter;
+    ConcurrentMap<String, Logger> loggerMap;
 
-  public JDK14LoggerFactory() {
-    loggerMap =new ConcurrentHashMap<String, Logger>();
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
-   */
-  public Logger getLogger(String name) {
-    // the root logger is called "" in JUL
-    if(name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
-      name = "";
+    public JDK14LoggerFactory() {
+        loggerMap = new ConcurrentHashMap<String, Logger>();
     }
 
-    Logger slf4jLogger = loggerMap.get(name);
-    if (slf4jLogger != null)
-      return slf4jLogger;
-    else {
-      java.util.logging.Logger julLogger = java.util.logging.Logger
-          .getLogger(name);
-      Logger newInstance = new JDK14LoggerAdapter(julLogger);
-      Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
-      return oldInstance == null ? newInstance : oldInstance;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
+     */
+    public Logger getLogger(String name) {
+        // the root logger is called "" in JUL
+        if (name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
+            name = "";
+        }
+
+        Logger slf4jLogger = loggerMap.get(name);
+        if (slf4jLogger != null)
+            return slf4jLogger;
+        else {
+            java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger(name);
+            Logger newInstance = new JDK14LoggerAdapter(julLogger);
+            Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
+            return oldInstance == null ? newInstance : oldInstance;
+        }
     }
-  }
 }

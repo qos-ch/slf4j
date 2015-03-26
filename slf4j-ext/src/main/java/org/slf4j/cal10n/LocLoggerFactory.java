@@ -46,30 +46,30 @@ import ch.qos.cal10n.IMessageConveyor;
  */
 public class LocLoggerFactory {
 
-  final IMessageConveyor imc;
+    final IMessageConveyor imc;
 
-  public LocLoggerFactory(IMessageConveyor imc) {
-    this.imc = imc;
-  }
+    public LocLoggerFactory(IMessageConveyor imc) {
+        this.imc = imc;
+    }
 
-  /**
-   * Get an LocLogger instance by name.
-   * 
-   * @param name
-   * @return LocLogger instance by name.
-   */
-  public LocLogger getLocLogger(String name) {
-    return new LocLogger(LoggerFactory.getLogger(name), imc);
-  }
+    /**
+     * Get an LocLogger instance by name.
+     * 
+     * @param name
+     * @return LocLogger instance by name.
+     */
+    public LocLogger getLocLogger(String name) {
+        return new LocLogger(LoggerFactory.getLogger(name), imc);
+    }
 
-  /**
-   * Get a new LocLogger instance by class. The returned LocLogger will be named
-   * after the class.
-   * 
-   * @param clazz
-   * @return LocLogger instance by class
-   */
-  public LocLogger getLocLogger(Class<?> clazz) {
-    return getLocLogger(clazz.getName());
-  }
+    /**
+     * Get a new LocLogger instance by class. The returned LocLogger will be named
+     * after the class.
+     * 
+     * @param clazz
+     * @return LocLogger instance by class
+     */
+    public LocLogger getLocLogger(Class<?> clazz) {
+        return getLocLogger(clazz.getName());
+    }
 }

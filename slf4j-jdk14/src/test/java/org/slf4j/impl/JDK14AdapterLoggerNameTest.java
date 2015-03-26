@@ -31,59 +31,59 @@ import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 public class JDK14AdapterLoggerNameTest extends TestCase {
-  private MockHandler mockHandler;
+    private MockHandler mockHandler;
 
-  protected void setUp() throws Exception {
-    super.setUp();
-    Logger logger = Logger.getLogger("TEST");
-    mockHandler = new MockHandler();
-    removeHandlers(logger);
-    logger.addHandler(mockHandler);
-  }
-
-  protected void tearDown() throws Exception {
-    removeHandlers(Logger.getLogger("TEST"));
-    super.tearDown();
-  }
-
-  public void testLoggerNameusingJdkLogging() throws Exception {
-    Logger.getLogger("TEST").info("test message");
-    assertCorrectLoggerName();
-
-  }
-
-  public void testLoggerNameUsingSlf4j() throws Exception {
-    JDK14LoggerFactory factory = new JDK14LoggerFactory();
-    org.slf4j.Logger logger = factory.getLogger("TEST");
-    logger.info("test message");
-    assertCorrectLoggerName();
-  }
-
-  private void removeHandlers(Logger logger) {
-    logger.setUseParentHandlers(false);
-    Handler[] handlers = logger.getHandlers();
-    for (int i = 0; i < handlers.length; i++) {
-      logger.removeHandler(handlers[i]);
-    }
-  }
-
-  private void assertCorrectLoggerName() {
-    assertNotNull("no log record", mockHandler.record);
-    assertNotNull("missing logger name", mockHandler.record.getLoggerName());
-  }
-
-  private class MockHandler extends java.util.logging.Handler {
-    public LogRecord record;
-
-    public void close() throws SecurityException {
+    protected void setUp() throws Exception {
+        super.setUp();
+        Logger logger = Logger.getLogger("TEST");
+        mockHandler = new MockHandler();
+        removeHandlers(logger);
+        logger.addHandler(mockHandler);
     }
 
-    public void flush() {
+    protected void tearDown() throws Exception {
+        removeHandlers(Logger.getLogger("TEST"));
+        super.tearDown();
     }
 
-    public void publish(LogRecord record) {
-      this.record = record;
+    public void testLoggerNameusingJdkLogging() throws Exception {
+        Logger.getLogger("TEST").info("test message");
+        assertCorrectLoggerName();
+
     }
 
-  }
+    public void testLoggerNameUsingSlf4j() throws Exception {
+        JDK14LoggerFactory factory = new JDK14LoggerFactory();
+        org.slf4j.Logger logger = factory.getLogger("TEST");
+        logger.info("test message");
+        assertCorrectLoggerName();
+    }
+
+    private void removeHandlers(Logger logger) {
+        logger.setUseParentHandlers(false);
+        Handler[] handlers = logger.getHandlers();
+        for (int i = 0; i < handlers.length; i++) {
+            logger.removeHandler(handlers[i]);
+        }
+    }
+
+    private void assertCorrectLoggerName() {
+        assertNotNull("no log record", mockHandler.record);
+        assertNotNull("missing logger name", mockHandler.record.getLoggerName());
+    }
+
+    private class MockHandler extends java.util.logging.Handler {
+        public LogRecord record;
+
+        public void close() throws SecurityException {
+        }
+
+        public void flush() {
+        }
+
+        public void publish(LogRecord record) {
+            this.record = record;
+        }
+
+    }
 }
