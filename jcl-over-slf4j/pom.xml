@@ -41,6 +41,7 @@
 
   <build>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -55,7 +56,23 @@
           </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>${cobertura.maven.plugin.version}</version>
+        <configuration>
+          <instrumentation>            
+            <excludes>
+              <exclude>org/**/*.class</exclude>
+            </excludes>
+          </instrumentation>
+        </configuration>
+      </plugin>
+      
     </plugins>
+
+
   </build>
 
 </project>

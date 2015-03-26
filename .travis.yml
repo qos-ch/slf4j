@@ -2,3 +2,5 @@ language: java
 notifications:
   email:
       - slf4j-dev@qos.ch
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report

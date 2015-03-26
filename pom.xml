@@ -43,6 +43,7 @@
     <junit.version>4.10</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
+    <cobertura.maven.plugin.version>2.6</cobertura.maven.plugin.version>
   </properties>
 
   <developers>
@@ -204,6 +205,26 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>${cobertura.maven.plugin.version}</version>
+        <configuration>
+          <formats>
+            <format>xml</format>
+          </formats>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin> 
+
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration></configuration>
+      </plugin>
+
+
       <!-- ====== site plugin ===== -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -211,6 +232,7 @@
         <version>${maven-site-plugin.version}</version>
         <configuration>
           <reportPlugins>
+
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-jxr-plugin</artifactId>
@@ -219,6 +241,18 @@
                 <aggregate>true</aggregate>
                 <javadocDir>target/site/apidocs/</javadocDir>
                 <linkJavadoc>true</linkJavadoc>
+              </configuration>
+            </plugin>
+
+            <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>cobertura-maven-plugin</artifactId>
+              <version>${cobertura.maven.plugin.version}</version>
+              <configuration>
+                <formats>
+                  <format>html</format>
+                </formats>
+                <aggregate>true</aggregate>
               </configuration>
             </plugin>
 
