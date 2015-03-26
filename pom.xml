@@ -7,7 +7,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.12-SNAPSHOT</version>
+  <version>1.7.12</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -43,7 +43,6 @@
     <junit.version>4.10</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
-    <cobertura.maven.plugin.version>2.6</cobertura.maven.plugin.version>
   </properties>
 
   <developers>
@@ -205,26 +204,6 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${cobertura.maven.plugin.version}</version>
-        <configuration>
-          <formats>
-            <format>xml</format>
-          </formats>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin> 
-
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration></configuration>
-      </plugin>
-
-
       <!-- ====== site plugin ===== -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -241,18 +220,6 @@
                 <aggregate>true</aggregate>
                 <javadocDir>target/site/apidocs/</javadocDir>
                 <linkJavadoc>true</linkJavadoc>
-              </configuration>
-            </plugin>
-
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>cobertura-maven-plugin</artifactId>
-              <version>${cobertura.maven.plugin.version}</version>
-              <configuration>
-                <formats>
-                  <format>html</format>
-                </formats>
-                <aggregate>true</aggregate>
               </configuration>
             </plugin>
 
@@ -392,35 +359,6 @@
                 <phase>verify</phase>
                 <goals>
                   <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>format</id>
-      <!-- Off for the time being
-      <activation>
-        <file>
-          <exists>../codeStyle.xml</exists>
-        </file>
-      </activation>
-      -->
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-            <artifactId>maven-java-formatter-plugin</artifactId>
-            <configuration>
-              <configFile>../codeStyle.xml</configFile>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>format</goal>
                 </goals>
               </execution>
             </executions>

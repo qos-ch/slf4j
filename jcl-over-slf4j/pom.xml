@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.12-SNAPSHOT</version>
+    <version>1.7.12</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -54,19 +54,6 @@
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${cobertura.maven.plugin.version}</version>
-        <configuration>
-          <instrumentation>            
-            <excludes>
-              <exclude>org/**/*.class</exclude>
-            </excludes>
-          </instrumentation>
         </configuration>
       </plugin>
       
