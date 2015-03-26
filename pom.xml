@@ -42,6 +42,7 @@
     <logback.version>1.0.13</logback.version>
     <junit.version>4.10</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
+    <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
   </properties>
 
   <developers>
@@ -224,7 +225,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
-              <version>2.10.1</version>
+              <version>${javadoc.plugin.version}</version>
               <configuration>
                 <!--<aggregate>true</aggregate>-->
                 <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
@@ -286,6 +287,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.plugin.version}</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
