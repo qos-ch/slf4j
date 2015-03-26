@@ -31,16 +31,29 @@ document.write('  </p>');
 
 document.write('</div>');
 
-document.write('<p>&nbsp;</p>');
-document.write('<div class="jobadd"><p><a href="http://logback.qos.ch/job.html">Your career<br/>@QOS.ch</a></p></div>');
-
 
 document.write('<p>&nbsp;</p>');
-document.write('<p class="pub">');
-document.write('  <a href="https://www.qos.ch/shop/products/log4jManual">');
-document.write('    <img src="images/buyDirect.jpg" border="0" title="" alt="buy direct from the developer"/>');
-document.write('  </a>');
-document.write('</p>');
+
+document.write('<div class="pub">');
+document.write('    <a href="http://twitter.com/qos_ch" style="">');
+document.write('      <img alt="Follow @qos_ch" src="images/follow_us.png" />');
+document.write('    </a>');
+document.write('</div>');
+
+document.write('<p>&nbsp;</p>');
+document.write('<div class="pub"><img src="https://travis-ci.org/qos-ch/slf4j.svg?branch=master"/></div>');
+
+
+//document.write('<p>&nbsp;</p>');
+//document.write('<div class="jobadd"><p><a href="http://logback.qos.ch/job.html">Your career<br/>@QOS.ch</a></p></div>');
+
+
+//document.write('<p>&nbsp;</p>');
+//document.write('<p class="pub">');
+//document.write('  <a href="https://www.qos.ch/shop/products/log4jManual">');
+//document.write('    <img src="images/buyDirect.jpg" border="0" title="" alt="buy direct from the developer"/>');
+//document.write('  </a>');
+//document.write('</p>');
 
 
 
