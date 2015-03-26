@@ -68,6 +68,7 @@ public class Category {
     return Log4jLoggerFactory.getLogger(name);
   }
 
+  public final Category getParent() { return null; } 
 
   /**
    * Returns the obvious.
