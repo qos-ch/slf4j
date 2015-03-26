@@ -29,8 +29,17 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>, 2015 - Release of SLF4J 1.7.11</h3>
+   <h3>March 26th, 2015 - Release of SLF4J 1.7.11</h3>
 
+   <p>As SLF4J requires JDK 1.5 or later, the
+   <code>Bundle-RequiredExecutionEnvironment</code> declaration in the
+   various MANIFEST files have been updated to J2SE-1.5.
+   </p>
+
+   <p>Added missing Bundle-ManifestVersion attribute in the MANIFEST
+   files in log4j-over-slf4j. The issue was raised in <a
+   href="http://jira.qos.ch/browse/SLF4J-321">SLF4J-231</a> by Nikolas
+   Falco who also provided the the appropriate pull request. </p>
 
    <p>Added <code>setThreshold</code> method in
    <code>AppenderSkeleton</code> class in the log4j-over-slf4j
