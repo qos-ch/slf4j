@@ -81,6 +81,10 @@ public class Category {
         return name;
     }
 
+    public Appender getAppender(String name) {
+        return null;
+    }
+
     public Enumeration getAllAppenders() {
         return NullEnumeration.getInstance();
     }
