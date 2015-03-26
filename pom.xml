@@ -7,7 +7,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.11</version>
+  <version>1.7.12-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -398,17 +398,6 @@
   </profiles>
 
   <pluginRepositories>
-    <pluginRepository>
-      <id>apache.snapshots</id>
-      <name>Apache Snapshot Plugin Repository</name>
-      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
   </pluginRepositories>
 
   <distributionManagement>
