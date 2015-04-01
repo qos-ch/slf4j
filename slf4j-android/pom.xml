@@ -47,7 +47,6 @@
                     </archive>
                 </configuration>
             </plugin>
-
             <plugin>
                 <!-- Google Android requires class compatibility set to 5.0 -->
                 <groupId>org.apache.maven.plugins</groupId>
@@ -59,5 +58,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

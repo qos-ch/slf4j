@@ -11,12 +11,12 @@
   </parent>
 
 
-	<artifactId>log4j-over-slf4j</artifactId>
-	<packaging>jar</packaging>
-	<name>Log4j Implemented Over SLF4J</name>
+  <artifactId>log4j-over-slf4j</artifactId>
+  <packaging>jar</packaging>
+  <name>Log4j Implemented Over SLF4J</name>
   <description>Log4j implemented over SLF4J</description>
 
-	<url>http://www.slf4j.org</url>
+  <url>http://www.slf4j.org</url>
 
   <licenses>
     <license>
@@ -29,19 +29,16 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-    </dependency>  
-
+    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <scope>test</scope>
-    </dependency>  
+    </dependency>
   </dependencies>
-
 
   <build>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -56,8 +53,6 @@
           </archive>
         </configuration>			
       </plugin>
- 
     </plugins>
   </build>
-
 </project>

@@ -48,7 +48,7 @@
   </dependencies>
 
   <build>
-		<plugins>
+    <plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -62,7 +62,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
          <configuration>
-		  <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
+         <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
          <printSummary>false</printSummary>
           <forkMode>once</forkMode>
           <reportFormat>plain</reportFormat>
@@ -73,7 +73,6 @@
           </excludes>
         </configuration>
       </plugin>
-
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -90,16 +89,14 @@
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>			
-      </plugin>      
+        </configuration>
+      </plugin>
     </plugins>
 
   </build>
 
   <reporting>
     <plugins>
-    
     </plugins>
   </reporting>
-
 </project>

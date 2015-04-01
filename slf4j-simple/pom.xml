@@ -23,7 +23,6 @@
     </dependency>
   </dependencies>
 
-
   <build>
     <plugins>
       <plugin>
@@ -40,9 +39,6 @@
           </archive>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
-
-
 </project>

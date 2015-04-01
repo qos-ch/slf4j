@@ -20,7 +20,6 @@
 
   <dependencies>
   </dependencies> 
-
   <build>
     <plugins>
       <plugin>
@@ -80,7 +79,6 @@
           </tasks>
         </configuration>
       </plugin>
-
     </plugins>
 
   </build>

@@ -16,7 +16,6 @@
   <description>JCL 1.1.1 implemented over SLF4J</description>
   <url>http://www.slf4j.org</url>
 
-
   <dependencies>
     <!--
     <dependency>
@@ -31,18 +30,15 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -57,10 +53,6 @@
           </archive>
         </configuration>
       </plugin>
-      
     </plugins>
-
-
   </build>
-
 </project>
