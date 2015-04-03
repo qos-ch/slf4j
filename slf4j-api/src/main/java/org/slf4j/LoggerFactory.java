@@ -339,7 +339,7 @@ public final class LoggerFactory {
             throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
         case ONGOING_INITIALIZATION:
             // support re-entrant behavior.
-            // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
+            // See also http://jira.qos.ch/browse/SLF4J-97
             return TEMP_FACTORY;
         }
         throw new IllegalStateException("Unreachable code");

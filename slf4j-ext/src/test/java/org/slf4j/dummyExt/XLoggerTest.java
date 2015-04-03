@@ -128,10 +128,11 @@ public class XLoggerTest extends TestCase {
         verifyWithLevelAndException((LoggingEvent) listAppender.list.get(1), XLogger.Level.DEBUG, "catching", t);
     }
 
-    // See http://bugzilla.slf4j.org/show_bug.cgi?id=114
+    // See http://jira.qos.ch/browse/SLF4J-105
+    // formerly http://bugzilla.slf4j.org/show_bug.cgi?id=114
     public void testLocationExtraction_Bug114() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-        int line = 135; // requires update if line numbers change
+        int line = 136; // requires update if line numbers change
         logger.exit();
         logger.debug("hello");
 

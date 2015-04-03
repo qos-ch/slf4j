@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
-// Based on http://bugzilla.slf4j.org/show_bug.cgi?id=38
+// Based on http://jira.qos.ch/browse/SLF4J-30
 
 /**
  * <p>Bridge/route all JUL log records to the SLF4J API.</p>
@@ -259,7 +259,7 @@ public class SLF4JBridgeHandler extends Handler {
         }
         Object[] params = record.getParameters();
         // avoid formatting when there are no or 0 parameters. see also
-        // http://bugzilla.slf4j.org/show_bug.cgi?id=212
+        // http://jira.qos.ch/browse/SLF4J-203
         if (params != null && params.length > 0) {
             message = MessageFormat.format(message, params);
         }
@@ -289,7 +289,7 @@ public class SLF4JBridgeHandler extends Handler {
         // this is a check to avoid calling the underlying logging system
         // with a null message. While it is legitimate to invoke j.u.l. with
         // a null message, other logging frameworks do not support this.
-        // see also http://bugzilla.slf4j.org/show_bug.cgi?id=108
+        // see also http://jira.qos.ch/browse/SLF4J-99
         if (message == null) {
             message = "";
         }

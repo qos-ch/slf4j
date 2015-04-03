@@ -39,7 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * See http://bugzilla.slf4j.org/show_bug.cgi?id=261
+ * See http://jira.qos.ch/browse/SLF4J-252
  * @author Thorbjorn Ravn Andersen
  */
 public class LoggerSerializationTest extends TestCase {
