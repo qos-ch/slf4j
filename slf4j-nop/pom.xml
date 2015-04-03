@@ -17,7 +17,6 @@
   <description>SLF4J NOP Binding</description>
   <url>http://www.slf4j.org</url>
 
-
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -27,7 +26,6 @@
 
   <build>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -43,7 +41,5 @@
         </configuration>
       </plugin>
     </plugins>
-
   </build>
-
 </project>

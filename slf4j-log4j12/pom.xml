@@ -17,7 +17,6 @@
   <description>SLF4J LOG4J-12 Binding</description>
   <url>http://www.slf4j.org</url>
 
-
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -48,5 +47,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

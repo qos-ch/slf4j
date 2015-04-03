@@ -11,12 +11,10 @@
   </parent>
 
   <artifactId>slf4j-jdk14</artifactId>
-
   <packaging>jar</packaging>
   <name>SLF4J JDK14 Binding</name>
   <description>SLF4J JDK14 Binding</description>
   <url>http://www.slf4j.org</url>
-
 
   <dependencies>
     <dependency>
@@ -51,5 +49,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

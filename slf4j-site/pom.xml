@@ -33,8 +33,7 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>${maven-site-plugin.version}</version>
         <configuration>
-          <outputDirectory>${project.parent.basedir}/target/site
-          </outputDirectory>
+          <outputDirectory>${project.parent.basedir}/target/site</outputDirectory>
         </configuration>
       </plugin>
     </plugins>

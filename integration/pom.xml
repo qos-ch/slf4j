@@ -10,7 +10,6 @@
     <version>1.7.13-SNAPSHOT</version>
   </parent>
 
-
   <artifactId>integration</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J Integration tests</name>
@@ -36,7 +35,6 @@
       <artifactId>ant-junit</artifactId>
       <version>1.6.5</version>
     </dependency>
-
 
     <!-- some test run Felix in hosted mode -->
     <dependency>

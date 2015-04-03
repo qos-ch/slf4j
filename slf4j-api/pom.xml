@@ -18,9 +18,6 @@
 
   <url>http://www.slf4j.org</url>
 
-  <dependencies>
-  </dependencies> 
-
   <build>
     <plugins>
       <plugin>
@@ -80,7 +77,6 @@
           </tasks>
         </configuration>
       </plugin>
-
     </plugins>
 
   </build>
