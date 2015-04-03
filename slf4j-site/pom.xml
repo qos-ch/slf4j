@@ -26,6 +26,9 @@
         <targetPath>${project.basedir}/../target/site</targetPath>
         <filtering>true</filtering>
       </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+      </resource>
     </resources>
     <plugins>
       <plugin>
