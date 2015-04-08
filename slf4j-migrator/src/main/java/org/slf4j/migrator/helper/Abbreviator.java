@@ -48,7 +48,7 @@ public class Abbreviator {
                 return filename;
             }
             StringBuilder buf = new StringBuilder(desiredLength);
-            buf.append(filename.substring(0, firstIndex + 1));
+            buf.append(filename, 0, firstIndex + 1);
             buf.append(FILLER);
             int nextIndex = computeNextIndex(filename, firstIndex);
             if (nextIndex != -1) {
