@@ -30,56 +30,55 @@ import org.slf4j.spi.LocationAwareLogger;
  * */
 @SuppressWarnings("rawtypes")
 public class Logger extends Category {
-  
-  private static final String LOGGER_FQCN = Logger.class.getName();
-  
-  protected Logger(String name) {
-    super(name);
-  }
 
-  public static Logger getLogger(String name) {
-    return Log4jLoggerFactory.getLogger(name);
-  }
+    private static final String LOGGER_FQCN = Logger.class.getName();
 
-  public static Logger getLogger(String name, LoggerFactory loggerFactory) {
-    return Log4jLoggerFactory.getLogger(name,loggerFactory);
-  }
+    protected Logger(String name) {
+        super(name);
+    }
 
-  public static Logger getLogger(Class clazz) {
-    return getLogger(clazz.getName());
-  }
-  
-  /**
-   * Does the obvious.
-   * 
-   * @return
-   */
-  public static Logger getRootLogger() {
-    return Log4jLoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-  }
+    public static Logger getLogger(String name) {
+        return Log4jLoggerFactory.getLogger(name);
+    }
 
-  
-  /**
-   * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
-   * method of SLF4J.
-   */
-  public boolean isTraceEnabled() {
-    return slf4jLogger.isTraceEnabled();
-  }
-  
-  /**
-   * Delegates to {@link org.slf4j.Logger#trace(String)} method in SLF4J.
-   */
-  public void trace(Object message) {
-    differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
-  }
+    public static Logger getLogger(String name, LoggerFactory loggerFactory) {
+        return Log4jLoggerFactory.getLogger(name, loggerFactory);
+    }
 
-  /**
-   * Delegates to {@link org.slf4j.Logger#trace(String,Throwable)} 
-   * method in SLF4J.
-   */
-  public void trace(Object message, Throwable t) {
-    differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
-  }
+    public static Logger getLogger(Class clazz) {
+        return getLogger(clazz.getName());
+    }
+
+    /**
+     * Does the obvious.
+     * 
+     * @return
+     */
+    public static Logger getRootLogger() {
+        return Log4jLoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+    }
+
+    /**
+     * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
+     * method of SLF4J.
+     */
+    public boolean isTraceEnabled() {
+        return slf4jLogger.isTraceEnabled();
+    }
+
+    /**
+     * Delegates to {@link org.slf4j.Logger#trace(String)} method in SLF4J.
+     */
+    public void trace(Object message) {
+        differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
+    }
+
+    /**
+     * Delegates to {@link org.slf4j.Logger#trace(String,Throwable)} 
+     * method in SLF4J.
+     */
+    public void trace(Object message, Throwable t) {
+        differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
+    }
 
 }

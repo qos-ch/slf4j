@@ -24,12 +24,11 @@
  */
 package org.slf4j.migrator;
 
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({AternativeApproach.class})
+@SuiteClasses({ AternativeApproach.class })
 public class PackageTest {
 }

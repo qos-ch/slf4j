@@ -52,36 +52,36 @@ package org.slf4j.profiler;
  */
 public class BasicProfilerDemo {
 
-  public static void main(String[] args) {
-    // create a profiler called "BASIC"
-    Profiler profiler = new Profiler("BASIC");
-    profiler.start("A");
-    doA();
+    public static void main(String[] args) {
+        // create a profiler called "BASIC"
+        Profiler profiler = new Profiler("BASIC");
+        profiler.start("A");
+        doA();
 
-    profiler.start("B");
-    doB();
+        profiler.start("B");
+        doB();
 
-    profiler.start("OTHER");
-    doOther();
-    profiler.stop().print();
-  }
-
-  static private void doA() {
-    delay(200);
-  }
-
-  static private void doB() {
-    delay(2500);
-  }
-
-  static private void doOther() {
-    delay(3300);
-  }
-
-  static private void delay(int millis) {
-    try {
-      Thread.sleep(millis);
-    } catch (InterruptedException e) {
+        profiler.start("OTHER");
+        doOther();
+        profiler.stop().print();
     }
-  }
+
+    static private void doA() {
+        delay(200);
+    }
+
+    static private void doB() {
+        delay(2500);
+    }
+
+    static private void doOther() {
+        delay(3300);
+    }
+
+    static private void delay(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+        }
+    }
 }

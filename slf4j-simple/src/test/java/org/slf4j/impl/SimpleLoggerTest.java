@@ -33,45 +33,46 @@ import static junit.framework.Assert.assertNull;
 
 public class SimpleLoggerTest {
 
-  String A_KEY = SimpleLogger.LOG_KEY_PREFIX+"a";
+    String A_KEY = SimpleLogger.LOG_KEY_PREFIX + "a";
 
-  @Before public void before() {
-    System.setProperty(A_KEY, "info");
-  }
+    @Before
+    public void before() {
+        System.setProperty(A_KEY, "info");
+    }
 
-  @After public void after() {
-    System.clearProperty(A_KEY);
-  }
+    @After
+    public void after() {
+        System.clearProperty(A_KEY);
+    }
 
-  @Test
-  public void emptyLoggerName() {
-    SimpleLogger simpleLogger = new SimpleLogger("a");
-    assertEquals("info", simpleLogger.recursivelyComputeLevelString());
-  }
+    @Test
+    public void emptyLoggerName() {
+        SimpleLogger simpleLogger = new SimpleLogger("a");
+        assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+    }
 
-  @Test
-  public void loggerNameWithNoDots_WithLevel() {
-    SimpleLogger simpleLogger = new SimpleLogger("a");
-    assertEquals("info", simpleLogger.recursivelyComputeLevelString());
-  }
+    @Test
+    public void loggerNameWithNoDots_WithLevel() {
+        SimpleLogger simpleLogger = new SimpleLogger("a");
+        assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+    }
 
-  @Test
-  public void loggerNameWithOneDotShouldInheritFromParent() {
-    SimpleLogger simpleLogger = new SimpleLogger("a.b");
-    assertEquals("info", simpleLogger.recursivelyComputeLevelString());
-  }
+    @Test
+    public void loggerNameWithOneDotShouldInheritFromParent() {
+        SimpleLogger simpleLogger = new SimpleLogger("a.b");
+        assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+    }
 
+    @Test
+    public void loggerNameWithNoDots_WithNoSetLevel() {
+        SimpleLogger simpleLogger = new SimpleLogger("x");
+        assertNull(simpleLogger.recursivelyComputeLevelString());
+    }
 
-  @Test
-  public void loggerNameWithNoDots_WithNoSetLevel() {
-    SimpleLogger simpleLogger = new SimpleLogger("x");
-    assertNull(simpleLogger.recursivelyComputeLevelString());
-  }
-
-  @Test
-  public void loggerNameWithOneDot_NoSetLevel() {
-    SimpleLogger simpleLogger = new SimpleLogger("x.y");
-    assertNull(simpleLogger.recursivelyComputeLevelString());
-  }
+    @Test
+    public void loggerNameWithOneDot_NoSetLevel() {
+        SimpleLogger simpleLogger = new SimpleLogger("x.y");
+        assertNull(simpleLogger.recursivelyComputeLevelString());
+    }
 
 }

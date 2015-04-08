@@ -19,15 +19,15 @@ import org.apache.log4j.spi.OptionHandler;
 
 public class AppenderSkeleton implements OptionHandler {
 
-  public void setLayout(Layout layout) {
-  }
+    public void setLayout(Layout layout) {
+    }
 
-  public void setName(String name) {
-  }
+    public void setName(String name) {
+    }
 
-  public void activateOptions() {
-  }
+    public void activateOptions() {
+    }
 
-  public void setThreshold(Priority threshold) {
-  }
+    public void setThreshold(Priority threshold) {
+    }
 }

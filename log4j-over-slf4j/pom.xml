@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -7,16 +7,16 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.11-SNAPSHOT</version>
+    <version>1.7.13-SNAPSHOT</version>
   </parent>
 
 
-	<artifactId>log4j-over-slf4j</artifactId>
-	<packaging>jar</packaging>
-	<name>Log4j Implemented Over SLF4J</name>
+  <artifactId>log4j-over-slf4j</artifactId>
+  <packaging>jar</packaging>
+  <name>Log4j Implemented Over SLF4J</name>
   <description>Log4j implemented over SLF4J</description>
 
-	<url>http://www.slf4j.org</url>
+  <url>http://www.slf4j.org</url>
 
   <licenses>
     <license>
@@ -29,15 +29,13 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-    </dependency>  
-
+    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <scope>test</scope>
-    </dependency>  
+    </dependency>
   </dependencies>
-
 
   <build>
     <plugins>
@@ -57,5 +55,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

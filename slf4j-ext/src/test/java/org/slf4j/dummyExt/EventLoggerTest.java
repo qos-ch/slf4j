@@ -38,71 +38,69 @@ import org.slf4j.ext.EventLogger;
 
 public class EventLoggerTest extends TestCase {
 
-  ListAppender listAppender;
-  org.apache.log4j.Logger log4;
+    ListAppender listAppender;
+    org.apache.log4j.Logger log4;
 
-  final static String EXPECTED_FILE_NAME = "EventLoggerTest.java";
+    final static String EXPECTED_FILE_NAME = "EventLoggerTest.java";
 
-  public EventLoggerTest(String name) {
-    super(name);
-  }
-
-  public void setUp() throws Exception {
-    super.setUp();
-
-    // start from a clean slate for each test
-
-    listAppender = new ListAppender();
-    listAppender.extractLocationInfo = true;
-    org.apache.log4j.Logger eventLogger =
-        org.apache.log4j.Logger.getLogger("EventLogger");
-    eventLogger.addAppender(listAppender);
-    eventLogger.setLevel(org.apache.log4j.Level.TRACE);
-    eventLogger.setAdditivity(false);
-    // Items that apply to any activity
-    MDC.put("ipAddress", "192.168.1.110");
-    MDC.put("login", "TestUSer");
-    MDC.put("hostname", "localhost");
-    MDC.put("productName", "SLF4J");
-    MDC.put("locale", Locale.getDefault().getDisplayName());
-    MDC.put("timezone", TimeZone.getDefault().getDisplayName());
-
-  }
-
-  public void tearDown() throws Exception {
-    super.tearDown();
-    MDC.clear();
-  }
-
-  void verify(LoggingEvent le, String expectedMsg) {
-    assertEquals(expectedMsg, le.getMessage());
-    assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
-  }
-
-
-  public void testEventLogger() {
-    EventData data[] = new EventData[2];
-    data[0] = new EventData();
-    data[0].setEventType("Login");
-    data[0].setEventId("1");
-    data[0].setEventDateTime(new Date());
-    data[0].put("Userid", "TestUser");
-    EventLogger.logEvent(data[0]);
-
-    data[1] = new EventData();
-    data[1].setEventType("Update");
-    data[1].setEventId("2");
-    data[1].setEventDateTime(new Date());
-    data[1].put("FileName", "/etc/hosts");
-    EventLogger.logEvent(data[1]);
-
-    assertEquals(2, listAppender.list.size());
-    for (int i=0; i < 2; ++i) {
-      LoggingEvent event = listAppender.list.get(i);
-      verify(event, data[i].toXML());
-      LocationInfo li = event.getLocationInformation();
-      assertEquals(this.getClass().getName(), li.getClassName());
-      assertEquals(event.getMDC("hostname"), "localhost");
+    public EventLoggerTest(String name) {
+        super(name);
     }
-  }
+
+    public void setUp() throws Exception {
+        super.setUp();
+
+        // start from a clean slate for each test
+
+        listAppender = new ListAppender();
+        listAppender.extractLocationInfo = true;
+        org.apache.log4j.Logger eventLogger = org.apache.log4j.Logger.getLogger("EventLogger");
+        eventLogger.addAppender(listAppender);
+        eventLogger.setLevel(org.apache.log4j.Level.TRACE);
+        eventLogger.setAdditivity(false);
+        // Items that apply to any activity
+        MDC.put("ipAddress", "192.168.1.110");
+        MDC.put("login", "TestUSer");
+        MDC.put("hostname", "localhost");
+        MDC.put("productName", "SLF4J");
+        MDC.put("locale", Locale.getDefault().getDisplayName());
+        MDC.put("timezone", TimeZone.getDefault().getDisplayName());
+
+    }
+
+    public void tearDown() throws Exception {
+        super.tearDown();
+        MDC.clear();
+    }
+
+    void verify(LoggingEvent le, String expectedMsg) {
+        assertEquals(expectedMsg, le.getMessage());
+        assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
+    }
+
+    public void testEventLogger() {
+        EventData data[] = new EventData[2];
+        data[0] = new EventData();
+        data[0].setEventType("Login");
+        data[0].setEventId("1");
+        data[0].setEventDateTime(new Date());
+        data[0].put("Userid", "TestUser");
+        EventLogger.logEvent(data[0]);
+
+        data[1] = new EventData();
+        data[1].setEventType("Update");
+        data[1].setEventId("2");
+        data[1].setEventDateTime(new Date());
+        data[1].put("FileName", "/etc/hosts");
+        EventLogger.logEvent(data[1]);
+
+        assertEquals(2, listAppender.list.size());
+        for (int i = 0; i < 2; ++i) {
+            LoggingEvent event = listAppender.list.get(i);
+            verify(event, data[i].toXML());
+            LocationInfo li = event.getLocationInformation();
+            assertEquals(this.getClass().getName(), li.getClassName());
+            assertEquals(event.getMDC("hostname"), "localhost");
+        }
+    }
 }

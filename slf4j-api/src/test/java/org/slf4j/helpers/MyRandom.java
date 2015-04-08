@@ -24,31 +24,28 @@
  */
 package org.slf4j.helpers;
 
+class MyRandom {
 
-class MyRandom  {
+    private final static long m = 200000000041L; // a prime number
+    private final static long a = 2000000011L; // a prime number
 
-  private final static long m = 200000000041L;  // a prime number
-  private final static long a = 2000000011L; // a prime number
-  
-  long y;
-  long unused;
-  int bits = 32;
-  
-  public MyRandom() { 
-    this(System.nanoTime()); 
-  }
+    long y;
+    long unused;
+    int bits = 32;
 
-  
-  public MyRandom(long seed) { 
-    this.y = seed; 
-  }
-  
-  
-  int nextInt() {
-    // we don't really care about the randomness of this
-    // generator
-    y = (a*y + 1) % m;
-    unused = y >>> (48-bits); // just exercise the >>> operator
-    return (int)(y);
-  }
+    public MyRandom() {
+        this(System.nanoTime());
+    }
+
+    public MyRandom(long seed) {
+        this.y = seed;
+    }
+
+    int nextInt() {
+        // we don't really care about the randomness of this
+        // generator
+        y = (a * y + 1) % m;
+        unused = y >>> (48 - bits); // just exercise the >>> operator
+        return (int) (y);
+    }
 }

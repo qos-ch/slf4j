@@ -29,7 +29,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({AbbreviatorTest.class})
+@SuiteClasses({ AbbreviatorTest.class })
 public class PackageTest {
 }
-

@@ -24,15 +24,14 @@
  */
 package org.slf4j.profiler;
 
-
 import junit.framework.*;
 
 public class PackageTest extends TestCase {
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(UtilTest.class);
-    suite.addTestSuite(ProfilerTest.class);
-    return suite;
-  }
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(UtilTest.class);
+        suite.addTestSuite(ProfilerTest.class);
+        return suite;
+    }
 }

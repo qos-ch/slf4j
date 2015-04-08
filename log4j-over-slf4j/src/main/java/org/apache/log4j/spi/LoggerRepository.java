@@ -75,11 +75,9 @@ public interface LoggerRepository {
 
     public Logger getRootLogger();
 
-    public
-    abstract Logger exists(String name);
+    public abstract Logger exists(String name);
 
-    public
-    abstract void shutdown();
+    public abstract void shutdown();
 
     @SuppressWarnings("rawtypes")
     public Enumeration getCurrentLoggers();
@@ -90,11 +88,8 @@ public interface LoggerRepository {
     @SuppressWarnings("rawtypes")
     public Enumeration getCurrentCategories();
 
+    public abstract void fireAddAppenderEvent(Category logger, Appender appender);
 
-    public
-    abstract void fireAddAppenderEvent(Category logger, Appender appender);
-
-    public
-    abstract void resetConfiguration();
+    public abstract void resetConfiguration();
 
 }

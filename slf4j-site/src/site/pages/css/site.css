@@ -171,6 +171,11 @@ strong {
   text-align: center;
 }
 
+#left .pub a:hover {
+  background-color: transparent; 
+  border: solid 0px #FFFFFF; 
+}
+
 #left a:hover, #right a:hover {
   border: solid 1px #FFFFFF; 
   background-color: #3333CC; 
@@ -428,7 +433,7 @@ dt:hover .anchor {
   padding-top: 3px;
   padding-right: 16px;
   float: left;
-  height: 18px;
+  height: 18px;div
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   white-space: nowrap;
   background-color: white;

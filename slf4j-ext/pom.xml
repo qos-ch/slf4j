@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.11-SNAPSHOT</version>
+    <version>1.7.13-SNAPSHOT</version>
   </parent>
 
   <artifactId>slf4j-ext</artifactId>
@@ -48,21 +48,12 @@
   </dependencies>
 
   <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
          <configuration>
-		  <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
+         <!-- http://maven.apache.org/plugins/maven-surefire-plugin/test-mojo.html -->
          <printSummary>false</printSummary>
           <forkMode>once</forkMode>
           <reportFormat>plain</reportFormat>
@@ -73,7 +64,6 @@
           </excludes>
         </configuration>
       </plugin>
-
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -90,16 +80,10 @@
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
-        </configuration>			
-      </plugin>      
+        </configuration>
+      </plugin>
     </plugins>
 
   </build>
-
-  <reporting>
-    <plugins>
-    
-    </plugins>
-  </reporting>
 
 </project>

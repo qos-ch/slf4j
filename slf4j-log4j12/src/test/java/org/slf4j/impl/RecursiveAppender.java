@@ -33,22 +33,22 @@ import org.slf4j.LoggerFactory;
 
 public class RecursiveAppender extends AppenderSkeleton {
 
-  int diff = new Random().nextInt();
-  
-  public RecursiveAppender() {
-    System.out.println("in RecursiveAppender constructor");
-    Logger logger = LoggerFactory.getLogger("RecursiveAppender"+diff);
-    System.out.println("logger class="+logger.getClass().getName());
-    logger.info("Calling a logger in the constructor");
-  }
-  
-  protected void append(LoggingEvent arg0) {
-  }
+    int diff = new Random().nextInt();
 
-  public void close() {
-  }
+    public RecursiveAppender() {
+        System.out.println("in RecursiveAppender constructor");
+        Logger logger = LoggerFactory.getLogger("RecursiveAppender" + diff);
+        System.out.println("logger class=" + logger.getClass().getName());
+        logger.info("Calling a logger in the constructor");
+    }
 
-  public boolean requiresLayout() {
-    return false;
-  }
+    protected void append(LoggingEvent arg0) {
+    }
+
+    public void close() {
+    }
+
+    public boolean requiresLayout() {
+        return false;
+    }
 }

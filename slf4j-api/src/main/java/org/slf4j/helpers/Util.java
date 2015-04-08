@@ -24,7 +24,6 @@
  */
 package org.slf4j.helpers;
 
-
 /**
  * An internal utility class.
  *
@@ -33,7 +32,8 @@ package org.slf4j.helpers;
  */
 public final class Util {
 
-    private Util() {}
+    private Util() {
+    }
 
     /**
      * In order to call {@link SecurityManager#getClassContext()}, which is a
@@ -59,16 +59,14 @@ public final class Util {
 
         // Advance until Util is found
         int i;
-        for(i = 0; i < trace.length; i++) {
-            if(thisClassName.equals(trace[i].getName()))
+        for (i = 0; i < trace.length; i++) {
+            if (thisClassName.equals(trace[i].getName()))
                 break;
         }
 
         // trace[i] = Util; trace[i+1] = caller; trace[i+2] = caller's caller
-        if(i >= trace.length || i + 2 >= trace.length) {
-            throw new IllegalStateException(
-                    "Failed to find org.slf4j.helpers.Util or its caller in the stack; " +
-                            "this should not happen");
+        if (i >= trace.length || i + 2 >= trace.length) {
+            throw new IllegalStateException("Failed to find org.slf4j.helpers.Util or its caller in the stack; " + "this should not happen");
         }
 
         return trace[i + 2];

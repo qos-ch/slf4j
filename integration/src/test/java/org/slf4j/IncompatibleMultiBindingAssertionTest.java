@@ -32,44 +32,43 @@ import junit.framework.TestCase;
 
 public class IncompatibleMultiBindingAssertionTest extends TestCase {
 
-  StringPrintStream sps = new StringPrintStream(System.err);
-  PrintStream old = System.err;
-  int diff = 1024 + new Random().nextInt(10000);
+    StringPrintStream sps = new StringPrintStream(System.err);
+    PrintStream old = System.err;
+    int diff = 1024 + new Random().nextInt(10000);
 
-  public IncompatibleMultiBindingAssertionTest(String name) {
-    super(name);
-  }
-
-  protected void setUp() throws Exception {
-    super.setUp();
-    System.setErr(sps);
-  }
-
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    System.setErr(old);
-  }
-
-  public void test() throws Exception {
-    try {
-      Logger logger = LoggerFactory.getLogger(this.getClass());
-      String msg = "hello world " + diff;
-      logger.info(msg);
-      fail("was expecting NoSuchMethodError");
-    } catch (NoSuchMethodError e) {
+    public IncompatibleMultiBindingAssertionTest(String name) {
+        super(name);
     }
-    List<String> list = sps.stringList;
-    assertMsgContains(list, 0, "Class path contains multiple SLF4J bindings.");
-    assertMsgContains(list, 1, "Found binding in");
-    assertMsgContains(list, 2, "Found binding in");
-    assertMsgContains(list, 3, "See http://www.slf4j.org/codes.html");
-    assertMsgContains(list, 4,
-        "slf4j-api 1.6.x (or later) is incompatible with this binding");
-    assertMsgContains(list, 5, "Your binding is version 1.5.5 or earlier.");
 
-  }
+    protected void setUp() throws Exception {
+        super.setUp();
+        System.setErr(sps);
+    }
 
-  void assertMsgContains(List<String> strList, int index, String msg) {
-    assertTrue(((String) strList.get(index)).contains(msg));
-  }
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.setErr(old);
+    }
+
+    public void test() throws Exception {
+        try {
+            Logger logger = LoggerFactory.getLogger(this.getClass());
+            String msg = "hello world " + diff;
+            logger.info(msg);
+            fail("was expecting NoSuchMethodError");
+        } catch (NoSuchMethodError e) {
+        }
+        List<String> list = sps.stringList;
+        assertMsgContains(list, 0, "Class path contains multiple SLF4J bindings.");
+        assertMsgContains(list, 1, "Found binding in");
+        assertMsgContains(list, 2, "Found binding in");
+        assertMsgContains(list, 3, "See http://www.slf4j.org/codes.html");
+        assertMsgContains(list, 4, "slf4j-api 1.6.x (or later) is incompatible with this binding");
+        assertMsgContains(list, 5, "Your binding is version 1.5.5 or earlier.");
+
+    }
+
+    void assertMsgContains(List<String> strList, int index, String msg) {
+        assertTrue(((String) strList.get(index)).contains(msg));
+    }
 }

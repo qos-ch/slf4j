@@ -31,57 +31,53 @@ import junit.framework.TestCase;
 
 public class MissingSingletonMethodAssertionTest extends TestCase {
 
-  StringPrintStream sps = new StringPrintStream(System.err);
-  PrintStream old = System.err;
-  int diff = 1024 + new Random().nextInt(10000);
+    StringPrintStream sps = new StringPrintStream(System.err);
+    PrintStream old = System.err;
+    int diff = 1024 + new Random().nextInt(10000);
 
-  public MissingSingletonMethodAssertionTest(String name) {
-    super(name);
-  }
-
-  protected void setUp() throws Exception {
-    super.setUp();
-    System.setErr(sps);
-  }
-
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    System.setErr(old);
-  }
-
-  public void test() throws Exception {
-    try {
-      Logger logger = LoggerFactory.getLogger(this.getClass());
-      String msg = "hello world " + diff;
-      logger.info(msg);
-      fail("NoSuchMethodError expected");
-    } catch (NoSuchMethodError e) {
-    }
-    
-    int lineCount = sps.stringList
-    .size();
-    assertTrue("number of lines should be 3 but was "+lineCount, lineCount == 3);
-
-    
-    // expected output:
-    // SLF4J: slf4j-api 1.6.x (or later) is incompatible with this binding.
-    // SLF4J: Your binding is version 1.4.x or earlier.
-    // SLF4J: Upgrade your binding to version 1.6.x. or 2.0.x
-
-    {
-      String s = (String) sps.stringList.get(0);
-      assertTrue(s
-          .contains("SLF4J: slf4j-api 1.6.x (or later) is incompatible with this binding."));
-    }
-    {
-      String s = (String) sps.stringList.get(1);
-      assertTrue(s.contains("SLF4J: Your binding is version 1.5.5 or earlier."));
-    }
-    {
-      String s = (String) sps.stringList.get(2);
-      assertTrue(s
-          .contains("SLF4J: Upgrade your binding to version 1.6.x."));
+    public MissingSingletonMethodAssertionTest(String name) {
+        super(name);
     }
 
-  }
+    protected void setUp() throws Exception {
+        super.setUp();
+        System.setErr(sps);
+    }
+
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.setErr(old);
+    }
+
+    public void test() throws Exception {
+        try {
+            Logger logger = LoggerFactory.getLogger(this.getClass());
+            String msg = "hello world " + diff;
+            logger.info(msg);
+            fail("NoSuchMethodError expected");
+        } catch (NoSuchMethodError e) {
+        }
+
+        int lineCount = sps.stringList.size();
+        assertTrue("number of lines should be 3 but was " + lineCount, lineCount == 3);
+
+        // expected output:
+        // SLF4J: slf4j-api 1.6.x (or later) is incompatible with this binding.
+        // SLF4J: Your binding is version 1.4.x or earlier.
+        // SLF4J: Upgrade your binding to version 1.6.x. or 2.0.x
+
+        {
+            String s = (String) sps.stringList.get(0);
+            assertTrue(s.contains("SLF4J: slf4j-api 1.6.x (or later) is incompatible with this binding."));
+        }
+        {
+            String s = (String) sps.stringList.get(1);
+            assertTrue(s.contains("SLF4J: Your binding is version 1.5.5 or earlier."));
+        }
+        {
+            String s = (String) sps.stringList.get(2);
+            assertTrue(s.contains("SLF4J: Upgrade your binding to version 1.6.x."));
+        }
+
+    }
 }

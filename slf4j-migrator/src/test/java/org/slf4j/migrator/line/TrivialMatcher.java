@@ -34,32 +34,30 @@ import org.slf4j.migrator.line.RuleSet;
 import org.slf4j.migrator.line.SingleConversionRule;
 
 class TrivialMatcher implements RuleSet {
- 
-  private ArrayList<ConversionRule> conversionRuleList;
-  
-  public TrivialMatcher() {
-    //simple rule no capturing group is defined, we use default capturing group which is group zero
-    SingleConversionRule cr = new SingleConversionRule(Pattern.compile("import org.slf4j.converter"), 
-        "simple replacement with an unique capturing group");
-    
-    //we define 4 differents capturing groups
-    MultiGroupConversionRule cr1 = new MultiGroupConversionRule(Pattern.compile("(first group)( second group)( third group)( 4th group)"));
-    //group zero is ignored during treatment
-    //replacement for the first
-    cr1.addReplacement(1, "1st group");
-    //no replacement for the second group it will remains the same
-    //empty string for the third group it will be deleted
-    cr1.addReplacement(3, "");
-    //no replacement for the third group it will remains the same
-    
-    conversionRuleList = new ArrayList<ConversionRule>();
-    conversionRuleList.add(cr);
-    conversionRuleList.add(cr1);
-  }
 
-  public Iterator<ConversionRule> iterator() {
-    return conversionRuleList.iterator();
-  }
-  
-  
+    private ArrayList<ConversionRule> conversionRuleList;
+
+    public TrivialMatcher() {
+        // simple rule no capturing group is defined, we use default capturing group which is group zero
+        SingleConversionRule cr = new SingleConversionRule(Pattern.compile("import org.slf4j.converter"), "simple replacement with an unique capturing group");
+
+        // we define 4 differents capturing groups
+        MultiGroupConversionRule cr1 = new MultiGroupConversionRule(Pattern.compile("(first group)( second group)( third group)( 4th group)"));
+        // group zero is ignored during treatment
+        // replacement for the first
+        cr1.addReplacement(1, "1st group");
+        // no replacement for the second group it will remains the same
+        // empty string for the third group it will be deleted
+        cr1.addReplacement(3, "");
+        // no replacement for the third group it will remains the same
+
+        conversionRuleList = new ArrayList<ConversionRule>();
+        conversionRuleList.add(cr);
+        conversionRuleList.add(cr1);
+    }
+
+    public Iterator<ConversionRule> iterator() {
+        return conversionRuleList.iterator();
+    }
+
 }

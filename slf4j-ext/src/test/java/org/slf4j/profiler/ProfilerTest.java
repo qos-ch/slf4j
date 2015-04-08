@@ -29,108 +29,110 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProfilerTest  extends TestCase {
+public class ProfilerTest extends TestCase {
 
-  Logger logger = LoggerFactory.getLogger(ProfilerTest.class);
+    Logger logger = LoggerFactory.getLogger(ProfilerTest.class);
 
-  public void setUp() throws Exception {
-    super.setUp();
-  }
-  public void testSmoke() {
-    Profiler profiler = new Profiler("SMOKE");
-    profiler.stop();
-    StopWatch gSW = profiler.globalStopWatch;
-    
-    // verify
-    profiler.sanityCheck();
-    assertEquals(TimeInstrumentStatus.STOPPED,  gSW.status);
-    assertEquals(0, profiler.childTimeInstrumentList.size());
-    assertNull(profiler.getLastTimeInstrument());
-  }
-
-  public void testBasicProfiling() {
-    Profiler profiler = new Profiler("BAS");
-
-    profiler.start("doX");
-    doX(1);
-
-    profiler.start("doY");
-    doY(10);
-
-    profiler.start("doZ");
-    doZ(2);
-    profiler.stop();
-    
-    // verify
-    profiler.sanityCheck();
-    StopWatch gSW = profiler.globalStopWatch;
-    assertEquals(TimeInstrumentStatus.STOPPED,  gSW.status);
-    assertEquals(3, profiler.childTimeInstrumentList.size());
-    assertNotNull(profiler.getLastTimeInstrument());
-    assertEquals("doZ", profiler.getLastTimeInstrument().getName());
-  }
-
-  // + Profiler [BAS]
-  // |-- elapsed time                          [doX]     1.272 milliseconds.
-  // |-- elapsed time                      [doYYYYY]    25.398 milliseconds.
-  // |--+ Profiler [subtask]
-  //    |-- elapsed time                           [n1]     1.434 milliseconds.
-  //    |-- elapsed time                           [n2]     5.855 milliseconds.
-  //    |-- Total elapsed time                [subtask]     7.321 milliseconds.
-  // |-- elapsed time                          [doZ]     3.211 milliseconds.
-  // |-- Total elapsed time                    [BAS]    30.317 milliseconds.
-  public void testNestedProfiling() {
-    
-    Profiler profiler = new Profiler("BAS");
-    profiler.setLogger(logger);
-    profiler.start("doX");
-    doX(1);
-
-    profiler.start("doYYYYY");
-    for (int i = 0; i < 5; i++) {
-      doY(i);
+    public void setUp() throws Exception {
+        super.setUp();
     }
-    Profiler nested = profiler.startNested("subtask");
-    doSubtask(nested);
-    profiler.start("doZ");
-    doZ(2);
-    profiler.stop();
-    
-    // verify
-    profiler.sanityCheck();
-    StopWatch gSW = profiler.globalStopWatch;
-    assertEquals(TimeInstrumentStatus.STOPPED,  gSW.status);
-    //assertEquals(3, profiler.stopwatchList.size());
-    assertEquals(4, profiler.childTimeInstrumentList.size());
-    assertNotNull(profiler.getLastTimeInstrument());
-    assertEquals("doZ", profiler.getLastTimeInstrument().getName());
-    
-  }
 
-  private void doX(int millis) {
-    delay(millis);
-  }
-  private void doY(int millis) {
-    delay(millis);
-  }
-  private void doZ(int millis) {
-    delay(millis);
-  }
+    public void testSmoke() {
+        Profiler profiler = new Profiler("SMOKE");
+        profiler.stop();
+        StopWatch gSW = profiler.globalStopWatch;
 
-  public void doSubtask(Profiler nested) {
-    nested.start("n1");
-    doX(1);
-
-    nested.start("n2");
-    doX(5);
-    nested.stop();
-  }
-
-
-  void delay(int millis) {
-    try {
-      Thread.sleep(millis);
-    } catch (InterruptedException e) {
+        // verify
+        profiler.sanityCheck();
+        assertEquals(TimeInstrumentStatus.STOPPED, gSW.status);
+        assertEquals(0, profiler.childTimeInstrumentList.size());
+        assertNull(profiler.getLastTimeInstrument());
     }
-  }
+
+    public void testBasicProfiling() {
+        Profiler profiler = new Profiler("BAS");
+
+        profiler.start("doX");
+        doX(1);
+
+        profiler.start("doY");
+        doY(10);
+
+        profiler.start("doZ");
+        doZ(2);
+        profiler.stop();
+
+        // verify
+        profiler.sanityCheck();
+        StopWatch gSW = profiler.globalStopWatch;
+        assertEquals(TimeInstrumentStatus.STOPPED, gSW.status);
+        assertEquals(3, profiler.childTimeInstrumentList.size());
+        assertNotNull(profiler.getLastTimeInstrument());
+        assertEquals("doZ", profiler.getLastTimeInstrument().getName());
+    }
+
+    // + Profiler [BAS]
+    // |-- elapsed time [doX] 1.272 milliseconds.
+    // |-- elapsed time [doYYYYY] 25.398 milliseconds.
+    // |--+ Profiler [subtask]
+    // |-- elapsed time [n1] 1.434 milliseconds.
+    // |-- elapsed time [n2] 5.855 milliseconds.
+    // |-- Total elapsed time [subtask] 7.321 milliseconds.
+    // |-- elapsed time [doZ] 3.211 milliseconds.
+    // |-- Total elapsed time [BAS] 30.317 milliseconds.
+    public void testNestedProfiling() {
+
+        Profiler profiler = new Profiler("BAS");
+        profiler.setLogger(logger);
+        profiler.start("doX");
+        doX(1);
+
+        profiler.start("doYYYYY");
+        for (int i = 0; i < 5; i++) {
+            doY(i);
+        }
+        Profiler nested = profiler.startNested("subtask");
+        doSubtask(nested);
+        profiler.start("doZ");
+        doZ(2);
+        profiler.stop();
+
+        // verify
+        profiler.sanityCheck();
+        StopWatch gSW = profiler.globalStopWatch;
+        assertEquals(TimeInstrumentStatus.STOPPED, gSW.status);
+        // assertEquals(3, profiler.stopwatchList.size());
+        assertEquals(4, profiler.childTimeInstrumentList.size());
+        assertNotNull(profiler.getLastTimeInstrument());
+        assertEquals("doZ", profiler.getLastTimeInstrument().getName());
+
+    }
+
+    private void doX(int millis) {
+        delay(millis);
+    }
+
+    private void doY(int millis) {
+        delay(millis);
+    }
+
+    private void doZ(int millis) {
+        delay(millis);
+    }
+
+    public void doSubtask(Profiler nested) {
+        nested.start("n1");
+        doX(1);
+
+        nested.start("n2");
+        doX(5);
+        nested.stop();
+    }
+
+    void delay(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+        }
+    }
 }

@@ -25,103 +25,103 @@
 package org.slf4j.profiler;
 
 public class SpacePadder {
-  public static final String LINE_SEP = System.getProperty("line.separator");
-  
-  final static String[] SPACES = { " ", "  ", "    ", "        ", // 1,2,4,8
-      // spaces
-      "                ", // 16 spaces
-      "                                " }; // 32 spaces
+    public static final String LINE_SEP = System.getProperty("line.separator");
 
-  @Deprecated
-  final static public void leftPad(StringBuffer buf, String s, int desiredLength) {
-    int actualLen = 0;
-    if (s != null) {
-      actualLen = s.length();
-    }
-    if (actualLen < desiredLength) {
-      spacePad(buf, desiredLength - actualLen);
-    }
-    if (s != null) {
-      buf.append(s);
-    }
-  }
+    final static String[] SPACES = { " ", "  ", "    ", "        ", // 1,2,4,8
+            // spaces
+            "                ", // 16 spaces
+            "                                " }; // 32 spaces
 
-  final static public void leftPad(StringBuilder buf, String s, int desiredLength) {
-	    int actualLen = 0;
-	    if (s != null) {
-	      actualLen = s.length();
-	    }
-	    if (actualLen < desiredLength) {
-	      spacePad(buf, desiredLength - actualLen);
-	    }
-	    if (s != null) {
-	      buf.append(s);
-	    }
-	  }
-
-  @Deprecated
-  final static public void rightPad(StringBuffer buf, String s, int desiredLength) {
-    int actualLen = 0;
-    if (s != null) {
-      actualLen = s.length();
-    }
-    if (s != null) {
-      buf.append(s);
-    }
-    if (actualLen < desiredLength) {
-      spacePad(buf, desiredLength - actualLen);
-    }
-  }
-
-  final static public void rightPad(StringBuilder buf, String s, int desiredLength) {
-	    int actualLen = 0;
-	    if (s != null) {
-	      actualLen = s.length();
-	    }
-	    if (s != null) {
-	      buf.append(s);
-	    }
-	    if (actualLen < desiredLength) {
-	      spacePad(buf, desiredLength - actualLen);
-	    }
-	  }
-
-  /**
-   * Fast space padding method.
-   * 
-   * @param sbuf the buffer to pad
-   * @param length the target size of the buffer after padding
-   */
-  @Deprecated
-  final static public void spacePad(StringBuffer sbuf, int length) {
-    while (length >= 32) {
-      sbuf.append(SPACES[5]);
-      length -= 32;
+    @Deprecated
+    final static public void leftPad(StringBuffer buf, String s, int desiredLength) {
+        int actualLen = 0;
+        if (s != null) {
+            actualLen = s.length();
+        }
+        if (actualLen < desiredLength) {
+            spacePad(buf, desiredLength - actualLen);
+        }
+        if (s != null) {
+            buf.append(s);
+        }
     }
 
-    for (int i = 4; i >= 0; i--) {
-      if ((length & (1 << i)) != 0) {
-        sbuf.append(SPACES[i]);
-      }
-    }
-  }
-
-  /**
-   * Fast space padding method.
-   * 
-   * @param sbuf the buffer to pad
-   * @param length the target size of the buffer after padding
-   */
-  final static public void spacePad(StringBuilder sbuf, int length) {
-    while (length >= 32) {
-      sbuf.append(SPACES[5]);
-      length -= 32;
+    final static public void leftPad(StringBuilder buf, String s, int desiredLength) {
+        int actualLen = 0;
+        if (s != null) {
+            actualLen = s.length();
+        }
+        if (actualLen < desiredLength) {
+            spacePad(buf, desiredLength - actualLen);
+        }
+        if (s != null) {
+            buf.append(s);
+        }
     }
 
-    for (int i = 4; i >= 0; i--) {
-      if ((length & (1 << i)) != 0) {
-        sbuf.append(SPACES[i]);
-      }
+    @Deprecated
+    final static public void rightPad(StringBuffer buf, String s, int desiredLength) {
+        int actualLen = 0;
+        if (s != null) {
+            actualLen = s.length();
+        }
+        if (s != null) {
+            buf.append(s);
+        }
+        if (actualLen < desiredLength) {
+            spacePad(buf, desiredLength - actualLen);
+        }
     }
-  }
+
+    final static public void rightPad(StringBuilder buf, String s, int desiredLength) {
+        int actualLen = 0;
+        if (s != null) {
+            actualLen = s.length();
+        }
+        if (s != null) {
+            buf.append(s);
+        }
+        if (actualLen < desiredLength) {
+            spacePad(buf, desiredLength - actualLen);
+        }
+    }
+
+    /**
+     * Fast space padding method.
+     * 
+     * @param sbuf the buffer to pad
+     * @param length the target size of the buffer after padding
+     */
+    @Deprecated
+    final static public void spacePad(StringBuffer sbuf, int length) {
+        while (length >= 32) {
+            sbuf.append(SPACES[5]);
+            length -= 32;
+        }
+
+        for (int i = 4; i >= 0; i--) {
+            if ((length & (1 << i)) != 0) {
+                sbuf.append(SPACES[i]);
+            }
+        }
+    }
+
+    /**
+     * Fast space padding method.
+     * 
+     * @param sbuf the buffer to pad
+     * @param length the target size of the buffer after padding
+     */
+    final static public void spacePad(StringBuilder sbuf, int length) {
+        while (length >= 32) {
+            sbuf.append(SPACES[5]);
+            length -= 32;
+        }
+
+        for (int i = 4; i >= 0; i--) {
+            if ((length & (1 << i)) != 0) {
+                sbuf.append(SPACES[i]);
+            }
+        }
+    }
 }

@@ -292,12 +292,15 @@ public class SubstituteLogger implements Logger {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         SubstituteLogger that = (SubstituteLogger) o;
 
-        if (!name.equals(that.name)) return false;
+        if (!name.equals(that.name))
+            return false;
 
         return true;
     }

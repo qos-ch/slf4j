@@ -24,12 +24,12 @@ package org.apache.log4j;
  * */
 public class PatternLayout extends Layout {
 
-  public PatternLayout() {
-    super();
-  }
+    public PatternLayout() {
+        super();
+    }
 
-  public PatternLayout(String pattern) {
-    super();
-  }
+    public PatternLayout(String pattern) {
+        super();
+    }
 
 }

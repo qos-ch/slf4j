@@ -26,27 +26,27 @@ import org.apache.log4j.spi.LoggerRepository;
  * An nop implementation of PropertyConfigurator.
  */
 public class PropertyConfigurator implements Configurator {
-  public static void configure(Properties properties) {
-  }
+    public static void configure(Properties properties) {
+    }
 
-  public static void configure(String configFilename) {
-  }
+    public static void configure(String configFilename) {
+    }
 
-  public static void configure(java.net.URL configURL) {
-  }
+    public static void configure(java.net.URL configURL) {
+    }
 
-  public static void configureAndWatch(String configFilename) {
-  }
+    public static void configureAndWatch(String configFilename) {
+    }
 
-  public static void configureAndWatch(String configFilename, long delay) {
-  }
+    public static void configureAndWatch(String configFilename, long delay) {
+    }
 
-  public void doConfigure(Properties properties, LoggerRepository hierarchy) {
-  }
+    public void doConfigure(Properties properties, LoggerRepository hierarchy) {
+    }
 
-  public void doConfigure(String configFileName, LoggerRepository hierarchy) {
-  }
+    public void doConfigure(String configFileName, LoggerRepository hierarchy) {
+    }
 
-  public void doConfigure(URL configURL, LoggerRepository hierarchy) {
-  }
+    public void doConfigure(URL configURL, LoggerRepository hierarchy) {
+    }
 }

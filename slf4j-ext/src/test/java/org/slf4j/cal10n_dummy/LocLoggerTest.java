@@ -38,43 +38,43 @@ import ch.qos.cal10n.MessageConveyor;
 
 public class LocLoggerTest extends TestCase {
 
-  ListAppender listAppender;
-  org.apache.log4j.Logger log4jRoot;
+    ListAppender listAppender;
+    org.apache.log4j.Logger log4jRoot;
 
-  IMessageConveyor imc = new MessageConveyor(Locale.UK);
-  LocLoggerFactory llFactory_uk = new LocLoggerFactory(imc);
+    IMessageConveyor imc = new MessageConveyor(Locale.UK);
+    LocLoggerFactory llFactory_uk = new LocLoggerFactory(imc);
 
-  final static String EXPECTED_FILE_NAME = "LocLoggerTest.java";
+    final static String EXPECTED_FILE_NAME = "LocLoggerTest.java";
 
-  public LocLoggerTest(String name) {
-    super(name);
-  }
+    public LocLoggerTest(String name) {
+        super(name);
+    }
 
-  public void setUp() throws Exception {
-    super.setUp();
+    public void setUp() throws Exception {
+        super.setUp();
 
-    // start from a clean slate for each test
+        // start from a clean slate for each test
 
-    listAppender = new ListAppender();
-    listAppender.extractLocationInfo = true;
-    log4jRoot = org.apache.log4j.Logger.getRootLogger();
-    log4jRoot.addAppender(listAppender);
-    log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
-  }
+        listAppender = new ListAppender();
+        listAppender.extractLocationInfo = true;
+        log4jRoot = org.apache.log4j.Logger.getRootLogger();
+        log4jRoot.addAppender(listAppender);
+        log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
+    }
 
-  void verify(LoggingEvent le, String expectedMsg) {
-    assertEquals(expectedMsg, le.getMessage());
-    assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
-  }
-  
-  public void tearDown() throws Exception {
-    super.tearDown();
-  }
+    void verify(LoggingEvent le, String expectedMsg) {
+        assertEquals(expectedMsg, le.getMessage());
+        assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
+    }
 
-  public void testSmoke() {
-    LocLogger locLogger = llFactory_uk.getLocLogger(this.getClass());
-    locLogger.info(Months.JAN);
-    verify((LoggingEvent) listAppender.list.get(0), "January");
-    
-  }
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    public void testSmoke() {
+        LocLogger locLogger = llFactory_uk.getLocLogger(this.getClass());
+        locLogger.info(Months.JAN);
+        verify((LoggingEvent) listAppender.list.get(0), "January");
+
+    }
 }

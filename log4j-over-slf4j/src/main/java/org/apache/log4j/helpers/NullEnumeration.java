@@ -28,20 +28,20 @@ import java.util.NoSuchElementException;
  */
 @SuppressWarnings("rawtypes")
 public class NullEnumeration implements Enumeration {
-  private static final NullEnumeration instance = new NullEnumeration();
+    private static final NullEnumeration instance = new NullEnumeration();
 
-  private NullEnumeration() {
-  }
+    private NullEnumeration() {
+    }
 
-  public static NullEnumeration getInstance() {
-    return instance;
-  }
+    public static NullEnumeration getInstance() {
+        return instance;
+    }
 
-  public boolean hasMoreElements() {
-    return false;
-  }
+    public boolean hasMoreElements() {
+        return false;
+    }
 
-  public Object nextElement() {
-    throw new NoSuchElementException();
-  }
+    public Object nextElement() {
+        throw new NoSuchElementException();
+    }
 }

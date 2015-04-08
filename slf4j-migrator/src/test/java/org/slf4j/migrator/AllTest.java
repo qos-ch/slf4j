@@ -29,10 +29,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({org.slf4j.migrator.PackageTest.class,
-        org.slf4j.migrator.line.PackageTest.class,
-        org.slf4j.migrator.helper.PackageTest.class})
-
+@SuiteClasses({ org.slf4j.migrator.PackageTest.class, org.slf4j.migrator.line.PackageTest.class, org.slf4j.migrator.helper.PackageTest.class })
 public class AllTest {
 
 }

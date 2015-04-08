@@ -34,24 +34,24 @@ import org.apache.log4j.Logger;
 
 public class Bug139 extends TestCase {
 
-  public void test() {
-    ListHandler listHandler = new ListHandler();
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-    root.addHandler(listHandler);
-    root.setLevel(Level.FINEST);
-    Logger log4jLogger = Logger.getLogger("a");
-    Category log4jCategory = Logger.getLogger("b");
+    public void test() {
+        ListHandler listHandler = new ListHandler();
+        java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+        root.addHandler(listHandler);
+        root.setLevel(Level.FINEST);
+        Logger log4jLogger = Logger.getLogger("a");
+        Category log4jCategory = Logger.getLogger("b");
 
-    int n = 0;
+        int n = 0;
 
-    log4jLogger.log(org.apache.log4j.Level.DEBUG, "hello"+(++n));
-    log4jCategory.log(org.apache.log4j.Level.DEBUG, "world"+(++n));
-    
-    assertEquals(n, listHandler.list.size());
+        log4jLogger.log(org.apache.log4j.Level.DEBUG, "hello" + (++n));
+        log4jCategory.log(org.apache.log4j.Level.DEBUG, "world" + (++n));
 
-    for (int i = 0; i < n; i++) {
-      LogRecord logRecord = (LogRecord) listHandler.list.get(i);
-      assertEquals("test", logRecord.getSourceMethodName());
+        assertEquals(n, listHandler.list.size());
+
+        for (int i = 0; i < n; i++) {
+            LogRecord logRecord = (LogRecord) listHandler.list.get(i);
+            assertEquals("test", logRecord.getSourceMethodName());
+        }
     }
-  }
 }
