@@ -97,9 +97,9 @@ public class BasicMDCAdapter implements MDCAdapter {
    */
   @Override
   public String get(String key) {
-    Map<String, String> Map = inheritableThreadLocal.get();
+    Map<String, String> map = inheritableThreadLocal.get();
     if ((Map != null) && (key != null)) {
-      return Map.get(key);
+      return map.get(key);
     } else {
       return null;
     }
