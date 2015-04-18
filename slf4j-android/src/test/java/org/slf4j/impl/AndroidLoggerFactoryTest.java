@@ -44,13 +44,13 @@ public class AndroidLoggerFactoryTest {
 
     @Test
     public void simpleLoggerName() {
-        assertEquals("o*.t*.p*.TestClass", AndroidLoggerFactory.loggerNameToTag("org.test.package.TestClass"));
+        assertEquals("o_.t_.p_.TestClass", AndroidLoggerFactory.loggerNameToTag("org.test.package.TestClass"));
     }
 
     @Test
     public void loggerNameWithOneCharPackage() {
-        assertEquals("o.t*.p*.p*.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.project.package.TestClass"));
-        assertEquals("o.t*.p*.p.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.project.p.TestClass"));
+        assertEquals("o.t_.p_.p_.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.project.package.TestClass"));
+        assertEquals("o.t_.p_.p.TestClass", AndroidLoggerFactory.loggerNameToTag("o.test.project.p.TestClass"));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class AndroidLoggerFactoryTest {
 
     @Test
     public void veryLongLoggerName() {
-        assertEquals("*meAndShouldBeTruncated", AndroidLoggerFactory.loggerNameToTag("IAmAVeryLongLoggerNameAndShouldBeTruncated"));
+        assertEquals("_meAndShouldBeTruncated", AndroidLoggerFactory.loggerNameToTag("IAmAVeryLongLoggerNameAndShouldBeTruncated"));
     }
 
     @Test

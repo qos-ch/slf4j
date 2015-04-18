@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>slf4j-android</artifactId>
+    <version>1.7.13-underscore</version>
     <packaging>jar</packaging>
     <name>SLF4J Android Binding</name>
     <description>SLF4J Android Binding</description>
@@ -20,7 +21,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.7.13-SNAPSHOT</version>
         </dependency>
 
         <dependency>
