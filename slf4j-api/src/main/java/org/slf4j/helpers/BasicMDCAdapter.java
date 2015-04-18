@@ -45,7 +45,7 @@ public class BasicMDCAdapter implements MDCAdapter {
 
     private InheritableThreadLocal<Map<String, String>> inheritableThreadLocal = new InheritableThreadLocal<Map<String, String>>();
 
-    static boolean isJDK14() {
+    private static boolean isJDK14() {
         try {
             String javaVersion = System.getProperty("java.version");
             return javaVersion.startsWith("1.4");
@@ -55,7 +55,7 @@ public class BasicMDCAdapter implements MDCAdapter {
         }
     }
 
-    static boolean IS_JDK14 = isJDK14();
+    static final boolean IS_JDK14 = isJDK14();
 
     /**
      * Put a context value (the <code>val</code> parameter) as identified with
@@ -112,7 +112,7 @@ public class BasicMDCAdapter implements MDCAdapter {
             map.clear();
             // the InheritableThreadLocal.remove method was introduced in JDK 1.5
             // Thus, invoking clear() on previous JDK 1.4 will fail
-            if (isJDK14()) {
+            if (IS_JDK14) {
                 inheritableThreadLocal.set(null);
             } else {
                 inheritableThreadLocal.remove();
