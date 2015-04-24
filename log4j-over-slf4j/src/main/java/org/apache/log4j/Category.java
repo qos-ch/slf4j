@@ -350,5 +350,10 @@ public class Category {
     public boolean getAdditivity() {
         return false;
     }
+    
+    public void assertLog(boolean assertion, String msg) {
+        if(!assertion)
+            error(msg);
+    }
 
 }
