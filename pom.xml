@@ -35,6 +35,8 @@
   <properties>
     <required.jdk.version>1.5</required.jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
     <log4j.version>1.2.17</log4j.version>
@@ -42,6 +44,9 @@
     <junit.version>4.10</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
+
+    <signature.artifact>java15</signature.artifact>
+    <signature.version>1.0</signature.version>
   </properties>
 
   <developers>
@@ -79,7 +84,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 
   <dependencyManagement>
     <dependencies>
@@ -122,16 +126,47 @@
 
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>${project.basedir}/src/main/resources</directory>
         <filtering>true</filtering>
       </resource>
     </resources>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>animal-sniffer-maven-plugin</artifactId>
+          <version>1.14</version>
+          <configuration>
+            <signature>
+              <groupId>org.codehaus.mojo.signature</groupId>
+              <artifactId>${signature.artifact}</artifactId>
+              <version>${signature.version}</version>
+            </signature>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test-sniffer</id>
+            <phase>test</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.3</version>
         <configuration>
           <source>${required.jdk.version}</source>
           <target>${required.jdk.version}</target>
