@@ -92,7 +92,7 @@ public class JavassistHelper {
      */
     public static String getSignature(CtBehavior method) throws NotFoundException {
 
-        CtClass parameterTypes[] = method.getParameterTypes();
+        CtClass[] parameterTypes = method.getParameterTypes();
 
         CodeAttribute codeAttribute = method.getMethodInfo().getCodeAttribute();
 
