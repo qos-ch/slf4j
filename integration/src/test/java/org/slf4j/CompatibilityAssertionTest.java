@@ -32,31 +32,30 @@ import junit.framework.TestCase;
 
 public class CompatibilityAssertionTest extends TestCase {
 
-  StringPrintStream sps = new StringPrintStream(System.err);
-  PrintStream old = System.err;
-  int diff = 1024 + new Random().nextInt(10000);
-  
-  public CompatibilityAssertionTest(String name) {
-    super(name);
-  }
+    StringPrintStream sps = new StringPrintStream(System.err);
+    PrintStream old = System.err;
+    int diff = 1024 + new Random().nextInt(10000);
 
-  protected void setUp() throws Exception {
-    super.setUp();
-    System.setErr(sps);
-  }
+    public CompatibilityAssertionTest(String name) {
+        super(name);
+    }
 
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    System.setErr(old);
-  }
+    protected void setUp() throws Exception {
+        super.setUp();
+        System.setErr(sps);
+    }
 
-  
-  public void test() throws Exception  {
-    Logger logger = LoggerFactory.getLogger(this.getClass());
-    String msg = "hello world "+diff;
-    logger.info(msg);
-    assertEquals(1, sps.stringList.size());
-    String s0 = (String) sps.stringList.get(0);
-    assertTrue(s0.contains(msg));
-  }
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.setErr(old);
+    }
+
+    public void test() throws Exception {
+        Logger logger = LoggerFactory.getLogger(this.getClass());
+        String msg = "hello world " + diff;
+        logger.info(msg);
+        assertEquals(1, sps.stringList.size());
+        String s0 = (String) sps.stringList.get(0);
+        assertTrue(s0.contains(msg));
+    }
 }

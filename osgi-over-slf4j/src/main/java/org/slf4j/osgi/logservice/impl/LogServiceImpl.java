@@ -48,162 +48,159 @@ import org.slf4j.LoggerFactory;
  */
 public class LogServiceImpl implements LogService {
 
-	private static final String UNKNOWN = "[Unknown]";
+    private static final String UNKNOWN = "[Unknown]";
 
-	private final Logger delegate;
+    private final Logger delegate;
 
+    /**
+     * Creates a new instance of LogServiceImpl.
+     *
+     * @param bundle The bundle to create a new LogService for.
+     */
+    public LogServiceImpl(Bundle bundle) {
 
-	/**
-	 * Creates a new instance of LogServiceImpl.
-	 *
-	 * @param bundle The bundle to create a new LogService for.
-	 */
-	public LogServiceImpl(Bundle bundle) {
+        String name = bundle.getSymbolicName();
+        Version version = bundle.getVersion();
+        if (version == null) {
+            version = Version.emptyVersion;
+        }
+        delegate = LoggerFactory.getLogger(name + '.' + version);
+    }
 
-		String name = bundle.getSymbolicName();
-		Version version = bundle.getVersion();
-		if (version == null) {
-			version = Version.emptyVersion;
-		}
-		delegate = LoggerFactory.getLogger(name + '.' + version);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.osgi.service.log.LogService#log(int, java.lang.String)
+     */
+    public void log(int level, String message) {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.osgi.service.log.LogService#log(int, java.lang.String)
-	 */
-	public void log(int level, String message) {
+        switch (level) {
+        case LOG_DEBUG:
+            delegate.debug(message);
+            break;
+        case LOG_ERROR:
+            delegate.error(message);
+            break;
+        case LOG_INFO:
+            delegate.info(message);
+            break;
+        case LOG_WARNING:
+            delegate.warn(message);
+            break;
+        default:
+            break;
+        }
+    }
 
-		switch (level) {
-		case LOG_DEBUG:
-			delegate.debug(message);
-			break;
-		case LOG_ERROR:
-			delegate.error(message);
-			break;
-		case LOG_INFO:
-			delegate.info(message);
-			break;
-		case LOG_WARNING:
-			delegate.warn(message);
-			break;
-		default:
-			break;
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.osgi.service.log.LogService#log(int, java.lang.String, java.lang.Throwable)
+     */
+    public void log(int level, String message, Throwable exception) {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.osgi.service.log.LogService#log(int, java.lang.String,
-	 *      java.lang.Throwable)
-	 */
-	public void log(int level, String message, Throwable exception) {
+        switch (level) {
+        case LOG_DEBUG:
+            delegate.debug(message, exception);
+            break;
+        case LOG_ERROR:
+            delegate.error(message, exception);
+            break;
+        case LOG_INFO:
+            delegate.info(message, exception);
+            break;
+        case LOG_WARNING:
+            delegate.warn(message, exception);
+            break;
+        default:
+            break;
+        }
+    }
 
-		switch (level) {
-		case LOG_DEBUG:
-			delegate.debug(message, exception);
-			break;
-		case LOG_ERROR:
-			delegate.error(message, exception);
-			break;
-		case LOG_INFO:
-			delegate.info(message, exception);
-			break;
-		case LOG_WARNING:
-			delegate.warn(message, exception);
-			break;
-		default:
-			break;
-		}
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference, int, java.lang.String)
+     */
+    public void log(ServiceReference sr, int level, String message) {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference,
-	 *      int, java.lang.String)
-	 */
-	public void log(ServiceReference sr, int level, String message) {
+        switch (level) {
+        case LOG_DEBUG:
+            if (delegate.isDebugEnabled()) {
+                delegate.debug(createMessage(sr, message));
+            }
+            break;
+        case LOG_ERROR:
+            if (delegate.isErrorEnabled()) {
+                delegate.error(createMessage(sr, message));
+            }
+            break;
+        case LOG_INFO:
+            if (delegate.isInfoEnabled()) {
+                delegate.info(createMessage(sr, message));
+            }
+            break;
+        case LOG_WARNING:
+            if (delegate.isWarnEnabled()) {
+                delegate.warn(createMessage(sr, message));
+            }
+            break;
+        default:
+            break;
+        }
+    }
 
-		switch (level) {
-		case LOG_DEBUG:
-			if(delegate.isDebugEnabled()){
-				delegate.debug(createMessage(sr, message));
-			}
-			break;
-		case LOG_ERROR:
-			if(delegate.isErrorEnabled()){
-				delegate.error(createMessage(sr, message));
-			}
-			break;
-		case LOG_INFO:
-			if(delegate.isInfoEnabled()){
-				delegate.info(createMessage(sr, message));
-			}
-			break;
-		case LOG_WARNING:
-			if(delegate.isWarnEnabled()){
-				delegate.warn(createMessage(sr, message));
-			}
-			break;
-		default:
-			break;
-		}
-	}
+    /**
+     * Formats the log message to indicate the service sending it, if known.
+     *
+     * @param sr the ServiceReference sending the message.
+     * @param message The message to log.
+     * @return The formatted log message.
+     */
+    private String createMessage(ServiceReference sr, String message) {
 
-	/**
-	 * Formats the log message to indicate the service sending it, if known.
-	 *
-	 * @param sr the ServiceReference sending the message.
-	 * @param message The message to log.
-	 * @return The formatted log message.
-	 */
-	private String createMessage(ServiceReference sr, String message) {
+        StringBuilder output = new StringBuilder();
+        if (sr != null) {
+            output.append('[').append(sr.toString()).append(']');
+        } else {
+            output.append(UNKNOWN);
+        }
+        output.append(message);
 
-		StringBuilder output = new StringBuilder();
-		if (sr != null) {
-			output.append('[').append(sr.toString()).append(']');
-		} else {
-			output.append(UNKNOWN);
-		}
-		output.append(message);
+        return output.toString();
+    }
 
-		return output.toString();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference, int, java.lang.String,
+     * java.lang.Throwable)
+     */
+    public void log(ServiceReference sr, int level, String message, Throwable exception) {
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference,
-	 *      int, java.lang.String, java.lang.Throwable)
-	 */
-	public void log(ServiceReference sr, int level, String message, Throwable exception) {
-
-		switch (level) {
-		case LOG_DEBUG:
-			if(delegate.isDebugEnabled()){
-				delegate.debug(createMessage(sr, message), exception);
-			}
-			break;
-		case LOG_ERROR:
-			if(delegate.isErrorEnabled()){
-				delegate.error(createMessage(sr, message), exception);
-			}
-			break;
-		case LOG_INFO:
-			if(delegate.isInfoEnabled()){
-				delegate.info(createMessage(sr, message), exception);
-			}
-			break;
-		case LOG_WARNING:
-			if(delegate.isWarnEnabled()){
-				delegate.warn(createMessage(sr, message), exception);
-			}
-			break;
-		default:
-			break;
-		}
-	}
+        switch (level) {
+        case LOG_DEBUG:
+            if (delegate.isDebugEnabled()) {
+                delegate.debug(createMessage(sr, message), exception);
+            }
+            break;
+        case LOG_ERROR:
+            if (delegate.isErrorEnabled()) {
+                delegate.error(createMessage(sr, message), exception);
+            }
+            break;
+        case LOG_INFO:
+            if (delegate.isInfoEnabled()) {
+                delegate.info(createMessage(sr, message), exception);
+            }
+            break;
+        case LOG_WARNING:
+            if (delegate.isWarnEnabled()) {
+                delegate.warn(createMessage(sr, message), exception);
+            }
+            break;
+        default:
+            break;
+        }
+    }
 }

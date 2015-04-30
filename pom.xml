@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.11-SNAPSHOT</version>
+  <version>1.7.13-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -31,16 +30,23 @@
   <scm>
     <url>https://github.com/ceki/slf4j</url>
     <connection>git@github.com:qos-ch/slf4j.git</connection>
-  </scm>
+  </scm>  
 
   <properties>
+    <required.jdk.version>1.5</required.jdk.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
     <log4j.version>1.2.17</log4j.version>
     <logback.version>1.0.13</logback.version>
     <junit.version>4.10</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
+    <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
+
+    <signature.artifact>java15</signature.artifact>
+    <signature.version>1.0</signature.version>
   </properties>
 
   <developers>
@@ -79,7 +85,6 @@
     </dependency>
   </dependencies>
 
-
   <dependencyManagement>
     <dependencies>
 
@@ -110,7 +115,6 @@
     </dependencies>
   </dependencyManagement>
 
-
   <build>
     <extensions>
       <extension>
@@ -122,19 +126,50 @@
 
     <resources>
       <resource>
-        <directory>src/main/resources</directory>
+        <directory>${project.basedir}/src/main/resources</directory>
         <filtering>true</filtering>
       </resource>
     </resources>
 
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>animal-sniffer-maven-plugin</artifactId>
+          <version>1.14</version>
+          <configuration>
+            <signature>
+              <groupId>org.codehaus.mojo.signature</groupId>
+              <artifactId>${signature.artifact}</artifactId>
+              <version>${signature.version}</version>
+            </signature>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>test-sniffer</id>
+            <phase>test</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>3.3</version>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>${required.jdk.version}</source>
+          <target>${required.jdk.version}</target>
         </configuration>
       </plugin>
 
@@ -209,6 +244,7 @@
         <version>${maven-site-plugin.version}</version>
         <configuration>
           <reportPlugins>
+
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-jxr-plugin</artifactId>
@@ -223,7 +259,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
-              <version>2.10.1</version>
+              <version>${javadoc.plugin.version}</version>
               <configuration>
                 <!--<aggregate>true</aggregate>-->
                 <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
@@ -285,6 +321,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.plugin.version}</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -363,49 +400,9 @@
       </build>
     </profile>
 
-    <profile>
-      <id>format</id>
-      <!-- Off for the time being
-      <activation>
-        <file>
-          <exists>../codeStyle.xml</exists>
-        </file>
-      </activation>
-      -->
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-            <artifactId>maven-java-formatter-plugin</artifactId>
-            <configuration>
-              <configFile>../codeStyle.xml</configFile>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>format</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
   </profiles>
 
   <pluginRepositories>
-    <pluginRepository>
-      <id>apache.snapshots</id>
-      <name>Apache Snapshot Plugin Repository</name>
-      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
   </pluginRepositories>
 
   <distributionManagement>

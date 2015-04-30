@@ -41,62 +41,59 @@ import org.slf4j.Marker;
  */
 public class BasicMarkerFactory implements IMarkerFactory {
 
-  private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<String, Marker>();
-  
-  /**
-   * Regular users should <em>not</em> create
-   * <code>BasicMarkerFactory</code> instances. <code>Marker</code>
-   * instances can be obtained using the static {@link
-   * org.slf4j.MarkerFactory#getMarker} method.
-   */
-  public BasicMarkerFactory() {
-  }
+    private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<String, Marker>();
 
-  /**
-   * Manufacture a {@link BasicMarker} instance by name. If the instance has been 
-   * created earlier, return the previously created instance. 
-   * 
-   * @param name the name of the marker to be created
-   * @return a Marker instance
-   */
-  public Marker getMarker(String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("Marker name cannot be null");
+    /**
+     * Regular users should <em>not</em> create
+     * <code>BasicMarkerFactory</code> instances. <code>Marker</code>
+     * instances can be obtained using the static {@link
+     * org.slf4j.MarkerFactory#getMarker} method.
+     */
+    public BasicMarkerFactory() {
     }
 
-    Marker marker = markerMap.get(name);
-    if (marker == null) {
-      marker = new BasicMarker(name);
-      Marker oldMarker = markerMap.putIfAbsent(name, marker);
-      if (oldMarker != null) {
-        marker = oldMarker;
-      }
-    }
-    return marker;
-  }
-  
-  /**
-   * Does the name marked already exist?
-   */
-  public boolean exists(String name) {
-    if (name == null) {
-      return false;
-    }
-    return markerMap.containsKey(name);
-  }
+    /**
+     * Manufacture a {@link BasicMarker} instance by name. If the instance has been 
+     * created earlier, return the previously created instance. 
+     * 
+     * @param name the name of the marker to be created
+     * @return a Marker instance
+     */
+    public Marker getMarker(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Marker name cannot be null");
+        }
 
-  public boolean detachMarker(String name) {
-    if(name == null) {
-      return false;
+        Marker marker = markerMap.get(name);
+        if (marker == null) {
+            marker = new BasicMarker(name);
+            Marker oldMarker = markerMap.putIfAbsent(name, marker);
+            if (oldMarker != null) {
+                marker = oldMarker;
+            }
+        }
+        return marker;
     }
-    return (markerMap.remove(name) != null);
-  }
 
-  
-  public Marker getDetachedMarker(String name) {
-    return  new BasicMarker(name);
-  }
-  
-  
-  
+    /**
+     * Does the name marked already exist?
+     */
+    public boolean exists(String name) {
+        if (name == null) {
+            return false;
+        }
+        return markerMap.containsKey(name);
+    }
+
+    public boolean detachMarker(String name) {
+        if (name == null) {
+            return false;
+        }
+        return (markerMap.remove(name) != null);
+    }
+
+    public Marker getDetachedMarker(String name) {
+        return new BasicMarker(name);
+    }
+
 }

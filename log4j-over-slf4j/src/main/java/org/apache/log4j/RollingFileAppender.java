@@ -26,25 +26,24 @@ import java.io.IOException;
  * */
 public class RollingFileAppender {
 
-  public RollingFileAppender() {
-    super();
-  }
+    public RollingFileAppender() {
+        super();
+    }
 
-  public RollingFileAppender(Layout layout, String filename) throws IOException {
-    super();
-  }
+    public RollingFileAppender(Layout layout, String filename) throws IOException {
+        super();
+    }
 
-  public RollingFileAppender(Layout layout, String filename, boolean append)
-      throws IOException {
-    super();
-  }
+    public RollingFileAppender(Layout layout, String filename, boolean append) throws IOException {
+        super();
+    }
 
-  public void setMaxBackupIndex(int maxBackups) {
-    // nothing to do
-  }
+    public void setMaxBackupIndex(int maxBackups) {
+        // nothing to do
+    }
 
-  public void setMaximumFileSize(long maxFileSize) {
-    // nothing to do
-  }
+    public void setMaximumFileSize(long maxFileSize) {
+        // nothing to do
+    }
 
 }

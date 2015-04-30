@@ -30,116 +30,116 @@ import org.apache.commons.logging.Log;
  * @version $Id: NoOpLog.java,v 1.8 2004/06/06 21:13:12 rdonkin Exp $
  */
 public class NoOpLog implements Log, Serializable {
-  private static final long serialVersionUID = 561423906191706148L;
+    private static final long serialVersionUID = 561423906191706148L;
 
-  /** Convenience constructor */
-  public NoOpLog() {
-  }
+    /** Convenience constructor */
+    public NoOpLog() {
+    }
 
-  /** Base constructor */
-  public NoOpLog(String name) {
-  }
+    /** Base constructor */
+    public NoOpLog(String name) {
+    }
 
-  /** Do nothing */
-  public void trace(Object message) {
-  }
+    /** Do nothing */
+    public void trace(Object message) {
+    }
 
-  /** Do nothing */
-  public void trace(Object message, Throwable t) {
-  }
+    /** Do nothing */
+    public void trace(Object message, Throwable t) {
+    }
 
-  /** Do nothing */
-  public void debug(Object message) {
-  }
+    /** Do nothing */
+    public void debug(Object message) {
+    }
 
-  /** Do nothing */
-  public void debug(Object message, Throwable t) {
-  }
+    /** Do nothing */
+    public void debug(Object message, Throwable t) {
+    }
 
-  /** Do nothing */
-  public void info(Object message) {
-  }
+    /** Do nothing */
+    public void info(Object message) {
+    }
 
-  /** Do nothing */
-  public void info(Object message, Throwable t) {
-  }
+    /** Do nothing */
+    public void info(Object message, Throwable t) {
+    }
 
-  /** Do nothing */
-  public void warn(Object message) {
-  }
+    /** Do nothing */
+    public void warn(Object message) {
+    }
 
-  /** Do nothing */
-  public void warn(Object message, Throwable t) {
-  }
+    /** Do nothing */
+    public void warn(Object message, Throwable t) {
+    }
 
-  /** Do nothing */
-  public void error(Object message) {
-  }
+    /** Do nothing */
+    public void error(Object message) {
+    }
 
-  /** Do nothing */
-  public void error(Object message, Throwable t) {
-  }
+    /** Do nothing */
+    public void error(Object message, Throwable t) {
+    }
 
-  /** Do nothing */
-  public void fatal(Object message) {
-  }
+    /** Do nothing */
+    public void fatal(Object message) {
+    }
 
-  /** Do nothing */
-  public void fatal(Object message, Throwable t) {
-  }
+    /** Do nothing */
+    public void fatal(Object message, Throwable t) {
+    }
 
-  /**
-   * Debug is never enabled.
-   * 
-   * @return false
-   */
-  public final boolean isDebugEnabled() {
-    return false;
-  }
+    /**
+     * Debug is never enabled.
+     * 
+     * @return false
+     */
+    public final boolean isDebugEnabled() {
+        return false;
+    }
 
-  /**
-   * Error is never enabled.
-   * 
-   * @return false
-   */
-  public final boolean isErrorEnabled() {
-    return false;
-  }
+    /**
+     * Error is never enabled.
+     * 
+     * @return false
+     */
+    public final boolean isErrorEnabled() {
+        return false;
+    }
 
-  /**
-   * Fatal is never enabled.
-   * 
-   * @return false
-   */
-  public final boolean isFatalEnabled() {
-    return false;
-  }
+    /**
+     * Fatal is never enabled.
+     * 
+     * @return false
+     */
+    public final boolean isFatalEnabled() {
+        return false;
+    }
 
-  /**
-   * Info is never enabled.
-   * 
-   * @return false
-   */
-  public final boolean isInfoEnabled() {
-    return false;
-  }
+    /**
+     * Info is never enabled.
+     * 
+     * @return false
+     */
+    public final boolean isInfoEnabled() {
+        return false;
+    }
 
-  /**
-   * Trace is never enabled.
-   * 
-   * @return false
-   */
-  public final boolean isTraceEnabled() {
-    return false;
-  }
+    /**
+     * Trace is never enabled.
+     * 
+     * @return false
+     */
+    public final boolean isTraceEnabled() {
+        return false;
+    }
 
-  /**
-   * Warn is never enabled.
-   * 
-   * @return false
-   */
-  public final boolean isWarnEnabled() {
-    return false;
-  }
+    /**
+     * Warn is never enabled.
+     * 
+     * @return false
+     */
+    public final boolean isWarnEnabled() {
+        return false;
+    }
 
 }

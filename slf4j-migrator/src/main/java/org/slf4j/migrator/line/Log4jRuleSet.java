@@ -28,69 +28,51 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-
 public class Log4jRuleSet implements RuleSet {
 
-  private ArrayList<ConversionRule> conversionRuleList;
-  
-  public Log4jRuleSet() {
-  
-    
-    SingleConversionRule crImport0 = new SingleConversionRule(Pattern
-        .compile("import\\s*+org.apache.log4j.Logger;"),
-        "import org.slf4j.Logger;",
-        "import org.slf4j.LoggerFactory;");
+    private ArrayList<ConversionRule> conversionRuleList;
 
-    SingleConversionRule catImport = new SingleConversionRule(Pattern
-            .compile("import\\s*+org.apache.log4j.Category;"),
-            "import org.slf4j.Logger;",
-            "import org.slf4j.LoggerFactory;");
+    public Log4jRuleSet() {
 
-    SingleConversionRule crImport1 = new SingleConversionRule(Pattern
-        .compile("import\\s*+org.apache.log4j.LogManager;"),
-        "import org.slf4j.LoggerFactory;");
+        SingleConversionRule crImport0 = new SingleConversionRule(Pattern.compile("import\\s*+org.apache.log4j.Logger;"), "import org.slf4j.Logger;",
+                        "import org.slf4j.LoggerFactory;");
 
-    SingleConversionRule crImport2 = new SingleConversionRule(Pattern
-        .compile("import\\s*+org.apache.log4j.*;"),
-        "import org.slf4j.Logger;",
-        "import org.slf4j.LoggerFactory;");
+        SingleConversionRule catImport = new SingleConversionRule(Pattern.compile("import\\s*+org.apache.log4j.Category;"), "import org.slf4j.Logger;",
+                        "import org.slf4j.LoggerFactory;");
 
-    SingleConversionRule crImportMDC = new SingleConversionRule(Pattern
-        .compile("import\\s*+org.apache.log4j.MDC;"),
-        "import org.slf4j.MDC;");
-  
+        SingleConversionRule crImport1 = new SingleConversionRule(Pattern.compile("import\\s*+org.apache.log4j.LogManager;"), "import org.slf4j.LoggerFactory;");
 
-    SingleConversionRule crFactory0 = new SingleConversionRule(Pattern
-        .compile("Logger.getLogger\\("), "LoggerFactory.getLogger(");
+        SingleConversionRule crImport2 = new SingleConversionRule(Pattern.compile("import\\s*+org.apache.log4j.*;"), "import org.slf4j.Logger;",
+                        "import org.slf4j.LoggerFactory;");
 
-    SingleConversionRule crFactory1 = new SingleConversionRule(Pattern
-            .compile("\\sCategory.getInstance\\("), " LoggerFactory.getLogger(");
+        SingleConversionRule crImportMDC = new SingleConversionRule(Pattern.compile("import\\s*+org.apache.log4j.MDC;"), "import org.slf4j.MDC;");
 
-    SingleConversionRule crFactory2 = new SingleConversionRule(Pattern
-            .compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
+        SingleConversionRule crFactory0 = new SingleConversionRule(Pattern.compile("Logger.getLogger\\("), "LoggerFactory.getLogger(");
 
-    SingleConversionRule variable0 = new SingleConversionRule(Pattern
-            .compile("(\\sCategory\\b)")," Logger");
+        SingleConversionRule crFactory1 = new SingleConversionRule(Pattern.compile("\\sCategory.getInstance\\("), " LoggerFactory.getLogger(");
 
-    SingleConversionRule variable1 = new SingleConversionRule(Pattern
-            .compile("(^Category\\b)"),"Logger");
+        SingleConversionRule crFactory2 = new SingleConversionRule(Pattern.compile("LogManager.getLogger\\("), "LoggerFactory.getLogger(");
 
-    conversionRuleList = new ArrayList<ConversionRule>();
-    conversionRuleList.add(crImport0);
-    conversionRuleList.add(catImport);
-    conversionRuleList.add(crImport1);
-    conversionRuleList.add(crImport2);
-    conversionRuleList.add(crImportMDC);
-    conversionRuleList.add(crFactory0);
-    conversionRuleList.add(crFactory1);
-    conversionRuleList.add(crFactory2);
+        SingleConversionRule variable0 = new SingleConversionRule(Pattern.compile("(\\sCategory\\b)"), " Logger");
 
-    conversionRuleList.add(variable0);
-    conversionRuleList.add(variable1);
-  }
+        SingleConversionRule variable1 = new SingleConversionRule(Pattern.compile("(^Category\\b)"), "Logger");
 
-  public Iterator<ConversionRule> iterator() {
-    return conversionRuleList.iterator();
-  }
+        conversionRuleList = new ArrayList<ConversionRule>();
+        conversionRuleList.add(crImport0);
+        conversionRuleList.add(catImport);
+        conversionRuleList.add(crImport1);
+        conversionRuleList.add(crImport2);
+        conversionRuleList.add(crImportMDC);
+        conversionRuleList.add(crFactory0);
+        conversionRuleList.add(crFactory1);
+        conversionRuleList.add(crFactory2);
+
+        conversionRuleList.add(variable0);
+        conversionRuleList.add(variable1);
+    }
+
+    public Iterator<ConversionRule> iterator() {
+        return conversionRuleList.iterator();
+    }
 
 }

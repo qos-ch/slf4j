@@ -33,21 +33,21 @@ import junit.framework.TestCase;
 
 public class NoBindingTest extends TestCase {
 
-  int diff = new Random().nextInt(10000);
-  
-  public void testLogger() {
-    Logger logger = LoggerFactory.getLogger(NoBindingTest.class);
-    logger.debug("hello"+diff);
-    assertTrue(logger instanceof NOPLogger);
-  }
+    int diff = new Random().nextInt(10000);
 
-  public void testMDC() {
-    MDC.put("k"+diff, "v");
-    assertNull(MDC.get("k"));
-  }
+    public void testLogger() {
+        Logger logger = LoggerFactory.getLogger(NoBindingTest.class);
+        logger.debug("hello" + diff);
+        assertTrue(logger instanceof NOPLogger);
+    }
 
-  public void testMarker() {
-    Marker m = MarkerFactory.getMarker("a"+diff);
-    assertTrue(m instanceof BasicMarker);
-  }
+    public void testMDC() {
+        MDC.put("k" + diff, "v");
+        assertNull(MDC.get("k"));
+    }
+
+    public void testMarker() {
+        Marker m = MarkerFactory.getMarker("a" + diff);
+        assertTrue(m instanceof BasicMarker);
+    }
 }

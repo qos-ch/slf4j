@@ -28,31 +28,31 @@ import junit.framework.TestCase;
 
 public class NDCTest extends TestCase {
 
-  protected void setUp() throws Exception {
-    super.setUp();
-    MDC.clear();
-  }
+    protected void setUp() throws Exception {
+        super.setUp();
+        MDC.clear();
+    }
 
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
-  
-  public void testEmpty() {
-    assertEquals("", NDC.pop());
-  }
-  
-  public void testSmoke() {
-    NDC.push("a");
-    String result = NDC.pop();
-    assertEquals("a",result);
-  }
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
 
-  public void testSmoke2() {
-    NDC.push("a");
-    NDC.push("b");
-    String result1 = NDC.pop();
-    String result0 = NDC.pop();
-    assertEquals("b",result1);
-    assertEquals("a",result0);
-  }
+    public void testEmpty() {
+        assertEquals("", NDC.pop());
+    }
+
+    public void testSmoke() {
+        NDC.push("a");
+        String result = NDC.pop();
+        assertEquals("a", result);
+    }
+
+    public void testSmoke2() {
+        NDC.push("a");
+        NDC.push("b");
+        String result1 = NDC.pop();
+        String result0 = NDC.pop();
+        assertEquals("b", result1);
+        assertEquals("a", result0);
+    }
 }

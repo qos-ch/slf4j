@@ -21,45 +21,44 @@ import java.util.Map;
 
 public class MDC {
 
-  public static void put(String key, String value) {
-    org.slf4j.MDC.put(key, value);
-  }
-  
-  public static void put(String key, Object value) {
-    if (value != null) {
-      put(key, value.toString());
-    } else {
-      put(key, null);
+    public static void put(String key, String value) {
+        org.slf4j.MDC.put(key, value);
     }
-  }
-  
-  public static Object get(String key) {
-    return org.slf4j.MDC.get(key);
-  }
-  
-  public static void remove(String key) {
-    org.slf4j.MDC.remove(key);
-  }
-  
-  public static void clear() {
-    org.slf4j.MDC.clear();
-  }
-  
-  /** 
-   * This method is not part of the Log4J public API. However it 
-   * has been called by other projects. This method is here temporarily  
-   * until projects who are depending on this method release fixes. 
-   */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  @Deprecated
-  public static Hashtable getContext() {
-    Map map = org.slf4j.MDC.getCopyOfContextMap();
 
-    if (map != null) {
-      return new Hashtable(map);
+    public static void put(String key, Object value) {
+        if (value != null) {
+            put(key, value.toString());
+        } else {
+            put(key, null);
+        }
     }
-    else {
-      return new Hashtable();
+
+    public static Object get(String key) {
+        return org.slf4j.MDC.get(key);
     }
-  }
+
+    public static void remove(String key) {
+        org.slf4j.MDC.remove(key);
+    }
+
+    public static void clear() {
+        org.slf4j.MDC.clear();
+    }
+
+    /** 
+     * This method is not part of the Log4J public API. However it 
+     * has been called by other projects. This method is here temporarily  
+     * until projects who are depending on this method release fixes. 
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Deprecated
+    public static Hashtable getContext() {
+        Map map = org.slf4j.MDC.getCopyOfContextMap();
+
+        if (map != null) {
+            return new Hashtable(map);
+        } else {
+            return new Hashtable();
+        }
+    }
 }

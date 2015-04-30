@@ -32,38 +32,38 @@ import org.slf4j.migrator.internal.ProgressListener;
 
 public class FileSelector {
 
-  private List<File> javaFileList = new ArrayList<File>();
+    private List<File> javaFileList = new ArrayList<File>();
 
-  ProgressListener pl;
+    ProgressListener pl;
 
-  FileSelector(ProgressListener pl) {
-    this.pl = pl;
-  }
-
-  public List<File> selectJavaFilesInFolder(File folder) {
-    if (folder.isDirectory()) {
-      selectFiles(folder);
-      return javaFileList;
-    } else {
-      throw new IllegalArgumentException("[" + folder + "] is not a directory");
+    FileSelector(ProgressListener pl) {
+        this.pl = pl;
     }
-  }
 
-  private void selectFiles(File file) {
-    if (file.isDirectory()) {
-      pl.onDirectory(file);
-      File[] files = file.listFiles();
-      if (files != null) {
-        for (int i = 0; i < files.length; i++) {
-          selectFiles(files[i]);
+    public List<File> selectJavaFilesInFolder(File folder) {
+        if (folder.isDirectory()) {
+            selectFiles(folder);
+            return javaFileList;
+        } else {
+            throw new IllegalArgumentException("[" + folder + "] is not a directory");
         }
-      }
-    } else {
-      if (file.getName().endsWith(".java")) {
-        pl.onFileAddition(file);
-        javaFileList.add(file);
-      }
-
     }
-  }
+
+    private void selectFiles(File file) {
+        if (file.isDirectory()) {
+            pl.onDirectory(file);
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (int i = 0; i < files.length; i++) {
+                    selectFiles(files[i]);
+                }
+            }
+        } else {
+            if (file.getName().endsWith(".java")) {
+                pl.onFileAddition(file);
+                javaFileList.add(file);
+            }
+
+        }
+    }
 }

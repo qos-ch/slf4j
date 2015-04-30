@@ -42,30 +42,29 @@ import org.slf4j.spi.MarkerFactoryBinder;
  */
 public class StaticMarkerBinder implements MarkerFactoryBinder {
 
-  /**
-   * The unique instance of this class.
-   */
-  public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
- 
-  private StaticMarkerBinder() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
-  }
-  
-  /**
-   * Currently this method always returns an instance of 
-   * {@link BasicMarkerFactory}.
-   */
-  public IMarkerFactory getMarkerFactory() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
-  }
-  
-  /**
-   * Currently, this method returns the class name of
-   * {@link BasicMarkerFactory}.
-   */
-  public String getMarkerFactoryClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
-  }
-  
-  
+    /**
+     * The unique instance of this class.
+     */
+    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+
+    private StaticMarkerBinder() {
+        throw new UnsupportedOperationException("This code should never make it into the jar");
+    }
+
+    /**
+     * Currently this method always returns an instance of 
+     * {@link BasicMarkerFactory}.
+     */
+    public IMarkerFactory getMarkerFactory() {
+        throw new UnsupportedOperationException("This code should never make it into the jar");
+    }
+
+    /**
+     * Currently, this method returns the class name of
+     * {@link BasicMarkerFactory}.
+     */
+    public String getMarkerFactoryClassStr() {
+        throw new UnsupportedOperationException("This code should never make it into the jar");
+    }
+
 }

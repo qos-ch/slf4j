@@ -27,7 +27,6 @@ package org.slf4j.ext;
 import org.apache.commons.lang.text.StrLookup;
 import org.slf4j.MDC;
 
-
 /**
  * This class can be used with the Commons Lang StrSubstitutor to replace
  * tokens that occur in Strings with their values in the MDC.

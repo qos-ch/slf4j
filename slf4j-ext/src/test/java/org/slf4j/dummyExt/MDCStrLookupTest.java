@@ -31,7 +31,6 @@ import org.slf4j.ext.MDCStrLookup;
 
 public class MDCStrLookupTest extends TestCase {
 
-
     public MDCStrLookupTest(String name) {
         super(name);
     }

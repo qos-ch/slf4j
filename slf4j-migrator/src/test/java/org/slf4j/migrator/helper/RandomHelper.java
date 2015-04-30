@@ -28,43 +28,43 @@ import java.util.Random;
 
 public class RandomHelper {
 
-  private Random random = new Random(100);
-  final char folderSeparator;
-  
-  RandomHelper(char folderSeparator) {
-   this.folderSeparator = folderSeparator;
-  }
-  
-  private String randomString(int len) {
-    StringBuilder buf = new StringBuilder();
-    for (int i = 0; i < len; i++) {
-      int offset = random.nextInt(26);
-      char c = (char) ('a' + offset);
-      buf.append(c);
-    }
-    return buf.toString();
-  }
+    private Random random = new Random(100);
+    final char folderSeparator;
 
-  int nextInt(int n) {
-    return random.nextInt(n);
-  }
-  
-  String buildRandomFileName(int averageNodeLength, int totalLength) {
-    StringBuilder buf = new StringBuilder();
-    int MAX_NODE_LENGTH = averageNodeLength * 2;
-    while (buf.length() < totalLength) {
-      int remaining = totalLength - buf.length();
-      int currentNodeLength;
-      if (remaining > MAX_NODE_LENGTH) {
-        currentNodeLength = random.nextInt(MAX_NODE_LENGTH) + 1;
-        buf.append(randomString(currentNodeLength));
-        buf.append('/');
-      } else {
-        currentNodeLength = remaining;
-        buf.append(randomString(currentNodeLength));
-      }
+    RandomHelper(char folderSeparator) {
+        this.folderSeparator = folderSeparator;
     }
-    return buf.toString();
-  }
+
+    private String randomString(int len) {
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            int offset = random.nextInt(26);
+            char c = (char) ('a' + offset);
+            buf.append(c);
+        }
+        return buf.toString();
+    }
+
+    int nextInt(int n) {
+        return random.nextInt(n);
+    }
+
+    String buildRandomFileName(int averageNodeLength, int totalLength) {
+        StringBuilder buf = new StringBuilder();
+        int MAX_NODE_LENGTH = averageNodeLength * 2;
+        while (buf.length() < totalLength) {
+            int remaining = totalLength - buf.length();
+            int currentNodeLength;
+            if (remaining > MAX_NODE_LENGTH) {
+                currentNodeLength = random.nextInt(MAX_NODE_LENGTH) + 1;
+                buf.append(randomString(currentNodeLength));
+                buf.append('/');
+            } else {
+                currentNodeLength = remaining;
+                buf.append(randomString(currentNodeLength));
+            }
+        }
+        return buf.toString();
+    }
 
 }

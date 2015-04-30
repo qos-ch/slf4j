@@ -36,48 +36,47 @@ import org.slf4j.spi.LoggerFactoryBinder;
  */
 public class StaticLoggerBinder implements LoggerFactoryBinder {
 
-  /**
-   * The unique instance of this class.
-   */
-  private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+    /**
+     * The unique instance of this class.
+     */
+    private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
-  /**
-   * Return the singleton of this class.
-   * 
-   * @return the StaticLoggerBinder singleton
-   */
-  public static final StaticLoggerBinder getSingleton() {
-    return SINGLETON;
-  }
-  
-  /**
-   * Version tag used to check compatibility. The value of this field is
-   * modified with each release. 
-   */ 
-  
-  //to avoid constant folding by the compiler, this field must *not* be final
-  public static String REQUESTED_API_VERSION = "1.6.99";
-  
-  // Binding specific code:
-  private static final String loggerFactoryClassStr = JCLLoggerFactory.class
-      .getName();
+    /**
+     * Return the singleton of this class.
+     * 
+     * @return the StaticLoggerBinder singleton
+     */
+    public static final StaticLoggerBinder getSingleton() {
+        return SINGLETON;
+    }
 
-  /**
-   * The ILoggerFactory instance returned by the {@link #getLoggerFactory}
-   * method should always be the same object
-   */
-  private final ILoggerFactory loggerFactory;
+    /**
+     * Version tag used to check compatibility. The value of this field is
+     * modified with each release. 
+     */
 
-  private StaticLoggerBinder() {
+    // to avoid constant folding by the compiler, this field must *not* be final
+    public static String REQUESTED_API_VERSION = "1.6.99";
+
     // Binding specific code:
-    loggerFactory = new JCLLoggerFactory();
-  }
+    private static final String loggerFactoryClassStr = JCLLoggerFactory.class.getName();
 
-  public ILoggerFactory getLoggerFactory() {
-    return loggerFactory;
-  }
+    /**
+     * The ILoggerFactory instance returned by the {@link #getLoggerFactory}
+     * method should always be the same object
+     */
+    private final ILoggerFactory loggerFactory;
 
-  public String getLoggerFactoryClassStr() {
-    return loggerFactoryClassStr;
-  }
+    private StaticLoggerBinder() {
+        // Binding specific code:
+        loggerFactory = new JCLLoggerFactory();
+    }
+
+    public ILoggerFactory getLoggerFactory() {
+        return loggerFactory;
+    }
+
+    public String getLoggerFactoryClassStr() {
+        return loggerFactoryClassStr;
+    }
 }

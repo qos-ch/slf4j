@@ -530,13 +530,13 @@ class AndroidLoggerAdapter extends MarkerIgnoringBase {
     private void formatAndLog(int priority, String format, Object... argArray) {
         if (isLoggable(priority)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            _log(priority, ft.getMessage(), ft.getThrowable());
+            logInternal(priority, ft.getMessage(), ft.getThrowable());
         }
     }
 
     private void log(int priority, String message, Throwable throwable) {
         if (isLoggable(priority)) {
-            _log(priority, message, throwable);
+            logInternal(priority, message, throwable);
         }
     }
 
@@ -544,7 +544,7 @@ class AndroidLoggerAdapter extends MarkerIgnoringBase {
         return Log.isLoggable(name, priority);
     }
 
-    private void _log(int priority, String message, Throwable throwable) {
+    private void logInternal(int priority, String message, Throwable throwable) {
         if (throwable != null) {
             message += '\n' + Log.getStackTraceString(throwable);
         }
