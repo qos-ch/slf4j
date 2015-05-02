@@ -89,7 +89,7 @@ class AndroidLoggerFactory implements ILoggerFactory {
             // token of one character appended as is otherwise truncate it to one character
             int tokenLength = lastPeriodIndex - lastTokenIndex;
             if (tokenLength > 1) {
-                tagName.append('*');
+                tagName.append('_');
             }
             tagName.append('.');
             lastTokenIndex = lastPeriodIndex + 1;
@@ -114,11 +114,11 @@ class AndroidLoggerFactory implements ILoggerFactory {
     }
 
     private static String getSimpleName(String loggerName) {
-        // Take leading part and append '*' to indicate that it was truncated
+        // Take leading part and append '_' to indicate that it was truncated
         int length = loggerName.length();
         int lastPeriodIndex = loggerName.lastIndexOf('.');
         return lastPeriodIndex != -1 && length - (lastPeriodIndex + 1) <= TAG_MAX_LENGTH
             ? loggerName.substring(lastPeriodIndex + 1)
-            : '*' + loggerName.substring(length - TAG_MAX_LENGTH + 1);
+            : '_' + loggerName.substring(length - TAG_MAX_LENGTH + 1);
     }
 }
