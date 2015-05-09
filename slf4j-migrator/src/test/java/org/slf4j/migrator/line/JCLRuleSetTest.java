@@ -118,6 +118,15 @@ public class JCLRuleSetTest extends TestCase {
         "// myLog = LoggerFactory.getLogger(MyClass.class);//logger instantiation",
         jclConverter
             .getOneLineReplacement("// myLog = LogFactory.getFactory().getInstance(MyClass.class);//logger instantiation"));
+}
+
+  public void testGetLogWhiteSpaceDeclarationReplacement() {
+	    // Get log with white space
+	    assertEquals(
+	        ".getLogger(",
+	        jclConverter
+	            .getOneLineReplacement(" .getLog("));
+	  
   }
 
   public void testLogDeclarationReplacement() {
