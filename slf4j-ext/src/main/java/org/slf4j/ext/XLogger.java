@@ -102,7 +102,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     public XLogger(Logger logger) {
         // If class B extends A, assuming B does not override method x(), the caller
         // of new B().x() is A and not B, see also
-        // http://bugzilla.slf4j.org/show_bug.cgi?id=114
+        // http://jira.qos.ch/browse/SLF4J-105
         super(logger, LoggerWrapper.class.getName());
     }
 

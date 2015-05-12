@@ -48,7 +48,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * The TRACE level was introduced in log4j version 1.2.12. In order to avoid
  * crashing the host application, in the case the log4j version in use predates
  * 1.2.12, the TRACE level will be mapped as DEBUG. See also <a
- * href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug 68</a>.
+ * href="http://jira.qos.ch/browse/SLF4J-59">SLF4J-59</a>.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */

@@ -222,7 +222,7 @@
         </configuration>
       </plugin>
 
-      <!-- as suggested in http://bugzilla.slf4j.org/show_bug.cgi?id=152 -->
+      <!-- as suggested in http://jira.qos.ch/browse/SLF4J-143 -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>

@@ -644,7 +644,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         // construction of location data for disabled log
         // statements. As of 2008-07-31, callers of this method
         // do not perform this check. See also
-        // http://bugzilla.slf4j.org/show_bug.cgi?id=90
+        // http://jira.qos.ch/browse/SLF4J-81
         if (logger.isLoggable(julLevel)) {
             log(callerFQCN, julLevel, message, argArray, t);
         }
