@@ -31,22 +31,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-                            <Bundle-Description>${project.description}</Bundle-Description>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                        </manifestEntries>
-                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
