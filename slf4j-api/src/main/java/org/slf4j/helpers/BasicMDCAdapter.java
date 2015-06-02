@@ -45,18 +45,6 @@ public class BasicMDCAdapter implements MDCAdapter {
 
     private InheritableThreadLocal<Map<String, String>> inheritableThreadLocal = new InheritableThreadLocal<Map<String, String>>();
 
-    static boolean isJDK14() {
-        try {
-            String javaVersion = System.getProperty("java.version");
-            return javaVersion.startsWith("1.4");
-        } catch (SecurityException se) {
-            // punt and assume JDK 1.5 or later
-            return false;
-        }
-    }
-
-    static boolean IS_JDK14 = isJDK14();
-
     /**
      * Put a context value (the <code>val</code> parameter) as identified with
      * the <code>key</code> parameter into the current thread's context map.
@@ -73,9 +61,9 @@ public class BasicMDCAdapter implements MDCAdapter {
         if (key == null) {
             throw new IllegalArgumentException("key cannot be null");
         }
-        Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocal.get();
         if (map == null) {
-            map = Collections.<String, String> synchronizedMap(new HashMap<String, String>());
+            map = Collections.synchronizedMap(new HashMap<String, String>());
             inheritableThreadLocal.set(map);
         }
         map.put(key, val);
@@ -85,9 +73,9 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Get the context identified by the <code>key</code> parameter.
      */
     public String get(String key) {
-        Map<String, String> Map = (Map<String, String>) inheritableThreadLocal.get();
+        Map<String, String> Map = inheritableThreadLocal.get();
         if ((Map != null) && (key != null)) {
-            return (String) Map.get(key);
+            return Map.get(key);
         } else {
             return null;
         }
@@ -97,7 +85,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Remove the the context identified by the <code>key</code> parameter.
      */
     public void remove(String key) {
-        Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocal.get();
         if (map != null) {
             map.remove(key);
         }
@@ -107,16 +95,10 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Clear all entries in the MDC.
      */
     public void clear() {
-        Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocal.get();
         if (map != null) {
             map.clear();
-            // the InheritableThreadLocal.remove method was introduced in JDK 1.5
-            // Thus, invoking clear() on previous JDK 1.4 will fail
-            if (isJDK14()) {
-                inheritableThreadLocal.set(null);
-            } else {
-                inheritableThreadLocal.remove();
-            }
+            inheritableThreadLocal.remove();
         }
     }
 
@@ -127,7 +109,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * @return the keys in the MDC
      */
     public Set<String> getKeys() {
-        Map<String, String> map = (Map<String, String>) inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocal.get();
         if (map != null) {
             return map.keySet();
         } else {
@@ -141,9 +123,9 @@ public class BasicMDCAdapter implements MDCAdapter {
      * 
      */
     public Map<String, String> getCopyOfContextMap() {
-        Map<String, String> oldMap = (Map<String, String>) inheritableThreadLocal.get();
+        Map<String, String> oldMap = inheritableThreadLocal.get();
         if (oldMap != null) {
-            Map<String, String> newMap = Collections.<String, String> synchronizedMap(new HashMap<String, String>());
+            Map<String, String> newMap = Collections.synchronizedMap(new HashMap<String, String>());
             synchronized (oldMap) {
                 newMap.putAll(oldMap);
             }
@@ -154,7 +136,7 @@ public class BasicMDCAdapter implements MDCAdapter {
     }
 
     public void setContextMap(Map<String, String> contextMap) {
-        Map<String, String> map = Collections.<String, String> synchronizedMap(new HashMap<String, String>(contextMap));
+        Map<String, String> map = Collections.synchronizedMap(new HashMap<String, String>(contextMap));
         inheritableThreadLocal.set(map);
     }
 

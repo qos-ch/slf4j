@@ -101,7 +101,7 @@ public class BasicMarker implements Marker {
 
         int size = referenceList.size();
         for (int i = 0; i < size; i++) {
-            Marker m = (Marker) referenceList.get(i);
+            Marker m = referenceList.get(i);
             if (referenceToRemove.equals(m)) {
                 referenceList.remove(i);
                 return true;
@@ -120,8 +120,7 @@ public class BasicMarker implements Marker {
         }
 
         if (hasReferences()) {
-            for (int i = 0; i < referenceList.size(); i++) {
-                Marker ref = (Marker) referenceList.get(i);
+            for (Marker ref : referenceList) {
                 if (ref.contains(other)) {
                     return true;
                 }
@@ -143,8 +142,7 @@ public class BasicMarker implements Marker {
         }
 
         if (hasReferences()) {
-            for (int i = 0; i < referenceList.size(); i++) {
-                Marker ref = (Marker) referenceList.get(i);
+            for (Marker ref : referenceList) {
                 if (ref.contains(name)) {
                     return true;
                 }
@@ -182,7 +180,7 @@ public class BasicMarker implements Marker {
         StringBuilder sb = new StringBuilder(this.getName());
         sb.append(' ').append(OPEN);
         while (it.hasNext()) {
-            reference = (Marker) it.next();
+            reference = it.next();
             sb.append(reference.getName());
             if (it.hasNext()) {
                 sb.append(SEP);
