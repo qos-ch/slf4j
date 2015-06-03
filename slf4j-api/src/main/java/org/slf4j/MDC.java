@@ -73,18 +73,17 @@ public class MDC {
     /**
      * An adapter to remove the key(s) when done.
      */
-    @SuppressWarnings("rawtypes")
     public static class MDCCloseable implements Closeable {
-        private final Set keys;
+        private final Set<String> keys;
 
-        private MDCCloseable(Set keys) {
+        private MDCCloseable(Set<String> keys) {
             this.keys = keys;
         }
 
         public void close() {
-            Iterator keyIterator = this.keys.iterator();
+            Iterator<String> keyIterator = this.keys.iterator();
             while(keyIterator.hasNext()) {
-                MDC.remove((String) keyIterator.next());
+                MDC.remove(keyIterator.next());
             }
             keys.clear();
         }
@@ -166,12 +165,11 @@ public class MDC {
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null or if <code>keyValuePairs</code> is supplied, if its length is odd
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static MDCCloseable putCloseable(String key, String val, String... keyValuePairs) throws IllegalArgumentException {
         if (keyValuePairs.length % 2 != 0) {
             throw new IllegalArgumentException("key-value pairs length cannot be odd");
         }
-        Set keys = new HashSet();
+        Set<String> keys = new HashSet<String>();
         put(key, val);
         keys.add(key);
         for (int i = 0; i < keyValuePairs.length; i += 2) {
