@@ -46,7 +46,7 @@ public final class Util {
         }
     }
 
-    private static final ClassContextSecurityManager SECURITY_MANAGER = new ClassContextSecurityManager();
+    private static ClassContextSecurityManager SECURITY_MANAGER = null;
 
     /**
      * Returns the name of the class which called the invoking method.
@@ -54,6 +54,11 @@ public final class Util {
      * @return the name of the class which called the invoking method.
      */
     public static Class<?> getCallingClass() {
+        synchronized (Util.class) {
+            if (SECURITY_MANAGER == null) {
+                SECURITY_MANAGER = new ClassContextSecurityManager();
+            }
+        }
         Class<?>[] trace = SECURITY_MANAGER.getClassContext();
         String thisClassName = Util.class.getName();
 
