@@ -106,7 +106,8 @@ public class InvocationTest extends TestCase {
         assertEquals(8, listAppender.list.size());
     }
 
-    // http://bugzilla.slf4j.org/show_bug.cgi?id=78
+    // http://jira.qos.ch/browse/SLF4J-69
+    // formerly http://bugzilla.slf4j.org/show_bug.cgi?id=78
     public void testNullParameter_BUG78() {
         Logger logger = LoggerFactory.getLogger("testNullParameter_BUG78");
         String[] parameters = null;

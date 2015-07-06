@@ -18,7 +18,6 @@ package org.apache.log4j;
 
 import org.apache.log4j.spi.Filter;
 import org.apache.log4j.spi.ErrorHandler;
-import org.apache.log4j.spi.Layout;
 import org.apache.log4j.spi.LoggingEvent;
 
 /**

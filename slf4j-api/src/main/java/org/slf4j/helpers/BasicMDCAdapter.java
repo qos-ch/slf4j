@@ -32,13 +32,13 @@ import java.util.Map;
 /**
  * Basic MDC implementation, which can be used with logging systems that lack
  * out-of-the-box MDC support.
- * 
+ *
  * This code was initially inspired by  logback's LogbackMDCAdapter. However,
  * LogbackMDCAdapter has evolved and is now considerably more sophisticated.
  *
  * @author Ceki Gulcu
  * @author Maarten Bosteels
- * 
+ *
  * @since 1.5.0
  */
 public class BasicMDCAdapter implements MDCAdapter {
@@ -54,27 +54,15 @@ public class BasicMDCAdapter implements MDCAdapter {
         }
     };
 
-    static boolean isJDK14() {
-        try {
-            String javaVersion = System.getProperty("java.version");
-            return javaVersion.startsWith("1.4");
-        } catch (SecurityException se) {
-            // punt and assume JDK 1.5 or later
-            return false;
-        }
-    }
-
-    static boolean IS_JDK14 = isJDK14();
-
     /**
      * Put a context value (the <code>val</code> parameter) as identified with
      * the <code>key</code> parameter into the current thread's context map.
      * Note that contrary to log4j, the <code>val</code> parameter can be null.
-     * 
+     *
      * <p>
      * If the current thread does not have a context map it is created as a side
      * effect of this call.
-     * 
+     *
      * @throws IllegalArgumentException
      *                 in case the "key" parameter is null
      */
@@ -119,20 +107,14 @@ public class BasicMDCAdapter implements MDCAdapter {
         Map<String, String> map = inheritableThreadLocal.get();
         if (map != null) {
             map.clear();
-            // the InheritableThreadLocal.remove method was introduced in JDK 1.5
-            // Thus, invoking clear() on previous JDK 1.4 will fail
-            if (isJDK14()) {
-                inheritableThreadLocal.set(null);
-            } else {
-                inheritableThreadLocal.remove();
-            }
+            inheritableThreadLocal.remove();
         }
     }
 
     /**
      * Returns the keys in the MDC as a {@link Set} of {@link String}s The
      * returned value can be null.
-     * 
+     *
      * @return the keys in the MDC
      */
     public Set<String> getKeys() {
@@ -145,9 +127,9 @@ public class BasicMDCAdapter implements MDCAdapter {
     }
 
     /**
-     * Return a copy of the current thread's context map. 
+     * Return a copy of the current thread's context map.
      * Returned value may be null.
-     * 
+     *
      */
     public Map<String, String> getCopyOfContextMap() {
         Map<String, String> oldMap = inheritableThreadLocal.get();
@@ -161,5 +143,4 @@ public class BasicMDCAdapter implements MDCAdapter {
     public void setContextMap(Map<String, String> contextMap) {
         inheritableThreadLocal.set(new HashMap<String, String>(contextMap));
     }
-
 }

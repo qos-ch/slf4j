@@ -126,9 +126,9 @@ public final class LoggerFactory {
     private static boolean messageContainsOrgSlf4jImplStaticLoggerBinder(String msg) {
         if (msg == null)
             return false;
-        if (msg.indexOf("org/slf4j/impl/StaticLoggerBinder") != -1)
+        if (msg.contains("org/slf4j/impl/StaticLoggerBinder"))
             return true;
-        if (msg.indexOf("org.slf4j.impl.StaticLoggerBinder") != -1)
+        if (msg.contains("org.slf4j.impl.StaticLoggerBinder"))
             return true;
         return false;
     }
@@ -155,7 +155,7 @@ public final class LoggerFactory {
             }
         } catch (java.lang.NoSuchMethodError nsme) {
             String msg = nsme.getMessage();
-            if (msg != null && msg.indexOf("org.slf4j.impl.StaticLoggerBinder.getSingleton()") != -1) {
+            if (msg != null && msg.contains("org.slf4j.impl.StaticLoggerBinder.getSingleton()")) {
                 INITIALIZATION_STATE = FAILED_INITIALIZATION;
                 Util.report("slf4j-api 1.6.x (or later) is incompatible with this binding.");
                 Util.report("Your binding is version 1.5.5 or earlier.");
@@ -198,8 +198,8 @@ public final class LoggerFactory {
             String requested = StaticLoggerBinder.REQUESTED_API_VERSION;
 
             boolean match = false;
-            for (int i = 0; i < API_COMPATIBILITY_LIST.length; i++) {
-                if (requested.startsWith(API_COMPATIBILITY_LIST[i])) {
+            for (String aAPI_COMPATIBILITY_LIST : API_COMPATIBILITY_LIST) {
+                if (requested.startsWith(aAPI_COMPATIBILITY_LIST)) {
                     match = true;
                 }
             }
@@ -236,7 +236,7 @@ public final class LoggerFactory {
                 paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
             }
             while (paths.hasMoreElements()) {
-                URL path = (URL) paths.nextElement();
+                URL path = paths.nextElement();
                 staticLoggerBinderPathSet.add(path);
             }
         } catch (IOException ioe) {
@@ -257,9 +257,7 @@ public final class LoggerFactory {
     private static void reportMultipleBindingAmbiguity(Set<URL> staticLoggerBinderPathSet) {
         if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
             Util.report("Class path contains multiple SLF4J bindings.");
-            Iterator<URL> iterator = staticLoggerBinderPathSet.iterator();
-            while (iterator.hasNext()) {
-                URL path = (URL) iterator.next();
+            for (URL path : staticLoggerBinderPathSet) {
                 Util.report("Found binding in [" + path + "]");
             }
             Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
@@ -339,7 +337,7 @@ public final class LoggerFactory {
             throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
         case ONGOING_INITIALIZATION:
             // support re-entrant behavior.
-            // See also http://bugzilla.slf4j.org/show_bug.cgi?id=106
+            // See also http://jira.qos.ch/browse/SLF4J-97
             return TEMP_FACTORY;
         }
         throw new IllegalStateException("Unreachable code");
