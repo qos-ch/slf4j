@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -87,6 +86,27 @@ public final class LoggerFactory {
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
     static boolean DETECT_LOGGER_NAME_MISMATCH = Boolean.getBoolean(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
+    private static boolean isAndroid() {
+        boolean isAndroid = false;
+        final String vendorURL = System.getProperty("java.vendor.url");
+        if (vendorURL != null) {
+            if (vendorURL.toLowerCase().contains("android")) {
+                isAndroid = true;
+            }
+        }
+        return isAndroid;
+    }
+
+    private static boolean reportMultipleBindingAmbiguityRequired = !isAndroid();
+
+    public static boolean isReportMultipleBindingAmbiguityRequired() {
+        return reportMultipleBindingAmbiguityRequired;
+    }
+
+    public static void setReportMultipleBindingAmbiguityRequired(boolean reportMultipleBindingAmbiguityRequired) {
+        LoggerFactory.reportMultipleBindingAmbiguityRequired = reportMultipleBindingAmbiguityRequired;
+    }
+
     /**
      * It is LoggerFactory's responsibility to track version changes and manage
      * the compatibility list.
@@ -114,6 +134,7 @@ public final class LoggerFactory {
     static void reset() {
         INITIALIZATION_STATE = UNINITIALIZED;
         TEMP_FACTORY = new SubstituteLoggerFactory();
+        setReportMultipleBindingAmbiguityRequired(!isAndroid());
     }
 
     private final static void performInitialization() {
@@ -135,13 +156,18 @@ public final class LoggerFactory {
 
     private final static void bind() {
         try {
-            Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
-            reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
+            Set<URL> staticLoggerBinderPathSet = null;
+            if (isReportMultipleBindingAmbiguityRequired()) {
+                staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
+                reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
+            }
             // the next line does the binding
             StaticLoggerBinder.getSingleton();
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
-            reportActualBinding(staticLoggerBinderPathSet);
-            fixSubstitutedLoggers();
+            if (staticLoggerBinderPathSet != null) {
+                reportActualBinding(staticLoggerBinderPathSet);
+                fixSubstitutedLoggers();
+            }
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
