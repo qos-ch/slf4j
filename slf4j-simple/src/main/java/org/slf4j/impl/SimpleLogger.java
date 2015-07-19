@@ -52,7 +52,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * the special values "System.out" and "System.err". Default is "System.err".
  *
  * <li><code>org.slf4j.simpleLogger.defaultLogLevel</code> - Default log level for all instances of SimpleLogger.
- * Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, defaults to "info". </li>
+ * Must be one of ("trace", "debug", "info", "warn", "error", or "off"). If not specified, defaults to "info". </li>
  *
  * <li><code>org.slf4j.simpleLogger.log.<em>a.b.c</em></code> - Logging detail level for a SimpleLogger instance
  * named "a.b.c". Right-side value must be one of "trace", "debug", "info", "warn", or "error". When a SimpleLogger
@@ -294,6 +294,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return LOG_LEVEL_WARN;
         } else if ("error".equalsIgnoreCase(levelStr)) {
             return LOG_LEVEL_ERROR;
+        } else if ("off".equalsIgnoreCase(levelStr)) {
+            return Integer.MAX_VALUE;
         }
         // assume INFO by default
         return LOG_LEVEL_INFO;
