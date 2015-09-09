@@ -26,6 +26,7 @@ package org.slf4j.bridge;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -204,5 +205,11 @@ public class SLF4JBridgeHandlerTest {
     void assertLevel(int index, org.apache.log4j.Level expectedLevel) {
         LoggingEvent le = (LoggingEvent) listAppender.list.get(index);
         assertEquals(expectedLevel, le.getLevel());
+    }
+
+    public void testInitializer() throws IOException {
+        new SLF4JBridgeHandler.Initializer();
+        julLogger.info("will be appended if initialized");
+        assertEquals("initialization did not install the handler", 1, listAppender.list.size());
     }
 }
