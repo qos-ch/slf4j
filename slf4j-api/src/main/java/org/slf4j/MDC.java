@@ -36,7 +36,7 @@ import org.slf4j.spi.MDCAdapter;
 /**
  * This class hides and serves as a substitute for the underlying logging
  * system's MDC implementation.
- * 
+ *
  * <p>
  * If the underlying logging system offers MDC functionality, then SLF4J's MDC,
  * i.e. this class, will delegate to the underlying system's MDC. Note that at
@@ -49,15 +49,15 @@ import org.slf4j.spi.MDCAdapter;
  * Thus, as a SLF4J user, you can take advantage of MDC in the presence of log4j,
  * logback, or java.util.logging, but without forcing these systems as
  * dependencies upon your users.
- * 
+ *
  * <p>
  * For more information on MDC please see the <a
  * href="http://logback.qos.ch/manual/mdc.html">chapter on MDC</a> in the
  * logback manual.
- * 
+ *
  * <p>
  * Please note that all methods in this class are static.
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.4.1
  */
@@ -71,14 +71,17 @@ public class MDC {
      * An adapter to remove the key when done.
      */
     public static class MDCCloseable implements Closeable {
-        private final String key;
+        private final String key, previous;
 
-        private MDCCloseable(String key) {
+        private MDCCloseable(String key, String val) {
             this.key = key;
+            this.previous = get(key);
+            put(key, val);
         }
 
         public void close() {
-            MDC.remove(this.key);
+            if(previous == null) remove(key);
+            else put(key, previous);
         }
     }
 
@@ -109,13 +112,13 @@ public class MDC {
      * <code>key</code> parameter into the current thread's diagnostic context map. The
      * <code>key</code> parameter cannot be null. The <code>val</code> parameter
      * can be null only if the underlying implementation supports it.
-     * 
+     *
      * <p>
      * This method delegates all work to the MDC of the underlying logging system.
      *
-     * @param key non-null key 
+     * @param key non-null key
      * @param val value to put in the map
-     * 
+     *
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
@@ -151,25 +154,24 @@ public class MDC {
      *
      * @param key non-null key
      * @param val value to put in the map
-     * @return a <code>Closeable</code> who can remove <code>key</code> when <code>close</code>
+     * @return a <code>Closeable</code> that can restore <code>key</code> when <code>close</code>
      * is called.
      *
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
     public static MDCCloseable putCloseable(String key, String val) throws IllegalArgumentException {
-        put(key, val);
-        return new MDCCloseable(key);
+        return new MDCCloseable(key, val);
     }
 
     /**
      * Get the diagnostic context identified by the <code>key</code> parameter. The
      * <code>key</code> parameter cannot be null.
-     * 
+     *
      * <p>
      * This method delegates all work to the MDC of the underlying logging system.
      *
-     * @param key  
+     * @param key
      * @return the string value identified by the <code>key</code> parameter.
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
@@ -191,7 +193,7 @@ public class MDC {
      * cannot be null. This method does nothing if there is no previous value
      * associated with <code>key</code>.
      *
-     * @param key  
+     * @param key
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
@@ -219,7 +221,7 @@ public class MDC {
     /**
      * Return a copy of the current thread's context map, with keys and values of
      * type String. Returned value may be null.
-     * 
+     *
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
@@ -234,7 +236,7 @@ public class MDC {
      * Set the current thread's context map by first clearing any existing map and
      * then copying the map passed as parameter. The context map passed as
      * parameter must only contain keys and values of type String.
-     * 
+     *
      * @param contextMap
      *          must contain only keys and values of type String
      * @since 1.5.1
@@ -248,7 +250,7 @@ public class MDC {
 
     /**
      * Returns the MDCAdapter instance currently in use.
-     * 
+     *
      * @return the MDcAdapter instance currently in use.
      * @since 1.4.2
      */

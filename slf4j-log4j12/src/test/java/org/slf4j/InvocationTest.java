@@ -173,4 +173,21 @@ public class InvocationTest extends TestCase {
         assertEquals("vb", MDC.get("kb"));
     }
 
+    public void testMDCCloseable() {
+        MDC.remove("someKey");
+        assertNull("before closeables", MDC.get("someKey"));
+
+        MDC.MDCCloseable mdcCloseable1 = MDC.putCloseable("someKey", "someValue");
+        assertEquals("during closeable1", "someValue", MDC.get("someKey"));
+
+        MDC.MDCCloseable mdcCloseable2 = MDC.putCloseable("someKey", "someOtherValue");
+        assertEquals("during closeable2", "someOtherValue", MDC.get("someKey"));
+
+        mdcCloseable2.close();
+        assertEquals("after closeable2", "someValue", MDC.get("someKey"));
+
+        mdcCloseable1.close();
+        assertNull("after closeable1", MDC.get("someKey"));
+    }
+
 }
