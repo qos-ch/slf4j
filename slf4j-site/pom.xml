@@ -21,9 +21,8 @@
     <resources>
       <resource>
         <directory>${project.basedir}/src/site/pages</directory>
-        <!--We're saving filtered html docs in a temporary folder-->
-        <!--and telling the site plug in to get the docs there.-->
-        <targetPath>${project.basedir}/../target/site</targetPath>
+        <!-- The {project.basedir}/.. form breaks the eclipse plugin -->     
+        <targetPath>../../../target/site</targetPath>
         <filtering>true</filtering>
       </resource>
       <resource>
