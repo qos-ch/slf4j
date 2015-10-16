@@ -25,14 +25,11 @@
         <artifactId>animal-sniffer-maven-plugin</artifactId>
         <configuration>
           <!-- Signatures cannot be determined and will error unless excluded.  This is isolated to
-               interfaces or code otherwise already marked as not being present in normal usage 
-               where the concrete code does not exist in same modules as a result. -->
+               code otherwise already marked for removal in the module artifact. -->
           <ignores>
             <ignore>org.slf4j.impl.StaticMDCBinder</ignore>
-            <ignore>org.slf4j.spi.MDCAdapter</ignore>
             <ignore>org.slf4j.impl.StaticLoggerBinder</ignore>
             <ignore>org.slf4j.impl.StaticMarkerBinder</ignore>
-            <ignore>org.slf4j.IMarkerFactory</ignore>
           </ignores>
         </configuration>
       </plugin>
