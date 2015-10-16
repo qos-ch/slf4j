@@ -574,6 +574,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         LogRecord record = new LogRecord(level, msg);
         record.setLoggerName(getName());
         record.setThrown(t);
+        // Note: parameters in record are not set because SLF4J only 
+        // supports a single formatting style
         fillCallerData(callerFQCN, record);
         logger.log(record);
 
