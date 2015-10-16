@@ -34,6 +34,8 @@
 
   <properties>
     <required.jdk.version>1.5</required.jdk.version>
+    <maven.compiler.source>${required.jdk.version}</maven.compiler.source>
+    <maven.compiler.target>${required.jdk.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -164,18 +166,12 @@
         <version>2.3.1</version>
         <configuration>
           <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-            </manifest>
             <manifestEntries>
               <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
-              <Os-Name>${os.name}</Os-Name>
-              <Os-Arch>${os.arch}</Os-Arch>
-              <Os-Version>${os.version}</Os-Version>
               <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
               <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+              <Implementation-Version>${project.version}</Implementation-Version>
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
