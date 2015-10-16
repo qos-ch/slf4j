@@ -37,6 +37,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- used in integration testing -->
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
     <log4j.version>1.2.17</log4j.version>
@@ -44,9 +45,6 @@
     <junit.version>4.10</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
-
-    <signature.artifact>java15</signature.artifact>
-    <signature.version>1.0</signature.version>
   </properties>
 
   <developers>
@@ -140,8 +138,8 @@
           <configuration>
             <signature>
               <groupId>org.codehaus.mojo.signature</groupId>
-              <artifactId>${signature.artifact}</artifactId>
-              <version>${signature.version}</version>
+              <artifactId>java15</artifactId>
+              <version>1.0</version>
             </signature>
           </configuration>
         </plugin>
