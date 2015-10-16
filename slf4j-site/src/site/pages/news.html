@@ -50,6 +50,20 @@
    href="http://jira.qos.ch/browse/SLF4J-218">SLF4J-218</a> by Joshua
    M Steward with Alfredo Ramos providing the relavant pull request.
    </p>
+
+   <p>Added <code><a
+   href="apidocs/org/slf4j/bridge/SLF4JBridgeHandler.Initializer.html">
+   SLF4JBridgeHandler.Initializer</a></code>, a j.u.l. configuration
+   class which registers <code><a
+   href="apidocs/org/slf4j/bridge/SLF4JBridgeHandler.html">
+   SLF4JBridgeHandler</a></code> as handler for the j.u.l. root logger
+   without maintaining a j.u.l. <em>logging.properties</em> configuration
+   file. Simply set the "java.util.logging.config.class" system property to
+   "org.slf4j.bridge.SLF4JBridgeHandler.Initializer" prior to <code><a
+   href="http://docs.oracle.com/javase/8/docs/api/java/util/logging/LogManager.html">
+   j.u.l.LogManager</a></code> startup (e.g. <code>java
+   &#8209;Djava.util.logging.config.class=org.slf4j.bridge.SLF4JBridgeHandler.Initializer
+   ...}</code>).</p>
   
    <hr noshade="noshade" size="1"/>
 
