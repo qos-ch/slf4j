@@ -73,7 +73,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void trace(String msg) {
         if (logger.isLoggable(Level.FINEST)) {
-            log(SELF, Level.FINEST, msg, null, null);
+            log(SELF, Level.FINEST, msg, null);
         }
     }
 
@@ -94,7 +94,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void trace(String format, Object arg) {
         if (logger.isLoggable(Level.FINEST)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.FINEST, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -117,7 +117,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void trace(String format, Object arg1, Object arg2) {
         if (logger.isLoggable(Level.FINEST)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.FINEST, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -138,7 +138,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void trace(String format, Object... argArray) {
         if (logger.isLoggable(Level.FINEST)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.FINEST, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -152,7 +152,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void trace(String msg, Throwable t) {
         if (logger.isLoggable(Level.FINEST)) {
-            log(SELF, Level.FINEST, msg, null, t);
+            log(SELF, Level.FINEST, msg, t);
         }
     }
 
@@ -173,7 +173,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void debug(String msg) {
         if (logger.isLoggable(Level.FINE)) {
-            log(SELF, Level.FINE, msg, null, null);
+            log(SELF, Level.FINE, msg, null);
         }
     }
 
@@ -193,7 +193,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String format, Object arg) {
         if (logger.isLoggable(Level.FINE)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.FINE, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -216,7 +216,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String format, Object arg1, Object arg2) {
         if (logger.isLoggable(Level.FINE)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.FINE, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -237,7 +237,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String format, Object... argArray) {
         if (logger.isLoggable(Level.FINE)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.FINE, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -251,7 +251,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void debug(String msg, Throwable t) {
         if (logger.isLoggable(Level.FINE)) {
-            log(SELF, Level.FINE, msg, null, t);
+            log(SELF, Level.FINE, msg, t);
         }
     }
 
@@ -272,7 +272,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void info(String msg) {
         if (logger.isLoggable(Level.INFO)) {
-            log(SELF, Level.INFO, msg, null, null);
+            log(SELF, Level.INFO, msg, null);
         }
     }
 
@@ -292,7 +292,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String format, Object arg) {
         if (logger.isLoggable(Level.INFO)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.INFO, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -315,7 +315,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String format, Object arg1, Object arg2) {
         if (logger.isLoggable(Level.INFO)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.INFO, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -336,7 +336,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String format, Object... argArray) {
         if (logger.isLoggable(Level.INFO)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.INFO, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -351,7 +351,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void info(String msg, Throwable t) {
         if (logger.isLoggable(Level.INFO)) {
-            log(SELF, Level.INFO, msg, null, t);
+            log(SELF, Level.INFO, msg, t);
         }
     }
 
@@ -373,7 +373,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void warn(String msg) {
         if (logger.isLoggable(Level.WARNING)) {
-            log(SELF, Level.WARNING, msg, null, null);
+            log(SELF, Level.WARNING, msg, null);
         }
     }
 
@@ -394,7 +394,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String format, Object arg) {
         if (logger.isLoggable(Level.WARNING)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.WARNING, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -417,7 +417,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String format, Object arg1, Object arg2) {
         if (logger.isLoggable(Level.WARNING)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.WARNING, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -438,7 +438,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String format, Object... argArray) {
         if (logger.isLoggable(Level.WARNING)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.WARNING, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -453,7 +453,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void warn(String msg, Throwable t) {
         if (logger.isLoggable(Level.WARNING)) {
-            log(SELF, Level.WARNING, msg, null, t);
+            log(SELF, Level.WARNING, msg, t);
         }
     }
 
@@ -474,7 +474,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void error(String msg) {
         if (logger.isLoggable(Level.SEVERE)) {
-            log(SELF, Level.SEVERE, msg, null, null);
+            log(SELF, Level.SEVERE, msg, null);
         }
     }
 
@@ -495,7 +495,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String format, Object arg) {
         if (logger.isLoggable(Level.SEVERE)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.SEVERE, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -518,7 +518,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String format, Object arg1, Object arg2) {
         if (logger.isLoggable(Level.SEVERE)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.SEVERE, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -539,7 +539,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String format, Object... arguments) {
         if (logger.isLoggable(Level.SEVERE)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
-            log(SELF, Level.SEVERE, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
         }
     }
 
@@ -554,7 +554,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void error(String msg, Throwable t) {
         if (logger.isLoggable(Level.SEVERE)) {
-            log(SELF, Level.SEVERE, msg, null, t);
+            log(SELF, Level.SEVERE, msg, t);
         }
     }
 
@@ -569,11 +569,10 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      * @param msg
      * @param t
      */
-    private void log(String callerFQCN, Level level, String msg, Object[] args, Throwable t) {
+    private void log(String callerFQCN, Level level, String msg, Throwable t) {
         // millis and thread are filled by the constructor
         LogRecord record = new LogRecord(level, msg);
         record.setLoggerName(getName());
-        record.setParameters(args);
         record.setThrown(t);
         fillCallerData(callerFQCN, record);
         logger.log(record);
@@ -646,7 +645,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         // do not perform this check. See also
         // http://jira.qos.ch/browse/SLF4J-81
         if (logger.isLoggable(julLevel)) {
-            log(callerFQCN, julLevel, message, argArray, t);
+            log(callerFQCN, julLevel, message, t);
         }
     }
 }
