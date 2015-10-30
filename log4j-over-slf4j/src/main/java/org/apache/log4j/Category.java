@@ -308,23 +308,15 @@ public class Category {
     }
 
     private int priorityToLevelInt(Priority p) {
-        switch (p.level) {
-        case Level.TRACE_INT:
-        case Level.X_TRACE_INT:
+        // log4j levels are defined as 10000, 20000, ...50000
+        // slf4j levels are defined as 10, 20, ...40
+        int result = (p.level / 1000) % 10;
+        if (result < LocationAwareLogger.TRACE_INT) {
             return LocationAwareLogger.TRACE_INT;
-        case Priority.DEBUG_INT:
-            return LocationAwareLogger.DEBUG_INT;
-        case Priority.INFO_INT:
-            return LocationAwareLogger.INFO_INT;
-        case Priority.WARN_INT:
-            return LocationAwareLogger.WARN_INT;
-        case Priority.ERROR_INT:
+        } else if (result > LocationAwareLogger.ERROR_INT) {
             return LocationAwareLogger.ERROR_INT;
-        case Priority.FATAL_INT:
-            return LocationAwareLogger.ERROR_INT;
-        default:
-            throw new IllegalStateException("Unknown Priority " + p);
         }
+        return result;
     }
 
     protected final String convertToString(Object message) {
