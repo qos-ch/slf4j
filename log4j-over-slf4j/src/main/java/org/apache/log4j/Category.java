@@ -310,7 +310,7 @@ public class Category {
     private int priorityToLevelInt(Priority p) {
         // log4j levels are defined as 10000, 20000, ...50000
         // slf4j levels are defined as 10, 20, ...40
-        int result = (p.level / 1000) % 10;
+        int result = (p.level / 10000) * 10;
         if (result < LocationAwareLogger.TRACE_INT) {
             return LocationAwareLogger.TRACE_INT;
         } else if (result > LocationAwareLogger.ERROR_INT) {
