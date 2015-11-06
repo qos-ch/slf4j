@@ -24,16 +24,18 @@
  */
 package org.dummy;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
+import org.junit.Test;
 
-public class Bug139 extends TestCase {
+public class Bug139  {
 
+    @Test
     public void test() {
         ListHandler listHandler = new ListHandler();
         java.util.logging.Logger root = java.util.logging.Logger.getLogger("");

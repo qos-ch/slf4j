@@ -24,12 +24,13 @@
  */
 package org.slf4j.migrator.line;
 
-import org.slf4j.migrator.line.LineConverter;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class TrivialMatcherTest extends TestCase {
+public class TrivialMatcherTest {
 
+    @Test
     public void testSimpleReplacement() {
         LineConverter trivialLC = new LineConverter(new TrivialMatcher());
 

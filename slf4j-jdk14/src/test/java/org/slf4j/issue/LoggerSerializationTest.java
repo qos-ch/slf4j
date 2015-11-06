@@ -34,7 +34,7 @@ import java.io.Serializable;
 
 import junit.framework.Assert;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * See http://jira.qos.ch/browse/SLF4J-252
  * @author Thorbjorn Ravn Andersen
  */
-public class LoggerSerializationTest extends TestCase {
+public class LoggerSerializationTest  {
 
     static class LoggerHolder implements Serializable {
         private static final long serialVersionUID = 1L;
@@ -58,6 +58,7 @@ public class LoggerSerializationTest extends TestCase {
         }
     }
 
+    @Test
     public void testCanLoggerBeSerialized() throws IOException, ClassNotFoundException {
 
         LoggerHolder lh1 = new LoggerHolder();

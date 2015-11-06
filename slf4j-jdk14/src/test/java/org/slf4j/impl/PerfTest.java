@@ -24,28 +24,16 @@
  */
 package org.slf4j.impl;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.BogoPerf;
 
-public class PerfTest extends TestCase {
+public class PerfTest {
 
     static long REFERENCE_BIPS = 9000;
 
-    public PerfTest(String name) {
-        super(name);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testBug72() {
 
         int LEN = 1000 * 1000 * 10;

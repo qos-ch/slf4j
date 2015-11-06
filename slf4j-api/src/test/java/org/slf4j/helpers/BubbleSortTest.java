@@ -24,10 +24,13 @@
  */
 package org.slf4j.helpers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Arrays;
 import java.util.Random;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Test that our BubbleSort algorithm is correctly implemented.
@@ -35,8 +38,9 @@ import junit.framework.TestCase;
  * @author Ceki
  *
  */
-public class BubbleSortTest extends TestCase {
+public class BubbleSortTest {
 
+    @Test
     public void testSmoke() {
         int[] a = new int[] { 5, 3, 2, 7 };
         BubbleSort.sort(a);
@@ -47,11 +51,13 @@ public class BubbleSortTest extends TestCase {
         assertEquals(7, a[i++]);
     }
 
+    @Test
     public void testEmpty() {
         int[] a = new int[] {};
         BubbleSort.sort(a);
     }
 
+    @Test
     public void testSorted() {
         int[] a = new int[] { 3, 30, 300, 3000 };
         BubbleSort.sort(a);
@@ -62,6 +68,7 @@ public class BubbleSortTest extends TestCase {
         assertEquals(3000, a[i++]);
     }
 
+    @Test
     public void testInverted() {
         int[] a = new int[] { 3000, 300, 30, 3 };
         BubbleSort.sort(a);
@@ -72,6 +79,7 @@ public class BubbleSortTest extends TestCase {
         assertEquals(3000, a[i++]);
     }
 
+    @Test
     public void testWithSameEntry() {
         int[] a = new int[] { 10, 20, 10, 20 };
         BubbleSort.sort(a);
@@ -82,6 +90,7 @@ public class BubbleSortTest extends TestCase {
         assertEquals(20, a[i++]);
     }
 
+    @Test
     public void testRandom() {
         int len = 100;
         Random random = new Random(156);

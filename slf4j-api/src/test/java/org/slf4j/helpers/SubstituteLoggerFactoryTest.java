@@ -24,16 +24,21 @@
  */
 package org.slf4j.helpers;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SubstituteLoggerFactoryTest extends TestCase {
+public class SubstituteLoggerFactoryTest  {
     private SubstituteLoggerFactory factory = new SubstituteLoggerFactory();
 
+    @Test
     public void testFactory() {
         Logger log = factory.getLogger("foo");
         assertNotNull(log);
@@ -42,6 +47,7 @@ public class SubstituteLoggerFactoryTest extends TestCase {
         assertTrue("Loggers with same name must be same", log == log2);
     }
 
+    @Test
     public void testLoggerNameList() {
         factory.getLogger("foo1");
         factory.getLogger("foo2");
@@ -52,6 +58,7 @@ public class SubstituteLoggerFactoryTest extends TestCase {
         assertEquals(expectedNames, actualNames);
     }
 
+    @Test
     public void testLoggers() {
         factory.getLogger("foo1");
         factory.getLogger("foo2");

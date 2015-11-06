@@ -24,9 +24,13 @@
  */
 package org.slf4j;
 
+import static org.junit.Assert.assertNull;
+
 import java.util.logging.Level;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test whether invoking the SLF4J API causes problems or not.
@@ -34,31 +38,30 @@ import junit.framework.TestCase;
  * @author Ceki Gulcu
  *
  */
-public class InvocationTest extends TestCase {
+public class InvocationTest {
 
     Level oldLevel;
     java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
 
-    public InvocationTest(String arg0) {
-        super(arg0);
-    }
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         oldLevel = root.getLevel();
         root.setLevel(Level.OFF);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         root.setLevel(oldLevel);
     }
 
+    @Test
     public void test1() {
         Logger logger = LoggerFactory.getLogger("test1");
         logger.debug("Hello world.");
     }
 
+    @Test
     public void test2() {
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
@@ -82,6 +85,7 @@ public class InvocationTest extends TestCase {
         logger.error("Hello world 4.", e);
     }
 
+    @Test
     public void testNull() {
         Logger logger = LoggerFactory.getLogger("testNull");
         logger.debug(null);
@@ -96,6 +100,7 @@ public class InvocationTest extends TestCase {
         logger.error(null, e);
     }
 
+    @Test
     public void testMarker() {
         Logger logger = LoggerFactory.getLogger("testMarker");
         Marker blue = MarkerFactory.getMarker("BLUE");
@@ -115,6 +120,7 @@ public class InvocationTest extends TestCase {
         logger.error(blue, "hello {} and {} ", "world", "universe");
     }
 
+    @Test
     public void testMDC() {
         MDC.put("k", "v");
         assertNull(MDC.get("k"));

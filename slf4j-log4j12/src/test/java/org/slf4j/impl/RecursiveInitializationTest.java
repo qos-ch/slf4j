@@ -26,28 +26,29 @@ package org.slf4j.impl;
 
 import java.util.Random;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-public class RecursiveInitializationTest extends TestCase {
+public class RecursiveInitializationTest {
 
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;
     static String CONFIG_FILE_KEY = "log4j.configuration";
 
     int diff = new Random().nextInt(10000);
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         System.setProperty(CONFIG_FILE_KEY, "recursiveInit.properties");
-        super.setUp();
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         System.clearProperty(CONFIG_FILE_KEY);
-        super.tearDown();
     }
 
+    @Test
     public void testLog4j() {
         Logger logger = LoggerFactory.getLogger("x" + diff);
         System.out.println("logger class=" + logger.getClass().getName());

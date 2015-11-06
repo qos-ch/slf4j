@@ -24,34 +24,40 @@
  */
 package org.slf4j.impl;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class JDK14AdapterLoggerNameTest extends TestCase {
+public class JDK14AdapterLoggerNameTest {
     private MockHandler mockHandler;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         Logger logger = Logger.getLogger("TEST");
         mockHandler = new MockHandler();
         removeHandlers(logger);
         logger.addHandler(mockHandler);
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         removeHandlers(Logger.getLogger("TEST"));
-        super.tearDown();
     }
 
+    @Test
     public void testLoggerNameusingJdkLogging() throws Exception {
         Logger.getLogger("TEST").info("test message");
         assertCorrectLoggerName();
 
     }
 
+    @Test
     public void testLoggerNameUsingSlf4j() throws Exception {
         JDK14LoggerFactory factory = new JDK14LoggerFactory();
         org.slf4j.Logger logger = factory.getLogger("TEST");

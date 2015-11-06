@@ -24,10 +24,13 @@
  */
 package org.slf4j.instrumentation;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class ToStringHelperTest extends TestCase {
+import org.junit.Test;
 
+public class ToStringHelperTest  {
+
+    @Test
     public void testRenderer() {
         assertEquals("", "null", ToStringHelper.render(null));
         assertEquals("", "a", ToStringHelper.render("a"));

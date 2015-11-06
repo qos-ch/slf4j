@@ -24,26 +24,24 @@
  */
 package org.slf4j.dummyExt;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
 
-public class XLoggerTest extends TestCase {
+public class XLoggerTest {
 
     ListAppender listAppender;
     org.apache.log4j.Logger log4jRoot;
 
     final static String EXPECTED_FILE_NAME = "XLoggerTest.java";
 
-    public XLoggerTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         // start from a clean slate for each test
 
@@ -52,10 +50,6 @@ public class XLoggerTest extends TestCase {
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(listAppender);
         log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
-    }
-
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     void verify(LoggingEvent le, String expectedMsg) {
@@ -74,6 +68,7 @@ public class XLoggerTest extends TestCase {
         assertEquals(le.getLevel().toString(), level.toString());
     }
 
+    @Test
     public void testEntering() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         logger.entry();
@@ -89,6 +84,7 @@ public class XLoggerTest extends TestCase {
         verify((LoggingEvent) listAppender.list.get(2), "entry with (test)");
     }
 
+    @Test
     public void testExiting() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         logger.exit();
@@ -101,6 +97,7 @@ public class XLoggerTest extends TestCase {
         verify((LoggingEvent) listAppender.list.get(2), "exit with (false)");
     }
 
+    @Test
     public void testThrowing() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         Throwable t = new UnsupportedOperationException("Test");
@@ -112,6 +109,7 @@ public class XLoggerTest extends TestCase {
         verifyWithLevelAndException(event, XLogger.Level.DEBUG, "throwing", t);
     }
 
+    @Test
     public void testCaught() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         long x = 5;
@@ -130,6 +128,7 @@ public class XLoggerTest extends TestCase {
 
     // See http://jira.qos.ch/browse/SLF4J-105
     // formerly http://bugzilla.slf4j.org/show_bug.cgi?id=114
+    @Test
     public void testLocationExtraction_Bug114() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         int line = 136; // requires update if line numbers change

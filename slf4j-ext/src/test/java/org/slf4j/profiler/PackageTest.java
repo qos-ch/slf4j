@@ -24,14 +24,14 @@
  */
 package org.slf4j.profiler;
 
-import junit.framework.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class PackageTest extends TestCase {
+@RunWith(Suite.class)
+@SuiteClasses({UtilTest.class,
+    ProfilerTest.class})
+public class PackageTest {
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTestSuite(UtilTest.class);
-        suite.addTestSuite(ProfilerTest.class);
-        return suite;
-    }
+
 }

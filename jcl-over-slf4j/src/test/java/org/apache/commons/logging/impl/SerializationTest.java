@@ -30,30 +30,27 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.impl.JDK14LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
-public class SerializationTest extends TestCase {
+public class SerializationTest {
 
     ObjectInputStream ois;
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ObjectOutputStream oos;
 
-    public SerializationTest(String name) {
-        super(name);
-    }
-
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         oos = new ObjectOutputStream(baos);
-        super.setUp();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         oos.close();
     }
 
@@ -67,6 +64,7 @@ public class SerializationTest extends TestCase {
         resuscitatedLog.isDebugEnabled();
     }
 
+    @Test
     public void testSLF4JLog() throws Exception {
         JDK14LoggerFactory factory = new JDK14LoggerFactory();
         SLF4JLog log = new SLF4JLog(factory.getLogger("x"));
@@ -74,12 +72,14 @@ public class SerializationTest extends TestCase {
         verify();
     }
 
+    @Test
     public void testSmoke() throws Exception {
         Log log = LogFactory.getLog("testing");
         oos.writeObject(log);
         verify();
     }
 
+    @Test
     public void testLocationAware() throws Exception {
         JDK14LoggerFactory factory = new JDK14LoggerFactory();
         SLF4JLocationAwareLog log = new SLF4JLocationAwareLog((LocationAwareLogger) factory.getLogger("x"));

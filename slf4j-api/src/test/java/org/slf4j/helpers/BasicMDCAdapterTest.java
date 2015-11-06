@@ -24,112 +24,125 @@
 
 package org.slf4j.helpers;
 
-import junit.framework.TestCase;
-
-import org.slf4j.spi.MDCAdapter;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Map;
+
+import org.junit.After;
+import org.junit.Test;
+import org.slf4j.spi.MDCAdapter;
 
 /**
  * Tests for {@link BasicMDCAdapter}
  * 
  * @author Lukasz Cwik
  */
-public class BasicMDCAdapterTest extends TestCase {
-  MDCAdapter mdc = new BasicMDCAdapter();
+public class BasicMDCAdapterTest  {
+    MDCAdapter mdc = new BasicMDCAdapter();
 
-  @Override
-  protected void tearDown() throws Exception {
-    mdc.clear();
-  }
+    @After
+    public void tearDown() throws Exception {
+        mdc.clear();
+    }
 
-  public void testSettingAndGettingWithMDC() {
-    assertNull(mdc.get("testKey"));
-    mdc.put("testKey", "testValue");
-    assertEquals(mdc.get("testKey"), "testValue");
-  }
+    @Test
+    public void testSettingAndGettingWithMDC() {
+        assertNull(mdc.get("testKey"));
+        mdc.put("testKey", "testValue");
+        assertEquals(mdc.get("testKey"), "testValue");
+    }
+    
+    @Test
+    public void testOverwritingAKeyInMDC() {
+        assertNull(mdc.get("testKey"));
+        mdc.put("testKey", "testValue");
+        mdc.put("testKey", "differentTestValue");
+        assertEquals(mdc.get("testKey"), "differentTestValue");
+    }
 
-  public void testOverwritingAKeyInMDC() {
-    assertNull(mdc.get("testKey"));
-    mdc.put("testKey", "testValue");
-    mdc.put("testKey", "differentTestValue");
-    assertEquals(mdc.get("testKey"), "differentTestValue");
-  }
+    @Test
+    public void testClearingMDC() {
+        mdc.put("testKey", "testValue");
+        assertFalse(mdc.getCopyOfContextMap().isEmpty());
+        mdc.clear();
+        assertNull(mdc.getCopyOfContextMap());
+    }
 
-  public void testClearingMDC() {
-    mdc.put("testKey", "testValue");
-    assertFalse(mdc.getCopyOfContextMap().isEmpty());
-    mdc.clear();
-    assertNull(mdc.getCopyOfContextMap());
-  }
+    @Test
+    public void testGetCopyOfContextMapFromMDC() {
+        mdc.put("testKey", "testValue");
+        Map<String, String> copy = mdc.getCopyOfContextMap();
+        mdc.put("anotherTestKey", "anotherTestValue");
+        assertFalse(copy.size() == mdc.getCopyOfContextMap().size());
+    }
 
-  public void testGetCopyOfContextMapFromMDC() {
-    mdc.put("testKey", "testValue");
-    Map<String, String> copy = mdc.getCopyOfContextMap();
-    mdc.put("anotherTestKey", "anotherTestValue");
-    assertFalse(copy.size() == mdc.getCopyOfContextMap().size());
-  }
+    @Test
+    public void testMDCInheritsValuesFromParentThread() throws Exception {
+        mdc.put("parentKey", "parentValue");
+        runAndWait(new Runnable() {
+            public void run() {
+                mdc.put("childKey", "childValue");
+                assertEquals("parentValue", mdc.get("parentKey"));
+            }
+        });
+    }
 
-  public void testMDCInheritsValuesFromParentThread() throws Exception {
-    mdc.put("parentKey", "parentValue");
-    runAndWait(new Runnable() {
-      public void run() {
-        mdc.put("childKey", "childValue");
+    @Test
+    public void testMDCDoesntGetValuesFromChildThread() throws Exception {
+        mdc.put("parentKey", "parentValue");
+        runAndWait(new Runnable() {
+            public void run() {
+                mdc.put("childKey", "childValue");
+            }
+        });
         assertEquals("parentValue", mdc.get("parentKey"));
-      }
-    });
-  }
+        assertNull(mdc.get("childKey"));
+    }
 
-  public void testMDCDoesntGetValuesFromChildThread() throws Exception {
-    mdc.put("parentKey", "parentValue");
-    runAndWait(new Runnable() {
-      public void run() {
-        mdc.put("childKey", "childValue");
-      }
-    });
-    assertEquals("parentValue", mdc.get("parentKey"));
-    assertNull(mdc.get("childKey"));
-  }
-
-  public void testMDCChildThreadCanOverwriteParentThread() throws Exception {
-    mdc.put("sharedKey", "parentValue");
-    runAndWait(new Runnable() {
-      public void run() {
+    @Test
+    public void testMDCChildThreadCanOverwriteParentThread() throws Exception {
+        mdc.put("sharedKey", "parentValue");
+        runAndWait(new Runnable() {
+            public void run() {
+                assertEquals("parentValue", mdc.get("sharedKey"));
+                mdc.put("sharedKey", "childValue");
+                assertEquals("childValue", mdc.get("sharedKey"));
+            }
+        });
         assertEquals("parentValue", mdc.get("sharedKey"));
-        mdc.put("sharedKey", "childValue");
-        assertEquals("childValue", mdc.get("sharedKey"));
-      }
-    });
-    assertEquals("parentValue", mdc.get("sharedKey"));
-  }
-
-  private void runAndWait(Runnable runnable) throws Exception {
-    RecordingExceptionHandler handler = new RecordingExceptionHandler();
-    Thread thread = new Thread(runnable);
-    thread.setUncaughtExceptionHandler(handler);
-    thread.start();
-    try {
-      thread.join();
-    } catch(Throwable t) {
-      fail("Unexpected failure in child thread:" + t.getMessage());
-    }
-    assertFalse(handler.getMessage(), handler.hadException());
-  }
-
-  /** A {@link UncaughtExceptionHandler} that records whether the thread threw an exception. */
-  private static class RecordingExceptionHandler implements UncaughtExceptionHandler {
-    private Throwable exception;
-    public void uncaughtException(Thread t, Throwable e) {
-      exception = e;
     }
 
-    boolean hadException() {
-      return exception != null;
+    private void runAndWait(Runnable runnable) throws Exception {
+        RecordingExceptionHandler handler = new RecordingExceptionHandler();
+        Thread thread = new Thread(runnable);
+        thread.setUncaughtExceptionHandler(handler);
+        thread.start();
+        try {
+            thread.join();
+        } catch (Throwable t) {
+            fail("Unexpected failure in child thread:" + t.getMessage());
+        }
+        assertFalse(handler.getMessage(), handler.hadException());
     }
 
-    String getMessage() {
-      return exception != null ? exception.getMessage() : "";
+    /** A {@link UncaughtExceptionHandler} that records whether the thread threw an exception. */
+    private static class RecordingExceptionHandler implements UncaughtExceptionHandler {
+        private Throwable exception;
+
+        public void uncaughtException(Thread t, Throwable e) {
+            exception = e;
+        }
+
+        boolean hadException() {
+            return exception != null;
+        }
+
+        String getMessage() {
+            return exception != null ? exception.getMessage() : "";
+        }
     }
-  }
 }

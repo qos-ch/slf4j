@@ -26,11 +26,11 @@ package org.slf4j.helpers;
 
 import java.text.MessageFormat;
 
-import junit.framework.TestCase;
 import org.junit.Ignore;
+import org.junit.Test;
 
 @Ignore
-public class MessageFormatterPerfTest extends TestCase {
+public class MessageFormatterPerfTest{ //extends TestCase {
 
     Integer i1 = new Integer(1);
     Integer i2 = new Integer(2);
@@ -38,22 +38,13 @@ public class MessageFormatterPerfTest extends TestCase {
     //
     static long REFERENCE_BIPS = 48416;
 
-    public MessageFormatterPerfTest(String name) {
-        super(name);
-    }
-
-    protected void setUp() throws Exception {
-    }
-
-    protected void tearDown() throws Exception {
-    }
-
     public void XtestJDKFormatterPerf() {
         jdkMessageFormatter(RUN_LENGTH);
         double duration = jdkMessageFormatter(RUN_LENGTH);
         System.out.println("jdk duration = " + duration + " nanos");
     }
 
+    @Test
     public void testSLF4JPerf_OneArg() {
         slf4jMessageFormatter_OneArg(RUN_LENGTH);
         double duration = slf4jMessageFormatter_OneArg(RUN_LENGTH);
@@ -62,6 +53,7 @@ public class MessageFormatterPerfTest extends TestCase {
         BogoPerf.assertDuration(duration, referencePerf, REFERENCE_BIPS);
     }
 
+    @Test
     public void testSLF4JPerf_TwoArg() {
         slf4jMessageFormatter_TwoArg(RUN_LENGTH);
         double duration = slf4jMessageFormatter_TwoArg(RUN_LENGTH);

@@ -24,10 +24,11 @@
  */
 package org.slf4j;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.slf4j.helpers.BasicMarkerFactory;
 
 /**
@@ -36,7 +37,7 @@ import org.slf4j.helpers.BasicMarkerFactory;
  * @author Ceki G&uuml;lc&uuml;
  * @author Joern Huxhorn
  */
-public class BasicMarkerTest extends TestCase {
+public class BasicMarkerTest  {
     static final String BLUE_STR = "BLUE";
     static final String RED_STR = "RED";
     static final String GREEN_STR = "GREEN";
@@ -69,6 +70,7 @@ public class BasicMarkerTest extends TestCase {
         multiComp.add(comp);
     }
 
+    @Test
     public void testPrimitive() {
         assertEquals(BLUE_STR, blue.getName());
         assertTrue(blue.contains(blue));
@@ -80,20 +82,24 @@ public class BasicMarkerTest extends TestCase {
         assertTrue(blue2.contains(blue));
     }
 
+    @Test
     public void testPrimitiveByName() {
         assertTrue(blue.contains(BLUE_STR));
     }
 
+    @Test
     public void testComposite() {
         assertTrue(comp.contains(comp));
         assertTrue(comp.contains(blue));
     }
 
+    @Test
     public void testCompositeByName() {
         assertTrue(comp.contains(COMP_STR));
         assertTrue(comp.contains(BLUE_STR));
     }
 
+    @Test
     public void testMultiComposite() {
         assertTrue(multiComp.contains(comp));
         assertTrue(multiComp.contains(blue));
@@ -101,6 +107,7 @@ public class BasicMarkerTest extends TestCase {
         assertFalse(multiComp.contains(red));
     }
 
+    @Test
     public void testMultiCompositeByName() {
         assertTrue(multiComp.contains(COMP_STR));
         assertTrue(multiComp.contains(BLUE_STR));
@@ -108,6 +115,7 @@ public class BasicMarkerTest extends TestCase {
         assertFalse(multiComp.contains(RED_STR));
     }
 
+    @Test
     public void testMultiAdd() {
         Marker parent = factory.getMarker(PARENT_MARKER_STR);
         Marker child = factory.getMarker(CHILD_MARKER_STR);
@@ -122,6 +130,7 @@ public class BasicMarkerTest extends TestCase {
         assertFalse(iterator.hasNext());
     }
 
+    @Test
     public void testAddRemove() {
         final String NEW_PREFIX = "NEW_";
         Marker parent = factory.getMarker(NEW_PREFIX + PARENT_MARKER_STR);
@@ -142,6 +151,7 @@ public class BasicMarkerTest extends TestCase {
         assertFalse(parent.remove(child));
     }
 
+    @Test
     public void testSelfRecursion() {
         final String diffPrefix = "NEW_" + diff;
         final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
@@ -155,6 +165,7 @@ public class BasicMarkerTest extends TestCase {
         assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
     }
 
+    @Test
     public void testIndirectRecursion() {
         final String diffPrefix = "NEW_" + diff;
         final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;
@@ -175,6 +186,7 @@ public class BasicMarkerTest extends TestCase {
         assertFalse(parent.contains(NOT_CONTAINED_MARKER_STR));
     }
 
+    @Test
     public void testHomonyms() {
         final String diffPrefix = "homonym" + diff;
         final String PARENT_NAME = diffPrefix + PARENT_MARKER_STR;

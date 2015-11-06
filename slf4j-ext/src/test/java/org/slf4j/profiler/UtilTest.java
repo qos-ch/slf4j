@@ -24,22 +24,13 @@
  */
 package org.slf4j.profiler;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class UtilTest extends TestCase {
+import org.junit.Test;
 
-    public UtilTest(String name) {
-        super(name);
-    }
+public class UtilTest {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testSelectDurationUnitForDisplay() throws InterruptedException {
         assertEquals(DurationUnit.NANOSECOND, Util.selectDurationUnitForDisplay(10));
         assertEquals(DurationUnit.NANOSECOND, Util.selectDurationUnitForDisplay(9 * Util.NANOS_IN_ONE_MICROSECOND));

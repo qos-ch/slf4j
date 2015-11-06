@@ -25,10 +25,14 @@
 
 package org.apache.commons.logging;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class InvokeJCLTest extends TestCase {
+import org.junit.Test;
 
+public class InvokeJCLTest {
+
+    @Test
     public void testIsEnabledAPI() {
         // assume that we are running over slf4j-jdk14
         Log log = LogFactory.getLog(InvokeJCLTest.class);
@@ -40,6 +44,7 @@ public class InvokeJCLTest extends TestCase {
         assertTrue(log.isFatalEnabled());
     }
 
+    @Test
     public void testPrintAPI() {
         Log log = LogFactory.getLog(InvokeJCLTest.class);
         Exception e = new Exception("just testing");

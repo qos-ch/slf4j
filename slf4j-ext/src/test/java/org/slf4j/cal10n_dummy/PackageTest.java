@@ -24,13 +24,11 @@
  */
 package org.slf4j.cal10n_dummy;
 
-import junit.framework.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class PackageTest extends TestCase {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTestSuite(LocLoggerTest.class);
-        return suite;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({ LocLoggerTest.class })
+public class PackageTest {
 }

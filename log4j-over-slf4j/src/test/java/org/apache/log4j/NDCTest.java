@@ -24,33 +24,42 @@
  */
 package org.apache.log4j;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Ceki G&uuml;c&uuml;
  */
-public class NDCTest extends TestCase {
+public class NDCTest {
 
+    @Before
     public void setUp() {
         assertEquals(0, NDC.getDepth());
     }
 
+    @After
     public void tearDown() {
         NDC.clear();
     }
 
+    @Test
     public void testSmoke() {
         NDC.push("a");
         String back = NDC.pop();
         assertEquals("a", back);
     }
 
+    @Test
     public void testPop() {
         NDC.push("peek");
         String back = NDC.peek();
         assertEquals("peek", back);
     }
 
+    @Test
     public void testClear() {
         NDC.push("clear");
         NDC.clear();

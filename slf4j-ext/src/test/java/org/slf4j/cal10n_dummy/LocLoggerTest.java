@@ -24,19 +24,20 @@
  */
 package org.slf4j.cal10n_dummy;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.cal10n.LocLogger;
 import org.slf4j.cal10n.LocLoggerFactory;
 import org.slf4j.dummyExt.ListAppender;
 
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
-
-public class LocLoggerTest extends TestCase {
+public class LocLoggerTest  {
 
     ListAppender listAppender;
     org.apache.log4j.Logger log4jRoot;
@@ -46,13 +47,9 @@ public class LocLoggerTest extends TestCase {
 
     final static String EXPECTED_FILE_NAME = "LocLoggerTest.java";
 
-    public LocLoggerTest(String name) {
-        super(name);
-    }
 
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
-
         // start from a clean slate for each test
 
         listAppender = new ListAppender();
@@ -67,10 +64,8 @@ public class LocLoggerTest extends TestCase {
         assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
     }
 
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
+    @Test
     public void testSmoke() {
         LocLogger locLogger = llFactory_uk.getLocLogger(this.getClass());
         locLogger.info(Months.JAN);

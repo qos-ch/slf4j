@@ -24,15 +24,14 @@
  */
 package org.slf4j.migrator.line;
 
-import org.slf4j.migrator.line.JCLRuleSet;
-import org.slf4j.migrator.line.LineConverter;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
-
-public class JCLRuleSetTest extends TestCase {
+import org.junit.Test;
+public class JCLRuleSetTest {
 
     LineConverter jclConverter = new LineConverter(new JCLRuleSet());
 
+    @Test
     public void testImportReplacement() {
         // LogFactory import replacement
         assertEquals("import org.slf4j.LoggerFactory;", jclConverter.getOneLineReplacement("import org.apache.commons.logging.LogFactory;"));
@@ -40,6 +39,8 @@ public class JCLRuleSetTest extends TestCase {
         assertEquals("import org.slf4j.Logger;", jclConverter.getOneLineReplacement("import org.apache.commons.logging.Log;"));
     }
 
+
+    @Test
     public void testLogFactoryGetLogReplacement() {
         // Logger declaration and instanciation without modifier
         assertEquals("  Logger   l = LoggerFactory.getLogger(MyClass.class);",
@@ -65,6 +66,7 @@ public class JCLRuleSetTest extends TestCase {
                         jclConverter.getOneLineReplacement("// myLog = LogFactory.getLog(MyClass.class);//logger instanciation"));
     }
 
+    @Test
     public void testLogFactoryGetFactoryReplacement() {
 
         // Logger declaration and instanciation without modifier
@@ -91,6 +93,8 @@ public class JCLRuleSetTest extends TestCase {
                         jclConverter.getOneLineReplacement("// myLog = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"));
     }
 
+
+    @Test
     public void testLogDeclarationReplacement() {
 
         // simple Logger declaration
@@ -106,6 +110,7 @@ public class JCLRuleSetTest extends TestCase {
         assertEquals("//private Logger myLog;", jclConverter.getOneLineReplacement("//private Log myLog;"));
     }
 
+    @Test
     public void testMultiLineReplacement() {
         // Logger declaration on a line
         assertEquals("protected Logger log =", jclConverter.getOneLineReplacement("protected Log log ="));

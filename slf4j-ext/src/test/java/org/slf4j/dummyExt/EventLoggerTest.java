@@ -24,31 +24,30 @@
  */
 package org.slf4j.dummyExt;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.MDC;
 import org.slf4j.ext.EventData;
 import org.slf4j.ext.EventLogger;
-
-public class EventLoggerTest extends TestCase {
+public class EventLoggerTest  {
 
     ListAppender listAppender;
     org.apache.log4j.Logger log4;
 
     final static String EXPECTED_FILE_NAME = "EventLoggerTest.java";
 
-    public EventLoggerTest(String name) {
-        super(name);
-    }
 
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         // start from a clean slate for each test
 
@@ -68,8 +67,8 @@ public class EventLoggerTest extends TestCase {
 
     }
 
+    @After
     public void tearDown() throws Exception {
-        super.tearDown();
         MDC.clear();
     }
 
@@ -77,7 +76,8 @@ public class EventLoggerTest extends TestCase {
         assertEquals(expectedMsg, le.getMessage());
         assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
     }
-
+    
+    @Test
     public void testEventLogger() {
         EventData data[] = new EventData[2];
         data[0] = new EventData();

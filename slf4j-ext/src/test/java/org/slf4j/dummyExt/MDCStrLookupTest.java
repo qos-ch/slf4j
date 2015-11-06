@@ -24,25 +24,14 @@
  */
 package org.slf4j.dummyExt;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
 import org.slf4j.MDC;
 import org.slf4j.ext.MDCStrLookup;
+public class MDCStrLookupTest  {
 
-public class MDCStrLookupTest extends TestCase {
-
-    public MDCStrLookupTest(String name) {
-        super(name);
-    }
-
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testLookup() throws Exception {
         MDC.put("key", "value");
         MDC.put("number", "2");

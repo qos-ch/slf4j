@@ -24,6 +24,9 @@
  */
 package org.slf4j.helpers;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,15 +37,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.slf4j.Logger;
 
 /**
  * @author Chetan Mehrotra
  */
-public class SubstitutableLoggerTest extends TestCase {
+public class SubstitutableLoggerTest {
     private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName"));
 
+    @Test
     public void testDelegate() throws Exception {
         SubstituteLogger log = new SubstituteLogger("foo");
         assertTrue(log.delegate() instanceof NOPLogger);

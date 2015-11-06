@@ -24,18 +24,16 @@
  */
 package org.slf4j.migrator.line;
 
-import org.slf4j.migrator.line.JCLRuleSet;
-import org.slf4j.migrator.line.LineConverter;
-import org.slf4j.migrator.line.Log4jRuleSet;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.TestCase;
-
-public class NoConversionTest extends TestCase {
+import org.junit.Test;
+public class NoConversionTest  {
 
     /**
      * This test shows that performing JCL to SLF4J conversion has no impact on
      * Log4j implementation
      */
+    @Test
     public void testJclOverLog4jConversion() {
         // running jcl to slf4j conversion
         // JCLMatcher jclMatcher =
@@ -56,6 +54,7 @@ public class NoConversionTest extends TestCase {
      * This test shows that performing Log4j to SLF4J conversion has no impact on
      * JCL implementation
      */
+    @Test
     public void testLog4jOverJclConversion() {
         // running log4j to slf4j conversion
         LineConverter log4jConverter = new LineConverter(new Log4jRuleSet());

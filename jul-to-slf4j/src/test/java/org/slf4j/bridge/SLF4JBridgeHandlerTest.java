@@ -24,16 +24,18 @@
  */
 package org.slf4j.bridge;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
-
-public class SLF4JBridgeHandlerTest extends TestCase {
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+public class SLF4JBridgeHandlerTest  {
 
     static String LOGGER_NAME = "yay";
 
@@ -41,24 +43,22 @@ public class SLF4JBridgeHandlerTest extends TestCase {
     org.apache.log4j.Logger log4jRoot;
     java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("yay");
 
-    public SLF4JBridgeHandlerTest(String arg0) {
-        super(arg0);
-    }
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         listAppender.extractLocationInfo = true;
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(listAppender);
         log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         SLF4JBridgeHandler.uninstall();
         log4jRoot.getLoggerRepository().resetConfiguration();
     }
 
+    @Test
     public void testSmoke() {
         SLF4JBridgeHandler.install();
         String msg = "msg";
@@ -78,6 +78,7 @@ public class SLF4JBridgeHandlerTest extends TestCase {
         assertEquals("testSmoke", li.getMethodName());
     }
 
+    @Test
     public void testLevels() {
         SLF4JBridgeHandler.install();
         String msg = "msg";
@@ -100,6 +101,7 @@ public class SLF4JBridgeHandlerTest extends TestCase {
         assertLevel(i++, org.apache.log4j.Level.ERROR);
     }
 
+    @Test
     public void testLogWithResourceBundle() {
         SLF4JBridgeHandler.install();
 
@@ -118,6 +120,7 @@ public class SLF4JBridgeHandlerTest extends TestCase {
         assertEquals(expectedMsg, le.getMessage());
     }
 
+    @Test
     public void testLogWithResourceBundleWithParameters() {
         SLF4JBridgeHandler.install();
 
@@ -163,6 +166,7 @@ public class SLF4JBridgeHandlerTest extends TestCase {
         assertEquals(expectedMsg3, le.getMessage());
     }
 
+    @Test
     public void testLogWithPlaceholderNoParameters() {
         SLF4JBridgeHandler.install();
         String msg = "msg {non-number-string}";

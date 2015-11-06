@@ -24,12 +24,18 @@
  */
 package org.slf4j;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.spi.LoggingEvent;
-
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test whether invoking the SLF4J API causes problems or not.
@@ -37,33 +43,31 @@ import junit.framework.TestCase;
  * @author Ceki Gulcu
  * 
  */
-public class InvocationTest extends TestCase {
+public class InvocationTest {
 
     ListAppender listAppender = new ListAppender();
     org.apache.log4j.Logger root;
 
-    public InvocationTest(String arg0) {
-        super(arg0);
-    }
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         root = org.apache.log4j.Logger.getRootLogger();
         root.addAppender(listAppender);
-
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         root.getLoggerRepository().resetConfiguration();
     }
-
+    
+    @Test
     public void test1() {
         Logger logger = LoggerFactory.getLogger("test1");
         logger.debug("Hello world.");
         assertEquals(1, listAppender.list.size());
     }
 
+    @Test
     public void test2() {
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
@@ -90,6 +94,7 @@ public class InvocationTest extends TestCase {
         assertEquals(11, listAppender.list.size());
     }
 
+    @Test
     public void testNull() {
         Logger logger = LoggerFactory.getLogger("testNull");
         logger.trace(null);
@@ -108,17 +113,20 @@ public class InvocationTest extends TestCase {
 
     // http://jira.qos.ch/browse/SLF4J-69
     // formerly http://bugzilla.slf4j.org/show_bug.cgi?id=78
+    @Test
     public void testNullParameter_BUG78() {
         Logger logger = LoggerFactory.getLogger("testNullParameter_BUG78");
         String[] parameters = null;
         String msg = "hello {}";
 
-        logger.debug(msg, parameters);
+      logger.debug(msg, (Object[]) parameters);
+        
         assertEquals(1, listAppender.list.size());
         LoggingEvent e = (LoggingEvent) listAppender.list.get(0);
         assertEquals(msg, e.getMessage());
     }
 
+    @Test
     public void testMarker() {
         Logger logger = LoggerFactory.getLogger("testMarker");
         Marker blue = MarkerFactory.getMarker("BLUE");
@@ -140,6 +148,7 @@ public class InvocationTest extends TestCase {
         assertEquals(12, listAppender.list.size());
     }
 
+    @Test
     public void testMDC() {
         MDC.put("k", "v");
         assertNotNull(MDC.get("k"));
@@ -160,6 +169,7 @@ public class InvocationTest extends TestCase {
         }
     }
 
+    @Test
     public void testMDCContextMapValues() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("ka", "va");
