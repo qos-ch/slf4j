@@ -74,7 +74,6 @@ public class BasicMDCAdapterTest extends TestCase {
   public void testMDCInheritsValuesFromParentThread() throws Exception {
     mdc.put("parentKey", "parentValue");
     runAndWait(new Runnable() {
-      @Override
       public void run() {
         mdc.put("childKey", "childValue");
         assertEquals("parentValue", mdc.get("parentKey"));
@@ -85,7 +84,6 @@ public class BasicMDCAdapterTest extends TestCase {
   public void testMDCDoesntGetValuesFromChildThread() throws Exception {
     mdc.put("parentKey", "parentValue");
     runAndWait(new Runnable() {
-      @Override
       public void run() {
         mdc.put("childKey", "childValue");
       }
@@ -97,7 +95,6 @@ public class BasicMDCAdapterTest extends TestCase {
   public void testMDCChildThreadCanOverwriteParentThread() throws Exception {
     mdc.put("sharedKey", "parentValue");
     runAndWait(new Runnable() {
-      @Override
       public void run() {
         assertEquals("parentValue", mdc.get("sharedKey"));
         mdc.put("sharedKey", "childValue");
@@ -123,7 +120,6 @@ public class BasicMDCAdapterTest extends TestCase {
   /** A {@link UncaughtExceptionHandler} that records whether the thread threw an exception. */
   private static class RecordingExceptionHandler implements UncaughtExceptionHandler {
     private Throwable exception;
-    @Override
     public void uncaughtException(Thread t, Throwable e) {
       exception = e;
     }

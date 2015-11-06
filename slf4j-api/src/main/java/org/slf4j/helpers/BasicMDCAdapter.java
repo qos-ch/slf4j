@@ -38,7 +38,8 @@ import java.util.Map;
  *
  * @author Ceki Gulcu
  * @author Maarten Bosteels
- *
+ * @author Lukasz Cwik
+ * 
  * @since 1.5.0
  */
 public class BasicMDCAdapter implements MDCAdapter {
