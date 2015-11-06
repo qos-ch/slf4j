@@ -131,7 +131,7 @@ public class XLoggerTest {
     @Test
     public void testLocationExtraction_Bug114() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-        int line = 136; // requires update if line numbers change
+        int line = 135; // requires update if line numbers change
         logger.exit();
         logger.debug("hello");
 
