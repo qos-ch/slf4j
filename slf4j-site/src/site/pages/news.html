@@ -31,12 +31,19 @@
 
    <h3>, 2015 - Release of SLF4J 1.7.13</h3>
 
-   <p>Fixed issue with BasicMDCAdapter leaking MDC information to
-   non-child threads. This problem was reported by Lukasz Cwik in <a
+   <p>Fixed issue with <code>BasicMDCAdapter</code> leaking MDC
+   information to non-child threads. This problem was reported by
+   Lukasz Cwik in <a
    href="http://jira.qos.ch/browse/SLF4J-316">SLF4J-316</a> who also
    provided the relavant pull request.
    </p>
    
+   <p>More robust handling of ill-formatted input strings by
+   SLF4JBridgeHandler. This issue was reported in <a
+   href="http://jira.qos.ch/browse/SLF4J-337">SLF4J-337</a> by Rodolfo
+   Udo Labsch.
+   </p>
+
    <p>House cleaning of our project's Maven <em>pom.xml</em> files, an
    initiative undertaken by Jeremy Landis.
    </p>

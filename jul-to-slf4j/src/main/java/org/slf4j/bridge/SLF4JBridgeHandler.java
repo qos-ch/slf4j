@@ -261,7 +261,13 @@ public class SLF4JBridgeHandler extends Handler {
         // avoid formatting when there are no or 0 parameters. see also
         // http://jira.qos.ch/browse/SLF4J-203
         if (params != null && params.length > 0) {
-            message = MessageFormat.format(message, params);
+            try {
+                message = MessageFormat.format(message, params);
+            } catch (IllegalArgumentException e) {
+                // default to the same behavior as in java.util.logging.Formatter.formatMessage(LogRecord)
+                // see also http://jira.qos.ch/browse/SLF4J-337
+                return message;
+            }
         }
         return message;
     }
