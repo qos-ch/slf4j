@@ -14,4 +14,4 @@ once in the compatibility directory will launch the tests:
 ant all
 
 To obtain more information about the use of the log4j-over-slf4j module, 
-please visit http://www..slf4j.org/log4j-over-slf4j.html
+please visit http://www.slf4j.org/log4j-over-slf4j.html
