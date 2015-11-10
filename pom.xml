@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.13-SNAPSHOT</version>
+  <version>1.7.13</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -407,8 +407,8 @@
 
   <distributionManagement>
     <site>
-      <id>pixie</id>
-      <url>scp://pixie.qos.ch/var/www/www.slf4j.org/htdocs/</url>
+      <id>tao</id>
+      <url>scp://tao.qos.ch/var/www/www.slf4j.org/htdocs/</url>
     </site>
 
     <repository>
