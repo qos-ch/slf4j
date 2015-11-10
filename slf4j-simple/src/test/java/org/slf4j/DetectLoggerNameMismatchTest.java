@@ -80,6 +80,7 @@ public class DetectLoggerNameMismatchTest {
     public void testTriggerWithProperty() {
         setTrialEnabled(true);
         LoggerFactory.getLogger(String.class);
+        String s = String.valueOf(byteArrayOutputStream);
         assertMismatchDetected(true);
     }
 
@@ -90,8 +91,9 @@ public class DetectLoggerNameMismatchTest {
     public void testTriggerWholeMessage() {
         setTrialEnabled(true);
         LoggerFactory.getLogger(String.class);
-        assertTrue("Actual value of byteArrayOutputStream: " + String.valueOf(byteArrayOutputStream), String.valueOf(byteArrayOutputStream).contains(
-                        "Detected logger name mismatch. Given name: \"java.lang.String\"; " + "computed name: \"org.slf4j.DetectLoggerNameMismatchTest\"."));
+        boolean success = String.valueOf(byteArrayOutputStream).contains(
+                        "Detected logger name mismatch. Given name: \"java.lang.String\"; " + "computed name: \"org.slf4j.DetectLoggerNameMismatchTest\".");
+        assertTrue("Actual value of byteArrayOutputStream: " + String.valueOf(byteArrayOutputStream), success);
     }
 
     /*

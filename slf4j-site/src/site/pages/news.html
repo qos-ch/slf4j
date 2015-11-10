@@ -29,7 +29,15 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>, 2015 - Release of SLF4J 1.7.13</h3>
+   <h3>10th of November, 2015 - Release of SLF4J 1.7.13</h3>
+
+
+   <p>Fixed <code>LoggerFactory</code> initialisation problem in
+   presence of SecurityManager denying "createSecurityManage"r
+   RuntimePermission. See <a
+   href="http://jira.qos.ch/browse/SLF4J-324">SLF4J-324</a> for
+   further details.
+   </p>
 
    <p>Fixed issue with <code>BasicMDCAdapter</code> leaking MDC
    information to non-child threads. This problem was reported by

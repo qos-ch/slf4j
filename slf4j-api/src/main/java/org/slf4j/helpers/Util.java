@@ -67,8 +67,21 @@ public final class Util {
         }
     }
 
-    private static final ClassContextSecurityManager SECURITY_MANAGER = safeCreateSecurityManager();
-
+    private static ClassContextSecurityManager SECURITY_MANAGER;
+    private static boolean SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED = false;
+    
+    private static ClassContextSecurityManager getSecurityManager() {
+        if(SECURITY_MANAGER != null)
+            return SECURITY_MANAGER;
+        else if(SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED)
+            return null;
+        else {
+            SECURITY_MANAGER = safeCreateSecurityManager(); 
+            SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED = true;
+            return SECURITY_MANAGER;
+        }
+    }
+    
     private static ClassContextSecurityManager safeCreateSecurityManager() {
         try {
             return new ClassContextSecurityManager();
@@ -83,9 +96,10 @@ public final class Util {
      * @return the name of the class which called the invoking method.
      */
     public static Class<?> getCallingClass() {
-        if(SECURITY_MANAGER == null)
+        ClassContextSecurityManager securityManager = getSecurityManager();
+        if(securityManager == null)
             return null;
-        Class<?>[] trace = SECURITY_MANAGER.getClassContext();
+        Class<?>[] trace = securityManager.getClassContext();
         String thisClassName = Util.class.getName();
 
         // Advance until Util is found
