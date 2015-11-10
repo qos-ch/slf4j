@@ -13,6 +13,10 @@
 	<echo message="runtime classpath: ${runtime_classpath}" />
 	<echo message="test classpath:    ${test_classpath}" />
 	<echo message="plugin classpath:  ${plugin_classpath}" />
+	<echo message="basedir:  ${basedir}" />
+
+
+  <!--<property name="path_to_policy" value="file:./integration/src/policy/java-under-ant.policy"/>-->
 
 
 	<path id="path142Binding">
@@ -103,7 +107,8 @@
                 testMatch,
 		            testMultiBinding,
 		            testIncompatibleMultiBinding,
-                testFuture_16Series">
+                testFuture_16Series,
+                testActiveSecurityManager">
 	</target>
 
 
@@ -197,4 +202,34 @@
 		</junit>
 
 	</target>
+
+
+  <condition property="runFromWithinIntegrationModule">
+    <contains string="${user.dir}" substring="integration" />
+  </condition>
+
+  <target name="setPathToPolicy_FromTop" unless="runFromWithinIntegrationModule">
+    <echo>setPathToPolicy_FromTop</echo>
+    <property name="path_to_policy" value="file:./integration/src/policy/java-under-ant.policy"/>
+  </target>
+
+  <target name="setPathToPolicy_FromIntegration" if="runFromWithinIntegrationModule">
+    <echo>setPathToPolicy_FromInegration </echo>
+    <property name="path_to_policy" value="file:./src/policy/java-under-ant.policy"/>
+  </target>
+
+
+	<target name="testActiveSecurityManager" depends="setPathToPolicy_FromTop, setPathToPolicy_FromIntegration">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+      <jvmarg value="-Djava.security.manager"/>
+      <jvmarg value="-Djava.security.policy=${path_to_policy}"/>
+      <jvmarg value="-Dslf4j.detectLoggerNameMismatch=true"/>
+			<classpath refid="pathCurrent" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-SecurityManager" 
+            name="org.slf4j.issues.Issue324Test" />
+		</junit>
+	</target>
+
 </project>

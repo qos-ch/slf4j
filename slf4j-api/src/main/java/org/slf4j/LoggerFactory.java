@@ -84,7 +84,7 @@ public final class LoggerFactory {
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
-    static boolean DETECT_LOGGER_NAME_MISMATCH = Boolean.getBoolean(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
+    static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
     /**
      * It is LoggerFactory's responsibility to track version changes and manage
@@ -301,7 +301,7 @@ public final class LoggerFactory {
         Logger logger = getLogger(clazz.getName());
         if (DETECT_LOGGER_NAME_MISMATCH) {
             Class<?> autoComputedCallingClass = Util.getCallingClass();
-            if (nonMatchingClasses(clazz, autoComputedCallingClass)) {
+            if (autoComputedCallingClass != null && nonMatchingClasses(clazz, autoComputedCallingClass)) {
                 Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".", logger.getName(),
                                 autoComputedCallingClass.getName()));
                 Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
