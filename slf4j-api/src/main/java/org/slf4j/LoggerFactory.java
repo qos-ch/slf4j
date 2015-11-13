@@ -222,7 +222,7 @@ public final class LoggerFactory {
     // the class itself.
     private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
-    private static Set<URL> findPossibleStaticLoggerBinderPathSet() {
+    static Set<URL> findPossibleStaticLoggerBinderPathSet() {
         // use Set instead of list in order to deal with bug #138
         // LinkedHashSet appropriate here because it preserves insertion order during iteration
         Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
@@ -324,8 +324,12 @@ public final class LoggerFactory {
      */
     public static ILoggerFactory getILoggerFactory() {
         if (INITIALIZATION_STATE == UNINITIALIZED) {
-            INITIALIZATION_STATE = ONGOING_INITIALIZATION;
-            performInitialization();
+            synchronized (LoggerFactory.class) {
+                if (INITIALIZATION_STATE == UNINITIALIZED) {
+                    INITIALIZATION_STATE = ONGOING_INITIALIZATION;
+                    performInitialization();
+                }
+            }
         }
         switch (INITIALIZATION_STATE) {
         case SUCCESSFUL_INITIALIZATION:
