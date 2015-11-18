@@ -6,6 +6,9 @@ import org.slf4j.ext.mdc.RootPojo;
 
 /**
  * Created by himavija on 10/9/15.
+ *
+ * This is the desired structure. We want users of this API to write only the following. All of the other boilerplate code
+ * should be taken care of automatically during annotation processing.
  */
 @RootPojo(name = "event")
 public class Event {

@@ -4,6 +4,8 @@ import org.slf4j.ext.mdc.*;
 
 /**
  * @author Himanshu Vijay
+ *
+ * This is how we write the POJO structure currently. Lot of boilerplate code.
  */
 public class Event extends RootNode<Event> {
   private Who who = new Who("who", this);
