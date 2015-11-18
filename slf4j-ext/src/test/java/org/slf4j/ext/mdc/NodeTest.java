@@ -1,6 +1,7 @@
-package org.slf4j.ext.events;
+package org.slf4j.ext.mdc;
 
 import org.junit.Test;
+import org.slf4j.ext.mdc.Node;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,13 +9,18 @@ import static org.junit.Assert.assertEquals;
  * @author Himanshu Vijay
  */
 public class NodeTest {
-    class TestNode extends Node{
+    class TestNode extends Node<TestNode> {
         public TestNode(String name, Node parent){
             super(name, parent);
         }
 
         @Override
-        protected void setToDefault() {}
+        public void setToDefault() {}
+
+        @Override
+        public TestNode copy(Node parent) {
+            return null;//We don't care for this test.
+        }
     }
 
     @Test
