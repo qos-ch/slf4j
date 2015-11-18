@@ -85,7 +85,9 @@ public class Event extends RootNode<Event> {
     }
 
     public class Outcome extends NonLeafNode<Outcome> {
-      private StringNode result = new StringNode("result_string", this, "");
+      private StringNode resultString = new StringNode("result_string", this, "");
+      private IntegerNode resultNumber = new IntegerNode("result_number", this, 0);
+      private BooleanNode resultBoolean = new BooleanNode("result_boolean", this, false);
       private StringNode error = new StringNode("error", this, "");
       private IntegerNode statusCode = new IntegerNode("statusCode", this, 0);
 
@@ -96,19 +98,37 @@ public class Event extends RootNode<Event> {
       @Override
       public Outcome copy(Node parent) {
         Outcome copy = new Outcome(this.NAME, null);
-        copy.setResult(this.result.get());
+        copy.setResultString(this.resultString.get());
+        copy.setResultNumber(this.resultNumber.get());
+        copy.setResultBoolean(this.resultBoolean.get());
         copy.setError(this.error.get());
         copy.setStatusCode(this.statusCode.get());
         copy.setParent(parent);
         return copy;
       }
 
-      public String getResult() {
-        return result.get();
+      public String getResultString() {
+        return resultString.get();
       }
 
-      public void setResult(String result) {
-        this.result.set(result);
+      public void setResultString(String result) {
+        this.resultString.set(result);
+      }
+
+      public Integer getResultNumber() {
+        return resultNumber.get();
+      }
+
+      public void setResultNumber(Integer resultNumber) {
+        this.resultNumber.set(resultNumber);
+      }
+
+      public Boolean getResultBoolean() {
+        return resultBoolean.get();
+      }
+
+      public void setResultBoolean(Boolean resultBoolean) {
+        this.resultBoolean.set(resultBoolean);
       }
 
       public StringNode getError() {
@@ -129,7 +149,7 @@ public class Event extends RootNode<Event> {
 
       @Override
       public void setToDefault() {
-        result.setToDefault();
+        resultString.setToDefault();
         error.setToDefault();
         statusCode.setToDefault();
       }
