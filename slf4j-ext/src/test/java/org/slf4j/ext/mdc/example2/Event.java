@@ -12,8 +12,10 @@ import org.slf4j.ext.mdc.RootPojo;
  */
 @RootPojo(name = "event")
 public class Event {
+  @Property(name="who")
   private Who who;
 
+  @Property(name="what")
   private Who what;
 
   @Property(name="trackingId")
@@ -27,6 +29,7 @@ public class Event {
 
   @Pojo(name = "what")
   public static class What {
+    @Property(name="outcome")
     private Outcome outcome;
 
     @Pojo(name="Outcome")
