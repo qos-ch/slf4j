@@ -12,7 +12,7 @@
 
   <artifactId>osgi-over-slf4j</artifactId>
 
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>OSGi LogService implemented over SLF4J</name>
 
   <url>http://www.slf4j.org</url>
@@ -41,20 +41,4 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.7</version>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Export-Package>org.osgi.service.log</Export-Package>
-            <Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
