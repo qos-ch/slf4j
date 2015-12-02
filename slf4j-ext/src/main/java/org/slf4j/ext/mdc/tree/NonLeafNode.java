@@ -1,4 +1,4 @@
-package org.slf4j.ext.mdc;
+package org.slf4j.ext.mdc.tree;
 
 import org.apache.commons.lang.NotImplementedException;
 

@@ -1,4 +1,4 @@
-package org.slf4j.ext.mdc;
+package org.slf4j.ext.mdc.tree;
 
 /**
  * Class to represent leaf nodes of your POJO tree. For optional use.

@@ -1,4 +1,4 @@
-package org.slf4j.ext.mdc;
+package org.slf4j.ext.mdc.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,6 +1,7 @@
 package org.slf4j.ext.mdc.example1;
 
 import org.slf4j.ext.mdc.*;
+import org.slf4j.ext.mdc.tree.*;
 
 /**
  * @author Himanshu Vijay
