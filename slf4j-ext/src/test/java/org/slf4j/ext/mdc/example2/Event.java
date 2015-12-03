@@ -1,8 +1,8 @@
 package org.slf4j.ext.mdc.example2;
 
-import org.slf4j.ext.mdc.Pojo;
-import org.slf4j.ext.mdc.Property;
-import org.slf4j.ext.mdc.RootPojo;
+import org.slf4j.ext.mdc.annotation.Pojo;
+import org.slf4j.ext.mdc.annotation.Property;
+import org.slf4j.ext.mdc.annotation.RootPojo;
 
 /**
  * Created by himavija on 10/9/15.
@@ -16,7 +16,7 @@ public class Event {
   private Who who;
 
   @Property(name="what")
-  private Who what;
+  private What what;
 
   @Property(name="trackingId")
   private String trackingId;
