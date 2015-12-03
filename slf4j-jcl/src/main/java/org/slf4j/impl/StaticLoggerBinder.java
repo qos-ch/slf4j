@@ -55,7 +55,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
      * The value of this field is modified with each major release. 
      */
     // to avoid constant folding by the compiler, this field must *not* be final
-    public static String REQUESTED_API_VERSION = "1.7.x"; // !final
+    public static String REQUESTED_API_VERSION = "1.6.99"; // !final
 
     
     // Binding specific code:
