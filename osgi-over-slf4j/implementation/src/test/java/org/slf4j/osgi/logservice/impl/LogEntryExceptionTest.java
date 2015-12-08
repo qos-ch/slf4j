@@ -66,4 +66,21 @@ public class LogEntryExceptionTest {
     Assert.assertEquals(expected.getMessage(), actual.getMessage());
     Assert.assertEquals(expected.getLocalizedMessage(), actual.getLocalizedMessage());
   }
+
+  @Test
+  public void testFromWithSystemExceptionCausedByBundleException() throws Exception {
+    Mockito.when(packageAdmin.getBundle(NullPointerException.class))
+            .thenReturn(bundle);
+    Throwable expected = new SQLException("The message")
+            .initCause(new NullPointerException());
+
+    Throwable actual = LogEntryException.from(expected, packageAdmin);
+
+    Assert.assertNotSame(expected, actual);
+    Assert.assertTrue(Arrays.equals(expected.getStackTrace(), actual.getStackTrace()));
+    Assert.assertEquals(expected.getMessage(), actual.getMessage());
+    Assert.assertEquals(expected.getLocalizedMessage(), actual.getLocalizedMessage());
+    Assert.assertNotNull(expected.getCause());
+    Assert.assertNotSame(expected.getCause(), actual.getCause());
+  }
 }

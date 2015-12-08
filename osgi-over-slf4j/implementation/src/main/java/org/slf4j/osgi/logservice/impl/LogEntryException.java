@@ -42,21 +42,28 @@ public class LogEntryException extends Exception {
 
 
   /**
-   * Examine a Throwable and construct a LogEntryException to stand for the Throwable if it came
+   * Examine a Throwable and construct a LogEntryException to stand for the Throwable if it's class was loaded
    * from a bundle. System-loaded Exceptions like NullPointerException are returned without modification.
    *
-   * @param exception
-   * @param packageAdmin
-   * @return
+   * @param exception the exception to be logged
+   * @param packageAdmin the Package Admin service to find if the exception class is loaded from a bundle.
+   * @return a LogEntry-safe Throwable
    */
   static Throwable from(Throwable exception, PackageAdmin packageAdmin) {
-    Bundle bundle = packageAdmin.getBundle(exception.getClass());
-    if (bundle == null) {
+    if (fromSystem(exception, packageAdmin)) {
       //null bundle means system loaded--not from a bundle. OK to use as-is
       return exception;
     }
     //Came from a Bundle classloader; make a LogEntryException to stand in it's place. See Section 101.5
     return new LogEntryException(exception, packageAdmin);
+  }
+
+  private static boolean fromSystem(Throwable exception, PackageAdmin packageAdmin) {
+    if (exception == null) {
+      return true;
+    }
+    Bundle bundle = packageAdmin.getBundle(exception.getClass());
+    return bundle == null && fromSystem(exception.getCause(), packageAdmin);
   }
 
 
