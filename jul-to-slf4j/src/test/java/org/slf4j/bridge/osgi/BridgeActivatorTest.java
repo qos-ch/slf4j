@@ -24,22 +24,24 @@
 
 package org.slf4j.bridge.osgi;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import org.junit.Assert;
+import org.junit.Test;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-/**
- * Starts the SLF4JBridgeHandler when loaded into an OSGi environment.
- */
-public class BridgeActivator implements BundleActivator {
+public class BridgeActivatorTest {
 
-  public void start(BundleContext context) throws Exception {
-    if (!SLF4JBridgeHandler.isInstalled()) {
-      SLF4JBridgeHandler.install();
-    }
-  }
+  BridgeActivator classUnderTest = new BridgeActivator();
 
-  public void stop(BundleContext context) throws Exception {
-    SLF4JBridgeHandler.uninstall();
+  @Test
+  public void testActivator() throws Exception {
+    Assert.assertFalse(SLF4JBridgeHandler.isInstalled());
+
+    classUnderTest.start(null);
+
+    Assert.assertTrue(SLF4JBridgeHandler.isInstalled());
+
+    classUnderTest.stop(null);
+
+    Assert.assertFalse(SLF4JBridgeHandler.isInstalled());
   }
 }
