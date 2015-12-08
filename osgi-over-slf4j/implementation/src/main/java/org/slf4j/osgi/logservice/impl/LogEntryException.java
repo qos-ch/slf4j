@@ -36,52 +36,60 @@ import org.osgi.service.packageadmin.PackageAdmin;
  */
 public class LogEntryException extends Exception {
 
-    private final String name;
-    private final String message;
-    private final String localizedMessage;
+  private final String name;
+  private final String message;
+  private final String localizedMessage;
 
 
-    static Throwable from(Throwable exception, PackageAdmin packageAdmin) {
-        Bundle bundle = packageAdmin.getBundle(exception.getClass());
-        if (bundle == null) {
-            //null bundle means system loaded--not from a bundle. OK to use as-is
-            return exception;
-        }
-        //Came from a Bundle classlosader; make a LogEntryException to stand in it's place. See Section 101.5
-        return new LogEntryException(exception, packageAdmin);
+  /**
+   * Examine a Throwable and construct a LogEntryException to stand for the Throwable if it came
+   * from a bundle. System-loaded Exceptions like NullPointerException are returned without modification.
+   *
+   * @param exception
+   * @param packageAdmin
+   * @return
+   */
+  static Throwable from(Throwable exception, PackageAdmin packageAdmin) {
+    Bundle bundle = packageAdmin.getBundle(exception.getClass());
+    if (bundle == null) {
+      //null bundle means system loaded--not from a bundle. OK to use as-is
+      return exception;
     }
+    //Came from a Bundle classloader; make a LogEntryException to stand in it's place. See Section 101.5
+    return new LogEntryException(exception, packageAdmin);
+  }
 
 
-    private LogEntryException(Throwable exception, PackageAdmin packageAdmin) {
-        name = exception.getClass().getName();
-        message = exception.getMessage();
-        localizedMessage = exception.getLocalizedMessage();
+  private LogEntryException(Throwable exception, PackageAdmin packageAdmin) {
+    name = exception.getClass().getName();
+    message = exception.getMessage();
+    localizedMessage = exception.getLocalizedMessage();
 
-        setStackTrace(exception.getStackTrace());
+    setStackTrace(exception.getStackTrace());
 
-        Throwable cause = exception.getCause();
-        if (cause != null) {
-            cause = from(cause, packageAdmin);
-            initCause(cause);
-        }
+    Throwable cause = exception.getCause();
+    if (cause != null) {
+      cause = from(cause, packageAdmin);
+      initCause(cause);
     }
+  }
 
-    public String getOriginalClassName() {
-        return name;
-    }
+  public String getOriginalClassName() {
+    return name;
+  }
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
+  @Override
+  public String getMessage() {
+    return message;
+  }
 
-    @Override
-    public String getLocalizedMessage() {
-        return localizedMessage;
-    }
+  @Override
+  public String getLocalizedMessage() {
+    return localizedMessage;
+  }
 
-    @Override
-    public String toString() {
-        return name + ": " + localizedMessage;
-    }
+  @Override
+  public String toString() {
+    return name + ": " + localizedMessage;
+  }
 }

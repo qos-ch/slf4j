@@ -37,17 +37,17 @@ import org.osgi.framework.ServiceRegistration;
  */
 class LogReaderServiceFactory implements ServiceFactory {
 
-    private final Log log;
+  private final Log log;
 
-    LogReaderServiceFactory(Log log) {
+  LogReaderServiceFactory(Log log) {
     this.log = log;
   }
 
-    public Object getService(Bundle bundle, ServiceRegistration registration) {
-        return new LogReaderServiceImpl(log);
-    }
+  public Object getService(Bundle bundle, ServiceRegistration registration) {
+    return new LogReaderServiceImpl(log);
+  }
 
-    public void ungetService(Bundle bundle, ServiceRegistration registration, Object service) {
-        ((LogReaderServiceImpl) service).stop();
-    }
+  public void ungetService(Bundle bundle, ServiceRegistration registration, Object service) {
+    ((LogReaderServiceImpl) service).stop();
+  }
 }

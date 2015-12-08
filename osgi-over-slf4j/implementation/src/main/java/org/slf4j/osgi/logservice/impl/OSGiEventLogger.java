@@ -46,65 +46,65 @@ import java.util.Map;
  */
 class OSGiEventLogger implements FrameworkListener, BundleListener, ServiceListener {
 
-    private static final Map<Integer, String> FRAMEWORK_EVENT_MESSAGES = new HashMap<Integer, String>();
-    private static final Map<Integer, String> BUNDLE_EVENT_MESSAGES = new HashMap<Integer, String>();
-    private static final Map<Integer, String> SERVICE_EVENT_MESSAGES = new HashMap<Integer, String>();
+  private static final Map<Integer, String> FRAMEWORK_EVENT_MESSAGES = new HashMap<Integer, String>();
+  private static final Map<Integer, String> BUNDLE_EVENT_MESSAGES = new HashMap<Integer, String>();
+  private static final Map<Integer, String> SERVICE_EVENT_MESSAGES = new HashMap<Integer, String>();
 
-    static {
-        FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.STARTED, "FrameworkEvent STARTED");
-        FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.ERROR, "FrameworkEvent ERROR");
-        FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.PACKAGES_REFRESHED, "FrameworkEvent PACKAGES REFRESHED");
-        FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.STARTLEVEL_CHANGED, "FrameworkEvent STARTLEVEL CHANGED");
-        FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.WARNING, "FrameworkEvent WARNING");
-        FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.INFO, "FrameworkEvent INFO");
+  static {
+    FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.STARTED, "FrameworkEvent STARTED");
+    FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.ERROR, "FrameworkEvent ERROR");
+    FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.PACKAGES_REFRESHED, "FrameworkEvent PACKAGES REFRESHED");
+    FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.STARTLEVEL_CHANGED, "FrameworkEvent STARTLEVEL CHANGED");
+    FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.WARNING, "FrameworkEvent WARNING");
+    FRAMEWORK_EVENT_MESSAGES.put(FrameworkEvent.INFO, "FrameworkEvent INFO");
 
-        BUNDLE_EVENT_MESSAGES.put(BundleEvent.INSTALLED, "BundleEvent INSTALLED");
-        BUNDLE_EVENT_MESSAGES.put(BundleEvent.STARTED, "BundleEvent STARTED");
-        BUNDLE_EVENT_MESSAGES.put(BundleEvent.UPDATED, "BundleEvent UPDATED");
-        BUNDLE_EVENT_MESSAGES.put(BundleEvent.UNINSTALLED, "BundleEvent UNINSTALLED");
-        BUNDLE_EVENT_MESSAGES.put(BundleEvent.RESOLVED, "BundleEvent RESOLVED");
-        BUNDLE_EVENT_MESSAGES.put(BundleEvent.UNRESOLVED, "BundleEvent UNRESOLVED");
+    BUNDLE_EVENT_MESSAGES.put(BundleEvent.INSTALLED, "BundleEvent INSTALLED");
+    BUNDLE_EVENT_MESSAGES.put(BundleEvent.STARTED, "BundleEvent STARTED");
+    BUNDLE_EVENT_MESSAGES.put(BundleEvent.UPDATED, "BundleEvent UPDATED");
+    BUNDLE_EVENT_MESSAGES.put(BundleEvent.UNINSTALLED, "BundleEvent UNINSTALLED");
+    BUNDLE_EVENT_MESSAGES.put(BundleEvent.RESOLVED, "BundleEvent RESOLVED");
+    BUNDLE_EVENT_MESSAGES.put(BundleEvent.UNRESOLVED, "BundleEvent UNRESOLVED");
 
-        SERVICE_EVENT_MESSAGES.put(ServiceEvent.REGISTERED, "ServiceEvent REGISTERED");
-        SERVICE_EVENT_MESSAGES.put(ServiceEvent.MODIFIED, "ServiceEvent MODIFIED");
-        SERVICE_EVENT_MESSAGES.put(ServiceEvent.UNREGISTERING, "ServiceEvent UNREGISTERING");
+    SERVICE_EVENT_MESSAGES.put(ServiceEvent.REGISTERED, "ServiceEvent REGISTERED");
+    SERVICE_EVENT_MESSAGES.put(ServiceEvent.MODIFIED, "ServiceEvent MODIFIED");
+    SERVICE_EVENT_MESSAGES.put(ServiceEvent.UNREGISTERING, "ServiceEvent UNREGISTERING");
+  }
+
+
+  private final Log log;
+
+  OSGiEventLogger(Log log) {
+    this.log = log;
+  }
+
+  public void frameworkEvent(FrameworkEvent event) {
+    String message = FRAMEWORK_EVENT_MESSAGES.get(event.getType());
+    if (message != null) {
+      int level = event.getType() == FrameworkEvent.ERROR
+              ? LogService.LOG_ERROR
+              : LogService.LOG_INFO;
+      LogEntry entry = new ImmutableLogEntry(event.getBundle(), level, message, event.getThrowable());
+      log.addLogEntry(entry);
     }
+  }
 
-
-    private final Log log;
-
-    OSGiEventLogger(Log log) {
-        this.log = log;
+  public void bundleChanged(BundleEvent event) {
+    String message = BUNDLE_EVENT_MESSAGES.get(event.getType());
+    if (message != null) {
+      LogEntry entry = new ImmutableLogEntry(event.getBundle(), LogService.LOG_INFO, message);
+      log.addLogEntry(entry);
     }
+  }
 
-    public void frameworkEvent(FrameworkEvent event) {
-        String message = FRAMEWORK_EVENT_MESSAGES.get(event.getType());
-        if (message != null) {
-            int level = event.getType() == FrameworkEvent.ERROR
-                    ? LogService.LOG_ERROR
-                    : LogService.LOG_INFO;
-            LogEntry entry = new ImmutableLogEntry(event.getBundle(), level, message, event.getThrowable());
-            log.addLogEntry(entry);
-        }
+  public void serviceChanged(ServiceEvent event) {
+    String message = SERVICE_EVENT_MESSAGES.get(event.getType());
+    if (message != null) {
+      int level = event.getType() == ServiceEvent.MODIFIED
+              ? LogService.LOG_DEBUG
+              : LogService.LOG_INFO;
+      ServiceReference reference = event.getServiceReference();
+      LogEntry entry = new ImmutableLogEntry(reference.getBundle(), reference, level, message);
+      log.addLogEntry(entry);
     }
-
-    public void bundleChanged(BundleEvent event) {
-        String message = BUNDLE_EVENT_MESSAGES.get(event.getType());
-        if (message != null) {
-            LogEntry entry = new ImmutableLogEntry(event.getBundle(), LogService.LOG_INFO, message);
-            log.addLogEntry(entry);
-        }
-    }
-
-    public void serviceChanged(ServiceEvent event) {
-        String message = SERVICE_EVENT_MESSAGES.get(event.getType());
-        if (message != null) {
-            int level = event.getType() == ServiceEvent.MODIFIED
-                   ? LogService.LOG_DEBUG
-                    : LogService.LOG_INFO;
-            ServiceReference reference = event.getServiceReference();
-            LogEntry entry = new ImmutableLogEntry(reference.getBundle(), reference, level, message);
-            log.addLogEntry(entry);
-        }
-    }
+  }
 }

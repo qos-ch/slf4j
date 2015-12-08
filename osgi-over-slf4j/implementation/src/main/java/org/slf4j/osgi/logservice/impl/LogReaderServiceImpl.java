@@ -41,33 +41,33 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 class LogReaderServiceImpl implements LogReaderService {
 
-    private final Log log;
-    private final CopyOnWriteArrayList<LogListener> listeners;
+  private final Log log;
+  private final CopyOnWriteArrayList<LogListener> listeners;
 
-    LogReaderServiceImpl(Log log) {
-        this.log = log;
-        this.listeners = new CopyOnWriteArrayList<LogListener>();
-    }
+  LogReaderServiceImpl(Log log) {
+    this.log = log;
+    this.listeners = new CopyOnWriteArrayList<LogListener>();
+  }
 
-    public void addLogListener(LogListener listener) {
-        //Spec says that only a single instance of a listener should be added, so using addIfAbsent().
-        listeners.addIfAbsent(listener);
-        log.addLogListener(listener);
-    }
+  public void addLogListener(LogListener listener) {
+    //Spec says that only a single instance of a listener should be added, so using addIfAbsent().
+    listeners.addIfAbsent(listener);
+    log.addLogListener(listener);
+  }
 
-    public void removeLogListener(LogListener listener) {
-        listeners.remove(listener);
-        log.removeLogListener(listener);
-    }
+  public void removeLogListener(LogListener listener) {
+    listeners.remove(listener);
+    log.removeLogListener(listener);
+  }
 
-    public Enumeration getLog() {
-        return log.entriesSnapshot().elements();
-    }
+  public Enumeration getLog() {
+    return log.entriesSnapshot().elements();
+  }
 
-    void stop() {
-        for (LogListener listener : listeners) {
-            log.removeLogListener(listener);
-        }
-        listeners.clear();
+  void stop() {
+    for (LogListener listener : listeners) {
+      log.removeLogListener(listener);
     }
+    listeners.clear();
+  }
 }

@@ -54,78 +54,77 @@ import org.osgi.util.tracker.ServiceTracker;
  */
 public class Activator implements BundleActivator {
 
-    private final LogEntryStore logEntryStore = new LogEntryStore();
-    private final Log log = new Log(logEntryStore, new LogListeners());
+  private final LogEntryStore logEntryStore = new LogEntryStore();
+  private final Log log = new Log(logEntryStore, new LogListeners());
 
-    /**
-     *
-     * Implements <code>BundleActivator.start()</code> to register the
-     * LogServiceFactory and LogReaderService.
-     *
-     * @param bundleContext the framework context for the bundle
-     * @throws Exception
-     */
-    public void start(BundleContext bundleContext) throws Exception {
-        registerLogEventStoreAsManagedService(bundleContext);
-        startFrameworkEventLogger(bundleContext);
-        startEventAdminSender(bundleContext);
-        registerLogService(bundleContext);
-        registerLogReaderService(bundleContext);
-    }
+  /**
+   * Implements <code>BundleActivator.start()</code> to register the
+   * LogServiceFactory and LogReaderService.
+   *
+   * @param bundleContext the framework context for the bundle
+   * @throws Exception
+   */
+  public void start(BundleContext bundleContext) throws Exception {
+    registerLogEventStoreAsManagedService(bundleContext);
+    startFrameworkEventLogger(bundleContext);
+    startEventAdminSender(bundleContext);
+    registerLogService(bundleContext);
+    registerLogReaderService(bundleContext);
+  }
 
-    private void startEventAdminSender(BundleContext bundleContext) {
-        //EventAdmin is an optional Service, so use a ServiceTracker to manage access to it.
-        ServiceTracker tracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
-        tracker.open();
-        EventAdminSender sender = new EventAdminSender(tracker);
-        log.addLogListener(sender);
-    }
+  private void startEventAdminSender(BundleContext bundleContext) {
+    //EventAdmin is an optional Service, so use a ServiceTracker to manage access to it.
+    ServiceTracker tracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
+    tracker.open();
+    EventAdminSender sender = new EventAdminSender(tracker);
+    log.addLogListener(sender);
+  }
 
-    private void startFrameworkEventLogger(BundleContext bundleContext) {
-        OSGiEventLogger logger = new OSGiEventLogger(log);
-        bundleContext.addFrameworkListener(logger);
-        bundleContext.addBundleListener(logger);
-        bundleContext.addServiceListener(logger);
-    }
+  private void startFrameworkEventLogger(BundleContext bundleContext) {
+    OSGiEventLogger logger = new OSGiEventLogger(log);
+    bundleContext.addFrameworkListener(logger);
+    bundleContext.addBundleListener(logger);
+    bundleContext.addServiceListener(logger);
+  }
 
-    private void registerLogService(BundleContext bundleContext) {
-        ServiceReference packageAdminReference = bundleContext.getServiceReference(PackageAdmin.class.getName());
-        //PackageAdmin is part of the framework so it will be available and won't be removed later
-        PackageAdmin packageAdmin = (PackageAdmin) bundleContext.getService(packageAdminReference);
-        Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put("description", "An SLF4J LogService implementation.");
-        bundleContext.registerService(
-                LogService.class.getName(),
-                new LogServiceFactory(log, packageAdmin),
-                properties);
-    }
+  private void registerLogService(BundleContext bundleContext) {
+    ServiceReference packageAdminReference = bundleContext.getServiceReference(PackageAdmin.class.getName());
+    //PackageAdmin is part of the framework so it will be available and won't be removed later
+    PackageAdmin packageAdmin = (PackageAdmin) bundleContext.getService(packageAdminReference);
+    Dictionary<String, String> properties = new Hashtable<String, String>();
+    properties.put("description", "An SLF4J LogService implementation.");
+    bundleContext.registerService(
+            LogService.class.getName(),
+            new LogServiceFactory(log, packageAdmin),
+            properties);
+  }
 
-    private void registerLogReaderService(BundleContext bundleContext) {
-        Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put("description", "An SLF4J LogReaderService implementation.");
-        bundleContext.registerService(
-                LogReaderService.class.getName(),
-                new LogReaderServiceFactory(log),
-                properties);
-    }
+  private void registerLogReaderService(BundleContext bundleContext) {
+    Dictionary<String, String> properties = new Hashtable<String, String>();
+    properties.put("description", "An SLF4J LogReaderService implementation.");
+    bundleContext.registerService(
+            LogReaderService.class.getName(),
+            new LogReaderServiceFactory(log),
+            properties);
+  }
 
-    private void registerLogEventStoreAsManagedService(BundleContext bundleContext) {
-        Dictionary<String, String> properties = new Hashtable<String, String>();
-        properties.put("description", "An SLF4J LogReaderService configuration.");
-        properties.put("service.pid", "slf4j.logservice.LogReaderService");
-        bundleContext.registerService(
-                ManagedService.class.getName(),
-                logEntryStore,
-                properties);
-    }
+  private void registerLogEventStoreAsManagedService(BundleContext bundleContext) {
+    Dictionary<String, String> properties = new Hashtable<String, String>();
+    properties.put("description", "An SLF4J LogReaderService configuration.");
+    properties.put("service.pid", "slf4j.logservice.LogReaderService");
+    bundleContext.registerService(
+            ManagedService.class.getName(),
+            logEntryStore,
+            properties);
+  }
 
-    /**
-     * Implements <code>BundleActivator.stop()</code>.
-     *
-     * @param bundleContext the framework context for the bundle
-     * @throws Exception
-     */
-    public void stop(BundleContext bundleContext) throws Exception {
-        log.stop();
-    }
+  /**
+   * Implements <code>BundleActivator.stop()</code>.
+   *
+   * @param bundleContext the framework context for the bundle
+   * @throws Exception
+   */
+  public void stop(BundleContext bundleContext) throws Exception {
+    log.stop();
+  }
 }

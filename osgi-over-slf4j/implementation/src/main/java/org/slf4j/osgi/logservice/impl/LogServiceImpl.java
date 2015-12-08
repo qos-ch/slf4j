@@ -49,177 +49,178 @@ import org.slf4j.Logger;
  */
 class LogServiceImpl implements LogService {
 
-    private static final String UNKNOWN = "Unknown";
+  private static final String UNKNOWN = "Unknown";
 
-    private final Log log;
-    private final Logger delegate;
-    private final Bundle bundle;
-    private final PackageAdmin packageAdmin;
+  private final Log log;
+  private final Logger delegate;
+  private final Bundle bundle;
+  private final PackageAdmin packageAdmin;
 
-    /**
-     * Creates a new instance of LogServiceImpl.
-     *  @param bundle   The bundle to create a new LogService for.
-     * @param log      The Log to provide service to
-     * @param delegate the Logger to delegate log messages to
-     * @param packageAdmin The Package Admin service
-     */
-    LogServiceImpl(Bundle bundle, Log log, Logger delegate, PackageAdmin packageAdmin) {
-        this.bundle = bundle;
-        this.log = log;
-        this.delegate = delegate;
-        this.packageAdmin = packageAdmin;
+  /**
+   * Creates a new instance of LogServiceImpl.
+   *
+   * @param bundle       The bundle to create a new LogService for.
+   * @param log          The Log to provide service to
+   * @param delegate     the Logger to delegate log messages to
+   * @param packageAdmin The Package Admin service
+   */
+  LogServiceImpl(Bundle bundle, Log log, Logger delegate, PackageAdmin packageAdmin) {
+    this.bundle = bundle;
+    this.log = log;
+    this.delegate = delegate;
+    this.packageAdmin = packageAdmin;
+  }
+
+  public void log(int level, String message) {
+
+    switch (level) {
+      case LOG_ERROR:
+        delegate.error(message);
+        break;
+      case LOG_WARNING:
+        delegate.warn(message);
+        break;
+      case LOG_INFO:
+        delegate.info(message);
+        break;
+      case LOG_DEBUG:
+        delegate.debug(message);
+        break;
+      default:
+        delegate.trace(message);
+        break;
     }
 
-    public void log(int level, String message) {
+    if (shouldAddLogEntry(level)) {
+      LogEntry logEntry = new ImmutableLogEntry(bundle, level, message);
+      log.addLogEntry(logEntry);
+    }
+  }
 
-        switch (level) {
-            case LOG_ERROR:
-                delegate.error(message);
-                break;
-            case LOG_WARNING:
-                delegate.warn(message);
-                break;
-            case LOG_INFO:
-                delegate.info(message);
-                break;
-            case LOG_DEBUG:
-                delegate.debug(message);
-                break;
-            default:
-                delegate.trace(message);
-                break;
-        }
+  public void log(int level, String message, Throwable originalException) {
 
-        if (shouldAddLogEntry(level)) {
-            LogEntry logEntry = new ImmutableLogEntry(bundle, level, message);
-            log.addLogEntry(logEntry);
-        }
+    Throwable exception = LogEntryException.from(originalException, packageAdmin);
+
+    switch (level) {
+      case LOG_ERROR:
+        delegate.error(message, exception);
+        break;
+      case LOG_WARNING:
+        delegate.warn(message, exception);
+        break;
+      case LOG_INFO:
+        delegate.info(message, exception);
+        break;
+      case LOG_DEBUG:
+        delegate.debug(message, exception);
+        break;
+      default:
+        delegate.trace(message);
+        break;
     }
 
-    public void log(int level, String message, Throwable originalException) {
+    if (shouldAddLogEntry(level)) {
+      LogEntry logEntry = new ImmutableLogEntry(bundle, level, message, exception);
+      log.addLogEntry(logEntry);
+    }
+  }
 
-        Throwable exception = LogEntryException.from(originalException, packageAdmin);
+  public void log(ServiceReference reference, int level, String message) {
 
-        switch (level) {
-            case LOG_ERROR:
-                delegate.error(message, exception);
-                break;
-            case LOG_WARNING:
-                delegate.warn(message, exception);
-                break;
-            case LOG_INFO:
-                delegate.info(message, exception);
-                break;
-            case LOG_DEBUG:
-                delegate.debug(message, exception);
-                break;
-            default:
-                delegate.trace(message);
-                break;
+    switch (level) {
+      case LOG_ERROR:
+        if (delegate.isErrorEnabled()) {
+          delegate.error(createMessage(reference, message));
         }
-
-        if (shouldAddLogEntry(level)) {
-            LogEntry logEntry = new ImmutableLogEntry(bundle, level, message, exception);
-            log.addLogEntry(logEntry);
+        break;
+      case LOG_WARNING:
+        if (delegate.isWarnEnabled()) {
+          delegate.warn(createMessage(reference, message));
         }
+        break;
+      case LOG_INFO:
+        if (delegate.isInfoEnabled()) {
+          delegate.info(createMessage(reference, message));
+        }
+        break;
+      case LOG_DEBUG:
+        if (delegate.isDebugEnabled()) {
+          delegate.debug(createMessage(reference, message));
+        }
+        break;
+      default:
+        if (delegate.isTraceEnabled()) {
+          delegate.trace(createMessage(reference, message));
+        }
+        break;
     }
 
-    public void log(ServiceReference reference, int level, String message) {
+    if (shouldAddLogEntry(level)) {
+      LogEntry logEntry = new ImmutableLogEntry(getBundle(reference), reference, level, message);
+      log.addLogEntry(logEntry);
+    }
+  }
 
-        switch (level) {
-            case LOG_ERROR:
-                if (delegate.isErrorEnabled()) {
-                    delegate.error(createMessage(reference, message));
-                }
-                break;
-            case LOG_WARNING:
-                if (delegate.isWarnEnabled()) {
-                    delegate.warn(createMessage(reference, message));
-                }
-                break;
-            case LOG_INFO:
-                if (delegate.isInfoEnabled()) {
-                    delegate.info(createMessage(reference, message));
-                }
-                break;
-            case LOG_DEBUG:
-                if (delegate.isDebugEnabled()) {
-                    delegate.debug(createMessage(reference, message));
-                }
-                break;
-            default:
-                if (delegate.isTraceEnabled()) {
-                    delegate.trace(createMessage(reference, message));
-                }
-                break;
+  public void log(ServiceReference reference, int level, String message, Throwable originalException) {
+
+    Throwable exception = LogEntryException.from(originalException, packageAdmin);
+
+    switch (level) {
+      case LOG_ERROR:
+        if (delegate.isErrorEnabled()) {
+          delegate.error(createMessage(reference, message), exception);
         }
-
-        if (shouldAddLogEntry(level)) {
-            LogEntry logEntry = new ImmutableLogEntry(getBundle(reference), reference, level, message);
-            log.addLogEntry(logEntry);
+        break;
+      case LOG_WARNING:
+        if (delegate.isWarnEnabled()) {
+          delegate.warn(createMessage(reference, message), exception);
         }
-    }
-
-    public void log(ServiceReference reference, int level, String message, Throwable originalException) {
-
-        Throwable exception = LogEntryException.from(originalException, packageAdmin);
-
-        switch (level) {
-            case LOG_ERROR:
-                if (delegate.isErrorEnabled()) {
-                    delegate.error(createMessage(reference, message), exception);
-                }
-                break;
-            case LOG_WARNING:
-                if (delegate.isWarnEnabled()) {
-                    delegate.warn(createMessage(reference, message), exception);
-                }
-                break;
-            case LOG_INFO:
-                if (delegate.isInfoEnabled()) {
-                    delegate.info(createMessage(reference, message), exception);
-                }
-                break;
-            case LOG_DEBUG:
-                if (delegate.isDebugEnabled()) {
-                    delegate.debug(createMessage(reference, message), exception);
-                }
-                break;
-            default:
-                if (delegate.isTraceEnabled()) {
-                    delegate.trace(createMessage(reference, message));
-                }
-                break;
+        break;
+      case LOG_INFO:
+        if (delegate.isInfoEnabled()) {
+          delegate.info(createMessage(reference, message), exception);
         }
-
-        if (shouldAddLogEntry(level)) {
-            LogEntry logEntry = new ImmutableLogEntry(getBundle(reference), reference, level, message, exception);
-            log.addLogEntry(logEntry);
+        break;
+      case LOG_DEBUG:
+        if (delegate.isDebugEnabled()) {
+          delegate.debug(createMessage(reference, message), exception);
         }
+        break;
+      default:
+        if (delegate.isTraceEnabled()) {
+          delegate.trace(createMessage(reference, message));
+        }
+        break;
     }
 
-    /**
-     * Formats the log message to indicate the service sending it, if known.
-     *
-     * @param reference the ServiceReference sending the message.
-     * @param message   The message to log.
-     * @return The formatted log message.
-     */
-    private String createMessage(ServiceReference reference, String message) {
-        String referenceString = reference == null
-                ? UNKNOWN
-                : reference.toString();
-
-        return "[" + referenceString + ']' + message;
+    if (shouldAddLogEntry(level)) {
+      LogEntry logEntry = new ImmutableLogEntry(getBundle(reference), reference, level, message, exception);
+      log.addLogEntry(logEntry);
     }
+  }
 
-    private boolean shouldAddLogEntry(int level) {
-        return LogService.LOG_DEBUG != level || log.debugEnabled();
-    }
+  /**
+   * Formats the log message to indicate the service sending it, if known.
+   *
+   * @param reference the ServiceReference sending the message.
+   * @param message   The message to log.
+   * @return The formatted log message.
+   */
+  private String createMessage(ServiceReference reference, String message) {
+    String referenceString = reference == null
+            ? UNKNOWN
+            : reference.toString();
 
-    private Bundle getBundle(ServiceReference reference) {
-        return reference == null
-                ? bundle
-                : reference.getBundle();
-    }
+    return "[" + referenceString + ']' + message;
+  }
+
+  private boolean shouldAddLogEntry(int level) {
+    return LogService.LOG_DEBUG != level || log.debugEnabled();
+  }
+
+  private Bundle getBundle(ServiceReference reference) {
+    return reference == null
+            ? bundle
+            : reference.getBundle();
+  }
 }

@@ -48,29 +48,29 @@ import org.slf4j.LoggerFactory;
  */
 class LogServiceFactory implements ServiceFactory {
 
-    private final Log log;
-    private final PackageAdmin packageAdmin;
+  private final Log log;
+  private final PackageAdmin packageAdmin;
 
-    LogServiceFactory(Log log, PackageAdmin packageAdmin) {
-        this.log = log;
-        this.packageAdmin = packageAdmin;
-    }
+  LogServiceFactory(Log log, PackageAdmin packageAdmin) {
+    this.log = log;
+    this.packageAdmin = packageAdmin;
+  }
 
-    public Object getService(Bundle bundle, ServiceRegistration registration) {
-        Logger delegate = getDelegate(bundle);
-        return new LogServiceImpl(bundle, log, delegate, packageAdmin);
-    }
+  public Object getService(Bundle bundle, ServiceRegistration registration) {
+    Logger delegate = getDelegate(bundle);
+    return new LogServiceImpl(bundle, log, delegate, packageAdmin);
+  }
 
-    public void ungetService(Bundle bundle, ServiceRegistration registration, Object service) {
-        // nothing to do.
-    }
+  public void ungetService(Bundle bundle, ServiceRegistration registration, Object service) {
+    // nothing to do.
+  }
 
-    private Logger getDelegate(Bundle bundle) {
-        String name = bundle.getSymbolicName();
-        Version version = bundle.getVersion();
-        if (version == null) {
-            version = Version.emptyVersion;
-        }
-        return LoggerFactory.getLogger(name + '.' + version);
+  private Logger getDelegate(Bundle bundle) {
+    String name = bundle.getSymbolicName();
+    Version version = bundle.getVersion();
+    if (version == null) {
+      version = Version.emptyVersion;
     }
+    return LoggerFactory.getLogger(name + '.' + version);
+  }
 }

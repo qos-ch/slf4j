@@ -39,31 +39,31 @@ import java.util.Arrays;
 @RunWith(MockitoJUnitRunner.class)
 public class LogEntryExceptionTest {
 
-    @Mock
-    PackageAdmin packageAdmin;
-    @Mock
-    Bundle bundle;
+  @Mock
+  PackageAdmin packageAdmin;
+  @Mock
+  Bundle bundle;
 
-    @Test
-    public void testFromWithSystemException() throws Exception {
-        Throwable expected = new SQLException("The message");
+  @Test
+  public void testFromWithSystemException() throws Exception {
+    Throwable expected = new SQLException("The message");
 
-        Throwable actual = LogEntryException.from(expected, packageAdmin);
+    Throwable actual = LogEntryException.from(expected, packageAdmin);
 
-        Assert.assertSame(expected, actual);
-    }
+    Assert.assertSame(expected, actual);
+  }
 
-    @Test
-    public void testFromWithBundleException() throws Exception {
-        Mockito.when(packageAdmin.getBundle(SQLException.class))
-                .thenReturn(bundle);
-        Throwable expected = new SQLException("The message");
+  @Test
+  public void testFromWithBundleException() throws Exception {
+    Mockito.when(packageAdmin.getBundle(SQLException.class))
+            .thenReturn(bundle);
+    Throwable expected = new SQLException("The message");
 
-        Throwable actual = LogEntryException.from(expected, packageAdmin);
+    Throwable actual = LogEntryException.from(expected, packageAdmin);
 
-        Assert.assertNotSame(expected, actual);
-        Assert.assertTrue(Arrays.equals(expected.getStackTrace(), actual.getStackTrace()));
-        Assert.assertEquals(expected.getMessage(), actual.getMessage());
-        Assert.assertEquals(expected.getLocalizedMessage(), actual.getLocalizedMessage());
-    }
+    Assert.assertNotSame(expected, actual);
+    Assert.assertTrue(Arrays.equals(expected.getStackTrace(), actual.getStackTrace()));
+    Assert.assertEquals(expected.getMessage(), actual.getMessage());
+    Assert.assertEquals(expected.getLocalizedMessage(), actual.getLocalizedMessage());
+  }
 }

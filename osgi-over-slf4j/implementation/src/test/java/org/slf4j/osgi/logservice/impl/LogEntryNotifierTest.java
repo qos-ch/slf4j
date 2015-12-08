@@ -36,40 +36,40 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class LogEntryNotifierTest {
 
-    Waiter waiter = new Waiter();
-    BlockingQueue<LogEntry> queue = new LinkedBlockingQueue<LogEntry>();
-    List<LogListener> listeners = new CopyOnWriteArrayList<LogListener>();
+  Waiter waiter = new Waiter();
+  BlockingQueue<LogEntry> queue = new LinkedBlockingQueue<LogEntry>();
+  List<LogListener> listeners = new CopyOnWriteArrayList<LogListener>();
 
-    LogEntryNotifier classUnderTest = new LogEntryNotifier(queue, listeners);
+  LogEntryNotifier classUnderTest = new LogEntryNotifier(queue, listeners);
 
-    @Test
-    public void testRun() throws Exception {
-        final LogEntry expectedEntry = new ImmutableLogEntry(null, 1, "");
+  @Test
+  public void testRun() throws Exception {
+    final LogEntry expectedEntry = new ImmutableLogEntry(null, 1, "");
 
-        LogListener listener = new LogListener() {
-            public void logged(LogEntry actualEntry) {
-                waiter.assertEquals(expectedEntry, actualEntry);
-                waiter.resume();
-            }
-        };
-        LogListener throwingListener = new LogListener() {
-            public void logged(LogEntry entry) {
-                throw new IllegalStateException();
-            }
-        };
+    LogListener listener = new LogListener() {
+      public void logged(LogEntry actualEntry) {
+        waiter.assertEquals(expectedEntry, actualEntry);
+        waiter.resume();
+      }
+    };
+    LogListener throwingListener = new LogListener() {
+      public void logged(LogEntry entry) {
+        throw new IllegalStateException();
+      }
+    };
 
-        listeners.add(throwingListener);
-        listeners.add(listener);
+    listeners.add(throwingListener);
+    listeners.add(listener);
 
-        Thread thread = new Thread(classUnderTest);
-        thread.start();
+    Thread thread = new Thread(classUnderTest);
+    thread.start();
 
-        queue.add(expectedEntry);
+    queue.add(expectedEntry);
 
-        waiter.await(1000);
+    waiter.await(1000);
 
-        classUnderTest.stopRunning();
-        //this will block until the thread dies
-        thread.join();
-    }
+    classUnderTest.stopRunning();
+    //this will block until the thread dies
+    thread.join();
+  }
 }

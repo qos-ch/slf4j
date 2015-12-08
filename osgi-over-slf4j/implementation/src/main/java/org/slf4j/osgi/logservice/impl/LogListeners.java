@@ -41,37 +41,37 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 class LogListeners {
 
-    private final CopyOnWriteArrayList<LogListener> logListeners;
-    private final BlockingQueue<LogEntry> entryQueue;
-    private final LogEntryNotifier logEntryNotifier;
+  private final CopyOnWriteArrayList<LogListener> logListeners;
+  private final BlockingQueue<LogEntry> entryQueue;
+  private final LogEntryNotifier logEntryNotifier;
 
 
-    LogListeners() {
-        logListeners = new CopyOnWriteArrayList<LogListener>();
-        entryQueue = new LinkedBlockingQueue<LogEntry>();
-        logEntryNotifier = new LogEntryNotifier(entryQueue, logListeners);
+  LogListeners() {
+    logListeners = new CopyOnWriteArrayList<LogListener>();
+    entryQueue = new LinkedBlockingQueue<LogEntry>();
+    logEntryNotifier = new LogEntryNotifier(entryQueue, logListeners);
 
-        Thread notifierThread = new Thread(logEntryNotifier, "LogReaderService Notifier");
-        notifierThread.setDaemon(true);
-        notifierThread.start();
-    }
+    Thread notifierThread = new Thread(logEntryNotifier, "LogReaderService Notifier");
+    notifierThread.setDaemon(true);
+    notifierThread.start();
+  }
 
-    void logEntryAdded(LogEntry entry) {
-        entryQueue.offer(entry);
-    }
+  void logEntryAdded(LogEntry entry) {
+    entryQueue.offer(entry);
+  }
 
-    void addLogListener(LogListener listener) {
-        //Spec says that only a single instance of a listener should be added, so using addIfAbsent().
-        logListeners.addIfAbsent(listener);
-    }
+  void addLogListener(LogListener listener) {
+    //Spec says that only a single instance of a listener should be added, so using addIfAbsent().
+    logListeners.addIfAbsent(listener);
+  }
 
-    void removeLogListener(LogListener listener) {
-        logListeners.remove(listener);
-    }
+  void removeLogListener(LogListener listener) {
+    logListeners.remove(listener);
+  }
 
-    void stop() {
-        logEntryNotifier.stopRunning();
-        logListeners.clear();
-        entryQueue.clear();
-    }
+  void stop() {
+    logEntryNotifier.stopRunning();
+    logListeners.clear();
+    entryQueue.clear();
+  }
 }

@@ -33,43 +33,43 @@ import java.util.concurrent.BlockingQueue;
  * Notifies LogReaderService listeners of new log entries asynchronously.
  *
  * @author Matt Bishop
-*/
+ */
 class LogEntryNotifier implements Runnable {
 
-    private static final LogEntry SKIP_ENTRY = new ImmutableLogEntry(null, Integer.MIN_VALUE, "Skip LogEntry");
+  private static final LogEntry SKIP_ENTRY = new ImmutableLogEntry(null, Integer.MIN_VALUE, "Skip LogEntry");
 
-    private final BlockingQueue<LogEntry> entryQueue;
-    private final Iterable<LogListener> logListeners;
+  private final BlockingQueue<LogEntry> entryQueue;
+  private final Iterable<LogListener> logListeners;
 
-    private volatile boolean running = true;
+  private volatile boolean running = true;
 
-    LogEntryNotifier(BlockingQueue<LogEntry> entryQueue, Iterable<LogListener> logListeners) {
-        this.entryQueue = entryQueue;
-        this.logListeners = logListeners;
-    }
+  LogEntryNotifier(BlockingQueue<LogEntry> entryQueue, Iterable<LogListener> logListeners) {
+    this.entryQueue = entryQueue;
+    this.logListeners = logListeners;
+  }
 
-    public void run() {
-        while (running) {
-            try {
-                LogEntry entry = entryQueue.take();
-                if (SKIP_ENTRY.equals(entry)) {
-                    continue;
-                }
-                for (LogListener logListener : logListeners) {
-                    try {
-                        logListener.logged(entry);
-                    } catch (Exception e) {
-                        //ignore and continue with the next listener
-                    }
-                }
-            } catch (InterruptedException e) {
-                //ignore and continue
-            }
+  public void run() {
+    while (running) {
+      try {
+        LogEntry entry = entryQueue.take();
+        if (SKIP_ENTRY.equals(entry)) {
+          continue;
         }
+        for (LogListener logListener : logListeners) {
+          try {
+            logListener.logged(entry);
+          } catch (Exception e) {
+            //ignore and continue with the next listener
+          }
+        }
+      } catch (InterruptedException e) {
+        //ignore and continue
+      }
     }
+  }
 
-    public void stopRunning() {
-        running = false;
-        entryQueue.offer(SKIP_ENTRY);
-    }
+  public void stopRunning() {
+    running = false;
+    entryQueue.offer(SKIP_ENTRY);
+  }
 }

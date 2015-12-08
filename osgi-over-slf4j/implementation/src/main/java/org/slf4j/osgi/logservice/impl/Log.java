@@ -38,39 +38,39 @@ import java.util.Vector;
  */
 class Log {
 
-    private final LogEntryStore logEntryStore;
-    private final LogListeners logListeners;
+  private final LogEntryStore logEntryStore;
+  private final LogListeners logListeners;
 
-    Log(LogEntryStore logEntryStore, LogListeners logListeners) {
-        this.logEntryStore = logEntryStore;
-        this.logListeners = logListeners;
-    }
+  Log(LogEntryStore logEntryStore, LogListeners logListeners) {
+    this.logEntryStore = logEntryStore;
+    this.logListeners = logListeners;
+  }
 
 
-    void stop() {
-        logListeners.stop();
-        logEntryStore.stop();
-    }
+  void stop() {
+    logListeners.stop();
+    logEntryStore.stop();
+  }
 
-    public void addLogEntry(LogEntry logEntry) {
-        logEntryStore.addLogEntry(logEntry);
-        //log listeners get every logEntry created, regardless of the logDebug setting in LogEntryStore. See section 101.4
-        logListeners.logEntryAdded(logEntry);
-    }
+  public void addLogEntry(LogEntry logEntry) {
+    logEntryStore.addLogEntry(logEntry);
+    //log listeners get every logEntry created, regardless of the logDebug setting in LogEntryStore. See section 101.4
+    logListeners.logEntryAdded(logEntry);
+  }
 
-    public boolean debugEnabled() {
-        return logEntryStore.debugEnabled();
-    }
+  public boolean debugEnabled() {
+    return logEntryStore.debugEnabled();
+  }
 
-    public void addLogListener(LogListener listener) {
-        logListeners.addLogListener(listener);
-    }
+  public void addLogListener(LogListener listener) {
+    logListeners.addLogListener(listener);
+  }
 
-    public void removeLogListener(LogListener listener) {
-        logListeners.removeLogListener(listener);
-    }
+  public void removeLogListener(LogListener listener) {
+    logListeners.removeLogListener(listener);
+  }
 
-    public Vector<LogEntry> entriesSnapshot() {
-        return logEntryStore.entriesSnapshot();
-    }
+  public Vector<LogEntry> entriesSnapshot() {
+    return logEntryStore.entriesSnapshot();
+  }
 }

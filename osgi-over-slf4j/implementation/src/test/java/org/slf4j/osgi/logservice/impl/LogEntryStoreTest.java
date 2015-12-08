@@ -33,35 +33,35 @@ import java.util.Vector;
 
 public class LogEntryStoreTest {
 
-    LogEntryStore classUnderTest = new LogEntryStore();
+  LogEntryStore classUnderTest = new LogEntryStore();
 
-    @Test
-    public void testLogEntryStore() throws Exception {
-        LogEntry one = new ImmutableLogEntry(null, LogService.LOG_INFO, "one");
-        LogEntry two = new ImmutableLogEntry(null, LogService.LOG_INFO, "two");
-        LogEntry three = new ImmutableLogEntry(null, LogService.LOG_INFO, "three");
+  @Test
+  public void testLogEntryStore() throws Exception {
+    LogEntry one = new ImmutableLogEntry(null, LogService.LOG_INFO, "one");
+    LogEntry two = new ImmutableLogEntry(null, LogService.LOG_INFO, "two");
+    LogEntry three = new ImmutableLogEntry(null, LogService.LOG_INFO, "three");
 
-        classUnderTest.addLogEntry(one);
-        classUnderTest.addLogEntry(two);
-        classUnderTest.addLogEntry(three);
+    classUnderTest.addLogEntry(one);
+    classUnderTest.addLogEntry(two);
+    classUnderTest.addLogEntry(three);
 
-        Vector<LogEntry> actualEntries = classUnderTest.entriesSnapshot();
+    Vector<LogEntry> actualEntries = classUnderTest.entriesSnapshot();
 
-        Assert.assertEquals(3, actualEntries.size());
-        Assert.assertEquals(three, actualEntries.get(0));
-        Assert.assertEquals(two, actualEntries.get(1));
-        Assert.assertEquals(one, actualEntries.get(2));
+    Assert.assertEquals(3, actualEntries.size());
+    Assert.assertEquals(three, actualEntries.get(0));
+    Assert.assertEquals(two, actualEntries.get(1));
+    Assert.assertEquals(one, actualEntries.get(2));
 
-        for (int i = 0; i < LogEntryStore.DEFAULT_SIZE; i++) {
-            LogEntry entry = new ImmutableLogEntry(null, LogService.LOG_WARNING, Integer.toString(i));
-            classUnderTest.addLogEntry(entry);
-        }
-
-        actualEntries = classUnderTest.entriesSnapshot();
-
-        Assert.assertEquals(100, actualEntries.size());
-        Assert.assertFalse(actualEntries.contains(one));
-        Assert.assertFalse(actualEntries.contains(two));
-        Assert.assertFalse(actualEntries.contains(three));
+    for (int i = 0; i < LogEntryStore.DEFAULT_SIZE; i++) {
+      LogEntry entry = new ImmutableLogEntry(null, LogService.LOG_WARNING, Integer.toString(i));
+      classUnderTest.addLogEntry(entry);
     }
+
+    actualEntries = classUnderTest.entriesSnapshot();
+
+    Assert.assertEquals(LogEntryStore.DEFAULT_SIZE, actualEntries.size());
+    Assert.assertFalse(actualEntries.contains(one));
+    Assert.assertFalse(actualEntries.contains(two));
+    Assert.assertFalse(actualEntries.contains(three));
+  }
 }

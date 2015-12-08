@@ -37,66 +37,66 @@ import java.util.Date;
  */
 class ImmutableLogEntry implements LogEntry {
 
-    private final Bundle bundle;
-    private final ServiceReference serviceReference;
-    private final int level;
-    private final String message;
-    private final Throwable exception;
-    private final long time;
+  private final Bundle bundle;
+  private final ServiceReference serviceReference;
+  private final int level;
+  private final String message;
+  private final Throwable exception;
+  private final long time;
 
-    ImmutableLogEntry(Bundle bundle, int level, String message) {
-        this(bundle, null, level, message, null);
-    }
+  ImmutableLogEntry(Bundle bundle, int level, String message) {
+    this(bundle, null, level, message, null);
+  }
 
-    ImmutableLogEntry(Bundle bundle, int level, String message, Throwable exception) {
-        this(bundle, null, level, message, exception);
-    }
+  ImmutableLogEntry(Bundle bundle, int level, String message, Throwable exception) {
+    this(bundle, null, level, message, exception);
+  }
 
-    ImmutableLogEntry(Bundle bundle, ServiceReference reference, int level, String message) {
-        this(bundle, reference, level, message, null);
-    }
+  ImmutableLogEntry(Bundle bundle, ServiceReference reference, int level, String message) {
+    this(bundle, reference, level, message, null);
+  }
 
-    ImmutableLogEntry(Bundle bundle, ServiceReference reference, int level, String message, Throwable exception) {
-        this.bundle = bundle;
-        this.serviceReference = reference;
-        this.level = level;
-        this.message = message;
-        this.exception = exception;
-        this.time = System.currentTimeMillis();
-    }
+  ImmutableLogEntry(Bundle bundle, ServiceReference reference, int level, String message, Throwable exception) {
+    this.bundle = bundle;
+    this.serviceReference = reference;
+    this.level = level;
+    this.message = message;
+    this.exception = exception;
+    this.time = System.currentTimeMillis();
+  }
 
-    public Bundle getBundle() {
-        return bundle;
-    }
+  public Bundle getBundle() {
+    return bundle;
+  }
 
-    public ServiceReference getServiceReference() {
-        return serviceReference;
-    }
+  public ServiceReference getServiceReference() {
+    return serviceReference;
+  }
 
-    public int getLevel() {
-        return level;
-    }
+  public int getLevel() {
+    return level;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public Throwable getException() {
-        return exception;
-    }
+  public Throwable getException() {
+    return exception;
+  }
 
-    public long getTime() {
-        return time;
-    }
+  public long getTime() {
+    return time;
+  }
 
-    public String toString() {
-        return "LogEntry {" +
-                "bundle=" + bundle +
-                ", serviceReference=" + serviceReference +
-                ", level=" + level +
-                ", message='" + message + '\'' +
-                ", exception=" + exception +
-                ", time=" + new Date(time) +
-                '}';
-    }
+  public String toString() {
+    return "LogEntry {" +
+            "bundle=" + bundle +
+            ", serviceReference=" + serviceReference +
+            ", level=" + level +
+            ", message='" + message + '\'' +
+            ", exception=" + exception +
+            ", time=" + new Date(time) +
+            '}';
+  }
 }

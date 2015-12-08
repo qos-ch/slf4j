@@ -39,35 +39,35 @@ import javax.inject.Inject;
 
 /**
  * Tests the following:
- *  Registering a LogListener
- *  Using LogService to send LogEntries; tests receiving them asynchronously (use Waiter)
- *  Using LogReaderService to get the list of LogEntries
- *  Tests that EventAdmin gets events.
- *  Tests unregistering a LogListener
+ * Registering a LogListener
+ * Using LogService to send LogEntries; tests receiving them asynchronously (use Waiter)
+ * Using LogReaderService to get the list of LogEntries
+ * Tests that EventAdmin gets events.
+ * Tests unregistering a LogListener
  */
 @RunWith(JUnit4TestRunner.class)
 @ExamReactorStrategy
 public class LogServiceIntegrationTest {
 
-    @Inject
-    LogService logService;
-    @Inject
-    LogReaderService logReaderService;
-    @Inject
-    EventAdmin eventAdmin;
+  @Inject
+  LogService logService;
+  @Inject
+  LogReaderService logReaderService;
+  @Inject
+  EventAdmin eventAdmin;
 
 
-    @Configuration
-    public Option[] configure() {
-        return CoreOptions.options(
-                CoreOptions.junitBundles(),
-                CoreOptions.mavenBundle("org.slf4j", "osgi-over-slf4j")
-        );
-    }
+  @Configuration
+  public Option[] configure() {
+    return CoreOptions.options(
+            CoreOptions.junitBundles(),
+            CoreOptions.mavenBundle("org.slf4j", "osgi-over-slf4j")
+    );
+  }
 
-    @Test
-    public void testLogMessage() {
-        System.out.println(logService);
-        logService.log(LogService.LOG_INFO, "a message");
-    }
+  @Test
+  public void testLogMessage() {
+    System.out.println(logService);
+    logService.log(LogService.LOG_INFO, "a message");
+  }
 }

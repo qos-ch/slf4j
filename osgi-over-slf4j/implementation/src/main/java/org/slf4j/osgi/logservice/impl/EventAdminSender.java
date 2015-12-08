@@ -44,65 +44,65 @@ import java.util.Hashtable;
  */
 class EventAdminSender implements LogListener {
 
-    static final String LOG_TOPIC_BASE = "org/osgi/service/log/LogEntry/";
-    private static final String[] LOG_TOPICS = {
-        LOG_TOPIC_BASE + "LOG_OTHER",
-        LOG_TOPIC_BASE + "LOG_ERROR",
-        LOG_TOPIC_BASE + "LOG_WARNING",
-        LOG_TOPIC_BASE + "LOG_INFO",
-        LOG_TOPIC_BASE + "LOG_DEBUG"
-    };
+  static final String LOG_TOPIC_BASE = "org/osgi/service/log/LogEntry/";
+  private static final String[] LOG_TOPICS = {
+          LOG_TOPIC_BASE + "LOG_OTHER",
+          LOG_TOPIC_BASE + "LOG_ERROR",
+          LOG_TOPIC_BASE + "LOG_WARNING",
+          LOG_TOPIC_BASE + "LOG_INFO",
+          LOG_TOPIC_BASE + "LOG_DEBUG"
+  };
 
-    private final ServiceTracker eventAdminTracker;
+  private final ServiceTracker eventAdminTracker;
 
-    EventAdminSender(ServiceTracker tracker) {
-        this.eventAdminTracker = tracker;
-}
+  EventAdminSender(ServiceTracker tracker) {
+    this.eventAdminTracker = tracker;
+  }
 
-    public void logged(LogEntry logEntry) {
-        EventAdmin eventAdmin = (EventAdmin) eventAdminTracker.getService();
-        if (eventAdmin == null) {
-            return;
-        }
-
-        Dictionary<String, Object> properties = new Hashtable<String, Object>();
-        Bundle bundle = logEntry.getBundle();
-        properties.put("bundle.id", bundle.getBundleId());
-        if (bundle.getSymbolicName() != null) {
-            properties.put("bundle.symbolicName", bundle.getSymbolicName());
-        }
-        properties.put("bundle", bundle);
-        properties.put("log.level", logEntry.getLevel());
-        properties.put("message", logEntry.getMessage());
-        properties.put("timestamp", logEntry.getTime());
-        properties.put("log.entry", logEntry);
-
-        Throwable exception = logEntry.getException();
-        if (exception != null) {
-            String name = (exception instanceof LogEntryException)
-                    ? ((LogEntryException) exception).getOriginalClassName()
-                    : exception.getClass().getName();
-            properties.put("exception.class", name);
-            properties.put("exception.message", exception.getMessage());
-            properties.put("exception", exception);
-        }
-
-        ServiceReference reference = logEntry.getServiceReference();
-        if (reference != null) {
-            properties.put("service", reference);
-            properties.put("service.id", reference.getProperty("service.id"));
-            Object pid = reference.getProperty("service.pid");
-            if (pid != null) {
-                properties.put("service.pid", reference.getProperty("service.pid"));
-            }
-            properties.put("service.objectClass", reference.getProperty("service.objectClass"));
-        }
-
-        int level = logEntry.getLevel();
-        if (level >= LOG_TOPICS.length) {
-            level = 0;
-        }
-        Event logEvent = new Event(LOG_TOPICS[level], properties);
-        eventAdmin.postEvent(logEvent);
+  public void logged(LogEntry logEntry) {
+    EventAdmin eventAdmin = (EventAdmin) eventAdminTracker.getService();
+    if (eventAdmin == null) {
+      return;
     }
+
+    Dictionary<String, Object> properties = new Hashtable<String, Object>();
+    Bundle bundle = logEntry.getBundle();
+    properties.put("bundle.id", bundle.getBundleId());
+    if (bundle.getSymbolicName() != null) {
+      properties.put("bundle.symbolicName", bundle.getSymbolicName());
+    }
+    properties.put("bundle", bundle);
+    properties.put("log.level", logEntry.getLevel());
+    properties.put("message", logEntry.getMessage());
+    properties.put("timestamp", logEntry.getTime());
+    properties.put("log.entry", logEntry);
+
+    Throwable exception = logEntry.getException();
+    if (exception != null) {
+      String name = (exception instanceof LogEntryException)
+              ? ((LogEntryException) exception).getOriginalClassName()
+              : exception.getClass().getName();
+      properties.put("exception.class", name);
+      properties.put("exception.message", exception.getMessage());
+      properties.put("exception", exception);
+    }
+
+    ServiceReference reference = logEntry.getServiceReference();
+    if (reference != null) {
+      properties.put("service", reference);
+      properties.put("service.id", reference.getProperty("service.id"));
+      Object pid = reference.getProperty("service.pid");
+      if (pid != null) {
+        properties.put("service.pid", reference.getProperty("service.pid"));
+      }
+      properties.put("service.objectClass", reference.getProperty("service.objectClass"));
+    }
+
+    int level = logEntry.getLevel();
+    if (level >= LOG_TOPICS.length) {
+      level = 0;
+    }
+    Event logEvent = new Event(LOG_TOPICS[level], properties);
+    eventAdmin.postEvent(logEvent);
+  }
 }

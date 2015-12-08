@@ -42,77 +42,77 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 class LogEntryStore implements ManagedService {
 
-    static final String SIZE_PROPERTY = "maxSize";
-    static final int DEFAULT_SIZE = 100;
+  static final String SIZE_PROPERTY = "maxSize";
+  static final int DEFAULT_SIZE = 100;
 
-    static final String DEBUG_PROPERTY = "storeDebug";
-    static final boolean DEFAULT_DEBUG = false;
+  static final String DEBUG_PROPERTY = "storeDebug";
+  static final boolean DEFAULT_DEBUG = false;
 
-    private final Queue<LogEntry> logEntries = new ConcurrentLinkedQueue<LogEntry>();
+  private final Queue<LogEntry> logEntries = new ConcurrentLinkedQueue<LogEntry>();
 
-    private volatile int logSize = DEFAULT_SIZE;
-    private volatile boolean logDebug = DEFAULT_DEBUG;
+  private volatile int logSize = DEFAULT_SIZE;
+  private volatile boolean logDebug = DEFAULT_DEBUG;
 
 
-    void addLogEntry(LogEntry entry) {
-        if (entry == null) {
-            throw new NullPointerException("cannot add null entries to the LogEventStore");
-        }
-
-        if (logDebug || entry.getLevel() != LogService.LOG_DEBUG) {
-            logEntries.offer(entry);
-            flushStaleEntries();
-        }
+  void addLogEntry(LogEntry entry) {
+    if (entry == null) {
+      throw new NullPointerException("cannot add null entries to the LogEventStore");
     }
 
-    boolean debugEnabled() {
-        return logDebug;
+    if (logDebug || entry.getLevel() != LogService.LOG_DEBUG) {
+      logEntries.offer(entry);
+      flushStaleEntries();
+    }
+  }
+
+  boolean debugEnabled() {
+    return logDebug;
+  }
+
+  Vector<LogEntry> entriesSnapshot() {
+    Vector<LogEntry> snapshot = new Vector<LogEntry>(logEntries);
+    //entries must be ordered newest to oldest
+    Collections.reverse(snapshot);
+    return snapshot;
+  }
+
+  void stop() {
+    logEntries.clear();
+  }
+
+
+  public void updated(Dictionary properties) throws ConfigurationException {
+    if (properties == null) {
+      return;
     }
 
-    Vector<LogEntry> entriesSnapshot() {
-        Vector<LogEntry> snapshot = new Vector<LogEntry>(logEntries);
-        //entries must be ordered newest to oldest
-        Collections.reverse(snapshot);
-        return snapshot;
-    }
-
-    void stop() {
-        logEntries.clear();
-    }
-
-
-    public void updated(Dictionary properties) throws ConfigurationException {
-        if (properties == null) {
-            return;
+    Object possibleSize = properties.get(SIZE_PROPERTY);
+    if (possibleSize != null) {
+      if (possibleSize instanceof Integer) {
+        int configSize = (Integer) possibleSize;
+        if (configSize < 1 || configSize > 10000) {
+          throw new ConfigurationException(SIZE_PROPERTY, "Must be in the range of 1 to 10000");
         }
-
-        Object possibleSize = properties.get(SIZE_PROPERTY);
-        if (possibleSize != null) {
-            if (possibleSize instanceof Integer) {
-                int configSize = (Integer) possibleSize;
-                if (configSize < 1 || configSize > 10000) {
-                    throw new ConfigurationException(SIZE_PROPERTY, "Must be in the range of 1 to 10000");
-                }
-                logSize = configSize;
-                flushStaleEntries();
-            } else {
-                throw new ConfigurationException(SIZE_PROPERTY, "Must be an Integer");
-            }
-        }
-
-        Object possibleDebug = properties.get(DEBUG_PROPERTY);
-        if (possibleDebug != null) {
-            if (possibleDebug instanceof Boolean) {
-                logDebug = (Boolean) possibleDebug;
-            } else {
-                throw new ConfigurationException(DEBUG_PROPERTY, "Must be a Boolean");
-            }
-        }
+        logSize = configSize;
+        flushStaleEntries();
+      } else {
+        throw new ConfigurationException(SIZE_PROPERTY, "Must be an Integer");
+      }
     }
 
-    private void flushStaleEntries() {
-        while (logEntries.size() > logSize) {
-            logEntries.poll();
-        }
+    Object possibleDebug = properties.get(DEBUG_PROPERTY);
+    if (possibleDebug != null) {
+      if (possibleDebug instanceof Boolean) {
+        logDebug = (Boolean) possibleDebug;
+      } else {
+        throw new ConfigurationException(DEBUG_PROPERTY, "Must be a Boolean");
+      }
     }
+  }
+
+  private void flushStaleEntries() {
+    while (logEntries.size() > logSize) {
+      logEntries.poll();
+    }
+  }
 }
