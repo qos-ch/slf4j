@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>OSGi Log Service Specification implemented with SLF4J</title>
+</head>
+<body>
+<p>
+This bundle implements the full OSGi Log service specification (r4.2.0) and sends OSGi log events to SLF4J. To use, simply add this jar bundle
+to your OSGi container and it will register <a href="https://osgi.org/javadoc/r4v42/org/osgi/service/log/LogService.html">LogService</a>
+and <a href="https://osgi.org/javadoc/r4v42/org/osgi/service/log/LogReaderService.html">LogReaderService</a> implementations.
+</p>
+The LogReaderService can be configured with Config Admin UI and shell plugins. The two configuration aspects are:
+<dl>
+    <dt>maxSize</dt>
+    <dd>How many LogEntries will be stored in the list of entries. This list keeps only the most-recent entries. Default is 100.</dd>
+    <dt>storeDebug</dt>
+    <dd>Should DEBUG entries be stored in the list of entries. Default is false. NOTE: LogEntry listeners will still get DEBUG LogEntry notifications
+        regardless of the value of this setting. This is per-spec behavior.</dd>
+</dl>
+If Event Admin is available in the OSGi container, this bundle will also send Log events to it as per the OSGi Log Service spec.
+</body>
+</html>

@@ -10,51 +10,19 @@
     <version>1.7.14-SNAPSHOT</version>
   </parent>
 
-  <artifactId>osgi-over-slf4j</artifactId>
+  <artifactId>osgi-over-slf4j-parent</artifactId>
 
-  <packaging>bundle</packaging>
-  <name>OSGi LogService implemented over SLF4J</name>
+  <packaging>pom</packaging>
+  <name>OSGi LogService implemented over SLF4J - parent</name>
 
   <url>http://www.slf4j.org</url>
   <description>
-    OSGi LogService implementation over SLF4J
+    OSGi Log Service implementation over SLF4J Parent POM
   </description>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>4.2.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.enterprise</artifactId>
-      <version>4.2.0</version>
-      <scope>provided</scope>
-    </dependency>
+  <modules>
+    <module>implementation</module>
+    <module>integration-test</module>
+  </modules>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.7</version>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Export-Package>org.osgi.service.log</Export-Package>
-            <Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
-          </instructions>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

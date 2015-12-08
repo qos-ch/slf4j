@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0">
+  <OCD description="SLF4J LogReaderService" name="LogReaderService" id="log-reader-service-ocd">
+    <AD name="Maximum number of stored LogEntries" id="maxSize" required="false" type="Integer" default="100" min="1" max="10000"/>
+    <AD name="Store DEBUG LogEntries" id="storeDebug" required="false" type="Boolean" default="false"/>
+  </OCD>
+  <Designate pid="slf4j.logservice.LogReaderService">
+    <Object ocdref="log-reader-service-ocd"/>
+  </Designate>
+</metatype:MetaData>
