@@ -285,12 +285,4 @@ public class PojoStructureProcessor extends AbstractProcessor{
   public void error(Element e, String msg){
     messsager.printMessage(Diagnostic.Kind.ERROR, msg, e);
   }
-
-  public static class DefaultValues{
-    public static final String defaultString = "";
-    public static final Integer defaultInteger = 0;
-    public static final Number defaultNumber = 0;
-    public static final Boolean defaultBoolean = true;
-
-  }
 }
