@@ -1,7 +1,6 @@
 package org.slf4j.impl;
 
 import org.apache.log4j.MDC;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +20,9 @@ import static org.junit.Assert.assertEquals;
 public class Log4jMDCAdapterTest {
 
   private Log4jMDCAdapter log4jMDCAdapter;
-  
+
   @Before
-  public void setup(){
+  public void setup() {
     log4jMDCAdapter = new Log4jMDCAdapter();
     PowerMockito.mockStatic(MDC.class);
   }
@@ -60,7 +59,7 @@ public class Log4jMDCAdapterTest {
   public void testSetContextMap_withOldContextNotNull() throws Exception {
     //setup
     PowerMockito.mockStatic(MDC.class);
-    Hashtable<String,String> mdcContext= new Hashtable<String, String>();
+    Hashtable<String, String> mdcContext = new Hashtable<String, String>();
     mdcContext.put("aKey", "aVal");
     mdcContext = Mockito.spy(mdcContext);
     PowerMockito.when(MDC.class, "getContext").thenReturn(mdcContext);
@@ -80,7 +79,7 @@ public class Log4jMDCAdapterTest {
   public void testSetContextMap_withOldContextAsNull() throws Exception {
     //setup
     PowerMockito.mockStatic(MDC.class);
-    Hashtable<String,String> mdcContext= null;
+    Hashtable<String, String> mdcContext = null;
     PowerMockito.when(MDC.class, "getContext").thenReturn(mdcContext);
 
     Map<String, String> contextMap = new HashMap<String, String>();
