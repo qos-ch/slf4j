@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-parent</artifactId>
-		<version>1.7.14-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.7.14-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>osgi-over-slf4j</artifactId>
+  <artifactId>osgi-over-slf4j</artifactId>
 
-	<packaging>bundle</packaging>
-	<name>OSGi LogService implemented over SLF4J</name>
+  <packaging>bundle</packaging>
+  <name>OSGi LogService implemented over SLF4J</name>
 
-	<url>http://www.slf4j.org</url>
-	<description>
+  <url>http://www.slf4j.org</url>
+  <description>
     OSGi LogService implementation over SLF4J
   </description>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<version>4.2.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.enterprise</artifactId>
-			<version>4.2.0</version>
-			<scope>provided</scope>
-		</dependency>
+  <dependencies>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>4.2.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.enterprise</artifactId>
+      <version>4.2.0</version>
+      <scope>provided</scope>
+    </dependency>
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
 		<!-- Powermock mocking tool -->
 		<dependency>
 			<groupId>org.powermock</groupId>
@@ -52,22 +52,22 @@
 			<artifactId>powermock-module-junit4</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		
-	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.7</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Export-Package>org.osgi.service.log</Export-Package>
-						<Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.3.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Export-Package>org.osgi.service.log</Export-Package>
+            <Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
