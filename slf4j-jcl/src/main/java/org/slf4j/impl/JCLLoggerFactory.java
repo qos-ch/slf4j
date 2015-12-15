@@ -58,7 +58,7 @@ public class JCLLoggerFactory implements ILoggerFactory {
     }
 
     // key: name (String), value: a JCLLoggerAdapter;
-    ConcurrentMap<String, Logger> loggerMap;
+    final ConcurrentMap<String, Logger> loggerMap;
 
     public JCLLoggerFactory() {
         loggerMap = new ConcurrentHashMap<String, Logger>();

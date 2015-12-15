@@ -323,10 +323,11 @@ class B extends A {
     <p>The purpose of slf4j-log4j12 module is to delegate or redirect
     calls made to an SLF4J logger to log4j. The purpose of the
     log4j-over-slf4j module is to redirect calls made to a log4j
-    logger to SLF4J. If both <em>slf4j-log4j12.jar</em> and
-    <em>log4j-over-slf4j.jar</em> are present on the class path, a
-    <code>StackOverflowError</code> will inevitably occur immediately
-    after the first invocation of an SLF4J or a log4j logger.
+    logger to SLF4J. If SLF4J is bound with<em>slf4j-log4j12.jar</em>
+    and <em>log4j-over-slf4j.jar</em> is also present on the class
+    path, a <code>StackOverflowError</code> will inevitably occur
+    immediately after the first invocation of an SLF4J or a log4j
+    logger.
     </p>
 
     <p>Here is how the exception might look like:</p>
@@ -371,11 +372,11 @@ class B extends A {
     <p>The purpose of slf4j-jcl module is to delegate or redirect
     calls made to an SLF4J logger to jakarta commons logging
     (JCL). The purpose of the jcl-over-slf4j module is to redirect
-    calls made to a JCL logger to SLF4J. If both
-    <em>slf4j-jcl.jar</em> and <em>jcl-over-slf4j.jar</em> are present
-    on the class path, then a <code>StackOverflowError</code> will
-    inevitably occur immediately after the first invocation of an
-    SLF4J or a JCL logger. 
+    calls made to a JCL logger to SLF4J. If SLF4J is bound with
+    <em>slf4j-jcl.jar</em> and <em>jcl-over-slf4j.jar</em> is also
+    present on the class path, then a <code>StackOverflowError</code>
+    will inevitably occur immediately after the first invocation of an
+    SLF4J or a JCL logger.
     </p>
 
     <p>Here is how the exception might look like:</p>
