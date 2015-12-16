@@ -3,12 +3,14 @@ package org.slf4j.ext.mdc.tree;
 /**
  * @author Himanshu Vijay
  */
-public abstract class Node<T> implements Cloneable {
+public abstract class Node<T extends Node> implements Cloneable {
+  private final Class<T> clazz;
   protected final String NAME;
   protected final String FQN;
   private Node parent;
 
-  protected Node(String name, Node parent) {
+  protected Node(String name, Class<T> clazz, Node parent) {
+    this.clazz = clazz;
     this.NAME = name;
     this.parent = parent;
     if(this.parent != null) {

@@ -1,7 +1,12 @@
 package org.slf4j.ext.mdc.tree;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.ext.mdc.annotation.Property;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -24,22 +29,50 @@ import java.util.Map;
  *
  * @author Himanshu Vijay
  */
-public abstract class NonLeafNode<T> extends Node<T> {
+public abstract class NonLeafNode<T extends NonLeafNode> extends Node<T> {
 //    private T value;
+  private final Class<T> clazz;
+  //TODO: provide additional properties
 
-  protected NonLeafNode(String name, Node parent) {
-    super(name, parent);
+  protected NonLeafNode(String name, Class<T> clazz, Node parent) {
+    super(name, clazz, parent);
+    this.clazz = clazz;
   }
 
 //    public T get(){
 //        return value;
 //    }
 //
-//    public void set(T t){
-//        if(t != null){
-//            value = t;
-//        }
-//    }
+
+  /**
+   * Recursively calls set(...) on the @Property annotated fields.
+   * Eg. if there are properties foo and bar i.e. @Property Foo foo and @Property Bar bar
+   * then this method will call this.foo.set(other.foo) and this.bar.set(other.bar)
+   *
+   * Chances are that for most applications, in production, this set method for NonLeafNodes is called less frequently
+   * than the set method of LeafNode.
+   * @param other
+   */
+  public void set(T other) {
+    if(other != null) {
+      for(Field f : clazz.getDeclaredFields()) {
+        f.setAccessible(true);
+        if(f.isAnnotationPresent(Property.class)) {
+          Class fieldClass = f.getClass();
+          try {
+            Method m = fieldClass.getMethod("set", fieldClass);
+            m.invoke(this, f.get(other));
+          } catch (NoSuchMethodException e) {
+            //Should never happen unless a special SecurityManager is in use
+          } catch (InvocationTargetException e) {
+            //Should never happen unless a special SecurityManager is in use
+          } catch (IllegalAccessException e) {
+            //Should never happen unless a special SecurityManager is in use
+          }
+        }
+      }
+    }
+  }
 
   /**
    * Override if you need to log as json. Default implementation throws NotImplementedException.
@@ -190,5 +223,45 @@ public abstract class NonLeafNode<T> extends Node<T> {
       sb.deleteCharAt(sb.length() - 1);//Delete the last separator
     }
     return sb.toString();
+  }
+
+  @Override
+  public void setToDefault(){
+    for(Field field  : clazz.getDeclaredFields()){
+      if(field.isAnnotationPresent(Property.class)){
+        try {
+          field.getClass().getMethod("setToDefault").invoke(field);
+        } catch (NoSuchMethodException e) {
+          //Should never happen unless a special SecurityManager is in use
+        } catch (InvocationTargetException e) {
+          //Should never happen unless a special SecurityManager is in use
+        } catch (IllegalAccessException e) {
+          //Should never happen unless a special SecurityManager is in use
+        }
+      }
+    }
+  }
+
+  @Override
+  public T copy(Node parent) {
+    try {
+      Constructor<T> constructor = clazz.getDeclaredConstructor(String.class, Node.class);
+      constructor.setAccessible(true);
+      T copy = constructor.newInstance(this.NAME, parent);
+      for(Field field : clazz.getDeclaredFields()) {
+        if(field.isAnnotationPresent(Property.class)) {
+          field.getClass().getMethod("set").invoke(copy, field.get(this));//i.e. copy.foo.set(this.foo)
+        }
+      }
+      return copy;
+    } catch (NoSuchMethodException e) {
+      return (T)this;//Should never happen unless a special SecurityManager is in use
+    } catch (InvocationTargetException e) {
+      return (T)this;//Should never happen unless a special SecurityManager is in use
+    } catch (IllegalAccessException e) {
+      return (T)this;//Should never happen unless a special SecurityManager is in use
+    } catch (InstantiationException e) {
+      return (T)this;//Should never happen unless a special SecurityManager is in use
+    }
   }
 }

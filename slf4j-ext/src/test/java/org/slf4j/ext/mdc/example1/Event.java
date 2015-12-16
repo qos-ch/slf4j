@@ -1,6 +1,5 @@
 package org.slf4j.ext.mdc.example1;
 
-import org.slf4j.ext.mdc.*;
 import org.slf4j.ext.mdc.tree.*;
 
 /**
@@ -41,13 +40,12 @@ public class Event extends RootNode<Event> {
     private StringNode id = new StringNode("id", this, "");
 
     private Who(String name, Node parent) {
-      super(name, parent);
+      super(name, Who.class, parent);
     }
 
     @Override
     public Who copy(Node parent) {
-      Who copy = new Who(this.NAME, null);
-      copy.setParent(parent);
+      Who copy = new Who(this.NAME, parent);
       return copy;
     }
 
@@ -61,14 +59,13 @@ public class Event extends RootNode<Event> {
     private Outcome outcome = new Outcome("outcome", this);
 
     private What(String name, Node parent) {
-      super(name, parent);
+      super(name, What.class, parent);
     }
 
     @Override
     public What copy(Node parent) {
-      What copy = new What(this.NAME, null);
+      What copy = new What(this.NAME, parent);
       copy.setOutcome(this.outcome.copy());
-      copy.setParent(parent);
       return copy;
     }
 
@@ -93,18 +90,17 @@ public class Event extends RootNode<Event> {
       private IntegerNode statusCode = new IntegerNode("statusCode", this, 0);
 
       private Outcome(String name, Node parent) {
-        super(name, parent);
+        super(name, Outcome.class, parent);
       }
 
       @Override
       public Outcome copy(Node parent) {
-        Outcome copy = new Outcome(this.NAME, null);
+        Outcome copy = new Outcome(this.NAME, parent);
         copy.setResultString(this.resultString.get());
         copy.setResultNumber(this.resultNumber.get());
         copy.setResultBoolean(this.resultBoolean.get());
         copy.setError(this.error.get());
         copy.setStatusCode(this.statusCode.get());
-        copy.setParent(parent);
         return copy;
       }
 
@@ -158,7 +154,7 @@ public class Event extends RootNode<Event> {
   }
 
   private Event() {
-    super("EVENT", "event");
+    super("EVENT", Event.class, "event");
   }
 
   protected static RootNode newInstance() {

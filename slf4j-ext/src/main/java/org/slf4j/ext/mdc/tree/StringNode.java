@@ -5,7 +5,7 @@ package org.slf4j.ext.mdc.tree;
  */
 public class StringNode extends LeafNode<StringNode, String> {
   public StringNode(String name, Node parent, String defaultValue) {
-    super(name, parent, defaultValue);
+    super(name, StringNode.class, parent, String.class, defaultValue);
   }
 
   @Override

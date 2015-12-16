@@ -20,7 +20,8 @@ import org.slf4j.MarkerFactory;
  *
  * @author Himanshu Vijay
  */
-public abstract class RootNode<R> extends NonLeafNode<R> {
+public abstract class RootNode<R extends RootNode> extends NonLeafNode<R> {
+  private final Class<R> clazz;
   public final String EVENT_MARKER_STRING;
   private final Marker MARKER;
   private static final Logger LOGGER = LoggerFactory.getLogger(RootNode.class);
@@ -42,8 +43,9 @@ public abstract class RootNode<R> extends NonLeafNode<R> {
   /**
    * @param marker Could be something like 'EVENT' or 'AUDIT' etc.
    */
-  protected RootNode(String marker, String name) {
-    super(name, null);
+  protected RootNode(String marker, Class<R> type, String name) {
+    super(name, type, null);
+    clazz = type;
     EVENT_MARKER_STRING = marker;
     MARKER = MarkerFactory.getDetachedMarker(EVENT_MARKER_STRING);
   }

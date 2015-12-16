@@ -5,7 +5,7 @@ package org.slf4j.ext.mdc.tree;
  */
 public class BooleanNode extends LeafNode<BooleanNode, Boolean> {
     public BooleanNode(String name, Node parent, Boolean defaultValue){
-        super(name, parent, defaultValue);
+        super(name, BooleanNode.class, parent, Boolean.class, defaultValue);
     }
 
   @Override

@@ -5,7 +5,7 @@ package org.slf4j.ext.mdc.tree;
  */
 public class IntegerNode extends LeafNode<IntegerNode, Integer> {
     public IntegerNode(String name, Node parent, Integer defaultValue){
-        super(name, parent, defaultValue);
+        super(name, IntegerNode.class, parent, Integer.class, defaultValue);
     }
 
   @Override
