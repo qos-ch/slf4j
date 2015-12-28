@@ -37,7 +37,16 @@ public class StaticMDCBinder {
     /**
      * The unique instance of this class.
      */
-    public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+    private static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+
+    /**
+     * Return the singleton of this class.
+     * 
+     * @return the StaticMDCBinder singleton
+     */
+    public static final StaticMDCBinder getSingleton() {
+        return SINGLETON;
+    }
 
     private StaticMDCBinder() {
         throw new UnsupportedOperationException("This code should never make it into the jar");

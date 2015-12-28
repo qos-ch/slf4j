@@ -49,7 +49,12 @@ public class MarkerFactory {
 
     static {
         try {
-            markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
+            try {
+                markerFactory = StaticMarkerBinder.getSingleton().getMarkerFactory();
+            } catch (NoSuchMethodError e) {
+                StaticMarkerBinder singleton = (StaticMarkerBinder) StaticMarkerBinder.class.getField("SINGLETON").get(null);
+                markerFactory = singleton.getMarkerFactory();
+            }
         } catch (NoClassDefFoundError e) {
             markerFactory = new BasicMarkerFactory();
 

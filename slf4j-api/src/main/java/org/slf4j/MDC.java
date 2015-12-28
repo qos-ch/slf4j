@@ -87,7 +87,12 @@ public class MDC {
 
     static {
         try {
-            mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
+            try {
+                mdcAdapter = StaticMDCBinder.getSingleton().getMDCA();
+            } catch (NoSuchMethodError e) {
+                StaticMDCBinder singleton = (StaticMDCBinder) StaticMDCBinder.class.getField("SINGLETON").get(null);
+                mdcAdapter = singleton.getMDCA();
+            }
         } catch (NoClassDefFoundError ncde) {
             mdcAdapter = new NOPMDCAdapter();
             String msg = ncde.getMessage();
