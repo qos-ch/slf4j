@@ -44,8 +44,11 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
 
     /**
      * The unique instance of this class.
+     *
+     * @deprecated Use {@link #getSingleton()} instead.
      */
-    private static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+    @Deprecated
+    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
 
     /**
      * Return the singleton of this class.

@@ -36,8 +36,11 @@ public class StaticMDCBinder {
 
     /**
      * The unique instance of this class.
+     *
+     * @deprecated Use {@link #getSingleton()} instead.
      */
-    private static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+    @Deprecated
+    public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
     /**
      * Return the singleton of this class.
