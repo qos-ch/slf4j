@@ -26,7 +26,9 @@ package org.slf4j;
 
 import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.helpers.Util;
+import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.impl.StaticMarkerBinder;
+import org.slf4j.spi.MDCAdapter;
 
 /**
  * MarkerFactory is a utility class producing {@link Marker} instances as
@@ -47,9 +49,26 @@ public class MarkerFactory {
     private MarkerFactory() {
     }
 
+    /**
+     * As of SLF4J version 1.7.14, StaticMDCBinder classes shipping in various bindings
+     * come with a getSingleton() method. Previously only a field called SINGLETON was available.
+     * 
+     * @return MDCAdapter
+     * @throws NoClassDefFoundError in case no binding is available
+     * @since 1.7.14
+     */
+    private static IMarkerFactory bwCompatibleGetMarkerFactoryFromBinder() throws NoClassDefFoundError {
+        try {
+            return StaticMarkerBinder.getSingleton().getMarkerFactory();
+        } catch (NoSuchMethodError nsme) {
+            return StaticMarkerBinder.SINGLETON.getMarkerFactory();
+        }
+    }
+
+    
     static {
         try {
-            markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
+            markerFactory = bwCompatibleGetMarkerFactoryFromBinder();
         } catch (NoClassDefFoundError e) {
             markerFactory = new BasicMarkerFactory();
 
