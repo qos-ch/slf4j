@@ -80,7 +80,6 @@ public class DetectLoggerNameMismatchTest {
     public void testTriggerWithProperty() {
         setTrialEnabled(true);
         LoggerFactory.getLogger(String.class);
-        String s = String.valueOf(byteArrayOutputStream);
         assertMismatchDetected(true);
     }
 
@@ -107,16 +106,21 @@ public class DetectLoggerNameMismatchTest {
         assertMismatchDetected(false);
     }
 
-    private void assertMismatchDetected(boolean mismatchDetected) {
-        assertEquals(mismatchDetected, String.valueOf(byteArrayOutputStream).contains(MISMATCH_STRING));
-    }
-
+    /*
+     * Checks that there are no errors if the actual class is a superclass of the class
+     * defining the logger.
+     */
     @Test
-    public void verifyLoggerDefinedInBaseWithOverridenGetClassMethod() {
+    public void testLoggerDefinedInBaseWithOverriddenGetClassMethod() {
         setTrialEnabled(true);
         Square square = new Square();
         assertEquals("org.slf4j.Square", square.logger.getName());
         assertMismatchDetected(false);
+    }
+
+    private void assertMismatchDetected(boolean mismatchDetected) {
+        assertEquals(mismatchDetected,
+                     String.valueOf(byteArrayOutputStream).contains(MISMATCH_STRING));
     }
 
     private static void setTrialEnabled(boolean enabled) {

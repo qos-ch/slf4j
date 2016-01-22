@@ -84,7 +84,8 @@ public final class LoggerFactory {
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
-    static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
+    static boolean DETECT_LOGGER_NAME_MISMATCH =
+            Boolean.getBoolean(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
     /**
      * It is LoggerFactory's responsibility to track version changes and manage
@@ -300,18 +301,35 @@ public final class LoggerFactory {
     public static Logger getLogger(Class<?> clazz) {
         Logger logger = getLogger(clazz.getName());
         if (DETECT_LOGGER_NAME_MISMATCH) {
-            Class<?> autoComputedCallingClass = Util.getCallingClass();
-            if (autoComputedCallingClass != null && nonMatchingClasses(clazz, autoComputedCallingClass)) {
-                Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".", logger.getName(),
-                                autoComputedCallingClass.getName()));
-                Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
-            }
+            String autoComputedCallingClassName = Util.getCallingClassName();
+            detectLoggerNameMismatch(clazz, autoComputedCallingClassName);
         }
         return logger;
     }
 
-    private static boolean nonMatchingClasses(Class<?> clazz, Class<?> autoComputedCallingClass) {
-        return !autoComputedCallingClass.isAssignableFrom(clazz);
+    private static void detectLoggerNameMismatch(
+        Class<?> actualClass, String autoComputedClassName) {
+      if (actualClass.getName().equals(autoComputedClassName)) {
+        return;
+      }
+
+      Class<?> autoComputedCallingClass;
+      try {
+        autoComputedCallingClass = Class.forName(autoComputedClassName);
+      } catch (ClassNotFoundException e) {
+        Util.report("Failed to check for logger name mismatch: could not load class \"" +
+                    autoComputedClassName +"\". ");
+        return;
+      }
+
+      if (autoComputedCallingClass.isAssignableFrom(actualClass)) {
+        return;
+      }
+
+      Util.report(String.format(
+          "Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".",
+          actualClass.getName(), autoComputedCallingClass.getName()));
+      Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
     }
 
     /**
