@@ -38,11 +38,17 @@
    provided the relevant pull request.
    </p>
 
-   <p>The StaticMarkerBinder and StaticMDCBinder classes shipping in
-   various slf4j bindings now offer a getSingletion() method. This
-   change was requested by rufoa <a
-   href="http://jira.qos.ch/browse/SLF4J-347">SLF4J-347</a> for
-   implementing an SLF4J binding in Clojure.
+   <p>The <code>StaticMarkerBinder</code> and
+   <code>StaticMDCBinder</code> classes shipping in various SLF4J
+   bindings now offer a <code>getSingletion()</code> method. The
+   <code>org.slf4j.MDC</code> and <code>MarkerFactory</code> classes
+   now perform binding by invoking the <code>getSingleton()</code>
+   method first and if in the presence of an older version of SLF4J
+   with said method missing, then by accessing the SINGLETON
+   field. This bacward compatible change was requested by Rufus
+   Alexander in <a
+   href="http://jira.qos.ch/browse/SLF4J-347">SLF4J-347</a> in order
+   to implement an SLF4J binding in Clojure.
    </p>
 
    <hr noshade="noshade" size="1"/>
