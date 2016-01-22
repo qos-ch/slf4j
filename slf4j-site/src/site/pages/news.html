@@ -52,7 +52,12 @@
    provided the relevant pull request.
    </p>
 
-   
+   <p>During initialization the binding ambiguity check is skipped
+   under Android in order to improve performance. This change was
+   requested by Nitin Verma in <a
+   href="http://jira.qos.ch/browse/SLF4J-328">SLF4J-328</a> who also
+   provided the relevant patch.
+   </p>
 
    <p>The <code>StaticMarkerBinder</code> and
    <code>StaticMDCBinder</code> classes shipping in various SLF4J
