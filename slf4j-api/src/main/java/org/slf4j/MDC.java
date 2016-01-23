@@ -85,9 +85,27 @@ public class MDC {
     private MDC() {
     }
 
+    /**
+     * As of SLF4J version 1.7.14, StaticMDCBinder classes shipping in various bindings
+     * come with a getSingleton() method. Previously only a public field called SINGLETON 
+     * was available.
+     * 
+     * @return MDCAdapter
+     * @throws NoClassDefFoundError in case no binding is available
+     * @since 1.7.14
+     */
+    private static MDCAdapter bwCompatibleGetMDCAdapterFromBinder() throws NoClassDefFoundError {
+        try {
+            return StaticMDCBinder.getSingleton().getMDCA();
+        } catch (NoSuchMethodError nsme) {
+            // binding is probably a version of SLF4J older than 1.7.14
+            return StaticMDCBinder.SINGLETON.getMDCA();
+        }
+    }
+
     static {
         try {
-            mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
+            mdcAdapter = bwCompatibleGetMDCAdapterFromBinder();
         } catch (NoClassDefFoundError ncde) {
             mdcAdapter = new NOPMDCAdapter();
             String msg = ncde.getMessage();

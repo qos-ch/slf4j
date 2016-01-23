@@ -46,7 +46,7 @@ public class JCLLoggerFactory implements ILoggerFactory {
     static {
         try {
             Class.forName("org.apache.commons.logging.impl.SLF4JLogFactory");
-            String part1 = "Detected both jcl-over-slf4j.jar AND slf4j-jcl.jar on the class path, preempting StackOverflowError. ";
+            String part1 = "Detected both jcl-over-slf4j.jar AND bound slf4j-jcl.jar on the class path, preempting StackOverflowError. ";
             String part2 = "See also " + JCL_DELEGATION_LOOP_URL + " for more details.";
 
             Util.report(part1);
@@ -58,7 +58,7 @@ public class JCLLoggerFactory implements ILoggerFactory {
     }
 
     // key: name (String), value: a JCLLoggerAdapter;
-    ConcurrentMap<String, Logger> loggerMap;
+    final ConcurrentMap<String, Logger> loggerMap;
 
     public JCLLoggerFactory() {
         loggerMap = new ConcurrentHashMap<String, Logger>();

@@ -29,6 +29,52 @@
 
    <hr noshade="noshade" size="1"/>
 
+   <h3>xxx January, 2016 - Release of SLF4J 1.7.14</h3>
+
+
+   <p>The assignment of the INITIALIZATION_STATE variable in
+   <code>LoggerFactory</code> is now guaranteed to be consistent for
+   multi-thread initializations. More specifically, only one thread
+   will see INITIALIZATION_STATE as UNINITIALIZED with all other
+   threads observing either ONGOING_INITIALIZATION or the final result
+   of the initialization. However, SLF4J initialization is still
+   non-blocking and re-entrant, in the sense that if some thread tries
+   to obtain loggers during ongoing initialization by another (or
+   same) thread, instances of <code>SubstituteLogger</code> are
+   returned.  This fixes <a
+   href="http://jira.qos.ch/browse/SLF4J-167">SLF4J-167</a> </p>.
+
+
+   <p>Moved delegation check loop from <em>log4j-over-slf4j.jar</em>
+   to <em>slf4j-log4j12.jar</em> for better targeted loop checks.  The
+   rationale behind the change is explained by Frans Orsel in <a
+   href="http://jira.qos.ch/browse/SLF4J-345">SLF4J-345</a> who also
+   provided the relevant pull request.
+   </p>
+
+   <p>During initialization the binding ambiguity check is skipped
+   under Android in order to improve performance. This change was
+   requested by Nitin Verma in <a
+   href="http://jira.qos.ch/browse/SLF4J-328">SLF4J-328</a> who also
+   provided the relevant patch.
+   </p>
+
+   <p>The <code>StaticMarkerBinder</code> and
+   <code>StaticMDCBinder</code> classes shipping in various SLF4J
+   bindings now offer a <code>getSingletion()</code> method. The
+   <code>org.slf4j.MDC</code> and <code>MarkerFactory</code> classes
+   now perform binding by invoking the <code>getSingleton()</code>
+   method first and if in the presence of an older version of SLF4J
+   with said method missing, then by accessing the SINGLETON
+   field. This backward compatible change was requested by Rufus
+   Alexander in <a
+   href="http://jira.qos.ch/browse/SLF4J-347">SLF4J-347</a> in order
+   to implement an SLF4J binding in Clojure, namely <a
+   href="https://github.com/fzakaria/slf4j-timbre">slf4j-timbre</a>.
+   </p>
+
+   <hr noshade="noshade" size="1"/>
+
    <h3>10th of November, 2015 - Release of SLF4J 1.7.13</h3>
 
 

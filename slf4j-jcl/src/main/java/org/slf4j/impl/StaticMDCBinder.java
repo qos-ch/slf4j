@@ -43,10 +43,21 @@ public class StaticMDCBinder {
     }
 
     /**
+     * Return the singleton of this class.
+     * 
+     * @return the StaticMDCBinder singleton
+     * @since 1.7.14
+     */
+    public static final StaticMDCBinder getSingleton() {
+        return SINGLETON;
+    }
+
+    /**
      * Currently this method always returns an instance of 
      * {@link NOPMDCAdapter}.
      * 
      * @return instance of NOPMDCAdapter
+     * @since 1.7.14
      */
     public MDCAdapter getMDCA() {
         return new NOPMDCAdapter();

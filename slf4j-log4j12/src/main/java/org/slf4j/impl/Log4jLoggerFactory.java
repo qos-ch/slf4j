@@ -28,6 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.log4j.LogManager;
+import org.slf4j.helpers.Util;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
@@ -38,6 +39,23 @@ import org.slf4j.Logger;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class Log4jLoggerFactory implements ILoggerFactory {
+
+    private static final String LOG4J_DELEGATION_LOOP_URL = "http://www.slf4j.org/codes.html#log4jDelegationLoop";
+	
+    // check for delegation loops
+    static {
+        try {
+            Class.forName("org.apache.log4j.Log4jLoggerFactory");
+            String part1 = "Detected both log4j-over-slf4j.jar AND bound slf4j-log4j12.jar on the class path, preempting StackOverflowError. ";
+            String part2 = "See also " + LOG4J_DELEGATION_LOOP_URL + " for more details.";
+
+            Util.report(part1);
+            Util.report(part2);
+            throw new IllegalStateException(part1 + part2);
+        } catch (ClassNotFoundException e) {
+            // this is the good case
+        }
+    }
 
     // key: name (String), value: a Log4jLoggerAdapter;
     ConcurrentMap<String, Logger> loggerMap;

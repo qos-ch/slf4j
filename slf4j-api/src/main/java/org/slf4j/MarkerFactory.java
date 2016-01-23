@@ -42,17 +42,35 @@ import org.slf4j.impl.StaticMarkerBinder;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MarkerFactory {
-    static IMarkerFactory markerFactory;
+    static IMarkerFactory MARKER_FACTORY;
 
     private MarkerFactory() {
     }
 
+    /**
+     * As of SLF4J version 1.7.14, StaticMarkerBinder classes shipping in various bindings
+     * come with a getSingleton() method. Previously only a public field called SINGLETON 
+     * was available.
+     * 
+     * @return IMarkerFactory
+     * @throws NoClassDefFoundError in case no binding is available
+     * @since 1.7.14
+     */
+    private static IMarkerFactory bwCompatibleGetMarkerFactoryFromBinder() throws NoClassDefFoundError {
+        try {
+            return StaticMarkerBinder.getSingleton().getMarkerFactory();
+        } catch (NoSuchMethodError nsme) {
+            // binding is probably a version of SLF4J older than 1.7.14
+            return StaticMarkerBinder.SINGLETON.getMarkerFactory();
+        }
+    }
+
+    // this is where the binding happens
     static {
         try {
-            markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
+            MARKER_FACTORY = bwCompatibleGetMarkerFactoryFromBinder();
         } catch (NoClassDefFoundError e) {
-            markerFactory = new BasicMarkerFactory();
-
+            MARKER_FACTORY = new BasicMarkerFactory();
         } catch (Exception e) {
             // we should never get here
             Util.report("Unexpected failure while binding MarkerFactory", e);
@@ -68,7 +86,7 @@ public class MarkerFactory {
      * @return marker
      */
     public static Marker getMarker(String name) {
-        return markerFactory.getMarker(name);
+        return MARKER_FACTORY.getMarker(name);
     }
 
     /**
@@ -79,7 +97,7 @@ public class MarkerFactory {
      * @since 1.5.1
      */
     public static Marker getDetachedMarker(String name) {
-        return markerFactory.getDetachedMarker(name);
+        return MARKER_FACTORY.getDetachedMarker(name);
     }
 
     /**
@@ -91,6 +109,6 @@ public class MarkerFactory {
      * @return the IMarkerFactory instance in use
      */
     public static IMarkerFactory getIMarkerFactory() {
-        return markerFactory;
+        return MARKER_FACTORY;
     }
 }

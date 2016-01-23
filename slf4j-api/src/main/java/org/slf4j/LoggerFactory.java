@@ -84,6 +84,8 @@ public final class LoggerFactory {
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
+    static final String JAVA_VENDOR_PROPERTY = "java.vendor.url";
+        
     static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
     /**
@@ -254,6 +256,11 @@ public final class LoggerFactory {
      *
      */
     private static void reportMultipleBindingAmbiguity(Set<URL> staticLoggerBinderPathSet) {
+        if(isAndroid()) {
+            // skip check under android, see also http://jira.qos.ch/browse/SLF4J-328
+            return;
+        }
+        
         if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
             Util.report("Class path contains multiple SLF4J bindings.");
             for (URL path : staticLoggerBinderPathSet) {
@@ -261,6 +268,13 @@ public final class LoggerFactory {
             }
             Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
         }
+    }
+
+    private static boolean isAndroid() {
+        String vendor = Util.safeGetSystemProperty(JAVA_VENDOR_PROPERTY);
+        if(vendor == null)
+            return false;
+        return vendor.toLowerCase().contains("android");
     }
 
     private static void reportActualBinding(Set<URL> staticLoggerBinderPathSet) {
