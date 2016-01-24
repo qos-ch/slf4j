@@ -41,7 +41,8 @@
    to obtain loggers during ongoing initialization by another (or
    same) thread, instances of <code>SubstituteLogger</code> are
    returned.  This fixes <a
-   href="http://jira.qos.ch/browse/SLF4J-167">SLF4J-167</a> </p>.
+   href="http://jira.qos.ch/browse/SLF4J-167">SLF4J-167</a>. 
+   </p>
 
 
    <p>Moved delegation check loop from <em>log4j-over-slf4j.jar</em>
@@ -70,6 +71,12 @@
    href="http://jira.qos.ch/browse/SLF4J-347">SLF4J-347</a> in order
    to implement an SLF4J binding in Clojure, namely <a
    href="https://github.com/fzakaria/slf4j-timbre">slf4j-timbre</a>.
+   </p>
+
+   <p>Fix the OSGI <code>Bundle-Version</code> property in the
+   <em>MANIFEST.MF</em> of osgi-over-slf4j module. This issue was
+   reported by Antoine Dessaigne in <a
+   href="http://jira.qos.ch/browse/SLF4J-341">SLF4J-341</a>.
    </p>
 
    <hr noshade="noshade" size="1"/>
