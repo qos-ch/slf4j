@@ -151,6 +151,7 @@ final public class MessageFormatter {
         return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
     }
 
+    
     static final Throwable getThrowableCandidate(Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
             return null;
@@ -163,24 +164,30 @@ final public class MessageFormatter {
         return null;
     }
 
-    /**
-     * Same principle as the {@link #format(String, Object)} and
-     * {@link #format(String, Object, Object)} methods except that any number of
-     * arguments can be passed in an array.
-     * 
-     * @param messagePattern
-     *          The message pattern which will be parsed and formatted
-     * @param argArray
-     *          An array of arguments to be substituted in place of formatting
-     *          anchors
-     * @return The formatted message
-     */
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
-
         Throwable throwableCandidate = getThrowableCandidate(argArray);
+        Object[] args = argArray;
+        if(throwableCandidate != null) {
+            args = trimmedCopy(argArray);
+        }
+        return arrayFormat(messagePattern, args, throwableCandidate);
+    }
+
+    private static Object[] trimmedCopy(Object[] argArray) {
+        if (argArray == null || argArray.length == 0) {
+            throw new IllegalStateException("non-sensical empty or null argument array");
+        }
+        final int trimemdLen = argArray.length - 1;
+        Object[] trimmed = new Object[trimemdLen];
+        System.arraycopy(argArray, 0, trimmed, 0, trimemdLen);
+        return trimmed;
+    }
+
+
+    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
         if (messagePattern == null) {
-            return new FormattingTuple(null, argArray, throwableCandidate);
+            return new FormattingTuple(null, argArray, throwable);
         }
 
         if (argArray == null) {
@@ -200,11 +207,11 @@ final public class MessageFormatter {
             if (j == -1) {
                 // no more variables
                 if (i == 0) { // this is a simple string
-                    return new FormattingTuple(messagePattern, argArray, throwableCandidate);
+                    return new FormattingTuple(messagePattern, argArray, throwable);
                 } else { // add the tail string which contains no variables and return
                     // the result.
                     sbuf.append(messagePattern, i, messagePattern.length());
-                    return new FormattingTuple(sbuf.toString(), argArray, throwableCandidate);
+                    return new FormattingTuple(sbuf.toString(), argArray, throwable);
                 }
             } else {
                 if (isEscapedDelimeter(messagePattern, j)) {
@@ -231,11 +238,7 @@ final public class MessageFormatter {
         }
         // append the characters following the last {} pair.
         sbuf.append(messagePattern, i, messagePattern.length());
-        if (L < argArray.length - 1) {
-            return new FormattingTuple(sbuf.toString(), argArray, throwableCandidate);
-        } else {
-            return new FormattingTuple(sbuf.toString(), argArray, null);
-        }
+        return new FormattingTuple(sbuf.toString(), argArray, throwable);
     }
 
     final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
@@ -297,8 +300,7 @@ final public class MessageFormatter {
             String oAsString = o.toString();
             sbuf.append(oAsString);
         } catch (Throwable t) {
-            System.err.println("SLF4J: Failed toString() invocation on an object of type [" + o.getClass().getName() + "]");
-            t.printStackTrace();
+            Util.report("SLF4J: Failed toString() invocation on an object of type [" + o.getClass().getName() + "]", t);
             sbuf.append("[FAILED toString()]");
         }
 
@@ -409,4 +411,6 @@ final public class MessageFormatter {
         }
         sbuf.append(']');
     }
+
+
 }

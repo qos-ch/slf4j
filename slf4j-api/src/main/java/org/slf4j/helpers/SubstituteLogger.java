@@ -24,26 +24,35 @@
  */
 package org.slf4j.helpers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.event.LoggingEventAware;
+import org.slf4j.event.EventRecodingLogger;
+import org.slf4j.event.LoggingEvent;
+import org.slf4j.event.SubstituteLoggingEvent;
 
 /**
  * A logger implementation which logs via a delegate logger. By default, the delegate is a
- * {@link NOPLogger}. However, a different delegate can be set at anytime.
+ * {@link NOPLogger}. However, a different delegate can be set at any time.
  * <p/>
  * See also the <a href="http://www.slf4j.org/codes.html#substituteLogger">relevant
  * error code</a> documentation.
  *
  * @author Chetan Mehrotra
+ * @author Ceki Gulcu
  */
-public class SubstituteLogger implements Logger {
+public class SubstituteLogger implements Logger, LoggingEventAware {
 
     private final String name;
 
     private volatile Logger _delegate;
-
-    public SubstituteLogger(String name) {
+    List<SubstituteLoggingEvent> eventList;
+    
+    public SubstituteLogger(String name, List<SubstituteLoggingEvent> eventList) {
         this.name = name;
+        this.eventList = eventList;
     }
 
     public String getName() {
@@ -315,7 +324,11 @@ public class SubstituteLogger implements Logger {
      * instance.
      */
     Logger delegate() {
-        return _delegate != null ? _delegate : NOPLogger.NOP_LOGGER;
+        return _delegate != null ? _delegate : makeEventRecodingLogger();
+    }
+
+    private EventRecodingLogger makeEventRecodingLogger() {
+        return new EventRecodingLogger(name, eventList);
     }
 
     /**
@@ -325,4 +338,15 @@ public class SubstituteLogger implements Logger {
     public void setDelegate(Logger delegate) {
         this._delegate = delegate;
     }
+
+    public boolean isDelegateEventAware() {
+       return (_delegate instanceof LoggingEventAware);
+    }
+    
+    public void log(LoggingEvent event) {
+        if(_delegate instanceof LoggingEventAware) {
+            LoggingEventAware eventLogger = (LoggingEventAware) _delegate;
+            eventLogger.log(event);
+        }
+     }
 }

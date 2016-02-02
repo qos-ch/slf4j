@@ -32,6 +32,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.event.LoggingEventAware;
+import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -79,13 +81,13 @@ public final class LoggerFactory {
     static final int NOP_FALLBACK_INITIALIZATION = 4;
 
     static int INITIALIZATION_STATE = UNINITIALIZED;
-    static SubstituteLoggerFactory TEMP_FACTORY = new SubstituteLoggerFactory();
+    static SubstituteLoggerFactory SUBST_FACTORY = new SubstituteLoggerFactory();
     static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
     static final String JAVA_VENDOR_PROPERTY = "java.vendor.url";
-        
+
     static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
     /**
@@ -114,7 +116,7 @@ public final class LoggerFactory {
      */
     static void reset() {
         INITIALIZATION_STATE = UNINITIALIZED;
-        TEMP_FACTORY = new SubstituteLoggerFactory();
+        SUBST_FACTORY = new SubstituteLoggerFactory();
     }
 
     private final static void performInitialization() {
@@ -143,6 +145,7 @@ public final class LoggerFactory {
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
             reportActualBinding(staticLoggerBinderPathSet);
             fixSubstitutedLoggers();
+            playRecordedEvents();
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
@@ -174,24 +177,51 @@ public final class LoggerFactory {
         Util.report("Failed to instantiate SLF4J LoggerFactory", t);
     }
 
+    private static void playRecordedEvents() {
+        List<SubstituteLoggingEvent> events = SUBST_FACTORY.getEventList();
+
+        for (SubstituteLoggingEvent event : events) {
+            SubstituteLogger substLogger = event.getLogger();
+            if (substLogger.isDelegateEventAware()) {
+                substLogger.log(event);
+            }
+        }
+    }
+
     private final static void fixSubstitutedLoggers() {
-        List<SubstituteLogger> loggers = TEMP_FACTORY.getLoggers();
+        List<SubstituteLogger> loggers = SUBST_FACTORY.getLoggers();
 
         if (loggers.isEmpty()) {
             return;
         }
 
+        boolean substitutionWarningEmmitted = false;
+        for (SubstituteLogger subLogger : loggers) {
+            Logger logger = getLogger(subLogger.getName());
+            subLogger.setDelegate(logger);
+
+            if (!isEventAware(logger)) {
+                if (!substitutionWarningEmmitted) {
+                    emitSubstitutionWarning();
+                    substitutionWarningEmmitted = true;
+                }
+                Util.report(subLogger.getName());
+            }
+        }
+
+        SUBST_FACTORY.clear();
+    }
+
+    private static boolean isEventAware(Logger logger) {
+        return logger instanceof LoggingEventAware;
+    }
+
+    private static void emitSubstitutionWarning() {
         Util.report("The following set of substitute loggers may have been accessed");
         Util.report("during the initialization phase. Logging calls during this");
         Util.report("phase were not honored. However, subsequent logging calls to these");
         Util.report("loggers will work as normally expected.");
         Util.report("See also " + SUBSTITUTE_LOGGER_URL);
-        for (SubstituteLogger subLogger : loggers) {
-            subLogger.setDelegate(getLogger(subLogger.getName()));
-            Util.report(subLogger.getName());
-        }
-
-        TEMP_FACTORY.clear();
     }
 
     private final static void versionSanityCheck() {
@@ -256,11 +286,11 @@ public final class LoggerFactory {
      *
      */
     private static void reportMultipleBindingAmbiguity(Set<URL> staticLoggerBinderPathSet) {
-        if(isAndroid()) {
+        if (isAndroid()) {
             // skip check under android, see also http://jira.qos.ch/browse/SLF4J-328
             return;
         }
-        
+
         if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
             Util.report("Class path contains multiple SLF4J bindings.");
             for (URL path : staticLoggerBinderPathSet) {
@@ -272,7 +302,7 @@ public final class LoggerFactory {
 
     private static boolean isAndroid() {
         String vendor = Util.safeGetSystemProperty(JAVA_VENDOR_PROPERTY);
-        if(vendor == null)
+        if (vendor == null)
             return false;
         return vendor.toLowerCase().contains("android");
     }
@@ -355,7 +385,7 @@ public final class LoggerFactory {
         case ONGOING_INITIALIZATION:
             // support re-entrant behavior.
             // See also http://jira.qos.ch/browse/SLF4J-97
-            return TEMP_FACTORY;
+            return SUBST_FACTORY;
         }
         throw new IllegalStateException("Unreachable code");
     }

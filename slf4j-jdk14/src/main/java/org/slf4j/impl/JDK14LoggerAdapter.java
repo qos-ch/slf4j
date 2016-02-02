@@ -29,6 +29,9 @@ import java.util.logging.LogRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.event.EventConstants;
+import org.slf4j.event.LoggingEvent;
+import org.slf4j.event.LoggingEventAware;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -43,7 +46,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  * @author Peter Royal
  */
-public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger {
+public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger, LoggingEventAware {
 
     private static final long serialVersionUID = -8053026990503422791L;
 
@@ -578,7 +581,6 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         // supports a single formatting style
         fillCallerData(callerFQCN, record);
         logger.log(record);
-
     }
 
     static String SELF = JDK14LoggerAdapter.class.getName();
@@ -621,8 +623,20 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     public void log(Marker marker, String callerFQCN, int level, String message, Object[] argArray, Throwable t) {
+        Level julLevel = slf4jLevelIntToJULLevel(level);
+        // the logger.isLoggable check avoids the unconditional
+        // construction of location data for disabled log
+        // statements. As of 2008-07-31, callers of this method
+        // do not perform this check. See also
+        // http://jira.qos.ch/browse/SLF4J-81
+        if (logger.isLoggable(julLevel)) {
+            log(callerFQCN, julLevel, message, t);
+        }
+    }
+
+    private Level slf4jLevelIntToJULLevel(int slf4jLevelInt) {
         Level julLevel;
-        switch (level) {
+        switch (slf4jLevelInt) {
         case LocationAwareLogger.TRACE_INT:
             julLevel = Level.FINEST;
             break;
@@ -639,15 +653,43 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
             julLevel = Level.SEVERE;
             break;
         default:
-            throw new IllegalStateException("Level number " + level + " is not recognized.");
+            throw new IllegalStateException("Level number " + slf4jLevelInt + " is not recognized.");
         }
-        // the logger.isLoggable check avoids the unconditional
-        // construction of location data for disabled log
-        // statements. As of 2008-07-31, callers of this method
-        // do not perform this check. See also
-        // http://jira.qos.ch/browse/SLF4J-81
+        return julLevel;
+    }
+
+    /**
+     * @since 1.7.15
+     */
+    public void log(LoggingEvent event) {
+        Level julLevel = slf4jLevelIntToJULLevel(event.getLevel().toInt());
         if (logger.isLoggable(julLevel)) {
-            log(callerFQCN, julLevel, message, t);
+            LogRecord record = eventToRecord(event, julLevel);
+            logger.log(record);
         }
+    }
+
+    private LogRecord eventToRecord(LoggingEvent event, Level julLevel) {
+        String format = event.getMessage();
+        Object[] arguments = event.getArgumentArray();
+        FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
+        if(ft.getThrowable() != null && event.getThrowable() != null) {
+            throw new IllegalArgumentException("both last element in argument array and last argument are of type Throwable");
+        }
+        
+        Throwable t = event.getThrowable();
+        if(ft.getThrowable() != null) {
+            t = ft.getThrowable();
+            throw new IllegalStateException("fix above code");
+        }
+        
+        LogRecord record = new LogRecord(julLevel, ft.getMessage());
+        record.setLoggerName(event.getLoggerName());
+        record.setMillis(event.getTimeStamp());
+        record.setSourceClassName(EventConstants.NA_SUBST);
+        record.setSourceMethodName(EventConstants.NA_SUBST);
+        
+        record.setThrown(t);
+        return record;
     }
 }

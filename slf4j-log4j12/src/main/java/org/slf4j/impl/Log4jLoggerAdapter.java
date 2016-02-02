@@ -24,11 +24,20 @@
  */
 package org.slf4j.impl;
 
+import static org.slf4j.event.EventConstants.NA_SUBST;
+
 import java.io.Serializable;
 
+import org.apache.log4j.Category;
 import org.apache.log4j.Level;
+import org.apache.log4j.Priority;
+import org.apache.log4j.spi.LocationInfo;
+import org.apache.log4j.spi.ThrowableInformation;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.event.EventConstants;
+import org.slf4j.event.LoggingEvent;
+import org.slf4j.event.LoggingEventAware;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -52,7 +61,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger, Serializable {
+public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger, LoggingEventAware, Serializable {
 
     private static final long serialVersionUID = 6182834493563598289L;
 
@@ -572,6 +581,11 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     public void log(Marker marker, String callerFQCN, int level, String msg, Object[] argArray, Throwable t) {
+        Level log4jLevel = toLog4jLevel(level);
+        logger.log(callerFQCN, log4jLevel, msg, t);
+    }
+
+    private Level toLog4jLevel(int level) {
         Level log4jLevel;
         switch (level) {
         case LocationAwareLogger.TRACE_INT:
@@ -592,7 +606,34 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
         default:
             throw new IllegalStateException("Level number " + level + " is not recognized.");
         }
-        logger.log(callerFQCN, log4jLevel, msg, t);
+        return log4jLevel;
+    }
+
+    public void log(LoggingEvent event) {
+        Level log4jLevel = toLog4jLevel(event.getLevel().toInt());
+        if (!logger.isEnabledFor(log4jLevel))
+            return;
+
+        org.apache.log4j.spi.LoggingEvent log4jevent = toLog4jEvent(event, log4jLevel);
+        logger.callAppenders(log4jevent);
+
+    }
+
+    private org.apache.log4j.spi.LoggingEvent toLog4jEvent(LoggingEvent event, Level log4jLevel) {
+
+        FormattingTuple ft = MessageFormatter.format(event.getMessage(), event.getArgumentArray(), event.getThrowable());
+
+        LocationInfo locationInfo = new LocationInfo(NA_SUBST, NA_SUBST, NA_SUBST, "0");
+
+        ThrowableInformation ti = null;
+        Throwable t = ft.getThrowable();
+        if (t != null)
+            ti = new ThrowableInformation(t);
+
+        org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(FQCN, logger, event.getTimeStamp(), log4jLevel, ft.getMessage(),
+                        event.getThreadName(), ti, null, locationInfo, null);
+
+        return log4jEvent;
     }
 
 }

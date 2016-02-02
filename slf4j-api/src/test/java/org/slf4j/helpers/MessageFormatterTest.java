@@ -311,14 +311,20 @@ public class MessageFormatterTest {
         assertTrue(Arrays.equals(iaWitness, ft.getArgArray()));
         assertEquals(t, ft.getThrowable());
 
-        ft = MessageFormatter.arrayFormat("Value {} is smaller than {} and {} -- {} .", ia);
-        assertEquals("Value 1 is smaller than 2 and 3 -- " + t.toString() + " .", ft.getMessage());
-        assertTrue(Arrays.equals(ia, ft.getArgArray()));
-        assertNull(ft.getThrowable());
+        ft = MessageFormatter.arrayFormat("Value {} is smaller than {} and {}.", ia);
+        assertEquals("Value 1 is smaller than 2 and 3.", ft.getMessage());
+        assertTrue(Arrays.equals(iaWitness, ft.getArgArray()));
+        assertEquals(t, ft.getThrowable());
 
         ft = MessageFormatter.arrayFormat("{}{}{}{}", ia);
-        assertEquals("123" + t.toString(), ft.getMessage());
-        assertTrue(Arrays.equals(ia, ft.getArgArray()));
-        assertNull(ft.getThrowable());
+        assertEquals("123{}", ft.getMessage());
+        assertTrue(Arrays.equals(iaWitness, ft.getArgArray()));
+        assertEquals(t, ft.getThrowable());
+        
+        ft = MessageFormatter.arrayFormat("1={}", new Object[] {i1}, t);
+        assertEquals("1=1", ft.getMessage());
+        assertTrue(Arrays.equals(new Object[] {i1}, ft.getArgArray()));
+        assertEquals(t, ft.getThrowable());
+        
     }
 }

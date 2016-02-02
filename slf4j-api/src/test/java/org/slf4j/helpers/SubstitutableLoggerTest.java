@@ -39,6 +39,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.slf4j.event.EventRecodingLogger;
 
 /**
  * @author Chetan Mehrotra
@@ -48,8 +49,8 @@ public class SubstitutableLoggerTest {
 
     @Test
     public void testDelegate() throws Exception {
-        SubstituteLogger log = new SubstituteLogger("foo");
-        assertTrue(log.delegate() instanceof NOPLogger);
+        SubstituteLogger log = new SubstituteLogger("foo", null);
+        assertTrue(log.delegate() instanceof EventRecodingLogger);
 
         Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);
         LoggerInvocationHandler ih = new LoggerInvocationHandler();

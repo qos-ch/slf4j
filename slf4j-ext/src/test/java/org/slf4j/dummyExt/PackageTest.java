@@ -24,8 +24,6 @@
  */
 package org.slf4j.dummyExt;
 
-import junit.framework.*;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
