@@ -34,7 +34,7 @@ public class PerfTest {
     static long REFERENCE_BIPS = 9000;
 
     @Test
-    public void testBug72() {
+    public void issue63() {
 
         int LEN = 1000 * 1000 * 10;
         debugLoop(LEN); // warm up
