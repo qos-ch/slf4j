@@ -187,7 +187,9 @@ public final class LoggerFactory {
         for (int i = 0; i < events.size(); i++) {
             SubstituteLoggingEvent event = events.get(i);
             SubstituteLogger substLogger = event.getLogger();
-            if (substLogger.isDelegateEventAware()) {
+            if( substLogger.isDelegateNOP()) {
+                break;
+            } else if (substLogger.isDelegateEventAware()) {
                 if (i == 0)
                     emitReplayWarning(events.size());
                 substLogger.log(event);

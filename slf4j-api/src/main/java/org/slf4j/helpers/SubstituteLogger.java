@@ -372,4 +372,8 @@ public class SubstituteLogger implements Logger {
             }
         }
     }
+
+    public boolean isDelegateNOP() {
+       return _delegate instanceof NOPLogger;
+    }
 }

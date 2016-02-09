@@ -24,6 +24,11 @@
  */
 package org.slf4j.impl;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -46,15 +51,19 @@ public class MultithreadedInitializationTest {
 
     int diff = new Random().nextInt(10000);
     String loggerName = "org.slf4j.impl.MultithreadedInitializationTest";
-
+    private final PrintStream oldErr = System.err;
+    StringPrintStream sps = new StringPrintStream(oldErr);
+    
     @Before
     public void setup() {
         LoggerFactoryFriend.reset(); 
+        System.setErr(sps);
     }
 
     @After
     public void tearDown() throws Exception {
         LoggerFactoryFriend.reset();
+        System.setErr(oldErr);
     }
 
     @Test
@@ -71,8 +80,7 @@ public class MultithreadedInitializationTest {
         logger.info("hello");
         EVENT_COUNT.getAndIncrement();
 
-        int NUM_LINES_IN_SLF4J_REPLAY_WARNING=3;
-        //assertEquals(EVENT_COUNT.get()+NUM_LINES_IN_SLF4J_REPLAY_WARNING, sps.stringList.size());
+        assertEquals(0, sps.stringList.size());
     }
 
     private static LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
@@ -112,6 +120,32 @@ public class MultithreadedInitializationTest {
         }
     };
 
+    public static class StringPrintStream extends PrintStream {
+
+        public static final String LINE_SEP = System.getProperty("line.separator");
+        PrintStream other;
+        List<String> stringList = new ArrayList<String>();
+
+        public StringPrintStream(PrintStream ps) {
+            super(ps);
+            other = ps;
+        }
+
+        public void print(String s) {
+            other.print(s);
+            stringList.add(s);
+        }
+
+        public void println(String s) {
+            other.println(s);
+            stringList.add(s);
+        }
+
+        public void println(Object o) {
+            other.println(o);
+            stringList.add(o.toString());
+        }
+    };
 
 
 }
