@@ -184,8 +184,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.19.1</version>
         <configuration>
-          <forkCount>2</forkCount>
-          <reuseForks>false</reuseForks>
+          <forkCount>2C</forkCount>
+          <reuseForks>true</reuseForks>
           <reportFormat>plain</reportFormat>
           <trimStackTrace>false</trimStackTrace>
           <excludes>
