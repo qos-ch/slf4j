@@ -27,9 +27,23 @@
    announce</a> mailing list.
    </p>
 
+
    <hr noshade="noshade" size="1"/>
 
-   <h3>24th January, 2016 - Release of SLF4J 1.7.14</h3>
+   <h3>9th of February, 2016 - Release of SLF4J 1.7.15</h3>
+
+   <p>In previous versions of SLF4J, if the application was already
+   multi-threaded at the time the first SLF4J logger was created, logs
+   made during the SLF4J initialization phase were lost. New code
+   added in relation with <a
+   href="http://jira.qos.ch/browse/SLF4J-353">SLF4J-353</a> fixes this
+   problem by storing and replaying logging calls made during
+   initialization.
+   </p>
+
+   <hr noshade="noshade" size="1"/>
+
+   <h3>24th of January, 2016 - Release of SLF4J 1.7.14</h3>
 
    <p>The assignment of the INITIALIZATION_STATE variable in
    <code>LoggerFactory</code> is now guaranteed to be consistent for

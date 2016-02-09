@@ -428,25 +428,29 @@ class B extends A {
     previously listed item.
     </p>
 
-    <!-- ====================================================== -->
+  
+    
+   <!-- ====================================================== -->
 
-    <h3 class="doAnchor" name="log4j_version">SLF4J versions 1.4.0 and
-    later requires log4j 1.2.12 or later</h3>
+    <h3 class="doAnchor" name="replay">A number (N) of logging calls
+    during the initialization phase have been intercepted and are now
+    being replayed. These are suject to the filtering rules of the
+    underlying logging system.
+    </h3>
 
-    <p>The trace level was added to log4j in version 1.2.12 released
-    on August 29, 2005. The trace level was added to the SLF4J API in
-    version 1.4.0 on May 16th, 2007. Thus, starting with SLF4J 1.4.0,
-    the log4j binding for SLF4J requires log4j version 1.2.12 or
-    above.
+    <p><span class="label">since 1.7.15</span> Logging calls made
+    during the initilization phase are recorded and replayed
+    post-inititilization. Note that the replayed logging calls are
+    subject to filtering by the underlying logging system.</p>
+
+    <p>In principle, replaying only occurs for apllications which are
+    already multi-threaded at the time the first logging call occurs.
     </p>
 
-    <p>However, as reported in <a
-    href="http://jira.qos.ch/browse/SLF4J-59">issue 59</a>, in some
-    environments it may be difficult to upgrade the log4j version. To
-    accommodate such circumstances, SLF4J's
-    <code>Log4jLoggerAdapter</code> will map the TRACE level as
-    DEBUG.</p>
-    
+    <p>See also <a
+    href="#substituteLogger">substitute loggers</a>.</p>
+ 
+    <!-- ====================================================== -->
 
     <h3 class="doAnchor" name="substituteLogger" >Substitute loggers
     were created during the default configuration phase of the
@@ -476,23 +480,27 @@ class B extends A {
     have been dropped.
     </p>
 
-    <h3 class="doAnchor" name="reply">A number (N) of logging calls
-    during the initialization phase have been intercepted and are now
-    being replayed. These are suject to the filtering rules of the
-    underlying logging system.
-    </h3>
+    <p>See also <a href="#replay">intercepted and replayed logging
+    calls</a>.</p>
+  
+    <!-- ====================================================== -->
 
-    <p><span class="label">since 1.7.15</span> As of SLF4J version
-    1.7.15, logging calls made during the initilization phase are
-    recorded and replayed post-inititilization.</p>
+    <h3 class="doAnchor" name="log4j_version">SLF4J versions 1.4.0 and
+    later requires log4j 1.2.12 or later</h3>
 
-    <p>These replayed logging calls are subject to filtering by the
-    underlying logging system.</p>
-
-    <p>Replaying only occurs for apllications which are already
-    multi-threaded when the first logging call occurs.
+    <p>The trace level was added to log4j in version 1.2.12 released
+    on August 29, 2005. The trace level was added to the SLF4J API in
+    version 1.4.0 on May 16th, 2007. Thus, starting with SLF4J 1.4.0,
+    the log4j binding for SLF4J requires log4j version 1.2.12 or
+    above.
     </p>
- 
+
+    <p>However, as reported in <a
+    href="http://jira.qos.ch/browse/SLF4J-59">issue 59</a>, in some
+    environments it may be difficult to upgrade the log4j version. To
+    accommodate such circumstances, SLF4J's
+    <code>Log4jLoggerAdapter</code> will map the TRACE level as
+    DEBUG.</p>
 
     <script src="templates/footer.js" type="text/javascript"></script>
   </div>

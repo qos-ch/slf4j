@@ -47,11 +47,11 @@ import org.slf4j.event.SubstituteLoggingEvent;
 public class SubstituteLogger implements Logger {
 
     private final String name;
-
     private volatile Logger _delegate;
+    private Boolean delegateEventAware;
+    private Method logMethodCache;
     private EventRecodingLogger eventRecodingLogger;
-    
-    List<SubstituteLoggingEvent> eventList;
+    private List<SubstituteLoggingEvent> eventList;
 
     public SubstituteLogger(String name, List<SubstituteLoggingEvent> eventList) {
         this.name = name;
@@ -345,9 +345,6 @@ public class SubstituteLogger implements Logger {
     public void setDelegate(Logger delegate) {
         this._delegate = delegate;
     }
-
-    Boolean delegateEventAware;
-    Method logMethodCache;
 
     public boolean isDelegateEventAware() {
         if (delegateEventAware != null)
