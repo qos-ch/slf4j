@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2016 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining

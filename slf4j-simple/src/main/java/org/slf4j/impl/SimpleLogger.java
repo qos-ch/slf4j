@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import org.slf4j.Logger;
+import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -644,5 +645,15 @@ public class SimpleLogger extends MarkerIgnoringBase {
     /** Log a message of level ERROR, including an exception. */
     public void error(String msg, Throwable t) {
         log(LOG_LEVEL_ERROR, msg, t);
+    }
+
+    public void log(LoggingEvent event) {
+        int levelInt = event.getLevel().toInt();
+        
+        if (!isLevelEnabled(levelInt)) {
+            return;
+        }
+        FormattingTuple tp = MessageFormatter.arrayFormat(event.getMessage(), event.getArgumentArray(), event.getThrowable());
+        log(levelInt, tp.getMessage(), event.getThrowable());
     }
 }

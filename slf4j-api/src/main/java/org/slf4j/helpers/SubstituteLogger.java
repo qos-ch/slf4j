@@ -24,11 +24,12 @@
  */
 package org.slf4j.helpers;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
-import org.slf4j.event.LoggingEventAware;
 import org.slf4j.event.EventRecodingLogger;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
@@ -43,13 +44,15 @@ import org.slf4j.event.SubstituteLoggingEvent;
  * @author Chetan Mehrotra
  * @author Ceki Gulcu
  */
-public class SubstituteLogger implements Logger, LoggingEventAware {
+public class SubstituteLogger implements Logger {
 
     private final String name;
 
     private volatile Logger _delegate;
-    List<SubstituteLoggingEvent> eventList;
+    private EventRecodingLogger eventRecodingLogger;
     
+    List<SubstituteLoggingEvent> eventList;
+
     public SubstituteLogger(String name, List<SubstituteLoggingEvent> eventList) {
         this.name = name;
         this.eventList = eventList;
@@ -324,11 +327,15 @@ public class SubstituteLogger implements Logger, LoggingEventAware {
      * instance.
      */
     Logger delegate() {
-        return _delegate != null ? _delegate : makeEventRecodingLogger();
+        return _delegate != null ? _delegate : getEventRecordingLogger();
     }
-
-    private EventRecodingLogger makeEventRecodingLogger() {
-        return new EventRecodingLogger(name, eventList);
+    
+  
+    private Logger getEventRecordingLogger() {
+        if(eventRecodingLogger == null) {
+            eventRecodingLogger = new EventRecodingLogger(this, eventList);
+        }
+        return eventRecodingLogger;
     }
 
     /**
@@ -339,14 +346,30 @@ public class SubstituteLogger implements Logger, LoggingEventAware {
         this._delegate = delegate;
     }
 
+    Boolean delegateEventAware;
+    Method logMethodCache;
+
     public boolean isDelegateEventAware() {
-       return (_delegate instanceof LoggingEventAware);
-    }
-    
-    public void log(LoggingEvent event) {
-        if(_delegate instanceof LoggingEventAware) {
-            LoggingEventAware eventLogger = (LoggingEventAware) _delegate;
-            eventLogger.log(event);
+        if (delegateEventAware != null)
+            return delegateEventAware;
+        
+        try {
+            logMethodCache = _delegate.getClass().getMethod("log", LoggingEvent.class);
+            delegateEventAware = Boolean.TRUE;
+        } catch (NoSuchMethodException e) {
+            delegateEventAware = Boolean.FALSE;
         }
-     }
+        return delegateEventAware;
+    }
+
+    public void log(LoggingEvent event) {
+        if (isDelegateEventAware()) {
+            try {
+                logMethodCache.invoke(_delegate, event);
+            } catch (IllegalAccessException e) {
+            } catch (IllegalArgumentException e) {
+            } catch (InvocationTargetException e) {
+            }
+        }
+    }
 }

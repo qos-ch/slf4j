@@ -28,16 +28,12 @@ import static org.slf4j.event.EventConstants.NA_SUBST;
 
 import java.io.Serializable;
 
-import org.apache.log4j.Category;
 import org.apache.log4j.Level;
-import org.apache.log4j.Priority;
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.ThrowableInformation;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
-import org.slf4j.event.EventConstants;
 import org.slf4j.event.LoggingEvent;
-import org.slf4j.event.LoggingEventAware;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -61,7 +57,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger, LoggingEventAware, Serializable {
+public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger, Serializable {
 
     private static final long serialVersionUID = 6182834493563598289L;
 

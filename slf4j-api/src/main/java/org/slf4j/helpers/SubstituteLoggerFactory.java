@@ -71,5 +71,6 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     
     public void clear() {
         loggers.clear();
+        eventList.clear();
     }
 }

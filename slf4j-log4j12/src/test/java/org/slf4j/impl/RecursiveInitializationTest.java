@@ -27,21 +27,17 @@ package org.slf4j.impl;
 import java.util.Random;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 public class RecursiveInitializationTest {
 
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;
     static String CONFIG_FILE_KEY = "log4j.configuration";
 
     int diff = new Random().nextInt(10000);
-
-    @Before
-    public void setUp() throws Exception {
-        System.setProperty(CONFIG_FILE_KEY, "recursiveInit.properties");
-    }
+    String loggerName = "org.slf4j.impl.RecursiveInitializationTest";
 
     @After
     public void tearDown() throws Exception {
@@ -49,9 +45,9 @@ public class RecursiveInitializationTest {
     }
 
     @Test
-    public void testLog4j() {
-        Logger logger = LoggerFactory.getLogger("x" + diff);
-        System.out.println("logger class=" + logger.getClass().getName());
+    public void loggingDuringInitialization() {
+        System.setProperty(CONFIG_FILE_KEY, "recursiveInit.properties");
+        Logger logger = LoggerFactory.getLogger(loggerName+".loggingDuringInitialization-"+diff);
         logger.info("hello");
     }
 

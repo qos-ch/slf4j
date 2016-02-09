@@ -32,7 +32,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.event.LoggingEventAware;
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLogger;
@@ -70,6 +69,7 @@ public final class LoggerFactory {
     static final String VERSION_MISMATCH = CODES_PREFIX + "#version_mismatch";
     static final String SUBSTITUTE_LOGGER_URL = CODES_PREFIX + "#substituteLogger";
     static final String LOGGER_NAME_MISMATCH_URL = CODES_PREFIX + "#loggerNameMismatch";
+    static final String REPLAY_URL = CODES_PREFIX + "#replay";
 
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
     static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also " + UNSUCCESSFUL_INIT_URL;
@@ -116,7 +116,6 @@ public final class LoggerFactory {
      */
     static void reset() {
         INITIALIZATION_STATE = UNINITIALIZED;
-        SUBST_FACTORY = new SubstituteLoggerFactory();
     }
 
     private final static void performInitialization() {
@@ -146,6 +145,7 @@ public final class LoggerFactory {
             reportActualBinding(staticLoggerBinderPathSet);
             fixSubstitutedLoggers();
             playRecordedEvents();
+            SUBST_FACTORY.clear();
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
@@ -180,10 +180,21 @@ public final class LoggerFactory {
     private static void playRecordedEvents() {
         List<SubstituteLoggingEvent> events = SUBST_FACTORY.getEventList();
 
-        for (SubstituteLoggingEvent event : events) {
+        if (events.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < events.size(); i++) {
+            SubstituteLoggingEvent event = events.get(i);
             SubstituteLogger substLogger = event.getLogger();
             if (substLogger.isDelegateEventAware()) {
+                if (i == 0)
+                    emitReplayWarning(events.size());
                 substLogger.log(event);
+            } else {
+                if(i == 0)
+                    emitSubstitutionWarning(); 
+                Util.report(substLogger.getName());
             }
         }
     }
@@ -195,25 +206,10 @@ public final class LoggerFactory {
             return;
         }
 
-        boolean substitutionWarningEmmitted = false;
         for (SubstituteLogger subLogger : loggers) {
             Logger logger = getLogger(subLogger.getName());
             subLogger.setDelegate(logger);
-
-            if (!isEventAware(logger)) {
-                if (!substitutionWarningEmmitted) {
-                    emitSubstitutionWarning();
-                    substitutionWarningEmmitted = true;
-                }
-                Util.report(subLogger.getName());
-            }
         }
-
-        SUBST_FACTORY.clear();
-    }
-
-    private static boolean isEventAware(Logger logger) {
-        return logger instanceof LoggingEventAware;
     }
 
     private static void emitSubstitutionWarning() {
@@ -222,6 +218,12 @@ public final class LoggerFactory {
         Util.report("phase were not honored. However, subsequent logging calls to these");
         Util.report("loggers will work as normally expected.");
         Util.report("See also " + SUBSTITUTE_LOGGER_URL);
+    }
+
+    private static void emitReplayWarning(int eventCount) {
+        Util.report("A number (" + eventCount + ") of logging calls during the initialization phase have been intercepted and are");
+        Util.report("now being replayed. These are suject to the filtering rules of the underlying logging system.");
+        Util.report("See also " + REPLAY_URL);
     }
 
     private final static void versionSanityCheck() {
@@ -375,6 +377,7 @@ public final class LoggerFactory {
                 }
             }
         }
+
         switch (INITIALIZATION_STATE) {
         case SUCCESSFUL_INITIALIZATION:
             return StaticLoggerBinder.getSingleton().getLoggerFactory();

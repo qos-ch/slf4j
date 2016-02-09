@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.helpers.SubstituteLogger;
 
 public class EventRecodingLogger implements Logger {
 
     String name;
+    SubstituteLogger logger;
     List<SubstituteLoggingEvent> eventList;
 
-    public EventRecodingLogger(String name, List<SubstituteLoggingEvent> eventList) {
-       this.name = name;
+    public EventRecodingLogger(SubstituteLogger logger, List<SubstituteLoggingEvent> eventList) {
+       this.logger = logger;
+       this.name = logger.getName();
        this.eventList = eventList;
     }
 
@@ -24,9 +27,14 @@ public class EventRecodingLogger implements Logger {
     }
 
     private void recordEvent(Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
+        //System.out.println("recording logger:"+name+", msg:"+msg);
         SubstituteLoggingEvent loggingEvent = new SubstituteLoggingEvent();
         loggingEvent.setTimeStamp(System.currentTimeMillis());
         loggingEvent.setLevel(level);
+        loggingEvent.setLogger(logger);
+        loggingEvent.setLoggerName(name);
+        
+        
         loggingEvent.setMessage(msg);
         loggingEvent.setArgumentArray(args);
         loggingEvent.setThrowable(throwable);

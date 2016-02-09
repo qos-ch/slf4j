@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.EventConstants;
 import org.slf4j.event.LoggingEvent;
-import org.slf4j.event.LoggingEventAware;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
@@ -46,7 +45,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  * @author Peter Royal
  */
-public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger, LoggingEventAware {
+public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger {
 
     private static final long serialVersionUID = -8053026990503422791L;
 

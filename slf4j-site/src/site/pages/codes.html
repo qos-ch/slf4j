@@ -441,9 +441,9 @@ class B extends A {
     </p>
 
     <p>However, as reported in <a
-    href="http://bugzilla.slf4j.org/show_bug.cgi?id=68">bug 68</a>, in
-    some environments it may be difficult to upgrade the log4j
-    version. To accommodate such circumstances, SLF4J's
+    href="http://jira.qos.ch/browse/SLF4J-59">issue 59</a>, in some
+    environments it may be difficult to upgrade the log4j version. To
+    accommodate such circumstances, SLF4J's
     <code>Log4jLoggerAdapter</code> will map the TRACE level as
     DEBUG.</p>
     
@@ -452,13 +452,13 @@ class B extends A {
     were created during the default configuration phase of the
     underlying logging system</h3>
 
-    <p>Highly configurable logging systems such as logback and log4j
-    may create components which invoke loggers during their own
-    initialization.  See issue <a
-    href="http://jira.qos.ch/browse/LOGBACK-127">LOGBACK-127</a> for a
-    typical occurrence. However, since the binding process with SLF4J
-    has not yet completed (because the underlying logging system was
-    not yet completely loaded into memory), it is not possible to
+    <p> Highly configurable
+    logging systems such as logback and log4j may create components
+    which invoke loggers during their own initialization.  See issue
+    <a href="http://jira.qos.ch/browse/LOGBACK-127">LOGBACK-127</a>
+    for a typical occurrence. However, since the binding process with
+    SLF4J has not yet completed (because the underlying logging system
+    was not yet completely loaded into memory), it is not possible to
     honor such logger creation requests.</p>
 
     <p>To avoid this chicken-and-egg problem, SLF4J creates substitute
@@ -476,6 +476,23 @@ class B extends A {
     have been dropped.
     </p>
 
+    <h3 class="doAnchor" name="reply">A number (N) of logging calls
+    during the initialization phase have been intercepted and are now
+    being replayed. These are suject to the filtering rules of the
+    underlying logging system.
+    </h3>
+
+    <p><span class="label">since 1.7.15</span> As of SLF4J version
+    1.7.15, logging calls made during the initilization phase are
+    recorded and replayed post-inititilization.</p>
+
+    <p>These replayed logging calls are subject to filtering by the
+    underlying logging system.</p>
+
+    <p>Replaying only occurs for apllications which are already
+    multi-threaded when the first logging call occurs.
+    </p>
+ 
 
     <script src="templates/footer.js" type="text/javascript"></script>
   </div>

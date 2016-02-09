@@ -56,7 +56,7 @@
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
 	</path >
 
-	
+
 	<path id="incompatibleMultiBinding">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
@@ -103,7 +103,7 @@
 
 	<target name="testAll" depends="init, 
 		            testMissingSingletonMethod,
-                testMismatch, 
+                testMismatch,
                 testMatch,
 		            testMultiBinding,
 		            testIncompatibleMultiBinding,
@@ -131,6 +131,19 @@
 		</junit>
 
   </target>
+
+
+	<target name="testMixed17">
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="pathMixed17" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-MIXED-17" 
+            name="org.slf4j.VersionMismatchAssertionTest" />
+		</junit>
+  </target>
+
 
 	<target name="testMismatch">
 

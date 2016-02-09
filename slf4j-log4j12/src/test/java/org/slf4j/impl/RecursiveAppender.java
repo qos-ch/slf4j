@@ -24,6 +24,8 @@
  */
 package org.slf4j.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.AppenderSkeleton;
@@ -34,15 +36,20 @@ import org.slf4j.LoggerFactory;
 public class RecursiveAppender extends AppenderSkeleton {
 
     int diff = new Random().nextInt();
-
+    int activationDelay = 0;
+    String loggerName = "org.slf4j.impl.RecursiveAppender" + diff;
+    
+    List<LoggingEvent> events = new ArrayList<LoggingEvent>();
+    
     public RecursiveAppender() {
-        System.out.println("in RecursiveAppender constructor");
-        Logger logger = LoggerFactory.getLogger("RecursiveAppender" + diff);
-        System.out.println("logger class=" + logger.getClass().getName());
+        System.out.println("entering RecursiveAppender constructor");
+        Logger logger = LoggerFactory.getLogger(loggerName);
         logger.info("Calling a logger in the constructor");
+        System.out.println("exiting RecursiveAppender constructor");
     }
 
-    protected void append(LoggingEvent arg0) {
+    protected void append(LoggingEvent e) {
+        events.add(e);
     }
 
     public void close() {
@@ -51,4 +58,32 @@ public class RecursiveAppender extends AppenderSkeleton {
     public boolean requiresLayout() {
         return false;
     }
+
+    @Override
+    public void activateOptions() {
+        System.out.println("entering RecursiveAppender.activateOptions");
+        if(activationDelay > 0) {
+            Logger logger = LoggerFactory.getLogger(loggerName);
+            logger.info("About to wait {} millis", activationDelay);
+            try {
+                Thread.sleep(activationDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            logger.info("Done waiting {} millis", activationDelay);
+        }
+        super.activateOptions();
+
+        System.out.println("exiting RecursiveAppender.activateOptions");
+    }
+    public int getActivationDelay() {
+        return activationDelay;
+    }
+
+    public void setActivationDelay(int activationDelay) {
+        this.activationDelay = activationDelay;
+    }
+    
+
+    
 }
