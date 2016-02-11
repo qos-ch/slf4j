@@ -1,4 +1,4 @@
 language: java
 notifications:
   email:
-      - slf4j-dev@qos.ch
+      - notification@qos.ch
