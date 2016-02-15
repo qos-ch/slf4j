@@ -346,6 +346,11 @@ public class Category {
     public void setLevel(Level level) {
         // nothing to do
     }
+
+    @Deprecated
+    public void setPriority(Priority priority) {
+        // nothing to do
+    }
     
     public boolean getAdditivity() {
         return false;
