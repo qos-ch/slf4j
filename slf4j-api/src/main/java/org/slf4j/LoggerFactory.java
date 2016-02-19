@@ -137,8 +137,12 @@ public final class LoggerFactory {
 
     private final static void bind() {
         try {
-            Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
-            reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
+            Set<URL> staticLoggerBinderPathSet = null;
+            // skip check under android, see also http://jira.qos.ch/browse/SLF4J-328
+            if(!isAndroid()) {
+                staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
+                reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
+            }
             // the next line does the binding
             StaticLoggerBinder.getSingleton();
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
@@ -280,8 +284,8 @@ public final class LoggerFactory {
         return staticLoggerBinderPathSet;
     }
 
-    private static boolean isAmbiguousStaticLoggerBinderPathSet(Set<URL> staticLoggerBinderPathSet) {
-        return staticLoggerBinderPathSet.size() > 1;
+    private static boolean isAmbiguousStaticLoggerBinderPathSet(Set<URL> binderPathSet) {
+        return binderPathSet.size() > 1;
     }
 
     /**
@@ -289,15 +293,10 @@ public final class LoggerFactory {
      * No reporting is done otherwise.
      *
      */
-    private static void reportMultipleBindingAmbiguity(Set<URL> staticLoggerBinderPathSet) {
-        if (isAndroid()) {
-            // skip check under android, see also http://jira.qos.ch/browse/SLF4J-328
-            return;
-        }
-
-        if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
+    private static void reportMultipleBindingAmbiguity(Set<URL> binderPathSet) {
+        if (isAmbiguousStaticLoggerBinderPathSet(binderPathSet)) {
             Util.report("Class path contains multiple SLF4J bindings.");
-            for (URL path : staticLoggerBinderPathSet) {
+            for (URL path : binderPathSet) {
                 Util.report("Found binding in [" + path + "]");
             }
             Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
@@ -311,8 +310,9 @@ public final class LoggerFactory {
         return vendor.toLowerCase().contains("android");
     }
 
-    private static void reportActualBinding(Set<URL> staticLoggerBinderPathSet) {
-        if (isAmbiguousStaticLoggerBinderPathSet(staticLoggerBinderPathSet)) {
+    private static void reportActualBinding(Set<URL> binderPathSet) {
+        // binderPathSet can be null under Android
+        if (binderPathSet != null && isAmbiguousStaticLoggerBinderPathSet(binderPathSet)) {
             Util.report("Actual binding is of type [" + StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr() + "]");
         }
     }
