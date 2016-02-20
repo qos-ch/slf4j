@@ -32,6 +32,7 @@
     <dependency>
       <groupId>ch.qos.cal10n</groupId>
       <artifactId>cal10n-api</artifactId>
+      <optional>true</optional>
     </dependency>		
     <dependency>
       <groupId>javassist</groupId>
