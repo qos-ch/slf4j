@@ -183,6 +183,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
     // Load properties file, if found.
     // Override with system properties.
     static void init() {
+        if (INITIALIZED) {
+            return;
+        }
         INITIALIZED = true;
         loadProperties();
 
@@ -259,9 +262,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * SimpleLogger instances.
      */
     SimpleLogger(String name) {
-        if (!INITIALIZED) {
-            init();
-        }
         this.name = name;
 
         String levelString = recursivelyComputeLevelString();
@@ -656,4 +656,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
         FormattingTuple tp = MessageFormatter.arrayFormat(event.getMessage(), event.getArgumentArray(), event.getThrowable());
         log(levelInt, tp.getMessage(), event.getThrowable());
     }
+
+    
 }

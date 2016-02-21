@@ -42,6 +42,7 @@ public class SimpleLoggerFactory implements ILoggerFactory {
 
     public SimpleLoggerFactory() {
         loggerMap = new ConcurrentHashMap<String, Logger>();
+        SimpleLogger.init();
     }
 
     /**
