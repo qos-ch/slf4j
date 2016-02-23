@@ -31,8 +31,8 @@ public interface HierarchyEventListener {
     // public
     // void categoryCreationEvent(Category cat);
 
-    public void addAppenderEvent(Category cat, Appender appender);
+    void addAppenderEvent(Category cat, Appender appender);
 
-    public void removeAppenderEvent(Category cat, Appender appender);
+    void removeAppenderEvent(Category cat, Appender appender);
 
 }

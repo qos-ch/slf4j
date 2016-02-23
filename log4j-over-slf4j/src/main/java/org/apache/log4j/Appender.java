@@ -42,14 +42,14 @@ public interface Appender {
      * @return the head Filter or null, if no Filters are present
      * @since 1.1
      */
-    public Filter getFilter();
+    Filter getFilter();
 
     /**
      * Clear the list of filters by removing all the filters in it.
      *
      * @since 0.9.0
      */
-    public void clearFilters();
+    void clearFilters();
 
     /**
      * Release any resources allocated within the appender such as file
@@ -59,48 +59,48 @@ public interface Appender {
      *
      * @since 0.8.4
      */
-    public void close();
+    void close();
 
     /**
      * Log in <code>Appender</code> specific way. When appropriate,
      * Loggers will call the <code>doAppend</code> method of appender
      * implementations in order to log.
      */
-    public void doAppend(LoggingEvent event);
+    void doAppend(LoggingEvent event);
 
     /**
      * Get the name of this appender. The name uniquely identifies the
      * appender.
      */
-    public String getName();
+    String getName();
 
     /**
      * Set the {@link ErrorHandler} for this appender.
      *
      * @since 0.9.0
      */
-    public void setErrorHandler(ErrorHandler errorHandler);
+    void setErrorHandler(ErrorHandler errorHandler);
 
     /**
      * Returns the {@link ErrorHandler} for this appender.
      *
      * @since 1.1
      */
-    public ErrorHandler getErrorHandler();
+    ErrorHandler getErrorHandler();
 
     /**
      * Set the {@link Layout} for this appender.
      *
      * @since 0.8.1
      */
-    public void setLayout(Layout layout);
+    void setLayout(Layout layout);
 
     /**
      * Returns this appenders layout.
      *
      * @since 1.1
      */
-    public Layout getLayout();
+    Layout getLayout();
 
     /**
      * Set the name of this appender. The name is used by other
@@ -108,7 +108,7 @@ public interface Appender {
      *
      * @since 0.8.1
      */
-    public void setName(String name);
+    void setName(String name);
 
     /**
      * Configurators call this method to determine if the appender
@@ -126,5 +126,5 @@ public interface Appender {
      *
      * @since 0.8.4
      */
-    public boolean requiresLayout();
+    boolean requiresLayout();
 }

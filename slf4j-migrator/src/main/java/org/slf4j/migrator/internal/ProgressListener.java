@@ -28,18 +28,18 @@ import java.io.File;
 
 public interface ProgressListener {
 
-    public void onMigrationBegin();
+    void onMigrationBegin();
 
-    public void onDirectory(File file);
+    void onDirectory(File file);
 
-    public void onFileAddition(File file);
+    void onFileAddition(File file);
 
-    public void onFileScanBegin();
+    void onFileScanBegin();
 
-    public void onFileScan(File file);
+    void onFileScan(File file);
 
-    public void onInplaceConversion(File file);
+    void onInplaceConversion(File file);
 
-    public void onDone();
+    void onDone();
 
 }
