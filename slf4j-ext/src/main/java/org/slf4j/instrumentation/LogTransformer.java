@@ -23,7 +23,7 @@
  *
  */
 /**
- * 
+ *
  */
 package org.slf4j.instrumentation;
 
@@ -57,17 +57,16 @@ public class LogTransformer implements ClassFileTransformer {
     /**
      * Builder provides a flexible way of configuring some of many options on the
      * parent class instead of providing many constructors.
-     * 
-     * {@link http
-     * ://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html}
-     * 
+     *
+     * <a href="http://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html">http://rwhansen.blogspot.com/2007/07/theres-builder-pattern-that-joshua.html</a>
+     *
      */
     public static class Builder {
 
         /**
          * Build and return the LogTransformer corresponding to the options set in
          * this Builder.
-         * 
+         *
          * @return
          */
         public LogTransformer build() {
@@ -82,7 +81,7 @@ public class LogTransformer implements ClassFileTransformer {
         /**
          * Should each method log entry (with parameters) and exit (with parameters
          * and returnvalue)?
-         * 
+         *
          * @param b
          *          value of flag
          * @return
@@ -105,7 +104,7 @@ public class LogTransformer implements ClassFileTransformer {
         /**
          * Should LogTransformer be verbose in what it does? This currently list the
          * names of the classes being processed.
-         * 
+         *
          * @param b
          * @return
          */
@@ -177,7 +176,7 @@ public class LogTransformer implements ClassFileTransformer {
      * transform0 sees if the className starts with any of the namespaces to
      * ignore, if so it is returned unchanged. Otherwise it is processed by
      * doClass(...)
-     * 
+     *
      * @param className
      * @param clazz
      * @param domain
@@ -227,7 +226,7 @@ public class LogTransformer implements ClassFileTransformer {
      * defined have bodies, and a static final logger object is added with the
      * name of this class as an argument, and each method then gets processed with
      * doMethod(...) to have logger calls added.
-     * 
+     *
      * @param name
      *          class name (slashes separate, not dots)
      * @param clazz
@@ -285,7 +284,7 @@ public class LogTransformer implements ClassFileTransformer {
     /**
      * process a single method - this means add entry/exit logging if requested.
      * It is only called for methods with a body.
-     * 
+     *
      * @param method
      *          method to work on
      * @throws NotFoundException

@@ -33,14 +33,14 @@ import java.util.Map;
 /**
  * Formats messages according to very simple substitution rules. Substitutions
  * can be made 1, 2 or more arguments.
- * 
+ *
  * <p>
  * For example,
- * 
+ *
  * <pre>
  * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;)
  * </pre>
- * 
+ *
  * will return the string "Hi there.".
  * <p>
  * The {} pair is called the <em>formatting anchor</em>. It serves to designate
@@ -50,48 +50,48 @@ import java.util.Map;
  * In case your message contains the '{' or the '}' character, you do not have
  * to do anything special unless the '}' character immediately follows '{'. For
  * example,
- * 
+ *
  * <pre>
  * MessageFormatter.format(&quot;Set {1,2,3} is not equal to {}.&quot;, &quot;1,2&quot;);
  * </pre>
- * 
+ *
  * will return the string "Set {1,2,3} is not equal to 1,2.".
- * 
+ *
  * <p>
  * If for whatever reason you need to place the string "{}" in the message
  * without its <em>formatting anchor</em> meaning, then you need to escape the
  * '{' character with '\', that is the backslash character. Only the '{'
  * character should be escaped. There is no need to escape the '}' character.
  * For example,
- * 
+ *
  * <pre>
  * MessageFormatter.format(&quot;Set \\{} is not equal to {}.&quot;, &quot;1,2&quot;);
  * </pre>
- * 
+ *
  * will return the string "Set {} is not equal to 1,2.".
- * 
+ *
  * <p>
  * The escaping behavior just described can be overridden by escaping the escape
  * character '\'. Calling
- * 
+ *
  * <pre>
  * MessageFormatter.format(&quot;File name is C:\\\\{}.&quot;, &quot;file.zip&quot;);
  * </pre>
- * 
+ *
  * will return the string "File name is C:\file.zip".
- * 
+ *
  * <p>
  * The formatting conventions are different than those of {@link MessageFormat}
  * which ships with the Java platform. This is justified by the fact that
  * SLF4J's implementation is 10 times faster than that of {@link MessageFormat}.
  * This local performance difference is both measurable and significant in the
  * larger context of the complete logging processing chain.
- * 
+ *
  * <p>
  * See also {@link #format(String, Object)},
  * {@link #format(String, Object, Object)} and
  * {@link #arrayFormat(String, Object[])} methods for more details.
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @author Joern Huxhorn
  */
@@ -106,17 +106,17 @@ final public class MessageFormatter {
      * parameter.
      * <p>
      * For example,
-     * 
+     *
      * <pre>
      * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;);
      * </pre>
-     * 
+     *
      * will return the string "Hi there.".
      * <p>
-     * 
+     *
      * @param messagePattern
      *          The message pattern which will be parsed and formatted
-     * @param argument
+     * @param arg
      *          The argument to be substituted in place of the formatting anchor
      * @return The formatted message
      */
@@ -125,18 +125,18 @@ final public class MessageFormatter {
     }
 
     /**
-     * 
+     *
      * Performs a two argument substitution for the 'messagePattern' passed as
      * parameter.
      * <p>
      * For example,
-     * 
+     *
      * <pre>
      * MessageFormatter.format(&quot;Hi {}. My name is {}.&quot;, &quot;Alice&quot;, &quot;Bob&quot;);
      * </pre>
-     * 
+     *
      * will return the string "Hi Alice. My name is Bob.".
-     * 
+     *
      * @param messagePattern
      *          The message pattern which will be parsed and formatted
      * @param arg1
@@ -150,6 +150,7 @@ final public class MessageFormatter {
     final public static FormattingTuple format(final String messagePattern, Object arg1, Object arg2) {
         return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
     }
+
 
     static final Throwable getThrowableCandidate(Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
