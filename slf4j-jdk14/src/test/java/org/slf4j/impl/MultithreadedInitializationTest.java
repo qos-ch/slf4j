@@ -44,22 +44,19 @@ import org.slf4j.LoggerFactory;
 
 public class MultithreadedInitializationTest {
 
-
     final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
     private static AtomicLong EVENT_COUNT = new AtomicLong(0);
 
     final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
-    
     int diff = new Random().nextInt(10000);
     String loggerName = "org.slf4j.impl.MultithreadedInitializationTest";
 
     private static java.util.logging.Logger getRootLogger() {
         return LogManager.getLogManager().getLogger("");
     }
-    
-    
+
     @After
     public void tearDown() throws Exception {
         java.util.logging.Logger rootLogger = getRootLogger();
@@ -75,7 +72,7 @@ public class MultithreadedInitializationTest {
     public void addRecordingHandler() {
         getRootLogger().addHandler(new RecordingHandler());
     }
-    
+
     @Test
     public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
         System.out.println("THREAD_COUNT=" + THREAD_COUNT);
@@ -96,7 +93,7 @@ public class MultithreadedInitializationTest {
 
     private List<LogRecord> getRecordedEvents() {
         RecordingHandler ra = findRecordingHandler();
-        if(ra == null) {
+        if (ra == null) {
             fail("failed to fing RecordingHandler");
         }
         return ra.records;

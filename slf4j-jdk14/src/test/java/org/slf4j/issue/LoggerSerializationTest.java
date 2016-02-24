@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * See http://jira.qos.ch/browse/SLF4J-252
  * @author Thorbjorn Ravn Andersen
  */
-public class LoggerSerializationTest  {
+public class LoggerSerializationTest {
 
     static class LoggerHolder implements Serializable {
         private static final long serialVersionUID = 1L;

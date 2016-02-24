@@ -329,10 +329,9 @@ public class SubstituteLogger implements Logger {
     Logger delegate() {
         return _delegate != null ? _delegate : getEventRecordingLogger();
     }
-    
-  
+
     private Logger getEventRecordingLogger() {
-        if(eventRecodingLogger == null) {
+        if (eventRecodingLogger == null) {
             eventRecodingLogger = new EventRecodingLogger(this, eventList);
         }
         return eventRecodingLogger;
@@ -349,7 +348,7 @@ public class SubstituteLogger implements Logger {
     public boolean isDelegateEventAware() {
         if (delegateEventAware != null)
             return delegateEventAware;
-        
+
         try {
             logMethodCache = _delegate.getClass().getMethod("log", LoggingEvent.class);
             delegateEventAware = Boolean.TRUE;
@@ -371,6 +370,6 @@ public class SubstituteLogger implements Logger {
     }
 
     public boolean isDelegateNOP() {
-       return _delegate instanceof NOPLogger;
+        return _delegate instanceof NOPLogger;
     }
 }

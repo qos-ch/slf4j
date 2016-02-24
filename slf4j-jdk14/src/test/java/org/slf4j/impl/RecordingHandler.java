@@ -8,7 +8,7 @@ import java.util.logging.LogRecord;
 public class RecordingHandler extends Handler {
 
     List<LogRecord> records = new ArrayList<LogRecord>();
-    
+
     @Override
     public void publish(LogRecord record) {
         records.add(record);

@@ -320,11 +320,11 @@ public class MessageFormatterTest {
         assertEquals("123{}", ft.getMessage());
         assertTrue(Arrays.equals(iaWitness, ft.getArgArray()));
         assertEquals(t, ft.getThrowable());
-        
-        ft = MessageFormatter.arrayFormat("1={}", new Object[] {i1}, t);
+
+        ft = MessageFormatter.arrayFormat("1={}", new Object[] { i1 }, t);
         assertEquals("1=1", ft.getMessage());
-        assertTrue(Arrays.equals(new Object[] {i1}, ft.getArgArray()));
+        assertTrue(Arrays.equals(new Object[] { i1 }, ft.getArgArray()));
         assertEquals(t, ft.getThrowable());
-        
+
     }
 }

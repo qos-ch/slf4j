@@ -27,7 +27,8 @@ package org.slf4j.migrator.line;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-public class NoConversionTest  {
+
+public class NoConversionTest {
 
     /**
      * This test shows that performing JCL to SLF4J conversion has no impact on

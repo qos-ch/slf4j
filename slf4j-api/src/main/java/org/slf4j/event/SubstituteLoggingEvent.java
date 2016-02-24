@@ -78,7 +78,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
     public void setThreadName(String threadName) {
         this.threadName = threadName;
     }
-    
+
     public Throwable getThrowable() {
         return throwable;
     }

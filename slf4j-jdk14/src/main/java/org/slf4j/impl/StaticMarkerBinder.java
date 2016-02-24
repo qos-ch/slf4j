@@ -57,7 +57,7 @@ public class StaticMarkerBinder implements MarkerFactoryBinder {
     public static StaticMarkerBinder getSingleton() {
         return SINGLETON;
     }
-    
+
     /**
      * Currently this method always returns an instance of 
      * {@link BasicMarkerFactory}.

@@ -576,7 +576,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         LogRecord record = new LogRecord(level, msg);
         record.setLoggerName(getName());
         record.setThrown(t);
-        // Note: parameters in record are not set because SLF4J only 
+        // Note: parameters in record are not set because SLF4J only
         // supports a single formatting style
         fillCallerData(callerFQCN, record);
         logger.log(record);
@@ -672,22 +672,22 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         String format = event.getMessage();
         Object[] arguments = event.getArgumentArray();
         FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
-        if(ft.getThrowable() != null && event.getThrowable() != null) {
+        if (ft.getThrowable() != null && event.getThrowable() != null) {
             throw new IllegalArgumentException("both last element in argument array and last argument are of type Throwable");
         }
-        
+
         Throwable t = event.getThrowable();
-        if(ft.getThrowable() != null) {
+        if (ft.getThrowable() != null) {
             t = ft.getThrowable();
             throw new IllegalStateException("fix above code");
         }
-        
+
         LogRecord record = new LogRecord(julLevel, ft.getMessage());
         record.setLoggerName(event.getLoggerName());
         record.setMillis(event.getTimeStamp());
         record.setSourceClassName(EventConstants.NA_SUBST);
         record.setSourceMethodName(EventConstants.NA_SUBST);
-        
+
         record.setThrown(t);
         return record;
     }

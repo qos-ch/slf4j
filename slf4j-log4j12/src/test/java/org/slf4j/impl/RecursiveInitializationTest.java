@@ -47,7 +47,7 @@ public class RecursiveInitializationTest {
     @Test
     public void loggingDuringInitialization() {
         System.setProperty(CONFIG_FILE_KEY, "recursiveInit.properties");
-        Logger logger = LoggerFactory.getLogger(loggerName+".loggingDuringInitialization-"+diff);
+        Logger logger = LoggerFactory.getLogger(loggerName + ".loggingDuringInitialization-" + diff);
         logger.info("hello");
     }
 

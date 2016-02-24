@@ -37,7 +37,8 @@ import org.slf4j.dummyExt.ListAppender;
 
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
-public class LocLoggerTest  {
+
+public class LocLoggerTest {
 
     ListAppender listAppender;
     org.apache.log4j.Logger log4jRoot;
@@ -46,7 +47,6 @@ public class LocLoggerTest  {
     LocLoggerFactory llFactory_uk = new LocLoggerFactory(imc);
 
     final static String EXPECTED_FILE_NAME = "LocLoggerTest.java";
-
 
     @Before
     public void setUp() throws Exception {
@@ -63,7 +63,6 @@ public class LocLoggerTest  {
         assertEquals(expectedMsg, le.getMessage());
         assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
     }
-
 
     @Test
     public void testSmoke() {

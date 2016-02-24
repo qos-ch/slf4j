@@ -45,7 +45,7 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
 
     final List<SubstituteLoggingEvent> eventList = Collections.synchronizedList(new ArrayList<SubstituteLoggingEvent>());
-    
+
     public Logger getLogger(String name) {
         SubstituteLogger logger = loggers.get(name);
         if (logger == null) {
@@ -68,7 +68,7 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     public List<SubstituteLoggingEvent> getEventList() {
         return eventList;
     }
-    
+
     public void clear() {
         loggers.clear();
         eventList.clear();

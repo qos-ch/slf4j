@@ -32,7 +32,8 @@ import java.util.logging.LogRecord;
 import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-public class Bug131  {
+
+public class Bug131 {
 
     @Test
     public void testBug131() {

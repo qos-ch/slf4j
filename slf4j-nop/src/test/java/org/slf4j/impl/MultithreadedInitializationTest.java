@@ -53,10 +53,10 @@ public class MultithreadedInitializationTest {
     String loggerName = "org.slf4j.impl.MultithreadedInitializationTest";
     private final PrintStream oldErr = System.err;
     StringPrintStream sps = new StringPrintStream(oldErr);
-    
+
     @Before
     public void setup() {
-        LoggerFactoryFriend.reset(); 
+        LoggerFactoryFriend.reset();
         System.setErr(sps);
     }
 
@@ -147,6 +147,4 @@ public class MultithreadedInitializationTest {
         }
     };
 
-
 }
-

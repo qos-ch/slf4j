@@ -103,7 +103,7 @@ public class MultithreadedInitializationTest {
         final CyclicBarrier barrier;
         Logger logger;
         int count;
-        
+
         LoggerAccessingThread(CyclicBarrier barrier, int count) {
             this.barrier = barrier;
             this.count = count;
@@ -115,7 +115,7 @@ public class MultithreadedInitializationTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger = LoggerFactory.getLogger(this.getClass().getName()+"-"+count);
+            logger = LoggerFactory.getLogger(this.getClass().getName() + "-" + count);
             logger.info("in run method");
             EVENT_COUNT.getAndIncrement();
         }

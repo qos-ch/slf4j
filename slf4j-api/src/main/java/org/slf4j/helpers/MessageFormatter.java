@@ -151,7 +151,6 @@ final public class MessageFormatter {
         return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
     }
 
-    
     static final Throwable getThrowableCandidate(Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
             return null;
@@ -167,7 +166,7 @@ final public class MessageFormatter {
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
         Throwable throwableCandidate = getThrowableCandidate(argArray);
         Object[] args = argArray;
-        if(throwableCandidate != null) {
+        if (throwableCandidate != null) {
             args = trimmedCopy(argArray);
         }
         return arrayFormat(messagePattern, args, throwableCandidate);
@@ -182,7 +181,6 @@ final public class MessageFormatter {
         System.arraycopy(argArray, 0, trimmed, 0, trimemdLen);
         return trimmed;
     }
-
 
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
@@ -411,6 +409,5 @@ final public class MessageFormatter {
         }
         sbuf.append(']');
     }
-
 
 }

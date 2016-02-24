@@ -38,9 +38,9 @@ public class RecursiveAppender extends AppenderSkeleton {
     int diff = new Random().nextInt();
     int activationDelay = 0;
     String loggerName = "org.slf4j.impl.RecursiveAppender" + diff;
-    
+
     List<LoggingEvent> events = new ArrayList<LoggingEvent>();
-    
+
     public RecursiveAppender() {
         System.out.println("entering RecursiveAppender constructor");
         Logger logger = LoggerFactory.getLogger(loggerName);
@@ -62,7 +62,7 @@ public class RecursiveAppender extends AppenderSkeleton {
     @Override
     public void activateOptions() {
         System.out.println("entering RecursiveAppender.activateOptions");
-        if(activationDelay > 0) {
+        if (activationDelay > 0) {
             Logger logger = LoggerFactory.getLogger(loggerName);
             logger.info("About to wait {} millis", activationDelay);
             try {
@@ -76,6 +76,7 @@ public class RecursiveAppender extends AppenderSkeleton {
 
         System.out.println("exiting RecursiveAppender.activateOptions");
     }
+
     public int getActivationDelay() {
         return activationDelay;
     }
@@ -83,7 +84,5 @@ public class RecursiveAppender extends AppenderSkeleton {
     public void setActivationDelay(int activationDelay) {
         this.activationDelay = activationDelay;
     }
-    
 
-    
 }

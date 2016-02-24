@@ -45,7 +45,7 @@ public class NoBindingTest {
     }
 
     @Test
-     public void testMDC() {
+    public void testMDC() {
         MDC.put("k" + diff, "v");
         assertNull(MDC.get("k"));
     }

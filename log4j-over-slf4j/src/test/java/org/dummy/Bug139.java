@@ -33,7 +33,7 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class Bug139  {
+public class Bug139 {
 
     @Test
     public void test() {

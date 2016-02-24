@@ -43,7 +43,6 @@ public class InvocationTest {
     Level oldLevel;
     java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
 
-
     @Before
     public void setUp() throws Exception {
         oldLevel = root.getLevel();

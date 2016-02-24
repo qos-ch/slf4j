@@ -41,7 +41,7 @@ import org.slf4j.spi.MDCAdapter;
  * 
  * @author Lukasz Cwik
  */
-public class BasicMDCAdapterTest  {
+public class BasicMDCAdapterTest {
     MDCAdapter mdc = new BasicMDCAdapter();
 
     @After
@@ -55,7 +55,7 @@ public class BasicMDCAdapterTest  {
         mdc.put("testKey", "testValue");
         assertEquals(mdc.get("testKey"), "testValue");
     }
-    
+
     @Test
     public void testOverwritingAKeyInMDC() {
         assertNull(mdc.get("testKey"));

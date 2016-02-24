@@ -27,6 +27,7 @@ package org.slf4j.migrator.line;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
 public class JCLRuleSetTest {
 
     LineConverter jclConverter = new LineConverter(new JCLRuleSet());
@@ -38,7 +39,6 @@ public class JCLRuleSetTest {
         // Log import replacement
         assertEquals("import org.slf4j.Logger;", jclConverter.getOneLineReplacement("import org.apache.commons.logging.Log;"));
     }
-
 
     @Test
     public void testLogFactoryGetLogReplacement() {
@@ -92,7 +92,6 @@ public class JCLRuleSetTest {
         assertEquals("// myLog = LoggerFactory.getLogger(MyClass.class);//logger instanciation",
                         jclConverter.getOneLineReplacement("// myLog = LogFactory.getFactory().getInstance(MyClass.class);//logger instanciation"));
     }
-
 
     @Test
     public void testLogDeclarationReplacement() {

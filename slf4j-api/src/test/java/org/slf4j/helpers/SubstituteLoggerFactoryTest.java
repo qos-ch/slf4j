@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SubstituteLoggerFactoryTest  {
+public class SubstituteLoggerFactoryTest {
     private SubstituteLoggerFactory factory = new SubstituteLoggerFactory();
 
     @Test

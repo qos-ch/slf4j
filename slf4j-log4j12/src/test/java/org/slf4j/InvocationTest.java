@@ -48,7 +48,6 @@ public class InvocationTest {
     ListAppender listAppender = new ListAppender();
     org.apache.log4j.Logger root;
 
-
     @Before
     public void setUp() throws Exception {
         root = org.apache.log4j.Logger.getRootLogger();
@@ -59,7 +58,7 @@ public class InvocationTest {
     public void tearDown() throws Exception {
         root.getLoggerRepository().resetConfiguration();
     }
-    
+
     @Test
     public void test1() {
         Logger logger = LoggerFactory.getLogger("test1");
@@ -119,8 +118,8 @@ public class InvocationTest {
         String[] parameters = null;
         String msg = "hello {}";
 
-      logger.debug(msg, (Object[]) parameters);
-        
+        logger.debug(msg, (Object[]) parameters);
+
         assertEquals(1, listAppender.list.size());
         LoggingEvent e = (LoggingEvent) listAppender.list.get(0);
         assertEquals(msg, e.getMessage());

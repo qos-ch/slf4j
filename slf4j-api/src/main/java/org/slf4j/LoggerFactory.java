@@ -139,7 +139,7 @@ public final class LoggerFactory {
         try {
             Set<URL> staticLoggerBinderPathSet = null;
             // skip check under android, see also http://jira.qos.ch/browse/SLF4J-328
-            if(!isAndroid()) {
+            if (!isAndroid()) {
                 staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
             }
@@ -191,15 +191,15 @@ public final class LoggerFactory {
         for (int i = 0; i < events.size(); i++) {
             SubstituteLoggingEvent event = events.get(i);
             SubstituteLogger substLogger = event.getLogger();
-            if( substLogger.isDelegateNOP()) {
+            if (substLogger.isDelegateNOP()) {
                 break;
             } else if (substLogger.isDelegateEventAware()) {
                 if (i == 0)
                     emitReplayWarning(events.size());
                 substLogger.log(event);
             } else {
-                if(i == 0)
-                    emitSubstitutionWarning(); 
+                if (i == 0)
+                    emitSubstitutionWarning();
                 Util.report(substLogger.getName());
             }
         }

@@ -41,14 +41,12 @@ public class NDCTest {
         assertEquals("", NDC.pop());
     }
 
-
     @Test
     public void testSmoke() {
         NDC.push("a");
         String result = NDC.pop();
         assertEquals("a", result);
     }
-
 
     @Test
     public void testSmoke2() {

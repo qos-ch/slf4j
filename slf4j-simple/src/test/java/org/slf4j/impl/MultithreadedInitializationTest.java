@@ -80,8 +80,8 @@ public class MultithreadedInitializationTest {
         logger.info("hello");
         EVENT_COUNT.getAndIncrement();
 
-        int NUM_LINES_IN_SLF4J_REPLAY_WARNING=3;
-        assertEquals(EVENT_COUNT.get()+NUM_LINES_IN_SLF4J_REPLAY_WARNING, sps.stringList.size());
+        int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
+        assertEquals(EVENT_COUNT.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING, sps.stringList.size());
     }
 
     private static LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {

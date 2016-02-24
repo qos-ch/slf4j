@@ -13,9 +13,9 @@ public class EventRecodingLogger implements Logger {
     List<SubstituteLoggingEvent> eventList;
 
     public EventRecodingLogger(SubstituteLogger logger, List<SubstituteLoggingEvent> eventList) {
-       this.logger = logger;
-       this.name = logger.getName();
-       this.eventList = eventList;
+        this.logger = logger;
+        this.name = logger.getName();
+        this.eventList = eventList;
     }
 
     public String getName() {
@@ -27,14 +27,13 @@ public class EventRecodingLogger implements Logger {
     }
 
     private void recordEvent(Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
-        //System.out.println("recording logger:"+name+", msg:"+msg);
+        // System.out.println("recording logger:"+name+", msg:"+msg);
         SubstituteLoggingEvent loggingEvent = new SubstituteLoggingEvent();
         loggingEvent.setTimeStamp(System.currentTimeMillis());
         loggingEvent.setLevel(level);
         loggingEvent.setLogger(logger);
         loggingEvent.setLoggerName(name);
-        
-        
+
         loggingEvent.setMessage(msg);
         loggingEvent.setArgumentArray(args);
         loggingEvent.setThrowable(throwable);
@@ -207,7 +206,7 @@ public class EventRecodingLogger implements Logger {
     public void warn(String format, Object arg1, Object arg2) {
         recordEvent(Level.WARN, format, new Object[] { arg1, arg2 }, null);
     }
-    
+
     public void warn(String format, Object... arguments) {
         recordEvent(Level.WARN, format, arguments, null);
     }

@@ -31,8 +31,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.migrator.internal.NopProgressListener;
 import org.slf4j.migrator.line.EmptyRuleSet;
-public class FileConverterTest  {
 
+public class FileConverterTest {
 
     @Test
     @Ignore

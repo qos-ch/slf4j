@@ -37,7 +37,7 @@ import org.slf4j.helpers.BasicMarkerFactory;
  * @author Ceki G&uuml;lc&uuml;
  * @author Joern Huxhorn
  */
-public class BasicMarkerTest  {
+public class BasicMarkerTest {
     static final String BLUE_STR = "BLUE";
     static final String RED_STR = "RED";
     static final String GREEN_STR = "GREEN";

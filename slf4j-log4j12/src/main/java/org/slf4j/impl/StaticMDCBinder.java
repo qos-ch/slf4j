@@ -40,7 +40,7 @@ public class StaticMDCBinder {
 
     private StaticMDCBinder() {
     }
-    
+
     /**
      * Return the singleton of this class.
      * 
@@ -50,7 +50,7 @@ public class StaticMDCBinder {
     public static final StaticMDCBinder getSingleton() {
         return SINGLETON;
     }
-    
+
     /**
      * Currently this method always returns an instance of 
      * {@link StaticMDCBinder}.

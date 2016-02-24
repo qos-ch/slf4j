@@ -33,6 +33,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
+
 public class SLF4JBridgeHandlerPerfTest {
 
     static String LOGGER_NAME = "yay";
@@ -49,7 +50,6 @@ public class SLF4JBridgeHandlerPerfTest {
     org.slf4j.Logger slf4jLogger = LoggerFactory.getLogger(LOGGER_NAME);
 
     Handler[] existingHandlers;
-
 
     @Before
     public void setUp() throws Exception {

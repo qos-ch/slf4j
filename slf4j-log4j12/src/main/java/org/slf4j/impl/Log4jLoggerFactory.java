@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 public class Log4jLoggerFactory implements ILoggerFactory {
 
     private static final String LOG4J_DELEGATION_LOOP_URL = "http://www.slf4j.org/codes.html#log4jDelegationLoop";
-	
+
     // check for delegation loops
     static {
         try {

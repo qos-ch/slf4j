@@ -649,7 +649,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     public void log(LoggingEvent event) {
         int levelInt = event.getLevel().toInt();
-        
+
         if (!isLevelEnabled(levelInt)) {
             return;
         }
@@ -657,5 +657,4 @@ public class SimpleLogger extends MarkerIgnoringBase {
         log(levelInt, tp.getMessage(), event.getThrowable());
     }
 
-    
 }

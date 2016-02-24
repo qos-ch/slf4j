@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ToStringHelperTest  {
+public class ToStringHelperTest {
 
     @Test
     public void testRenderer() {

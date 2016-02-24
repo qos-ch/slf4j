@@ -29,9 +29,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({UtilTest.class,
-    ProfilerTest.class})
+@SuiteClasses({ UtilTest.class, ProfilerTest.class })
 public class PackageTest {
-
 
 }

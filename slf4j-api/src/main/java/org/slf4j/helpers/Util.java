@@ -69,19 +69,19 @@ public final class Util {
 
     private static ClassContextSecurityManager SECURITY_MANAGER;
     private static boolean SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED = false;
-    
+
     private static ClassContextSecurityManager getSecurityManager() {
-        if(SECURITY_MANAGER != null)
+        if (SECURITY_MANAGER != null)
             return SECURITY_MANAGER;
-        else if(SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED)
+        else if (SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED)
             return null;
         else {
-            SECURITY_MANAGER = safeCreateSecurityManager(); 
+            SECURITY_MANAGER = safeCreateSecurityManager();
             SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED = true;
             return SECURITY_MANAGER;
         }
     }
-    
+
     private static ClassContextSecurityManager safeCreateSecurityManager() {
         try {
             return new ClassContextSecurityManager();
@@ -97,7 +97,7 @@ public final class Util {
      */
     public static Class<?> getCallingClass() {
         ClassContextSecurityManager securityManager = getSecurityManager();
-        if(securityManager == null)
+        if (securityManager == null)
             return null;
         Class<?>[] trace = securityManager.getClassContext();
         String thisClassName = Util.class.getName();

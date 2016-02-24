@@ -35,14 +35,14 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-public class SLF4JBridgeHandlerTest  {
+
+public class SLF4JBridgeHandlerTest {
 
     static String LOGGER_NAME = "yay";
 
     ListAppender listAppender = new ListAppender();
     org.apache.log4j.Logger log4jRoot;
     java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("yay");
-
 
     @Before
     public void setUp() throws Exception {
@@ -179,18 +179,18 @@ public class SLF4JBridgeHandlerTest  {
     }
 
     // See http://jira.qos.ch/browse/SLF4J-337
-        
+
     @Test
     public void illFormattedInputShouldBeReturnedAsIs() {
         SLF4JBridgeHandler.install();
         String msg = "foo {18=bad} {0}";
-        
+
         julLogger.log(Level.INFO, msg, "ignored parameter due to IllegalArgumentException");
         assertEquals(1, listAppender.list.size());
         LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
         assertEquals(msg, le.getMessage());
     }
-    
+
     void assertLevel(int index, org.apache.log4j.Level expectedLevel) {
         LoggingEvent le = (LoggingEvent) listAppender.list.get(index);
         assertEquals(expectedLevel, le.getLevel());

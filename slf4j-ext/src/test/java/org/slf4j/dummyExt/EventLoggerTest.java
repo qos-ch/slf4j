@@ -38,13 +38,13 @@ import org.junit.Test;
 import org.slf4j.MDC;
 import org.slf4j.ext.EventData;
 import org.slf4j.ext.EventLogger;
-public class EventLoggerTest  {
+
+public class EventLoggerTest {
 
     ListAppender listAppender;
     org.apache.log4j.Logger log4;
 
     final static String EXPECTED_FILE_NAME = "EventLoggerTest.java";
-
 
     @Before
     public void setUp() throws Exception {
@@ -76,7 +76,7 @@ public class EventLoggerTest  {
         assertEquals(expectedMsg, le.getMessage());
         assertEquals(EXPECTED_FILE_NAME, le.getLocationInformation().getFileName());
     }
-    
+
     @Test
     public void testEventLogger() {
         EventData data[] = new EventData[2];

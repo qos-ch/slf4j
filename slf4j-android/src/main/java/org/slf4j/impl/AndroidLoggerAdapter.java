@@ -81,7 +81,6 @@ import org.slf4j.helpers.MessageFormatter;
 class AndroidLoggerAdapter extends MarkerIgnoringBase {
     private static final long serialVersionUID = -1227274521521287937L;
 
-
     /**
      * Package access allows only {@link AndroidLoggerFactory} to instantiate
      * SimpleLogger instances.

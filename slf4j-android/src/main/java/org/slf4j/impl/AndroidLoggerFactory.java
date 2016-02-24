@@ -117,8 +117,7 @@ class AndroidLoggerFactory implements ILoggerFactory {
         // Take leading part and append '*' to indicate that it was truncated
         int length = loggerName.length();
         int lastPeriodIndex = loggerName.lastIndexOf('.');
-        return lastPeriodIndex != -1 && length - (lastPeriodIndex + 1) <= TAG_MAX_LENGTH
-            ? loggerName.substring(lastPeriodIndex + 1)
-            : '*' + loggerName.substring(length - TAG_MAX_LENGTH + 1);
+        return lastPeriodIndex != -1 && length - (lastPeriodIndex + 1) <= TAG_MAX_LENGTH ? loggerName.substring(lastPeriodIndex + 1) : '*' + loggerName
+                        .substring(length - TAG_MAX_LENGTH + 1);
     }
 }

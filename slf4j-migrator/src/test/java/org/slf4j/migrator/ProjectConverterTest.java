@@ -30,7 +30,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.migrator.internal.NopProgressListener;
 
-public class ProjectConverterTest  {
+public class ProjectConverterTest {
 
     public void test() {
     }

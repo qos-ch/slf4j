@@ -346,13 +346,13 @@ public class Category {
     public void setLevel(Level level) {
         // nothing to do
     }
-    
+
     public boolean getAdditivity() {
         return false;
     }
-    
+
     public void assertLog(boolean assertion, String msg) {
-        if(!assertion)
+        if (!assertion)
             error(msg);
     }
 

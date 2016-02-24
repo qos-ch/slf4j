@@ -30,7 +30,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore
-public class MessageFormatterPerfTest{ //extends TestCase {
+public class MessageFormatterPerfTest { // extends TestCase {
 
     Integer i1 = new Integer(1);
     Integer i2 = new Integer(2);

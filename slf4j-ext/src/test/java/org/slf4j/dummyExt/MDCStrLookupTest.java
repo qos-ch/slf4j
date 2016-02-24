@@ -29,7 +29,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.slf4j.MDC;
 import org.slf4j.ext.MDCStrLookup;
-public class MDCStrLookupTest  {
+
+public class MDCStrLookupTest {
 
     @Test
     public void testLookup() throws Exception {
