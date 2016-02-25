@@ -502,6 +502,45 @@ class B extends A {
     <code>Log4jLoggerAdapter</code> will map the TRACE level as
     DEBUG.</p>
 
+    <!-- ====================================================== -->
+
+     <h3 class="doAnchor"
+     name="log4j_version">java.lang.NoClassDefFoundError:
+     org/slf4j/event/LoggingEvent</h3>
+
+     <p>Logback-classic version 1.1.4 and later require slf4j-api
+     version 1.7.15 or later. 
+     </p>
+
+     <p>With an earlier slf4j-api.jar in the classpath, attempting
+     introspection of a Logger instance returned by logback version
+     1.1.4 or later will result in a <code>NoClassDefFoundError</code>
+     similar to that shown below.
+     </p>
+     
+     <pre class="prettyprint source">Exception in thread "main" java.lang.NoClassDefFoundError: org/slf4j/event/LoggingEvent
+        at java.lang.Class.getDeclaredMethods0(Native Method)
+        at java.lang.Class.privateGetDeclaredMethods(Class.java:2451)
+        at java.lang.Class.privateGetPublicMethods(Class.java:2571)
+        at java.lang.Class.getMethods(Class.java:1429)
+        at java.beans.Introspector.getPublicDeclaredMethods(Introspector.java:1261)
+        at java.beans.Introspector.getTargetMethodInfo(Introspector.java:1122)
+        at java.beans.Introspector.getBeanInfo(Introspector.java:414)
+        at java.beans.Introspector.getBeanInfo(Introspector.java:161)
+    </pre>
+
+    <p>Placing <em>slf4j-api.jar</em> version 1.7.15 or later in the
+    classpath should solve the issue.</p>
+    
+    <p>Note that this problem only occurs with logback version 1.1.4
+    and later, other bindings such as slf4j-log4j, slf4j-jdk14 and
+    slf4j-simple are unaffected.
+    </p>
+    
+
+    <!-- ====================================================== -->
+
+
     <script src="templates/footer.js" type="text/javascript"></script>
   </div>
   
