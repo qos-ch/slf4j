@@ -41,14 +41,15 @@ public class JDK14AdapterLoggerNameTest {
     long diff = random.nextInt(10000);
     String loggerName = "JDK14AdapterLoggerNameTest"+diff;
     
+    Logger logger = Logger.getLogger(loggerName);
     
     @Before
     public void setUp() throws Exception {
         Logger logger = Logger.getLogger(loggerName);
-        mockHandler = new MockHandler();
-        removeHandlers(logger);
-        logger.addHandler(mockHandler);
+        addMockHandler(logger);
     }
+
+
 
     @After
     public void tearDown() throws Exception {
@@ -56,8 +57,8 @@ public class JDK14AdapterLoggerNameTest {
     }
 
     @Test
-    public void testLoggerNameusingJdkLogging() throws Exception {
-        Logger.getLogger(loggerName).info("test message");
+    public void testLoggerNameUsingJdkLogging() throws Exception {
+        logger.info("test message");
         assertCorrectLoggerName();
     }
 
@@ -69,6 +70,12 @@ public class JDK14AdapterLoggerNameTest {
         assertCorrectLoggerName();
     }
 
+    private void addMockHandler(Logger logger) {
+        mockHandler = new MockHandler();
+        removeHandlers(logger);
+        logger.addHandler(mockHandler);
+    }
+    
     private void removeHandlers(Logger logger) {
         logger.setUseParentHandlers(false);
         Handler[] handlers = logger.getHandlers();
