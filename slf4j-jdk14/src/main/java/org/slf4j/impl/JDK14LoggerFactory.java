@@ -43,6 +43,8 @@ public class JDK14LoggerFactory implements ILoggerFactory {
 
     public JDK14LoggerFactory() {
         loggerMap = new ConcurrentHashMap<String, Logger>();
+        // ensure jul initialization. see also SLF4J-359
+        java.util.logging.LogManager.getLogManager();
     }
 
     /*
