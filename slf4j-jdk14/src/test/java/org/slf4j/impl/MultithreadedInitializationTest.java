@@ -52,8 +52,8 @@ public class MultithreadedInitializationTest {
     int diff = new Random().nextInt(10000);
     String packagePrefix = "org.slf4j.impl.MultithreadedInitializationTest" + diff;
 
-    java.util.logging.Logger julLogger =  java.util.logging.Logger.getLogger(packagePrefix);
-    
+    java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger(packagePrefix);
+
     @Before
     public void addRecordingHandler() {
         julLogger.addHandler(new RecordingHandler());
@@ -74,8 +74,12 @@ public class MultithreadedInitializationTest {
         System.out.println("THREAD_COUNT=" + THREAD_COUNT);
         LoggerAccessingThread[] accessors = harness();
 
-        for (LoggerAccessingThread accessor : accessors) {
+        for (int i = 0; i < accessors.length; i++) {
+            LoggerAccessingThread accessor = accessors[i];
             EVENT_COUNT.getAndIncrement();
+            if(accessor.logger == null) {
+                fail("logger for LoggerAccessingThread "+i+" is not set");
+            }
             accessor.logger.info("post harness");
         }
 
@@ -112,17 +116,20 @@ public class MultithreadedInitializationTest {
             threads[i].start();
         }
 
+        // trigger barrier
         barrier.await();
+
         for (int i = 0; i < THREAD_COUNT; i++) {
             threads[i].join();
         }
+
         return threads;
     }
 
     class LoggerAccessingThread extends Thread {
         final CyclicBarrier barrier;
-        Logger logger;
-        int count;
+        volatile Logger logger;
+        final int count;
 
         LoggerAccessingThread(CyclicBarrier barrier, int count) {
             this.barrier = barrier;
