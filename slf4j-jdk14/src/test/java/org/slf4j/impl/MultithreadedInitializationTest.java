@@ -33,7 +33,6 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Handler;
-import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 
 import org.junit.After;
@@ -51,26 +50,23 @@ public class MultithreadedInitializationTest {
     final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
     int diff = new Random().nextInt(10000);
-    String loggerName = "org.slf4j.impl.MultithreadedInitializationTest";
+    String packagePrefix = "org.slf4j.impl.MultithreadedInitializationTest" + diff;
 
-    private static java.util.logging.Logger getRootLogger() {
-        return LogManager.getLogManager().getLogger("");
+    java.util.logging.Logger julLogger =  java.util.logging.Logger.getLogger(packagePrefix);
+    
+    @Before
+    public void addRecordingHandler() {
+        julLogger.addHandler(new RecordingHandler());
     }
 
     @After
     public void tearDown() throws Exception {
-        java.util.logging.Logger rootLogger = getRootLogger();
-        Handler[] handlers = rootLogger.getHandlers();
+        Handler[] handlers = julLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
             if (handlers[i] instanceof RecordingHandler) {
-                rootLogger.removeHandler(handlers[i]);
+                julLogger.removeHandler(handlers[i]);
             }
         }
-    }
-
-    @Before
-    public void addRecordingHandler() {
-        getRootLogger().addHandler(new RecordingHandler());
     }
 
     @Test
@@ -83,7 +79,7 @@ public class MultithreadedInitializationTest {
             accessor.logger.info("post harness");
         }
 
-        Logger logger = LoggerFactory.getLogger(loggerName + ".slowInitialization-" + diff);
+        Logger logger = LoggerFactory.getLogger(packagePrefix + ".test");
         logger.info("hello");
         EVENT_COUNT.getAndIncrement();
 
@@ -99,9 +95,8 @@ public class MultithreadedInitializationTest {
         return ra.records;
     }
 
-    RecordingHandler findRecordingHandler() {
-        java.util.logging.Logger root = LogManager.getLogManager().getLogger("");
-        Handler[] handlers = root.getHandlers();
+    private RecordingHandler findRecordingHandler() {
+        Handler[] handlers = julLogger.getHandlers();
         for (Handler h : handlers) {
             if (h instanceof RecordingHandler)
                 return (RecordingHandler) h;
@@ -109,7 +104,7 @@ public class MultithreadedInitializationTest {
         return null;
     }
 
-    private static LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
+    private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
         LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
         final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
         for (int i = 0; i < THREAD_COUNT; i++) {
@@ -124,7 +119,7 @@ public class MultithreadedInitializationTest {
         return threads;
     }
 
-    static class LoggerAccessingThread extends Thread {
+    class LoggerAccessingThread extends Thread {
         final CyclicBarrier barrier;
         Logger logger;
         int count;
@@ -140,7 +135,7 @@ public class MultithreadedInitializationTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger = LoggerFactory.getLogger(this.getClass().getName() + "-" + count);
+            logger = LoggerFactory.getLogger(packagePrefix + ".LoggerAccessingThread" + count);
             logger.info("in run method");
             EVENT_COUNT.getAndIncrement();
         }
