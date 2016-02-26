@@ -26,6 +26,7 @@ package org.slf4j.impl;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Random;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -36,10 +37,14 @@ import org.junit.Test;
 
 public class JDK14AdapterLoggerNameTest {
     private MockHandler mockHandler;
-
+    static Random random = new Random(System.currentTimeMillis());
+    long diff = random.nextInt(10000);
+    String loggerName = "JDK14AdapterLoggerNameTest"+diff;
+    
+    
     @Before
     public void setUp() throws Exception {
-        Logger logger = Logger.getLogger("TEST");
+        Logger logger = Logger.getLogger(loggerName);
         mockHandler = new MockHandler();
         removeHandlers(logger);
         logger.addHandler(mockHandler);
@@ -47,20 +52,19 @@ public class JDK14AdapterLoggerNameTest {
 
     @After
     public void tearDown() throws Exception {
-        removeHandlers(Logger.getLogger("TEST"));
+        removeHandlers(Logger.getLogger(loggerName));
     }
 
     @Test
     public void testLoggerNameusingJdkLogging() throws Exception {
-        Logger.getLogger("TEST").info("test message");
+        Logger.getLogger(loggerName).info("test message");
         assertCorrectLoggerName();
-
     }
 
     @Test
     public void testLoggerNameUsingSlf4j() throws Exception {
         JDK14LoggerFactory factory = new JDK14LoggerFactory();
-        org.slf4j.Logger logger = factory.getLogger("TEST");
+        org.slf4j.Logger logger = factory.getLogger(loggerName);
         logger.info("test message");
         assertCorrectLoggerName();
     }

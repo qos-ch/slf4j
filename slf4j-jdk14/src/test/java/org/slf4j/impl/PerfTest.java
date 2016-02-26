@@ -24,11 +24,13 @@
  */
 package org.slf4j.impl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.BogoPerf;
 
+@Ignore
 public class PerfTest {
 
     static long REFERENCE_BIPS = 9000;
