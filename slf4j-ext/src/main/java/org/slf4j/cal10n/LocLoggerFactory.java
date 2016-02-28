@@ -30,19 +30,19 @@ import org.slf4j.LoggerFactory;
 import ch.qos.cal10n.IMessageConveyor;
 
 /**
- * 
+ *
  * This class is essentially a wrapper around an {@link LoggerFactory} producing
  * {@link LocLogger} instances.
- * 
+ *
  * <p>
  * Contrary to {@link LoggerFactory#getLogger(String)} method of
- * {@link LoggerFactory}, each call to {@link getLocLogger} produces a new
+ * {@link LoggerFactory}, each call to {@link #getLocLogger(String)} produces a new
  * instance of {@link LocLogger}. This should not matter because a LocLogger
- * instance does have any state beyond that of the {@link Logger} in stance it
+ * instance does have any state beyond that of the {@link Logger} instance it
  * wraps and its message conveyor.
- * 
+ *
  * @author Ceki G&uuml;c&uuml;
- * 
+ *
  */
 public class LocLoggerFactory {
 
@@ -54,7 +54,7 @@ public class LocLoggerFactory {
 
     /**
      * Get an LocLogger instance by name.
-     * 
+     *
      * @param name
      * @return LocLogger instance by name.
      */
@@ -65,7 +65,7 @@ public class LocLoggerFactory {
     /**
      * Get a new LocLogger instance by class. The returned LocLogger will be named
      * after the class.
-     * 
+     *
      * @param clazz
      * @return LocLogger instance by class
      */
