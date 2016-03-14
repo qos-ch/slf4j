@@ -26,7 +26,7 @@ package org.slf4j.helpers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -51,11 +51,11 @@ public class SubstituteLogger implements Logger {
     private Boolean delegateEventAware;
     private Method logMethodCache;
     private EventRecodingLogger eventRecodingLogger;
-    private List<SubstituteLoggingEvent> eventList;
+    private Queue<SubstituteLoggingEvent> eventQueue;
 
-    public SubstituteLogger(String name, List<SubstituteLoggingEvent> eventList) {
+    public SubstituteLogger(String name, Queue<SubstituteLoggingEvent> eventQueue) {
         this.name = name;
-        this.eventList = eventList;
+        this.eventQueue = eventQueue;
     }
 
     public String getName() {
@@ -332,7 +332,7 @@ public class SubstituteLogger implements Logger {
 
     private Logger getEventRecordingLogger() {
         if (eventRecodingLogger == null) {
-            eventRecodingLogger = new EventRecodingLogger(this, eventList);
+            eventRecodingLogger = new EventRecodingLogger(this, eventQueue);
         }
         return eventRecodingLogger;
     }
@@ -367,6 +367,11 @@ public class SubstituteLogger implements Logger {
             } catch (InvocationTargetException e) {
             }
         }
+    }
+
+
+    public boolean isDelegateNull() {
+        return _delegate == null;
     }
 
     public boolean isDelegateNOP() {

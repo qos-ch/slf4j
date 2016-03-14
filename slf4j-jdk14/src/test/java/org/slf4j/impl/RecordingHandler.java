@@ -1,13 +1,14 @@
 package org.slf4j.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 public class RecordingHandler extends Handler {
 
-    List<LogRecord> records = new ArrayList<LogRecord>();
+    List<LogRecord> records = Collections.synchronizedList(new ArrayList<LogRecord>());
 
     @Override
     public void publish(LogRecord record) {

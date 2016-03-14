@@ -26,11 +26,13 @@ package org.slf4j;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPLoggerFactory;
@@ -80,7 +82,7 @@ public final class LoggerFactory {
     static final int SUCCESSFUL_INITIALIZATION = 3;
     static final int NOP_FALLBACK_INITIALIZATION = 4;
 
-    static int INITIALIZATION_STATE = UNINITIALIZED;
+    static volatile int INITIALIZATION_STATE = UNINITIALIZED;
     static SubstituteLoggerFactory SUBST_FACTORY = new SubstituteLoggerFactory();
     static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
@@ -147,9 +149,7 @@ public final class LoggerFactory {
             StaticLoggerBinder.getSingleton();
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
             reportActualBinding(staticLoggerBinderPathSet);
-            fixSubstitutedLoggers();
-            playRecordedEvents();
-            SUBST_FACTORY.clear();
+            replayEvents();
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
@@ -181,40 +181,52 @@ public final class LoggerFactory {
         Util.report("Failed to instantiate SLF4J LoggerFactory", t);
     }
 
-    private static void playRecordedEvents() {
-        List<SubstituteLoggingEvent> events = SUBST_FACTORY.getEventList();
-
-        if (events.isEmpty()) {
-            return;
-        }
-
-        for (int i = 0; i < events.size(); i++) {
-            SubstituteLoggingEvent event = events.get(i);
-            SubstituteLogger substLogger = event.getLogger();
-            if (substLogger.isDelegateNOP()) {
+    private static void replayEvents() {
+        final LinkedBlockingQueue<SubstituteLoggingEvent> queue = SUBST_FACTORY.getEventQueue();
+        final int queueSize = queue.size();
+        int count = 0;
+        final int maxDrain = 128;
+        List<SubstituteLoggingEvent> eventList = new ArrayList<SubstituteLoggingEvent>(maxDrain);
+        while (true) {
+            int numDrained = queue.drainTo(eventList, maxDrain);
+            if (numDrained == 0)
                 break;
-            } else if (substLogger.isDelegateEventAware()) {
-                if (i == 0)
-                    emitReplayWarning(events.size());
-                substLogger.log(event);
-            } else {
-                if (i == 0)
-                    emitSubstitutionWarning();
-                Util.report(substLogger.getName());
+            for (SubstituteLoggingEvent event : eventList) {
+                replaySingleEvent(event);
+                if (count++ == 0)
+                    emitReplayOrSubstituionWarning(event, queueSize);
             }
+            eventList.clear();
         }
     }
 
-    private final static void fixSubstitutedLoggers() {
-        List<SubstituteLogger> loggers = SUBST_FACTORY.getLoggers();
+    private static void emitReplayOrSubstituionWarning(SubstituteLoggingEvent event, int queueSize) {
+        if (event.getLogger().isDelegateEventAware()) {
+            emitReplayWarning(queueSize);
+        } else if (event.getLogger().isDelegateNOP()) {
+            // nothing to do
+        } else {
+            emitSubstitutionWarning();
+        }
+    }
 
-        if (loggers.isEmpty()) {
+    private static void replaySingleEvent(SubstituteLoggingEvent event) {
+        if (event == null)
             return;
+
+        SubstituteLogger substLogger = event.getLogger();
+        String loggerName = substLogger.getName();
+        if (substLogger.isDelegateNull()) {
+            Logger logger = getLogger(loggerName);
+            substLogger.setDelegate(logger);
         }
 
-        for (SubstituteLogger subLogger : loggers) {
-            Logger logger = getLogger(subLogger.getName());
-            subLogger.setDelegate(logger);
+        if (substLogger.isDelegateNOP()) {
+            // nothing to do
+        } else if (substLogger.isDelegateEventAware()) {
+            substLogger.log(event);
+        } else {
+            Util.report(loggerName);
         }
     }
 
@@ -379,7 +391,6 @@ public final class LoggerFactory {
                 }
             }
         }
-
         switch (INITIALIZATION_STATE) {
         case SUCCESSFUL_INITIALIZATION:
             return StaticLoggerBinder.getSingleton().getLoggerFactory();

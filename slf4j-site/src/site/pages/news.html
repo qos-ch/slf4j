@@ -29,7 +29,12 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>2016 - Release of SLF4J 1.7.19</h3>
+   <h3>March 14th, 2016 - Release of SLF4J 1.7.19</h3>
+
+   <p>Fixed <code>NullPointerException</code> thrown by
+   org.slf4j.helpers.SubstituteLogger.isDelegateEventAware(SubstituteLogger.java:353). This
+   issue was reported by Jeffrey Zhao in <a
+   href="http://jira.qos.ch/browse/SLF4J-361">SLF4J-361</a>.</p>
 
    <p>Initialization of the slf4j-log4j12 module is now thread safe
    fixing <a href="http://jira.qos.ch/browse/SLF4J-358">SLF4J-358</a>.

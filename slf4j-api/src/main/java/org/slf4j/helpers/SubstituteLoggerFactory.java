@@ -25,10 +25,10 @@
 package org.slf4j.helpers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
@@ -44,12 +44,12 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
 
     final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
 
-    final List<SubstituteLoggingEvent> eventList = Collections.synchronizedList(new ArrayList<SubstituteLoggingEvent>());
+    final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<SubstituteLoggingEvent>();
 
     public Logger getLogger(String name) {
         SubstituteLogger logger = loggers.get(name);
         if (logger == null) {
-            logger = new SubstituteLogger(name, eventList);
+            logger = new SubstituteLogger(name, eventQueue);
             SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
             if (oldLogger != null)
                 logger = oldLogger;
@@ -65,12 +65,12 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
         return new ArrayList<SubstituteLogger>(loggers.values());
     }
 
-    public List<SubstituteLoggingEvent> getEventList() {
-        return eventList;
+    public LinkedBlockingQueue<SubstituteLoggingEvent> getEventQueue() {
+        return eventQueue;
     }
 
     public void clear() {
         loggers.clear();
-        eventList.clear();
+        eventQueue.clear();
     }
 }

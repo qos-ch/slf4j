@@ -77,8 +77,8 @@ public class MultithreadedInitializationTest {
         for (int i = 0; i < accessors.length; i++) {
             LoggerAccessingThread accessor = accessors[i];
             EVENT_COUNT.getAndIncrement();
-            if(accessor.logger == null) {
-                fail("logger for LoggerAccessingThread "+i+" is not set");
+            if (accessor.logger == null) {
+                fail("logger for LoggerAccessingThread " + i + " is not set");
             }
             accessor.logger.info("post harness");
         }
@@ -142,9 +142,11 @@ public class MultithreadedInitializationTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger = LoggerFactory.getLogger(packagePrefix + ".LoggerAccessingThread" + count);
-            logger.info("in run method");
-            EVENT_COUNT.getAndIncrement();
+            for (int i = 0; i < 64; i++) {
+                logger = LoggerFactory.getLogger(packagePrefix + ".LoggerAccessingThread" + count + "-" + i);
+                logger.info("in run method");
+                EVENT_COUNT.getAndIncrement();
+            }
         }
     };
 

@@ -1,6 +1,6 @@
 package org.slf4j.event;
 
-import java.util.List;
+import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -10,12 +10,12 @@ public class EventRecodingLogger implements Logger {
 
     String name;
     SubstituteLogger logger;
-    List<SubstituteLoggingEvent> eventList;
+    Queue<SubstituteLoggingEvent> eventQueue;
 
-    public EventRecodingLogger(SubstituteLogger logger, List<SubstituteLoggingEvent> eventList) {
+    public EventRecodingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
         this.logger = logger;
         this.name = logger.getName();
-        this.eventList = eventList;
+        this.eventQueue = eventQueue;
     }
 
     public String getName() {
@@ -38,7 +38,7 @@ public class EventRecodingLogger implements Logger {
         loggingEvent.setArgumentArray(args);
         loggingEvent.setThrowable(throwable);
         loggingEvent.setThreadName(Thread.currentThread().getName());
-        eventList.add(loggingEvent);
+        eventQueue.add(loggingEvent);
     }
 
     public boolean isTraceEnabled() {

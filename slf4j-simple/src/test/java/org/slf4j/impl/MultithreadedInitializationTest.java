@@ -28,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
@@ -115,9 +116,11 @@ public class MultithreadedInitializationTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            logger = LoggerFactory.getLogger(this.getClass().getName() + "-" + count);
-            logger.info("in run method");
-            EVENT_COUNT.getAndIncrement();
+            for (int i = 0; i < 64; i++) {
+                logger = LoggerFactory.getLogger(this.getClass().getName() + "-" + count+"-"+i);
+                logger.info("in run method");
+                EVENT_COUNT.getAndIncrement();
+            }
         }
     };
 
@@ -125,7 +128,7 @@ public class MultithreadedInitializationTest {
 
         public static final String LINE_SEP = System.getProperty("line.separator");
         PrintStream other;
-        List<String> stringList = new ArrayList<String>();
+        List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
 
         public StringPrintStream(PrintStream ps) {
             super(ps);
