@@ -33,6 +33,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPLoggerFactory;
@@ -82,7 +83,7 @@ public final class LoggerFactory {
     static final int SUCCESSFUL_INITIALIZATION = 3;
     static final int NOP_FALLBACK_INITIALIZATION = 4;
 
-    static volatile int INITIALIZATION_STATE = UNINITIALIZED;
+    static AtomicLong INITIALIZATION_STATE = new AtomicLong(UNINITIALIZED);
     static SubstituteLoggerFactory SUBST_FACTORY = new SubstituteLoggerFactory();
     static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
@@ -117,12 +118,12 @@ public final class LoggerFactory {
      * You are strongly discouraged from calling this method in production code.
      */
     static void reset() {
-        INITIALIZATION_STATE = UNINITIALIZED;
+        INITIALIZATION_STATE.set(UNINITIALIZED);
     }
 
     private final static void performInitialization() {
         bind();
-        if (INITIALIZATION_STATE == SUCCESSFUL_INITIALIZATION) {
+        if (INITIALIZATION_STATE.get() == SUCCESSFUL_INITIALIZATION) {
             versionSanityCheck();
         }
     }
@@ -147,13 +148,13 @@ public final class LoggerFactory {
             }
             // the next line does the binding
             StaticLoggerBinder.getSingleton();
-            INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
+            INITIALIZATION_STATE.set(SUCCESSFUL_INITIALIZATION);
             reportActualBinding(staticLoggerBinderPathSet);
             replayEvents();
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
-                INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
+                INITIALIZATION_STATE.set(NOP_FALLBACK_INITIALIZATION);
                 Util.report("Failed to load class \"org.slf4j.impl.StaticLoggerBinder\".");
                 Util.report("Defaulting to no-operation (NOP) logger implementation");
                 Util.report("See " + NO_STATICLOGGERBINDER_URL + " for further details.");
@@ -164,7 +165,7 @@ public final class LoggerFactory {
         } catch (java.lang.NoSuchMethodError nsme) {
             String msg = nsme.getMessage();
             if (msg != null && msg.contains("org.slf4j.impl.StaticLoggerBinder.getSingleton()")) {
-                INITIALIZATION_STATE = FAILED_INITIALIZATION;
+                INITIALIZATION_STATE.set(FAILED_INITIALIZATION);
                 Util.report("slf4j-api 1.6.x (or later) is incompatible with this binding.");
                 Util.report("Your binding is version 1.5.5 or earlier.");
                 Util.report("Upgrade your binding to version 1.6.x.");
@@ -177,7 +178,7 @@ public final class LoggerFactory {
     }
 
     static void failedBinding(Throwable t) {
-        INITIALIZATION_STATE = FAILED_INITIALIZATION;
+        INITIALIZATION_STATE.set(FAILED_INITIALIZATION);
         Util.report("Failed to instantiate SLF4J LoggerFactory", t);
     }
 
@@ -383,15 +384,20 @@ public final class LoggerFactory {
      * @return the ILoggerFactory instance in use
      */
     public static ILoggerFactory getILoggerFactory() {
-        if (INITIALIZATION_STATE == UNINITIALIZED) {
-            synchronized (LoggerFactory.class) {
-                if (INITIALIZATION_STATE == UNINITIALIZED) {
-                    INITIALIZATION_STATE = ONGOING_INITIALIZATION;
-                    performInitialization();
-                }
-            }
+//        if (INITIALIZATION_STATE == UNINITIALIZED) {
+//            synchronized (LoggerFactory.class) {
+//                if (INITIALIZATION_STATE == UNINITIALIZED) {
+//                    INITIALIZATION_STATE = ONGOING_INITIALIZATION;
+//                    performInitialization();
+//                }
+//            }
+//        }
+
+        if(INITIALIZATION_STATE.compareAndSet(UNINITIALIZED, ONGOING_INITIALIZATION)) {
+            performInitialization();
         }
-        switch (INITIALIZATION_STATE) {
+        
+        switch ((int) INITIALIZATION_STATE.get()) {
         case SUCCESSFUL_INITIALIZATION:
             return StaticLoggerBinder.getSingleton().getLoggerFactory();
         case NOP_FALLBACK_INITIALIZATION:
