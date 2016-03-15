@@ -1,18 +1,16 @@
 package org.slf4j.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
-public class RecordingHandler extends Handler {
+public class CountingHandler extends Handler {
 
-    List<LogRecord> records = Collections.synchronizedList(new ArrayList<LogRecord>());
-
+    final AtomicLong eventCount = new AtomicLong(0);
+    
     @Override
     public void publish(LogRecord record) {
-        records.add(record);
+        eventCount.getAndIncrement();
     }
 
     @Override

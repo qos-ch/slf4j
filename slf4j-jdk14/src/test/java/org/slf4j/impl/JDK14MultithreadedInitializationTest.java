@@ -27,13 +27,11 @@ package org.slf4j.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +45,7 @@ public class JDK14MultithreadedInitializationTest {
     final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
     final private AtomicLong eventCount = new AtomicLong(0);
-    final private  CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    final private CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
     int diff = new Random().nextInt(10000);
 
@@ -57,25 +55,21 @@ public class JDK14MultithreadedInitializationTest {
     @Before
     public void addRecordingHandler() {
         System.out.println("THREAD_COUNT=" + THREAD_COUNT);
-        removeAllHandlersForRoot();
-        julOrgLogger.addHandler(new RecordingHandler());
+        removeAllHandlers(julRootLogger);
+        removeAllHandlers(julOrgLogger);
+        julOrgLogger.addHandler(new CountingHandler());
     }
 
-    private void removeAllHandlersForRoot() {
-        Handler[] handlers = julRootLogger.getHandlers();
+    private void removeAllHandlers(java.util.logging.Logger logger) {
+        Handler[] handlers = logger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
-                julRootLogger.removeHandler(handlers[i]);
+            logger.removeHandler(handlers[i]);
         }
     }
 
     @After
     public void tearDown() throws Exception {
-        Handler[] handlers = julOrgLogger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            if (handlers[i] instanceof RecordingHandler) {
-                julOrgLogger.removeHandler(handlers[i]);
-            }
-        }
+        removeAllHandlers(julOrgLogger);
     }
 
     @Test
@@ -87,23 +81,23 @@ public class JDK14MultithreadedInitializationTest {
         logger.info("hello");
         eventCount.getAndIncrement();
 
-        List<LogRecord> records = getRecordedEvents();
-        assertEquals(eventCount.get(), records.size());
+        long recordedEventCount = getRecordedEventCount();
+        assertEquals(eventCount.get(), recordedEventCount);
     }
 
-    private List<LogRecord> getRecordedEvents() {
-        RecordingHandler ra = findRecordingHandler();
+    private long getRecordedEventCount() {
+        CountingHandler ra = findRecordingHandler();
         if (ra == null) {
             fail("failed to fing RecordingHandler");
         }
-        return ra.records;
+        return ra.eventCount.get();
     }
 
-    private RecordingHandler findRecordingHandler() {
+    private CountingHandler findRecordingHandler() {
         Handler[] handlers = julOrgLogger.getHandlers();
         for (Handler h : handlers) {
-            if (h instanceof RecordingHandler)
-                return (RecordingHandler) h;
+            if (h instanceof CountingHandler)
+                return (CountingHandler) h;
         }
         return null;
     }
