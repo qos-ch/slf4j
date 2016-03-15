@@ -50,30 +50,29 @@ public class JDK14MultithreadedInitializationTest {
     final private  CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
     int diff = new Random().nextInt(10000);
-    String packagePrefix = "org.slf4j.impl.MultithreadedInitializationTest" + diff;
 
-    java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger(packagePrefix);
+    java.util.logging.Logger julRootLogger = java.util.logging.Logger.getLogger("");
 
     @Before
     public void addRecordingHandler() {
         System.out.println("THREAD_COUNT=" + THREAD_COUNT);
         removeAllHandlersForRoot();
-        julLogger.addHandler(new RecordingHandler());
+        julRootLogger.addHandler(new RecordingHandler());
     }
 
     private void removeAllHandlersForRoot() {
-        Handler[] handlers = julLogger.getHandlers();
+        Handler[] handlers = julRootLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
-                julLogger.removeHandler(handlers[i]);
+                julRootLogger.removeHandler(handlers[i]);
         }
     }
 
     @After
     public void tearDown() throws Exception {
-        Handler[] handlers = julLogger.getHandlers();
+        Handler[] handlers = julRootLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
             if (handlers[i] instanceof RecordingHandler) {
-                julLogger.removeHandler(handlers[i]);
+                julRootLogger.removeHandler(handlers[i]);
             }
         }
     }
@@ -83,7 +82,7 @@ public class JDK14MultithreadedInitializationTest {
         @SuppressWarnings("unused")
         LoggerAccessingThread[] accessors = harness();
 
-        Logger logger = LoggerFactory.getLogger(packagePrefix + ".test");
+        Logger logger = LoggerFactory.getLogger(getClass().getName());
         logger.info("hello");
         eventCount.getAndIncrement();
 
@@ -100,7 +99,7 @@ public class JDK14MultithreadedInitializationTest {
     }
 
     private RecordingHandler findRecordingHandler() {
-        Handler[] handlers = julLogger.getHandlers();
+        Handler[] handlers = julRootLogger.getHandlers();
         for (Handler h : handlers) {
             if (h instanceof RecordingHandler)
                 return (RecordingHandler) h;
