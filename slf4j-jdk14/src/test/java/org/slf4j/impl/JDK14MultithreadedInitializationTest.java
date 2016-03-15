@@ -39,15 +39,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.slf4j.LoggerAccessingThread;
 import org.slf4j.LoggerFactory;
 
-public class MultithreadedInitializationTest {
+public class JDK14MultithreadedInitializationTest {
 
     final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
-    private static AtomicLong EVENT_COUNT = new AtomicLong(0);
-
-    final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    final private AtomicLong eventCount = new AtomicLong(0);
+    final private  CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
     int diff = new Random().nextInt(10000);
     String packagePrefix = "org.slf4j.impl.MultithreadedInitializationTest" + diff;
@@ -56,7 +56,16 @@ public class MultithreadedInitializationTest {
 
     @Before
     public void addRecordingHandler() {
+        System.out.println("THREAD_COUNT=" + THREAD_COUNT);
+        removeAllHandlersForRoot();
         julLogger.addHandler(new RecordingHandler());
+    }
+
+    private void removeAllHandlersForRoot() {
+        Handler[] handlers = julLogger.getHandlers();
+        for (int i = 0; i < handlers.length; i++) {
+                julLogger.removeHandler(handlers[i]);
+        }
     }
 
     @After
@@ -71,24 +80,15 @@ public class MultithreadedInitializationTest {
 
     @Test
     public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
-        System.out.println("THREAD_COUNT=" + THREAD_COUNT);
+        @SuppressWarnings("unused")
         LoggerAccessingThread[] accessors = harness();
-
-        for (int i = 0; i < accessors.length; i++) {
-            LoggerAccessingThread accessor = accessors[i];
-            EVENT_COUNT.getAndIncrement();
-            if (accessor.logger == null) {
-                fail("logger for LoggerAccessingThread " + i + " is not set");
-            }
-            accessor.logger.info("post harness");
-        }
 
         Logger logger = LoggerFactory.getLogger(packagePrefix + ".test");
         logger.info("hello");
-        EVENT_COUNT.getAndIncrement();
+        eventCount.getAndIncrement();
 
         List<LogRecord> records = getRecordedEvents();
-        assertEquals(EVENT_COUNT.get(), records.size());
+        assertEquals(eventCount.get(), records.size());
     }
 
     private List<LogRecord> getRecordedEvents() {
@@ -110,9 +110,8 @@ public class MultithreadedInitializationTest {
 
     private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
         LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
-        final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
         for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i] = new LoggerAccessingThread(barrier, i);
+            threads[i] = new LoggerAccessingThread(barrier, i, eventCount);
             threads[i].start();
         }
 
@@ -125,29 +124,5 @@ public class MultithreadedInitializationTest {
 
         return threads;
     }
-
-    class LoggerAccessingThread extends Thread {
-        final CyclicBarrier barrier;
-        volatile Logger logger;
-        final int count;
-
-        LoggerAccessingThread(CyclicBarrier barrier, int count) {
-            this.barrier = barrier;
-            this.count = count;
-        }
-
-        public void run() {
-            try {
-                barrier.await();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < 64; i++) {
-                logger = LoggerFactory.getLogger(packagePrefix + ".LoggerAccessingThread" + count + "-" + i);
-                logger.info("in run method");
-                EVENT_COUNT.getAndIncrement();
-            }
-        }
-    };
 
 }

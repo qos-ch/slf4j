@@ -39,58 +39,57 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.slf4j.LoggerAccessingThread;
 import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactoryFriend;
 
-public class MultithreadedInitializationTest {
+public class SimpleLoggerMultithreadedInitializationTest {
 
     final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
-    private static AtomicLong EVENT_COUNT = new AtomicLong(0);
-
+    private final AtomicLong eventCount = new AtomicLong(0);
     private final PrintStream oldErr = System.err;
-    final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
-    int diff = new Random().nextInt(10000);
-    String loggerName = "org.slf4j.impl.MultithreadedInitializationTest";
-    StringPrintStream sps = new StringPrintStream(oldErr);
+    final int diff = new Random().nextInt(10000);
+    final String loggerName = this.getClass().getName();
+    StringPrintStream sps = new StringPrintStream(oldErr, true);
 
     @Before
     public void setup() {
-        LoggerFactoryFriend.reset();
+        System.out.println("THREAD_COUNT=" + THREAD_COUNT);
         System.setErr(sps);
+        System.setProperty(SimpleLogger.LOG_FILE_KEY, "System.err");
+        LoggerFactoryFriend.reset();
     }
 
     @After
     public void tearDown() throws Exception {
         LoggerFactoryFriend.reset();
+        System.clearProperty(SimpleLogger.LOG_FILE_KEY);
         System.setErr(oldErr);
     }
 
     @Test
     public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
-        System.out.println("THREAD_COUNT=" + THREAD_COUNT);
+
+        @SuppressWarnings("unused")
         LoggerAccessingThread[] accessors = harness();
 
-        for (LoggerAccessingThread accessor : accessors) {
-            EVENT_COUNT.getAndIncrement();
-            accessor.logger.info("post harness");
-        }
-
-        Logger logger = LoggerFactory.getLogger(loggerName + ".slowInitialization-" + diff);
+        Logger logger = LoggerFactory.getLogger(loggerName + diff);
         logger.info("hello");
-        EVENT_COUNT.getAndIncrement();
+        eventCount.getAndIncrement();
 
         int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
-        assertEquals(EVENT_COUNT.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING, sps.stringList.size());
+        assertEquals(eventCount.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING, sps.stringList.size());
     }
 
-    private static LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
-        LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
-        final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
+        final LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
         for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i] = new LoggerAccessingThread(barrier, i);
-            threads[i].start();
+            LoggerAccessingThread simpleLoggerThread = new LoggerAccessingThread(barrier, i, eventCount);
+            threads[i] = simpleLoggerThread;
+            simpleLoggerThread.start();
         }
 
         barrier.await();
@@ -100,53 +99,40 @@ public class MultithreadedInitializationTest {
         return threads;
     }
 
-    static class LoggerAccessingThread extends Thread {
-        final CyclicBarrier barrier;
-        Logger logger;
-        int count;
 
-        LoggerAccessingThread(CyclicBarrier barrier, int count) {
-            this.barrier = barrier;
-            this.count = count;
-        }
-
-        public void run() {
-            try {
-                barrier.await();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i < 64; i++) {
-                logger = LoggerFactory.getLogger(this.getClass().getName() + "-" + count+"-"+i);
-                logger.info("in run method");
-                EVENT_COUNT.getAndIncrement();
-            }
-        }
-    };
-
-    public static class StringPrintStream extends PrintStream {
+    static class StringPrintStream extends PrintStream {
 
         public static final String LINE_SEP = System.getProperty("line.separator");
         PrintStream other;
+        boolean duplicate = false;
+
         List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
 
-        public StringPrintStream(PrintStream ps) {
+        public StringPrintStream(PrintStream ps, boolean duplicate) {
             super(ps);
             other = ps;
+            this.duplicate = duplicate;
+        }
+
+        public StringPrintStream(PrintStream ps) {
+            this(ps, false);
         }
 
         public void print(String s) {
-            other.print(s);
+            if (duplicate)
+                other.print(s);
             stringList.add(s);
         }
 
         public void println(String s) {
-            other.println(s);
+            if (duplicate)
+                other.println(s);
             stringList.add(s);
         }
 
         public void println(Object o) {
-            other.println(o);
+            if (duplicate)
+                other.println(o);
             stringList.add(o.toString());
         }
     };
