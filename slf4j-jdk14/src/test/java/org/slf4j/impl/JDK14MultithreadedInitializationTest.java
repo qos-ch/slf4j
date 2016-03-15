@@ -52,12 +52,13 @@ public class JDK14MultithreadedInitializationTest {
     int diff = new Random().nextInt(10000);
 
     java.util.logging.Logger julRootLogger = java.util.logging.Logger.getLogger("");
+    java.util.logging.Logger julOrgLogger = java.util.logging.Logger.getLogger("org");
 
     @Before
     public void addRecordingHandler() {
         System.out.println("THREAD_COUNT=" + THREAD_COUNT);
         removeAllHandlersForRoot();
-        julRootLogger.addHandler(new RecordingHandler());
+        julOrgLogger.addHandler(new RecordingHandler());
     }
 
     private void removeAllHandlersForRoot() {
@@ -69,10 +70,10 @@ public class JDK14MultithreadedInitializationTest {
 
     @After
     public void tearDown() throws Exception {
-        Handler[] handlers = julRootLogger.getHandlers();
+        Handler[] handlers = julOrgLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
             if (handlers[i] instanceof RecordingHandler) {
-                julRootLogger.removeHandler(handlers[i]);
+                julOrgLogger.removeHandler(handlers[i]);
             }
         }
     }
@@ -99,7 +100,7 @@ public class JDK14MultithreadedInitializationTest {
     }
 
     private RecordingHandler findRecordingHandler() {
-        Handler[] handlers = julRootLogger.getHandlers();
+        Handler[] handlers = julOrgLogger.getHandlers();
         for (Handler h : handlers) {
             if (h instanceof RecordingHandler)
                 return (RecordingHandler) h;
