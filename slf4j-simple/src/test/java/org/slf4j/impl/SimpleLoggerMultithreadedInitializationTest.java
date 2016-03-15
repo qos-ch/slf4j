@@ -85,7 +85,7 @@ public class SimpleLoggerMultithreadedInitializationTest {
         long expected = eventCount.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING;
         int actual = sps.stringList.size();
         assertTrue(expected + " >= " + actual, expected >= actual);
-        assertTrue(expected + " < " + actual + " + 10", expected < actual + 10);
+        assertTrue(expected + " < " + actual + " + 16", expected < actual + 16);
     }
 
     private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
