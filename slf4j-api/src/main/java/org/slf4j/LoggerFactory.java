@@ -240,7 +240,7 @@ public final class LoggerFactory {
 
     private static void emitReplayWarning(int eventCount) {
         Util.report("A number (" + eventCount + ") of logging calls during the initialization phase have been intercepted and are");
-        Util.report("now being replayed. These are suject to the filtering rules of the underlying logging system.");
+        Util.report("now being replayed. These are subject to the filtering rules of the underlying logging system.");
         Util.report("See also " + REPLAY_URL);
     }
 
