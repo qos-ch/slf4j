@@ -210,6 +210,18 @@ strong {
   border-width: 0px;	
 }
 
+#right {
+  position: absolute;
+  right: 0px;        
+  width: 14em;
+  color: #564b47;
+  margin: 4px 4px 0px 0px; 
+  padding: 0px;
+  background-color: #ffffff;    
+  border: 1px solid #cccccc;
+  font-size: 80%;
+}
+
 p.menu_header {
   margin: 0px; 
   padding: 2px;
@@ -221,7 +233,7 @@ p.menu_header {
 
 #content {
   margin: 0px 12em 0px 16em;
-  padding: 0px;
+  padding: 0px 2em 0px 0px;
   background-color: #ffffff;  
 }
 
