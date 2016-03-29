@@ -24,7 +24,6 @@
  */
 package org.slf4j.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
