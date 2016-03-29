@@ -43,8 +43,9 @@ public class JDK14LoggerFactory implements ILoggerFactory {
 
     public JDK14LoggerFactory() {
         loggerMap = new ConcurrentHashMap<String, Logger>();
-        // ensure jul initialization. see also SLF4J-359
-        java.util.logging.LogManager.getLogManager();
+        // ensure jul initialization. see SLF4J-359 
+        // note that call to java.util.logging.LogManager.getLogManager() fails on the Google App Engine platform. See SLF4J-363
+        java.util.logging.Logger.getLogger("");
     }
 
     /*
