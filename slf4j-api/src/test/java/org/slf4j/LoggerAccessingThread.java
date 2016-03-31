@@ -50,6 +50,7 @@ public class LoggerAccessingThread extends Thread {
         String loggerNamePrefix = this.getClass().getName();
         for (int i = 0; i < LOOP_LEN; i++) {
             Logger logger = LoggerFactory.getLogger(loggerNamePrefix + "-" + count + "-" + i);
+            Thread.yield();
             logger.info("in run method");
             eventCount.getAndIncrement();
         }

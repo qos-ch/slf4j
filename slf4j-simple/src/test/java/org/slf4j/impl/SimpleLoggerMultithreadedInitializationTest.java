@@ -24,7 +24,7 @@
  */
 package org.slf4j.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -84,8 +84,7 @@ public class SimpleLoggerMultithreadedInitializationTest {
         
         long expected = eventCount.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING;
         int actual = sps.stringList.size();
-        assertTrue(expected + " >= " + actual, expected >= actual);
-        assertTrue(expected + " < " + actual + " + 16", expected < actual + 16);
+        assertEquals(expected, actual);
     }
 
     private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {

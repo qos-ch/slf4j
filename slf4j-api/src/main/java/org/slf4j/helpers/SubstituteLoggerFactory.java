@@ -42,6 +42,8 @@ import org.slf4j.event.SubstituteLoggingEvent;
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
+    boolean postInitialization = false;
+    
     final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
 
     final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<SubstituteLoggingEvent>();

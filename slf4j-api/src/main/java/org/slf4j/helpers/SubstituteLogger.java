@@ -53,9 +53,12 @@ public class SubstituteLogger implements Logger {
     private EventRecodingLogger eventRecodingLogger;
     private Queue<SubstituteLoggingEvent> eventQueue;
 
-    public SubstituteLogger(String name, Queue<SubstituteLoggingEvent> eventQueue) {
+    private final boolean createdPostInitialization;
+    
+    public SubstituteLogger(String name, Queue<SubstituteLoggingEvent> eventQueue, boolean createdPostInitialization) {
         this.name = name;
         this.eventQueue = eventQueue;
+        this.createdPostInitialization = createdPostInitialization;
     }
 
     public String getName() {
@@ -327,7 +330,14 @@ public class SubstituteLogger implements Logger {
      * instance.
      */
     Logger delegate() {
-        return _delegate != null ? _delegate : getEventRecordingLogger();
+        if(_delegate != null) {
+            return _delegate;
+        }
+        if(createdPostInitialization) {
+            return NOPLogger.NOP_LOGGER;
+        } else {
+            return getEventRecordingLogger();
+        }
     }
 
     private Logger getEventRecordingLogger() {

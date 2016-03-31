@@ -183,6 +183,20 @@ public final class LoggerFactory {
         Util.report("Failed to instantiate SLF4J LoggerFactory", t);
     }
 
+    private final static void fixSubstitutedLoggers() {
+        List<SubstituteLogger> loggers = SUBST_FACTORY.getLoggers();
+
+        if (loggers.isEmpty()) {
+            return;
+        }
+
+        for (SubstituteLogger subLogger : loggers) {
+            Logger logger = getLogger(subLogger.getName());
+            subLogger.setDelegate(logger);
+        }
+
+        SUBST_FACTORY.clear();
+    }
     private static void replayEvents() {
         final LinkedBlockingQueue<SubstituteLoggingEvent> queue = SUBST_FACTORY.getEventQueue();
         final int queueSize = queue.size();
@@ -219,8 +233,7 @@ public final class LoggerFactory {
         SubstituteLogger substLogger = event.getLogger();
         String loggerName = substLogger.getName();
         if (substLogger.isDelegateNull()) {
-            Logger logger = getLogger(loggerName);
-            substLogger.setDelegate(logger);
+            throw new IllegalStateException("Delegate logger cannot be null at this state.");
         }
 
         if (substLogger.isDelegateNOP()) {
