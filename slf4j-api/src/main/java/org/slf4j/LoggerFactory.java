@@ -150,6 +150,8 @@ public final class LoggerFactory {
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
             reportActualBinding(staticLoggerBinderPathSet);
             replayEvents();
+            // release all resources in SUBST_FACTORY
+            SUBST_FACTORY.clear();
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
