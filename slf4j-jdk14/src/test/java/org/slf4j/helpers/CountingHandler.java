@@ -1,4 +1,4 @@
-package org.slf4j.impl;
+package org.slf4j.helpers;
 
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Handler;

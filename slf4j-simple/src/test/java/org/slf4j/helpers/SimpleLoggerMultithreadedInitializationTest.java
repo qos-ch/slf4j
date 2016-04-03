@@ -22,9 +22,10 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.impl;
+package org.slf4j.helpers;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -42,11 +43,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerAccessingThread;
 import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactoryFriend;
+import org.slf4j.event.EventRecodingLogger;
+import org.slf4j.impl.SimpleLogger;
 
 public class SimpleLoggerMultithreadedInitializationTest {
 
     final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
+    
+    private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
     private final AtomicLong eventCount = new AtomicLong(0);
     private final PrintStream oldErr = System.err;
     private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
@@ -82,15 +87,30 @@ public class SimpleLoggerMultithreadedInitializationTest {
 
         int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
         
+        assertAllSubstLoggersAreFixed();
         long expected = eventCount.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING;
         int actual = sps.stringList.size();
-        assertEquals(expected, actual);
+        int LENIENCY_COUNT = 16;
+        
+        assertTrue(expected + " >= " + actual, expected >= actual);
+        assertTrue(expected + " < " + actual + " + "+LENIENCY_COUNT, expected < actual + LENIENCY_COUNT);
+        
     }
 
-    private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
+    private void assertAllSubstLoggersAreFixed() {
+		for(Logger logger: createdLoggers) {
+			if(logger instanceof SubstituteLogger) {
+				SubstituteLogger substLogger = (SubstituteLogger) logger;
+				if(substLogger.delegate() instanceof EventRecodingLogger)
+					fail("substLogger "+substLogger.getName()+" has a delegate of type EventRecodingLogger");
+			}
+		}
+	}
+
+	private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
         final LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
         for (int i = 0; i < THREAD_COUNT; i++) {
-            LoggerAccessingThread simpleLoggerThread = new LoggerAccessingThread(barrier, i, eventCount);
+            LoggerAccessingThread simpleLoggerThread = new LoggerAccessingThread(barrier, createdLoggers, i, eventCount);
             threads[i] = simpleLoggerThread;
             simpleLoggerThread.start();
         }

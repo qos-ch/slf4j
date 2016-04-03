@@ -26,6 +26,8 @@ package org.slf4j.impl;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
@@ -42,6 +44,8 @@ import org.slf4j.LoggerAccessingThread;
 import org.slf4j.LoggerFactory;
 
 public class Log4j12MultithreadedInitializationTest {
+
+	 private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
 
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;
     static String CONFIG_FILE_KEY = "log4j.configuration";
@@ -92,7 +96,7 @@ public class Log4j12MultithreadedInitializationTest {
     private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
         LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
         for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i] = new LoggerAccessingThread(barrier, i, eventCount);
+            threads[i] = new LoggerAccessingThread(barrier, createdLoggers, i, eventCount);
             threads[i].start();
         }
 

@@ -24,6 +24,7 @@
  */
 package org.slf4j;
 
+import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -33,9 +34,11 @@ public class LoggerAccessingThread extends Thread {
     final CyclicBarrier barrier;
     final int count;
     final AtomicLong eventCount;
-
-    public LoggerAccessingThread(final CyclicBarrier barrier, final int count, final AtomicLong eventCount) {
+    List<Logger> loggerList;
+    
+    public LoggerAccessingThread(final CyclicBarrier barrier, List<Logger> loggerList, final int count, final AtomicLong eventCount) {
         this.barrier = barrier;
+        this.loggerList = loggerList;
         this.count = count;
         this.eventCount = eventCount;
     }
@@ -50,6 +53,7 @@ public class LoggerAccessingThread extends Thread {
         String loggerNamePrefix = this.getClass().getName();
         for (int i = 0; i < LOOP_LEN; i++) {
             Logger logger = LoggerFactory.getLogger(loggerNamePrefix + "-" + count + "-" + i);
+            loggerList.add(logger);
             Thread.yield();
             logger.info("in run method");
             eventCount.getAndIncrement();
