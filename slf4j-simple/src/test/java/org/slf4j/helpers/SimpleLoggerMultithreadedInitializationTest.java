@@ -35,13 +35,13 @@ import org.slf4j.LoggerFactoryFriend;
 import org.slf4j.impl.SimpleLogger;
 
 public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedInitializationTest {
-//    final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
-//    private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
-//    private final AtomicLong eventCount = new AtomicLong(0);
-//   
-//    private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
-//
-//    final int diff = new Random().nextInt(10000);
+    // final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
+    // private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
+    // private final AtomicLong eventCount = new AtomicLong(0);
+    //
+    // private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    //
+    // final int diff = new Random().nextInt(10000);
     static int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
     private final PrintStream oldErr = System.err;
     final String loggerName = this.getClass().getName();
@@ -61,66 +61,16 @@ public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedIn
         System.clearProperty(SimpleLogger.LOG_FILE_KEY);
         System.setErr(oldErr);
     }
-    
+
     @Override
     protected long getRecordedEventCount() {
         return sps.stringList.size();
     };
 
-
     @Override
     protected int extraLogEvents() {
         return NUM_LINES_IN_SLF4J_REPLAY_WARNING;
     }
-    
-
-//    @Test
-//    public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
-//
-//        @SuppressWarnings("unused")
-//        LoggerAccessingThread[] accessors = harness();
-//
-//        Logger logger = LoggerFactory.getLogger(loggterName + diff);
-//        logger.info("hello");
-//        eventCount.getAndIncrement();
-//
-//        int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
-//        
-//        assertAllSubstLoggersAreFixed();
-//        long expected = eventCount.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING;
-//        int actual = sps.stringList.size();
-//        int LENIENCY_COUNT = 16;
-//        
-//        assertTrue(expected + " >= " + actual, expected >= actual);
-//        assertTrue(expected + " < " + actual + " + "+LENIENCY_COUNT, expected < actual + LENIENCY_COUNT);
-//        
-//    }
-//
-//    private void assertAllSubstLoggersAreFixed() {
-//		for(Logger logger: createdLoggers) {
-//			if(logger instanceof SubstituteLogger) {
-//				SubstituteLogger substLogger = (SubstituteLogger) logger;
-//				if(substLogger.delegate() instanceof EventRecodingLogger)
-//					fail("substLogger "+substLogger.getName()+" has a delegate of type EventRecodingLogger");
-//			}
-//		}
-//	}
-//
-//	private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
-//        final LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
-//        for (int i = 0; i < THREAD_COUNT; i++) {
-//            LoggerAccessingThread simpleLoggerThread = new LoggerAccessingThread(barrier, createdLoggers, i, eventCount);
-//            threads[i] = simpleLoggerThread;
-//            simpleLoggerThread.start();
-//        }
-//
-//        barrier.await();
-//        for (int i = 0; i < THREAD_COUNT; i++) {
-//            threads[i].join();
-//        }
-//        return threads;
-//    }
-
 
     static class StringPrintStream extends PrintStream {
 
@@ -158,6 +108,5 @@ public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedIn
             stringList.add(o.toString());
         }
     }
-
 
 }
