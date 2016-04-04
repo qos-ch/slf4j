@@ -24,37 +24,14 @@
  */
 package org.slf4j.helpers;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Handler;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerAccessingThread;
-import org.slf4j.LoggerFactory;
-import org.slf4j.event.EventRecodingLogger;
-import org.slf4j.helpers.SubstituteLogger;
 
-public class JDK14MultithreadedInitializationTest {
-
-    final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
-
-    private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
-    
-    final private AtomicLong eventCount = new AtomicLong(0);
-    final private CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
-
-    int diff = new Random().nextInt(10000);
+public class JDK14MultithreadedInitializationTest extends MultithreadedInitializationTest {
 
     java.util.logging.Logger julRootLogger = java.util.logging.Logger.getLogger("");
     java.util.logging.Logger julOrgLogger = java.util.logging.Logger.getLogger("org");
@@ -79,34 +56,7 @@ public class JDK14MultithreadedInitializationTest {
         removeAllHandlers(julOrgLogger);
     }
 
-    @Test
-    public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
-        @SuppressWarnings("unused")
-        LoggerAccessingThread[] accessors = harness();
-
-        Logger logger = LoggerFactory.getLogger(getClass().getName());
-        logger.info("hello");
-        eventCount.getAndIncrement();
-
-        assertAllSubstLoggersAreFixed();
-        long recordedEventCount = getRecordedEventCount();
-        int LENIENCY_COUNT = 16;
-        
-        assertTrue(eventCount.get() + " >= " + recordedEventCount, eventCount.get() >= recordedEventCount);
-        assertTrue(eventCount.get() + " < " + recordedEventCount + "+"+LENIENCY_COUNT, eventCount.get() < recordedEventCount + LENIENCY_COUNT);
-     }
-
-    private void assertAllSubstLoggersAreFixed() {
-		for(Logger logger: createdLoggers) {
-			if(logger instanceof SubstituteLogger) {
-				SubstituteLogger substLogger = (SubstituteLogger) logger;
-				if(substLogger.delegate() instanceof EventRecodingLogger)
-					fail("substLogger "+substLogger.getName()+" has a delegate of type EventRecodingLogger");
-			}
-		}
-	}
-
-    private long getRecordedEventCount() {
+    protected long getRecordedEventCount() {
         CountingHandler ra = findRecordingHandler();
         if (ra == null) {
             fail("failed to fing RecordingHandler");
@@ -121,23 +71,6 @@ public class JDK14MultithreadedInitializationTest {
                 return (CountingHandler) h;
         }
         return null;
-    }
-
-    private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
-        LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i] = new LoggerAccessingThread(barrier, createdLoggers, i, eventCount);
-            threads[i].start();
-        }
-
-        // trigger barrier
-        barrier.await();
-
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i].join();
-        }
-
-        return threads;
     }
 
 }

@@ -24,44 +24,27 @@
  */
 package org.slf4j.impl;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerAccessingThread;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertNotNull;
 
-public class Log4j12MultithreadedInitializationTest {
+import org.slf4j.helpers.MultithreadedInitializationTest;
 
-	 private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
-
+public class Log4j12MultithreadedInitializationTest extends MultithreadedInitializationTest {
+    static int NUM_LINES_BY_RECURSIVE_APPENDER = 3;
+    
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;
     static String CONFIG_FILE_KEY = "log4j.configuration";
-
-    final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
-
-    private final  AtomicLong eventCount = new AtomicLong(0);
-
-    private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
-
-    final int diff = new Random().nextInt(10000);
     final String loggerName = this.getClass().getName();
 
     @Before
     public void setup() {
-      System.out.println("THREAD_COUNT=" + THREAD_COUNT);
+        System.setProperty(CONFIG_FILE_KEY, "recursiveInitWithActivationDelay.properties");
+        System.out.println("THREAD_COUNT=" + THREAD_COUNT);
     }
 
     @After
@@ -69,42 +52,22 @@ public class Log4j12MultithreadedInitializationTest {
         System.clearProperty(CONFIG_FILE_KEY);
     }
 
-    @Test
-    public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
-    
-        System.setProperty(CONFIG_FILE_KEY, "recursiveInitWithActivationDelay.properties");
-        
-        @SuppressWarnings("unused")
-        LoggerAccessingThread[] accessors = harness();
-
-        Logger logger = LoggerFactory.getLogger(loggerName + ".slowInitialization-" + diff);
-        logger.info("hello");
-        eventCount.getAndIncrement();
-
-        List<LoggingEvent> events = getRecordedEvents();
-        int NUM_LINES_BY_RECURSIVE_APPENDER = 3;
-        assertEquals(eventCount.get() + NUM_LINES_BY_RECURSIVE_APPENDER, events.size());
+    protected long getRecordedEventCount() {
+        List<LoggingEvent> eventList = getRecordedEvents();
+        assertNotNull(eventList);
+        return eventList.size();
     }
 
+    protected int extraLogEvents() {
+        return NUM_LINES_BY_RECURSIVE_APPENDER;
+    }
+    
     private List<LoggingEvent> getRecordedEvents() {
         org.apache.log4j.Logger root = LogManager.getRootLogger();
 
         RecursiveAppender ra = (RecursiveAppender) root.getAppender("RECURSIVE");
+        assertNotNull(ra);
         return ra.events;
-    }
-
-    private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
-        LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i] = new LoggerAccessingThread(barrier, createdLoggers, i, eventCount);
-            threads[i].start();
-        }
-
-        barrier.await();
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i].join();
-        }
-        return threads;
     }
 
 }
