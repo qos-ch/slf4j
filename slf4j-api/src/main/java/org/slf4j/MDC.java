@@ -274,4 +274,15 @@ public class MDC {
         return mdcAdapter;
     }
 
+    /**
+     * Creates {@link TransferableMdc} which holds current {@linkplain Thread thread}'s
+     * {@link MDC} {@linkplain MDC#getCopyOfContextMap() context map}.
+     * See {@link TransferableMdc} for examples of how to correctly use it.
+     * @return
+     * New {@link TransferableMdc} which state is identical to the current
+     * {@linkplain Thread thread}'s state of {@link MDC}.
+     */
+    public static final TransferableMdc createTransferable() {
+        return TransferableMdc.current();
+    }
 }

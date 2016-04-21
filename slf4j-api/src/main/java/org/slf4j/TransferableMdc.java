@@ -1,0 +1,184 @@
+package org.slf4j;
+
+import java.io.Closeable;
+import java.util.HashMap;
+import java.util.Map;
+import org.slf4j.spi.MDCAdapter;
+
+/**
+ * An read-only {@link MDCAdapter} which allows to copy state of {@link MDC} between {@linkplain Thread threads}.
+ * <p>
+ * This class is not thread-safe because of the methods {@link #apply()} and {@link #close()},
+ * which are not thread-safe.
+ * However it correctly transfers {@link MDC} if used according the provided idiom.
+ * <p>
+ * <b>Usage examples.</b>
+ * <p>
+ * Correct:
+ * <pre>{@code
+ * final TransferableMdc mdc = MDC.createTransferable();
+ * executor.submit(() -> {
+ *  try (TransferableMdc mdcTmp = mdc.apply()) {
+ *      logger.info("This call can access contents of mdc via org.slf4j.MDC");
+ *  }
+ *  logger.info("This call can not access contents of mdc via org.slf4j.MDC");
+ * });
+ * }</pre>
+ * Incorrect:
+ * <pre>{@code
+ * final TransferableMdc mdc = MDC.createTransferable();
+ * executor.submit(() -> {//task1
+ *  try (TransferableMdc mdcTmp = mdc.apply()) {
+ *      //...
+ *  }
+ * });
+ * executor.submit(() -> {//task2
+ *  try (TransferableMdc mdcTmp = mdc.apply()) {
+ *      //...
+ *  }
+ * });
+ * }</pre>
+ * The latter example is incorrect because {@code task1} and {@code task2} may be executed concurrently and hence
+ * methods {@link #apply()} and {@link #close()} may be executed concurrently, but these methods are not thread-safe.
+ * The simplest way to fix the incorrect example is as follows:
+ * <pre>{@code
+ * final TransferableMdc mdc1 = MDC.createTransferable();
+ * executor.submit(() -> {//task1
+ *  try (TransferableMdc mdcTmp = mdc1.apply()) {
+ *      //...
+ *  }
+ * });
+ * final TransferableMdc mdc2 = MDC.createTransferable();
+ * executor.submit(() -> {//task2
+ *  try (TransferableMdc mdcTmp = mdc2.apply()) {
+ *      //...
+ *  }
+ * });
+ * }</pre>
+ */
+//@NotThreadSafe
+public final class TransferableMdc implements MDCAdapter, Closeable {
+    /**
+     * Creates {@link TransferableMdc} which holds current {@linkplain Thread thread}'s
+     * {@link MDC} {@linkplain MDC#getCopyOfContextMap() context map}.
+     * @return
+     * New {@link TransferableMdc} which state is identical to the current
+     * {@linkplain Thread thread}'s state of {@link MDC}.
+     */
+    static final TransferableMdc current() {
+        return new TransferableMdc(MDC.getCopyOfContextMap());
+    }
+
+    //@Nullable
+    private final Map<String, String> context;
+    //@Nullable
+    private Map<String, String> backup;
+
+    private TransferableMdc(
+            //@Nullable
+            final Map<String, String> contextMap) {
+        context = (contextMap == null || contextMap.isEmpty()) ? null : new HashMap<String, String>(contextMap);
+    }
+
+    /**
+     * Merges this {@link TransferableMdc} into the current {@link Thread}'s {@link MDC}
+     * and retains original state of the current {@link MDC}.
+     * @return
+     * {@code this}.
+     */
+    //@NotThreadSafe
+    public final TransferableMdc apply() {
+        if (context != null) {
+            //@Nullable
+            final Map<String, String> currentContext = MDC.getCopyOfContextMap();
+            backup = (currentContext == null || currentContext.isEmpty()) ? null : currentContext;
+            for (Map.Entry<String, String> contextEntry : context.entrySet()) {
+                MDC.put(contextEntry.getKey(), contextEntry.getValue());
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Restores current {@link Thread}'s {@link MDC} to its state before {@link #apply()}
+     * (this state was retained by {@link #apply()}).
+     */
+    //@Override
+    //@NotThreadSafe
+    public void close() {
+        if (context != null) {
+            MDC.clear();
+            if (backup != null) {
+                MDC.setContextMap(backup);
+                backup = null;
+            }
+        }
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * Always.
+     */
+    //@Override
+    //@ThreadSafe
+    public final void put(final String key, final String val) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    //@Override
+    //@Nullable
+    //@ThreadSafe
+    public final String get(final String key) {
+        if (key == null) {
+            throw new NullPointerException("The argument key must not be null");
+        }
+        return (context == null) ? null : context.get(key);
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * Always.
+     */
+    //@Override
+    //@ThreadSafe
+    public final void remove(final String key) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * Always.
+     */
+    //@Override
+    //@ThreadSafe
+    public final void clear() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    //@Override
+    //@Nullable
+    //@ThreadSafe
+    public final Map<String, String> getCopyOfContextMap() {
+        return (context == null) ? null : new HashMap<String, String>(context);
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * Always.
+     */
+    //@Override
+    //@ThreadSafe
+    public final void setContextMap(
+            //@Nullable
+            final Map<String, String> contextMap) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    //@ThreadSafe
+    @Override
+    public final String toString() {
+        return getClass().getSimpleName()
+                + "(context=" + context
+                + ')';
+    }
+}
