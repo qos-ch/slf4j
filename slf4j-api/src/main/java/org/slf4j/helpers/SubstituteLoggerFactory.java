@@ -25,9 +25,9 @@
 package org.slf4j.helpers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.ILoggerFactory;
@@ -44,17 +44,15 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
 
     boolean postInitialization = false;
     
-    final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
+    final Map<String, SubstituteLogger> loggers = new HashMap<String, SubstituteLogger>();
 
     final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<SubstituteLoggingEvent>();
 
-    public Logger getLogger(String name) {
+    synchronized public  Logger getLogger(String name) {
         SubstituteLogger logger = loggers.get(name);
         if (logger == null) {
-            logger = new SubstituteLogger(name, eventQueue);
-            SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
-            if (oldLogger != null)
-                logger = oldLogger;
+            logger = new SubstituteLogger(name, eventQueue, postInitialization);
+            loggers.put(name, logger);
         }
         return logger;
     }
@@ -71,6 +69,10 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
         return eventQueue;
     }
 
+    public void postInitialization() {
+    	postInitialization = true;
+    }
+    
     public void clear() {
         loggers.clear();
         eventQueue.clear();

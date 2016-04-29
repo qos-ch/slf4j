@@ -22,36 +22,28 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.impl;
-
-import static org.junit.Assert.assertEquals;
+package org.slf4j.helpers;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerAccessingThread;
-import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactoryFriend;
+import org.slf4j.impl.SimpleLogger;
 
-public class SimpleLoggerMultithreadedInitializationTest {
-
-    final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
-
-    private final AtomicLong eventCount = new AtomicLong(0);
+public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedInitializationTest {
+    // final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
+    // private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
+    // private final AtomicLong eventCount = new AtomicLong(0);
+    //
+    // private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    //
+    // final int diff = new Random().nextInt(10000);
+    static int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
     private final PrintStream oldErr = System.err;
-    private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
-
-    final int diff = new Random().nextInt(10000);
     final String loggerName = this.getClass().getName();
     StringPrintStream sps = new StringPrintStream(oldErr, true);
 
@@ -70,38 +62,15 @@ public class SimpleLoggerMultithreadedInitializationTest {
         System.setErr(oldErr);
     }
 
-    @Test
-    public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
+    @Override
+    protected long getRecordedEventCount() {
+        return sps.stringList.size();
+    };
 
-        @SuppressWarnings("unused")
-        LoggerAccessingThread[] accessors = harness();
-
-        Logger logger = LoggerFactory.getLogger(loggerName + diff);
-        logger.info("hello");
-        eventCount.getAndIncrement();
-
-        int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
-        
-        long expected = eventCount.get() + NUM_LINES_IN_SLF4J_REPLAY_WARNING;
-        int actual = sps.stringList.size();
-        assertEquals(expected, actual);
+    @Override
+    protected int extraLogEvents() {
+        return NUM_LINES_IN_SLF4J_REPLAY_WARNING;
     }
-
-    private LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
-        final LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            LoggerAccessingThread simpleLoggerThread = new LoggerAccessingThread(barrier, i, eventCount);
-            threads[i] = simpleLoggerThread;
-            simpleLoggerThread.start();
-        }
-
-        barrier.await();
-        for (int i = 0; i < THREAD_COUNT; i++) {
-            threads[i].join();
-        }
-        return threads;
-    }
-
 
     static class StringPrintStream extends PrintStream {
 
@@ -138,6 +107,6 @@ public class SimpleLoggerMultithreadedInitializationTest {
                 other.println(o);
             stringList.add(o.toString());
         }
-    };
+    }
 
 }

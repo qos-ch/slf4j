@@ -54,12 +54,12 @@ import org.slf4j.impl.StaticLoggerBinder;
  * <p/>
  * <p/>
  * Please note that all methods in <code>LoggerFactory</code> are static.
- *
- *
+ * 
+ * 
  * @author Alexander Dorokhine
  * @author Robert Elliot
  * @author Ceki G&uuml;lc&uuml;
- *
+ * 
  */
 public final class LoggerFactory {
 
@@ -140,7 +140,8 @@ public final class LoggerFactory {
     private final static void bind() {
         try {
             Set<URL> staticLoggerBinderPathSet = null;
-            // skip check under android, see also http://jira.qos.ch/browse/SLF4J-328
+            // skip check under android, see also
+            // http://jira.qos.ch/browse/SLF4J-328
             if (!isAndroid()) {
                 staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
@@ -149,6 +150,7 @@ public final class LoggerFactory {
             StaticLoggerBinder.getSingleton();
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
             reportActualBinding(staticLoggerBinderPathSet);
+            fixSubstituteLoggers();
             replayEvents();
             // release all resources in SUBST_FACTORY
             SUBST_FACTORY.clear();
@@ -178,25 +180,22 @@ public final class LoggerFactory {
         }
     }
 
+    private static void fixSubstituteLoggers() {
+        synchronized (SUBST_FACTORY) {
+            SUBST_FACTORY.postInitialization();
+            for (SubstituteLogger substLogger : SUBST_FACTORY.getLoggers()) {
+                Logger logger = getLogger(substLogger.getName());
+                substLogger.setDelegate(logger);
+            }
+        }
+
+    }
+
     static void failedBinding(Throwable t) {
         INITIALIZATION_STATE = FAILED_INITIALIZATION;
         Util.report("Failed to instantiate SLF4J LoggerFactory", t);
     }
 
-    private final static void fixSubstitutedLoggers() {
-        List<SubstituteLogger> loggers = SUBST_FACTORY.getLoggers();
-
-        if (loggers.isEmpty()) {
-            return;
-        }
-
-        for (SubstituteLogger subLogger : loggers) {
-            Logger logger = getLogger(subLogger.getName());
-            subLogger.setDelegate(logger);
-        }
-
-        SUBST_FACTORY.clear();
-    }
     private static void replayEvents() {
         final LinkedBlockingQueue<SubstituteLoggingEvent> queue = SUBST_FACTORY.getEventQueue();
         final int queueSize = queue.size();
@@ -285,13 +284,15 @@ public final class LoggerFactory {
         }
     }
 
-    // We need to use the name of the StaticLoggerBinder class, but we can't reference
+    // We need to use the name of the StaticLoggerBinder class, but we can't
+    // reference
     // the class itself.
     private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
 
     static Set<URL> findPossibleStaticLoggerBinderPathSet() {
         // use Set instead of list in order to deal with bug #138
-        // LinkedHashSet appropriate here because it preserves insertion order during iteration
+        // LinkedHashSet appropriate here because it preserves insertion order
+        // during iteration
         Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
         try {
             ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
@@ -316,9 +317,9 @@ public final class LoggerFactory {
     }
 
     /**
-     * Prints a warning message on the console if multiple bindings were found on the class path.
-     * No reporting is done otherwise.
-     *
+     * Prints a warning message on the console if multiple bindings were found
+     * on the class path. No reporting is done otherwise.
+     * 
      */
     private static void reportMultipleBindingAmbiguity(Set<URL> binderPathSet) {
         if (isAmbiguousStaticLoggerBinderPathSet(binderPathSet)) {
@@ -345,10 +346,11 @@ public final class LoggerFactory {
     }
 
     /**
-     * Return a logger named according to the name parameter using the statically
-     * bound {@link ILoggerFactory} instance.
-     *
-     * @param name The name of the logger.
+     * Return a logger named according to the name parameter using the
+     * statically bound {@link ILoggerFactory} instance.
+     * 
+     * @param name
+     *            The name of the logger.
      * @return logger
      */
     public static Logger getLogger(String name) {
@@ -357,20 +359,25 @@ public final class LoggerFactory {
     }
 
     /**
-     * Return a logger named corresponding to the class passed as parameter, using
-     * the statically bound {@link ILoggerFactory} instance.
-     *
-     * <p>In case the the <code>clazz</code> parameter differs from the name of
-     * the caller as computed internally by SLF4J, a logger name mismatch warning will be 
-     * printed but only if the <code>slf4j.detectLoggerNameMismatch</code> system property is 
-     * set to true. By default, this property is not set and no warnings will be printed
-     * even in case of a logger name mismatch.
+     * Return a logger named corresponding to the class passed as parameter,
+     * using the statically bound {@link ILoggerFactory} instance.
      * 
-     * @param clazz the returned logger will be named after clazz
+     * <p>
+     * In case the the <code>clazz</code> parameter differs from the name of the
+     * caller as computed internally by SLF4J, a logger name mismatch warning
+     * will be printed but only if the
+     * <code>slf4j.detectLoggerNameMismatch</code> system property is set to
+     * true. By default, this property is not set and no warnings will be
+     * printed even in case of a logger name mismatch.
+     * 
+     * @param clazz
+     *            the returned logger will be named after clazz
      * @return logger
-     *
-     *
-     * @see <a href="http://www.slf4j.org/codes.html#loggerNameMismatch">Detected logger name mismatch</a> 
+     * 
+     * 
+     * @see <a
+     *      href="http://www.slf4j.org/codes.html#loggerNameMismatch">Detected
+     *      logger name mismatch</a>
      */
     public static Logger getLogger(Class<?> clazz) {
         Logger logger = getLogger(clazz.getName());
@@ -394,7 +401,7 @@ public final class LoggerFactory {
      * <p/>
      * <p/>
      * ILoggerFactory instance is bound with this class at compile time.
-     *
+     * 
      * @return the ILoggerFactory instance in use
      */
     public static ILoggerFactory getILoggerFactory() {

@@ -31,18 +31,42 @@
    announce</a> mailing list.
    </p>
 
+
    <hr noshade="noshade" size="1"/>
 
-   <h3>xxx April, 2016 - Release of SLF4J 1.7.21</h3>
+   <h3>April Xth, 2016 - Release of SLF4J 1.7.22</h3>
+
+   <p>Added slf4j-bom module for use as a Maven "Bill of Materials"
+   pom file. This improvement was requested in <a
+   href="http://jira.qos.ch/browse/SLF4J-365">SLF4J-365</a> Joerg
+   Sesterhenn.
+   </p>
+
+   <hr noshade="noshade" size="1"/>
+
+   <h3>April 4th, 2016 - Release of SLF4J 1.7.21</h3>
+
+   <p>Fixed a memory leak due to a race-condition occurring during
+   SLF4J initialization. In that case, some
+   <code>SubstituteLogger</code> instances may continue to accumulate
+   log events until the JVM eventually runs out of memory. This issue
+   was reported in <a
+   href="http://jira.qos.ch/browse/SLF4J-364">SLF4J-364</a> by Jeff
+   Flanigan.</p>
 
    <p><code>LoggerFactory</code> makes sure to release all resources
-   referenced by SubstituteLoggerFactory post-initialization. See also
-   <a href="http://jira.qos.ch/browse/SLF4J-366">SLF4J-366</a>
+   referenced by <code>SubstituteLoggerFactory</code>
+   post-initialization. See also <a
+   href="http://jira.qos.ch/browse/SLF4J-366">SLF4J-366</a>
    </p>
 
    <hr noshade="noshade" size="1"/>
 
    <h3>March 29th, 2016 - Release of SLF4J 1.7.20</h3>
+
+   <p class="red">Releases 1.7.19 and 1.7.20 suffer from a <a
+   href="http://jira.qos.ch/browse/SLF4J-364">memory leak</a>. Please
+   use version 1.7.21 or later instead.</p>
 
    <p>Fixed initialization problem encountered on the Google App
    Engine platform with SLF4J version 1.7.19 but not other versions.
@@ -55,6 +79,10 @@
    <hr noshade="noshade" size="1"/>
 
    <h3>March 14th, 2016 - Release of SLF4J 1.7.19</h3>
+
+   <p class="red">Releases 1.7.19 and 1.7.20 suffer from a <a
+   href="http://jira.qos.ch/browse/SLF4J-364">memory leak</a>. Please
+   use version 1.7.21 or later instead.</p>
 
    <p>Fixed <code>NullPointerException</code> thrown by
    org.slf4j.helpers.SubstituteLogger.isDelegateEventAware(SubstituteLogger.java:353). This

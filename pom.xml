@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.21-SNAPSHOT</version>
+  <version>1.7.22-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -74,6 +74,7 @@
     <module>integration</module>
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
+    <module>slf4j-bom</module>
   </modules>
 
   <dependencies>
