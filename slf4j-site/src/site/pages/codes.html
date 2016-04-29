@@ -150,23 +150,30 @@ class B extends A {
     <h3 class="doAnchor" name="StaticLoggerBinder">Failed to load class
     <code>org.slf4j.impl.StaticLoggerBinder</code></h3>
     
-    <p>This error is reported when the
+    <p>This warning message is reported when the
     <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
     loaded into memory.  This happens when no appropriate SLF4J
     binding could be found on the class path. Placing one (and only
-    one) of <em>slf4j-nop.jar</em>, <em>slf4j-simple.jar</em>,
+    one) of <em>slf4j-nop.jar</em> <em>slf4j-simple.jar</em>,
     <em>slf4j-log4j12.jar</em>, <em>slf4j-jdk14.jar</em> or
     <em>logback-classic.jar</em> on the class path should solve the
     problem.
     </p>
 
-    <p><span class="label">since 1.6.0</span> As of SLF4J version 1.6, in the absence of a binding, SLF4J
-    will default to a no-operation (NOP) logger implementation.
+    <p><span class="label">since 1.6.0</span> As of SLF4J version 1.6,
+    in the absence of a binding, SLF4J will default to a no-operation
+    (NOP) logger implementation.
     </p>
-
-    <p>You can download SLF4J bindings from the project <a
-    href="http://www.slf4j.org/download.html">download page</a>. </p>
-
+    
+    <p>If you are responsible for packaging an application and do not
+    care about logging, then placing <em>slf4j-nop.jar</em> on the
+    class path of your application will get rid of this warning
+    message. Note that embedded components such as libraries or
+    frameworks should not declare a dependency on any SLF4J binding
+    but only depend on slf4j-api. When a library declares a
+    compile-time dependency on a SLF4J binding, it imposes that
+    binding on the end-user, thus negating SLF4J's purpose. </p>
+    
     <!-- ====================================================== -->
     <!-- duplicates /faq.html#IllegalAccessError -->
 
