@@ -208,34 +208,34 @@ final public class MessageFormatter {
                     return new FormattingTuple(messagePattern, argArray, throwable);
                 } else { // add the tail string which contains no variables and return
                     // the result.
-                    sbuf.append(messagePatternChars, i, messagePattern.length());
+                    sbuf.append(messagePatternChars, i, messagePattern.length() - i);
                     return new FormattingTuple(sbuf.toString(), argArray, throwable);
                 }
             } else {
                 if (isEscapedDelimeter(messagePattern, j)) {
                     if (!isDoubleEscaped(messagePattern, j)) {
                         L--; // DELIM_START was escaped, thus should not be incremented
-                        sbuf.append(messagePatternChars, i, j - 1);
+                        sbuf.append(messagePatternChars, i, j - 1 - i);
                         sbuf.append(DELIM_START);
                         i = j + 1;
                     } else {
                         // The escape character preceding the delimiter start is
                         // itself escaped: "abc x:\\{}"
                         // we have to consume one backward slash
-                        sbuf.append(messagePatternChars, i, j - 1);
+                        sbuf.append(messagePatternChars, i, j - 1 - i);
                         deeplyAppendParameter(sbuf, argArray[L], new Hashtable());
                         i = j + 2;
                     }
                 } else {
                     // normal case
-                    sbuf.append(messagePatternChars, i, j);
+                    sbuf.append(messagePatternChars, i, j - i);
                     deeplyAppendParameter(sbuf, argArray[L], new Hashtable());
                     i = j + 2;
                 }
             }
         }
         // append the characters following the last {} pair.
-        sbuf.append(messagePatternChars, i, messagePattern.length());
+        sbuf.append(messagePatternChars, i, messagePattern.length() - i);
         return new FormattingTuple(sbuf.toString(), argArray, throwable);
     }
 
