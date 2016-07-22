@@ -24,16 +24,10 @@
  */
 package org.slf4j.impl;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
+import java.util.Hashtable;
 
 import org.slf4j.Logger;
 import org.slf4j.event.LoggingEvent;
@@ -122,7 +116,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static final String CONFIGURATION_FILE = "simplelogger.properties";
 
     private static long START_TIME = System.currentTimeMillis();
-    private static final Properties SIMPLE_LOGGER_PROPS = new Properties();
+    private static final Hashtable SIMPLE_LOGGER_PROPS = new Hashtable();
 
     private static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
     private static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;
@@ -135,7 +129,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
     private static boolean SHOW_DATE_TIME = false;
     private static String DATE_TIME_FORMAT_STR = null;
-    private static DateFormat DATE_FORMATTER = null;
+    //private static DateFormat DATE_FORMATTER = null;
     private static boolean SHOW_THREAD_NAME = true;
     private static boolean SHOW_LOG_NAME = true;
     private static boolean SHOW_SHORT_LOG_NAME = false;
@@ -166,7 +160,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         } catch (SecurityException e) {
             ; // Ignore
         }
-        return (prop == null) ? SIMPLE_LOGGER_PROPS.getProperty(name) : prop;
+        return (prop == null) ? (String) SIMPLE_LOGGER_PROPS.get(name) : prop;
     }
 
     private static String getStringProperty(String name, String defaultValue) {
@@ -206,7 +200,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
         if (DATE_TIME_FORMAT_STR != null) {
             try {
-                DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
+                //DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
             } catch (IllegalArgumentException e) {
                 Util.report("Bad date format in " + CONFIGURATION_FILE + "; will output relative time", e);
             }
@@ -219,37 +213,21 @@ public class SimpleLogger extends MarkerIgnoringBase {
         else if ("System.out".equalsIgnoreCase(logFile)) {
             return System.out;
         } else {
-            try {
-                FileOutputStream fos = new FileOutputStream(logFile);
-                PrintStream printStream = new PrintStream(fos);
-                return printStream;
-            } catch (FileNotFoundException e) {
-                Util.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
-                return System.err;
-            }
+//            try {
+//                FileOutputStream fos = new FileOutputStream(logFile);
+//                PrintStream printStream = new PrintStream(fos);
+//                return printStream;
+//            } catch (FileNotFoundException e) {
+//                Util.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
+//                return System.err;
+//            }
+            return System.out;
         }
     }
 
     private static void loadProperties() {
         // Add props from the resource simplelogger.properties
-        InputStream in = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-            public InputStream run() {
-                ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
-                if (threadCL != null) {
-                    return threadCL.getResourceAsStream(CONFIGURATION_FILE);
-                } else {
-                    return ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
-                }
-            }
-        });
-        if (null != in) {
-            try {
-                SIMPLE_LOGGER_PROPS.load(in);
-                in.close();
-            } catch (java.io.IOException e) {
-                // ignored
-            }
-        }
+        //TODO
     }
 
     /** The current log level */
@@ -279,7 +257,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         while ((levelString == null) && (indexOfLastDot > -1)) {
             tempName = tempName.substring(0, indexOfLastDot);
             levelString = getStringProperty(LOG_KEY_PREFIX + tempName, null);
-            indexOfLastDot = String.valueOf(tempName).lastIndexOf(".");
+            indexOfLastDot = String.valueOf(tempName).lastIndexOf('.');
         }
         return levelString;
     }
@@ -313,17 +291,17 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return;
         }
 
-        StringBuilder buf = new StringBuilder(32);
+        StringBuffer buf = new StringBuffer(32);
 
         // Append date-time if so configured
         if (SHOW_DATE_TIME) {
-            if (DATE_FORMATTER != null) {
-                buf.append(getFormattedDate());
-                buf.append(' ');
-            } else {
+//            if (DATE_FORMATTER != null) {
+//                buf.append(getFormattedDate());
+//                buf.append(' ');
+//            } else {
                 buf.append(System.currentTimeMillis() - START_TIME);
                 buf.append(' ');
-            }
+//            }
         }
 
         // Append current thread name if so configured
@@ -374,10 +352,10 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     }
 
-    void write(StringBuilder buf, Throwable t) {
+    void write(StringBuffer buf, Throwable t) {
         TARGET_STREAM.println(buf.toString());
         if (t != null) {
-            t.printStackTrace(TARGET_STREAM);
+            t.printStackTrace();
         }
         TARGET_STREAM.flush();
     }
@@ -385,14 +363,15 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private String getFormattedDate() {
         Date now = new Date();
         String dateText;
-        synchronized (DATE_FORMATTER) {
-            dateText = DATE_FORMATTER.format(now);
-        }
+        //synchronized (DATE_FORMATTER) {
+            //TODO format date
+            dateText = now.toString();
+        //}
         return dateText;
     }
 
     private String computeShortName() {
-        return name.substring(name.lastIndexOf(".") + 1);
+        return name.substring(name.lastIndexOf('.') + 1);
     }
 
     /**
@@ -418,7 +397,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * @param format
      * @param arguments a list of 3 ore more arguments
      */
-    private void formatAndLog(int level, String format, Object... arguments) {
+    private void formatAndLog(int level, String format, Object[] arguments) {
         if (!isLevelEnabled(level)) {
             return;
         }
@@ -470,7 +449,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * Perform double parameter substitution before logging the message of level
      * TRACE according to the format outlined above.
      */
-    public void trace(String format, Object... argArray) {
+    public void trace(String format, Object[] argArray) {
         formatAndLog(LOG_LEVEL_TRACE, format, argArray);
     }
 
@@ -512,7 +491,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * Perform double parameter substitution before logging the message of level
      * DEBUG according to the format outlined above.
      */
-    public void debug(String format, Object... argArray) {
+    public void debug(String format, Object[] argArray) {
         formatAndLog(LOG_LEVEL_DEBUG, format, argArray);
     }
 
@@ -554,7 +533,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * Perform double parameter substitution before logging the message of level
      * INFO according to the format outlined above.
      */
-    public void info(String format, Object... argArray) {
+    public void info(String format, Object[] argArray) {
         formatAndLog(LOG_LEVEL_INFO, format, argArray);
     }
 
@@ -596,7 +575,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * Perform double parameter substitution before logging the message of level
      * WARN according to the format outlined above.
      */
-    public void warn(String format, Object... argArray) {
+    public void warn(String format, Object[] argArray) {
         formatAndLog(LOG_LEVEL_WARN, format, argArray);
     }
 
@@ -638,7 +617,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * Perform double parameter substitution before logging the message of level
      * ERROR according to the format outlined above.
      */
-    public void error(String format, Object... argArray) {
+    public void error(String format, Object[] argArray) {
         formatAndLog(LOG_LEVEL_ERROR, format, argArray);
     }
 

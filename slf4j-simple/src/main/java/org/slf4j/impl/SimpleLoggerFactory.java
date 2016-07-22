@@ -24,8 +24,7 @@
  */
 package org.slf4j.impl;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Hashtable;
 
 import org.slf4j.Logger;
 import org.slf4j.ILoggerFactory;
@@ -38,10 +37,11 @@ import org.slf4j.ILoggerFactory;
  */
 public class SimpleLoggerFactory implements ILoggerFactory {
 
-    ConcurrentMap<String, Logger> loggerMap;
+    //String, Logger
+    Hashtable loggerMap;
 
     public SimpleLoggerFactory() {
-        loggerMap = new ConcurrentHashMap<String, Logger>();
+        loggerMap = new Hashtable();
         SimpleLogger.init();
     }
 
@@ -49,13 +49,13 @@ public class SimpleLoggerFactory implements ILoggerFactory {
      * Return an appropriate {@link SimpleLogger} instance by name.
      */
     public Logger getLogger(String name) {
-        Logger simpleLogger = loggerMap.get(name);
+        Logger simpleLogger = (Logger) loggerMap.get(name);
         if (simpleLogger != null) {
             return simpleLogger;
         } else {
             Logger newInstance = new SimpleLogger(name);
-            Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
-            return oldInstance == null ? newInstance : oldInstance;
+            loggerMap.put(name, newInstance);
+            return newInstance;
         }
     }
 
