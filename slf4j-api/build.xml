@@ -1,0 +1,74 @@
+<project name="j2mod" default="full">
+
+	<property file="build.properties"/>
+
+	<property name="source.folder" value="." />
+	<property name="output.folder" value="./target/work" />
+	<property name="ship.folder" value="./target/ship" />
+	
+	<property name="javac_target" value="1.3" />
+	<property name="javac_source" value="1.3" />
+	<property name="javac_debug" value="on" />
+	<property name="javac_debuglevel" value="lines,vars,source" />
+
+	<target name="init">
+		<mkdir dir="${output.folder}/src" />
+		<mkdir dir="${output.folder}/bin" />
+	</target>
+	
+	<target name="compile" depends="init" description="Compile Java classes.">
+		<echo>Compiling client library...</echo>
+		<copy overwrite="true" todir="${output.folder}/src">
+			<fileset dir="${source.folder}/src/main/java" >
+			</fileset>
+		</copy>
+
+		<path id="lib.path.ref">
+			<fileset dir="${wtk.home}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</path>
+		
+		
+		<javac srcdir="${output.folder}/src" 
+		    destdir="${output.folder}/bin" 
+		    source="${javac_source}" 
+		    target="${javac_target}" 
+		    debug="${javac_debug}" 
+		    debuglevel="${javac_debuglevel}" 
+		    includeantruntime="false"
+		    bootclasspath=".">
+			<classpath refid="lib.path.ref"/>
+		</javac>
+		
+		<!-- Copy additional source file to the output tree -->
+		<copy overwrite="true" todir="${output.folder}/bin">
+			<fileset dir="${source.folder}/src/main/resources">
+				<exclude name="log4j.properties" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="package" depends="compile" description="Build JAR file.">
+		<echo>Creating JAR file...</echo>
+		<mkdir dir="${ship.folder}" />
+		<jar jarfile="${ship.folder}/slf4j-api.jar" 
+		    excludes="" 
+		    basedir="${output.folder}/bin">
+		</jar>
+		<jar jarfile="${ship.folder}/slf4j-api-src.jar" 
+		    basedir="${source.folder}/src" >
+		</jar>
+	</target>
+
+	<target name="clean" description="Clean up build artefacts.">
+		<echo>Cleaning project...</echo>
+		<delete dir="${output.folder}" />
+		<delete dir="${ship.folder}" />
+		</target>
+
+	<target name="full" depends="clean,compile,package" 
+		description="Clean, build and package." />
+
+</project>
