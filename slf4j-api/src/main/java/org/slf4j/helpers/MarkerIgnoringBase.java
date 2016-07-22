@@ -55,7 +55,7 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         trace(format, arg1, arg2);
     }
 
-    public void trace(Marker marker, String format, Object... arguments) {
+    public void trace(Marker marker, String format, Object[] arguments) {
         trace(format, arguments);
     }
 
@@ -79,7 +79,7 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         debug(format, arg1, arg2);
     }
 
-    public void debug(Marker marker, String format, Object... arguments) {
+    public void debug(Marker marker, String format, Object[] arguments) {
         debug(format, arguments);
     }
 
@@ -103,7 +103,7 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         info(format, arg1, arg2);
     }
 
-    public void info(Marker marker, String format, Object... arguments) {
+    public void info(Marker marker, String format, Object[] arguments) {
         info(format, arguments);
     }
 
@@ -127,7 +127,7 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         warn(format, arg1, arg2);
     }
 
-    public void warn(Marker marker, String format, Object... arguments) {
+    public void warn(Marker marker, String format, Object[] arguments) {
         warn(format, arguments);
     }
 
@@ -151,7 +151,7 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         error(format, arg1, arg2);
     }
 
-    public void error(Marker marker, String format, Object... arguments) {
+    public void error(Marker marker, String format, Object[] arguments) {
         error(format, arguments);
     }
 

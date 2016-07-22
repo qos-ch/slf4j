@@ -24,11 +24,9 @@
  */
 package org.slf4j;
 
-import java.io.Closeable;
-import java.util.Map;
+import java.util.Hashtable;
 
 import org.slf4j.helpers.NOPMDCAdapter;
-import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.Util;
 import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
@@ -70,7 +68,7 @@ public class MDC {
     /**
      * An adapter to remove the key when done.
      */
-    public static class MDCCloseable implements Closeable {
+    public static class MDCCloseable {
         private final String key;
 
         private MDCCloseable(String key) {
@@ -95,12 +93,7 @@ public class MDC {
      * @since 1.7.14
      */
     private static MDCAdapter bwCompatibleGetMDCAdapterFromBinder() throws NoClassDefFoundError {
-        try {
-            return StaticMDCBinder.getSingleton().getMDCA();
-        } catch (NoSuchMethodError nsme) {
-            // binding is probably a version of SLF4J older than 1.7.14
-            return StaticMDCBinder.SINGLETON.getMDCA();
-        }
+        return StaticMDCBinder.getSingleton().getMDCA();
     }
 
     static {
@@ -109,7 +102,7 @@ public class MDC {
         } catch (NoClassDefFoundError ncde) {
             mdcAdapter = new NOPMDCAdapter();
             String msg = ncde.getMessage();
-            if (msg != null && msg.contains("StaticMDCBinder")) {
+            if (msg != null && msg.indexOf("StaticMDCBinder") > -1) {
                 Util.report("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
                 Util.report("Defaulting to no-operation MDCAdapter implementation.");
                 Util.report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
@@ -241,7 +234,7 @@ public class MDC {
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public static Map<String, String> getCopyOfContextMap() {
+    public static Hashtable getCopyOfContextMap() {
         if (mdcAdapter == null) {
             throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
         }
@@ -257,7 +250,7 @@ public class MDC {
      *          must contain only keys and values of type String
      * @since 1.5.1
      */
-    public static void setContextMap(Map<String, String> contextMap) {
+    public static void setContextMap(Hashtable contextMap) {
         if (mdcAdapter == null) {
             throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
         }

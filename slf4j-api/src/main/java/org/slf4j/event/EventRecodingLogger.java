@@ -1,6 +1,6 @@
 package org.slf4j.event;
 
-import java.util.Queue;
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -10,9 +10,9 @@ public class EventRecodingLogger implements Logger {
 
     String name;
     SubstituteLogger logger;
-    Queue<SubstituteLoggingEvent> eventQueue;
+    Vector eventQueue;
 
-    public EventRecodingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
+    public EventRecodingLogger(SubstituteLogger logger, Vector eventQueue) {
         this.logger = logger;
         this.name = logger.getName();
         this.eventQueue = eventQueue;
@@ -38,7 +38,7 @@ public class EventRecodingLogger implements Logger {
         loggingEvent.setArgumentArray(args);
         loggingEvent.setThrowable(throwable);
         loggingEvent.setThreadName(Thread.currentThread().getName());
-        eventQueue.add(loggingEvent);
+        eventQueue.addElement(loggingEvent);
     }
 
     public boolean isTraceEnabled() {
@@ -57,7 +57,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.TRACE, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void trace(String format, Object... arguments) {
+    public void trace(String format, Object[] arguments) {
         recordEvent(Level.TRACE, format, arguments, null);
     }
 
@@ -82,7 +82,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.TRACE, marker, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void trace(Marker marker, String format, Object... argArray) {
+    public void trace(Marker marker, String format, Object[] argArray) {
         recordEvent(Level.TRACE, marker, format, argArray, null);
 
     }
@@ -109,7 +109,7 @@ public class EventRecodingLogger implements Logger {
 
     }
 
-    public void debug(String format, Object... arguments) {
+    public void debug(String format, Object[] arguments) {
         recordEvent(Level.DEBUG, format, arguments, null);
     }
 
@@ -133,7 +133,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.DEBUG, marker, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void debug(Marker marker, String format, Object... arguments) {
+    public void debug(Marker marker, String format, Object[] arguments) {
         recordEvent(Level.DEBUG, marker, format, arguments, null);
     }
 
@@ -157,7 +157,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.INFO, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void info(String format, Object... arguments) {
+    public void info(String format, Object[] arguments) {
         recordEvent(Level.INFO, format, arguments, null);
     }
 
@@ -181,7 +181,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.INFO, marker, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void info(Marker marker, String format, Object... arguments) {
+    public void info(Marker marker, String format, Object[] arguments) {
         recordEvent(Level.INFO, marker, format, arguments, null);
     }
 
@@ -207,7 +207,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.WARN, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void warn(String format, Object... arguments) {
+    public void warn(String format, Object[] arguments) {
         recordEvent(Level.WARN, format, arguments, null);
     }
 
@@ -232,7 +232,7 @@ public class EventRecodingLogger implements Logger {
 
     }
 
-    public void warn(Marker marker, String format, Object... arguments) {
+    public void warn(Marker marker, String format, Object[] arguments) {
         recordEvent(Level.WARN, marker, format, arguments, null);
     }
 
@@ -258,7 +258,7 @@ public class EventRecodingLogger implements Logger {
 
     }
 
-    public void error(String format, Object... arguments) {
+    public void error(String format, Object[] arguments) {
         recordEvent(Level.ERROR, format, arguments, null);
 
     }
@@ -285,7 +285,7 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.ERROR, marker, format, new Object[] { arg1, arg2 }, null);
     }
 
-    public void error(Marker marker, String format, Object... arguments) {
+    public void error(Marker marker, String format, Object[] arguments) {
         recordEvent(Level.ERROR, marker, format, arguments, null);
     }
 

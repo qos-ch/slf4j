@@ -57,12 +57,7 @@ public class MarkerFactory {
      * @since 1.7.14
      */
     private static IMarkerFactory bwCompatibleGetMarkerFactoryFromBinder() throws NoClassDefFoundError {
-        try {
-            return StaticMarkerBinder.getSingleton().getMarkerFactory();
-        } catch (NoSuchMethodError nsme) {
-            // binding is probably a version of SLF4J older than 1.7.14
-            return StaticMarkerBinder.SINGLETON.getMarkerFactory();
-        }
+        return StaticMarkerBinder.getSingleton().getMarkerFactory();
     }
 
     // this is where the binding happens

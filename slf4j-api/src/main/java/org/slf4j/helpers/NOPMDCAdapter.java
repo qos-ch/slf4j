@@ -24,7 +24,7 @@
  */
 package org.slf4j.helpers;
 
-import java.util.Map;
+import java.util.Hashtable;
 
 import org.slf4j.spi.MDCAdapter;
 
@@ -52,11 +52,11 @@ public class NOPMDCAdapter implements MDCAdapter {
     public void remove(String key) {
     }
 
-    public Map<String, String> getCopyOfContextMap() {
+    public Hashtable getCopyOfContextMap() {
         return null;
     }
 
-    public void setContextMap(Map<String, String> contextMap) {
+    public void setContextMap(Hashtable contextMap) {
         // NOP
     }
 

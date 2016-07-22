@@ -24,15 +24,12 @@
  */
 package org.slf4j.helpers;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Queue;
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.EventRecodingLogger;
 import org.slf4j.event.LoggingEvent;
-import org.slf4j.event.SubstituteLoggingEvent;
 
 /**
  * A logger implementation which logs via a delegate logger. By default, the delegate is a
@@ -49,13 +46,12 @@ public class SubstituteLogger implements Logger {
     private final String name;
     private volatile Logger _delegate;
     private Boolean delegateEventAware;
-    private Method logMethodCache;
     private EventRecodingLogger eventRecodingLogger;
-    private Queue<SubstituteLoggingEvent> eventQueue;
+    private Vector eventQueue;
 
     private final boolean createdPostInitialization;
     
-    public SubstituteLogger(String name, Queue<SubstituteLoggingEvent> eventQueue, boolean createdPostInitialization) {
+    public SubstituteLogger(String name, Vector eventQueue, boolean createdPostInitialization) {
         this.name = name;
         this.eventQueue = eventQueue;
         this.createdPostInitialization = createdPostInitialization;
@@ -81,7 +77,7 @@ public class SubstituteLogger implements Logger {
         delegate().trace(format, arg1, arg2);
     }
 
-    public void trace(String format, Object... arguments) {
+    public void trace(String format, Object[] arguments) {
         delegate().trace(format, arguments);
     }
 
@@ -105,7 +101,7 @@ public class SubstituteLogger implements Logger {
         delegate().trace(marker, format, arg1, arg2);
     }
 
-    public void trace(Marker marker, String format, Object... arguments) {
+    public void trace(Marker marker, String format, Object[] arguments) {
         delegate().trace(marker, format, arguments);
     }
 
@@ -129,7 +125,7 @@ public class SubstituteLogger implements Logger {
         delegate().debug(format, arg1, arg2);
     }
 
-    public void debug(String format, Object... arguments) {
+    public void debug(String format, Object[] arguments) {
         delegate().debug(format, arguments);
     }
 
@@ -153,7 +149,7 @@ public class SubstituteLogger implements Logger {
         delegate().debug(marker, format, arg1, arg2);
     }
 
-    public void debug(Marker marker, String format, Object... arguments) {
+    public void debug(Marker marker, String format, Object[] arguments) {
         delegate().debug(marker, format, arguments);
     }
 
@@ -177,7 +173,7 @@ public class SubstituteLogger implements Logger {
         delegate().info(format, arg1, arg2);
     }
 
-    public void info(String format, Object... arguments) {
+    public void info(String format, Object[] arguments) {
         delegate().info(format, arguments);
     }
 
@@ -201,7 +197,7 @@ public class SubstituteLogger implements Logger {
         delegate().info(marker, format, arg1, arg2);
     }
 
-    public void info(Marker marker, String format, Object... arguments) {
+    public void info(Marker marker, String format, Object[] arguments) {
         delegate().info(marker, format, arguments);
     }
 
@@ -225,7 +221,7 @@ public class SubstituteLogger implements Logger {
         delegate().warn(format, arg1, arg2);
     }
 
-    public void warn(String format, Object... arguments) {
+    public void warn(String format, Object[] arguments) {
         delegate().warn(format, arguments);
     }
 
@@ -249,7 +245,7 @@ public class SubstituteLogger implements Logger {
         delegate().warn(marker, format, arg1, arg2);
     }
 
-    public void warn(Marker marker, String format, Object... arguments) {
+    public void warn(Marker marker, String format, Object[] arguments) {
         delegate().warn(marker, format, arguments);
     }
 
@@ -273,7 +269,7 @@ public class SubstituteLogger implements Logger {
         delegate().error(format, arg1, arg2);
     }
 
-    public void error(String format, Object... arguments) {
+    public void error(String format, Object[] arguments) {
         delegate().error(format, arguments);
     }
 
@@ -297,7 +293,7 @@ public class SubstituteLogger implements Logger {
         delegate().error(marker, format, arg1, arg2);
     }
 
-    public void error(Marker marker, String format, Object... arguments) {
+    public void error(Marker marker, String format, Object[] arguments) {
         delegate().error(marker, format, arguments);
     }
 
@@ -305,7 +301,6 @@ public class SubstituteLogger implements Logger {
         delegate().error(marker, msg, t);
     }
 
-    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
@@ -320,7 +315,6 @@ public class SubstituteLogger implements Logger {
         return true;
     }
 
-    @Override
     public int hashCode() {
         return name.hashCode();
     }
@@ -357,26 +351,12 @@ public class SubstituteLogger implements Logger {
 
     public boolean isDelegateEventAware() {
         if (delegateEventAware != null)
-            return delegateEventAware;
+            return delegateEventAware.booleanValue();
 
-        try {
-            logMethodCache = _delegate.getClass().getMethod("log", LoggingEvent.class);
-            delegateEventAware = Boolean.TRUE;
-        } catch (NoSuchMethodException e) {
-            delegateEventAware = Boolean.FALSE;
-        }
-        return delegateEventAware;
+        return false;
     }
 
     public void log(LoggingEvent event) {
-        if (isDelegateEventAware()) {
-            try {
-                logMethodCache.invoke(_delegate, event);
-            } catch (IllegalAccessException e) {
-            } catch (IllegalArgumentException e) {
-            } catch (InvocationTargetException e) {
-            }
-        }
     }
 
 

@@ -24,7 +24,7 @@
  */
 package org.slf4j.spi;
 
-import java.util.Map;
+import java.util.Hashtable;
 
 /**
  * This interface abstracts the service offered by various MDC
@@ -76,7 +76,7 @@ public interface MDCAdapter {
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public Map<String, String> getCopyOfContextMap();
+    public Hashtable getCopyOfContextMap();
 
     /**
      * Set the current thread's context map by first clearing any existing 
@@ -87,5 +87,5 @@ public interface MDCAdapter {
      * 
      * @since 1.5.1
      */
-    public void setContextMap(Map<String, String> contextMap);
+    public void setContextMap(Hashtable contextMap);
 }

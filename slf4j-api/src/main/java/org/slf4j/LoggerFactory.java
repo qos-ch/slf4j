@@ -25,16 +25,11 @@
 package org.slf4j;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Vector;
 
 import org.slf4j.event.SubstituteLoggingEvent;
+import org.slf4j.helpers.CollectionHelper;
 import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteLoggerFactory;
@@ -130,26 +125,18 @@ public final class LoggerFactory {
     private static boolean messageContainsOrgSlf4jImplStaticLoggerBinder(String msg) {
         if (msg == null)
             return false;
-        if (msg.contains("org/slf4j/impl/StaticLoggerBinder"))
+        if (msg.indexOf("org/slf4j/impl/StaticLoggerBinder") > -1)
             return true;
-        if (msg.contains("org.slf4j.impl.StaticLoggerBinder"))
+        if (msg.indexOf("org.slf4j.impl.StaticLoggerBinder") > -1)
             return true;
         return false;
     }
 
     private final static void bind() {
         try {
-            Set<URL> staticLoggerBinderPathSet = null;
-            // skip check under android, see also
-            // http://jira.qos.ch/browse/SLF4J-328
-            if (!isAndroid()) {
-                staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
-                reportMultipleBindingAmbiguity(staticLoggerBinderPathSet);
-            }
             // the next line does the binding
             StaticLoggerBinder.getSingleton();
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
-            reportActualBinding(staticLoggerBinderPathSet);
             fixSubstituteLoggers();
             replayEvents();
             // release all resources in SUBST_FACTORY
@@ -165,25 +152,18 @@ public final class LoggerFactory {
                 failedBinding(ncde);
                 throw ncde;
             }
-        } catch (java.lang.NoSuchMethodError nsme) {
-            String msg = nsme.getMessage();
-            if (msg != null && msg.contains("org.slf4j.impl.StaticLoggerBinder.getSingleton()")) {
-                INITIALIZATION_STATE = FAILED_INITIALIZATION;
-                Util.report("slf4j-api 1.6.x (or later) is incompatible with this binding.");
-                Util.report("Your binding is version 1.5.5 or earlier.");
-                Util.report("Upgrade your binding to version 1.6.x.");
-            }
-            throw nsme;
         } catch (Exception e) {
             failedBinding(e);
-            throw new IllegalStateException("Unexpected initialization failure", e);
+            throw new IllegalStateException("Unexpected initialization failure: " + e);
         }
     }
 
     private static void fixSubstituteLoggers() {
         synchronized (SUBST_FACTORY) {
             SUBST_FACTORY.postInitialization();
-            for (SubstituteLogger substLogger : SUBST_FACTORY.getLoggers()) {
+            Vector loggers = SUBST_FACTORY.getLoggers();
+            for (int i = 0; i < loggers.size(); i++) {
+                SubstituteLogger substLogger = (SubstituteLogger) loggers.elementAt(i);
                 Logger logger = getLogger(substLogger.getName());
                 substLogger.setDelegate(logger);
             }
@@ -197,21 +177,23 @@ public final class LoggerFactory {
     }
 
     private static void replayEvents() {
-        final LinkedBlockingQueue<SubstituteLoggingEvent> queue = SUBST_FACTORY.getEventQueue();
+        final Vector queue = SUBST_FACTORY.getEventQueue();
         final int queueSize = queue.size();
         int count = 0;
         final int maxDrain = 128;
-        List<SubstituteLoggingEvent> eventList = new ArrayList<SubstituteLoggingEvent>(maxDrain);
+        //SubstituteLoggingEvent
+        Vector eventList = new Vector(maxDrain);
         while (true) {
-            int numDrained = queue.drainTo(eventList, maxDrain);
+            int numDrained = CollectionHelper.drain(queue, eventList, maxDrain);
             if (numDrained == 0)
                 break;
-            for (SubstituteLoggingEvent event : eventList) {
+            for (int i = 0; i < eventList.size(); i++) {
+                SubstituteLoggingEvent event = (SubstituteLoggingEvent) eventList.elementAt(i);
                 replaySingleEvent(event);
                 if (count++ == 0)
                     emitReplayOrSubstituionWarning(event, queueSize);
             }
-            eventList.clear();
+            eventList.removeAllElements();
         }
     }
 
@@ -263,85 +245,20 @@ public final class LoggerFactory {
             String requested = StaticLoggerBinder.REQUESTED_API_VERSION;
 
             boolean match = false;
-            for (String aAPI_COMPATIBILITY_LIST : API_COMPATIBILITY_LIST) {
+            for (int i = 0; i < API_COMPATIBILITY_LIST.length; i++) {
+                String aAPI_COMPATIBILITY_LIST = API_COMPATIBILITY_LIST[i];
                 if (requested.startsWith(aAPI_COMPATIBILITY_LIST)) {
                     match = true;
                 }
             }
             if (!match) {
                 Util.report("The requested version " + requested + " by your slf4j binding is not compatible with "
-                                + Arrays.asList(API_COMPATIBILITY_LIST).toString());
+                                + CollectionHelper.toString(API_COMPATIBILITY_LIST));
                 Util.report("See " + VERSION_MISMATCH + " for further details.");
             }
-        } catch (java.lang.NoSuchFieldError nsfe) {
-            // given our large user base and SLF4J's commitment to backward
-            // compatibility, we cannot cry here. Only for implementations
-            // which willingly declare a REQUESTED_API_VERSION field do we
-            // emit compatibility warnings.
         } catch (Throwable e) {
             // we should never reach here
             Util.report("Unexpected problem occured during version sanity check", e);
-        }
-    }
-
-    // We need to use the name of the StaticLoggerBinder class, but we can't
-    // reference
-    // the class itself.
-    private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
-
-    static Set<URL> findPossibleStaticLoggerBinderPathSet() {
-        // use Set instead of list in order to deal with bug #138
-        // LinkedHashSet appropriate here because it preserves insertion order
-        // during iteration
-        Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
-        try {
-            ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
-            Enumeration<URL> paths;
-            if (loggerFactoryClassLoader == null) {
-                paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
-            } else {
-                paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
-            }
-            while (paths.hasMoreElements()) {
-                URL path = paths.nextElement();
-                staticLoggerBinderPathSet.add(path);
-            }
-        } catch (IOException ioe) {
-            Util.report("Error getting resources from path", ioe);
-        }
-        return staticLoggerBinderPathSet;
-    }
-
-    private static boolean isAmbiguousStaticLoggerBinderPathSet(Set<URL> binderPathSet) {
-        return binderPathSet.size() > 1;
-    }
-
-    /**
-     * Prints a warning message on the console if multiple bindings were found
-     * on the class path. No reporting is done otherwise.
-     * 
-     */
-    private static void reportMultipleBindingAmbiguity(Set<URL> binderPathSet) {
-        if (isAmbiguousStaticLoggerBinderPathSet(binderPathSet)) {
-            Util.report("Class path contains multiple SLF4J bindings.");
-            for (URL path : binderPathSet) {
-                Util.report("Found binding in [" + path + "]");
-            }
-            Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
-        }
-    }
-
-    private static boolean isAndroid() {
-        String vendor = Util.safeGetSystemProperty(JAVA_VENDOR_PROPERTY);
-        if (vendor == null)
-            return false;
-        return vendor.toLowerCase().contains("android");
-    }
-
-    private static void reportActualBinding(Set<URL> binderPathSet) {
-        // binderPathSet can be null under Android
-        if (binderPathSet != null && isAmbiguousStaticLoggerBinderPathSet(binderPathSet)) {
-            Util.report("Actual binding is of type [" + StaticLoggerBinder.getSingleton().getLoggerFactoryClassStr() + "]");
         }
     }
 
@@ -379,20 +296,12 @@ public final class LoggerFactory {
      *      href="http://www.slf4j.org/codes.html#loggerNameMismatch">Detected
      *      logger name mismatch</a>
      */
-    public static Logger getLogger(Class<?> clazz) {
+    public static Logger getLogger(Class clazz) {
         Logger logger = getLogger(clazz.getName());
-        if (DETECT_LOGGER_NAME_MISMATCH) {
-            Class<?> autoComputedCallingClass = Util.getCallingClass();
-            if (autoComputedCallingClass != null && nonMatchingClasses(clazz, autoComputedCallingClass)) {
-                Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".", logger.getName(),
-                                autoComputedCallingClass.getName()));
-                Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
-            }
-        }
         return logger;
     }
 
-    private static boolean nonMatchingClasses(Class<?> clazz, Class<?> autoComputedCallingClass) {
+    private static boolean nonMatchingClasses(Class clazz, Class autoComputedCallingClass) {
         return !autoComputedCallingClass.isAssignableFrom(clazz);
     }
 

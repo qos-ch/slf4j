@@ -24,15 +24,11 @@
  */
 package org.slf4j.helpers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Hashtable;
+import java.util.Vector;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
-import org.slf4j.event.SubstituteLoggingEvent;
 
 /**
  * SubstituteLoggerFactory manages instances of {@link SubstituteLogger}.
@@ -43,13 +39,15 @@ import org.slf4j.event.SubstituteLoggingEvent;
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
     boolean postInitialization = false;
-    
-    final Map<String, SubstituteLogger> loggers = new HashMap<String, SubstituteLogger>();
 
-    final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<SubstituteLoggingEvent>();
+    //String, SubstituteLogger
+    final Hashtable loggers = new Hashtable();
 
-    synchronized public  Logger getLogger(String name) {
-        SubstituteLogger logger = loggers.get(name);
+    //SubstituteLoggingEvent
+    final Vector eventQueue = new Vector();
+
+    synchronized public Logger getLogger(String name) {
+        SubstituteLogger logger = (SubstituteLogger) loggers.get(name);
         if (logger == null) {
             logger = new SubstituteLogger(name, eventQueue, postInitialization);
             loggers.put(name, logger);
@@ -57,15 +55,15 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
         return logger;
     }
 
-    public List<String> getLoggerNames() {
-        return new ArrayList<String>(loggers.keySet());
+    public Vector getLoggerNames() {
+        return CollectionHelper.getKeys(loggers);
     }
 
-    public List<SubstituteLogger> getLoggers() {
-        return new ArrayList<SubstituteLogger>(loggers.values());
+    public Vector getLoggers() {
+        return CollectionHelper.getValues(loggers);
     }
 
-    public LinkedBlockingQueue<SubstituteLoggingEvent> getEventQueue() {
+    public Vector getEventQueue() {
         return eventQueue;
     }
 
@@ -75,6 +73,6 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     
     public void clear() {
         loggers.clear();
-        eventQueue.clear();
+        eventQueue.removeAllElements();
     }
 }

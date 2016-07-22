@@ -24,8 +24,7 @@
  */
 package org.slf4j.helpers;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Hashtable;
 
 import org.slf4j.IMarkerFactory;
 import org.slf4j.Marker;
@@ -41,7 +40,7 @@ import org.slf4j.Marker;
  */
 public class BasicMarkerFactory implements IMarkerFactory {
 
-    private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<String, Marker>();
+    private final Hashtable markerMap = new Hashtable();
 
     /**
      * Regular users should <em>not</em> create
@@ -64,15 +63,14 @@ public class BasicMarkerFactory implements IMarkerFactory {
             throw new IllegalArgumentException("Marker name cannot be null");
         }
 
-        Marker marker = markerMap.get(name);
-        if (marker == null) {
-            marker = new BasicMarker(name);
-            Marker oldMarker = markerMap.putIfAbsent(name, marker);
-            if (oldMarker != null) {
-                marker = oldMarker;
+        synchronized (markerMap) {
+            Marker marker = (Marker) markerMap.get(name);
+            if (marker == null) {
+                marker = new BasicMarker(name);
+                markerMap.put(name, marker);
             }
+            return marker;
         }
-        return marker;
     }
 
     /**

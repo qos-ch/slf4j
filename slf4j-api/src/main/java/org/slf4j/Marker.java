@@ -24,8 +24,7 @@
  */
 package org.slf4j;
 
-import java.io.Serializable;
-import java.util.Iterator;
+import java.util.Enumeration;
 
 /**
  * Markers are named objects used to enrich log statements. Conforming logging
@@ -39,7 +38,7 @@ import java.util.Iterator;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public interface Marker extends Serializable {
+public interface Marker {
 
     /**
      * This constant represents any marker, including a null marker.
@@ -95,7 +94,7 @@ public interface Marker extends Serializable {
      * 
      * @return Iterator over the references of this marker
      */
-    public Iterator<Marker> iterator();
+    public Enumeration iterator();
 
     /**
      * Does this marker contain a reference to the 'other' marker? Marker A is defined 

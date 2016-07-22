@@ -134,7 +134,7 @@ public interface Logger {
      * @param arguments a list of 3 or more arguments
      * @since 1.4
      */
-    public void trace(String format, Object... arguments);
+    public void trace(String format, Object[] arguments);
 
     /**
      * Log an exception (throwable) at the TRACE level with an
@@ -201,7 +201,7 @@ public interface Logger {
      * @param argArray an array of arguments
      * @since 1.4
      */
-    public void trace(Marker marker, String format, Object... argArray);
+    public void trace(Marker marker, String format, Object[] argArray);
 
     /**
      * This method is similar to {@link #trace(String, Throwable)} method except that the
@@ -268,7 +268,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void debug(String format, Object... arguments);
+    public void debug(String format, Object[] arguments);
 
     /**
      * Log an exception (throwable) at the DEBUG level with an
@@ -328,7 +328,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void debug(Marker marker, String format, Object... arguments);
+    public void debug(Marker marker, String format, Object[] arguments);
 
     /**
      * This method is similar to {@link #debug(String, Throwable)} method except that the
@@ -394,7 +394,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void info(String format, Object... arguments);
+    public void info(String format, Object[] arguments);
 
     /**
      * Log an exception (throwable) at the INFO level with an
@@ -453,7 +453,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void info(Marker marker, String format, Object... arguments);
+    public void info(Marker marker, String format, Object[] arguments);
 
     /**
      * This method is similar to {@link #info(String, Throwable)} method
@@ -506,7 +506,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void warn(String format, Object... arguments);
+    public void warn(String format, Object[] arguments);
 
     /**
      * Log a message at the WARN level according to the specified format
@@ -579,7 +579,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void warn(Marker marker, String format, Object... arguments);
+    public void warn(Marker marker, String format, Object[] arguments);
 
     /**
      * This method is similar to {@link #warn(String, Throwable)} method
@@ -645,7 +645,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void error(String format, Object... arguments);
+    public void error(String format, Object[] arguments);
 
     /**
      * Log an exception (throwable) at the ERROR level with an
@@ -705,7 +705,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void error(Marker marker, String format, Object... arguments);
+    public void error(Marker marker, String format, Object[] arguments);
 
     /**
      * This method is similar to {@link #error(String, Throwable)}

@@ -40,7 +40,7 @@ public class StaticMDCBinder {
     public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
     private StaticMDCBinder() {
-        throw new UnsupportedOperationException("This code should never make it into the jar");
+        throw new RuntimeException("This code should never make it into the jar");
     }
 
     /**
@@ -58,10 +58,10 @@ public class StaticMDCBinder {
      * {@link StaticMDCBinder}.
      */
     public MDCAdapter getMDCA() {
-        throw new UnsupportedOperationException("This code should never make it into the jar");
+        throw new RuntimeException("This code should never make it into the jar");
     }
 
     public String getMDCAdapterClassStr() {
-        throw new UnsupportedOperationException("This code should never make it into the jar");
+        throw new RuntimeException("This code should never make it into the jar");
     }
 }
