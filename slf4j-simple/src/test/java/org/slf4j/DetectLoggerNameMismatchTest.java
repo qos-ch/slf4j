@@ -32,6 +32,7 @@ import java.io.PrintStream;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,6 +45,7 @@ import org.junit.Test;
  * @author Alexander Dorokhine
  * @author Ceki G&uuml;lc&uuml;
  */
+@Ignore("Not applicable for JavaME edition")
 public class DetectLoggerNameMismatchTest {
 
     private static final String MISMATCH_STRING = "Detected logger name mismatch";
