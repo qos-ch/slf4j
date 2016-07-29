@@ -26,6 +26,7 @@ package org.slf4j;
 
 import static org.junit.Assert.*;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 
 import org.junit.Test;
@@ -124,10 +125,10 @@ public class BasicMarkerTest {
         }
 
         // check that the child was added once and only once
-        Iterator<Marker> iterator = parent.iterator();
-        assertTrue(iterator.hasNext());
-        assertEquals(CHILD_MARKER_STR, iterator.next().toString());
-        assertFalse(iterator.hasNext());
+        Enumeration iterator = parent.iterator();
+        assertTrue(iterator.hasMoreElements());
+        assertEquals(CHILD_MARKER_STR, iterator.nextElement().toString());
+        assertFalse(iterator.hasMoreElements());
     }
 
     @Test

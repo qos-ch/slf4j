@@ -34,6 +34,7 @@ import org.slf4j.Logger;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 public class SubstituteLoggerFactoryTest {
     private SubstituteLoggerFactory factory = new SubstituteLoggerFactory();
@@ -66,7 +67,9 @@ public class SubstituteLoggerFactoryTest {
         Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1", "foo2"));
 
         Set<String> actualNames = new HashSet<String>();
-        for (SubstituteLogger slog : factory.getLoggers()) {
+        Vector loggers = factory.getLoggers();
+        for(int i = 0; i < loggers.size(); i++) {
+            SubstituteLogger slog = (SubstituteLogger) loggers.elementAt(i);
             actualNames.add(slog.getName());
         }
 
