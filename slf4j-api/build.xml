@@ -1,4 +1,4 @@
-<project name="j2mod" default="full">
+<project name="slf4j-api" default="full">
 
 	<property file="build.properties"/>
 

@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
-    <groupId>org.slf4j</groupId>
+    <groupId>org.slf4j.micro</groupId>
     <artifactId>slf4j-parent</artifactId>
     <version>1.7.22-SNAPSHOT</version>
   </parent>
@@ -18,11 +18,11 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.slf4j</groupId>
+      <groupId>org.slf4j.micro</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
+      <groupId>org.slf4j.micro</groupId>
       <artifactId>slf4j-jdk14</artifactId>
       <scope>test</scope>
     </dependency>
