@@ -307,7 +307,7 @@ final public class MessageFormatter {
     private static void objectArrayAppend(StringBuffer sbuf, Object[] a, Hashtable seenMap) {
         sbuf.append('[');
         if (!seenMap.containsKey(a)) {
-            seenMap.put(a, null);
+            seenMap.put(a, "");
             final int len = a.length;
             for (int i = 0; i < len; i++) {
                 deeplyAppendParameter(sbuf, a[i], seenMap);
