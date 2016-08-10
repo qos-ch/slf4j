@@ -112,7 +112,6 @@ import org.slf4j.spi.LocationAwareLogger;
 public class SimpleLogger extends MarkerIgnoringBase {
 
     private static final long serialVersionUID = -632788891211436180L;
-    private static final String CONFIGURATION_FILE = "simplelogger.properties";
 
     private static long START_TIME = System.currentTimeMillis();
     private static Hashtable SIMPLE_LOGGER_PROPS = new Hashtable();
