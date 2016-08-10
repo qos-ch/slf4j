@@ -115,7 +115,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static final long serialVersionUID = -632788891211436180L;
 
     private static long START_TIME = System.currentTimeMillis();
-    private static Hashtable SIMPLE_LOGGER_PROPS = new Hashtable();
+    static Hashtable SIMPLE_LOGGER_PROPS = new Hashtable();
 
     private static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
     private static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;

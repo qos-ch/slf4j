@@ -37,12 +37,12 @@ public class SimpleLoggerTest {
 
     @Before
     public void before() {
-        System.setProperty(A_KEY, "info");
+        SimpleLogger.SIMPLE_LOGGER_PROPS.put(A_KEY, "info");
     }
 
     @After
     public void after() {
-        System.clearProperty(A_KEY);
+        SimpleLogger.SIMPLE_LOGGER_PROPS.remove(A_KEY);
     }
 
     @Test

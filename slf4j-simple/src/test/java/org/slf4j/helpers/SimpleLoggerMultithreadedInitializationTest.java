@@ -31,9 +31,11 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.slf4j.LoggerFactoryFriend;
 import org.slf4j.impl.SimpleLogger;
 
+@Ignore
 public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedInitializationTest {
     // final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
     // private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
