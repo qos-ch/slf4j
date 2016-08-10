@@ -24,19 +24,16 @@
  */
 package org.slf4j.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Vector;
 
 import org.slf4j.Logger;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
-import org.slf4j.helpers.Util;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -136,8 +133,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static boolean SHOW_LOG_NAME = true;
     private static boolean SHOW_SHORT_LOG_NAME = false;
     private static String LOG_FILE = "System.err";
-    private static ByteArrayOutputStream TARGET_STREAM_BUF = new ByteArrayOutputStream(8192);
-    private static PrintStream TARGET_STREAM = new PrintStream(TARGET_STREAM_BUF);
+    private static Vector PREINIT_BUFFER = new Vector(256);
+    private static PrintStream TARGET_STREAM = null;
     private static boolean LEVEL_IN_BRACKETS = false;
     private static String WARN_LEVEL_STRING = "WARN";
 
@@ -179,9 +176,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
     // Initialize class attributes.
     // Load properties file, if found.
     // Override with system properties.
-    public static byte[] init(Hashtable config, PrintStream targetStream) {
+    public static void init(Hashtable config, PrintStream targetStream) {
         if (INITIALIZED) {
-            return null;
+            return;
         }
         INITIALIZED = true;
         SIMPLE_LOGGER_PROPS = config;
@@ -199,19 +196,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
         WARN_LEVEL_STRING = getStringProperty(WARN_LEVEL_STRING_KEY, WARN_LEVEL_STRING);
 
         LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
-        byte[] buffered = TARGET_STREAM_BUF.toByteArray();
-        if (buffered.length > 0) {
-            try {
-                targetStream.write(buffered);
-            } catch (IOException e) {
-                throw new RuntimeException(e.toString());
-            }
-            targetStream.flush();
-            TARGET_STREAM_BUF = null;
-        }
         TARGET_STREAM = targetStream;
-
-        return buffered;
+        replayBufferedEvents();
     }
 
     /** The current log level */
@@ -271,6 +257,24 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * @param t       The exception whose stack trace should be logged
      */
     private void log(int level, String message, Throwable t) {
+        Date timestamp = new Date();
+        if (TARGET_STREAM != null) {
+            logImpl(timestamp, level, message, t);
+        }
+        else {
+            PREINIT_BUFFER.addElement(new SimpleLogEvent(this, timestamp, level, message, t));
+        }
+    }
+
+    private static void replayBufferedEvents() {
+        for(int i = 0; i < PREINIT_BUFFER.size(); i++) {
+            SimpleLogEvent event = (SimpleLogEvent) PREINIT_BUFFER.elementAt(i);
+            event.logger.logImpl(event.timestamp, event.level, event.message, event.t);
+        }
+        PREINIT_BUFFER = null;
+    }
+
+    private void logImpl(Date timestamp, int level, String message, Throwable t) {
         if (!isLevelEnabled(level)) {
             return;
         }
@@ -280,7 +284,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         // Append date-time if so configured
         if (SHOW_DATE_TIME) {
             if (DATE_FORMATTER != null) {
-                buf.append(getFormattedDate());
+                buf.append(getFormattedDate(timestamp));
                 buf.append(' ');
             } else {
                 buf.append(System.currentTimeMillis() - START_TIME);
@@ -344,8 +348,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
         TARGET_STREAM.flush();
     }
 
-    private String getFormattedDate() {
-        return DATE_FORMATTER.format(new Date());
+    private String getFormattedDate(Date timestamp) {
+        return DATE_FORMATTER.format(timestamp);
     }
 
     private String computeShortName() {
