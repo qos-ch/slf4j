@@ -42,7 +42,6 @@ public class SimpleLoggerFactory implements ILoggerFactory {
 
     public SimpleLoggerFactory() {
         loggerMap = new Hashtable();
-        SimpleLogger.init();
     }
 
     /**

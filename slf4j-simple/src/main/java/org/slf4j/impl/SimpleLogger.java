@@ -24,6 +24,8 @@
  */
 package org.slf4j.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Date;
@@ -116,7 +118,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static final String CONFIGURATION_FILE = "simplelogger.properties";
 
     private static long START_TIME = System.currentTimeMillis();
-    private static final Hashtable SIMPLE_LOGGER_PROPS = new Hashtable();
+    private static Hashtable SIMPLE_LOGGER_PROPS = new Hashtable();
 
     private static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
     private static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;
@@ -128,35 +130,36 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
     private static boolean SHOW_DATE_TIME = false;
-    private static String DATE_TIME_FORMAT_STR = null;
-    //private static DateFormat DATE_FORMATTER = null;
+    //private static String DATE_TIME_FORMAT_STR = null;
+    private static SimpleMicroDateFormat DATE_FORMATTER = SimpleMicroDateFormat.FULL;
     private static boolean SHOW_THREAD_NAME = true;
     private static boolean SHOW_LOG_NAME = true;
     private static boolean SHOW_SHORT_LOG_NAME = false;
     private static String LOG_FILE = "System.err";
-    private static PrintStream TARGET_STREAM = null;
+    private static ByteArrayOutputStream TARGET_STREAM_BUF = new ByteArrayOutputStream(8192);
+    private static PrintStream TARGET_STREAM = new PrintStream(TARGET_STREAM_BUF);
     private static boolean LEVEL_IN_BRACKETS = false;
     private static String WARN_LEVEL_STRING = "WARN";
 
     /** All system properties used by <code>SimpleLogger</code> start with this prefix */
     public static final String SYSTEM_PREFIX = "org.slf4j.simpleLogger.";
 
-    public static final String DEFAULT_LOG_LEVEL_KEY = SYSTEM_PREFIX + "defaultLogLevel";
-    public static final String SHOW_DATE_TIME_KEY = SYSTEM_PREFIX + "showDateTime";
-    public static final String DATE_TIME_FORMAT_KEY = SYSTEM_PREFIX + "dateTimeFormat";
-    public static final String SHOW_THREAD_NAME_KEY = SYSTEM_PREFIX + "showThreadName";
-    public static final String SHOW_LOG_NAME_KEY = SYSTEM_PREFIX + "showLogName";
-    public static final String SHOW_SHORT_LOG_NAME_KEY = SYSTEM_PREFIX + "showShortLogName";
-    public static final String LOG_FILE_KEY = SYSTEM_PREFIX + "logFile";
-    public static final String LEVEL_IN_BRACKETS_KEY = SYSTEM_PREFIX + "levelInBrackets";
-    public static final String WARN_LEVEL_STRING_KEY = SYSTEM_PREFIX + "warnLevelString";
+    public static final String DEFAULT_LOG_LEVEL_KEY = "defaultLogLevel";
+    public static final String SHOW_DATE_TIME_KEY = "showDateTime";
+    //public static final String DATE_TIME_FORMAT_KEY = "dateTimeFormat";
+    public static final String SHOW_THREAD_NAME_KEY = "showThreadName";
+    public static final String SHOW_LOG_NAME_KEY = "showLogName";
+    public static final String SHOW_SHORT_LOG_NAME_KEY = "showShortLogName";
+    public static final String LOG_FILE_KEY = "logFile";
+    public static final String LEVEL_IN_BRACKETS_KEY = "levelInBrackets";
+    public static final String WARN_LEVEL_STRING_KEY = "warnLevelString";
 
-    public static final String LOG_KEY_PREFIX = SYSTEM_PREFIX + "log.";
+    public static final String LOG_KEY_PREFIX = "log.";
 
     private static String getStringProperty(String name) {
         String prop = null;
         try {
-            prop = System.getProperty(name);
+            prop = System.getProperty(SYSTEM_PREFIX + name);
         } catch (SecurityException e) {
             ; // Ignore
         }
@@ -176,12 +179,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     // Initialize class attributes.
     // Load properties file, if found.
     // Override with system properties.
-    static void init() {
+    public static byte[] init(Hashtable config, PrintStream targetStream) {
         if (INITIALIZED) {
-            return;
+            return null;
         }
         INITIALIZED = true;
-        loadProperties();
+        SIMPLE_LOGGER_PROPS = config;
 
         String defaultLogLevelString = getStringProperty(DEFAULT_LOG_LEVEL_KEY, null);
         if (defaultLogLevelString != null)
@@ -191,43 +194,24 @@ public class SimpleLogger extends MarkerIgnoringBase {
         SHOW_SHORT_LOG_NAME = getBooleanProperty(SHOW_SHORT_LOG_NAME_KEY, SHOW_SHORT_LOG_NAME);
         SHOW_DATE_TIME = getBooleanProperty(SHOW_DATE_TIME_KEY, SHOW_DATE_TIME);
         SHOW_THREAD_NAME = getBooleanProperty(SHOW_THREAD_NAME_KEY, SHOW_THREAD_NAME);
-        DATE_TIME_FORMAT_STR = getStringProperty(DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR);
+        //DATE_TIME_FORMAT_STR = getStringProperty(DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR);
         LEVEL_IN_BRACKETS = getBooleanProperty(LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS);
         WARN_LEVEL_STRING = getStringProperty(WARN_LEVEL_STRING_KEY, WARN_LEVEL_STRING);
 
         LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
-        TARGET_STREAM = computeTargetStream(LOG_FILE);
-
-        if (DATE_TIME_FORMAT_STR != null) {
+        byte[] buffered = TARGET_STREAM_BUF.toByteArray();
+        if (buffered.length > 0) {
             try {
-                //DATE_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
-            } catch (IllegalArgumentException e) {
-                Util.report("Bad date format in " + CONFIGURATION_FILE + "; will output relative time", e);
+                targetStream.write(buffered);
+            } catch (IOException e) {
+                throw new RuntimeException(e.toString());
             }
+            targetStream.flush();
+            TARGET_STREAM_BUF = null;
         }
-    }
+        TARGET_STREAM = targetStream;
 
-    private static PrintStream computeTargetStream(String logFile) {
-        if ("System.err".equalsIgnoreCase(logFile))
-            return System.err;
-        else if ("System.out".equalsIgnoreCase(logFile)) {
-            return System.out;
-        } else {
-//            try {
-//                FileOutputStream fos = new FileOutputStream(logFile);
-//                PrintStream printStream = new PrintStream(fos);
-//                return printStream;
-//            } catch (FileNotFoundException e) {
-//                Util.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
-//                return System.err;
-//            }
-            return System.out;
-        }
-    }
-
-    private static void loadProperties() {
-        // Add props from the resource simplelogger.properties
-        //TODO
+        return buffered;
     }
 
     /** The current log level */
@@ -295,13 +279,13 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
         // Append date-time if so configured
         if (SHOW_DATE_TIME) {
-//            if (DATE_FORMATTER != null) {
-//                buf.append(getFormattedDate());
-//                buf.append(' ');
-//            } else {
+            if (DATE_FORMATTER != null) {
+                buf.append(getFormattedDate());
+                buf.append(' ');
+            } else {
                 buf.append(System.currentTimeMillis() - START_TIME);
                 buf.append(' ');
-//            }
+            }
         }
 
         // Append current thread name if so configured
@@ -361,13 +345,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
 
     private String getFormattedDate() {
-        Date now = new Date();
-        String dateText;
-        //synchronized (DATE_FORMATTER) {
-            //TODO format date
-            dateText = now.toString();
-        //}
-        return dateText;
+        return DATE_FORMATTER.format(new Date());
     }
 
     private String computeShortName() {
