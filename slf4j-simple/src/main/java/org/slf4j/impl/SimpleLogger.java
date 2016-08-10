@@ -379,7 +379,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * @param arg2
      */
     private void formatAndLog(int level, String format, Object arg1, Object arg2) {
-        if (!isLevelEnabled(level)) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
             return;
         }
         FormattingTuple tp = MessageFormatter.format(format, arg1, arg2);
@@ -394,7 +394,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * @param arguments a list of 3 ore more arguments
      */
     private void formatAndLog(int level, String format, Object[] arguments) {
-        if (!isLevelEnabled(level)) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
             return;
         }
         FormattingTuple tp = MessageFormatter.arrayFormat(format, arguments);
@@ -414,7 +414,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     /** Are {@code trace} messages currently enabled? */
     public boolean isTraceEnabled() {
-        return isLevelEnabled(LOG_LEVEL_TRACE);
+        return !INITIALIZED || isLevelEnabled(LOG_LEVEL_TRACE);
     }
 
     /**
@@ -456,7 +456,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     /** Are {@code debug} messages currently enabled? */
     public boolean isDebugEnabled() {
-        return isLevelEnabled(LOG_LEVEL_DEBUG);
+        return !INITIALIZED || isLevelEnabled(LOG_LEVEL_DEBUG);
     }
 
     /**
@@ -498,7 +498,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     /** Are {@code info} messages currently enabled? */
     public boolean isInfoEnabled() {
-        return isLevelEnabled(LOG_LEVEL_INFO);
+        return !INITIALIZED || isLevelEnabled(LOG_LEVEL_INFO);
     }
 
     /**
@@ -540,7 +540,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     /** Are {@code warn} messages currently enabled? */
     public boolean isWarnEnabled() {
-        return isLevelEnabled(LOG_LEVEL_WARN);
+        return !INITIALIZED || isLevelEnabled(LOG_LEVEL_WARN);
     }
 
     /**
@@ -582,7 +582,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     /** Are {@code error} messages currently enabled? */
     public boolean isErrorEnabled() {
-        return isLevelEnabled(LOG_LEVEL_ERROR);
+        return !INITIALIZED || isLevelEnabled(LOG_LEVEL_ERROR);
     }
 
     /**
@@ -625,7 +625,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     public void log(LoggingEvent event) {
         int levelInt = event.getLevel().toInt();
 
-        if (!isLevelEnabled(levelInt)) {
+        if (INITIALIZED && !isLevelEnabled(levelInt)) {
             return;
         }
         FormattingTuple tp = MessageFormatter.arrayFormat(event.getMessage(), event.getArgumentArray(), event.getThrowable());
