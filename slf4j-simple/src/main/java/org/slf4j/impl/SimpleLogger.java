@@ -26,6 +26,7 @@ package org.slf4j.impl;
 
 import java.io.PrintStream;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -196,7 +197,18 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
         LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
         TARGET_STREAM = targetStream;
+        reinitializeOldLoggerLevels();
         replayBufferedEvents();
+    }
+
+    private static void reinitializeOldLoggerLevels() {
+        SimpleLoggerFactory factory = (SimpleLoggerFactory) StaticLoggerBinder.getSingleton().getLoggerFactory();
+        Hashtable loggers = factory.loggerMap;
+        Enumeration en = loggers.elements();
+        while(en.hasMoreElements()) {
+            SimpleLogger l = (SimpleLogger) en.nextElement();
+            l.initLogLevel();
+        }
     }
 
     /** The current log level */
@@ -210,7 +222,10 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     SimpleLogger(String name) {
         this.name = name;
+        initLogLevel();
+    }
 
+    private void initLogLevel() {
         String levelString = recursivelyComputeLevelString();
         if (levelString != null) {
             this.currentLogLevel = stringToLevel(levelString);
