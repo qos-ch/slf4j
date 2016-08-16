@@ -134,7 +134,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static boolean SHOW_SHORT_LOG_NAME = false;
     private static String LOG_FILE = "System.err";
     private static Vector PREINIT_BUFFER = new Vector(256);
-    private static PrintStream TARGET_STREAM = null;
+    private static SimpleLogListener LOG_LISTENER = null;
     private static boolean LEVEL_IN_BRACKETS = false;
     private static String WARN_LEVEL_STRING = "WARN";
 
@@ -176,11 +176,31 @@ public class SimpleLogger extends MarkerIgnoringBase {
     // Initialize class attributes.
     // Load properties file, if found.
     // Override with system properties.
-    public static void init(Hashtable config, PrintStream targetStream) {
+    public static void init(Hashtable config, PrintStream stream) {
         if (INITIALIZED) {
             return;
         }
         INITIALIZED = true;
+        initConfig(config);
+        init(new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING));
+    }
+
+    public static void init(Hashtable config, SimpleLogListener logListener) {
+        if (INITIALIZED) {
+            return;
+        }
+        INITIALIZED = true;
+        initConfig(config);
+        init(logListener);
+    }
+
+    private static void init(SimpleLogListener logListener) {
+        LOG_LISTENER = logListener;
+        reinitializeOldLoggerLevels();
+        replayBufferedEvents();
+    }
+
+    private static void initConfig(Hashtable config) {
         SIMPLE_LOGGER_PROPS = config;
 
         String defaultLogLevelString = getStringProperty(DEFAULT_LOG_LEVEL_KEY, null);
@@ -196,9 +216,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
         WARN_LEVEL_STRING = getStringProperty(WARN_LEVEL_STRING_KEY, WARN_LEVEL_STRING);
 
         LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
-        TARGET_STREAM = targetStream;
-        reinitializeOldLoggerLevels();
-        replayBufferedEvents();
     }
 
     private static void reinitializeOldLoggerLevels() {
@@ -272,98 +289,40 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     private void log(int level, String message, Throwable t) {
         Date timestamp = new Date();
-        if (TARGET_STREAM != null) {
-            logImpl(timestamp, level, message, t);
+        String threadName = Thread.currentThread().getName();
+        if (LOG_LISTENER != null) {
+            logImpl(timestamp, level, threadName, message, t);
         }
         else {
-            PREINIT_BUFFER.addElement(new SimpleLogEvent(this, timestamp, level, message, t));
+            PREINIT_BUFFER.addElement(new SimpleLogEvent(this, timestamp, level, threadName, message, t));
         }
     }
 
     private static void replayBufferedEvents() {
         for(int i = 0; i < PREINIT_BUFFER.size(); i++) {
             SimpleLogEvent event = (SimpleLogEvent) PREINIT_BUFFER.elementAt(i);
-            event.logger.logImpl(event.timestamp, event.level, event.message, event.t);
+            event.logger.logImpl(event.timestamp, event.level, event.threadName, event.message, event.t);
         }
         PREINIT_BUFFER = null;
     }
 
-    private void logImpl(Date timestamp, int level, String message, Throwable t) {
+    private void logImpl(Date timestamp, int level, String threadName, String message, Throwable t) {
         if (!isLevelEnabled(level)) {
             return;
         }
 
-        StringBuffer buf = new StringBuffer(32);
-
-        // Append date-time if so configured
-        if (SHOW_DATE_TIME) {
-            if (DATE_FORMATTER != null) {
-                buf.append(getFormattedDate(timestamp));
-                buf.append(' ');
-            } else {
-                buf.append(System.currentTimeMillis() - START_TIME);
-                buf.append(' ');
-            }
-        }
-
-        // Append current thread name if so configured
-        if (SHOW_THREAD_NAME) {
-            buf.append('[');
-            buf.append(Thread.currentThread().getName());
-            buf.append("] ");
-        }
-
-        if (LEVEL_IN_BRACKETS)
-            buf.append('[');
-
-        // Append a readable representation of the log level
-        switch (level) {
-        case LOG_LEVEL_TRACE:
-            buf.append("TRACE");
-            break;
-        case LOG_LEVEL_DEBUG:
-            buf.append("DEBUG");
-            break;
-        case LOG_LEVEL_INFO:
-            buf.append("INFO");
-            break;
-        case LOG_LEVEL_WARN:
-            buf.append(WARN_LEVEL_STRING);
-            break;
-        case LOG_LEVEL_ERROR:
-            buf.append("ERROR");
-            break;
-        }
-        if (LEVEL_IN_BRACKETS)
-            buf.append(']');
-        buf.append(' ');
-
+        String logName;
         // Append the name of the log instance if so configured
         if (SHOW_SHORT_LOG_NAME) {
             if (shortLogName == null)
                 shortLogName = computeShortName();
-            buf.append(String.valueOf(shortLogName)).append(" - ");
+            logName = shortLogName;
         } else if (SHOW_LOG_NAME) {
-            buf.append(String.valueOf(name)).append(" - ");
+            logName = name;
+        } else {
+            logName = "";
         }
-
-        // Append the message
-        buf.append(message);
-
-        write(buf, t);
-
-    }
-
-    void write(StringBuffer buf, Throwable t) {
-        TARGET_STREAM.println(buf.toString());
-        if (t != null) {
-            t.printStackTrace();
-        }
-        TARGET_STREAM.flush();
-    }
-
-    private String getFormattedDate(Date timestamp) {
-        return DATE_FORMATTER.format(timestamp);
+        LOG_LISTENER.log(logName, timestamp, level, threadName, message, t);
     }
 
     private String computeShortName() {
