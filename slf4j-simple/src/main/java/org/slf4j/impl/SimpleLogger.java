@@ -124,6 +124,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
 
     private static boolean INITIALIZED = false;
+    private static SimpleLogListener PRE_LOG_LISTENER = null;
+    private static SimpleLogListener LOG_LISTENER = null;
 
     private static int DEFAULT_LOG_LEVEL = LOG_LEVEL_INFO;
     private static boolean SHOW_DATE_TIME = false;
@@ -134,7 +136,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static boolean SHOW_SHORT_LOG_NAME = false;
     private static String LOG_FILE = "System.err";
     private static Vector PREINIT_BUFFER = new Vector(256);
-    private static SimpleLogListener LOG_LISTENER = null;
     private static boolean LEVEL_IN_BRACKETS = false;
     private static String WARN_LEVEL_STRING = "WARN";
 
@@ -182,22 +183,28 @@ public class SimpleLogger extends MarkerIgnoringBase {
         }
         INITIALIZED = true;
         initConfig(config);
-        init(new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING));
+        LOG_LISTENER = new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
+        reinitializeOldLoggerLevels();
+        replayBufferedEvents(LOG_LISTENER);
+        PREINIT_BUFFER = null;
     }
 
+    public static void preinit(Hashtable config, PrintStream stream) {
+        initConfig(config);
+        PRE_LOG_LISTENER = new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
+        reinitializeOldLoggerLevels();
+        replayBufferedEvents(PRE_LOG_LISTENER);
+    }
     public static void init(Hashtable config, SimpleLogListener logListener) {
         if (INITIALIZED) {
             return;
         }
         INITIALIZED = true;
         initConfig(config);
-        init(logListener);
-    }
-
-    private static void init(SimpleLogListener logListener) {
         LOG_LISTENER = logListener;
         reinitializeOldLoggerLevels();
-        replayBufferedEvents();
+        replayBufferedEvents(logListener);
+        PREINIT_BUFFER = null;
     }
 
     private static void initConfig(Hashtable config) {
@@ -291,22 +298,24 @@ public class SimpleLogger extends MarkerIgnoringBase {
         Date timestamp = new Date();
         String threadName = Thread.currentThread().getName();
         if (LOG_LISTENER != null) {
-            logImpl(timestamp, level, threadName, message, t);
+            logImpl(LOG_LISTENER, timestamp, level, threadName, message, t);
         }
         else {
+            if (PRE_LOG_LISTENER != null) {
+                logImpl(PRE_LOG_LISTENER, timestamp, level, threadName, message, t);
+            }
             PREINIT_BUFFER.addElement(new SimpleLogEvent(this, timestamp, level, threadName, message, t));
         }
     }
 
-    private static void replayBufferedEvents() {
+    private static void replayBufferedEvents(SimpleLogListener listener) {
         for(int i = 0; i < PREINIT_BUFFER.size(); i++) {
             SimpleLogEvent event = (SimpleLogEvent) PREINIT_BUFFER.elementAt(i);
-            event.logger.logImpl(event.timestamp, event.level, event.threadName, event.message, event.t);
+            event.logger.logImpl(listener, event.timestamp, event.level, event.threadName, event.message, event.t);
         }
-        PREINIT_BUFFER = null;
     }
 
-    private void logImpl(Date timestamp, int level, String threadName, String message, Throwable t) {
+    private void logImpl(SimpleLogListener listener, Date timestamp, int level, String threadName, String message, Throwable t) {
         if (!isLevelEnabled(level)) {
             return;
         }
@@ -322,7 +331,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         } else {
             logName = "";
         }
-        LOG_LISTENER.log(logName, timestamp, level, threadName, message, t);
+        listener.log(logName, timestamp, level, threadName, message, t);
     }
 
     private String computeShortName() {
