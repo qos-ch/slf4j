@@ -182,16 +182,14 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return;
         }
         INITIALIZED = true;
-        initConfig(config);
-        LOG_LISTENER = new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
+        LOG_LISTENER = makeLogListener(config, stream);
         reinitializeOldLoggerLevels();
         replayBufferedEvents(LOG_LISTENER);
         PREINIT_BUFFER = null;
     }
 
     public static void preinit(Hashtable config, PrintStream stream) {
-        initConfig(config);
-        PRE_LOG_LISTENER = new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
+        PRE_LOG_LISTENER = makeLogListener(config, stream);
         reinitializeOldLoggerLevels();
         replayBufferedEvents(PRE_LOG_LISTENER);
     }
@@ -205,6 +203,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
         reinitializeOldLoggerLevels();
         replayBufferedEvents(logListener);
         PREINIT_BUFFER = null;
+    }
+
+    public static SimpleLogListenerImpl makeLogListener(Hashtable config, PrintStream stream) {
+        initConfig(config);
+        return new SimpleLogListenerImpl(stream, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
     }
 
     private static void initConfig(Hashtable config) {
