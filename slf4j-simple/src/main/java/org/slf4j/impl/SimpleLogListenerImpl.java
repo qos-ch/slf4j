@@ -14,6 +14,7 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
   private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
 
   private final PrintStream targetStream;
+  private final StackTracePrinter stackTracePrinter;
   private final boolean showDateTime;
   private final SimpleMicroDateFormat dateFormatter;
   private final long startTime;
@@ -21,10 +22,11 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
   private final boolean levelInBrackets;
   private final String warnLevelString;
 
-  public SimpleLogListenerImpl(PrintStream targetStream, boolean showDateTime,
+  public SimpleLogListenerImpl(PrintStream targetStream, StackTracePrinter stackTracePrinter, boolean showDateTime,
                                SimpleMicroDateFormat dateFormatter, long startTime, boolean showThreadName,
                                boolean levelInBrackets, String warnLevelString) {
     this.targetStream = targetStream;
+    this.stackTracePrinter = stackTracePrinter;
     this.showDateTime = showDateTime;
     this.dateFormatter = dateFormatter;
     this.startTime = startTime;
@@ -90,7 +92,7 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
   void write(StringBuffer buf, Throwable t) {
     targetStream.println(buf.toString());
     if (t != null) {
-      t.printStackTrace();
+      stackTracePrinter.printStackTrace(t, targetStream);
     }
     targetStream.flush();
   }
