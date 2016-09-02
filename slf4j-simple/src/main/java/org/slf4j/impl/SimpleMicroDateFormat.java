@@ -66,7 +66,7 @@ public class SimpleMicroDateFormat {
   private void appendDate(Calendar cal, StringBuffer sb, char separator, int yearLen) {
     leftPadWithZeros(sb, cal.get(Calendar.YEAR), yearLen);
     sb.append(separator);
-    leftPadWithZeros(sb, cal.get(Calendar.MONTH), 2);
+    leftPadWithZeros(sb, cal.get(Calendar.MONTH) + 1, 2);
     sb.append(separator);
     leftPadWithZeros(sb, cal.get(Calendar.DAY_OF_MONTH), 2);
   }
