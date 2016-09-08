@@ -8,7 +8,7 @@ public class CompositeLogListener implements SimpleLogListener {
 
   public CompositeLogListener(SimpleLogListener[] listeners) {this.listeners = listeners;}
 
-  public void log(String logName, Date timestamp, int level, String threadName, String message, Throwable t) {
+  public void log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
     for(int i = 0; i < listeners.length; i++) {
       try {
         listeners[i].log(logName, timestamp, level, threadName, message, t);

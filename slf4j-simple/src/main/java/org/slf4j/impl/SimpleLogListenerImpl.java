@@ -15,6 +15,7 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
 
   private final PrintStream targetStream;
   private final StackTracePrinter stackTracePrinter;
+  private final TimeAdjuster timeAdjuster;
   private final boolean showDateTime;
   private final SimpleMicroDateFormat dateFormatter;
   private final long startTime;
@@ -22,11 +23,12 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
   private final boolean levelInBrackets;
   private final String warnLevelString;
 
-  public SimpleLogListenerImpl(PrintStream targetStream, StackTracePrinter stackTracePrinter, boolean showDateTime,
+  public SimpleLogListenerImpl(PrintStream targetStream, StackTracePrinter stackTracePrinter, TimeAdjuster timeAdjuster, boolean showDateTime,
                                SimpleMicroDateFormat dateFormatter, long startTime, boolean showThreadName,
                                boolean levelInBrackets, String warnLevelString) {
     this.targetStream = targetStream;
     this.stackTracePrinter = stackTracePrinter;
+    this.timeAdjuster = timeAdjuster;
     this.showDateTime = showDateTime;
     this.dateFormatter = dateFormatter;
     this.startTime = startTime;
@@ -35,16 +37,16 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
     this.warnLevelString = warnLevelString;
   }
 
-  public void log(String logName, Date timestamp, int level, String threadName, String message, Throwable t) {
+  public void log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
     StringBuffer buf = new StringBuffer(32);
 
     // Append date-time if so configured
     if (showDateTime) {
       if (dateFormatter != null) {
-        buf.append(dateFormatter.format(timestamp));
+        buf.append(dateFormatter.format(timeAdjuster.adjustTime(timestamp)));
         buf.append(' ');
       } else {
-        buf.append(System.currentTimeMillis() - startTime);
+        buf.append(timestamp - startTime);
         buf.append(' ');
       }
     }

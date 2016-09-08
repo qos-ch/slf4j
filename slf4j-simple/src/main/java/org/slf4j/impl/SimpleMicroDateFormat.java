@@ -27,6 +27,10 @@ public class SimpleMicroDateFormat {
     this(format, TZ_UTC);
   }
 
+  public String format(long timestamp) {
+    return format(new Date(timestamp));
+  }
+
   public String format(Date date) {
     Calendar cal = Calendar.getInstance();
     if (timeZone != null) {

@@ -177,19 +177,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
     // Initialize class attributes.
     // Load properties file, if found.
     // Override with system properties.
-    public static void init(Hashtable config, PrintStream stream, StackTracePrinter stackTracePrinter) {
+    public static void init(Hashtable config, PrintStream stream, StackTracePrinter stackTracePrinter, TimeAdjuster timeAdjuster) {
         if (INITIALIZED) {
             return;
         }
         INITIALIZED = true;
-        LOG_LISTENER = makeLogListener(config, stream, stackTracePrinter);
+        LOG_LISTENER = makeLogListener(config, stream, stackTracePrinter, timeAdjuster);
         reinitializeOldLoggerLevels();
         replayBufferedEvents(LOG_LISTENER);
         PREINIT_BUFFER = null;
     }
 
-    public static void preinit(Hashtable config, PrintStream stream, StackTracePrinter stackTracePrinter) {
-        PRE_LOG_LISTENER = makeLogListener(config, stream, stackTracePrinter);
+    public static void preinit(Hashtable config, PrintStream stream, StackTracePrinter stackTracePrinter, TimeAdjuster timeAdjuster) {
+        PRE_LOG_LISTENER = makeLogListener(config, stream, stackTracePrinter, timeAdjuster);
         reinitializeOldLoggerLevels();
         replayBufferedEvents(PRE_LOG_LISTENER);
     }
@@ -205,9 +205,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
         PREINIT_BUFFER = null;
     }
 
-    public static SimpleLogListenerImpl makeLogListener(Hashtable config, PrintStream stream, StackTracePrinter stackTracePrinter) {
+    public static SimpleLogListenerImpl makeLogListener(Hashtable config, PrintStream stream, StackTracePrinter stackTracePrinter, TimeAdjuster timeAdjuster) {
         initConfig(config);
-        return new SimpleLogListenerImpl(stream, stackTracePrinter, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
+        return new SimpleLogListenerImpl(stream, stackTracePrinter, timeAdjuster, SHOW_DATE_TIME, DATE_FORMATTER, START_TIME, SHOW_THREAD_NAME, LEVEL_IN_BRACKETS, WARN_LEVEL_STRING);
     }
 
     private static void initConfig(Hashtable config) {
@@ -298,7 +298,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
      * @param t       The exception whose stack trace should be logged
      */
     private void log(int level, String message, Throwable t) {
-        Date timestamp = new Date();
+        long timestamp = System.currentTimeMillis();
         String threadName = Thread.currentThread().getName();
         if (LOG_LISTENER != null) {
             logImpl(LOG_LISTENER, timestamp, level, threadName, message, t);
@@ -318,7 +318,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         }
     }
 
-    private void logImpl(SimpleLogListener listener, Date timestamp, int level, String threadName, String message, Throwable t) {
+    private void logImpl(SimpleLogListener listener, long timestamp, int level, String threadName, String message, Throwable t) {
         if (!isLevelEnabled(level)) {
             return;
         }

@@ -4,6 +4,6 @@ import java.util.Date;
 
 public interface SimpleLogListener {
 
-  void log(String logName, Date timestamp, int level, String threadName, String message, Throwable t);
+  void log(String logName, long timestamp, int level, String threadName, String message, Throwable t);
 
 }
