@@ -14,6 +14,7 @@ public class CompositeLogListener implements SimpleLogListener {
         listeners[i].log(logName, timestamp, level, threadName, message, t);
       } catch (Exception e) {
         // do not log it, as we are inside the logging system
+        System.err.println("Error while logging at " + System.currentTimeMillis());
         e.printStackTrace();
       }
     }

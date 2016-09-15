@@ -334,7 +334,13 @@ public class SimpleLogger extends MarkerIgnoringBase {
         } else {
             logName = "";
         }
-        listener.log(logName, timestamp, level, threadName, message, t);
+        try {
+            listener.log(logName, timestamp, level, threadName, message, t);
+        } catch (Exception e) {
+            // do not log it, as we are inside the logging system
+            System.err.println("Error while logging at " + System.currentTimeMillis());
+            e.printStackTrace();
+        }
     }
 
     private String computeShortName() {
