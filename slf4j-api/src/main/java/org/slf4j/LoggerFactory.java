@@ -91,6 +91,7 @@ public final class LoggerFactory {
     static final String JAVA_VENDOR_PROPERTY = "java.vendor.url";
 
     static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
+    static ILoggerFactory FACTORY_OVERRIDE;
 
     /**
      * It is LoggerFactory's responsibility to track version changes and manage
@@ -405,7 +406,9 @@ public final class LoggerFactory {
      * @return the ILoggerFactory instance in use
      */
     public static ILoggerFactory getILoggerFactory() {
-        if (INITIALIZATION_STATE == UNINITIALIZED) {
+        if (null != FACTORY_OVERRIDE) {
+            return FACTORY_OVERRIDE;
+        } else if (INITIALIZATION_STATE == UNINITIALIZED) {
             synchronized (LoggerFactory.class) {
                 if (INITIALIZATION_STATE == UNINITIALIZED) {
                     INITIALIZATION_STATE = ONGOING_INITIALIZATION;
@@ -427,4 +430,21 @@ public final class LoggerFactory {
         }
         throw new IllegalStateException("Unreachable code");
     }
+
+    public static void setLoggerFactory(ILoggerFactory factoryInstance) {
+        synchronized (LoggerFactory.class) {
+            if (FACTORY_OVERRIDE != factoryInstance) {
+                FACTORY_OVERRIDE = factoryInstance;
+                if (null == FACTORY_OVERRIDE) {
+                    reset();
+                } else {
+                    fixSubstituteLoggers();
+                    replayEvents();
+                    // release all resources in SUBST_FACTORY
+                    SUBST_FACTORY.clear();
+                }
+            }
+        }
+    }
+
 }
