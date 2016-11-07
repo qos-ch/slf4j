@@ -40,9 +40,9 @@ import javassist.bytecode.LocalVariableAttribute;
 public class JavassistHelper {
 
     /**
-     * Create a javaassist source snippet which either is empty (for anything
+     * Create a javassist source snippet which either is empty (for anything
      * which does not return a value) or a explanatory text around the $_
-     * javaassist return value variable.
+     * javassist return value variable.
      * 
      * @param method
      *            descriptor of method
@@ -82,7 +82,7 @@ public class JavassistHelper {
     }
 
     /**
-     * Return javaassist source snippet which lists all the parameters and their
+     * Return javassist source snippet which lists all the parameters and their
      * values. If available the source names are extracted from the debug
      * information and used, otherwise just a number is shown.
      * 

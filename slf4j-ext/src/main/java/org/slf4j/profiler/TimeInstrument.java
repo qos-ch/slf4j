@@ -43,7 +43,7 @@ public interface TimeInstrument {
     TimeInstrumentStatus getStatus();
 
     /**
-     * Start tis time instrument.
+     * Start this time instrument.
      * 
      * @param name
      */

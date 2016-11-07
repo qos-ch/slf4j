@@ -42,7 +42,7 @@ import org.slf4j.spi.MDCAdapter;
  * i.e. this class, will delegate to the underlying system's MDC. Note that at
  * this time, only two logging systems, namely log4j and logback, offer MDC
  * functionality. For java.util.logging which does not support MDC,
- * {@link BasicMDCAdapter} will be used. For other systems, i.e slf4j-simple
+ * {@link BasicMDCAdapter} will be used. For other systems, i.e. slf4j-simple
  * and slf4j-nop, {@link NOPMDCAdapter} will be used.
  *
  * <p>

@@ -87,7 +87,7 @@ public class SimpleLog implements Log, Serializable {
     /** Properties loaded from simplelog.properties */
     static protected final Properties simpleLogProps = new Properties();
 
-    /** The default format to use when formating dates */
+    /** The default format to use when formatting dates */
     static protected final String DEFAULT_DATE_TIME_FORMAT = "yyyy/MM/dd HH:mm:ss:SSS zzz";
 
     /** Include the instance name in the log message? */
