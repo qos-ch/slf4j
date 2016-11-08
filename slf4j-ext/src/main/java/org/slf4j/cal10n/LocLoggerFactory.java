@@ -41,7 +41,7 @@ import ch.qos.cal10n.IMessageConveyor;
  * instance does have any state beyond that of the {@link Logger} instance it
  * wraps and its message conveyor.
  *
- * @author Ceki G&uuml;c&uuml;
+ * @author Ceki G&uuml;lc&uuml;
  *
  */
 public class LocLoggerFactory {

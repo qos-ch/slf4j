@@ -214,7 +214,7 @@ public class Profiler implements TimeInstrument {
     }
 
     /**
-     * Return a copy of the global stopwath of this Profiler instance.
+     * Return a copy of the global stopwatch of this Profiler instance.
      * 
      * @return a copy of this instance's global stop watch
      * @since 1.5.9

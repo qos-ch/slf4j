@@ -42,7 +42,7 @@ public class NOPLogger extends MarkerIgnoringBase {
     public static final NOPLogger NOP_LOGGER = new NOPLogger();
 
     /**
-     * There is no point in creating multiple instances of NOPLOgger, 
+     * There is no point in creating multiple instances of NOPLogger,
      * except by derived classes, hence the protected  access for the constructor.
      */
     protected NOPLogger() {

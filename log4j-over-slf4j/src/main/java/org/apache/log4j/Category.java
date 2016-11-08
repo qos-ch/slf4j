@@ -145,7 +145,7 @@ public class Category {
     }
 
     /**
-     * Delegates tob {@link org.slf4j.Logger#isWarnEnabled} method in SLF4J
+     * Delegates to {@link org.slf4j.Logger#isWarnEnabled} method in SLF4J
      */
     public boolean isWarnEnabled() {
         return slf4jLogger.isWarnEnabled();

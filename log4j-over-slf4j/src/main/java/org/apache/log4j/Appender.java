@@ -118,7 +118,7 @@ public interface Appender {
      * disposal.  If this method returns <code>false</code>, meaning that
      * a layout is not required, then layout configuration will be
      * skipped even if there is available layout configuration
-     * information at the disposal of the configurator..
+     * information at the disposal of the configurator.
      * <p/>
      * <p>In the rather exceptional case, where the appender
      * implementation admits a layout but can also work without it, then
