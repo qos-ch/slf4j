@@ -75,6 +75,7 @@
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
     <module>slf4j-bom</module>
+    <module>slf4j-twitter</module>
   </modules>
 
   <dependencies>
@@ -246,7 +247,6 @@
         <version>${maven-site-plugin.version}</version>
         <configuration>
           <reportPlugins>
-
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-jxr-plugin</artifactId>
