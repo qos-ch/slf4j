@@ -27,9 +27,12 @@ package org.slf4j.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.spi.LocationAwareLogger;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 public class SimpleLoggerTest {
 
@@ -75,4 +78,20 @@ public class SimpleLoggerTest {
         assertNull(simpleLogger.recursivelyComputeLevelString());
     }
 
+    @Test
+    public void isLevelEnabled() {
+        SimpleLogger simpleLogger = new SimpleLogger("a");
+        assertFalse(simpleLogger.isLevelEnabled(LocationAwareLogger.TRACE_INT));
+        assertFalse(simpleLogger.isLevelEnabled(LocationAwareLogger.DEBUG_INT));
+        assertTrue(simpleLogger.isLevelEnabled(LocationAwareLogger.INFO_INT));
+        assertTrue(simpleLogger.isLevelEnabled(LocationAwareLogger.WARN_INT));
+        assertTrue(simpleLogger.isLevelEnabled(LocationAwareLogger.ERROR_INT));
+    }
+
+    @Test
+    public void isLevelEnabled_Off() {
+        System.setProperty(A_KEY, "off");
+        SimpleLogger simpleLogger = new SimpleLogger("a");
+        assertFalse(simpleLogger.isLevelEnabled(LocationAwareLogger.ERROR_INT));
+    }
 }
