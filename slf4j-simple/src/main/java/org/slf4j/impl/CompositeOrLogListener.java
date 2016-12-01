@@ -1,17 +1,22 @@
 package org.slf4j.impl;
 
-import java.util.Date;
-
-public class CompositeLogListener implements SimpleLogListener {
+/**
+ * Log to first listener that is alive and does not throw exception.
+ */
+public class CompositeOrLogListener implements SimpleLogListener {
 
   private final SimpleLogListener[] listeners;
 
-  public CompositeLogListener(SimpleLogListener[] listeners) {this.listeners = listeners;}
+  public CompositeOrLogListener(SimpleLogListener[] listeners) {this.listeners = listeners;}
 
   public void log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
     for(int i = 0; i < listeners.length; i++) {
       try {
-        listeners[i].log(logName, timestamp, level, threadName, message, t);
+        SimpleLogListener listener = listeners[i];
+        if (listener.isAlive()) {
+          listener.log(logName, timestamp, level, threadName, message, t);
+          return;
+        }
       } catch (Exception e) {
         // do not log it, as we are inside the logging system
         System.err.println("Error while logging at " + System.currentTimeMillis());

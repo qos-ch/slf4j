@@ -37,6 +37,10 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
     this.warnLevelString = warnLevelString;
   }
 
+  public boolean isAlive() {
+    return targetStream != null;
+  }
+
   public void log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
     StringBuffer buf = new StringBuffer(32);
 
