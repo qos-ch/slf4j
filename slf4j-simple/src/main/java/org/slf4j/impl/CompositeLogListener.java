@@ -1,7 +1,5 @@
 package org.slf4j.impl;
 
-import java.util.Date;
-
 public class CompositeLogListener implements SimpleLogListener {
 
   private final SimpleLogListener[] listeners;

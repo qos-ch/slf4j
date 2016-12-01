@@ -1,7 +1,5 @@
 package org.slf4j.impl;
 
-import java.util.Date;
-
 public interface SimpleLogListener {
 
   boolean isAlive();

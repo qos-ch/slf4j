@@ -3,7 +3,6 @@ package org.slf4j.impl;
 import org.slf4j.spi.LocationAwareLogger;
 
 import java.io.PrintStream;
-import java.util.Date;
 
 public class SimpleLogListenerImpl implements SimpleLogListener {
 
