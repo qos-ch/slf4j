@@ -53,10 +53,10 @@ import org.slf4j.spi.LocationAwareLogger;
  * the special values "System.out" and "System.err". Default is "System.err".
  *
  * <li><code>org.slf4j.simpleLogger.defaultLogLevel</code> - Default log level for all instances of SimpleLogger.
- * Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, defaults to "info". </li>
+ * Must be one of ("trace", "debug", "info", "warn", "error" or "off"). If not specified, defaults to "info". </li>
  *
  * <li><code>org.slf4j.simpleLogger.log.<em>a.b.c</em></code> - Logging detail level for a SimpleLogger instance
- * named "a.b.c". Right-side value must be one of "trace", "debug", "info", "warn", or "error". When a SimpleLogger
+ * named "a.b.c". Right-side value must be one of "trace", "debug", "info", "warn", "error" or "off". When a SimpleLogger
  * named "a.b.c" is initialized, its level is assigned from this property. If unspecified, the level of nearest parent
  * logger will be used, and if none is set, then the value specified by
  * <code>org.slf4j.simpleLogger.defaultLogLevel</code> will be used.</li>
@@ -129,6 +129,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
     private static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
     private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
+    private static final int LOG_LEVEL_OFF = LOG_LEVEL_ERROR + 10;
 
     private static boolean INITIALIZED = false;
 
@@ -295,6 +296,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return LOG_LEVEL_WARN;
         } else if ("error".equalsIgnoreCase(levelStr)) {
             return LOG_LEVEL_ERROR;
+        } else if ("off".equalsIgnoreCase(levelStr)) {
+            return LOG_LEVEL_OFF;
         }
         // assume INFO by default
         return LOG_LEVEL_INFO;
