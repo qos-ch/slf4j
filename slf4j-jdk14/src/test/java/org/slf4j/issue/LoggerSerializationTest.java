@@ -32,7 +32,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -76,8 +76,8 @@ public class LoggerSerializationTest {
         ObjectInputStream in = new ObjectInputStream(is);
         LoggerHolder lh2 = (LoggerHolder) in.readObject();
 
-        Assert.assertNotNull(lh2);
-        Assert.assertNotNull(lh2.getLog());
+        assertNotNull(lh2);
+        assertNotNull(lh2.getLog());
         lh2.getLog().info("You must see this message as a log message");
     }
 
