@@ -182,14 +182,15 @@ public class SimpleLogger extends MarkerIgnoringBase {
         return (prop == null) ? defaultValue : "true".equalsIgnoreCase(prop);
     }
 
-    // Initialize class attributes.
-    // Load properties file, if found.
-    // Override with system properties.
-    static void init() {
+    static void lazyInit() {
         if (INITIALIZED) {
             return;
         }
         INITIALIZED = true;
+        init();
+    }
+    
+    static void init() {
         loadProperties();
 
         String defaultLogLevelString = getStringProperty(DEFAULT_LOG_LEVEL_KEY, null);
