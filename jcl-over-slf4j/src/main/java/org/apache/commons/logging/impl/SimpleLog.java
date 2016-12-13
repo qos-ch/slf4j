@@ -157,10 +157,15 @@ public class SimpleLog implements Log, Serializable {
         if (null != in) {
             try {
                 simpleLogProps.load(in);
-                in.close();
             } catch (java.io.IOException e) {
                 // ignored
-            }
+            } finally {
+                try {
+                    in.close();
+                } catch (java.io.IOException e) {
+                    // ignored
+                }
+            }    
         }
 
         showLogName = getBooleanProperty(systemPrefix + "showlogname", showLogName);

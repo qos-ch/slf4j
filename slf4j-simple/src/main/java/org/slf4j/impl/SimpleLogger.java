@@ -245,9 +245,14 @@ public class SimpleLogger extends MarkerIgnoringBase {
         if (null != in) {
             try {
                 SIMPLE_LOGGER_PROPS.load(in);
-                in.close();
             } catch (java.io.IOException e) {
                 // ignored
+            } finally {
+                try {
+                    in.close();
+                } catch (java.io.IOException e) {
+                    // ignored
+                }
             }
         }
     }
