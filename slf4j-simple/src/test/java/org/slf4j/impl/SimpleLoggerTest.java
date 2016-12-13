@@ -28,8 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class SimpleLoggerTest {
 
@@ -51,6 +50,14 @@ public class SimpleLoggerTest {
         assertEquals("info", simpleLogger.recursivelyComputeLevelString());
     }
 
+    @Test
+    public void offLevel() {
+        System.setProperty(A_KEY, "off");
+        SimpleLogger simpleLogger = new SimpleLogger("a");
+        assertEquals("off", simpleLogger.recursivelyComputeLevelString());
+        assertFalse(simpleLogger.isErrorEnabled());
+    }
+    
     @Test
     public void loggerNameWithNoDots_WithLevel() {
         SimpleLogger simpleLogger = new SimpleLogger("a");

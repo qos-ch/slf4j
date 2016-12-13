@@ -129,6 +129,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
     private static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
     private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
+    // The OFF level can only be used in configuration files to disable logging. It has
+    // no printing method associated with it in o.s.Logger interface.
     private static final int LOG_LEVEL_OFF = LOG_LEVEL_ERROR + 10;
 
     private static boolean INITIALIZED = false;
