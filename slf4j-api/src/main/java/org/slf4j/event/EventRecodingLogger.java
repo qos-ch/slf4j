@@ -33,7 +33,7 @@ public class EventRecodingLogger implements Logger {
         loggingEvent.setLevel(level);
         loggingEvent.setLogger(logger);
         loggingEvent.setLoggerName(name);
-
+        loggingEvent.setMarker(marker);
         loggingEvent.setMessage(msg);
         loggingEvent.setArgumentArray(args);
         loggingEvent.setThrowable(throwable);
