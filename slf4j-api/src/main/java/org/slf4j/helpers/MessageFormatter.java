@@ -152,20 +152,60 @@ final public class MessageFormatter {
     }
 
 
-    static final Throwable getThrowableCandidate(Object[] argArray) {
+    /**
+     * Counts the number of unescaped placeholders in the given messagePattern.
+     *
+     * @param messagePattern the message pattern to be analyzed.
+     * @return the number of unescaped placeholders.
+     */
+    private static int countArgumentPlaceholders(String messagePattern) {
+        if(messagePattern == null) {
+            return 0;
+        }
+
+        int result = 0;
+        boolean isEscaped = false;
+        for(int i = 0; i < messagePattern.length(); i++) {
+            char curChar = messagePattern.charAt(i);
+            if(curChar == ESCAPE_CHAR) {
+                isEscaped = !isEscaped;
+            }
+            else if(curChar == DELIM_START) {
+                if(!isEscaped) {
+                    if(i < messagePattern.length() - 1) {
+                        if(messagePattern.charAt(i + 1) == DELIM_STOP) {
+                            result++;
+                            i++;
+                        }
+                    }
+                }
+                isEscaped = false;
+            }
+            else {
+                isEscaped = false;
+            }
+        }
+        return result;
+    }
+
+
+    public static Throwable extractUnconsumedThrowable(String messagePattern, Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
             return null;
         }
 
         final Object lastEntry = argArray[argArray.length - 1];
         if (lastEntry instanceof Throwable) {
-            return (Throwable) lastEntry;
+            int argumentCount = countArgumentPlaceholders(messagePattern);
+            if(argumentCount < argArray.length) {
+                return (Throwable) lastEntry;
+            }
         }
         return null;
     }
 
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
-        Throwable throwableCandidate = getThrowableCandidate(argArray);
+        Throwable throwableCandidate = extractUnconsumedThrowable(messagePattern, argArray);
         Object[] args = argArray;
         if (throwableCandidate != null) {
             args = trimmedCopy(argArray);
