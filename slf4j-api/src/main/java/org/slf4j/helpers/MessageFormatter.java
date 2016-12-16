@@ -163,6 +163,20 @@ final public class MessageFormatter {
             return 0;
         }
 
+        if(-1 == messagePattern.indexOf(DELIM_START))
+        {
+            // Special case: no placeholders at all.
+
+            // This is an optimization because charAt checks bounds for every
+            // single call while indexOf(char) isn't.
+
+            // Big messages without placeholders will benefit from this shortcut.
+
+            // the result of indexOf can't be used as start index in the loop
+            // below because it could still be escaped.
+            return 0;
+        }
+
         int result = 0;
         boolean isEscaped = false;
         for(int i = 0; i < messagePattern.length(); i++) {
