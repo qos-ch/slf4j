@@ -392,17 +392,18 @@ public final class LoggerFactory {
         return logger;
     }
 
-    public static Logger getLogger()
-    {
-        StackTraceElement[] stack = new Throwable().getStackTrace();
-        for(StackTraceElement item : stack) {
-            String className = item.getClassName().split("\\$")[0];
-            // Exclude our own class and any proxies
-            if(!className.equals(LoggerFactory.class.getName()) && !className.equals("com.sun.proxy")) {
-                return getLogger(className);
-            }
+    /**
+     * Return a logger named corresponding to the class of the caller,
+     * using the statically bound {@link ILoggerFactory} instance.
+     *
+     * @return logger
+     */
+    public static Logger getLogger() { // SLF4J-154
+        Class<?> autoComputedCallingClass = Util.getCallingClass();
+        if (autoComputedCallingClass != null) {
+            return getLogger(Util.getCallingClass().getName());
         }
-        Util.report("Failed to detect logger from call stack.");
+        Util.report("Failed to detect logger name from caller.");
         return getLogger(Logger.ROOT_LOGGER_NAME);
     }
 
