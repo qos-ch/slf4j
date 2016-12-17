@@ -144,13 +144,20 @@ public class InvocationTest {
         String actualName = LoggerFactory.getLogger().getName();
         assertEquals(expectedName, actualName);
 
-        long start = System.nanoTime();
-        LoggerFactory.getLogger();
-        long end = System.nanoTime();
-        System.out.println("Duration: " + (end - start) + " nanoseconds");
+        expectedName = InnerCaller1.class.getName();
+        actualName = InnerCaller1.logger.getName();
+        assertEquals(expectedName, actualName);
+
+        class InnerCaller2 {
+            final Logger logger = LoggerFactory.getLogger();
+        }
+
+        expectedName = InnerCaller2.class.getName();
+        actualName = new InnerCaller2().logger.getName();
+        assertEquals(expectedName, actualName);
     }
 
-    private static class InnerCaller {
-
+    private static class InnerCaller1 {
+        static final Logger logger = LoggerFactory.getLogger();
     }
 }
