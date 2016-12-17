@@ -92,6 +92,15 @@ public final class LoggerFactory {
 
     static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
+    static final ContextHelper CONTEXT = new ContextHelper();
+
+    static final class ContextHelper extends SecurityManager {
+
+        Class<?>[] getCallingClasses() {
+            return super.getClassContext();
+        }
+    }
+
     /**
      * It is LoggerFactory's responsibility to track version changes and manage
      * the compatibility list.
@@ -390,6 +399,20 @@ public final class LoggerFactory {
             }
         }
         return logger;
+    }
+
+    public static Logger getLogger()
+    {
+        Class<?>[] callingClasses = CONTEXT.getCallingClasses();
+        for (Class<?> callingClass : callingClasses) {
+            String className = callingClass.getName().split("\\$")[0];
+            // Exclude our own class and any proxies
+            if (!className.equals(LoggerFactory.class.getName()) && !className.equals("com.sun.proxy")) {
+                return getLogger(callingClass.getName());
+            }
+        }
+        Util.report("Failed to detect logger from call stack.");
+        return getLogger(Logger.ROOT_LOGGER_NAME);
     }
 
     private static boolean nonMatchingClasses(Class<?> clazz, Class<?> autoComputedCallingClass) {
