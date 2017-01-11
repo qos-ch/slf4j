@@ -386,7 +386,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
 
     void write(StringBuilder buf, Throwable t) {
-        TARGET_STREAM.println(buf.toString());
+
+    	TARGET_STREAM.println(buf.toString());
         if (t != null) {
             t.printStackTrace(TARGET_STREAM);
         }
