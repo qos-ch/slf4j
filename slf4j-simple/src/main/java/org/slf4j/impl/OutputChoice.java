@@ -12,7 +12,7 @@ import java.io.PrintStream;
 class OutputChoice {
 
 	enum OutputChoiceType {
-		SysOut, SysErr, File;
+		SYS_OUT, SYS_ERR, FILE;
 	}
 
 	
@@ -20,7 +20,7 @@ class OutputChoice {
 	final PrintStream targetPrintStream;
 
 	OutputChoice(OutputChoiceType outputChoiceType) {
-		if (outputChoiceType == OutputChoiceType.File) {
+		if (outputChoiceType == OutputChoiceType.FILE) {
 			throw new IllegalArgumentException();
 		}
 		this.outputChoiceType = outputChoiceType;
@@ -28,17 +28,17 @@ class OutputChoice {
 	}
 
 	OutputChoice(PrintStream printStream) {
-		this.outputChoiceType = OutputChoiceType.File;
+		this.outputChoiceType = OutputChoiceType.FILE;
 		this.targetPrintStream = printStream;
 	}
 
 	PrintStream getTargetPrintStream() {
 		switch (outputChoiceType) {
-		case SysOut:
+		case SYS_OUT:
 			return System.out;
-		case SysErr:
+		case SYS_ERR:
 			return System.err;
-		case File:
+		case FILE:
 			return targetPrintStream;
 		default:
 			throw new IllegalArgumentException();

@@ -224,9 +224,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
     
     private static OutputChoice computeOutputChoice(String logFile) {
         if ("System.err".equalsIgnoreCase(logFile))
-            return new OutputChoice(OutputChoiceType.SysErr);
+            return new OutputChoice(OutputChoiceType.SYS_ERR);
         else if ("System.out".equalsIgnoreCase(logFile)) {
-            return  new OutputChoice(OutputChoiceType.SysOut);
+            return  new OutputChoice(OutputChoiceType.SYS_OUT);
         } else {
             try {
                 FileOutputStream fos = new FileOutputStream(logFile);
@@ -234,7 +234,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
                 return new OutputChoice(printStream);
             } catch (FileNotFoundException e) {
                 Util.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
-                return new OutputChoice(OutputChoiceType.SysErr);
+                return new OutputChoice(OutputChoiceType.SYS_ERR);
             }
         }
     }
