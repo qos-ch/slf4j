@@ -41,6 +41,7 @@ import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.Util;
+import org.slf4j.impl.OutputChoice.OutputChoiceType;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -143,7 +144,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static boolean SHOW_LOG_NAME = true;
     private static boolean SHOW_SHORT_LOG_NAME = false;
     private static String LOG_FILE = "System.err";
-    private static PrintStream TARGET_STREAM = null;
+    private static OutputChoice OUTPUT_CHOICE = null;
     private static boolean LEVEL_IN_BRACKETS = false;
     private static String WARN_LEVEL_STRING = "WARN";
 
@@ -206,7 +207,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
         WARN_LEVEL_STRING = getStringProperty(WARN_LEVEL_STRING_KEY, WARN_LEVEL_STRING);
 
         LOG_FILE = getStringProperty(LOG_FILE_KEY, LOG_FILE);
-        TARGET_STREAM = computeTargetStream(LOG_FILE);
+        OUTPUT_CHOICE = computeOutputChoice(LOG_FILE);
 
         if (DATE_TIME_FORMAT_STR != null) {
             try {
@@ -217,19 +218,23 @@ public class SimpleLogger extends MarkerIgnoringBase {
         }
     }
 
-    private static PrintStream computeTargetStream(String logFile) {
+    enum Target {
+    	SysOut, SysErr;
+    }
+    
+    private static OutputChoice computeOutputChoice(String logFile) {
         if ("System.err".equalsIgnoreCase(logFile))
-            return System.err;
+            return new OutputChoice(OutputChoiceType.SysErr);
         else if ("System.out".equalsIgnoreCase(logFile)) {
-            return System.out;
+            return  new OutputChoice(OutputChoiceType.SysOut);
         } else {
             try {
                 FileOutputStream fos = new FileOutputStream(logFile);
                 PrintStream printStream = new PrintStream(fos);
-                return printStream;
+                return new OutputChoice(printStream);
             } catch (FileNotFoundException e) {
                 Util.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
-                return System.err;
+                return new OutputChoice(OutputChoiceType.SysErr);
             }
         }
     }
@@ -386,15 +391,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
 
     void write(StringBuilder buf, Throwable t) {
-
-    	TARGET_STREAM.println(buf.toString());
+    	PrintStream targetStream = OUTPUT_CHOICE.getTargetPrintStream();
+    	
+    	targetStream.println(buf.toString());
         if (t != null) {
-            t.printStackTrace(TARGET_STREAM);
+            t.printStackTrace(targetStream);
         }
-        TARGET_STREAM.flush();
+        targetStream.flush();
     }
 
-    private String getFormattedDate() {
+	Object t;
+	
+
+	private String getFormattedDate() {
         Date now = new Date();
         String dateText;
         synchronized (DATE_FORMATTER) {
