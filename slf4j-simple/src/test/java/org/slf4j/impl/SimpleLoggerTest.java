@@ -27,6 +27,11 @@ package org.slf4j.impl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
@@ -57,7 +62,7 @@ public class SimpleLoggerTest {
         assertEquals("off", simpleLogger.recursivelyComputeLevelString());
         assertFalse(simpleLogger.isErrorEnabled());
     }
-    
+
     @Test
     public void loggerNameWithNoDots_WithLevel() {
         SimpleLogger simpleLogger = new SimpleLogger("a");
@@ -82,4 +87,16 @@ public class SimpleLoggerTest {
         assertNull(simpleLogger.recursivelyComputeLevelString());
     }
 
+    @Test
+    public void shouldReplaceSystemStreams() {
+        PrintStream original = System.err;
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        PrintStream replacement = new PrintStream(bout);
+        System.setErr(replacement);
+        Logger l = LoggerFactory.getLogger(this.getClass());
+        l.info("hello");
+        System.setErr(original);
+        replacement.flush();
+        assertTrue(bout.toString().contains("INFO org.slf4j.impl.SimpleLoggerTest - hello"));
+    }
 }
