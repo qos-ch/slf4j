@@ -96,7 +96,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void debug(String msg) {
-        recordEvent(Level.TRACE, msg, null, null);
+        recordEvent(Level.DEBUG, msg, null, null);
     }
 
     public void debug(String format, Object arg) {
