@@ -24,8 +24,6 @@
  */
 package org.slf4j.helpers;
 
-import java.lang.reflect.Method;
-
 /**
  * An internal utility class.
  *
@@ -34,8 +32,6 @@ import java.lang.reflect.Method;
  */
 public final class Util {
 
-	static final int MINIMAL_VERSION = 5;
-	
 	
     private Util() {
     }
@@ -133,27 +129,5 @@ public final class Util {
     }
     
 	
-	static public int getJavaMajorVersion() {
-		String javaVersionString = Util.safeGetSystemProperty("java.version");
-		return getJavaMajorVersion(javaVersionString);
-	}
 
-	static int getJavaMajorVersion(String versionString) {
-		if(versionString == null)
-			return MINIMAL_VERSION;
-		if(versionString.startsWith("1.")) {
-			return versionString.charAt(2) - '0';
-		} else {
-			// we running  under Java 9 or later
-			try {
-				Method versionMethod = Runtime.class.getMethod("version");
-				Object versionObj = versionMethod.invoke(null);
-				Method majorMethod = versionObj.getClass().getMethod("major");
-				Integer resultInteger = (Integer) majorMethod.invoke(versionObj);
-				return resultInteger.intValue();
-			} catch (Exception e) {
-				return MINIMAL_VERSION;
-			} 
-		}
-	}
 }

@@ -1,11 +1,12 @@
 package org.apache.log4j;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Random;
 
 import org.junit.Test;
-import org.slf4j.helpers.Util;
+import org.slf4j.impl.VersionUtil;
 
 public class MDCFriendTest {
 
@@ -15,7 +16,7 @@ public class MDCFriendTest {
 	
 	@Test
 	public void smoke() {
-		if(Util.getJavaMajorVersion() < 9)
+		if(VersionUtil.getJavaMajorVersion() < 9)
 			return;
 
 		MDCFriend.fixForJava9();

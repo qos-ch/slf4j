@@ -29,13 +29,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.MDCFriend;
-import org.slf4j.helpers.Util;
 import org.slf4j.spi.MDCAdapter;
 
 public class Log4jMDCAdapter implements MDCAdapter {
 
 	static {
-		if (Util.getJavaMajorVersion() >= 9) {
+		if (VersionUtil.getJavaMajorVersion() >= 9) {
 			MDCFriend.fixForJava9();
 		}
 	}
