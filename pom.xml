@@ -33,7 +33,7 @@
   </scm>  
 
   <properties>
-    <required.jdk.version>1.6</required.jdk.version>
+    <required.jdk.version>1.5</required.jdk.version>
     <maven.compiler.source>${required.jdk.version}</maven.compiler.source>
     <maven.compiler.target>${required.jdk.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
