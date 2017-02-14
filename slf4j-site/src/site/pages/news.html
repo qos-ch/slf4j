@@ -33,10 +33,17 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>December , 2016 - Release of SLF4J 1.7.23</h3>
+   <h3>February 15th, 2017 - Release of SLF4J 1.7.23</h3>
 
-   <p>Fixed issue EventRecodingLogger did not save marker data in the
-   event. This issue was reported in <a
+   <p>When running under Java 9, log4j version 1.2.x is unable to
+   correctly parse the "java.version" system property. It follows that
+   it disables its MDC functionality. The slf4j-log4j12 module
+   shipping in this release fixes the issue by tweaking MDC internals
+   by reflection, under Java 9. See also <a
+   href="https://jira.qos.ch/browse/SLF4J-393">SLF4J-393</a>.</p>
+
+   <p>Fixed issue <code>EventRecodingLogger</code> not saving marker
+   data in the event. This issue was reported in <a
    href="http://jira.qos.ch/browse/SLF4J-379">SLF4J-379</a> by Manish
    Soni with Jonas Neukomm providing the relevant PR.
    </p>

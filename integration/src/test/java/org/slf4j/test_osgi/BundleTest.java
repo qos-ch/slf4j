@@ -26,6 +26,8 @@ package org.slf4j.test_osgi;
 
 import java.io.File;
 
+import org.slf4j.helpers.Util;
+
 import junit.framework.TestCase;
 
 public class BundleTest extends TestCase {
@@ -46,6 +48,8 @@ public class BundleTest extends TestCase {
     }
 
     public void testSmoke() {
+    	if(Util.getJavaMajorVersion() >= 9)
+    		return;
         System.out.println("===========" + new File(".").getAbsolutePath());
         mbl.dumpAll();
         // check that the bundle was installed
