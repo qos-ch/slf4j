@@ -36,10 +36,11 @@
    <h3>February 15th, 2017 - Release of SLF4J 1.7.23</h3>
 
    <p>When running under Java 9, log4j version 1.2.x is unable to
-   correctly parse the "java.version" system property. It follows that
-   it disables its MDC functionality. The slf4j-log4j12 module
-   shipping in this release fixes the issue by tweaking MDC internals
-   by reflection, under Java 9. See also <a
+   correctly parse the "java.version" system property. Assuming an
+   inccorect Java version, it proceeded to disable its MDC
+   functionality. The slf4j-log4j12 module shipping in this release
+   fixes the issue by tweaking MDC internals by reflection, allowing
+   log4j to run under Java 9. See also <a
    href="https://jira.qos.ch/browse/SLF4J-393">SLF4J-393</a>.</p>
 
    <p>Fixed issue <code>EventRecodingLogger</code> not saving marker
