@@ -12,8 +12,8 @@
 
   <artifactId>jcl-over-slf4j</artifactId>
   <packaging>jar</packaging>
-  <name>JCL 1.1.1 implemented over SLF4J</name>
-  <description>JCL 1.1.1 implemented over SLF4J</description>
+  <name>JCL 1.2 implemented over SLF4J</name>
+  <description>JCL 1.2 implemented over SLF4J</description>
   <url>http://www.slf4j.org</url>
 
   <dependencies>

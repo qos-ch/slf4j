@@ -59,12 +59,11 @@
 
   <modules>
     <module>slf4j-api</module>
-    <!--<module>slf4j-scala-api</module>-->
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>
     <module>slf4j-jdk14</module>
     <module>slf4j-log4j12</module>
-    <module>slf4j-jcl</module>
+    <module>slf4j-jcl</module> 
     <module>slf4j-android</module>
     <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
