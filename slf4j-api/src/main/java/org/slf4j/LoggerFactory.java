@@ -63,7 +63,7 @@ import org.slf4j.impl.StaticLoggerBinder;
  */
 public final class LoggerFactory {
 
-    static final String CODES_PREFIX = "https://www.slf4j.org/codes.html";
+    static final String CODES_PREFIX = "http://www.slf4j.org/codes.html";
 
     static final String NO_STATICLOGGERBINDER_URL = CODES_PREFIX + "#StaticLoggerBinder";
     static final String MULTIPLE_BINDINGS_URL = CODES_PREFIX + "#multiple_bindings";
@@ -74,7 +74,7 @@ public final class LoggerFactory {
     static final String REPLAY_URL = CODES_PREFIX + "#replay";
 
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
-    static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also " + UNSUCCESSFUL_INIT_URL;
+    static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory in failed state. Original exception was thrown EARLIER. See also " + UNSUCCESSFUL_INIT_URL;
 
     static final int UNINITIALIZED = 0;
     static final int ONGOING_INITIALIZATION = 1;

@@ -39,8 +39,8 @@
 
     <h3 class="doAnchor"
     name="unsuccessfulInit">IllegalStateException:
-    <code>org.slf4j.LoggerFactory</code> could not be successfully
-    initialized
+    <code>org.slf4j.LoggerFactory</code> in failed state. Original
+    exception was thrown EARLIER.
     </h3>
 
     <p>This <code>IllegalStateException</code> is thrown
@@ -48,10 +48,9 @@
     <code>LoggerFactory</code> has failed.</p>
 
     <p><span class="label notice">Note</span> It is important to
-    realize that the root cause of the exception causing the failure
-    was thrown at an <b>earlier stage</b>. This earlier exception
-    should provide more valuable information about the root cause of
-    the problem.
+    realize that the exception causing the failure was thrown at an
+    <b>earlier stage</b>. This earlier exception should provide more
+    valuable information about the root cause of the problem.
     </p>
 
     <!-- ====================================================== -->
