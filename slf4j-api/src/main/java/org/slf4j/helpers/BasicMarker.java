@@ -27,7 +27,7 @@ package org.slf4j.helpers;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.slf4j.Marker;
 
@@ -65,16 +65,15 @@ public class BasicMarker implements Marker {
             return;
 
         } else if (reference.contains(this)) { // avoid recursion
-            // a potential reference should not its future "parent" as a reference
+            // a potential reference should not hold its future "parent" as a reference
             return;
         } else {
             // let's add the reference
             if (referenceList == null) {
-                referenceList = new Vector<Marker>();
+                referenceList = new CopyOnWriteArrayList<Marker>();
             }
             referenceList.add(reference);
         }
-
     }
 
     public synchronized boolean hasReferences() {
@@ -85,7 +84,7 @@ public class BasicMarker implements Marker {
         return hasReferences();
     }
 
-    public synchronized Iterator<Marker> iterator() {
+    public Iterator<Marker> iterator() {
         if (referenceList != null) {
             return referenceList.iterator();
         } else {

@@ -33,7 +33,7 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>February , 2017 - Release of SLF4J 1.7.24</h3>
+   <h3>February 23rd, 2017 - Release of SLF4J 1.7.24</h3>
 
    <p>In its MANIFEST.MF file, the jcl-over-slf4j module now declares
    exporting <code>org.apache.commons.logging</code> version "1.2"
@@ -42,6 +42,13 @@
    href="https://jira.qos.ch/browse/SLF4J-383">SLF4J-383</a> reported
    by Florian Kolbe and only affects OSGi environments.
    </p>
+
+   <p>Fix performance bottleneck in <code>BasicMarker</code> which now
+   uses a <code>CopyOnWriteArray</code> instead of a
+   <code>Vector</code>. This problem was raised by <a
+   href="https://jira.qos.ch/browse/SLF4J-240">SLF4J-240</a> by Ralph
+   Goers.</p>
+
 
    <hr noshade="noshade" size="1"/>
 
