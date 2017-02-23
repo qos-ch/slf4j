@@ -47,6 +47,7 @@
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
+    <testng.version>6.10</testng.version>
   </properties>
 
   <developers>
@@ -73,6 +74,7 @@
     <module>integration</module>
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
+    <module>slf4j-testng</module>
   </modules>
 
   <dependencies>
@@ -109,6 +111,12 @@
         <groupId>ch.qos.cal10n</groupId>
         <artifactId>cal10n-api</artifactId>
         <version>${cal10n.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${testng.version}</version>
       </dependency>
 
     </dependencies>
