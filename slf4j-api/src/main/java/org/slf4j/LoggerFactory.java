@@ -63,7 +63,7 @@ import org.slf4j.impl.StaticLoggerBinder;
  */
 public final class LoggerFactory {
 
-    static final String CODES_PREFIX = "http://www.slf4j.org/codes.html";
+    static final String CODES_PREFIX = "https://www.slf4j.org/codes.html";
 
     static final String NO_STATICLOGGERBINDER_URL = CODES_PREFIX + "#StaticLoggerBinder";
     static final String MULTIPLE_BINDINGS_URL = CODES_PREFIX + "#multiple_bindings";
