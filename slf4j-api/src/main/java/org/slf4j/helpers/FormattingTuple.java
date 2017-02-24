@@ -30,12 +30,9 @@ package org.slf4j.helpers;
  * @author Joern Huxhorn
  */
 public class FormattingTuple {
-
-    static public FormattingTuple NULL = new FormattingTuple(null);
-
-    private String message;
-    private Throwable throwable;
-    private Object[] argArray;
+    private final String message;
+    private final Throwable throwable;
+    private final Object[] argArray;
 
     public FormattingTuple(String message) {
         this(message, null, null);
