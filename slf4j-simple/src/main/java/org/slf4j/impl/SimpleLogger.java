@@ -125,14 +125,14 @@ public class SimpleLogger extends MarkerIgnoringBase {
     private static long START_TIME = System.currentTimeMillis();
     private static final Properties SIMPLE_LOGGER_PROPS = new Properties();
 
-    private static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
-    private static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;
-    private static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
-    private static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
-    private static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
+    protected static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
+    protected static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;
+    protected static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
+    protected static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
+    protected static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
     // The OFF level can only be used in configuration files to disable logging. It has
     // no printing method associated with it in o.s.Logger interface.
-    private static final int LOG_LEVEL_OFF = LOG_LEVEL_ERROR + 10;
+    protected static final int LOG_LEVEL_OFF = LOG_LEVEL_ERROR + 10;
 
     private static boolean INITIALIZED = false;
 
@@ -353,23 +353,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
             buf.append('[');
 
         // Append a readable representation of the log level
-        switch (level) {
-        case LOG_LEVEL_TRACE:
-            buf.append("TRACE");
-            break;
-        case LOG_LEVEL_DEBUG:
-            buf.append("DEBUG");
-            break;
-        case LOG_LEVEL_INFO:
-            buf.append("INFO");
-            break;
-        case LOG_LEVEL_WARN:
-            buf.append(WARN_LEVEL_STRING);
-            break;
-        case LOG_LEVEL_ERROR:
-            buf.append("ERROR");
-            break;
-        }
+        String levelStr = renderLevel(level);
+        buf.append(levelStr);
         if (LEVEL_IN_BRACKETS)
             buf.append(']');
         buf.append(' ');
@@ -390,19 +375,36 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     }
 
+	protected String renderLevel(int level) {
+		switch (level) {
+        case LOG_LEVEL_TRACE:
+            return "TRACE";
+        case LOG_LEVEL_DEBUG:
+        	return("DEBUG");
+        case LOG_LEVEL_INFO:
+        	return "INFO";
+        case LOG_LEVEL_WARN:
+        	return WARN_LEVEL_STRING;
+        case LOG_LEVEL_ERROR:
+        	return "ERROR";
+        }
+        throw new IllegalStateException("Unrecognized level ["+level+"]");
+	}
+
     void write(StringBuilder buf, Throwable t) {
     	PrintStream targetStream = OUTPUT_CHOICE.getTargetPrintStream();
     	
     	targetStream.println(buf.toString());
-        if (t != null) {
-            t.printStackTrace(targetStream);
-        }
+        writeThrowable(t, targetStream);
         targetStream.flush();
     }
 
-	Object t;
+    protected void writeThrowable(Throwable t, PrintStream targetStream) {
+		if (t != null) {
+            t.printStackTrace(targetStream);
+        }
+	}
 	
-
 	private String getFormattedDate() {
         Date now = new Date();
         String dateText;
