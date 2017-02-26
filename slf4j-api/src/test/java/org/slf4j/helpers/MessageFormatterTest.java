@@ -44,9 +44,12 @@ public class MessageFormatterTest {
     String result;
 
     @Test
-    public void testNull() {
+    public void testNullOrEmptyPattern() {
         result = MessageFormatter.format(null, i1).getMessage();
-        assertEquals(null, result);
+        assertNull(result);
+
+        result = MessageFormatter.arrayFormat("", ia0).getMessage();
+        assertEquals("", result);
     }
 
     @Test
@@ -108,6 +111,30 @@ public class MessageFormatterTest {
         // escaping the escape character
         result = MessageFormatter.format("File name is C:\\\\{}.", "App folder.zip").getMessage();
         assertEquals("File name is C:\\App folder.zip.", result);
+
+        result = MessageFormatter.format("\\\\{}", "1").getMessage();
+        assertEquals("\\1", result);
+
+        result = MessageFormatter.format("\\{}", "1").getMessage();
+        assertEquals("{}", result);
+
+        result = MessageFormatter.format("\\{}{}{}", "1").getMessage();
+        assertEquals("{}1{}", result);
+
+        result = MessageFormatter.format("\\{}\\{}", "1", "2").getMessage();
+        assertEquals("{}{}", result);
+
+        result = MessageFormatter.format("\\\\{}\\\\{}", "1", "2").getMessage();
+        assertEquals("\\1\\2", result);
+
+        result = MessageFormatter.format("\\\\\\{}", "1").getMessage();
+        assertEquals("\\\\1", result);
+
+        result = MessageFormatter.format("\\{\\}", "1").getMessage();
+        assertEquals("\\{\\}", result);
+
+        result = MessageFormatter.format("\\\\{\\}", "1").getMessage();
+        assertEquals("\\\\{\\}", result);
     }
 
     @Test
@@ -326,5 +353,24 @@ public class MessageFormatterTest {
         assertTrue(Arrays.equals(new Object[] { i1 }, ft.getArgArray()));
         assertEquals(t, ft.getThrowable());
 
+        ft = MessageFormatter.arrayFormat("1={}", new Object[] {t});
+        assertEquals("1={}", ft.getMessage());
+        assertEquals(0, ft.getArgArray().length);
+        assertEquals(t, ft.getThrowable());
+
+        ft = MessageFormatter.format("1={}", t);
+        assertEquals("1={}", ft.getMessage());
+        assertEquals(0, ft.getArgArray().length);
+        assertEquals(t, ft.getThrowable());
+
+        ft = MessageFormatter.format("1={}", i1, t);
+        assertEquals("1=1", ft.getMessage());
+        assertTrue(Arrays.equals(new Object[] { i1 }, ft.getArgArray()));
+        assertEquals(t, ft.getThrowable());
+
+        ft = MessageFormatter.arrayFormat("1={}", new Object[] { i1, t });
+        assertEquals("1=1", ft.getMessage());
+        assertTrue(Arrays.equals(new Object[] { i1 }, ft.getArgArray()));
+        assertEquals(t, ft.getThrowable());
     }
 }
