@@ -89,8 +89,8 @@ public class FelixHost {
 
             // otherProps.put(Constants.FRAMEWORK_STORAGE, "bundles");
 
-            otherProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, AutoProcessor.AUTO_DEPLOY_DIR_VALUE);
-            otherProps.put(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERY, AutoProcessor.AUTO_DEPLOY_START_VALUE + "," + AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE);
+            otherProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY, AutoProcessor.AUTO_DEPLOY_DIR_VALUE);
+            otherProps.put(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERTY, AutoProcessor.AUTO_DEPLOY_START_VALUE + "," + AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE);
 
             BundleContext felixBudleContext = felix.getBundleContext();
 
