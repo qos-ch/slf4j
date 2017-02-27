@@ -24,79 +24,100 @@
  */
 package org.slf4j.impl;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SimpleLoggerTest {
 
-    String A_KEY = SimpleLogger.LOG_KEY_PREFIX + "a";
+	String A_KEY = SimpleLogger.LOG_KEY_PREFIX + "a";
+	PrintStream original = System.out;
+	ByteArrayOutputStream bout = new ByteArrayOutputStream();
+	PrintStream replacement = new PrintStream(bout);
 
-    @Before
-    public void before() {
-        System.setProperty(A_KEY, "info");
-    }
+	@Before
+	public void before() {
+		System.setProperty(A_KEY, "info");
+	}
 
-    @After
-    public void after() {
-        System.clearProperty(A_KEY);
-    }
+	@After
+	public void after() {
+		System.clearProperty(A_KEY);
+		System.clearProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY);
+		System.setErr(original);
+	}
 
-    @Test
-    public void emptyLoggerName() {
-        SimpleLogger simpleLogger = new SimpleLogger("a");
-        assertEquals("info", simpleLogger.recursivelyComputeLevelString());
-    }
+	@Test
+	public void emptyLoggerName() {
+		SimpleLogger simpleLogger = new SimpleLogger("a");
+		assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+	}
 
-    @Test
-    public void offLevel() {
-        System.setProperty(A_KEY, "off");
-        SimpleLogger simpleLogger = new SimpleLogger("a");
-        assertEquals("off", simpleLogger.recursivelyComputeLevelString());
-        assertFalse(simpleLogger.isErrorEnabled());
-    }
+	@Test
+	public void offLevel() {
+		System.setProperty(A_KEY, "off");
+		SimpleLogger.init();
+		SimpleLogger simpleLogger = new SimpleLogger("a");
+		assertEquals("off", simpleLogger.recursivelyComputeLevelString());
+		assertFalse(simpleLogger.isErrorEnabled());
+	}
 
-    @Test
-    public void loggerNameWithNoDots_WithLevel() {
-        SimpleLogger simpleLogger = new SimpleLogger("a");
-        assertEquals("info", simpleLogger.recursivelyComputeLevelString());
-    }
+	@Test
+	public void loggerNameWithNoDots_WithLevel() {
+		SimpleLogger.init();
+		SimpleLogger simpleLogger = new SimpleLogger("a");
 
-    @Test
-    public void loggerNameWithOneDotShouldInheritFromParent() {
-        SimpleLogger simpleLogger = new SimpleLogger("a.b");
-        assertEquals("info", simpleLogger.recursivelyComputeLevelString());
-    }
+		assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+	}
 
-    @Test
-    public void loggerNameWithNoDots_WithNoSetLevel() {
-        SimpleLogger simpleLogger = new SimpleLogger("x");
-        assertNull(simpleLogger.recursivelyComputeLevelString());
-    }
+	@Test
+	public void loggerNameWithOneDotShouldInheritFromParent() {
+		SimpleLogger simpleLogger = new SimpleLogger("a.b");
+		assertEquals("info", simpleLogger.recursivelyComputeLevelString());
+	}
 
-    @Test
-    public void loggerNameWithOneDot_NoSetLevel() {
-        SimpleLogger simpleLogger = new SimpleLogger("x.y");
-        assertNull(simpleLogger.recursivelyComputeLevelString());
-    }
+	@Test
+	public void loggerNameWithNoDots_WithNoSetLevel() {
+		SimpleLogger simpleLogger = new SimpleLogger("x");
+		assertNull(simpleLogger.recursivelyComputeLevelString());
+	}
 
-    @Test
-    public void shouldReplaceSystemStreams() {
-        PrintStream original = System.err;
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        PrintStream replacement = new PrintStream(bout);
-        System.setErr(replacement);
-        Logger l = LoggerFactory.getLogger(this.getClass());
-        l.info("hello");
-        System.setErr(original);
-        replacement.flush();
-        assertTrue(bout.toString().contains("INFO org.slf4j.impl.SimpleLoggerTest - hello"));
-    }
+	@Test
+	public void loggerNameWithOneDot_NoSetLevel() {
+		SimpleLogger simpleLogger = new SimpleLogger("x.y");
+		assertNull(simpleLogger.recursivelyComputeLevelString());
+	}
+
+	@Test
+	public void checkUseOfLastSystemStreamReference() {
+		SimpleLogger.init();
+		SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+
+		System.setErr(replacement);
+		simpleLogger.info("hello");
+		replacement.flush();
+		assertTrue(bout.toString().contains("INFO org.slf4j.impl.SimpleLoggerTest - hello"));
+	}
+
+	@Test
+	public void checkUseOfCachedOutputStream() {
+		System.setErr(replacement);
+		System.setProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY, "true");
+		SimpleLogger.init();
+		SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+		// change reference to original before logging
+		System.setErr(original);
+
+		simpleLogger.info("hello");
+		replacement.flush();
+		assertTrue(bout.toString().contains("INFO org.slf4j.impl.SimpleLoggerTest - hello"));
+	}
 }

@@ -5,17 +5,15 @@ import java.io.PrintStream;
 /**
  * This class encapsulates the user's choice of output target.
  * 
- * 
- * @author ceki
+ * @author Ceki G&uuml;lc&uuml;
  *
  */
 class OutputChoice {
 
 	enum OutputChoiceType {
-		SYS_OUT, SYS_ERR, FILE;
+		SYS_OUT, CACHED_SYS_OUT, SYS_ERR, CACHED_SYS_ERR, FILE;
 	}
 
-	
 	final OutputChoiceType outputChoiceType;
 	final PrintStream targetPrintStream;
 
@@ -24,7 +22,13 @@ class OutputChoice {
 			throw new IllegalArgumentException();
 		}
 		this.outputChoiceType = outputChoiceType;
-		this.targetPrintStream = null;
+		if (outputChoiceType == OutputChoiceType.CACHED_SYS_OUT) {
+			this.targetPrintStream = System.out;
+		} else if (outputChoiceType == OutputChoiceType.CACHED_SYS_ERR) {
+			this.targetPrintStream = System.err;
+		} else {
+			this.targetPrintStream = null;
+		}
 	}
 
 	OutputChoice(PrintStream printStream) {
@@ -38,6 +42,8 @@ class OutputChoice {
 			return System.out;
 		case SYS_ERR:
 			return System.err;
+		case CACHED_SYS_ERR:
+		case CACHED_SYS_OUT:
 		case FILE:
 			return targetPrintStream;
 		default:
