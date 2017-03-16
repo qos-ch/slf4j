@@ -46,4 +46,8 @@ public class ListHandler extends Handler {
         list.add(logRecord);
     }
 
+    public List<LogRecord> getList() {
+        return list;
+    }
+
 }

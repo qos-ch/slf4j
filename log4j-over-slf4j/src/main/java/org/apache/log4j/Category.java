@@ -16,6 +16,7 @@
 
 package org.apache.log4j;
 
+import org.apache.log4j.helpers.LogLog;
 import org.apache.log4j.helpers.NullEnumeration;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -331,7 +332,11 @@ public class Category {
         if (message == null) {
             return (String) message;
         } else {
-            return message.toString();
+            try {
+                return message.toString();
+            } catch (Exception e) {
+                return null;
+            }
         }
     }
 
