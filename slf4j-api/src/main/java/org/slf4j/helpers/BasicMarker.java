@@ -38,8 +38,7 @@ import org.slf4j.Marker;
  */
 public class BasicMarker implements Marker {
 
-    private static final long serialVersionUID = 1803952589649545191L;
-
+    private static final long serialVersionUID = -2849567615646933777L;
     private final String name;
     private List<Marker> referenceList = new CopyOnWriteArrayList<Marker>();
 
