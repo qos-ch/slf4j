@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.logging.*;
 
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.*;
 
 /**
  * Created by thsnoopy@naver.com on 2017. 3. 16..
@@ -22,11 +21,19 @@ public class CategoryTest {
     Logger log4jLogger = Logger.getLogger("testLogger");
     List<LogRecord> logRecordList = listHandler.getList();
 
-    Object mockObject = mock(Object.class);
-    when(mockObject.toString()).thenThrow(new RuntimeException("nope"));
-    log4jLogger.log(org.apache.log4j.Level.DEBUG, mockObject);
+    Foo sampleLogData = new Foo();
+    log4jLogger.log(org.apache.log4j.Level.DEBUG, sampleLogData);
 
     LogRecord logRecord = logRecordList.get(0);
     assertNull(logRecord.getMessage());
   }
+}
+
+class Foo {
+  private String name;
+
+  public String toString() {
+    return "name.length : " + name.length();
+  }
+
 }
