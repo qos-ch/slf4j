@@ -392,6 +392,21 @@ public final class LoggerFactory {
         return logger;
     }
 
+    /**
+     * Return a logger named corresponding to the class of the caller,
+     * using the statically bound {@link ILoggerFactory} instance.
+     *
+     * @return logger
+     */
+    public static Logger getLogger() { // SLF4J-154
+        Class<?> autoComputedCallingClass = Util.getCallingClass();
+        if (autoComputedCallingClass != null) {
+            return getLogger(Util.getCallingClass().getName());
+        }
+        Util.report("Failed to detect logger name from caller.");
+        return getLogger(Logger.ROOT_LOGGER_NAME);
+    }
+
     private static boolean nonMatchingClasses(Class<?> clazz, Class<?> autoComputedCallingClass) {
         return !autoComputedCallingClass.isAssignableFrom(clazz);
     }

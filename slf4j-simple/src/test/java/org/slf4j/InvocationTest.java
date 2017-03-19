@@ -24,6 +24,7 @@
  */
 package org.slf4j;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import java.io.PrintStream;
@@ -135,5 +136,28 @@ public class InvocationTest {
         MDC.remove("k");
         assertNull(MDC.get("k"));
         MDC.clear();
+    }
+
+    @Test
+    public void testInferredLogger() {
+        String expectedName = getClass().getName();
+        String actualName = LoggerFactory.getLogger().getName();
+        assertEquals(expectedName, actualName);
+
+        expectedName = InnerCaller1.class.getName();
+        actualName = InnerCaller1.logger.getName();
+        assertEquals(expectedName, actualName);
+
+        class InnerCaller2 {
+            final Logger logger = LoggerFactory.getLogger();
+        }
+
+        expectedName = InnerCaller2.class.getName();
+        actualName = new InnerCaller2().logger.getName();
+        assertEquals(expectedName, actualName);
+    }
+
+    private static class InnerCaller1 {
+        static final Logger logger = LoggerFactory.getLogger();
     }
 }
