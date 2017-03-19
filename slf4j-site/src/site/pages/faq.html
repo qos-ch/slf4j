@@ -1609,6 +1609,23 @@ public class MyClass {
       idiom is <em>not</em> resistant to cut-and-pasting between
       classes.
       </p>
+
+      <p>Alternatively, you can use
+      <code>MethodHandlers.lookup()</code> introduced in JDK 7 to pass
+      the caller class.</p>
+
+      <pre class="prettyprint source">package some.package;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.lang.invoke.MethodHandles;
+      
+public class MyClass {
+  <b>final <span class="big">static</span> Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());</b>
+  ... etc
+}</pre>
+      
+     <p>This pattern can be cut and pasted across classes.</p>
+
     </dd>
   </dl>
     
