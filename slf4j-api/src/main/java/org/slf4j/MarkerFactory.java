@@ -26,7 +26,7 @@ package org.slf4j;
 
 import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.helpers.Util;
-import org.slf4j.impl.StaticMarkerBinder;
+import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
  * MarkerFactory is a utility class producing {@link Marker} instances as
@@ -47,33 +47,16 @@ public class MarkerFactory {
     private MarkerFactory() {
     }
 
-    /**
-     * As of SLF4J version 1.7.14, StaticMarkerBinder classes shipping in various bindings
-     * come with a getSingleton() method. Previously only a public field called SINGLETON 
-     * was available.
-     * 
-     * @return IMarkerFactory
-     * @throws NoClassDefFoundError in case no binding is available
-     * @since 1.7.14
-     */
-    private static IMarkerFactory bwCompatibleGetMarkerFactoryFromBinder() throws NoClassDefFoundError {
-        try {
-            return StaticMarkerBinder.getSingleton().getMarkerFactory();
-        } catch (NoSuchMethodError nsme) {
-            // binding is probably a version of SLF4J older than 1.7.14
-            return StaticMarkerBinder.SINGLETON.getMarkerFactory();
-        }
-    }
 
     // this is where the binding happens
     static {
-        try {
-            MARKER_FACTORY = bwCompatibleGetMarkerFactoryFromBinder();
-        } catch (NoClassDefFoundError e) {
+        SLF4JServiceProvider provider = LoggerFactory.getProvider();
+        if (provider != null) {
+            MARKER_FACTORY = provider.getMarkerFactory();
+        } else {
+            Util.report("Failed to find provider");
+            Util.report("Defaulting to BasicMarkerFactory.");
             MARKER_FACTORY = new BasicMarkerFactory();
-        } catch (Exception e) {
-            // we should never get here
-            Util.report("Unexpected failure while binding MarkerFactory", e);
         }
     }
 

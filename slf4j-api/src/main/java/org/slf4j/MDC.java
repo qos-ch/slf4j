@@ -27,11 +27,11 @@ package org.slf4j;
 import java.io.Closeable;
 import java.util.Map;
 
-import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.helpers.BasicMDCAdapter;
+import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.helpers.Util;
-import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
+import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
  * This class hides and serves as a substitute for the underlying logging
@@ -85,40 +85,14 @@ public class MDC {
     private MDC() {
     }
 
-    /**
-     * As of SLF4J version 1.7.14, StaticMDCBinder classes shipping in various bindings
-     * come with a getSingleton() method. Previously only a public field called SINGLETON 
-     * was available.
-     * 
-     * @return MDCAdapter
-     * @throws NoClassDefFoundError in case no binding is available
-     * @since 1.7.14
-     */
-    private static MDCAdapter bwCompatibleGetMDCAdapterFromBinder() throws NoClassDefFoundError {
-        try {
-            return StaticMDCBinder.getSingleton().getMDCA();
-        } catch (NoSuchMethodError nsme) {
-            // binding is probably a version of SLF4J older than 1.7.14
-            return StaticMDCBinder.SINGLETON.getMDCA();
-        }
-    }
-
     static {
-        try {
-            mdcAdapter = bwCompatibleGetMDCAdapterFromBinder();
-        } catch (NoClassDefFoundError ncde) {
+        SLF4JServiceProvider provider = LoggerFactory.getProvider();
+        if (provider != null) {
+            mdcAdapter = provider.getMDCAdapter();
+        } else {
+            Util.report("Failed to find provider.");
+            Util.report("Defaulting to no-operation MDCAdapter implementation.");
             mdcAdapter = new NOPMDCAdapter();
-            String msg = ncde.getMessage();
-            if (msg != null && msg.contains("StaticMDCBinder")) {
-                Util.report("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
-                Util.report("Defaulting to no-operation MDCAdapter implementation.");
-                Util.report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
-            } else {
-                throw ncde;
-            }
-        } catch (Exception e) {
-            // we should never get here
-            Util.report("MDC binding unsuccessful.", e);
         }
     }
 

@@ -381,4 +381,8 @@ public final class LoggerFactory {
         }
         throw new IllegalStateException("Unreachable code");
     }
+    
+    static SLF4JServiceProvider getProvider()  {
+        return PROVIDER;
+    }
 }
