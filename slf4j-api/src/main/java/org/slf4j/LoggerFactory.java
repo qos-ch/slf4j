@@ -32,9 +32,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPLoggerFactory;
+import org.slf4j.helpers.SubstitureServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteLoggerFactory;
 import org.slf4j.helpers.Util;
+import org.slf4j.helpers.NOPServiceProvider;
 import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
@@ -80,8 +82,8 @@ public final class LoggerFactory {
     static final int NOP_FALLBACK_INITIALIZATION = 4;
 
     static volatile int INITIALIZATION_STATE = UNINITIALIZED;
-    static final SubstituteLoggerFactory SUBST_FACTORY = new SubstituteLoggerFactory();
-    static final NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
+    static final SubstitureServiceProvider SUBST_PROVIDER = new SubstitureServiceProvider();
+    static final NOPServiceProvider NOP_FALLBACK_FACTORY = new NOPServiceProvider();
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
@@ -151,7 +153,7 @@ public final class LoggerFactory {
                 fixSubstituteLoggers();
                 replayEvents();
                 // release all resources in SUBST_FACTORY
-                SUBST_FACTORY.clear();
+                SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
                 Util.report("No providers could be found.");
@@ -163,9 +165,9 @@ public final class LoggerFactory {
     }
 
     private static void fixSubstituteLoggers() {
-        synchronized (SUBST_FACTORY) {
-            SUBST_FACTORY.postInitialization();
-            for (SubstituteLogger substLogger : SUBST_FACTORY.getLoggers()) {
+        synchronized (SUBST_PROVIDER) {
+            SUBST_PROVIDER.getSubstituteLoggerFactory().postInitialization();
+            for (SubstituteLogger substLogger : SUBST_PROVIDER.getSubstituteLoggerFactory().getLoggers()) {
                 Logger logger = getLogger(substLogger.getName());
                 substLogger.setDelegate(logger);
             }
@@ -179,7 +181,7 @@ public final class LoggerFactory {
     }
 
     private static void replayEvents() {
-        final LinkedBlockingQueue<SubstituteLoggingEvent> queue = SUBST_FACTORY.getEventQueue();
+        final LinkedBlockingQueue<SubstituteLoggingEvent> queue = SUBST_PROVIDER.getSubstituteLoggerFactory().getEventQueue();
         final int queueSize = queue.size();
         int count = 0;
         final int maxDrain = 128;
@@ -359,6 +361,10 @@ public final class LoggerFactory {
      * @return the ILoggerFactory instance in use
      */
     public static ILoggerFactory getILoggerFactory() {
+        return getProvider().getLoggerFactory();
+    }
+    
+    static SLF4JServiceProvider getProvider()  {
         if (INITIALIZATION_STATE == UNINITIALIZED) {
             synchronized (LoggerFactory.class) {
                 if (INITIALIZATION_STATE == UNINITIALIZED) {
@@ -369,7 +375,7 @@ public final class LoggerFactory {
         }
         switch (INITIALIZATION_STATE) {
         case SUCCESSFUL_INITIALIZATION:
-            return PROVIDER.getLoggerFactory();
+            return PROVIDER;
         case NOP_FALLBACK_INITIALIZATION:
             return NOP_FALLBACK_FACTORY;
         case FAILED_INITIALIZATION:
@@ -377,12 +383,8 @@ public final class LoggerFactory {
         case ONGOING_INITIALIZATION:
             // support re-entrant behavior.
             // See also http://jira.qos.ch/browse/SLF4J-97
-            return SUBST_FACTORY;
+            return SUBST_PROVIDER;
         }
         throw new IllegalStateException("Unreachable code");
-    }
-    
-    static SLF4JServiceProvider getProvider()  {
-        return PROVIDER;
     }
 }
