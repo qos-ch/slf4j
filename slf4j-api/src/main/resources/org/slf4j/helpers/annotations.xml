@@ -1,0 +1,71 @@
+<root>
+    <item name='org.slf4j.helpers.BasicMDCAdapter void put(java.lang.String, java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarker void add(org.slf4j.Marker) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarker boolean contains(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarker boolean contains(org.slf4j.Marker) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarker java.lang.String getName()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarkerFactory org.slf4j.Marker getDetachedMarker(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarkerFactory org.slf4j.Marker getDetachedMarker(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarkerFactory org.slf4j.Marker getMarker(java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.BasicMarkerFactory org.slf4j.Marker getMarker(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.MarkerIgnoringBase java.lang.String getName()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='org.slf4j.helpers.MessageFormatter org.slf4j.helpers.FormattingTuple arrayFormat(java.lang.String, java.lang.Object[])'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.MessageFormatter org.slf4j.helpers.FormattingTuple format(java.lang.String, java.lang.Object)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.MessageFormatter org.slf4j.helpers.FormattingTuple format(java.lang.String, java.lang.Object, java.lang.Object)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.NOPLogger NOP_LOGGER'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.NOPLogger java.lang.String getName()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.NOPLoggerFactory org.slf4j.Logger getLogger(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.NOPMDCAdapter void put(java.lang.String, java.lang.String) 0'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+        <annotation name='org.jetbrains.kannotator.runtime.annotations.Propagated'>
+            <val name="value" val="{org.jetbrains.kannotator.controlFlow.builder.analysis.NullabilityKey.class}"/>
+        </annotation>
+    </item>
+    <item name='org.slf4j.helpers.SubstituteLoggerFactory org.slf4j.Logger getLogger(java.lang.String)'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.SubstituteLoggerFactory java.util.List&lt;java.lang.String&gt; getLoggerNames()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.SubstituteLoggerFactory java.util.List&lt;org.slf4j.helpers.SubstituteLogger&gt; getLoggers()'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+    <item name='org.slf4j.helpers.Util void report(java.lang.String, java.lang.Throwable) 1'>
+        <annotation name='org.jetbrains.annotations.NotNull'/>
+    </item>
+</root>
