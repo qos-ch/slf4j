@@ -73,6 +73,7 @@
     <module>integration</module>
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
+    <module>juli-over-slf4j</module>
   </modules>
 
   <dependencies>
@@ -285,6 +286,11 @@
                   <group>
                     <title>Jakarta Commons Logging packages</title>
                     <packages>org.apache.commons.*</packages>
+                  </group>
+
+                  <group>
+                    <title>Apache Juli Logging packages</title>
+                    <packages>org.apache.juli.*</packages>
                   </group>
 
                   <group>
