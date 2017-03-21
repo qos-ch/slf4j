@@ -46,7 +46,8 @@
     <logback.version>1.0.13</logback.version>
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
-    <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
+    <javadoc-plugin.version>2.10.4</javadoc-plugin.version>
+    <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
   </properties>
 
   <developers>
@@ -130,6 +131,20 @@
 
     <pluginManagement>
       <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>1.1</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
@@ -150,20 +165,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
-
+        <version>${maven-compiler-plugin.version}</version>
+       
         <executions>
           <execution>
             <id>default-compile</id>
             <configuration>
-              <!-- compile everything to ensure module-info contains right entries -->
-              <!-- required when JAVA_HOME is JDK 8 or below -->
-              <jdkToolchain>
-                <version>9</version>
-              </jdkToolchain>
-              <release>9</release>
             </configuration>
           </execution>
+
           <execution>
             <id>base-compile</id>
             <goals>
@@ -172,16 +182,13 @@
             <!-- recompile everything for target VM except the module-info.java -->
             <configuration>
               <excludes>
-                <exclude>module-info.java</exclude>
+                <exclude>**/module-info.java</exclude>
               </excludes>
             </configuration>
           </execution>
         </executions>
 
         <configuration>
-          <jdkToolchain>
-            <version>[1.5,9)</version>
-          </jdkToolchain>
           <source>${required.jdk.version}</source>
           <target>${required.jdk.version}</target>
         </configuration>
@@ -287,7 +294,7 @@
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-javadoc-plugin</artifactId>
-              <version>${javadoc.plugin.version}</version>
+              <version>${javadoc-plugin.version}</version>
               <configuration>
                 <linksource>true</linksource>
                 <!--<aggregate>true</aggregate>-->
@@ -342,6 +349,41 @@
         <maven.test.skip>true</maven.test.skip>
       </properties>
     </profile>
+
+    <profile>
+      <id>jigsaw</id>
+      <activation>
+        <jdk>[1.9,)</jdk>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven-compiler-plugin.version}</version>
+            <configuration>
+              <source>${required.jdk.version}</source>
+              <target>${required.jdk.version}</target>
+            </configuration>
+            <executions>
+              <execution>
+                <id>module-infos</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+                <configuration>
+                  <includes>
+                    <include>**/module-info.java</include>
+                  </includes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
 
     <profile>
       <id>javadocjar</id>
