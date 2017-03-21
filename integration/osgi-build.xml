@@ -13,6 +13,8 @@
 	<echo message="test classpath:    ${test_classpath}" />
 	<echo message="basedir:           ${basedir}" />
 
+  <echo message="ant.java.version:           ${ant.java.version}" />
+
   <property name="iBundleJar" value="target/iBundle.jar"/>
   <property name="bundlesDir" value="bundle"/>
 
@@ -23,6 +25,10 @@
 	<taskdef name="junit" classpath="${test_classpath}" 
            classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
   -->
+
+  <condition property="jdk9">
+    <matches pattern="9.*" string="${ant.java.version}" />
+  </condition>
 
 	<path id="minimal">
 		<pathelement location="target/test-classes/" />
@@ -63,30 +69,41 @@
         invoked from the parent dir, which messes up theses tests. Hence, the
         fork="yes" dir="${basedir}" -->
 
-  <target name="nop">
+<!--
+      <jvmarg line="MINUS_MINUSadd-opens java.base/java.net=ALL-UNNAMED"/>
+      <jvmarg line="MINUS_MINUSadd-opens java.base/java.security=ALL-UNNAMED"/>
+-->
+
+  <target name="nop" unless="jdk9">
     <prepareOSGiHarness binding="nop"/>
     <junit printsummary="yes" fork="yes" dir="${basedir}" haltonfailure="yes">
 			<classpath path="${test_classpath}"/>
       <formatter type="plain" />
-      <test fork="yes" todir="target/unit-reports" name="org.slf4j.test_osgi.BundleTest" />
+      <test todir="target/unit-reports" 
+            name="org.slf4j.test_osgi.BundleTest" 
+            outfile="OSGI-nop" />
     </junit>
 	</target>
 
-	<target name="simple">
+	<target name="simple" unless="jdk9">
     <prepareOSGiHarness binding="simple"/>
     <junit printsummary="yes" fork="yes" dir="${basedir}" haltonfailure="yes">
 			<classpath path="${test_classpath}"/>
       <formatter type="plain" />
-      <test fork="yes" todir="target/unit-reports" name="org.slf4j.test_osgi.BundleTest" />
+      <test fork="yes" todir="target/unit-reports" 
+            name="org.slf4j.test_osgi.BundleTest" 
+            outfile="OSGI-simple" />
     </junit>
 	</target>
 
-	<target name="jdk14">
+	<target name="jdk14" unless="jdk9">
     <prepareOSGiHarness binding="jdk14"/>
     <junit printsummary="yes" fork="yes" dir="${basedir}" haltonfailure="yes">
 			<classpath path="${test_classpath}"/>
       <formatter type="plain" />
-      <test fork="yes" todir="target/unit-reports" name="org.slf4j.test_osgi.BundleTest" />
+      <test fork="yes" todir="target/unit-reports" 
+            name="org.slf4j.test_osgi.BundleTest" 
+            outfile="OSGI-jdk14"/>
     </junit>
 	</target>
   
