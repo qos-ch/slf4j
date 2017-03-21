@@ -18,13 +18,6 @@
 
   <!--<property name="path_to_policy" value="file:./integration/src/policy/java-under-ant.policy"/>-->
 
-
-	<path id="path142Binding">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-1.4.2.jar" />
-	</path >
-
 	<path id="path150Binding">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
@@ -42,13 +35,6 @@
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="./lib/slf4j-simple-1.5.11.jar" />
 	</path >
-
-  <!--<path id="pathIncompatible">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-INCOMPATIBLE.jar" />
-	</path >
-  -->
 
 	<path id="pathCurrent">
 		<pathelement location="target/test-classes/" />
@@ -94,8 +80,10 @@
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
 	-->
+  <!--
 	<taskdef name="junit" classpath="${plugin_classpath};${compile_classpath}" 
            classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+  -->
 
 	<target name="init">
 		<mkdir dir="target/unit-reports" />
@@ -113,14 +101,6 @@
 
 
 	<target name="testMissingSingletonMethod">
-
-    <junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="path142Binding" />
-			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports"
-            outfile="TEST-142BININDING" 
-            name="org.slf4j.MissingSingletonMethodAssertionTest" />
-		</junit>
 
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150Binding" />

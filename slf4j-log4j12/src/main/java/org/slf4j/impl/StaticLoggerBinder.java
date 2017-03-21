@@ -24,8 +24,10 @@
  */
 package org.slf4j.impl;
 
+import org.apache.log4j.Level;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
@@ -38,6 +40,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
 
     /**
      * The unique instance of this class.
+     * 
      */
     private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
@@ -57,8 +60,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     // to avoid constant folding by the compiler, this field must *not* be final
     public static String REQUESTED_API_VERSION = "1.6.99"; // !final
 
-    // Binding specific code:
-    private static final String loggerFactoryClassStr = JCLLoggerFactory.class.getName();
+    private static final String loggerFactoryClassStr = Log4jLoggerFactory.class.getName();
 
     /**
      * The ILoggerFactory instance returned by the {@link #getLoggerFactory}
@@ -67,8 +69,13 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     private final ILoggerFactory loggerFactory;
 
     private StaticLoggerBinder() {
-        // Binding specific code:
-        loggerFactory = new JCLLoggerFactory();
+        loggerFactory = new Log4jLoggerFactory();
+        try {
+            @SuppressWarnings("unused")
+            Level level = Level.TRACE;
+        } catch (NoSuchFieldError nsfe) {
+            Util.report("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
+        }
     }
 
     public ILoggerFactory getLoggerFactory() {

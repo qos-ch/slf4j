@@ -39,6 +39,7 @@ import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPServiceProvider;
 import org.slf4j.helpers.SubstitureServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
+
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -97,7 +98,7 @@ public final class LoggerFactory {
 
     static boolean DETECT_LOGGER_NAME_MISMATCH = Util.safeGetBooleanSystemProperty(DETECT_LOGGER_NAME_MISMATCH_PROPERTY);
 
-    static SLF4JServiceProvider PROVIDER;
+    static volatile SLF4JServiceProvider PROVIDER;
 
     private static List<SLF4JServiceProvider> findServiceProviders() {
         ServiceLoader<SLF4JServiceProvider> serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class);

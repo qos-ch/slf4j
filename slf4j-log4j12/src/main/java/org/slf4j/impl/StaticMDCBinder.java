@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2013 QOS.ch
+ * Copyright (c) 2004-2011 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -24,44 +24,42 @@
  */
 package org.slf4j.impl;
 
-import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
 /**
- * This implementation is bound to {@link NOPMDCAdapter}.
+ * This implementation is bound to {@link Log4jMDCAdapter}.
  *
  * @author Ceki G&uuml;lc&uuml;
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
 public class StaticMDCBinder {
 
-    /**
-     * The unique instance of this class.
-     */
-    public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
+	/**
+	 * The unique instance of this class.
+	 */
+	public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
-    private StaticMDCBinder() {
-    }
+	private StaticMDCBinder() {
+	}
 
-    /**
-     * Return the singleton of this class.
-     * 
-     * @return the StaticMDCBinder singleton
-     * @since 1.7.14
-     */
-    public static final StaticMDCBinder getSingleton() {
-        return SINGLETON;
-    }
+	/**
+	 * Return the singleton of this class.
+	 * 
+	 * @return the StaticMDCBinder singleton
+	 * @since 1.7.14
+	 */
+	public static final StaticMDCBinder getSingleton() {
+		return SINGLETON;
+	}
 
-    /**
-     * Currently this method always returns an instance of 
-     * {@link NOPMDCAdapter}.
-     */
-    public MDCAdapter getMDCA() {
-        return new NOPMDCAdapter();
-    }
+	/**
+	 * Currently this method always returns an instance of
+	 * {@link StaticMDCBinder}.
+	 */
+	public MDCAdapter getMDCA() {
+		return new Log4jMDCAdapter();
+	}
 
-    public String getMDCAdapterClassStr() {
-        return NOPMDCAdapter.class.getName();
-    }
+	public String getMDCAdapterClassStr() {
+		return Log4jMDCAdapter.class.getName();
+	}
 }

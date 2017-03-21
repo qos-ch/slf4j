@@ -24,47 +24,54 @@
  */
 package org.slf4j.impl;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.IMarkerFactory;
+import org.slf4j.MarkerFactory;
+import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.spi.MarkerFactoryBinder;
 
 /**
- * As of SLF4J version 1.8.0, the static binder mechanism  is no longer supported. 
  * 
- * <p>This class exists to alert the user that the version of slf4j-api.jar on the class path is less 
- * than 1.8.0 where the provider in which this class is packaged expects version 1.8.0 or later.
+ * The binding of {@link MarkerFactory} class with an actual instance of 
+ * {@link IMarkerFactory} is performed using information returned by this class. 
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public class StaticLoggerBinder implements LoggerFactoryBinder {
-
-    final static String ERROR_MSG = "The static binder mechanism is no longer supported.";
+public class StaticMarkerBinder implements MarkerFactoryBinder {
 
     /**
      * The unique instance of this class.
-     * 
      */
-    private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
+
+    final IMarkerFactory markerFactory = new BasicMarkerFactory();
+
+    private StaticMarkerBinder() {
+    }
 
     /**
      * Return the singleton of this class.
      * 
-     * @return the StaticLoggerBinder singleton
+     * @return the StaticMarkerBinder singleton
+     * @since 1.7.14
      */
-    public static final StaticLoggerBinder getSingleton() {
+    public static StaticMarkerBinder getSingleton() {
         return SINGLETON;
     }
 
-    // to avoid constant folding by the compiler, this field must *not* be final
-    public static String REQUESTED_API_VERSION = "1.8.99"; // !final
-
-    private StaticLoggerBinder() {
+    /**
+     * Currently this method always returns an instance of 
+     * {@link BasicMarkerFactory}.
+     */
+    public IMarkerFactory getMarkerFactory() {
+        return markerFactory;
     }
 
-    public ILoggerFactory getLoggerFactory() {
-        throw new UnsupportedOperationException(ERROR_MSG);
+    /**
+     * Currently, this method returns the class name of
+     * {@link BasicMarkerFactory}.
+     */
+    public String getMarkerFactoryClassStr() {
+        return BasicMarkerFactory.class.getName();
     }
 
-    public String getLoggerFactoryClassStr() {
-        throw new UnsupportedOperationException(ERROR_MSG);
-    }
 }

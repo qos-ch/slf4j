@@ -39,13 +39,11 @@ public class VersionMismatchAssertionTest extends TestCase {
         super(name);
     }
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    public void setUp() throws Exception {
         System.setErr(sps);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    public void tearDown() throws Exception {
         System.setErr(old);
     }
 
@@ -53,6 +51,8 @@ public class VersionMismatchAssertionTest extends TestCase {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         String msg = "hello world " + diff;
         logger.info(msg);
+
+        OutputVerifier.dump(sps);
 
         String s0 = (String) sps.stringList.get(0);
         assertTrue(s0.matches("SLF4J: The requested version .* by your slf4j binding is not compatible with.*"));

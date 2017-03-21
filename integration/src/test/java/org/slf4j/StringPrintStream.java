@@ -38,7 +38,7 @@ public class StringPrintStream extends PrintStream {
         super(ps);
         other = ps;
     }
-
+ 
     public void print(String s) {
         other.print(s);
         stringList.add(s);

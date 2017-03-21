@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2013 QOS.ch
+ * Copyright (c) 2004-2011 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -24,54 +24,57 @@
  */
 package org.slf4j.impl;
 
-import org.slf4j.IMarkerFactory;
-import org.slf4j.MarkerFactory;
-import org.slf4j.helpers.BasicMarkerFactory;
-import org.slf4j.spi.MarkerFactoryBinder;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.NOPLoggerFactory;
+import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
- * 
- * The binding of {@link MarkerFactory} class with an actual instance of 
- * {@link IMarkerFactory} is performed using information returned by this class. 
+ * The binding of {@link LoggerFactory} class with an actual instance of 
+ * {@link ILoggerFactory} is performed using information returned by this class. 
  * 
  * @author Ceki G&uuml;lc&uuml;
- * @author Andrey Korzhevskiy <a.korzhevskiy@gmail.com>
  */
-public class StaticMarkerBinder implements MarkerFactoryBinder {
+public class StaticLoggerBinder implements LoggerFactoryBinder {
 
     /**
      * The unique instance of this class.
+     * 
      */
-    public static final StaticMarkerBinder SINGLETON = new StaticMarkerBinder();
-
-    final IMarkerFactory markerFactory = new BasicMarkerFactory();
-
-    private StaticMarkerBinder() {
-    }
+    private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
     /**
      * Return the singleton of this class.
      * 
-     * @return the StaticMarkerBinder singleton
-     * @since 1.7.14
+     * @return the StaticLoggerBinder singleton
      */
-    public static StaticMarkerBinder getSingleton() {
+    public static final StaticLoggerBinder getSingleton() {
         return SINGLETON;
     }
 
     /**
-     * Currently this method always returns an instance of 
-     * {@link BasicMarkerFactory}.
+     * Declare the version of the SLF4J API this implementation is compiled against. 
+     * The value of this field is modified with each major release. 
      */
-    public IMarkerFactory getMarkerFactory() {
-        return markerFactory;
+    // to avoid constant folding by the compiler, this field must *not* be final
+    public static String REQUESTED_API_VERSION = "1.6.99"; // !final
+
+    private static final String loggerFactoryClassStr = NOPLoggerFactory.class.getName();
+
+    /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
+     * should always be the same object
+     */
+    private final ILoggerFactory loggerFactory;
+
+    private StaticLoggerBinder() {
+        loggerFactory = new NOPLoggerFactory();
     }
 
-    /**
-     * Currently, this method returns the class name of
-     * {@link BasicMarkerFactory}.
-     */
-    public String getMarkerFactoryClassStr() {
-        return BasicMarkerFactory.class.getName();
+    public ILoggerFactory getLoggerFactory() {
+        return loggerFactory;
+    }
+
+    public String getLoggerFactoryClassStr() {
+        return loggerFactoryClassStr;
     }
 }
