@@ -29,13 +29,13 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-public class VersionMismatchAssertionTest extends TestCase {
+public class OldAPIVersionMismatchAssertionTest extends TestCase {
 
     StringPrintStream sps = new StringPrintStream(System.err);
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-    public VersionMismatchAssertionTest(String name) {
+    public OldAPIVersionMismatchAssertionTest(String name) {
         super(name);
     }
 

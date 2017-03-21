@@ -42,14 +42,6 @@
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
 	</path >
 
-
-	<path id="incompatibleMultiBinding">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
-		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
-	</path >
-
   <path id="multiBinding">
  		<pathelement location="target/test-classes/" />
  		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
@@ -90,24 +82,23 @@
 	</target>
 
 	<target name="testAll" depends="init, 
-		            testMissingSingletonMethod,
+		            testNoProvider150,
                 testMismatch,
                 testMatch,
-		            testMultiBinding,
-		            testIncompatibleMultiBinding,
+		            testMultiBinding,                
                 testFuture_16Series,
                 testActiveSecurityManager">
 	</target>
 
 
-	<target name="testMissingSingletonMethod">
+	<target name="testNoProvider150">
 
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150Binding" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-150BINDING" 
-            name="org.slf4j.MissingSingletonMethodAssertionTest" />
+            name="org.slf4j.NoProviderAssertionTest" />
 		</junit>
 
   </target>
@@ -132,10 +123,10 @@
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-MISMATCH-1511API" 
-            name="org.slf4j.VersionMismatchAssertionTest" />
+            name="org.slf4j.OldAPIVersionMismatchAssertionTest" />
 		</junit>
 
-
+    <!--
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path1511Binding" />
 			<formatter type="plain" />
@@ -143,6 +134,7 @@
             outfile="TEST-MISMATCH-1511Binding" 
             name="org.slf4j.VersionMismatchAssertionTest" />
 		</junit>
+    -->
 
 	</target>
 
@@ -153,16 +145,6 @@
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-Match" 
             name="org.slf4j.CompatibilityAssertionTest" />
-		</junit>
-	</target>
-
-	<target name="testIncompatibleMultiBinding">
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="incompatibleMultiBinding" />
-			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-IncompatibleMultiBinding"
-            name="org.slf4j.IncompatibleMultiBindingAssertionTest" />
 		</junit>
 	</target>
 
@@ -177,12 +159,13 @@
  	</target>
 
 	<target name="testFuture_16Series">
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
+    
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="binding166" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-binding166"
-            name="org.slf4j.CompatibilityAssertionTest" />
+            name="org.slf4j.NoProviderAssertionTest" />
 		</junit>
 
     

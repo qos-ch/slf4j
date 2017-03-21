@@ -28,16 +28,16 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
- * As of SLF4J version 1.8.0, the static binder mechanism  is no longer supported. 
- * 
- * <p>This class exists to alert the user that the version of slf4j-api.jar on the class path is less 
- * than 1.8.0 where the provider in which this class is packaged expects version 1.8.0 or later.
- * 
- * @author Ceki G&uuml;lc&uuml;
- */
+* As of SLF4J version 1.8.0, the static binder mechanism is deprecated. 
+* 
+* <p>This class exists for backward compatibility earlier versions of slf4j-api.jar, 
+* in particular in the 1.6.x and the 1.7.x series.</p>
+* 
+* <p>Note that this class is likely to be removed in future releases of SLF4J.</p>
+* 
+* @author Ceki G&uuml;lc&uuml;
+*/
 public class StaticLoggerBinder implements LoggerFactoryBinder {
-
-    final static String ERROR_MSG = "The static binder mechanism is no longer supported.";
 
     /**
      * The unique instance of this class.
@@ -54,17 +54,29 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
         return SINGLETON;
     }
 
+    /**
+     * Declare compatibility with the 1.6.x and the 1.7.x series
+     */
     // to avoid constant folding by the compiler, this field must *not* be final
-    public static String REQUESTED_API_VERSION = "1.8.99"; // !final
+    public static String REQUESTED_API_VERSION = "1.6.99"; // !final
+
+    private static final String loggerFactoryClassStr = SimpleLoggerFactory.class.getName();
+
+    /**
+     * The ILoggerFactory instance returned by the {@link #getLoggerFactory}
+     * method should always be the same object
+     */
+    private final ILoggerFactory loggerFactory;
 
     private StaticLoggerBinder() {
+        loggerFactory = new SimpleLoggerFactory();
     }
 
     public ILoggerFactory getLoggerFactory() {
-        throw new UnsupportedOperationException(ERROR_MSG);
+        return loggerFactory;
     }
 
     public String getLoggerFactoryClassStr() {
-        throw new UnsupportedOperationException(ERROR_MSG);
+        return loggerFactoryClassStr;
     }
 }

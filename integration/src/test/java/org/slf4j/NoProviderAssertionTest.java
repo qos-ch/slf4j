@@ -30,13 +30,13 @@ import java.util.Random;
 import junit.framework.TestCase;
 
 
-public class MissingSingletonMethodAssertionTest extends TestCase {
+public class NoProviderAssertionTest extends TestCase {
 
     StringPrintStream sps = new StringPrintStream(System.err);
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-    public MissingSingletonMethodAssertionTest(String name) {
+    public NoProviderAssertionTest(String name) {
         super(name);
     }
     

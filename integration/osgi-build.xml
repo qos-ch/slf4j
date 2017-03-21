@@ -19,9 +19,10 @@
 
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
-	-->
+	
 	<taskdef name="junit" classpath="${test_classpath}" 
            classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+  -->
 
 	<path id="minimal">
 		<pathelement location="target/test-classes/" />

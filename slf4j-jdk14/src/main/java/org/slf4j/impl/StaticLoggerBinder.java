@@ -25,15 +25,18 @@
 package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
-import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
- * The binding of {@link LoggerFactory} class with an actual instance of 
- * {@link ILoggerFactory} is performed using information returned by this class. 
- * 
- * @author Ceki G&uuml;lc&uuml;
- */
+* As of SLF4J version 1.8.0, the static binder mechanism is deprecated. 
+* 
+* <p>This class exists for backward compatibility earlier versions of slf4j-api.jar, 
+* in particular in the 1.6.x and the 1.7.x series.</p>
+* 
+* <p>Note that this class is likely to be removed in future releases of SLF4J.</p>
+* 
+* @author Ceki G&uuml;lc&uuml;
+*/
 public class StaticLoggerBinder implements LoggerFactoryBinder {
 
     /**
@@ -52,8 +55,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     }
 
     /**
-     * Declare the version of the SLF4J API this implementation is compiled against. 
-     * The value of this field is modified with each major release. 
+      * Declare compatibility with the 1.6.x and the 1.7.x series
      */
     // to avoid constant folding by the compiler, this field must *not* be final
     public static String REQUESTED_API_VERSION = "1.6.99"; // !final

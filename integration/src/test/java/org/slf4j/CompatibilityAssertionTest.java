@@ -57,5 +57,6 @@ public class CompatibilityAssertionTest extends TestCase {
         assertEquals(1, sps.stringList.size());
         String s0 = (String) sps.stringList.get(0);
         assertTrue(s0.contains(msg));
+        
     }
 }

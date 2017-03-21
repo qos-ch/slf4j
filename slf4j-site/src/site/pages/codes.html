@@ -42,7 +42,7 @@
     were found.
     </h3>
 
-    <p>This <b>warning</b>, i.e. not an error, message is repoted when
+    <p>This <b>warning</b>, i.e. not an error, message is reported when
     no SLF4J providers could be found on the class path.  Placing one
     (and only one) of <em>slf4j-nop.jar</em>
     <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>,
@@ -58,7 +58,8 @@
     <p>Please note that slf4j-api version 1.8.x and later use the <a
     href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
     mechanism. <span class="red">Earlier versions relied on the static
-    binder mechanism which is no loger supported.</span></p>
+    binder mechanism which is no longer honored by
+    slf4j-api.</span></p>
     
     <p>If you are responsible for packaging an application and do not
     care about logging, then placing <em>slf4j-nop.jar</em> on the
@@ -79,12 +80,12 @@
     1.8.x and later use the <a
     href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
     mechanism. <span class="red">Earlier versions of SLF4J relied on
-    the static binder mechanism which is no loger
-    supported.</span></p>
+    the static binder mechanism which is no loger honored by
+    slf4j-api.</span></p>
     
     <p>In case SLF4J finds no providers targeting SLF4J 1.8 but finds
     instead bindings targeting SLF4J 1.7 or earlier, it will list the
-    bindings it finds but <b>ignores</b>.
+    bindings it found but otherwise <b>ignores</b> them.
     </p>
     
 

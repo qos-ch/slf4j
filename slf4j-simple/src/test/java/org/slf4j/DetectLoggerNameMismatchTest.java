@@ -80,7 +80,6 @@ public class DetectLoggerNameMismatchTest {
     public void testTriggerWithProperty() {
         setTrialEnabled(true);
         LoggerFactory.getLogger(String.class);
-        String s = String.valueOf(byteArrayOutputStream);
         assertMismatchDetected(true);
     }
 
