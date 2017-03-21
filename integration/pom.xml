@@ -18,9 +18,10 @@
   <description>SLF4J integration tests</description>
 
   <properties>
-    <junit3.version>3.8.1</junit3.version>
-    <ant-junit.version>1.6.5</ant-junit.version>
-    <antrun-plugin.version>1.2</antrun-plugin.version>
+    <junit.version>4.10</junit.version>
+    <!-- 1.9.1 does not work. Do not update lightly -->
+    <ant-junit.version>1.9.0</ant-junit.version>
+    <antrun-plugin.version>1.8</antrun-plugin.version>
   </properties>
 
 
@@ -31,17 +32,21 @@
     </dependency>
 
     <!-- declaration to circumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
+    <!--
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit3.version}</version>
     </dependency>
+    -->
     <!-- declaration to circumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
+    <!--
     <dependency>
       <groupId>ant</groupId>
       <artifactId>ant-junit</artifactId>
       <version>${ant-junit.version}</version>
     </dependency>
+    -->
 
     <!-- some test run Felix in hosted mode -->
     <dependency>
@@ -61,10 +66,10 @@
           <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-             <version>${junit3.version}</version>
+            <version>${junit.version}</version>
           </dependency>
           <dependency>
-            <groupId>ant</groupId>
+            <groupId>org.apache.ant</groupId>
             <artifactId>ant-junit</artifactId>
             <version>${ant-junit.version}</version>
           </dependency>

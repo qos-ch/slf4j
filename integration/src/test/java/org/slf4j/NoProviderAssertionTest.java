@@ -27,27 +27,28 @@ package org.slf4j;
 import java.io.PrintStream;
 import java.util.Random;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 
-public class NoProviderAssertionTest extends TestCase {
+public class NoProviderAssertionTest {
 
     StringPrintStream sps = new StringPrintStream(System.err);
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-    public NoProviderAssertionTest(String name) {
-        super(name);
-    }
-    
+    @Before
     public void setUp() throws Exception {
         System.setErr(sps);
     }
 
+    @After
     public void tearDown() throws Exception {
         System.setErr(old);
     }
 
+    @Test
     public void test() throws Exception {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         String msg = "hello world " + diff;

@@ -146,6 +146,7 @@
             outfile="TEST-Match" 
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
+
 	</target>
 
   <target name="testMultiBinding">
