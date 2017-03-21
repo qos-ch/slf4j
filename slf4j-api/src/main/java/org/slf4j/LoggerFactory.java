@@ -24,19 +24,22 @@
  */
 package org.slf4j;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
-import org.slf4j.helpers.NOPLoggerFactory;
+import org.slf4j.helpers.NOPServiceProvider;
 import org.slf4j.helpers.SubstitureServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
-import org.slf4j.helpers.SubstituteLoggerFactory;
 import org.slf4j.helpers.Util;
-import org.slf4j.helpers.NOPServiceProvider;
 import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
@@ -63,6 +66,9 @@ public final class LoggerFactory {
 
     static final String CODES_PREFIX = "http://www.slf4j.org/codes.html";
 
+    static final String NO_PROVIDERS_URL = CODES_PREFIX + "#noProviders";
+    static final String IGNORED_BINDINGS_URL = CODES_PREFIX + "#ignoredBindings";
+    
     static final String NO_STATICLOGGERBINDER_URL = CODES_PREFIX + "#StaticLoggerBinder";
     static final String MULTIPLE_BINDINGS_URL = CODES_PREFIX + "#multiple_bindings";
     static final String NULL_LF_URL = CODES_PREFIX + "#null_LF";
@@ -139,13 +145,8 @@ public final class LoggerFactory {
 
     private final static void bind() {
         try {
-            List<SLF4JServiceProvider> providersList = null;
-            // skip check under android, see also
-            // http://jira.qos.ch/browse/SLF4J-328
-            if (!isAndroid()) {
-                providersList = findServiceProviders();
-                reportMultipleBindingAmbiguity(providersList);
-            }
+            List<SLF4JServiceProvider> providersList = findServiceProviders();
+            reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
                 PROVIDER = providersList.get(0);
                 INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
@@ -156,12 +157,57 @@ public final class LoggerFactory {
                 SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
-                Util.report("No providers could be found.");
+                Util.report("No SLF4J providers were found.");
+                Util.report("Defaulting to no-operation (NOP) logger implementation");
+                Util.report("See " + NO_PROVIDERS_URL + " for further details.");
+
+                Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
+                reportIgnoredStaticLoggerBinders(staticLoggerBinderPathSet);
             }
         } catch (Exception e) {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
         }
+    }
+
+    private static void reportIgnoredStaticLoggerBinders(Set<URL> staticLoggerBinderPathSet) {
+        if (staticLoggerBinderPathSet.isEmpty()) {
+            return;
+        }
+        Util.report("Class path contains SLF4J bindings targeting slf4j-api versions prior to 1.8.");
+        for (URL path : staticLoggerBinderPathSet) {
+            Util.report("Ignoring binding found at [" + path + "]");
+        }
+        Util.report("See " + IGNORED_BINDINGS_URL + " for an explanation.");
+   
+
+    }
+
+    // We need to use the name of the StaticLoggerBinder class, but we can't
+    // reference the class itself.
+    private static String STATIC_LOGGER_BINDER_PATH = "org/slf4j/impl/StaticLoggerBinder.class";
+
+    static Set<URL> findPossibleStaticLoggerBinderPathSet() {
+        // use Set instead of list in order to deal with bug #138
+        // LinkedHashSet appropriate here because it preserves insertion order
+        // during iteration
+        Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
+        try {
+            ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
+            Enumeration<URL> paths;
+            if (loggerFactoryClassLoader == null) {
+                paths = ClassLoader.getSystemResources(STATIC_LOGGER_BINDER_PATH);
+            } else {
+                paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
+            }
+            while (paths.hasMoreElements()) {
+                URL path = paths.nextElement();
+                staticLoggerBinderPathSet.add(path);
+            }
+        } catch (IOException ioe) {
+            Util.report("Error getting resources from path", ioe);
+        }
+        return staticLoggerBinderPathSet;
     }
 
     private static void fixSubstituteLoggers() {
@@ -279,19 +325,12 @@ public final class LoggerFactory {
      */
     private static void reportMultipleBindingAmbiguity(List<SLF4JServiceProvider> providerList) {
         if (isAmbiguousProviderList(providerList)) {
-            Util.report("Class path contains multiple SLF4J bindings.");
+            Util.report("Class path contains multiple SLF4J providers.");
             for (SLF4JServiceProvider provider : providerList) {
                 Util.report("Found provider [" + provider + "]");
             }
             Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
         }
-    }
-
-    private static boolean isAndroid() {
-        String vendor = Util.safeGetSystemProperty(JAVA_VENDOR_PROPERTY);
-        if (vendor == null)
-            return false;
-        return vendor.toLowerCase().contains("android");
     }
 
     private static void reportActualBinding(List<SLF4JServiceProvider> providerList) {
@@ -363,8 +402,8 @@ public final class LoggerFactory {
     public static ILoggerFactory getILoggerFactory() {
         return getProvider().getLoggerFactory();
     }
-    
-    static SLF4JServiceProvider getProvider()  {
+
+    static SLF4JServiceProvider getProvider() {
         if (INITIALIZATION_STATE == UNINITIALIZED) {
             synchronized (LoggerFactory.class) {
                 if (INITIALIZATION_STATE == UNINITIALIZED) {

@@ -36,6 +36,59 @@
     </center>
     
 
+    <!-- ====================================================== -->
+
+    <h3 class="doAnchor" name="noProviders">No SLF4J providers
+    were found.
+    </h3>
+
+    <p>This <b>warning</b>, i.e. not an error, message is repoted when
+    no SLF4J providers could be found on the class path.  Placing one
+    (and only one) of <em>slf4j-nop.jar</em>
+    <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>,
+    <em>slf4j-jdk14.jar</em> or <em>logback-classic.jar</em> on the
+    class path should solve the problem. Note that these providers
+    must target slf4j-api 1.8 or later.
+    </p>
+
+    <p>In the absence of a provider, SLF4J will default to a
+    no-operation (NOP) logger provider.
+    </p>
+
+    <p>Please note that slf4j-api version 1.8.x and later use the <a
+    href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+    mechanism. <span class="red">Earlier versions relied on the static
+    binder mechanism which is no loger supported.</span></p>
+    
+    <p>If you are responsible for packaging an application and do not
+    care about logging, then placing <em>slf4j-nop.jar</em> on the
+    class path of your application will get rid of this warning
+    message. Note that embedded components such as libraries or
+    frameworks should not declare a dependency on any SLF4J providers
+    but only depend on slf4j-api. When a library declares a
+    compile-time dependency on a SLF4J provider, it imposes that
+    provider on the end-user, thus negating SLF4J's purpose. </p>
+    
+    <!-- ====================================================== -->    
+
+    <h3 class="doAnchor" name="ignoredBindings">Class path contains
+    SLF4J bindings targeting slf4j-api versions prior to 1.8
+    </h3>
+
+    <p>Planning for the advent of Jigsaw (Java 9), slf4j-api version
+    1.8.x and later use the <a
+    href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+    mechanism. <span class="red">Earlier versions of SLF4J relied on
+    the static binder mechanism which is no loger
+    supported.</span></p>
+    
+    <p>In case SLF4J finds no providers targeting SLF4J 1.8 but finds
+    instead bindings targeting SLF4J 1.7 or earlier, it will list the
+    bindings it finds but <b>ignores</b>.
+    </p>
+    
+
+    <!-- ====================================================== -->
 
     <h3 class="doAnchor"
     name="unsuccessfulInit">IllegalStateException:
