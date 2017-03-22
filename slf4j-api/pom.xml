@@ -47,7 +47,39 @@
             </goals>
           </execution>
         </executions>
-      </plugin>      
+      </plugin>
+
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        
+        <executions>
+          <execution>
+            <id>test-compile</id>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <compilerArgs>
+                <arg>-Xmodule:org.slf4j</arg>
+              </compilerArgs>
+              <release>9</release>
+            </configuration>
+          </execution>
+        </executions>
+
+        <configuration>
+          <source>9</source>
+          <target>9</target>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+         
+        </configuration>
+        
+      </plugin>
+      
     </plugins>
 
   </build>

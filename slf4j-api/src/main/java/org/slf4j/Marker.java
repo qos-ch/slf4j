@@ -80,6 +80,7 @@ public interface Marker extends Serializable {
     /**
      * @deprecated Replaced by {@link #hasReferences()}.
      */
+    @Deprecated
     public boolean hasChildren();
 
     /**
