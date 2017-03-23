@@ -9,7 +9,8 @@ public class SubstitureServiceProvider implements SLF4JServiceProvider {
     private SubstituteLoggerFactory loggerFactory = new SubstituteLoggerFactory();
     private IMarkerFactory markerFactory = new BasicMarkerFactory();
     private MDCAdapter mdcAdapter = new BasicMDCAdapter();
-    
+
+    @Override
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }
@@ -18,16 +19,25 @@ public class SubstitureServiceProvider implements SLF4JServiceProvider {
         return loggerFactory;
     }
 
-    
+    @Override
     public IMarkerFactory getMarkerFactory() {
         return markerFactory;
     }
 
+
+    @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }
 
+
+    @Override
     public String getRequesteApiVersion() {
        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void initialize() {
+    	
     }
 }

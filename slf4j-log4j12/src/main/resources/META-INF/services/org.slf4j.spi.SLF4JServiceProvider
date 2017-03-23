@@ -1,1 +1,1 @@
-org.slf4j.impl.Log4j12ServiceProvider
+org.slf4j.log4j12.Log4j12ServiceProvider

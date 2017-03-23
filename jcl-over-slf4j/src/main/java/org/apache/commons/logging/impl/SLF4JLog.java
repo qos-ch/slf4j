@@ -44,7 +44,7 @@ public class SLF4JLog implements Log, Serializable {
     // logger instance is transient
     private transient Logger logger;
 
-    SLF4JLog(Logger logger) {
+    public SLF4JLog(Logger logger) {
         this.logger = logger;
         this.name = logger.getName();
     }

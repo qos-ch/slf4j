@@ -52,6 +52,7 @@ public class MarkerFactory {
     static {
         SLF4JServiceProvider provider = LoggerFactory.getProvider();
         if (provider != null) {
+        	provider.initialize();
             MARKER_FACTORY = provider.getMarkerFactory();
         } else {
             Util.report("Failed to find provider");

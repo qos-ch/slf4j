@@ -29,4 +29,5 @@ public interface SLF4JServiceProvider {
     
     public String getRequesteApiVersion();
     
+    public void initialize();
 }

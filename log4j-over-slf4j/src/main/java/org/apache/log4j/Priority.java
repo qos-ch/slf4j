@@ -48,21 +48,25 @@ public class Priority {
     /**
      * @deprecated Use {@link Level#ERROR} instead.
      */
+    @Deprecated
     final static public Priority ERROR = new Level(ERROR_INT, "ERROR", 3);
 
     /**
      * @deprecated Use {@link Level#WARN} instead.
      */
+    @Deprecated
     final static public Priority WARN = new Level(WARN_INT, "WARN", 4);
 
     /**
      * @deprecated Use {@link Level#INFO} instead.
      */
+    @Deprecated
     final static public Priority INFO = new Level(INFO_INT, "INFO", 6);
 
     /**
      * @deprecated Use {@link Level#DEBUG} instead.
      */
+    @Deprecated
     final static public Priority DEBUG = new Level(DEBUG_INT, "DEBUG", 7);
 
     /**
@@ -122,6 +126,7 @@ public class Priority {
 
        @deprecated This method will be removed with no replacement.
     */
+    @Deprecated
     public static Priority[] getAllPossiblePriorities() {
         return new Priority[] { Priority.FATAL, Priority.ERROR, Level.WARN, Priority.INFO, Priority.DEBUG };
     }
@@ -143,6 +148,7 @@ public class Priority {
     /**
      * @deprecated Please use the {@link Level#toLevel(String)} method instead.
     */
+    @Deprecated
     public static Priority toPriority(String sArg) {
         return Level.toLevel(sArg);
     }
@@ -150,6 +156,7 @@ public class Priority {
     /**
      * @deprecated Please use the {@link Level#toLevel(int)} method instead.   
      */
+    @Deprecated
     public static Priority toPriority(int val) {
         return toPriority(val, Priority.DEBUG);
     }
@@ -157,6 +164,7 @@ public class Priority {
     /**
      * @deprecated Please use the {@link Level#toLevel(int, Level)} method instead.   
     */
+    @Deprecated
     public static Priority toPriority(int val, Priority defaultPriority) {
         return Level.toLevel(val, (Level) defaultPriority);
     }
@@ -164,6 +172,7 @@ public class Priority {
     /**
      * @deprecated Please use the {@link Level#toLevel(String, Level)} method instead.   
      */
+    @Deprecated
     public static Priority toPriority(String sArg, Priority defaultPriority) {
         return Level.toLevel(sArg, (Level) defaultPriority);
     }

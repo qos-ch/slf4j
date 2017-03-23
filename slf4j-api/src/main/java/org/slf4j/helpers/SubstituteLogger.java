@@ -329,7 +329,7 @@ public class SubstituteLogger implements Logger {
      * Return the delegate logger instance if set. Otherwise, return a {@link NOPLogger}
      * instance.
      */
-    Logger delegate() {
+    public Logger delegate() {
         if(_delegate != null) {
             return _delegate;
         }

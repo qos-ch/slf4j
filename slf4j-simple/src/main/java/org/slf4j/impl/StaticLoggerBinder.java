@@ -26,6 +26,7 @@ package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
+import org.slf4j.simple.SimpleLoggerFactory;
 
 /**
 * As of SLF4J version 1.8.0, the static binder mechanism is deprecated. 

@@ -25,6 +25,7 @@
 package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
+import org.slf4j.jul.JDK14LoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;
 
 /**
@@ -60,7 +61,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     // to avoid constant folding by the compiler, this field must *not* be final
     public static String REQUESTED_API_VERSION = "1.6.99"; // !final
 
-    private static final String loggerFactoryClassStr = org.slf4j.impl.JDK14LoggerFactory.class.getName();
+    private static final String LOGGER_FACTORY_CLASS_STR = JDK14LoggerFactory.class.getName();
 
     /** The ILoggerFactory instance returned by the {@link #getLoggerFactory} method
      * should always be the same object
@@ -68,8 +69,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     private final ILoggerFactory loggerFactory;
 
     private StaticLoggerBinder() {
-        // Note: JCL gets substituted at build time by an appropriate Ant task
-        loggerFactory = new org.slf4j.impl.JDK14LoggerFactory();
+        loggerFactory = new JDK14LoggerFactory();
     }
 
     public ILoggerFactory getLoggerFactory() {
@@ -77,6 +77,6 @@ public class StaticLoggerBinder implements LoggerFactoryBinder {
     }
 
     public String getLoggerFactoryClassStr() {
-        return loggerFactoryClassStr;
+        return LOGGER_FACTORY_CLASS_STR;
     }
 }

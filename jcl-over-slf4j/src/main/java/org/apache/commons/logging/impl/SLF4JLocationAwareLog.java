@@ -47,7 +47,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
 
     private static final String FQCN = SLF4JLocationAwareLog.class.getName();
 
-    SLF4JLocationAwareLog(LocationAwareLogger logger) {
+    public SLF4JLocationAwareLog(LocationAwareLogger logger) {
         this.logger = logger;
         this.name = logger.getName();
     }

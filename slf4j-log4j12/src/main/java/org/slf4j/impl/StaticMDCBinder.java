@@ -24,6 +24,7 @@
  */
 package org.slf4j.impl;
 
+import org.slf4j.log4j12.Log4jMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
 /**
