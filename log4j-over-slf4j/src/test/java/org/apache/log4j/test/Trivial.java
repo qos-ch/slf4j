@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.apache.log4j;
+package org.apache.log4j.test;
 
 import org.apache.log4j.Logger;
 

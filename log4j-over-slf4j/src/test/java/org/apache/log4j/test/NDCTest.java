@@ -22,13 +22,15 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.apache.log4j;
+package org.apache.log4j.test;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import org.apache.log4j.NDC;
 
 /**
  * @author Ceki G&uuml;lc&uuml;
