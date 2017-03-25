@@ -33,9 +33,9 @@
   </scm>  
 
   <properties>
-    <required.jdk.version>1.6</required.jdk.version>
-    <maven.compiler.source>${required.jdk.version}</maven.compiler.source>
-    <maven.compiler.target>${required.jdk.version}</maven.compiler.target>
+    <jdk.version>1.5</jdk.version>
+    <maven.compiler.source>${jdk.version}</maven.compiler.source>
+    <maven.compiler.target>${jdk.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -46,8 +46,8 @@
     <logback.version>1.0.13</logback.version>
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
-    <javadoc-plugin.version>2.10.4</javadoc-plugin.version>
-    <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+    <compiler-plugin.version>3.6.1</compiler-plugin.version>
+    <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
   </properties>
 
   <developers>
@@ -71,7 +71,7 @@
     <module>osgi-over-slf4j</module>
     <module>integration</module>
     <module>slf4j-site</module>
-    <module>slf4j-migrator</module>
+    <module>slf4j-migrator</module> 
   </modules>
 
   <dependencies>
@@ -151,16 +151,59 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>toolchain</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
-          <source>9</source>
-          <target>9</target>
-          <showWarnings>true</showWarnings>
-          <showDeprecation>true</showDeprecation>
+          <toolchains>
+            <jdk>
+              <version>1.6</version>
+            </jdk>
+          </toolchains>
         </configuration>
-        
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler-plugin.version}</version>
+        <executions>
+
+          <execution>
+            <id>base-compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>module-info.java</exclude>
+              </excludes>
+            </configuration>
+          </execution> 
+
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <jdkToolchain>
+                <version>9</version>
+              </jdkToolchain>
+              <release>9</release>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <jdkToolchain>
+            <version>[1.5,9)</version>
+          </jdkToolchain>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
       </plugin>
 
       <plugin>
