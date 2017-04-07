@@ -40,17 +40,27 @@
 
     <div id="content">
 
-  <h2>Latest official SLF4J distribution</h2>
+      <h2>Latest STABLE version</h2>
 
+      <p>Download version ${stable.version} including <i>full source code</i>,
+      class files and documentation in ZIP or TAR.GZ format: </p>
+      
+      <ul>
+        <li><a href="dist/slf4j-${stable.version}.tar.gz"><b>slf4j-${stable.version}.tar.gz</b></a> </li>
+        <li><a href="dist/slf4j-${stable.version}.zip"><b>slf4j-${stable.version}.zip</b></a> </li>    
+      </ul>  
 
-  <p>Download version ${project.version} including <i>full source code</i>,
-  class files and documentation in ZIP or TAR.GZ format: </p>
+      <h2>Java 9 Modularized EXPERIMENTAL version</h2>
 
-  <ul>
-    <li><a href="dist/slf4j-${project.version}.tar.gz"><b>slf4j-${project.version}.tar.gz</b></a> </li>
-    <li><a href="dist/slf4j-${project.version}.zip"><b>slf4j-${project.version}.zip</b></a> </li>    
-  </ul>  
-  
+      <p>Download version ${project.version} including <i>full source
+      code</i>, class files and documentation in ZIP or TAR.GZ format:
+      </p>
+      
+      <ul>
+        <li><a href="dist/slf4j-${project.version}.tar.gz"><b>slf4j-${project.version}.tar.gz</b></a> </li>
+        <li><a href="dist/slf4j-${project.version}.zip"><b>slf4j-${project.version}.zip</b></a> </li>    
+      </ul>  
+
  
   <h3>Previous versions</h3>
   
@@ -65,60 +75,6 @@
   href="http://repo2.maven.org/maven2/org/slf4j/">Maven central
   repository</a> as <em>javadoc.jar</em> files.
   </p>
-
-  <h2>Closely related projects</h2>
-
-
-  <ul>
-    <li><a
-    href="http://projects.lidalia.org.uk/sysout-over-slf4j/">sysout-over-slf4j</a>
-    module redirects all calls to System.out and System.err to an
-    SLF4J defined logger with the name of the fully qualified class in
-    which the System.out.println (or similar) call was made, at
-    configurable levels.  </li>
-
-    <li><a href="http://projects.lidalia.org.uk/slf4j-test">SLF4J
-    Test</a> is an SLF4J implementation focused on facilitating easier
-    unit testing of logging code.
-    </li>
-
-    <li><a
-    href="http://projects.lidalia.org.uk/lidalia-slf4j-ext/">Lidalia
-    SLF4J Extensions</a> allows logging at a level determined at runtime
-    rather than compile-time.
-    </li>
-  </ul>
-
-  <h2>Additional SLF4J-related software</h2>
-
-  <ul>
-
-    <li><a href="http://code.google.com/p/jdbcdslog/">jdbcdslog</a> a
-    tracing tool for JDBC, by Andriy Kolyadenko</li>
-
-    <li><a href="http://www.jwaresoftware.org/wiki/log4ant/home">Log4Ant</a>, by JWare Software
-    </li>
-
-    <li><a href="http://code.google.com/p/log4jdbc/">log4jdbc</a>, a
-    JDBC driver which logs SQL information before delegating to an
-    underlying JDBC driver, by Arthur Blake
-    </li>
-
-    <li><a href="http://code.google.com/p/slf4fx/">SLF4Fx</a>, an open
-    source logging suite for Flex, by Dmitry Motylev
-    </li>
-
-    <li><a
-    href="http://svn.codehaus.org/sonar/trunk/sonar-web/src/main/webapp/WEB-INF/lib/slf4j_logger.rb">SLF4J
-    logger for JRuby on Rails</a> and <a
-    href="http://svn.codehaus.org/sonar/trunk/sonar-web/src/main/webapp/WEB-INF/config/environments/production.rb">settings
-    file</a>, by SonarSource </li>
-
-  </ul>
-
-
-  </p>
-  
 
   <script src="templates/footer.js" type="text/javascript"></script>
 </div>

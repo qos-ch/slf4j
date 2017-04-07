@@ -33,19 +33,18 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>XXX, 2017 - Release of SLF4J 1.8.0</h3>
+   <h3>April 7th, 2017 - Release of SLF4J 1.8.0-alpha0</h3>
 
-   <p>Version 1.8.0 and later, slf4j-api uses the <a
-   href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
-   mechanism. Earlier versions relied on the static binder mechanism
-   which is no loger honored. This means that for example
-   slf4j-api-1.8.x.jar will detect but ignore
-   slf4j-simple-1.8.x.jar. However, to maintain some backward
-   compatibility, slf4j-simple-1.8.x.jar will work with slf4j-api-1.7.x.jar</p>
+   <p>SLF4J has been modularized per <a
+   href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
+   specificaton. The resulting internal changes are <a class="big bold"
+   href="faq.html#changesInVersion18">detailed</a> in the FAQ
+   page.</p>
  
+   
    <p>Due to the lack of interest, slf4j-android and slf4j-jcl modules
-   have been dropped.</p>
-
+   have been dropped with no replacement.</p>
+   
    <hr noshade="noshade" size="1"/>
 
    <h3>March 16th, 2017 - Release of SLF4J 1.7.25</h3>
