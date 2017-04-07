@@ -19,8 +19,8 @@ public class MDCFriend {
             Object mdcSingleton_tlm = tlmField.get(mdcSingleton);
 
             if (mdcSingleton_tlm == null) {
-                tlmField.set(mdcSingleton, new ThreadLocalMap());
-                java1Field.setBoolean(mdcSingleton, false);
+                tlmField.set(mdcSingleton_tlm, new ThreadLocalMap());
+                java1Field.setBoolean(mdcSingleton_tlm, false);
                 setRemoveMethod(mdcSingleton);
             }
         } catch (SecurityException e) {

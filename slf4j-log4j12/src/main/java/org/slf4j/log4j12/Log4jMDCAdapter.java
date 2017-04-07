@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.MDCFriend;
 import org.slf4j.spi.MDCAdapter;
 
 public class Log4jMDCAdapter implements MDCAdapter {
