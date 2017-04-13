@@ -64,7 +64,6 @@ public class Log4jLoggerFactory implements ILoggerFactory {
         loggerMap = new ConcurrentHashMap<String, Logger>();
         // force log4j to initialize
         org.apache.log4j.LogManager.getRootLogger();
-        System.out.println("*********post initializaiton");
     }
 
     /*
