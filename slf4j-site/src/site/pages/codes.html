@@ -58,8 +58,10 @@
     <p>Please note that slf4j-api version 1.8.x and later use the <a
     href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
     mechanism. <span class="red">Earlier versions relied on the static
-    binder mechanism which is no longer honored by
-    slf4j-api.</span></p>
+    binder mechanism which is no longer honored by slf4j-api.</span>
+    Please read the relevant <a href="faq.html#changesInVersion18">faq
+    entry</a> for further important details.
+    </p>
     
     <p>If you are responsible for packaging an application and do not
     care about logging, then placing <em>slf4j-nop.jar</em> on the
@@ -85,7 +87,11 @@
     
     <p>In case SLF4J finds no providers targeting SLF4J 1.8 but finds
     instead bindings targeting SLF4J 1.7 or earlier, it will list the
-    bindings it found but otherwise <b>ignores</b> them.
+    bindings it finds but otherwise <b>ignores</b> them.
+    </p>
+
+    <p>See also the relevant <a href="faq.html#changesInVersion18">faq
+    entry</a> for further important details.
     </p>
     
 
