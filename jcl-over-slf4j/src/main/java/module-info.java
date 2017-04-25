@@ -1,4 +1,4 @@
-module org.slf4j.jcl_over_slf4j {
+module org.apache.commons.logging {
   requires org.slf4j;
   exports org.apache.commons.logging;
 }

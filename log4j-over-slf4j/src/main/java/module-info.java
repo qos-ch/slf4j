@@ -1,4 +1,4 @@
-module org.slf4j.log4j_over_slf4j {
+module log4j {
 	requires org.slf4j;
 	requires java.xml;
 	exports org.apache.log4j;
