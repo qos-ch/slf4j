@@ -1,6 +1,5 @@
 package org.slf4j;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.junit.AfterClass;
@@ -35,8 +34,8 @@ public final class TransferableMdcTest {
         final String valueTransferred = "vTransferred";
         MDC.put(keyTransferred, valueTransferred);
         final TransferableMdc mdc = MDC.createTransferable();
-        executor.submit(new Callable<Void>() {
-            public Void call() {
+        executor.submit(new Runnable() {
+            public void run() {
                 final String value = "v";
                 MDC.put(key, value);
                 final TransferableMdc mdcTmp = mdc.apply();
@@ -48,7 +47,6 @@ public final class TransferableMdcTest {
                 }
                 assertNull(MDC.get(keyTransferred));
                 assertSame(value, MDC.get(key));
-                return null;
             }
         }).get();
         assertSame(valueTransferred, MDC.get(keyTransferred));
