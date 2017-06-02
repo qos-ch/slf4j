@@ -18,6 +18,11 @@ public final class TransferableMdcTest {
     @BeforeClass
     public static final void beforeClass() {
         executor = Executors.newSingleThreadExecutor();
+        executor.submit(new Runnable() {
+            public void run() {
+                //this task forces the executor to pre-initialize a thread
+            }
+        });
     }
 
     @AfterClass
@@ -26,17 +31,17 @@ public final class TransferableMdcTest {
     }
 
     @Test
-    public final void idiom() {
+    public final void idiom() throws Exception {
         final String keyTransferred = "kTransferred";
+        final String key = "k";
         final String valueTransferred = "vTransferred";
         MDC.put(keyTransferred, valueTransferred);
         final TransferableMdc mdc = MDC.createTransferable();
         executor.submit(new Callable<Void>() {
             public Void call() {
-                final String key = "k";
                 final String value = "v";
                 MDC.put(key, value);
-                TransferableMdc mdcTmp = mdc.apply();
+                final TransferableMdc mdcTmp = mdc.apply();
                 try {
                     assertSame(valueTransferred, MDC.get(keyTransferred));
                     assertSame(value, MDC.get(key));
@@ -47,6 +52,8 @@ public final class TransferableMdcTest {
                 assertSame(value, MDC.get(key));
                 return null;
             }
-        });
+        }).get();
+        assertSame(valueTransferred, MDC.get(keyTransferred));
+        assertNull(MDC.get(key));
     }
 }
