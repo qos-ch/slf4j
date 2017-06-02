@@ -19,7 +19,7 @@ package org.apache.log4j.spi;
 import org.apache.log4j.*;
 
 /**
-   Listen to events occuring within a {@link
+   Listen to events occurring within a {@link
    org.apache.log4j.Hierarchy Hierarchy}.
 
    @author Ceki G&uuml;lc&uuml;

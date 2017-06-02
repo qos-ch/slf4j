@@ -58,7 +58,7 @@ public class EventException extends RuntimeException {
      * Constructor that chains another Exception or Error and also allows a message
      * to be specified.
      * @param exceptionMessage The exception message.
-     * @param originalException The original excepton.
+     * @param originalException The original exception.
      */
     public EventException(String exceptionMessage, Throwable originalException) {
         super(exceptionMessage, originalException);

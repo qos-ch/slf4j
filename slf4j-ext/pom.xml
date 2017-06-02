@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.22-SNAPSHOT</version>
+    <version>1.7.26-SNAPSHOT</version>
   </parent>
 
   <artifactId>slf4j-ext</artifactId>
@@ -32,6 +32,7 @@
     <dependency>
       <groupId>ch.qos.cal10n</groupId>
       <artifactId>cal10n-api</artifactId>
+      <optional>true</optional>
     </dependency>		
     <dependency>
       <groupId>javassist</groupId>

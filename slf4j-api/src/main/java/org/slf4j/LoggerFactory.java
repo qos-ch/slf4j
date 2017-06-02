@@ -74,7 +74,7 @@ public final class LoggerFactory {
     static final String REPLAY_URL = CODES_PREFIX + "#replay";
 
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
-    static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory could not be successfully initialized. See also " + UNSUCCESSFUL_INIT_URL;
+    static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory in failed state. Original exception was thrown EARLIER. See also " + UNSUCCESSFUL_INIT_URL;
 
     static final int UNINITIALIZED = 0;
     static final int ONGOING_INITIALIZATION = 1;
@@ -83,8 +83,8 @@ public final class LoggerFactory {
     static final int NOP_FALLBACK_INITIALIZATION = 4;
 
     static volatile int INITIALIZATION_STATE = UNINITIALIZED;
-    static SubstituteLoggerFactory SUBST_FACTORY = new SubstituteLoggerFactory();
-    static NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
+    static final SubstituteLoggerFactory SUBST_FACTORY = new SubstituteLoggerFactory();
+    static final NOPLoggerFactory NOP_FALLBACK_FACTORY = new NOPLoggerFactory();
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";

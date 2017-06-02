@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.22-SNAPSHOT</version>
+  <version>1.7.26-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -46,7 +46,7 @@
     <logback.version>1.0.13</logback.version>
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
-    <javadoc.plugin.version>2.10.2</javadoc.plugin.version>
+    <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
   </properties>
 
   <developers>
@@ -59,12 +59,11 @@
 
   <modules>
     <module>slf4j-api</module>
-    <!--<module>slf4j-scala-api</module>-->
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>
     <module>slf4j-jdk14</module>
     <module>slf4j-log4j12</module>
-    <module>slf4j-jcl</module>
+    <module>slf4j-jcl</module> 
     <module>slf4j-android</module>
     <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
@@ -74,7 +73,6 @@
     <module>integration</module>
     <module>slf4j-site</module>
     <module>slf4j-migrator</module>
-    <module>slf4j-bom</module>
   </modules>
 
   <dependencies>
@@ -263,6 +261,7 @@
               <artifactId>maven-javadoc-plugin</artifactId>
               <version>${javadoc.plugin.version}</version>
               <configuration>
+                <linksource>true</linksource>
                 <!--<aggregate>true</aggregate>-->
                 <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
                 <links>
@@ -409,8 +408,8 @@
 
   <distributionManagement>
     <site>
-      <id>tao</id>
-      <url>scp://tao.qos.ch/var/www/www.slf4j.org/htdocs/</url>
+      <id>qos_ch</id>
+      <url>scp://te.qos.ch/var/www/www.slf4j.org/htdocs/</url>
     </site>
 
     <repository>

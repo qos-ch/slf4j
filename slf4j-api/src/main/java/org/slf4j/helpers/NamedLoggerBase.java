@@ -32,9 +32,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Serves as base class for named logger implementation. More significantly, this
- * class establishes deserialization behavior. See @see #readResolve. 
+ * class establishes deserialization behavior.
  * 
  * @author Ceki Gulcu
+ * @see #readResolve
  * @since 1.5.3
  */
 abstract class NamedLoggerBase implements Logger, Serializable {

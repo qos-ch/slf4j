@@ -31,16 +31,94 @@
    announce</a> mailing list.
    </p>
 
+   <hr noshade="noshade" size="1"/>
+
+   <h3>March 16th, 2017 - Release of SLF4J 1.7.25</h3>
+
+   <p>In slf4j-simple module, added a configuration option to
+   enable/disable caching of the System.out/err target. This
+   enhancement was requested in <a
+   href="https://jira.qos.ch/browse/SLF4J-395">SLF4J-395</a> by
+   Herv&eacute; Boutemy.
+   </p>
+
+   <p>Refactored several internal methods in <code>SimpleLogger</code>
+   in order to ease its extension.  This enhancement was requested in
+   <a href="https://jira.qos.ch/browse/SLF4J-394">SLF4J-394</a> by
+   Herv&eacute; Boutemy.</p>
+
+   <p>Updates the <code>serialVersionId</code> of
+   <code>BasicMarker</code> in order to ease diagnosis of
+   serialization issues with this class.
+   </p>
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>April Xth, 2016 - Release of SLF4J 1.7.22</h3>
+   <h3>February 23rd, 2017 - Release of SLF4J 1.7.24</h3>
 
-   <p>Added slf4j-bom module for use as a Maven "Bill of Materials"
-   pom file. This improvement was requested in <a
-   href="http://jira.qos.ch/browse/SLF4J-365">SLF4J-365</a> Joerg
-   Sesterhenn.
+   <p>In its MANIFEST.MF file, the jcl-over-slf4j module now declares
+   exporting <code>org.apache.commons.logging</code> version "1.2"
+   instead of version "1.1.1". Otherwise, no java code has
+   changed. The change was requested in <a
+   href="https://jira.qos.ch/browse/SLF4J-383">SLF4J-383</a> reported
+   by Florian Kolbe and only affects OSGi environments.
    </p>
+
+   <p>Fix performance bottleneck in <code>BasicMarker</code> which now
+   uses a <code>CopyOnWriteArray</code> instead of a
+   <code>Vector</code>. This problem was raised in <a
+   href="https://jira.qos.ch/browse/SLF4J-240">SLF4J-240</a> by Ralph
+   Goers.</p>
+
+   <p>CAL10N is now declared as an optional dependency of
+   slf4j-ext. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-369">SLF4J-369</a> reported
+   by Matej Spiller-Muys.
+   </p>
+
+   <hr noshade="noshade" size="1"/>
+
+   <h3>February 15th, 2017 - Release of SLF4J 1.7.23</h3>
+
+   <p class="highlight">Update to SLF4J version 1.7.23 to enable
+   slf4j-log4j12 to run under Java 9.</p>
+
+
+   <p>When running under Java 9, log4j version 1.2.x is unable to
+   correctly parse the "java.version" system property. Assuming an
+   inccorect Java version, it proceeded to disable its MDC
+   functionality. The slf4j-log4j12 module shipping in this release
+   fixes the issue by tweaking MDC internals by reflection, allowing
+   log4j to run under Java 9. See also <a
+   href="https://jira.qos.ch/browse/SLF4J-393">SLF4J-393</a>.</p>
+
+   <p>Fixed issue <code>EventRecodingLogger</code> not saving marker
+   data in the event. This issue was reported in <a
+   href="http://jira.qos.ch/browse/SLF4J-379">SLF4J-379</a> by Manish
+   Soni with Jonas Neukomm providing the relevant PR.
+   </p>
+
+   <p>The slf4j-simple module now uses the latest reference to
+   System.out or System.err. In previous releases the reference was
+   set at the beginning and re-used. This change fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-389">SLF4J-389</a> reported
+   by Igor Polevoy.</p>
+
+   <hr noshade="noshade" size="1"/>
+
+   <h3>December 13th, 2016 - Release of SLF4J 1.7.22</h3>
+
+   <p>Add support for OFF level in <code>SimpleLogger</code>. This
+   feature was requested in <a
+   href="http://jira.qos.ch/browse/SLF4J-332">SLF4J-332</a>.
+   </p>
+   
+   <p>Allow re-initialization of <code>SimpleLogger</code> by
+   "friends". This change was requested in <a
+   href="http://jira.qos.ch/browse/SLF4J-370">SLF4J-370</a> by
+   Christian Schulte.
+   </p>
+
 
    <hr noshade="noshade" size="1"/>
 
@@ -354,14 +432,14 @@
    appropriate logger implementation after the initilization phase
    completes. Only calls made to these loggers during the
    initialization phase are dropped. This enhacement was proposed in
-   <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=311">bug 311</a>
+   <a href="http://jira.qos.ch/browse/SLF4J-302">SLF4J-302</a>
    by Chetan Mehrotra.
    </p>
 
    <p>Improvements to the <code>exit()</code> and
    <code>throwing()</code> methods in <code>XLogger</code>. This
    enhacement was requested in <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=197">bug 197</a>.
+   href="http://jira.qos.ch/browse/SLF4J-188">SLF4J-188</a>.
    </p>
    
    <p>Concunrrency improvement in <code>MessageFormatter</code>. This
@@ -378,14 +456,14 @@
    <p><code>JCLLoggerAdapter</code> was incorrectly invoking
    <code>isDebugEnabled</code> calls in its <code>trace()</code>
    methods. This issue was reported in <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=281">bug 281</a>.
+   href="http://jira.qos.ch/browse/SLF4J-272">SLF4J-272</a>.
 
    </p>
 
-   <p>In the log4j-over-slf4j module, the <code>setLevel</code>
-   method in the <code>Category</code> class. This fixes <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=279">bug
-   279</a>. Alfredo Ramos provied the relevant patch.
+   <p>In the log4j-over-slf4j module, the <code>setLevel</code> method
+   in the <code>Category</code> class. This fixes <a
+   href="http://jira.qos.ch/browse/SLF4J-270">SLF4J-270</a>. Alfredo
+   Ramos provied the relevant patch.
    </p>
 
    <p>In the log4j-over-slf4j module, added empty implementations for
@@ -409,7 +487,7 @@
    regular <code>HashMap</code> to cache logger instances. This change
    significantly improves logger retrieval times at the cost of some
    memory overhead. This improvement was requested in <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=298">bug #298</a>
+   href="http://jira.qos.ch/browse/SLF4J-289">SLF4J-289</a>
    by Taras Tielkes who also provided the relevant patch.
    </p>
    
@@ -428,13 +506,13 @@
    <p>The jul-to-slf4j bridge now correctly handles cases where the
    message string contains {}-placeholders but has no or zero
    parameters. This fixes <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=212">bug
-   #212</a>. The relevant patch was provided by Matthew Preston in a
-   git pull request.</p>
+   href="http://jira.qos.ch/browse/SLF4J-203">SLF4J-203</a>. The
+   relevant patch was provided by Matthew Preston in a git pull
+   request.</p>
    
    <p>Added missing methods and classes in log4j-over-slf4j module for
    Velocity compatibility.  This issue was reported in <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=280">bug 280</a> by
+   href="http://jira.qos.ch/browse/SLF4J-271">SLF4J-271</a> by
    Thomas Mortagne.</p>
 
    <hr noshade="noshade" size="1"/>
@@ -455,10 +533,10 @@
    module.</p>
 
    <p>Fixed <a
-   href="http://bugzilla.slf4j.org/show_bug.cgi?id=272">bug
-   272</a>. All <code>Logger</code> implementations shipping with
-   SLF4J use <code>Object...</code> instead of <code>Object[]</code>
-   to avoid compiler warnings.</p>
+   href="http://jira.qos.ch/browse/SLF4J-263">SLF4J-263</a>. All
+   <code>Logger</code> implementations shipping with SLF4J use
+   <code>Object...</code> instead of <code>Object[]</code> to avoid
+   compiler warnings.</p>
 
    
 
@@ -494,8 +572,8 @@
 
    <p>The logger field (of type <code>java.util.logging.Logger</code>)
    in <code>JDK14LoggerAdapter</code> is now marked as transient. This
-   fixes <a href="http://bugzilla.slf4j.org/show_bug.cgi?id=261">bug
-   #261</a>, a serialization problem reported by Thorbj&oslash;rn Ravn
+   fixes <a href="http://jira.qos.ch/browse/SLF4J-252">SLF4J-252</a>,
+   a serialization problem reported by Thorbj&oslash;rn Ravn
    Andersen.</p>
 
    <hr noshade="noshade" size="1"/>
@@ -1023,7 +1101,7 @@
   <em>jcl-over-slf4j</em>. SLF4J will no longer ship with
   <em>jcl104-over-slf4j.jar</em> but with <em>jcl-over-slf4j.jar</em>.
   The related work responds to enhancement request discussed in <a
-  href="http://bugzilla.slf4j.org/show_bug.cgi?id=85">bug 85</a> as
+  href="http://jira.qos.ch/browse/SLF4J-76">issue 76</a> as
   reported by Niklas Gustavsson.
   </p>
   
@@ -1626,11 +1704,11 @@
   <h3>August 28th, 2005 - Release of SLF4J 1.0-beta7 and NLOG4J 1.2.17</h3>
 
   <p>Spurred by <a
-  href="http://bugzilla.slf4j.org/show_bug.cgi?id=3">bug report
-  #3</a>, SLF4J binding code has been refactored and
-  simplified. Logging systems implementing SLF4J interfaces have to
-  have less work in order to bind with SLF4J. Moreover, these changes
-  have no incidence on the published interface of SLF4J.
+  href="http://jira.qos.ch/browse/SLF4J-1">SLF4J-1</a>, SLF4J binding
+  code has been refactored and simplified. Logging systems
+  implementing SLF4J interfaces have to have less work in order to
+  bind with SLF4J. Moreover, these changes have no incidence on the
+  published interface of SLF4J.
   </p>
 
   

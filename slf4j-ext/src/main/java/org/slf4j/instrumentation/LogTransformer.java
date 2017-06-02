@@ -80,7 +80,7 @@ public class LogTransformer implements ClassFileTransformer {
 
         /**
          * Should each method log entry (with parameters) and exit (with parameters
-         * and returnvalue)?
+         * and return value)?
          *
          * @param b
          *          value of flag

@@ -24,16 +24,24 @@
  */
 package org.slf4j.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
-
 public class SimpleLoggerTest {
 
     String A_KEY = SimpleLogger.LOG_KEY_PREFIX + "a";
+    PrintStream original = System.out;
+    ByteArrayOutputStream bout = new ByteArrayOutputStream();
+    PrintStream replacement = new PrintStream(bout);
 
     @Before
     public void before() {
@@ -43,6 +51,8 @@ public class SimpleLoggerTest {
     @After
     public void after() {
         System.clearProperty(A_KEY);
+        System.clearProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY);
+        System.setErr(original);
     }
 
     @Test
@@ -52,8 +62,19 @@ public class SimpleLoggerTest {
     }
 
     @Test
-    public void loggerNameWithNoDots_WithLevel() {
+    public void offLevel() {
+        System.setProperty(A_KEY, "off");
+        SimpleLogger.init();
         SimpleLogger simpleLogger = new SimpleLogger("a");
+        assertEquals("off", simpleLogger.recursivelyComputeLevelString());
+        assertFalse(simpleLogger.isErrorEnabled());
+    }
+
+    @Test
+    public void loggerNameWithNoDots_WithLevel() {
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger("a");
+
         assertEquals("info", simpleLogger.recursivelyComputeLevelString());
     }
 
@@ -75,4 +96,28 @@ public class SimpleLoggerTest {
         assertNull(simpleLogger.recursivelyComputeLevelString());
     }
 
+    @Test
+    public void checkUseOfLastSystemStreamReference() {
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+
+        System.setErr(replacement);
+        simpleLogger.info("hello");
+        replacement.flush();
+        assertTrue(bout.toString().contains("INFO org.slf4j.impl.SimpleLoggerTest - hello"));
+    }
+
+    @Test
+    public void checkUseOfCachedOutputStream() {
+        System.setErr(replacement);
+        System.setProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY, "true");
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+        // change reference to original before logging
+        System.setErr(original);
+
+        simpleLogger.info("hello");
+        replacement.flush();
+        assertTrue(bout.toString().contains("INFO org.slf4j.impl.SimpleLoggerTest - hello"));
+    }
 }

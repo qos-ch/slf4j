@@ -88,7 +88,7 @@ public class EventData implements Serializable {
     /**
      * Serialize all the EventData items into an XML representation.
      * 
-     * @return an XML String containing all the EventDAta items.
+     * @return an XML String containing all the EventData items.
      */
     public String toXML() {
         return toXML(eventData);
@@ -98,7 +98,7 @@ public class EventData implements Serializable {
      * Serialize all the EventData items into an XML representation.
      * 
      * @param map the Map to transform
-     * @return an XML String containing all the EventDAta items.
+     * @return an XML String containing all the EventData items.
      */
     public static String toXML(Map<String, Object> map) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -243,7 +243,7 @@ public class EventData implements Serializable {
     }
 
     /**
-     * Returns an Iterator over all the entries in the EventDAta.
+     * Returns an Iterator over all the entries in the EventData.
      * 
      * @return an Iterator that can be used to access all the event attributes.
      */

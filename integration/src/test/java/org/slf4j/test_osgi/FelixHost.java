@@ -41,7 +41,7 @@ import org.osgi.framework.Constants;
  * Runs a hosted version of Felix for testing purposes. Any bundle errors are
  * reported via the FrameworkListener passed to the constructor.
  * 
- * @author Ceki G&uuml;c&uuml;
+ * @author Ceki G&uuml;lc&uuml;
  */
 public class FelixHost {
 
@@ -59,7 +59,7 @@ public class FelixHost {
 
     public void doLaunch() {
         // Create a case-insensitive configuration property map.
-        StringMap configMap = new StringMap(false);
+        StringMap configMap = new StringMap();
         // Configure the Felix instance to be embedded.
         // configMap.put(FelixConstants.EMBEDDED_EXECUTION_PROP, "true");
         // Add core OSGi packages to be exported from the class path
@@ -89,8 +89,8 @@ public class FelixHost {
 
             // otherProps.put(Constants.FRAMEWORK_STORAGE, "bundles");
 
-            otherProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERY, AutoProcessor.AUTO_DEPLOY_DIR_VALUE);
-            otherProps.put(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERY, AutoProcessor.AUTO_DEPLOY_START_VALUE + "," + AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE);
+            otherProps.put(AutoProcessor.AUTO_DEPLOY_DIR_PROPERTY, AutoProcessor.AUTO_DEPLOY_DIR_VALUE);
+            otherProps.put(AutoProcessor.AUTO_DEPLOY_ACTION_PROPERTY, AutoProcessor.AUTO_DEPLOY_START_VALUE + "," + AutoProcessor.AUTO_DEPLOY_INSTALL_VALUE);
 
             BundleContext felixBudleContext = felix.getBundleContext();
 

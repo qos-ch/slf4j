@@ -32,6 +32,7 @@ package org.slf4j.helpers;
  */
 public final class Util {
 
+	
     private Util() {
     }
 
@@ -126,4 +127,7 @@ public final class Util {
     static final public void report(String msg) {
         System.err.println("SLF4J: " + msg);
     }
+    
+	
+
 }
