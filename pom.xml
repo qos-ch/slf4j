@@ -29,7 +29,7 @@
 
   <scm>
     <url>https://github.com/qos-ch/slf4j</url>
-    <connection>scm:git@github.com:qos-ch/slf4j.git</connection>
+    <connection>scm:git:https://github.com/qos-ch/slf4j.git</connection>
   </scm>  
 
   <properties>
