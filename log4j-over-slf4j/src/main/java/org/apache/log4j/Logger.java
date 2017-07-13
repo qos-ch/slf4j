@@ -78,7 +78,7 @@ public class Logger extends Category {
      * method in SLF4J.
      */
     public void trace(Object message, Throwable t) {
-        differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
+        differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, t);
     }
 
 }
