@@ -297,7 +297,7 @@ public class SLF4JBridgeHandler extends Handler {
         // a null message, other logging frameworks do not support this.
         // see also http://jira.qos.ch/browse/SLF4J-99
         if (message == null) {
-            message = "";
+            record.setMessage("");
         }
         if (slf4jLogger instanceof LocationAwareLogger) {
             callLocationAwareLogger((LocationAwareLogger) slf4jLogger, record);
