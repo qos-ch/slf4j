@@ -32,7 +32,7 @@ public class SubstitureServiceProvider implements SLF4JServiceProvider {
 
 
     @Override
-    public String getRequesteApiVersion() {
+    public String getRequestedApiVersion() {
        throw new UnsupportedOperationException();
     }
     
