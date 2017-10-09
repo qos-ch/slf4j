@@ -28,4 +28,31 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <!-- This module replaces the real commons-logging, thus it must have the same module name -->
+      <!-- http://svn.apache.org/repos/asf/commons/proper/logging/trunk/pom.xml -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive combine.children="append">
+                <manifestEntries>
+                  <Automatic-Module-Name>org.apache.commons.logging</Automatic-Module-Name>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

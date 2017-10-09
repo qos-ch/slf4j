@@ -37,4 +37,31 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <!-- This module replaces the real log4j v1.2, thus it must have the same module name -->
+      <!-- https://issues.apache.org/jira/browse/LOG4J2-2056 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive combine.children="append">
+                <manifestEntries>
+                  <Automatic-Module-Name>org.apache.log4j</Automatic-Module-Name>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
