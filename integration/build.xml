@@ -118,6 +118,8 @@
 
 	<target name="testMismatch">
 
+    <!--
+
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path1511API" />
 			<formatter type="plain" />
@@ -125,6 +127,7 @@
             outfile="TEST-MISMATCH-1511API" 
             name="org.slf4j.OldAPIVersionMismatchAssertionTest" />
 		</junit>
+   -->
 
     <!--
     <junit printsummary="yes" fork="no" haltonfailure="yes">
@@ -159,8 +162,11 @@
  		</junit>
  	</target>
 
+
 	<target name="testFuture_16Series">
-    
+
+    <!--  1.8 uses providers and no longer supports bindings ==
+
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="binding166" />
 			<formatter type="plain" />
@@ -177,7 +183,7 @@
             outfile="TEST-api166"
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
-
+     -->
 	</target>
 
 

@@ -359,7 +359,7 @@
     <dd>
       <p>There are no client facing API changes in 1.8.x. For most
       users upgrading to version 1.8.x should be a drop-in replacement
-      as long as the logging provider/binding is updated as well.
+      as long as the logging provider is updated as well.
       </p>
 
       <p>In version 1.8.0, SLF4J has been modularized per <a
@@ -380,11 +380,6 @@
       <em>slf4j-jdk14-1.8.x.jar</em>.
       </p>
       
-      <p>Moreover, recognizing that in some environments it is
-      difficult to modify the version of slf4j-api, all slf4j 1.8.x
-      "providers" also act as 1.7.x/1.6.x "bindings".
-      </p>
-
       <p>The following table describes the results when various
       slf4j-api and slf4j-simple versions are placed on the class
       path.  Please note that the table below applies by analogy not
@@ -411,8 +406,9 @@
         <tr class="striped">
           <td>1.7.x</td>
           <td>1.8.x</td>
-          <td>OK</td>
-          <td>A 1.8.x provider will also act as 1.7.x/16.x comptatible binding</td>
+          <td>no bindings can be found warning message</td>
+          <td>A 1.8.x providers do <b>not</b> act as 1.7.x/16.x
+          comptatible bindings</td>
         </tr>
         
         <tr class="striped">

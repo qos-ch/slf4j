@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.8.0-beta0-SNAPSHOT</version>
+  <version>1.8.0-beta0</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
