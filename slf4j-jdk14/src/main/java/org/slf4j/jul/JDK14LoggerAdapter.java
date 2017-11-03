@@ -24,6 +24,7 @@
  */
 package org.slf4j.jul;
 
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
@@ -34,6 +35,7 @@ import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -77,6 +79,19 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         if (logger.isLoggable(Level.FINEST)) {
             log(SELF, Level.FINEST, msg, null);
         }
+    }
+
+    /**
+     * Log a message object provided by supplier at level FINEST.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void trace(Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.FINEST)) {
+            log(SELF, Level.FINEST, Util.msgSafeGet(msgSup), null);
+        }
+
     }
 
     /**
@@ -159,6 +174,21 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level FINEST with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void trace(Throwable t, Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.FINEST)) {
+            log(SELF, Level.FINEST, Util.msgSafeGet(msgSup), t);
+        }
+    }
+
+    /**
      * Is this logger instance enabled for the FINE level?
      * 
      * @return True if this Logger is enabled for level FINE, false otherwise.
@@ -176,6 +206,18 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String msg) {
         if (logger.isLoggable(Level.FINE)) {
             log(SELF, Level.FINE, msg, null);
+        }
+    }
+
+    /**
+     * Log a message object provided by supplier at level FINE.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void debug(Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.FINE)) {
+            log(SELF, Level.FINE, Util.msgSafeGet(msgSup), null);
         }
     }
 
@@ -258,6 +300,21 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level FINEST with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void debug(Throwable t, Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.FINE)) {
+            log(SELF, Level.FINE, Util.msgSafeGet(msgSup), t);
+        }
+    }
+
+    /**
      * Is this logger instance enabled for the INFO level?
      * 
      * @return True if this Logger is enabled for the INFO level, false otherwise.
@@ -275,6 +332,18 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String msg) {
         if (logger.isLoggable(Level.INFO)) {
             log(SELF, Level.INFO, msg, null);
+        }
+    }
+
+    /**
+     * Log a message object provided by supplier at level INFO.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void info(Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.INFO)) {
+            log(SELF, Level.INFO, Util.msgSafeGet(msgSup), null);
         }
     }
 
@@ -358,6 +427,21 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level INFO with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void info(Throwable t, Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.INFO)) {
+            log(SELF, Level.INFO, Util.msgSafeGet(msgSup), t);
+        }
+    }
+
+    /**
      * Is this logger instance enabled for the WARNING level?
      * 
      * @return True if this Logger is enabled for the WARNING level, false
@@ -376,6 +460,18 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String msg) {
         if (logger.isLoggable(Level.WARNING)) {
             log(SELF, Level.WARNING, msg, null);
+        }
+    }
+
+    /**
+     * Log a message object provided by supplier at level WARNING.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void warn(Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.WARNING)) {
+            log(SELF, Level.WARNING, Util.msgSafeGet(msgSup), null);
         }
     }
 
@@ -460,6 +556,21 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level WARNING with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void warn(Throwable t, Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.WARNING)) {
+            log(SELF, Level.WARNING, Util.msgSafeGet(msgSup), t);
+        }
+    }
+
+    /**
      * Is this logger instance enabled for level SEVERE?
      * 
      * @return True if this Logger is enabled for level SEVERE, false otherwise.
@@ -477,6 +588,18 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String msg) {
         if (logger.isLoggable(Level.SEVERE)) {
             log(SELF, Level.SEVERE, msg, null);
+        }
+    }
+
+    /**
+     * Log a message object provided by supplier at level SEVERE.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void error(Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.SEVERE)) {
+            log(SELF, Level.SEVERE, Util.msgSafeGet(msgSup), null);
         }
     }
 
@@ -558,6 +681,22 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         if (logger.isLoggable(Level.SEVERE)) {
             log(SELF, Level.SEVERE, msg, t);
         }
+    }
+
+    /**
+     * Log an exception (throwable) at level SEVERE with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void error(Throwable t, Supplier<String> msgSup) {
+        if (logger.isLoggable(Level.SEVERE)) {
+            log(SELF, Level.SEVERE, Util.msgSafeGet(msgSup), t);
+        }
+
     }
 
     /**

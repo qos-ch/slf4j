@@ -27,6 +27,7 @@ package org.slf4j.log4j12;
 import static org.slf4j.event.EventConstants.NA_SUBST;
 
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LocationInfo;
@@ -37,6 +38,7 @@ import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -112,6 +114,19 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void trace(String msg) {
         logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msg, null);
+    }
+
+    /**
+     * Log a message object provided by supplier at level TRACE.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void trace(Supplier<String> msgSup) {
+        if (isTraceEnabled()) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msg, null);
+        }
     }
 
     /**
@@ -192,6 +207,23 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level TRACE with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void trace(Throwable t, Supplier<String> msgSup) {
+        if (isTraceEnabled()) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, msg, t);
+        }
+
+    }
+
+    /**
      * Is this logger instance enabled for the DEBUG level?
      * 
      * @return True if this Logger is enabled for level DEBUG, false otherwise.
@@ -208,6 +240,19 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void debug(String msg) {
         logger.log(FQCN, Level.DEBUG, msg, null);
+    }
+
+    /**
+     * Log a message object provided by supplier at level DEBUG.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void debug(Supplier<String> msgSup) {
+        if (logger.isDebugEnabled()) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.DEBUG, msg, null);
+        }
     }
 
     /**
@@ -287,6 +332,22 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level DEBUG with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void debug(Throwable t, Supplier<String> msgSup) {
+        if (logger.isDebugEnabled()) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.DEBUG, msg, t);
+        }
+    }
+
+    /**
      * Is this logger instance enabled for the INFO level?
      * 
      * @return True if this Logger is enabled for the INFO level, false otherwise.
@@ -303,6 +364,19 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void info(String msg) {
         logger.log(FQCN, Level.INFO, msg, null);
+    }
+
+    /**
+     * Log a message object provided by supplier at level INFO.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void info(Supplier<String> msgSup) {
+        if (logger.isInfoEnabled()) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.INFO, msg, null);
+        }
     }
 
     /**
@@ -372,7 +446,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     /**
      * Log an exception (throwable) at the INFO level with an accompanying
      * message.
-     * 
+     *
      * @param msg
      *          the message accompanying the exception
      * @param t
@@ -380,6 +454,22 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void info(String msg, Throwable t) {
         logger.log(FQCN, Level.INFO, msg, t);
+    }
+
+    /**
+     * Log an exception (throwable) at level INFO with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void info(Throwable t, Supplier<String> msgSup) {
+        if (logger.isInfoEnabled()) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.INFO, msg, t);
+        }
     }
 
     /**
@@ -399,6 +489,19 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void warn(String msg) {
         logger.log(FQCN, Level.WARN, msg, null);
+    }
+
+    /**
+     * Log a message object provided by supplier at level WARNING.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void warn(Supplier<String> msgSup) {
+        if(logger.isEnabledFor(Level.WARN)) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.WARN, msg, null);
+        }
     }
 
     /**
@@ -480,6 +583,22 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     }
 
     /**
+     * Log an exception (throwable) at level WARNING with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void warn(Throwable t, Supplier<String> msgSup) {
+        if (logger.isEnabledFor(Level.WARN)) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.WARN, msg, t);
+        }
+    }
+
+    /**
      * Is this logger instance enabled for level ERROR?
      * 
      * @return True if this Logger is enabled for level ERROR, false otherwise.
@@ -496,6 +615,19 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void error(String msg) {
         logger.log(FQCN, Level.ERROR, msg, null);
+    }
+
+    /**
+     * Log a message object provided by supplier at level SEVERE.
+     *
+     * @param msgSup
+     *          - the supplier for message object to be logged
+     */
+    public void error(Supplier<String> msgSup) {
+        if (logger.isEnabledFor(Level.ERROR)) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.ERROR, msg, null);
+        }
     }
 
     /**
@@ -574,6 +706,22 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      */
     public void error(String msg, Throwable t) {
         logger.log(FQCN, Level.ERROR, msg, t);
+    }
+
+    /**
+     * Log an exception (throwable) at level SEVERE with an accompanying message
+     * provided by supplier
+     *
+     * @param msgSup
+     *          the supplier for message accompanying the exception
+     * @param t
+     *          the exception (throwable) to log
+     */
+    public void error(Throwable t, Supplier<String> msgSup) {
+        if (logger.isEnabledFor(Level.ERROR)) {
+            String msg = Util.msgSafeGet(msgSup);
+            logger.log(FQCN, Level.ERROR, msg, t);
+        }
     }
 
     public void log(Marker marker, String callerFQCN, int level, String msg, Object[] argArray, Throwable t) {

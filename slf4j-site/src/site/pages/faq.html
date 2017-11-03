@@ -1113,7 +1113,15 @@ logger.debug("The new entry is {}.", entry);</pre>
       
       <pre class="prettyprint source">logger.debug("File name is C:\\\\{}.", "file.zip");</pre>
       <p>will print as "File name is C:\file.zip".</p>
-      
+
+      <p><b>Log in functional style</b></p>
+
+      <p>Starting from version 1.8 slf4j supports passing supplier which return a string message</p>
+
+      <pre class="prettyprint source">logger.debug(() -> "Calc" + " heavy " + "message here");</pre>
+
+      <p>The supplier will be invoked only when debug level is turned on</p>
+
     </dd>
     
     <!-- ================================================= -->

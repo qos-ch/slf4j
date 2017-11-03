@@ -27,6 +27,7 @@ package org.slf4j.helpers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Queue;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -73,6 +74,11 @@ public class SubstituteLogger implements Logger {
         delegate().trace(msg);
     }
 
+    @Override
+    public void trace(Supplier<String> msgSup) {
+        delegate().trace(msgSup);
+    }
+
     public void trace(String format, Object arg) {
         delegate().trace(format, arg);
     }
@@ -89,12 +95,22 @@ public class SubstituteLogger implements Logger {
         delegate().trace(msg, t);
     }
 
+    @Override
+    public void trace(Throwable t, Supplier<String> msgSup) {
+        delegate().trace(t, msgSup);
+    }
+
     public boolean isTraceEnabled(Marker marker) {
         return delegate().isTraceEnabled(marker);
     }
 
     public void trace(Marker marker, String msg) {
         delegate().trace(marker, msg);
+    }
+
+    @Override
+    public void trace(Marker marker, Supplier<String> msgSup) {
+        delegate().trace(marker, msgSup);
     }
 
     public void trace(Marker marker, String format, Object arg) {
@@ -113,12 +129,22 @@ public class SubstituteLogger implements Logger {
         delegate().trace(marker, msg, t);
     }
 
+    @Override
+    public void trace(Marker marker, Throwable t, Supplier<String> msgSup) {
+        delegate().trace(marker, t, msgSup);
+    }
+
     public boolean isDebugEnabled() {
         return delegate().isDebugEnabled();
     }
 
     public void debug(String msg) {
         delegate().debug(msg);
+    }
+
+    @Override
+    public void debug(Supplier<String> msgSup) {
+        delegate().debug(msgSup);
     }
 
     public void debug(String format, Object arg) {
@@ -137,12 +163,22 @@ public class SubstituteLogger implements Logger {
         delegate().debug(msg, t);
     }
 
+    @Override
+    public void debug(Throwable t, Supplier<String> msgSup) {
+        delegate().debug(t, msgSup);
+    }
+
     public boolean isDebugEnabled(Marker marker) {
         return delegate().isDebugEnabled(marker);
     }
 
     public void debug(Marker marker, String msg) {
         delegate().debug(marker, msg);
+    }
+
+    @Override
+    public void debug(Marker marker, Supplier<String> msgSup) {
+        delegate().debug(marker, msgSup);
     }
 
     public void debug(Marker marker, String format, Object arg) {
@@ -161,12 +197,22 @@ public class SubstituteLogger implements Logger {
         delegate().debug(marker, msg, t);
     }
 
+    @Override
+    public void debug(Marker marker, Throwable t, Supplier<String> msgSup) {
+        delegate().debug(marker, t, msgSup);
+    }
+
     public boolean isInfoEnabled() {
         return delegate().isInfoEnabled();
     }
 
     public void info(String msg) {
         delegate().info(msg);
+    }
+
+    @Override
+    public void info(Supplier<String> msgSup) {
+        delegate().info(msgSup);
     }
 
     public void info(String format, Object arg) {
@@ -185,12 +231,22 @@ public class SubstituteLogger implements Logger {
         delegate().info(msg, t);
     }
 
+    @Override
+    public void info(Throwable t, Supplier<String> msgSup) {
+        delegate().info(t, msgSup);
+    }
+
     public boolean isInfoEnabled(Marker marker) {
         return delegate().isInfoEnabled(marker);
     }
 
     public void info(Marker marker, String msg) {
         delegate().info(marker, msg);
+    }
+
+    @Override
+    public void info(Marker marker, Supplier<String> msgSup) {
+        delegate().info(marker, msgSup);
     }
 
     public void info(Marker marker, String format, Object arg) {
@@ -209,12 +265,22 @@ public class SubstituteLogger implements Logger {
         delegate().info(marker, msg, t);
     }
 
+    @Override
+    public void info(Marker marker, Throwable t, Supplier<String> msgSup) {
+        delegate().info(marker, t, msgSup);
+    }
+
     public boolean isWarnEnabled() {
         return delegate().isWarnEnabled();
     }
 
     public void warn(String msg) {
         delegate().warn(msg);
+    }
+
+    @Override
+    public void warn(Supplier<String> msgSup) {
+        delegate().warn(msgSup);
     }
 
     public void warn(String format, Object arg) {
@@ -233,12 +299,22 @@ public class SubstituteLogger implements Logger {
         delegate().warn(msg, t);
     }
 
+    @Override
+    public void warn(Throwable t, Supplier<String> msgSup) {
+        delegate().warn(t, msgSup);
+    }
+
     public boolean isWarnEnabled(Marker marker) {
         return delegate().isWarnEnabled(marker);
     }
 
     public void warn(Marker marker, String msg) {
         delegate().warn(marker, msg);
+    }
+
+    @Override
+    public void warn(Marker marker, Supplier<String> msgSup) {
+        delegate().warn(marker, msgSup);
     }
 
     public void warn(Marker marker, String format, Object arg) {
@@ -257,12 +333,22 @@ public class SubstituteLogger implements Logger {
         delegate().warn(marker, msg, t);
     }
 
+    @Override
+    public void warn(Marker marker, Throwable t, Supplier<String> msgSup) {
+        delegate().warn(marker, t, msgSup);
+    }
+
     public boolean isErrorEnabled() {
         return delegate().isErrorEnabled();
     }
 
     public void error(String msg) {
         delegate().error(msg);
+    }
+
+    @Override
+    public void error(Supplier<String> msgSup) {
+        delegate().error(msgSup);
     }
 
     public void error(String format, Object arg) {
@@ -281,12 +367,22 @@ public class SubstituteLogger implements Logger {
         delegate().error(msg, t);
     }
 
+    @Override
+    public void error(Throwable t, Supplier<String> msgSup) {
+        delegate().error(t, msgSup);
+    }
+
     public boolean isErrorEnabled(Marker marker) {
         return delegate().isErrorEnabled(marker);
     }
 
     public void error(Marker marker, String msg) {
         delegate().error(marker, msg);
+    }
+
+    @Override
+    public void error(Marker marker, Supplier<String> msgSup) {
+        delegate().error(marker, msgSup);
     }
 
     public void error(Marker marker, String format, Object arg) {
@@ -303,6 +399,11 @@ public class SubstituteLogger implements Logger {
 
     public void error(Marker marker, String msg, Throwable t) {
         delegate().error(marker, msg, t);
+    }
+
+    @Override
+    public void error(Marker marker, Throwable t, Supplier<String> msgSup) {
+        delegate().error(marker, t, msgSup);
     }
 
     @Override
@@ -372,10 +473,10 @@ public class SubstituteLogger implements Logger {
         if (isDelegateEventAware()) {
             try {
                 logMethodCache.invoke(_delegate, event);
-            } catch (IllegalAccessException e) {
-            } catch (IllegalArgumentException e) {
-            } catch (InvocationTargetException e) {
-            }
+            } catch (IllegalAccessException
+                    | IllegalArgumentException
+                    | InvocationTargetException e) {
+            } 
         }
     }
 

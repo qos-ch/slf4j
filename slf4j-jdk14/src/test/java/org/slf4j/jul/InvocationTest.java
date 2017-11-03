@@ -32,6 +32,7 @@ import org.slf4j.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -79,12 +80,17 @@ public class InvocationTest {
         Integer i1 = new Integer(1);
         Integer i2 = new Integer(2);
         Integer i3 = new Integer(3);
+        Supplier<String> s1 = () -> "supplier1";
+        Supplier<String> s2 = () -> "supplier2";
         Exception e = new Exception("This is a test exception.");
         Logger logger = LoggerFactory.getLogger("test2");
 
         int index = 0;
         logger.debug("Hello world");
         assertLogMessage("Hello world", index++);
+
+        logger.debug(s1);
+        assertLogMessage("supplier1", index++);
 
         logger.debug("Hello world {}", i1);
         assertLogMessage("Hello world " + i1, index++);
@@ -98,23 +104,48 @@ public class InvocationTest {
         logger.debug("Hello world 2", e);
         assertLogMessage("Hello world 2", index);
         assertException(e.getClass(), index++);
+
+        logger.debug(e, s2);
+        assertLogMessage("supplier2", index);
+        assertException(e.getClass(), index++);
+
         logger.info("Hello world 2.");
+        logger.info(() -> "Hello world supplier 2.");
 
         logger.warn("Hello world 3.");
         logger.warn("Hello world 3", e);
+        logger.warn(() -> "Hello world supplier 3.");
+        logger.warn(e, () -> "Hello world supplier 3.");
 
         logger.error("Hello world 4.");
         logger.error("Hello world {}", new Integer(3));
         logger.error("Hello world 4.", e);
+        logger.error(() -> "Hello world supplier 4.");
+        logger.error(e, () -> "Hello world supplier 4.");
     }
 
     @Test
-    public void testNull() {
+    public void testMsgNull() {
         Logger logger = LoggerFactory.getLogger("testNull");
-        logger.debug(null);
-        logger.info(null);
-        logger.warn(null);
-        logger.error(null);
+        logger.debug((String)null);
+        logger.info((String)null);
+        logger.warn((String)null);
+        logger.error((String)null);
+
+        Exception e = new Exception("This is a test exception.");
+        logger.debug(null, e);
+        logger.info(null, e);
+        logger.warn(null, e);
+        logger.error(null, e);
+    }
+
+    @Test
+    public void testMsgSupNull() {
+        Logger logger = LoggerFactory.getLogger("testNull");
+        logger.debug((Supplier<String>)null);
+        logger.info((Supplier<String>)null);
+        logger.warn((Supplier<String>)null);
+        logger.error((Supplier<String>)null);
 
         Exception e = new Exception("This is a test exception.");
         logger.debug(null, e);
@@ -141,6 +172,16 @@ public class InvocationTest {
         logger.info(blue, "hello {} and {} ", "world", "universe");
         logger.warn(blue, "hello {} and {} ", "world", "universe");
         logger.error(blue, "hello {} and {} ", "world", "universe");
+    }
+
+    @Test
+    public void testMarkerSup() {
+        Logger logger = LoggerFactory.getLogger("testMarker");
+        Marker blue = MarkerFactory.getMarker("BLUE");
+        logger.debug(blue, () -> "hello");
+        logger.info(blue, () -> "hello");
+        logger.warn(blue, () -> "hello");
+        logger.error(blue, () -> "hello");
     }
 
     @Test
