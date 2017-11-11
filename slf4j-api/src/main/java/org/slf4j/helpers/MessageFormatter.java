@@ -213,7 +213,7 @@ final public class MessageFormatter {
                     return new FormattingTuple(sbuf.toString(), argArray, throwable);
                 }
             } else {
-                if (isEscapedDelimeter(messagePattern, j)) {
+                if (isEscapedDelimiter(messagePattern, j)) {
                     if (!isDoubleEscaped(messagePattern, j)) {
                         L--; // DELIM_START was escaped, thus should not be incremented
                         sbuf.append(messagePattern, i, j - 1);
@@ -240,12 +240,20 @@ final public class MessageFormatter {
         return new FormattingTuple(sbuf.toString(), argArray, throwable);
     }
 
-    final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
+    /**
+     * @deprecated use {@link #isEscapedDelimiter}
+    */
+    @Deprecated
+    final static boolean isEscapedDelimeter(String messagePattern, int delimiterStartIndex) {
+        return isEscapedDelimiter(messagePattern, delimiterStartIndex);
+    }
 
-        if (delimeterStartIndex == 0) {
+    final static boolean isEscapedDelimiter(String messagePattern, int delimiterStartIndex) {
+
+        if (delimiterStartIndex == 0) {
             return false;
         }
-        char potentialEscape = messagePattern.charAt(delimeterStartIndex - 1);
+        char potentialEscape = messagePattern.charAt(delimiterStartIndex - 1);
         if (potentialEscape == ESCAPE_CHAR) {
             return true;
         } else {
@@ -253,8 +261,8 @@ final public class MessageFormatter {
         }
     }
 
-    final static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
-        if (delimeterStartIndex >= 2 && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
+    final static boolean isDoubleEscaped(String messagePattern, int delimiterStartIndex) {
+        if (delimiterStartIndex >= 2 && messagePattern.charAt(delimiterStartIndex - 2) == ESCAPE_CHAR) {
             return true;
         } else {
             return false;
