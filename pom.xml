@@ -168,6 +168,9 @@
             <jdk>
               <version>1.6</version>
             </jdk>
+            <jdk>
+              <version>1.9</version>
+            </jdk>
           </toolchains>
         </configuration>
       </plugin>
