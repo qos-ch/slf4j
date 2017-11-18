@@ -25,6 +25,7 @@
 package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
+import org.slf4j.helpers.Util;
 
 /**
  * The binding of {@link org.slf4j.LoggerFactory} class with an actual instance of
@@ -60,7 +61,8 @@ public class StaticLoggerBinder {
     public static String REQUESTED_API_VERSION = "1.6.99"; // !final
 
     private StaticLoggerBinder() {
-        throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
+        Util.report("初始化完成");
+//        throw new UnsupportedOperationException("This code should have never made it into slf4j-api.jar");
     }
 
     public ILoggerFactory getLoggerFactory() {
