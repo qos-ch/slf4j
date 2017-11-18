@@ -26,12 +26,14 @@ package org.slf4j.simple;
 
 import java.io.PrintStream;
 import java.util.Date;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
+import org.slf4j.helpers.Util;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -372,6 +374,22 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
 
     /**
+     * For supplied messages, get message and then log.
+     *
+     * @param level
+     * @param msgSup
+     * @param t
+     *            a list of 3 ore more arguments
+     */
+    private void supplyLog(int level, Supplier<String> msgSup, Throwable t) {
+        if (!isLevelEnabled(level)) {
+            return;
+        }
+        final String msg = Util.msgSafeGet(msgSup);
+        log(level, msg, t);
+    }
+
+    /**
      * Is the given log level currently enabled?
      *
      * @param logLevel
@@ -394,6 +412,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void trace(String msg) {
         log(LOG_LEVEL_TRACE, msg, null);
+    }
+
+    @Override
+    public void trace(Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_TRACE, msgSup, null);
     }
 
     /**
@@ -425,6 +448,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
         log(LOG_LEVEL_TRACE, msg, t);
     }
 
+    @Override
+    public void trace(Throwable t, Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_TRACE, msgSup, t);
+    }
+
     /** Are {@code debug} messages currently enabled? */
     public boolean isDebugEnabled() {
         return isLevelEnabled(LOG_LEVEL_DEBUG);
@@ -436,6 +464,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void debug(String msg) {
         log(LOG_LEVEL_DEBUG, msg, null);
+    }
+
+    @Override
+    public void debug(Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_DEBUG, msgSup, null);
     }
 
     /**
@@ -467,6 +500,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
         log(LOG_LEVEL_DEBUG, msg, t);
     }
 
+    @Override
+    public void debug(Throwable t, Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_DEBUG, msgSup, t);
+    }
+
     /** Are {@code info} messages currently enabled? */
     public boolean isInfoEnabled() {
         return isLevelEnabled(LOG_LEVEL_INFO);
@@ -478,6 +516,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void info(String msg) {
         log(LOG_LEVEL_INFO, msg, null);
+    }
+
+    @Override
+    public void info(Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_INFO, msgSup, null);
     }
 
     /**
@@ -509,6 +552,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
         log(LOG_LEVEL_INFO, msg, t);
     }
 
+    @Override
+    public void info(Throwable t, Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_INFO, msgSup, t);
+    }
+
     /** Are {@code warn} messages currently enabled? */
     public boolean isWarnEnabled() {
         return isLevelEnabled(LOG_LEVEL_WARN);
@@ -520,6 +568,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void warn(String msg) {
         log(LOG_LEVEL_WARN, msg, null);
+    }
+
+    @Override
+    public void warn(Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_WARN, msgSup, null);
     }
 
     /**
@@ -551,6 +604,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
         log(LOG_LEVEL_WARN, msg, t);
     }
 
+    @Override
+    public void warn(Throwable t, Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_WARN, msgSup, t);
+    }
+
     /** Are {@code error} messages currently enabled? */
     public boolean isErrorEnabled() {
         return isLevelEnabled(LOG_LEVEL_ERROR);
@@ -562,6 +620,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void error(String msg) {
         log(LOG_LEVEL_ERROR, msg, null);
+    }
+
+    @Override
+    public void error(Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_ERROR, msgSup, null);
     }
 
     /**
@@ -591,6 +654,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
     /** Log a message of level ERROR, including an exception. */
     public void error(String msg, Throwable t) {
         log(LOG_LEVEL_ERROR, msg, t);
+    }
+
+    @Override
+    public void error(Throwable t, Supplier<String> msgSup) {
+        supplyLog(LOG_LEVEL_ERROR, msgSup, t);
     }
 
     public void log(LoggingEvent event) {

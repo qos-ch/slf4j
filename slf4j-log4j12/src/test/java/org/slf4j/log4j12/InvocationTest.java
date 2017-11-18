@@ -31,6 +31,7 @@ import static org.junit.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
@@ -99,13 +100,28 @@ public class InvocationTest {
     }
 
     @Test
-    public void testNull() {
+    public void testMsgNull() {
         Logger logger = LoggerFactory.getLogger("testNull");
-        logger.trace(null);
-        logger.debug(null);
-        logger.info(null);
-        logger.warn(null);
-        logger.error(null);
+        logger.debug((String)null);
+        logger.info((String)null);
+        logger.warn((String)null);
+        logger.error((String)null);
+
+        Exception e = new Exception("This is a test exception.");
+        logger.debug(null, e);
+        logger.info(null, e);
+        logger.warn(null, e);
+        logger.error(null, e);
+        assertEquals(8, listAppender.list.size());
+    }
+
+    @Test
+    public void testMsgSupNull() {
+        Logger logger = LoggerFactory.getLogger("testNull");
+        logger.debug((Supplier<String>)null);
+        logger.info((Supplier<String>)null);
+        logger.warn((Supplier<String>)null);
+        logger.error((Supplier<String>)null);
 
         Exception e = new Exception("This is a test exception.");
         logger.debug(null, e);

@@ -25,6 +25,8 @@
 
 package org.slf4j;
 
+import java.util.function.Supplier;
+
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
@@ -94,6 +96,14 @@ public interface Logger {
     public void trace(String msg);
 
     /**
+     * Log a message provided by {@link Supplier}at the TRACE level.
+     *
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void trace(Supplier<String> msgSup);
+
+    /**
      * Log a message at the TRACE level according to the specified format
      * and argument.
      * <p/>
@@ -147,6 +157,16 @@ public interface Logger {
     public void trace(String msg, Throwable t);
 
     /**
+     * Log an exception (throwable) at the TRACE level with an
+     * accompanying message provided by supplier
+     *
+     * @param msgSup the supplier providing message accompanying the exception
+     * @param t   the exception (throwable) to log
+     * @since 1.8
+     */
+    public void trace(Throwable t, Supplier<String> msgSup);
+
+    /**
      * Similar to {@link #isTraceEnabled()} method except that the
      * marker data is also taken into account.
      *
@@ -166,6 +186,15 @@ public interface Logger {
      * @since 1.4
      */
     public void trace(Marker marker, String msg);
+
+    /**
+     * Log a message provided by supplier with the specific Marker at the TRACE level.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void trace(Marker marker, Supplier<String> msgSup);
 
     /**
      * This method is similar to {@link #trace(String, Object)} method except that the
@@ -215,6 +244,17 @@ public interface Logger {
     public void trace(Marker marker, String msg, Throwable t);
 
     /**
+     * This method is similar to {@link #trace(Throwable, Supplier)} method except that the
+     * marker data is also taken into consideration.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup    the message accompanying the exception
+     * @param t      the exception (throwable) to log
+     * @since 1.8
+     */
+    public void trace(Marker marker, Throwable t, Supplier<String> msgSup);
+
+    /**
      * Is the logger instance enabled for the DEBUG level?
      *
      * @return True if this Logger is enabled for the DEBUG level,
@@ -228,6 +268,15 @@ public interface Logger {
      * @param msg the message string to be logged
      */
     public void debug(String msg);
+
+    /**
+     * Log a message provided by {@link Supplier}at the DEBUG level.
+     *
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void debug(Supplier<String> msgSup);
+
 
     /**
      * Log a message at the DEBUG level according to the specified format
@@ -280,6 +329,17 @@ public interface Logger {
     public void debug(String msg, Throwable t);
 
     /**
+     * Log an exception (throwable) at the DEBUG level with an
+     * accompanying message provided by supplier
+     *
+     * @param msgSup the supplier providing message accompanying the exception
+     * @param t   the exception (throwable) to log
+     * @since 1.8
+     */
+    public void debug(Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Similar to {@link #isDebugEnabled()} method except that the
      * marker data is also taken into account.
      *
@@ -296,6 +356,16 @@ public interface Logger {
      * @param msg    the message string to be logged
      */
     public void debug(Marker marker, String msg);
+
+    /**
+     * Log a message provided by supplier with the specific Marker at the DEBUG level.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void debug(Marker marker, Supplier<String> msgSup);
+
 
     /**
      * This method is similar to {@link #debug(String, Object)} method except that the
@@ -341,6 +411,18 @@ public interface Logger {
     public void debug(Marker marker, String msg, Throwable t);
 
     /**
+     * This method is similar to {@link #debug(Throwable, Supplier)} method except that the
+     * marker data is also taken into consideration.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup    the message accompanying the exception
+     * @param t      the exception (throwable) to log
+     * @since 1.8
+     */
+    public void debug(Marker marker, Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Is the logger instance enabled for the INFO level?
      *
      * @return True if this Logger is enabled for the INFO level,
@@ -354,6 +436,15 @@ public interface Logger {
      * @param msg the message string to be logged
      */
     public void info(String msg);
+
+    /**
+     * Log a message provided by {@link Supplier}at the INFO level.
+     *
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void info(Supplier<String> msgSup);
+
 
     /**
      * Log a message at the INFO level according to the specified format
@@ -406,6 +497,17 @@ public interface Logger {
     public void info(String msg, Throwable t);
 
     /**
+     * Log an exception (throwable) at the INFO level with an
+     * accompanying message provided by supplier
+     *
+     * @param msgSup the supplier providing message accompanying the exception
+     * @param t   the exception (throwable) to log
+     * @since 1.8
+     */
+    public void info(Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Similar to {@link #isInfoEnabled()} method except that the marker
      * data is also taken into consideration.
      *
@@ -421,6 +523,16 @@ public interface Logger {
      * @param msg    the message string to be logged
      */
     public void info(Marker marker, String msg);
+
+    /**
+     * Log a message provided by supplier with the specific Marker at the INFO level.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void info(Marker marker, Supplier<String> msgSup);
+
 
     /**
      * This method is similar to {@link #info(String, Object)} method except that the
@@ -466,6 +578,18 @@ public interface Logger {
     public void info(Marker marker, String msg, Throwable t);
 
     /**
+     * This method is similar to {@link #info(Throwable, Supplier)} method except that the
+     * marker data is also taken into consideration.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup    the message accompanying the exception
+     * @param t      the exception (throwable) to log
+     * @since 1.8
+     */
+    public void info(Marker marker, Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Is the logger instance enabled for the WARN level?
      *
      * @return True if this Logger is enabled for the WARN level,
@@ -479,6 +603,14 @@ public interface Logger {
      * @param msg the message string to be logged
      */
     public void warn(String msg);
+
+    /**
+     * Log a message provided by {@link Supplier}at the WARN level.
+     *
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void warn(Supplier<String> msgSup);
 
     /**
      * Log a message at the WARN level according to the specified format
@@ -531,6 +663,17 @@ public interface Logger {
     public void warn(String msg, Throwable t);
 
     /**
+     * Log an exception (throwable) at the WARN level with an
+     * accompanying message provided by supplier
+     *
+     * @param msgSup the supplier providing message accompanying the exception
+     * @param t   the exception (throwable) to log
+     * @since 1.8
+     */
+    public void warn(Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Similar to {@link #isWarnEnabled()} method except that the marker
      * data is also taken into consideration.
      *
@@ -547,6 +690,16 @@ public interface Logger {
      * @param msg    the message string to be logged
      */
     public void warn(Marker marker, String msg);
+
+    /**
+     * Log a message provided by supplier with the specific Marker at the WARN level.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void warn(Marker marker, Supplier<String> msgSup);
+
 
     /**
      * This method is similar to {@link #warn(String, Object)} method except that the
@@ -592,6 +745,18 @@ public interface Logger {
     public void warn(Marker marker, String msg, Throwable t);
 
     /**
+     * This method is similar to {@link #warn(Throwable, Supplier)} method except that the
+     * marker data is also taken into consideration.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup    the message accompanying the exception
+     * @param t      the exception (throwable) to log
+     * @since 1.8
+     */
+    public void warn(Marker marker, Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Is the logger instance enabled for the ERROR level?
      *
      * @return True if this Logger is enabled for the ERROR level,
@@ -605,6 +770,15 @@ public interface Logger {
      * @param msg the message string to be logged
      */
     public void error(String msg);
+
+    /**
+     * Log a message provided by {@link Supplier}at the ERROR level.
+     *
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void error(Supplier<String> msgSup);
+
 
     /**
      * Log a message at the ERROR level according to the specified format
@@ -657,6 +831,17 @@ public interface Logger {
     public void error(String msg, Throwable t);
 
     /**
+     * Log an exception (throwable) at the ERROR level with an
+     * accompanying message provided by supplier
+     *
+     * @param msgSup the supplier providing message accompanying the exception
+     * @param t   the exception (throwable) to log
+     * @since 1.8
+     */
+    public void error(Throwable t, Supplier<String> msgSup);
+
+
+    /**
      * Similar to {@link #isErrorEnabled()} method except that the
      * marker data is also taken into consideration.
      *
@@ -673,6 +858,16 @@ public interface Logger {
      * @param msg    the message string to be logged
      */
     public void error(Marker marker, String msg);
+
+    /**
+     * Log a message provided by supplier with the specific Marker at the ERROR level.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup the supplier for string to be logged
+     * @since 1.8
+     */
+    public void error(Marker marker, Supplier<String> msgSup);
+
 
     /**
      * This method is similar to {@link #error(String, Object)} method except that the
@@ -717,5 +912,17 @@ public interface Logger {
      * @param t      the exception (throwable) to log
      */
     public void error(Marker marker, String msg, Throwable t);
+
+    /**
+     * This method is similar to {@link #error(Throwable, Supplier)} method except that the
+     * marker data is also taken into consideration.
+     *
+     * @param marker the marker data specific to this log statement
+     * @param msgSup    the message accompanying the exception
+     * @param t      the exception (throwable) to log
+     * @since 1.8
+     */
+    public void error(Marker marker, Throwable t, Supplier<String> msgSup);
+
 
 }

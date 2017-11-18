@@ -24,6 +24,8 @@
  */
 package org.slf4j.helpers;
 
+import java.util.function.Supplier;
+
 /**
  * An internal utility class.
  *
@@ -34,6 +36,13 @@ public final class Util {
 
 	
     private Util() {
+    }
+
+    public static String msgSafeGet(Supplier<String> msgSup) {
+        if(msgSup != null) {
+            return msgSup.get();
+        }
+        return null;
     }
 
     public static String safeGetSystemProperty(String key) {

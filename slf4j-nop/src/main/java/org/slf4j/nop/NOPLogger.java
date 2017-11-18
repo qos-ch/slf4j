@@ -27,6 +27,8 @@ package org.slf4j.nop;
 import org.slf4j.Logger;
 import org.slf4j.helpers.MarkerIgnoringBase;
 
+import java.util.function.Supplier;
+
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
  *
@@ -68,6 +70,11 @@ public class NOPLogger extends MarkerIgnoringBase {
         // NOP
     }
 
+    @Override
+    public void trace(Supplier<String> msgSup) {
+        // NOP
+    }
+
     /** A NOP implementation.  */
     final public void trace(String format, Object arg) {
         // NOP
@@ -88,6 +95,11 @@ public class NOPLogger extends MarkerIgnoringBase {
         // NOP
     }
 
+    @Override
+    public void trace(Throwable t, Supplier<String> msgSup) {
+        // NOP
+    }
+
     /**
      * Always returns false.
      * @return always false
@@ -98,6 +110,11 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void debug(String msg) {
+        // NOP
+    }
+
+    @Override
+    public void debug(Supplier<String> msgSup) {
         // NOP
     }
 
@@ -121,6 +138,11 @@ public class NOPLogger extends MarkerIgnoringBase {
         // NOP
     }
 
+    @Override
+    public void debug(Throwable t, Supplier<String> msgSup) {
+        // NOP
+    }
+
     /**
      * Always returns false.
      * @return always false
@@ -132,6 +154,11 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void info(String msg) {
+        // NOP
+    }
+
+    @Override
+    public void info(Supplier<String> msgSup) {
         // NOP
     }
 
@@ -155,6 +182,11 @@ public class NOPLogger extends MarkerIgnoringBase {
         // NOP
     }
 
+    @Override
+    public void info(Throwable t, Supplier<String> msgSup) {
+        // NOP
+    }
+
     /**
      * Always returns false.
      * @return always false
@@ -165,6 +197,11 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void warn(String msg) {
+        // NOP
+    }
+
+    @Override
+    public void warn(Supplier<String> msgSup) {
         // NOP
     }
 
@@ -188,6 +225,11 @@ public class NOPLogger extends MarkerIgnoringBase {
         // NOP
     }
 
+    @Override
+    public void warn(Throwable t, Supplier<String> msgSup) {
+        // NOP
+    }
+
     /** A NOP implementation. */
     final public boolean isErrorEnabled() {
         return false;
@@ -195,6 +237,11 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void error(String msg) {
+        // NOP
+    }
+
+    @Override
+    public void error(Supplier<String> msgSup) {
         // NOP
     }
 
@@ -215,6 +262,11 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void error(String msg, Throwable t) {
+        // NOP
+    }
+
+    @Override
+    public void error(Throwable t, Supplier<String> msgSup) {
         // NOP
     }
 }

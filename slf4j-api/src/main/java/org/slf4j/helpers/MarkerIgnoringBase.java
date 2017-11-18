@@ -27,6 +27,8 @@ package org.slf4j.helpers;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
+import java.util.function.Supplier;
+
 /**
  * This class serves as base for adapters or native implementations of logging systems 
  * lacking Marker support. In this implementation, methods taking marker data 
@@ -47,6 +49,10 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         trace(msg);
     }
 
+    public void trace(Marker marker, Supplier<String> msgSup) {
+        trace(msgSup);
+    }
+
     public void trace(Marker marker, String format, Object arg) {
         trace(format, arg);
     }
@@ -63,12 +69,20 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         trace(msg, t);
     }
 
+    public void trace(Marker marker, Throwable t, Supplier<String> msgSup) {
+        trace(t, msgSup);
+    }
+
     public boolean isDebugEnabled(Marker marker) {
         return isDebugEnabled();
     }
 
     public void debug(Marker marker, String msg) {
         debug(msg);
+    }
+
+    public void debug(Marker marker, Supplier<String> msgSup) {
+        debug(msgSup);
     }
 
     public void debug(Marker marker, String format, Object arg) {
@@ -87,12 +101,20 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         debug(msg, t);
     }
 
+    public void debug(Marker marker, Throwable t, Supplier<String> msgSup) {
+        debug(t, msgSup);
+    }
+
     public boolean isInfoEnabled(Marker marker) {
         return isInfoEnabled();
     }
 
     public void info(Marker marker, String msg) {
         info(msg);
+    }
+
+    public void info(Marker marker, Supplier<String> msgSup) {
+        info(msgSup);
     }
 
     public void info(Marker marker, String format, Object arg) {
@@ -111,12 +133,20 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         info(msg, t);
     }
 
+    public void info(Marker marker, Throwable t, Supplier<String> msgSup) {
+        info(t, msgSup);
+    }
+
     public boolean isWarnEnabled(Marker marker) {
         return isWarnEnabled();
     }
 
     public void warn(Marker marker, String msg) {
         warn(msg);
+    }
+
+    public void warn(Marker marker, Supplier<String> msgSup) {
+        warn(msgSup);
     }
 
     public void warn(Marker marker, String format, Object arg) {
@@ -135,12 +165,20 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
         warn(msg, t);
     }
 
+    public void warn(Marker marker, Throwable t, Supplier<String> msgSup) {
+        warn(t, msgSup);
+    }
+
     public boolean isErrorEnabled(Marker marker) {
         return isErrorEnabled();
     }
 
     public void error(Marker marker, String msg) {
         error(msg);
+    }
+
+    public void error(Marker marker, Supplier<String> msgSup) {
+        error(msgSup);
     }
 
     public void error(Marker marker, String format, Object arg) {
@@ -157,6 +195,10 @@ public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logg
 
     public void error(Marker marker, String msg, Throwable t) {
         error(msg, t);
+    }
+
+    public void error(Marker marker, Throwable t, Supplier<String> msgSup) {
+        error(t, msgSup);
     }
 
     public String toString() {
