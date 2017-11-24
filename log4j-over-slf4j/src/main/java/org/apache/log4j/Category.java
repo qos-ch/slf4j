@@ -191,7 +191,7 @@ public class Category {
         String m = convertToString(message);
         if (locationAwareLogger != null) {
             locationAwareLogger.log(marker, fqcn, level, m, null, t);
-        } else {
+        } else if (marker != null) {
             switch (level) {
             case LocationAwareLogger.TRACE_INT:
                 slf4jLogger.trace(marker, m);
@@ -207,6 +207,24 @@ public class Category {
                 break;
             case LocationAwareLogger.ERROR_INT:
                 slf4jLogger.error(marker, m);
+                break;
+            }
+        } else {
+            switch (level) {
+            case LocationAwareLogger.TRACE_INT:
+                slf4jLogger.trace(m);
+                break;
+            case LocationAwareLogger.DEBUG_INT:
+                slf4jLogger.debug(m);
+                break;
+            case LocationAwareLogger.INFO_INT:
+                slf4jLogger.info(m);
+                break;
+            case LocationAwareLogger.WARN_INT:
+                slf4jLogger.warn(m);
+                break;
+            case LocationAwareLogger.ERROR_INT:
+                slf4jLogger.error(m);
                 break;
             }
         }
