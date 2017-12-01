@@ -352,7 +352,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return;
         }
         FormattingTuple tp = MessageFormatter.format(format, arg1, arg2);
-        log(level, tp.getMessage(), tp.getThrowable());
+        log(level, tp.getMessageWithUnusedArgs(), tp.getThrowable());
     }
 
     /**
@@ -368,7 +368,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return;
         }
         FormattingTuple tp = MessageFormatter.arrayFormat(format, arguments);
-        log(level, tp.getMessage(), tp.getThrowable());
+        log(level, tp.getMessageWithUnusedArgs(), tp.getThrowable());
     }
 
     /**
@@ -600,7 +600,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
             return;
         }
         FormattingTuple tp = MessageFormatter.arrayFormat(event.getMessage(), event.getArgumentArray(), event.getThrowable());
-        log(levelInt, tp.getMessage(), event.getThrowable());
+        log(levelInt, tp.getMessageWithUnusedArgs(), event.getThrowable());
     }
 
 }

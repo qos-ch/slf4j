@@ -24,18 +24,16 @@
  */
 package org.slf4j.simple;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.io.PrintStream;
+import java.io.*;
+import java.util.Collections;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import org.slf4j.*;
 
 /**
  * Test whether invoking the SLF4J API causes problems or not.
@@ -45,17 +43,18 @@ import org.slf4j.MarkerFactory;
  */
 public class InvocationTest {
 
-    PrintStream old = System.err;
+    private static final String FILE_NAME = "target/output.log";
 
     @Before
     public void setUp() throws Exception {
-        System.setErr(new SilentPrintStream(old));
+        System.setProperty(SimpleLogger.LOG_FILE_KEY, FILE_NAME);
+        LoggerFactoryFriend.reset();
     }
 
     @After
     public void tearDown() throws Exception {
-
-        System.setErr(old);
+        System.clearProperty(SimpleLogger.LOG_FILE_KEY);
+        LoggerFactoryFriend.reset();
     }
 
     @Test
@@ -113,6 +112,50 @@ public class InvocationTest {
         logger.error(null, e);
     }
 
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testUnusedParameters_SLF4J_422() throws IOException {
+        Logger logger = LoggerFactory.getLogger("testUnusedParameters_SLF4J_422");
+
+        logger.info("hello", "unused1", "unused2");
+
+        String line = getLastLine();
+        assertEquals("[main] INFO testUnusedParameters_SLF4J_422 - hello unused1 unused2", line);
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testExtraParameters_SLF4J_422() throws IOException {
+        Logger logger = LoggerFactory.getLogger("testExtraParameters_SLF4J_422");
+
+        logger.info("hello user={}!", "bob", Collections.singletonMap("key1", "value1"));
+
+        String line = getLastLine();
+        assertEquals("[main] INFO testExtraParameters_SLF4J_422 - hello user=bob! {key1=value1}", line);
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testNoExtraParameters_SLF4J_422() throws IOException {
+        Logger logger = LoggerFactory.getLogger("testNoExtraParameters_SLF4J_422");
+
+        logger.info("hello user={}!", "bob");
+
+        String line = getLastLine();
+        assertEquals("[main] INFO testNoExtraParameters_SLF4J_422 - hello user=bob!", line);
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testIgnoreNullExtraParameters_SLF4J_422() throws IOException {
+        Logger logger = LoggerFactory.getLogger("testIgnoreNullExtraParameters_SLF4J_422");
+
+        logger.info("hello user={}!", "bob", null);
+
+        String line = getLastLine();
+        assertEquals("[main] INFO testIgnoreNullExtraParameters_SLF4J_422 - hello user=bob!", line);
+    }
+
     @Test
     public void testMarker() {
         Logger logger = LoggerFactory.getLogger("testMarker");
@@ -140,5 +183,21 @@ public class InvocationTest {
         MDC.remove("k");
         assertNull(MDC.get("k"));
         MDC.clear();
+    }
+
+    private String getLastLine() throws IOException {
+        File file = new File(FILE_NAME);
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String result = null;
+        try {
+            String currentLine = reader.readLine();
+            while(currentLine != null) {
+                result = currentLine;
+                currentLine = reader.readLine();
+            }
+        } finally {
+            reader.close();
+        }
+        return result;
     }
 }
