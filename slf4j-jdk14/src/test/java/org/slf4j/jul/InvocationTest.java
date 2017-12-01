@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.slf4j.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -121,6 +122,54 @@ public class InvocationTest {
         logger.info(null, e);
         logger.warn(null, e);
         logger.error(null, e);
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testUnusedParameters_SLF4J_422() {
+        Logger logger = LoggerFactory.getLogger("testUnusedParameters_SLF4J_422");
+
+        logger.debug("hello", "unused1", "unused2");
+
+        assertEquals(1, listHandler.recordList.size());
+        LogRecord e = listHandler.recordList.get(0);
+        assertEquals("hello unused1 unused2", e.getMessage());
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testExtraParameters_SLF4J_422() {
+        Logger logger = LoggerFactory.getLogger("testExtraParameters_SLF4J_422");
+
+        logger.debug("hello user={}!", "bob", Collections.singletonMap("key1", "value1"));
+
+        assertEquals(1, listHandler.recordList.size());
+        LogRecord e = listHandler.recordList.get(0);
+        assertEquals("hello user=bob! {key1=value1}", e.getMessage());
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testNoExtraParameters_SLF4J_422() {
+        Logger logger = LoggerFactory.getLogger("testNoExtraParameters_SLF4J_422");
+
+        logger.debug("hello user={}!", "bob");
+
+        assertEquals(1, listHandler.recordList.size());
+        LogRecord e = listHandler.recordList.get(0);
+        assertEquals("hello user=bob!", e.getMessage());
+    }
+
+    // https://jira.qos.ch/browse/SLF4J-422
+    @Test
+    public void testIgnoreNullExtraParameters_SLF4J_422() {
+        Logger logger = LoggerFactory.getLogger("testIgnoreNullExtraParameters_SLF4J_422");
+
+        logger.debug("hello user={}!", "bob", null);
+
+        assertEquals(1, listHandler.recordList.size());
+        LogRecord e = listHandler.recordList.get(0);
+        assertEquals("hello user=bob!", e.getMessage());
     }
 
     @Test
