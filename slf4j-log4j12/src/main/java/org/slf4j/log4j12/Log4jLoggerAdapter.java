@@ -131,7 +131,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void trace(String format, Object arg) {
         if (isTraceEnabled()) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -154,7 +154,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void trace(String format, Object arg1, Object arg2) {
         if (isTraceEnabled()) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -175,7 +175,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void trace(String format, Object... arguments) {
         if (isTraceEnabled()) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
-            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, traceCapable ? Level.TRACE : Level.DEBUG, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -227,7 +227,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String format, Object arg) {
         if (logger.isDebugEnabled()) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.DEBUG, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -250,7 +250,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String format, Object arg1, Object arg2) {
         if (logger.isDebugEnabled()) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.DEBUG, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -270,7 +270,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void debug(String format, Object... arguments) {
         if (logger.isDebugEnabled()) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
-            logger.log(FQCN, Level.DEBUG, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.DEBUG, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -321,7 +321,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String format, Object arg) {
         if (logger.isInfoEnabled()) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.INFO, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -344,7 +344,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String format, Object arg1, Object arg2) {
         if (logger.isInfoEnabled()) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.INFO, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -365,7 +365,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void info(String format, Object... argArray) {
         if (logger.isInfoEnabled()) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            logger.log(FQCN, Level.INFO, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.INFO, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -418,7 +418,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String format, Object arg) {
         if (logger.isEnabledFor(Level.WARN)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.WARN, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -441,7 +441,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String format, Object arg1, Object arg2) {
         if (logger.isEnabledFor(Level.WARN)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.WARN, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -462,7 +462,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void warn(String format, Object... argArray) {
         if (logger.isEnabledFor(Level.WARN)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            logger.log(FQCN, Level.WARN, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.WARN, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -515,7 +515,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String format, Object arg) {
         if (logger.isEnabledFor(Level.ERROR)) {
             FormattingTuple ft = MessageFormatter.format(format, arg);
-            logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.ERROR, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -538,7 +538,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String format, Object arg1, Object arg2) {
         if (logger.isEnabledFor(Level.ERROR)) {
             FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.ERROR, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -559,7 +559,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
     public void error(String format, Object... argArray) {
         if (logger.isEnabledFor(Level.ERROR)) {
             FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            logger.log(FQCN, Level.ERROR, ft.getMessage(), ft.getThrowable());
+            logger.log(FQCN, Level.ERROR, ft.getMessageWithUnusedArgs(), ft.getThrowable());
         }
     }
 
@@ -626,7 +626,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
         if (t != null)
             ti = new ThrowableInformation(t);
 
-        org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(FQCN, logger, event.getTimeStamp(), log4jLevel, ft.getMessage(),
+        org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(FQCN, logger, event.getTimeStamp(), log4jLevel, ft.getMessageWithUnusedArgs(),
                         event.getThreadName(), ti, null, locationInfo, null);
 
         return log4jEvent;

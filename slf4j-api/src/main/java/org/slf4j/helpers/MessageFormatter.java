@@ -100,6 +100,7 @@ final public class MessageFormatter {
     static final char DELIM_STOP = '}';
     static final String DELIM_STR = "{}";
     private static final char ESCAPE_CHAR = '\\';
+    private static final Object[] NO_UNUSED_ARGS = new Object[0];
 
     /**
      * Performs single argument substitution for the 'messagePattern' passed as
@@ -210,7 +211,9 @@ final public class MessageFormatter {
                 } else { // add the tail string which contains no variables and return
                     // the result.
                     sbuf.append(messagePattern, i, messagePattern.length());
-                    return new FormattingTuple(sbuf.toString(), argArray, throwable);
+                    Object[] remainingArgs = new Object[argArray.length - L];
+                    System.arraycopy(argArray, L, remainingArgs, 0, argArray.length - L);
+                    return new FormattingTuple(sbuf.toString(), remainingArgs, throwable);
                 }
             } else {
                 if (isEscapedDelimeter(messagePattern, j)) {
@@ -237,7 +240,7 @@ final public class MessageFormatter {
         }
         // append the characters following the last {} pair.
         sbuf.append(messagePattern, i, messagePattern.length());
-        return new FormattingTuple(sbuf.toString(), argArray, throwable);
+        return new FormattingTuple(sbuf.toString(), NO_UNUSED_ARGS, throwable);
     }
 
     final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
