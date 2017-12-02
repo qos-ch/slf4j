@@ -405,6 +405,12 @@ public final class LoggerFactory {
         return getProvider().getLoggerFactory();
     }
 
+    /**
+     * Return the {@link SLF4JServiceProvider} in use.
+
+     * @return provider in use
+     * @since 1.8.0
+     */
     static SLF4JServiceProvider getProvider() {
         if (INITIALIZATION_STATE == UNINITIALIZED) {
             synchronized (LoggerFactory.class) {
