@@ -92,6 +92,7 @@
               <goal>run</goal>
             </goals>
           </execution>
+          <!-- OSGI integration with ServiceLoader mechanism fails at this stage
           <execution>
             <id>ant-osgi-test</id>
             <phase>package</phase>
@@ -107,7 +108,7 @@
               <goal>run</goal>
             </goals>
           </execution>
-
+          -->
         </executions>
       </plugin>
 

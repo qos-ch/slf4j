@@ -9,4 +9,5 @@ Import-Package: org.slf4j;version=${parsedVersion.osgiVersion},
  org.slf4j.spi;version=${parsedVersion.osgiVersion},
  org.slf4j.helpers;version=${parsedVersion.osgiVersion},
  org.slf4j.event;version=${parsedVersion.osgiVersion}
- 
+Require-Capability: osgi.extender;filter:="(osgi.extender=osgi.serviceloader.registrar)"
+Provide-Capability: osgi.serviceloader;osgi.serviceloader=org.slf4j.spi.SLF4JServiceProvider

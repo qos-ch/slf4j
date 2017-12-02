@@ -8,4 +8,4 @@ Export-Package: org.slf4j;version=${parsedVersion.osgiVersion},
   org.slf4j.spi;version=${parsedVersion.osgiVersion},
   org.slf4j.helpers;version=${parsedVersion.osgiVersion},
   org.slf4j.event;version=${parsedVersion.osgiVersion}
-Comment: Import-Package: org.slf4j.impl;version=${slf4j.api.minimum.compatible.version}
+Import-Package: org.slf4j.spi;version=${parsedVersion.osgiVersion}

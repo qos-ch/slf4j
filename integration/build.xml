@@ -82,10 +82,10 @@
 	</target>
 
 	<target name="testAll" depends="init, 
-		            testNoProvider150,
+		        testNoProvider150,
                 testMismatch,
                 testMatch,
-		            testMultiBinding,                
+		        testMultiBinding,                
                 testFuture_16Series,
                 testActiveSecurityManager">
 	</target>
@@ -93,7 +93,7 @@
 
 	<target name="testNoProvider150">
 
-    <junit printsummary="yes" fork="no" haltonfailure="yes">
+        <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150Binding" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
