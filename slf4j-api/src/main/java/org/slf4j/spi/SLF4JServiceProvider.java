@@ -27,7 +27,7 @@ public interface SLF4JServiceProvider {
     
     public MDCAdapter getMDCAdapter();
     
-    public String getRequesteApiVersion();
+    public String getRequestedApiVersion();
     
     public void initialize();
 }
