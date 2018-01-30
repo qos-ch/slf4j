@@ -37,7 +37,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOPServiceProvider;
-import org.slf4j.helpers.SubstitureServiceProvider;
+import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
 
 import org.slf4j.helpers.Util;
@@ -89,7 +89,7 @@ public final class LoggerFactory {
     static final int NOP_FALLBACK_INITIALIZATION = 4;
 
     static volatile int INITIALIZATION_STATE = UNINITIALIZED;
-    static final SubstitureServiceProvider SUBST_PROVIDER = new SubstitureServiceProvider();
+    static final SubstituteServiceProvider SUBST_PROVIDER = new SubstituteServiceProvider();
     static final NOPServiceProvider NOP_FALLBACK_FACTORY = new NOPServiceProvider();
 
     // Support for detecting mismatched logger names.
