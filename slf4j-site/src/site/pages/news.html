@@ -34,11 +34,46 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>, 2017 - Release of SLF4J 1.8.0-beta1</h3>
+   <h3>January 30th, 2018 - Release of SLF4J 1.8.0-beta1</h3>
+   
+   <p class="highlight"t>In the 1.8.x series, SLF4J has been
+   modularized per <a
+   href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
+   specificaton. The resulting internal changes are <a class="big
+   bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
+   page. </p>
 
+   <p class="highlight">In the 1.8.x serues slf4j-api relies on the
+   ServiceLoader mechanism to find its logging
+   backend. <code>ServiceLoader</code> is available in <b>Java 6</b>
+   and later.</p>
+   
+   <p>In the 1.8.x series, SLF4J has been modularized per <a
+   href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
+   specificaton. The resulting internal changes are <a class="big
+   bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
+   page. Moreover, slf4j-api now relies on the <a
+   href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+   mechanism to find its logging backend. <code>ServiceLoader</code>
+   is available in Java 6 and later.</p>
+    
+
+   <p>Fix Travis build issues as reported in <a
+   href="https://jira.qos.ch/browse/SLF4J-427">SLF4J-427</a> by 
+   Brett Randall who also provided the releavant PR.</p>
+   
+   <p>Added a <code>createdPostInitialization</code> final public
+   variable in SubstituteLogger.</p>
+
+   <p>Fixed typo in <code>SubstituteServiceProvider</code> class
+   name. See also <a
+   href="https://jira.qos.ch/browse/SLF4J-426">SLF4J-426</a>.</p>
+   
    <p>Updated slf4j-api module's MANIFEST.MF file
    "Bundle-RequiredExecutionEnvironment" entry value to J2SE-1.6.
    </p>
+
+   
    
    <hr noshade="noshade" size="1"/>
 
@@ -49,7 +84,7 @@
    been removed from all slf4j modules. In other words starting with
    slf4j 1.8.0-beta0 "providers" will no longer act as 1.7.x/1.6.x
    "bindings". See the <a class="big bold"
-   href="faq.html#changesInVersion18">relevant FAQ</a> entry for
+  h ref="faq.html#changesInVersion18">relevant FAQ</a> entry for
    details.</p>
 
    <p>
