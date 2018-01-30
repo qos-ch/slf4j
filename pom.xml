@@ -157,6 +157,7 @@
         <version>1.1</version>
         <executions>
           <execution>
+            <id>toolchain</id>
             <goals>
               <goal>toolchain</goal>
             </goals>
@@ -164,6 +165,10 @@
         </executions>
         <configuration>
           <toolchains>
+            <jdk>
+              <version>9</version>
+            </jdk>
+
             <jdk>
               <version>1.6</version>
             </jdk>
@@ -452,6 +457,31 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>travis</id>
+      <activation>
+        <property>
+          <name>env.TRAVIS</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>toolchain</id>
+                <phase>none</phase>
               </execution>
             </executions>
           </plugin>
