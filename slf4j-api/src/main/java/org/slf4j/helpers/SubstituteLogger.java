@@ -53,7 +53,7 @@ public class SubstituteLogger implements Logger {
     private EventRecodingLogger eventRecodingLogger;
     private Queue<SubstituteLoggingEvent> eventQueue;
 
-    private final boolean createdPostInitialization;
+    public final boolean createdPostInitialization;
     
     public SubstituteLogger(String name, Queue<SubstituteLoggingEvent> eventQueue, boolean createdPostInitialization) {
         this.name = name;
