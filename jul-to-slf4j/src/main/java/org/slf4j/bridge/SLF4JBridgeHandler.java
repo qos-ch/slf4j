@@ -90,6 +90,15 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li>LevelChangePropagator has been installed</li>
  * </ol>
  *
+ * <h2>As a Java 9/Jigsaw module</h2>
+ * 
+ * <p>Given that <b>to</b> is a reserved keyword under Java 9 within module productions, 
+ * the MAFIFEST.MF file in <em>jul-to-slf4j.jar</em> declares <b>jul_to_slf4j</b> as 
+ * its Automatic Module Name. Thus, if your application is Jigsaw modularized, the requires 
+ * statement in your <em>module-info.java</em> needs to be <b>jul_to_slf4j</b> 
+ * (note the two underscores).
+ *
+ * 
  * @author Christian Stein
  * @author Joern Huxhorn
  * @author Ceki G&uuml;lc&uuml;

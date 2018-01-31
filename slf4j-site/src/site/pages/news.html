@@ -34,7 +34,7 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>January 30th, 2018 - Release of SLF4J 1.8.0-beta1</h3>
+   <h3>, 2018 - Release of SLF4J 1.8.0-beta2</h3>
    
    <p class="highlight"t>In the 1.8.x series, SLF4J has been
    modularized per <a
@@ -56,8 +56,19 @@
    href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
    mechanism to find its logging backend. <code>ServiceLoader</code>
    is available in Java 6 and later.</p>
-    
 
+   <p>Automatic module name for the artifact <em>jul-to-slf4j.jar</em>
+   is jul.to.slf4j. However, <b>to</b> is a reserved keyword within
+   ModuleDeclaration and ModuleDirective productions (Java 9). By
+   declaring the following in MANIFEST file of said artifact we avoid
+   this problem.  See also <a
+   href="https://jira.qos.ch/browse/SLF4J-428">SLF4J-428</a>.</p>
+
+   <p class="source">Automatic-Module-Name: <b>jul_to_slf4j</b></p>
+
+   
+   <h3>January 30th, 2018 - Release of SLF4J 1.8.0-beta1</h3>
+   
    <p>Fix Travis build issues as reported in <a
    href="https://jira.qos.ch/browse/SLF4J-427">SLF4J-427</a> by 
    Brett Randall who also provided the releavant PR.</p>
