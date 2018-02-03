@@ -212,6 +212,10 @@ public class SLF4JBridgeHandler extends Handler {
     }
 
     protected void callLocationAwareLogger(LocationAwareLogger lal, LogRecord record) {
+        if( isOFF(record) ) {
+            return;
+        }
+
         int julLevelValue = record.getLevel().intValue();
         int slf4jLevel;
 
@@ -231,6 +235,10 @@ public class SLF4JBridgeHandler extends Handler {
     }
 
     protected void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
+        if( isOFF(record) ) {
+            return;
+        }
+
         String i18nMessage = getMessageI18N(record);
         int julLevelValue = record.getLevel().intValue();
         if (julLevelValue <= TRACE_LEVEL_THRESHOLD) {
@@ -244,6 +252,11 @@ public class SLF4JBridgeHandler extends Handler {
         } else {
             slf4jLogger.error(i18nMessage, record.getThrown());
         }
+    }
+
+    private boolean isOFF( LogRecord record )
+    {
+        return Level.OFF.equals( record.getLevel() );
     }
 
     /**
