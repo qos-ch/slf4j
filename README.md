@@ -2,7 +2,7 @@
 The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging frameworks (e.g. java.util.logging, logback, log4j) allowing the end user to plug in the desired logging framework at deployment time.
 More information can be found on the [SLF4J website](http://www.slf4j.org).
 # Build Status
-[![Build Status](https://travis-ci.org/qos-ch/slf4j.png)](https://travis-ci.org/qos-ch/slf4j)
+[![Build Status](https://travis-ci.org/qos-ch/slf4j.svg)](https://travis-ci.org/qos-ch/slf4j)
 
 # How to contribute pull requests
 If you are interested in improving SLF4J, great! The SLF4J community looks forward to your contribution. Please follow this process:
