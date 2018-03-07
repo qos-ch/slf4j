@@ -81,6 +81,7 @@ public final class LoggerFactory {
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
     static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory in failed state. Original exception was thrown EARLIER. See also "
                     + UNSUCCESSFUL_INIT_URL;
+    static final String UNSUCCESSFUL_INIT_MSG_SUPPRESSION_SYSTEM_PROPERTY = "slf4j.suppressInitError";
 
     static final int UNINITIALIZED = 0;
     static final int ONGOING_INITIALIZATION = 1;
@@ -159,9 +160,12 @@ public final class LoggerFactory {
                 SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
-                Util.report("No SLF4J providers were found.");
-                Util.report("Defaulting to no-operation (NOP) logger implementation");
-                Util.report("See " + NO_PROVIDERS_URL + " for further details.");
+                boolean suppressError = Util.safeGetBooleanSystemProperty(UNSUCCESSFUL_INIT_MSG_SUPPRESSION_SYSTEM_PROPERTY);
+                if (!suppressError) {
+                  Util.report("No SLF4J providers were found.");
+                  Util.report("Defaulting to no-operation (NOP) logger implementation");
+                  Util.report("See " + NO_PROVIDERS_URL + " for further details.");
+                }
 
                 Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportIgnoredStaticLoggerBinders(staticLoggerBinderPathSet);
