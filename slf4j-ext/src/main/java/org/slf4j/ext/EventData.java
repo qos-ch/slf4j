@@ -40,6 +40,8 @@ import java.beans.ExceptionListener;
  * event. Users may extend this class for each EventType they want to log.
  * 
  * @author Ralph Goers
+ * 
+ * @deprecated Due to a security vulnerability, this class will be removed without replacement.
  */
 public class EventData implements Serializable {
 
