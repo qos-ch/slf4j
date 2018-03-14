@@ -61,11 +61,18 @@
    is jul.to.slf4j. However, <b>to</b> is a reserved keyword within
    ModuleDeclaration and ModuleDirective productions (Java 9). By
    declaring the following in MANIFEST file of said artifact we avoid
-   this problem.  See also <a
-   href="https://jira.qos.ch/browse/SLF4J-428">SLF4J-428</a>.</p>
-
+   this problem. </p>
+   
    <p class="source">Automatic-Module-Name: <b>jul_to_slf4j</b></p>
 
+   <p>See also <a
+   href="https://jira.qos.ch/browse/SLF4J-428">SLF4J-428</a>.</p>
+   
+   <p>In preparation for its removal due to a securoty vulnerability,
+   the class <code>org.slf4j.ext.EventData</code> is now marked as
+   deprecated. <p>See also <a
+   href="https://jira.qos.ch/browse/SLF4J-431">SLF4J-431</a>.</p>
+  
    
    <h3>January 30th, 2018 - Release of SLF4J 1.8.0-beta1</h3>
    
