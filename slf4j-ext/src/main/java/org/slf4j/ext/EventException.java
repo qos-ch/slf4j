@@ -26,6 +26,8 @@ package org.slf4j.ext;
 
 /**
  * Exception used to identify issues related to an event that is being logged.
+ * 
+ * @deprecated This class will be removed in subsequent released without replacement. Only used by EventData.
  */
 public class EventException extends RuntimeException {
 
