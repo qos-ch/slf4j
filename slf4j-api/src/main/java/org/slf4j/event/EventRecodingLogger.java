@@ -96,7 +96,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void debug(String msg) {
-        recordEvent(Level.TRACE, msg, null, null);
+        recordEvent(Level.DEBUG, msg, null, null);
     }
 
     public void debug(String format, Object arg) {
@@ -220,7 +220,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void warn(Marker marker, String msg) {
-        recordEvent(Level.WARN, msg, null, null);
+        recordEvent(Level.WARN, marker, msg, null, null);
     }
 
     public void warn(Marker marker, String format, Object arg) {
