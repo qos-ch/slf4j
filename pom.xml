@@ -206,7 +206,7 @@
         </executions>
         <configuration>
           <jdkToolchain>
-            <version>[1.6,10)</version>
+            <version>[1.6, )</version>
           </jdkToolchain>
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
