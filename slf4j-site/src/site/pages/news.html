@@ -43,17 +43,18 @@
    bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
    page. </p>
 
-   <p class="highlight">In the 1.8.x serues slf4j-api relies on the
-   ServiceLoader mechanism to find its logging
-   backend. <code>ServiceLoader</code> is available in <b>Java 6</b>
-   and later.</p>
+   <p class="highlight">The the 1.8.x series requires Java&nbsp;6 or
+   later as slf4j-api now relies on the <code>ServiceLoader</code>
+   mechanism to find its logging backend. <code>ServiceLoader</code>
+   is available in <b>Java 6</b> and later.</p>
    
-   <p>In the 1.8.x series, SLF4J has been modularized per <a
-   href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
+   <p>In the 1.8.x series, SLF4J has been modularized
+   per <a href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
    specificaton. The resulting internal changes are <a class="big
    bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
-   page. Moreover, slf4j-api now relies on the <a
-   href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+   page. Moreover, SLF4J now requires Java&nbsp;6 or later as
+   slf4j-api now relies on
+   the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
    mechanism to find its logging backend. <code>ServiceLoader</code>
    is available in Java 6 and later.</p>
 
@@ -76,7 +77,7 @@
    <p>The class <code>org.slf4j.ext.EventData</code> is now marked as
    deprecated in preparation for its removal due to a security
    vulnerability. In subsequent releases this class well be removed
-   without replacement. <p>See
+   without replacement. See
    also <a href="https://jira.qos.ch/browse/SLF4J-430">SLF4J-430</a>
    and <a href="https://jira.qos.ch/browse/SLF4J-431">SLF4J-431</a>.</p>
   
