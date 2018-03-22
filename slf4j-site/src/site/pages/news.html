@@ -34,8 +34,8 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3>21st of March, 2018 - Release of SLF4J 1.8.0-beta2</h3>
-   
+   <h3> 2018 - Release of SLF4J 1.8.0-beta3</h3>
+
    <p class="highlight"t>In the 1.8.x series, SLF4J has been
    modularized per <a
    href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
@@ -57,6 +57,18 @@
    the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
    mechanism to find its logging backend. <code>ServiceLoader</code>
    is available in Java 6 and later.</p>
+
+   <p><code>SLF4JBridgeHandler</code> now correctly handles null
+   messages. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-99">SLF4J-99</a> (again) and
+   <a href="https://jira.qos.ch/browse/SLF4J-409">SLF4J-409</a> as
+   reported by Devin Smith.</p>
+   
+   
+   <hr noshade="noshade" size="1"/> 
+   
+   <h3>21st of March, 2018 - Release of SLF4J 1.8.0-beta2</h3>
+   
 
    <p>Automatic module name for the artifact <em>jul-to-slf4j.jar</em>
    is jul.to.slf4j. However, <b>to</b> is a reserved keyword within
