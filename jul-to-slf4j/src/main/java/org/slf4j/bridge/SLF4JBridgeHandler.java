@@ -300,13 +300,12 @@ public class SLF4JBridgeHandler extends Handler {
         }
 
         Logger slf4jLogger = getSLF4JLogger(record);
-        String message = record.getMessage(); // can be null!
         // this is a check to avoid calling the underlying logging system
         // with a null message. While it is legitimate to invoke j.u.l. with
         // a null message, other logging frameworks do not support this.
         // see also http://jira.qos.ch/browse/SLF4J-99
-        if (message == null) {
-            message = "";
+        if (record.getMessage() == null) {
+            record.setMessage("");
         }
         if (slf4jLogger instanceof LocationAwareLogger) {
             callLocationAwareLogger((LocationAwareLogger) slf4jLogger, record);
