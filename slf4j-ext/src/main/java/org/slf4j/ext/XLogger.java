@@ -121,7 +121,7 @@ public class XLogger extends LoggerWrapper implements Logger {
                 messagePattern = buildMessagePattern(argArray.length);
             }
             FormattingTuple tp = MessageFormatter.arrayFormat(messagePattern, argArray);
-            ((LocationAwareLogger) logger).log(ENTRY_MARKER, FQCN, LocationAwareLogger.TRACE_INT, tp.getMessage(), argArray, tp.getThrowable());
+            ((LocationAwareLogger) logger).log(ENTRY_MARKER, FQCN, LocationAwareLogger.TRACE_INT, tp.getMessageWithUnusedArgs(), argArray, tp.getThrowable());
         }
     }
 
@@ -143,7 +143,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     public <T> T exit(T result) {
         if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
             FormattingTuple tp = MessageFormatter.format(EXIT_MESSAGE_1, result);
-            ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN, LocationAwareLogger.TRACE_INT, tp.getMessage(), new Object[] { result }, tp.getThrowable());
+            ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN, LocationAwareLogger.TRACE_INT, tp.getMessageWithUnusedArgs(), new Object[] { result }, tp.getThrowable());
         }
         return result;
     }

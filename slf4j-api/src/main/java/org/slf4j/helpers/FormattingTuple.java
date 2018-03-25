@@ -35,24 +35,63 @@ public class FormattingTuple {
 
     private String message;
     private Throwable throwable;
-    private Object[] argArray;
+    private Object[] unusedArgArray;
 
     public FormattingTuple(String message) {
         this(message, null, null);
     }
 
-    public FormattingTuple(String message, Object[] argArray, Throwable throwable) {
+    /**
+     * Constructs a FormattingTuple.
+     * @param message the formatted message
+     * @param unusedArgArray the args that were not used in the formatted message
+     * @param throwable a Throwable
+     */
+    public FormattingTuple(String message, Object[] unusedArgArray, Throwable throwable) {
         this.message = message;
         this.throwable = throwable;
-        this.argArray = argArray;
+        this.unusedArgArray = unusedArgArray;
     }
 
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Gets the args that were not used in the formatted message.
+     * @return the unused args
+     * @deprecated use {@link #getUnusedArgArray()}
+     */
+    @Deprecated
     public Object[] getArgArray() {
-        return argArray;
+        return getUnusedArgArray();
+    }
+
+    /**
+     * Gets the args that were not used in the formatted message.
+     * @return the unused args
+     */
+    public Object[] getUnusedArgArray() {
+        return unusedArgArray;
+    }
+
+    /**
+     * Gets the message including any unused args, separated by a space.
+     * This is done on-demand to avoid incurring the cost when it isn't used.
+     */
+    public String getMessageWithUnusedArgs() {
+        String message = getMessage();
+        if ((getUnusedArgArray() != null) && (getUnusedArgArray().length > 0)) {
+            StringBuilder stringBuilder = new StringBuilder(message);
+            for(int i = 0; i < getUnusedArgArray().length; i++) {
+                Object arg = getUnusedArgArray()[i];
+                if (arg != null) {
+                    stringBuilder.append(' ').append(arg);
+                }
+            }
+            message = stringBuilder.toString();
+        }
+        return message;
     }
 
     public Throwable getThrowable() {
