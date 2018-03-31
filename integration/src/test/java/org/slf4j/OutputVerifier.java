@@ -1,5 +1,6 @@
 package org.slf4j;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 public class OutputVerifier {
@@ -7,7 +8,7 @@ public class OutputVerifier {
     static void noProvider(StringPrintStream sps) {
         dump(sps);
         int lineCount = sps.stringList.size();
-        assertTrue("number of lines should be 6 but was " + lineCount, lineCount == 6);
+        assertEquals("number of lines should be 6 but was " + lineCount, 6, lineCount);
 
         // expected output: (version 1.8)
         // SLF4J: No SLF4J providers were found.
