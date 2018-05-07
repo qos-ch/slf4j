@@ -18,7 +18,6 @@ SLF4J uses Java 9 to build, and Java 6 to run the tests.
     <type>jdk</type>
     <provides>
       <version>1.6</version>
-      <vendor>sun</vendor>
     </provides>
     <configuration>
       <jdkHome>/home/jo/bin/jdk1.6.0_45</jdkHome>
@@ -28,7 +27,6 @@ SLF4J uses Java 9 to build, and Java 6 to run the tests.
     <type>jdk</type>
     <provides>
       <version>9</version>
-      <vendor>sun</vendor>
     </provides>
     <configuration>
       <jdkHome>/usr/lib/jvm/java-9-openjdk-amd64</jdkHome>
