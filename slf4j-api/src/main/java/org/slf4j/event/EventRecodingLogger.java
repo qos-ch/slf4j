@@ -57,6 +57,14 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.TRACE, format, new Object[] { arg1, arg2 }, null);
     }
 
+    public void trace(String format, Object arg1, Object arg2, Object arg3) {
+        recordEvent(Level.TRACE, format, new Object[] { arg1, arg2, arg3 }, null);
+    }
+
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        recordEvent(Level.TRACE, format, new Object[] { arg1, arg2, arg3, arg4 }, null);
+    }
+
     public void trace(String format, Object[] arguments) {
         recordEvent(Level.TRACE, format, arguments, null);
     }
@@ -106,7 +114,14 @@ public class EventRecodingLogger implements Logger {
 
     public void debug(String format, Object arg1, Object arg2) {
         recordEvent(Level.DEBUG, format, new Object[] { arg1, arg2 }, null);
+    }
 
+    public void debug(String format, Object arg1, Object arg2, Object arg3) {
+        recordEvent(Level.DEBUG, format, new Object[] { arg1, arg2, arg3 }, null);
+    }
+
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        recordEvent(Level.DEBUG, format, new Object[] { arg1, arg2, arg3, arg4 }, null);
     }
 
     public void debug(String format, Object[] arguments) {
@@ -157,6 +172,14 @@ public class EventRecodingLogger implements Logger {
         recordEvent(Level.INFO, format, new Object[] { arg1, arg2 }, null);
     }
 
+    public void info(String format, Object arg1, Object arg2, Object arg3) {
+        recordEvent(Level.INFO, format, new Object[] { arg1, arg2, arg3 }, null);
+    }
+
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        recordEvent(Level.INFO, format, new Object[] { arg1, arg2, arg3, arg4 }, null);
+    }
+
     public void info(String format, Object[] arguments) {
         recordEvent(Level.INFO, format, arguments, null);
     }
@@ -200,11 +223,18 @@ public class EventRecodingLogger implements Logger {
 
     public void warn(String format, Object arg) {
         recordEvent(Level.WARN, format, new Object[] { arg }, null);
-
     }
 
     public void warn(String format, Object arg1, Object arg2) {
         recordEvent(Level.WARN, format, new Object[] { arg1, arg2 }, null);
+    }
+
+    public void warn(String format, Object arg1, Object arg2, Object arg3) {
+        recordEvent(Level.WARN, format, new Object[] { arg1, arg2, arg3 }, null);
+    }
+
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        recordEvent(Level.WARN, format, new Object[] { arg1, arg2, arg3, arg4 }, null);
     }
 
     public void warn(String format, Object[] arguments) {
@@ -229,7 +259,6 @@ public class EventRecodingLogger implements Logger {
 
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
         recordEvent(Level.WARN, marker, format, new Object[] { arg1, arg2 }, null);
-
     }
 
     public void warn(Marker marker, String format, Object[] arguments) {
@@ -250,17 +279,22 @@ public class EventRecodingLogger implements Logger {
 
     public void error(String format, Object arg) {
         recordEvent(Level.ERROR, format, new Object[] { arg }, null);
-
     }
 
     public void error(String format, Object arg1, Object arg2) {
         recordEvent(Level.ERROR, format, new Object[] { arg1, arg2 }, null);
+    }
 
+    public void error(String format, Object arg1, Object arg2, Object arg3) {
+        recordEvent(Level.ERROR, format, new Object[] { arg1, arg2, arg3 }, null);
+    }
+
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        recordEvent(Level.ERROR, format, new Object[] { arg1, arg2, arg3, arg4 }, null);
     }
 
     public void error(String format, Object[] arguments) {
         recordEvent(Level.ERROR, format, arguments, null);
-
     }
 
     public void error(String msg, Throwable t) {

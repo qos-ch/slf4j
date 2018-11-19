@@ -25,7 +25,6 @@
 package org.slf4j.helpers;
 
 import org.slf4j.Logger;
-import org.slf4j.helpers.MarkerIgnoringBase;
 
 /**
  * A direct NOP (no operation) implementation of {@link Logger}.
@@ -79,6 +78,16 @@ public class NOPLogger extends MarkerIgnoringBase {
     }
 
     /** A NOP implementation.  */
+    public final void trace(String format, Object arg1, Object arg2, Object arg3) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
+    public final void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
     public final void trace(String format, Object[] argArray) {
         // NOP
     }
@@ -108,6 +117,16 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation.  */
     public final void debug(String format, Object arg1, Object arg2) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
+    public final void debug(String format, Object arg1, Object arg2, Object arg3) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
+    public final void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
         // NOP
     }
 
@@ -146,6 +165,16 @@ public class NOPLogger extends MarkerIgnoringBase {
     }
 
     /** A NOP implementation.  */
+    final public void info(String format, Object arg1, Object arg2, Object arg3) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
+    final public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
     public final void info(String format, Object[] argArray) {
         // NOP
     }
@@ -178,6 +207,16 @@ public class NOPLogger extends MarkerIgnoringBase {
         // NOP
     }
 
+    /** A NOP implementation. */
+    final public void warn(String format, Object arg1, Object arg2, Object arg3) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    final public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        // NOP
+    }
+
     /** A NOP implementation.  */
     public final void warn(String format, Object[] argArray) {
         // NOP
@@ -205,6 +244,16 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void error(String format, Object arg1, Object arg2) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    final public void error(String format, Object arg1, Object arg2, Object arg3) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    final public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
         // NOP
     }
 

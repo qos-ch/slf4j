@@ -77,6 +77,14 @@ public class SubstituteLogger implements Logger {
         delegate().trace(format, arg1, arg2);
     }
 
+    public void trace(String format, Object arg1, Object arg2, Object arg3) {
+        delegate().trace(format, arg1, arg2, arg3);
+    }
+
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        delegate().trace(format, arg1, arg2, arg3, arg4);
+    }
+
     public void trace(String format, Object[] arguments) {
         delegate().trace(format, arguments);
     }
@@ -123,6 +131,14 @@ public class SubstituteLogger implements Logger {
 
     public void debug(String format, Object arg1, Object arg2) {
         delegate().debug(format, arg1, arg2);
+    }
+
+    public void debug(String format, Object arg1, Object arg2, Object arg3) {
+        delegate().debug(format, arg1, arg2, arg3);
+    }
+
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        delegate().debug(format, arg1, arg2, arg3, arg4);
     }
 
     public void debug(String format, Object[] arguments) {
@@ -173,6 +189,14 @@ public class SubstituteLogger implements Logger {
         delegate().info(format, arg1, arg2);
     }
 
+    public void info(String format, Object arg1, Object arg2, Object arg3) {
+        delegate().info(format, arg1, arg2, arg3);
+    }
+
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        delegate().info(format, arg1, arg2, arg3, arg4);
+    }
+
     public void info(String format, Object[] arguments) {
         delegate().info(format, arguments);
     }
@@ -221,6 +245,14 @@ public class SubstituteLogger implements Logger {
         delegate().warn(format, arg1, arg2);
     }
 
+    public void warn(String format, Object arg1, Object arg2, Object arg3) {
+        delegate().warn(format, arg1, arg2, arg3);
+    }
+
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        delegate().warn(format, arg1, arg2, arg3, arg4);
+    }
+
     public void warn(String format, Object[] arguments) {
         delegate().warn(format, arguments);
     }
@@ -267,6 +299,14 @@ public class SubstituteLogger implements Logger {
 
     public void error(String format, Object arg1, Object arg2) {
         delegate().error(format, arg1, arg2);
+    }
+
+    public void error(String format, Object arg1, Object arg2, Object arg3) {
+        delegate().error(format, arg1, arg2, arg3);
+    }
+
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        delegate().error(format, arg1, arg2, arg3, arg4);
     }
 
     public void error(String format, Object[] arguments) {
