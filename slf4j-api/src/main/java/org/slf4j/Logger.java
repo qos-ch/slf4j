@@ -124,6 +124,37 @@ public interface Logger {
      * Log a message at the TRACE level according to the specified format
      * and arguments.
      * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the TRACE level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     * @since 1.4
+     */
+    public void trace(String format, Object arg1, Object arg2, Object arg3);
+
+    /**
+     * Log a message at the TRACE level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the TRACE level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     * @param arg4   the fourth argument
+     * @since 1.4
+     */
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+
+    /**
+     * Log a message at the TRACE level according to the specified format
+     * and arguments.
+     * <p/>
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the TRACE level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
@@ -258,6 +289,35 @@ public interface Logger {
      * Log a message at the DEBUG level according to the specified format
      * and arguments.
      * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the DEBUG level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     */
+    public void debug(String format, Object arg1, Object arg2, Object arg3);
+
+    /**
+     * Log a message at the DEBUG level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the DEBUG level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     * @param arg4   the fourth argument
+     */
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+
+    /**
+     * Log a message at the DEBUG level according to the specified format
+     * and arguments.
+     * <p/>
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the DEBUG level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
@@ -379,6 +439,35 @@ public interface Logger {
      * @param arg2   the second argument
      */
     public void info(String format, Object arg1, Object arg2);
+
+    /**
+     * Log a message at the INFO level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the INFO level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     */
+    public void info(String format, Object arg1, Object arg2, Object arg3);
+
+    /**
+     * Log a message at the INFO level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the INFO level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     * @param arg4   the fourth argument
+     */
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4);
 
     /**
      * Log a message at the INFO level according to the specified format
@@ -522,6 +611,35 @@ public interface Logger {
     public void warn(String format, Object arg1, Object arg2);
 
     /**
+     * Log a message at the WARN level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the WARN level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     */
+    public void warn(String format, Object arg1, Object arg2, Object arg3);
+
+    /**
+     * Log a message at the WARN level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the WARN level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     * @param arg4   the fourth argument
+     */
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+
+    /**
      * Log an exception (throwable) at the WARN level with an
      * accompanying message.
      *
@@ -630,6 +748,35 @@ public interface Logger {
      * @param arg2   the second argument
      */
     public void error(String format, Object arg1, Object arg2);
+
+    /**
+     * Log a message at the ERROR level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the ERROR level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     */
+    public void error(String format, Object arg1, Object arg2, Object arg3);
+
+    /**
+     * Log a message at the ERROR level according to the specified format
+     * and arguments.
+     * <p/>
+     * <p>This form avoids superfluous object creation when the logger
+     * is disabled for the ERROR level. </p>
+     *
+     * @param format the format string
+     * @param arg1   the first argument
+     * @param arg2   the second argument
+     * @param arg3   the third argument
+     * @param arg4   the fourth argument
+     */
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4);
 
     /**
      * Log a message at the ERROR level according to the specified format

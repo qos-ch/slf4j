@@ -25,7 +25,6 @@
 package org.slf4j.impl;
 
 import java.io.PrintStream;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -359,8 +358,40 @@ public class SimpleLogger extends MarkerIgnoringBase {
         if (INITIALIZED && !isLevelEnabled(level)) {
             return;
         }
-        FormattingTuple tp = MessageFormatter.format(format, arg1, arg2);
-        log(level, tp.getMessage(), tp.getThrowable());
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2 });
+    }
+
+    /**
+     * For formatted messages, first substitute arguments and then log.
+     *
+     * @param level
+     * @param format
+     * @param arg1
+     * @param arg2
+     * @param arg3
+     */
+    private void formatAndLog(int level, String format, Object arg1, Object arg2, Object arg3) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
+            return;
+        }
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3 });
+    }
+
+    /**
+     * For formatted messages, first substitute arguments and then log.
+     *
+     * @param level
+     * @param format
+     * @param arg1
+     * @param arg2
+     * @param arg3
+     * @param arg4
+     */
+    private void formatAndLog(int level, String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
+            return;
+        }
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3, arg4 });
     }
 
     /**
@@ -374,7 +405,11 @@ public class SimpleLogger extends MarkerIgnoringBase {
         if (INITIALIZED && !isLevelEnabled(level)) {
             return;
         }
-        FormattingTuple tp = MessageFormatter.arrayFormat(format, arguments);
+        formatAndLogImpl(level, format, arguments);
+    }
+
+    private void formatAndLogImpl(int level, String format, Object[] args) {
+        FormattingTuple tp = MessageFormatter.arrayFormat(format, args);
         log(level, tp.getMessage(), tp.getThrowable());
     }
 
@@ -416,6 +451,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void trace(String format, Object param1, Object param2) {
         formatAndLog(LOG_LEVEL_TRACE, format, param1, param2);
+    }
+    public void trace(String format, Object param1, Object param2, Object param3) {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3);
+    }
+    public void trace(String format, Object param1, Object param2, Object param3, Object param4) {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3, param4);
     }
 
     /**
@@ -459,6 +500,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     public void debug(String format, Object param1, Object param2) {
         formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2);
     }
+    public void debug(String format, Object param1, Object param2, Object param3) {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3);
+    }
+    public void debug(String format, Object param1, Object param2, Object param3, Object param4) {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3, param4);
+    }
 
     /**
      * Perform double parameter substitution before logging the message of level
@@ -500,6 +547,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void info(String format, Object arg1, Object arg2) {
         formatAndLog(LOG_LEVEL_INFO, format, arg1, arg2);
+    }
+    public void info(String format, Object arg1, Object arg2, Object arg3) {
+        formatAndLog(LOG_LEVEL_INFO, format, arg1, arg2, arg3);
+    }
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        formatAndLog(LOG_LEVEL_INFO, format, arg1, arg2, arg3, arg4);
     }
 
     /**
@@ -543,6 +596,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     public void warn(String format, Object arg1, Object arg2) {
         formatAndLog(LOG_LEVEL_WARN, format, arg1, arg2);
     }
+    public void warn(String format, Object arg1, Object arg2, Object arg3) {
+        formatAndLog(LOG_LEVEL_WARN, format, arg1, arg2, arg3);
+    }
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        formatAndLog(LOG_LEVEL_WARN, format, arg1, arg2, arg3, arg4);
+    }
 
     /**
      * Perform double parameter substitution before logging the message of level
@@ -584,6 +643,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
      */
     public void error(String format, Object arg1, Object arg2) {
         formatAndLog(LOG_LEVEL_ERROR, format, arg1, arg2);
+    }
+    public void error(String format, Object arg1, Object arg2, Object arg3) {
+        formatAndLog(LOG_LEVEL_ERROR, format, arg1, arg2, arg3);
+    }
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        formatAndLog(LOG_LEVEL_ERROR, format, arg1, arg2, arg3, arg4);
     }
 
     /**

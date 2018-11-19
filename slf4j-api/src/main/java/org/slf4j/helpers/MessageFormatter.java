@@ -122,6 +122,10 @@ final public class MessageFormatter {
         return arrayFormat(messagePattern, new Object[] { arg });
     }
 
+    final public static FormattingTuple format(String messagePattern, Object arg1, Object arg2) {
+        return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
+    }
+
     /**
      *
      * Performs a two argument substitution for the 'messagePattern' passed as
@@ -137,18 +141,18 @@ final public class MessageFormatter {
      *
      * @param messagePattern
      *          The message pattern which will be parsed and formatted
-     * @param arg1
-     *          The argument to be substituted in place of the first formatting
-     *          anchor
-     * @param arg2
-     *          The argument to be substituted in place of the second formatting
-     *          anchor
+     * @param argArray
+     *          The arguments to be substituted in place of the formatting anchors
      * @return The formatted message
      */
-    final public static FormattingTuple format(final String messagePattern, Object arg1, Object arg2) {
-        return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
+    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
+        Throwable throwableCandidate = getThrowableCandidate(argArray);
+        Object[] args = argArray;
+        if (throwableCandidate != null) {
+            args = trimmedCopy(argArray);
+        }
+        return arrayFormat(messagePattern, args, throwableCandidate);
     }
-
 
     static final Throwable getThrowableCandidate(Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
@@ -160,15 +164,6 @@ final public class MessageFormatter {
             return (Throwable) lastEntry;
         }
         return null;
-    }
-
-    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
-        Throwable throwableCandidate = getThrowableCandidate(argArray);
-        Object[] args = argArray;
-        if (throwableCandidate != null) {
-            args = trimmedCopy(argArray);
-        }
-        return arrayFormat(messagePattern, args, throwableCandidate);
     }
 
     private static Object[] trimmedCopy(Object[] argArray) {
