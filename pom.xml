@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.25</version>
+  <version>1.7.26</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -262,6 +262,8 @@
               <version>${javadoc.plugin.version}</version>
               <configuration>
                 <linksource>true</linksource>
+                <doclint>none</doclint>
+                                
                 <!--<aggregate>true</aggregate>-->
                 <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
                 <links>
