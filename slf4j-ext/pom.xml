@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.8.0-beta3-SNAPSHOT</version>
+    <version>1.8.0-beta3</version>
   </parent>
 
   <artifactId>slf4j-ext</artifactId>
@@ -38,12 +38,6 @@
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
       <version>3.4.GA</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.4</version>
       <optional>true</optional>
     </dependency>
   </dependencies>

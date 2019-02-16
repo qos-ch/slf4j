@@ -34,7 +34,8 @@
 
    <hr noshade="noshade" size="1"/>
 
-   <h3> 2018 - Release of SLF4J 1.8.0-beta3</h3>
+   
+   <h3>February 16th, 2019 - Release of SLF4J 1.8.0-beta3</h3>
 
    <p class="highlight"t>In the 1.8.x series, SLF4J has been
    modularized per <a
@@ -63,7 +64,31 @@
    href="https://jira.qos.ch/browse/SLF4J-99">SLF4J-99</a> (again) and
    <a href="https://jira.qos.ch/browse/SLF4J-409">SLF4J-409</a> as
    reported by Devin Smith.</p>
+
+   <p>Fixed <a
+   href="https://nvd.nist.gov/vuln/detail/CVE-2018-8088">CVE-2018-8088</a>
+   by removing the <code>EventData</code> <code>EventException</code>
+   <code>EventLogger</code> classes in the same way as done in SLF4J
+   1.7.26.
+   </p>
    
+   <h3>February 16th, 2019 - Release of SLF4J 1.7.26</h3>
+
+   <p>Due to popular demand in relation <a
+   href="https://nvd.nist.gov/vuln/detail/CVE-2018-8088">CVE-2018-8088</a>,
+   removed <code>EventData</code> <code>EventException</code>
+   <code>EventLogger</code> classes in the <code>org.slf4j.ext</code>
+   package in the slf4j-ext module. These classes were rarely
+   used.
+   </p>
+   
+   <p>The aforementioned vulnerabilty has quite a low severty but was
+   incorrectly marked critical in National Vulnerability
+   Database. However, it was easier to remove the rarely-used
+   incriminated classes than to try to convince the universe that the
+   severity of the vulnerability was indeed low.
+   </p>
+
    
    <hr noshade="noshade" size="1"/> 
    

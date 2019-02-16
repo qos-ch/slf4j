@@ -45,7 +45,7 @@ public class XLoggerTest {
 
         // start from a clean slate for each test
 
-        listAppender = new ListAppender();
+        listAppender = new ListAppender(); 
         listAppender.extractLocationInfo = true;
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(listAppender);
