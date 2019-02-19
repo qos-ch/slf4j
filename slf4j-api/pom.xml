@@ -18,6 +18,10 @@
 
   <url>http://www.slf4j.org</url>
 
+  <properties>
+    <module-name>org.slf4j</module-name>
+  </properties>
+  
   <build>
     <plugins>
       <plugin>

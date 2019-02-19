@@ -16,6 +16,10 @@
   <description>SLF4J Simple binding</description>
   <url>http://www.slf4j.org</url>
 
+  <properties>
+    <module-name>org.slf4j.simple</module-name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>

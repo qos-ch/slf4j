@@ -16,6 +16,10 @@
   <description>JCL 1.2 implemented over SLF4J</description>
   <url>http://www.slf4j.org</url>
 
+  <properties>
+    <module-name>org.apache.commons.logging</module-name>
+  </properties>
+  
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>

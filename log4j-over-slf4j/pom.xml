@@ -25,6 +25,10 @@
     </license>
   </licenses>
 
+  <properties>
+    <module-name>log4j</module-name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>

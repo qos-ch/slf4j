@@ -33,7 +33,7 @@
   </scm>  
 
   <properties>
-    <stable.version>1.7.25</stable.version>
+    <latest.stable.version>1.7.26</latest.stable.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
     <jdk.version>1.6</jdk.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
@@ -50,6 +50,7 @@
     <maven-site-plugin.version>3.6</maven-site-plugin.version>
     <compiler-plugin.version>3.6.1</compiler-plugin.version>
     <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
   </properties>
 
   <developers>
@@ -183,34 +184,45 @@
         <executions>
 
           <execution>
-            <id>base-compile</id>
+            <id>default-compile</id>
             <goals>
               <goal>compile</goal>
             </goals>
             <configuration>
-              <excludes>
-                <exclude>module-info.java</exclude>
-              </excludes>
+              <jdkToolchain>
+                <version>[6, )</version>
+              </jdkToolchain>
+              <source>${jdk.version}</source>
+              <target>${jdk.version}</target>
             </configuration>
           </execution> 
 
-          <execution>
-            <id>default-compile</id>
+          <execution>                      
+            <id>module-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>          
             <configuration>
               <jdkToolchain>
                 <version>[9, )</version>
               </jdkToolchain>
               <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+              </compileSourceRoots>
+              <outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+              <compilerArgs>
+                <arg>--patch-module</arg>
+                <arg>${module-name}=${project.build.outputDirectory}</arg>
+              </compilerArgs>
             </configuration>
           </execution>
+
+
+
         </executions>
-        <configuration>
-          <jdkToolchain>
-            <version>[1.6, )</version>
-          </jdkToolchain>
-          <source>${jdk.version}</source>
-          <target>${jdk.version}</target>
-        </configuration>
+
       </plugin>
 
       <plugin>
@@ -225,6 +237,7 @@
               <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
               <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
               <Implementation-Version>${project.version}</Implementation-Version>
+              <Multi-Release>true</Multi-Release>
             </manifestEntries>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
@@ -251,7 +264,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
+        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -492,6 +505,18 @@
   </profiles>
 
   <pluginRepositories>
+    <pluginRepository>
+         <id>apache-snapshot-repo</id>
+         <name>apache-snapshot-repo</name>
+         <url>https://repository.apache.org/content/groups/snapshots/</url>
+         <releases>
+           <enabled>false</enabled>
+         </releases>
+         <snapshots>
+           <enabled>true</enabled>
+         </snapshots>
+
+    </pluginRepository>
   </pluginRepositories>
 
   <distributionManagement>
