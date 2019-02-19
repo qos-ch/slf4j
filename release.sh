@@ -29,12 +29,18 @@ echoRunAndCheck "$MVN clean"
 
 echoRunAndCheck "$MVN install"
 
-echoRunAndCheck "$MVN site:site"
+#echoRunAndCheck "$MVN site:site"
 
+echoRunAndCheck "$MVN javadoc:aggregate"
+
+echoRunAndCheck "$MVN jxr:aggregate"
 
 echoRunAndCheck "$MVN assembly:single"
 
-echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=$PASS"
+if [ ! -z "$PASS"  ]
+then
+  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=$PASS"
+fi
 
 #$MVN site:deploy -N # with Java 8!!!
 #checkExit "mvn site:deploy -N"
@@ -43,3 +49,5 @@ echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=$PASS
 #git push --tags
 
 #release version and add next version on jira
+
+echo Full Success
