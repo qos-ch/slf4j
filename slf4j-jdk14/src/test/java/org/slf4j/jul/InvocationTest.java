@@ -30,8 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -68,7 +66,7 @@ public class InvocationTest {
     }
 
     @Test
-    public void test1() {
+    public void smoke() {
         Logger logger = LoggerFactory.getLogger("test1");
         logger.debug("Hello world.");
         assertLogMessage("Hello world.", 0);
@@ -163,7 +161,7 @@ public class InvocationTest {
         } catch (IllegalArgumentException e) {
         }
     }
-
+ 
     private void assertLogMessage(String expected, int index) {
         LogRecord logRecord = listHandler.recordList.get(index);
         Assert.assertNotNull(logRecord);
@@ -181,24 +179,6 @@ public class InvocationTest {
         for (Handler h : handlers) {
             if (h instanceof ListHandler)
                 logger.removeHandler(h);
-        }
-    }
-
-    static private class ListHandler extends java.util.logging.Handler {
-
-        List<LogRecord> recordList = new ArrayList<LogRecord>();
-
-        @Override
-        public void publish(LogRecord record) {
-            recordList.add(record);
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void close() throws SecurityException {
         }
     }
 }

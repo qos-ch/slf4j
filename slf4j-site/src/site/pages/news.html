@@ -54,11 +54,12 @@
    href="https://jira.qos.ch/browse/SLF4J-449">SLF4J-449</a> as
    reported by  Larissa Smirnova.</p>
 
-   pdated the entry and corrected an issue loading slf4j with an
-   improper or unexpected execution environment <b
-   class="red">J2SE-1.6</b>, so changed the
-   Bundle-RequiredExecutionEnvironment from J2SE-1.6 to
-   <b>JavaSE-1.6</b>.
+   <p><code>JDK14LoggerAdapter</code> is now aware of being enclosed
+   in a <code>SubstituteLogger</code> and computes caller data
+   accordingly. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-445">SLF4J-445</a> reported
+   by Alexander Yevsyukov.
+   </p>
    
    <p>In the slf4j-ext package, marked the ch.qos.cal10n package as
    optional. This fixes <a

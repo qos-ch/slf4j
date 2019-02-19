@@ -35,8 +35,6 @@ import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import org.slf4j.simple.*;
 public class SimpleLoggerTest {
 
     String A_KEY = SimpleLogger.LOG_KEY_PREFIX + "a";

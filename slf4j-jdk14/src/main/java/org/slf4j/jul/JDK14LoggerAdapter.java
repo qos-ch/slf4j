@@ -34,6 +34,7 @@ import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
+import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -584,20 +585,24 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
 
     static String SELF = JDK14LoggerAdapter.class.getName();
     static String SUPER = MarkerIgnoringBase.class.getName();
-
+    static String SUBSTITUE = SubstituteLogger.class.getName();
+    
+    static String BARRIER_CLASSES[] = new String[] {SELF, SUPER, SUBSTITUE};
+  
     /**
      * Fill in caller data if possible.
      * 
      * @param record
      *          The record to update
      */
-    final private void fillCallerData(String callerFQCN, LogRecord record) {
+	final private void fillCallerData(String callerFQCN, LogRecord record) {
         StackTraceElement[] steArray = new Throwable().getStackTrace();
 
         int selfIndex = -1;
         for (int i = 0; i < steArray.length; i++) {
             final String className = steArray[i].getClassName();
-            if (className.equals(callerFQCN) || className.equals(SUPER)) {
+            
+            if (barrierMatch(callerFQCN, className)) {
                 selfIndex = i;
                 break;
             }
@@ -606,7 +611,7 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         int found = -1;
         for (int i = selfIndex + 1; i < steArray.length; i++) {
             final String className = steArray[i].getClassName();
-            if (!(className.equals(callerFQCN) || className.equals(SUPER))) {
+            if (!(barrierMatch(callerFQCN, className))) {
                 found = i;
                 break;
             }
@@ -621,7 +626,18 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
         }
     }
 
-    public void log(Marker marker, String callerFQCN, int level, String message, Object[] argArray, Throwable t) {
+    private boolean barrierMatch(String callerFQCN, String candidateClassName) {
+    	if(candidateClassName.equals(callerFQCN))
+    		return true;
+    	for(String barrierClassName: BARRIER_CLASSES) {
+    		if(barrierClassName.equals(candidateClassName)) {
+    		  return true;
+    		}
+    	}
+    	return false;
+	}
+
+	public void log(Marker marker, String callerFQCN, int level, String message, Object[] argArray, Throwable t) {
         Level julLevel = slf4jLevelIntToJULLevel(level);
         // the logger.isLoggable check avoids the unconditional
         // construction of location data for disabled log
@@ -661,6 +677,8 @@ public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements Loca
      * @since 1.7.15
      */
     public void log(LoggingEvent event) {
+    	// assumes that the invocation is made from a substitute logger
+    	// this assumption might change in the future with the advent of a fluent API
         Level julLevel = slf4jLevelIntToJULLevel(event.getLevel().toInt());
         if (logger.isLoggable(julLevel)) {
             LogRecord record = eventToRecord(event, julLevel);

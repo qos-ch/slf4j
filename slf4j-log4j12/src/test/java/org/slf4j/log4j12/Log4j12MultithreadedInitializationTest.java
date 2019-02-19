@@ -24,15 +24,14 @@
  */
 package org.slf4j.log4j12;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
 import org.junit.Before;
-import static org.junit.Assert.assertNotNull;
-
-import org.slf4j.LoggerFactoryFriend;
 import org.slf4j.log4j12.testHarness.RecursiveAppender;
 
 public class Log4j12MultithreadedInitializationTest extends org.slf4j.testHarness.MultithreadedInitializationTest {
