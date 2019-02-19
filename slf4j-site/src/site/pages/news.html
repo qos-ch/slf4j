@@ -48,6 +48,18 @@
    <a href="https://jira.qos.ch/browse/SLF4J-233">SLF4J-233</a> by
    John Vasileff.</p>
 
+   <p>In all relevant <em>MANIFEST.MF</em> files set the
+   <code>Bundle-RequiredExecutionEnvironment</code> directive to
+   <code>JavaSE-1.6</code>. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-449">SLF4J-449</a> as
+   reported by  Larissa Smirnova.</p>
+
+   pdated the entry and corrected an issue loading slf4j with an
+   improper or unexpected execution environment <b
+   class="red">J2SE-1.6</b>, so changed the
+   Bundle-RequiredExecutionEnvironment from J2SE-1.6 to
+   <b>JavaSE-1.6</b>.
+   
    <p>In the slf4j-ext package, marked the ch.qos.cal10n package as
    optional. This fixes <a
    href="https://jira.qos.ch/browse/SLF4J-439">SLF4J-439</a> reported
