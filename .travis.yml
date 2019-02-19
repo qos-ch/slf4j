@@ -7,5 +7,5 @@ notifications:
   email:
       - notification@qos.ch
 
-install:
-  - mvn clean install
+script: clean install
+  
