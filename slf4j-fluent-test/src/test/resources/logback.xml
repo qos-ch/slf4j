@@ -1,0 +1,49 @@
+<configuration>
+
+  <appender name="STDOUT" class="org.slf4j.test.fluent.TestConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %C@%M:%L %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.slf4j.test.fluent.off" level="off"/>
+
+  <logger name="org.slf4j.test.fluent.error" level="error">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.slf4j.test.fluent.warn" level="warn">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.slf4j.test.fluent.info" level="info">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.slf4j.test.fluent.debug" level="debug">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+  <logger name="org.slf4j.test.fluent.trace" level="trace">
+    <appender-ref ref="STDOUT"/>
+  </logger>
+
+  <appender name="LIST" class="org.slf4j.test.fluent.TestListAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.slf4j.test.fluent.list.error" level="error">
+    <appender-ref ref="LIST"/>
+  </logger>
+
+  <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="org.slf4j.test.fluent.TestLogstashEncoder">
+      <includeMdcKeyName>mdc1</includeMdcKeyName>
+      <includeMdcKeyName>mdc2</includeMdcKeyName>
+    </encoder>
+  </appender>
+
+  <logger name="org.slf4j.test.fluent.json.error" level="error">
+    <appender-ref ref="JSON"/>
+  </logger>
+
+  <root level="off"/>
+</configuration>

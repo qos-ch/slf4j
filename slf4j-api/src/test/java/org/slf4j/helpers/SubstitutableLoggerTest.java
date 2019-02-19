@@ -27,15 +27,13 @@ package org.slf4j.helpers;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -92,12 +90,12 @@ public class SubstitutableLoggerTest {
     }
 
     private static Set<String> determineMethodSignatures(Class<Logger> loggerClass) {
-        Set<String> methodSignatures = new HashSet<String>();
-        for (Method m : loggerClass.getDeclaredMethods()) {
-            if (!EXCLUDED_METHODS.contains(m.getName())) {
-                methodSignatures.add(getMethodSignature(m));
-            }
-        }
+        Set<String> methodSignatures = Arrays.stream(loggerClass.getDeclaredMethods())
+                .filter(method -> !method.isDefault())
+                .filter(method -> !EXCLUDED_METHODS.contains(method.getName()))
+                .filter(method -> !Modifier.isStatic(method.getModifiers()))
+                .map(SubstitutableLoggerTest::getMethodSignature)
+                .collect(Collectors.toSet());
         return methodSignatures;
     }
 

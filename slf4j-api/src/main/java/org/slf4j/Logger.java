@@ -25,6 +25,13 @@
 
 package org.slf4j;
 
+import org.slf4j.spi.DefaultLoggingEventBuilder;
+import org.slf4j.spi.LocationAwareLogger;
+import org.slf4j.spi.LoggingEventBuilder;
+import org.slf4j.spi.NOOPLoggingEventBuilder;
+
+import java.util.function.Supplier;
+
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
@@ -64,6 +71,23 @@ package org.slf4j;
 public interface Logger {
 
     /**
+     * Utility method to cast a lambda to a Supplier. Best used once statically imported.
+     * <pre>
+     * import static org.slf4j.Logger.lazy;
+     *
+     * ...
+     *
+     * logger.atError().log("This is a {}", lazy(() -> "test"));
+     * </pre>
+     *
+     * @param supplier the lambda to cast
+     * @return a Supplier
+     */
+    static Supplier<?> lazy(Supplier<?> supplier) {
+        return supplier;
+    }
+
+    /**
      * Case insensitive String constant used to retrieve the name of the root logger.
      *
      * @since 1.3
@@ -72,7 +96,7 @@ public interface Logger {
 
     /**
      * Return the name of this <code>Logger</code> instance.
-     * @return name of this logger instance 
+     * @return name of this logger instance
      */
     public String getName();
 
@@ -153,7 +177,7 @@ public interface Logger {
      * @param marker The marker data to take into consideration
      * @return True if this Logger is enabled for the TRACE level,
      *         false otherwise.
-     *         
+     *
      * @since 1.4
      */
     public boolean isTraceEnabled(Marker marker);
@@ -213,6 +237,33 @@ public interface Logger {
      * @since 1.4
      */
     public void trace(Marker marker, String msg, Throwable t);
+
+    /**
+     * Returns a {@link LoggingEventBuilder} that logs at "trace" level, if "trace" level is enabled. Returns a shared {@link NOOPLoggingEventBuilder} otherwise.
+     *
+     * @return a new {@link LoggingEventBuilder} or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atTrace() {
+        if (!isTraceEnabled()) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.TRACE_INT, this::trace, this::trace);
+    }
+
+    /**
+     * Similar to {@link #atTrace()} except that the marker data is also taken into account.
+     *
+     * @param marker The marker data to take into consideration
+     * @return a new {@link LoggingEventBuilder} pre-configured with the given marker or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atTrace(Marker marker) {
+        if (!isTraceEnabled(marker)) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.TRACE_INT, this::trace, this::trace).withMarker(marker);
+    }
 
     /**
      * Is the logger instance enabled for the DEBUG level?
@@ -285,7 +336,7 @@ public interface Logger {
      *
      * @param marker The marker data to take into consideration
      * @return True if this Logger is enabled for the DEBUG level,
-     *         false otherwise. 
+     *         false otherwise.
      */
     public boolean isDebugEnabled(Marker marker);
 
@@ -339,6 +390,33 @@ public interface Logger {
      * @param t      the exception (throwable) to log
      */
     public void debug(Marker marker, String msg, Throwable t);
+
+    /**
+     * Returns a {@link LoggingEventBuilder} that logs at "debug" level, if "debug" level is enabled. Returns a shared {@link NOOPLoggingEventBuilder} otherwise.
+     *
+     * @return a new {@link LoggingEventBuilder} or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atDebug() {
+        if (!isDebugEnabled()) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.DEBUG_INT, this::debug, this::debug);
+    }
+
+    /**
+     * Similar to {@link #atDebug()} except that the marker data is also taken into account.
+     *
+     * @param marker The marker data to take into consideration
+     * @return a new {@link LoggingEventBuilder} pre-configured with the given marker or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atDebug(Marker marker) {
+        if (!isDebugEnabled(marker)) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.DEBUG_INT, this::debug, this::debug).withMarker(marker);
+    }
 
     /**
      * Is the logger instance enabled for the INFO level?
@@ -410,7 +488,7 @@ public interface Logger {
      * data is also taken into consideration.
      *
      * @param marker The marker data to take into consideration
-     * @return true if this logger is warn enabled, false otherwise 
+     * @return true if this logger is warn enabled, false otherwise
      */
     public boolean isInfoEnabled(Marker marker);
 
@@ -464,6 +542,33 @@ public interface Logger {
      * @param t      the exception (throwable) to log
      */
     public void info(Marker marker, String msg, Throwable t);
+
+    /**
+     * Returns a {@link LoggingEventBuilder} that logs at "info" level, if "info" level is enabled. Returns a shared {@link NOOPLoggingEventBuilder} otherwise.
+     *
+     * @return a new {@link LoggingEventBuilder} or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atInfo() {
+        if (!isInfoEnabled()) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.INFO_INT, this::info, this::info);
+    }
+
+    /**
+     * Similar to {@link #atInfo()} except that the marker data is also taken into account.
+     *
+     * @param marker The marker data to take into consideration
+     * @return a new {@link LoggingEventBuilder} pre-configured with the given marker or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atInfo(Marker marker) {
+        if (!isInfoEnabled(marker)) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.INFO_INT, this::info, this::info).withMarker(marker);
+    }
 
     /**
      * Is the logger instance enabled for the WARN level?
@@ -592,6 +697,33 @@ public interface Logger {
     public void warn(Marker marker, String msg, Throwable t);
 
     /**
+     * Returns a {@link LoggingEventBuilder} that logs at "warn" level, if "warn" level is enabled. Returns a shared {@link NOOPLoggingEventBuilder} otherwise.
+     *
+     * @return a new {@link LoggingEventBuilder} or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atWarn() {
+        if (!isWarnEnabled()) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.WARN_INT, this::warn, this::warn);
+    }
+
+    /**
+     * Similar to {@link #atWarn()} except that the marker data is also taken into account.
+     *
+     * @param marker The marker data to take into consideration
+     * @return a new {@link LoggingEventBuilder} pre-configured with the given marker or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atWarn(Marker marker) {
+        if (!isWarnEnabled(marker)) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.WARN_INT, this::warn, this::warn).withMarker(marker);
+    }
+
+    /**
      * Is the logger instance enabled for the ERROR level?
      *
      * @return True if this Logger is enabled for the ERROR level,
@@ -718,4 +850,30 @@ public interface Logger {
      */
     public void error(Marker marker, String msg, Throwable t);
 
+    /**
+     * Returns a {@link LoggingEventBuilder} that logs at "error" level, if "error" level is enabled. Returns a shared {@link NOOPLoggingEventBuilder} otherwise.
+     *
+     * @return a new {@link LoggingEventBuilder} or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atError() {
+        if (!isErrorEnabled()) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.ERROR_INT, this::error, this::error);
+    }
+
+    /**
+     * Similar to {@link #atError()} except that the marker data is also taken into account.
+     *
+     * @param marker The marker data to take into consideration
+     * @return a new {@link LoggingEventBuilder} pre-configured with the given marker or a shared {@link NOOPLoggingEventBuilder}
+     */
+    default LoggingEventBuilder atError(Marker marker) {
+        if (!isErrorEnabled(marker)) {
+            return NOOPLoggingEventBuilder.INSTANCE;
+        }
+
+        return new DefaultLoggingEventBuilder(this, LocationAwareLogger.ERROR_INT, this::error, this::error).withMarker(marker);
+    }
 }
