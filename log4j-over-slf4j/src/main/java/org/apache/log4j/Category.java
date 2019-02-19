@@ -194,19 +194,19 @@ public class Category {
         } else {
             switch (level) {
             case LocationAwareLogger.TRACE_INT:
-                slf4jLogger.trace(marker, m);
+                slf4jLogger.trace(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.DEBUG_INT:
-                slf4jLogger.debug(marker, m);
+                slf4jLogger.debug(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.INFO_INT:
-                slf4jLogger.info(marker, m);
+                slf4jLogger.info(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.WARN_INT:
-                slf4jLogger.warn(marker, m);
+                slf4jLogger.warn(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.ERROR_INT:
-                slf4jLogger.error(marker, m);
+                slf4jLogger.error(marker, m, (Throwable) t);
                 break;
             }
         }
