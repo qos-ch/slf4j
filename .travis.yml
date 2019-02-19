@@ -7,7 +7,9 @@ jdk:
 
 notifications:
   email:
-      - notification@qos.ch
+      - notification@qos.c
+
+install: /bin/true
 
 script:
   - mvn clean
