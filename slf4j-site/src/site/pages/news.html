@@ -37,16 +37,17 @@
      class names in <code/>
    -->
 
-   <hr noshade="noshade" size="1"/>
 
    <!--
-   <h3>2019 - Release of SLF4J 1.8.0-beta4</h3>
 
+   <hr noshade="noshade" size="1"/>
+
+   <h3>2019 - Release of SLF4J 1.8.0-beta5</h3>
 
 -->
    <hr noshade="noshade" size="1"/>
    
-   <h3>February 16th, 2019 - Release of SLF4J 1.8.0-beta3</h3>
+   <h3>February 19th, 2019 - Release of SLF4J 1.8.0-beta4</h3>
 
    <p class="highlight"t>In the 1.8.x series, SLF4J has been
    modularized per <a
@@ -78,10 +79,17 @@
 
    <p>For reasons of coherency, the
    <em>Automatic-Automatic-Module-Name</em> for the jul-to-slf4j
-   module is now "jul.to.slf4j". In the eartly versions of Java 9 the
+   module is now "jul.to.slf4j". In the earlier versions of Java 9 the
    string "to" within "jul.to.slf4j" was incorrectly interpreted as a
-   reserved keyword. This bug has been fixed in the JDK for a while.
+   reserved keyword. This bug has been fixed in later versions of the
+   JDK, in particular JDK 11.
    </p>
+
+   <p>SLF4J modules are now <a
+   href="http://openjdk.java.net/jeps/238">multi-release jar</a>
+   files.  This fixes compatibility issues in certain legacy
+   environments, as described for example in <a
+   href="https://jira.qos.ch/browse/SLF4J-456">SLF4J-456</a>.
    
    <p>Fixed <a
    href="https://nvd.nist.gov/vuln/detail/CVE-2018-8088">CVE-2018-8088</a>

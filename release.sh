@@ -13,32 +13,28 @@ function checkExit(){
     fi
 }
 
-function echoThenRun () { # echo and then run the command
+function echoRunAndCheck () { # echo and then run the command
   echo $1
   $1
   ret=$?
-  echo $ret
-  return $ret
+  if test "$ret" != "0";
+  then
+     echo Failed command: $1 
+     exit 1;
+  else echo Succussful run: $1
+  fi
 }
 
-$MVN clean
-checkExit "mvn clean"
+echoRunAndCheck "$MVN clean"
+
+echoRunAndCheck "$MVN install"
+
+echoRunAndCheck "$MVN site:site"
 
 
-$MVN install
-checkExit "mvn install"
+echoRunAndCheck "$MVN assembly:single"
 
-
-$MVN site:site
-checkExit "mvn site:ste"
-
-
-$MVN assembly:single
-checkExit "mvn assembly:single"
-
-
-$MVN deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=$PASS
-checkExit "mvn deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=xxx"
+echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=$PASS"
 
 #$MVN site:deploy -N # with Java 8!!!
 #checkExit "mvn site:deploy -N"
