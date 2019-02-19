@@ -151,32 +151,6 @@
     </pluginManagement>
 
     <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-toolchains-plugin</artifactId>
-        <version>1.1</version>
-        <executions>
-          <execution>
-            <id>toolchain</id>
-            <goals>
-              <goal>toolchain</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <toolchains>
-            <jdk>
-              <version>9</version>
-            </jdk>
-
-            <jdk>
-              <version>1.6</version>
-            </jdk>
-          </toolchains>
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -189,9 +163,6 @@
               <goal>compile</goal>
             </goals>
             <configuration>
-              <jdkToolchain>
-                <version>[6, )</version>
-              </jdkToolchain>
               <source>${jdk.version}</source>
               <target>${jdk.version}</target>
             </configuration>
@@ -204,9 +175,6 @@
               <goal>compile</goal>
             </goals>          
             <configuration>
-              <jdkToolchain>
-                <version>[9, )</version>
-              </jdkToolchain>
               <release>9</release>
               <compileSourceRoots>
                 <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
@@ -472,6 +440,7 @@
       </build>
     </profile>
 
+    <!--
     <profile>
       <id>travis</id>
       <activation>
@@ -496,7 +465,7 @@
         </plugins>
       </build>
     </profile>
-
+    -->
   </profiles>
 
   <pluginRepositories>
