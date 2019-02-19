@@ -1,5 +1,7 @@
 dist: trusty
+
 language: java
+
 jdk:
   - oraclejdk11
 
@@ -7,5 +9,4 @@ notifications:
   email:
       - notification@qos.ch
 
-script: clean install
   
