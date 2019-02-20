@@ -10,6 +10,6 @@ Implementation-Title: iBundle
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: iBundle
 Bundle-Name: abundle
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: apack
 Import-Package: org.osgi.framework, org.slf4j;version=1.5

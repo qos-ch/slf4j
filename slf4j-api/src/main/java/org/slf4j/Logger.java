@@ -25,6 +25,12 @@
 
 package org.slf4j;
 
+import static org.slf4j.event.Level.TRACE;
+
+import org.slf4j.spi.DefaultLoggingEventBuilder;
+import org.slf4j.spi.LoggingEventBuilder;
+import org.slf4j.spi.NOPLoggingEventBuilder;
+
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
@@ -158,6 +164,13 @@ public interface Logger {
      */
     public boolean isTraceEnabled(Marker marker);
 
+    default public LoggingEventBuilder atTrace() {
+    	if(isTraceEnabled()) {
+    		return new DefaultLoggingEventBuilder(TRACE, this);
+    	} else {
+    		return NOPLoggingEventBuilder.singleton();
+    	}
+    }
     /**
      * Log a message with the specific Marker at the TRACE level.
      *
