@@ -317,7 +317,12 @@ public class MessageFormatterTest {
         assertEquals(t, ft.getThrowable());
 
         ft = MessageFormatter.arrayFormat("{}{}{}{}", ia);
-        assertEquals("123{}", ft.getMessage());
+        assertEquals("123java.lang.Throwable", ft.getMessage());
+        assertTrue(Arrays.equals(ia, ft.getArgArray()));
+        assertNull(ft.getThrowable());
+
+        ft = MessageFormatter.arrayFormat("{}{}{}", ia);
+        assertEquals("123", ft.getMessage());
         assertTrue(Arrays.equals(iaWitness, ft.getArgArray()));
         assertEquals(t, ft.getThrowable());
 
