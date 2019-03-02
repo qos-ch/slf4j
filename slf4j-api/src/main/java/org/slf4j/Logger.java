@@ -99,6 +99,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the TRACE level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #trace(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg    the argument
@@ -112,6 +114,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the TRACE level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #trace(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -129,6 +133,8 @@ public interface Logger {
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for TRACE. The variants taking {@link #trace(String, Object) one} and
      * {@link #trace(String, Object, Object) two} arguments exist solely in order to avoid this hidden cost.</p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #trace(String, Throwable)}.<p/>
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -235,6 +241,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the DEBUG level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #debug(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg    the argument
@@ -247,6 +255,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the DEBUG level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #debug(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -264,6 +274,8 @@ public interface Logger {
      * even if this logger is disabled for DEBUG. The variants taking
      * {@link #debug(String, Object) one} and {@link #debug(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.</p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #debug(String, Throwable)}.<p/>
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -361,6 +373,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the INFO level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #info(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg    the argument
@@ -373,6 +387,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the INFO level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #info(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -390,6 +406,8 @@ public interface Logger {
      * even if this logger is disabled for INFO. The variants taking
      * {@link #info(String, Object) one} and {@link #info(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.</p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #info(String, Throwable)}.<p/>
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -486,6 +504,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the WARN level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #warn(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg    the argument
@@ -502,6 +522,8 @@ public interface Logger {
      * even if this logger is disabled for WARN. The variants taking
      * {@link #warn(String, Object) one} and {@link #warn(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.</p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #warn(String, Throwable)}.<p/>
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -514,6 +536,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the WARN level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #warn(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -612,6 +636,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the ERROR level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #error(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg    the argument
@@ -624,6 +650,8 @@ public interface Logger {
      * <p/>
      * <p>This form avoids superfluous object creation when the logger
      * is disabled for the ERROR level. </p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #error(String, Throwable)}.<p/>
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -641,6 +669,9 @@ public interface Logger {
      * even if this logger is disabled for ERROR. The variants taking
      * {@link #error(String, Object) one} and {@link #error(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.</p>
+     * <p>In most implementations if the the last argument given is an exception
+     * it will be handled the same way as in {@link #error(String, Throwable)}.<p/>
+     *
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
