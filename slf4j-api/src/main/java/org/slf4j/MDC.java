@@ -25,7 +25,9 @@
 package org.slf4j;
 
 import java.io.Closeable;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.helpers.BasicMDCAdapter;
@@ -72,13 +74,27 @@ public class MDC {
      */
     public static class MDCCloseable implements Closeable {
         private final String key;
+        private final Set<String> keySet;
 
         private MDCCloseable(String key) {
             this.key = key;
+            this.keySet = null;
+        }
+
+        private MDCCloseable(Set<String> keySet) {
+            this.key = null;
+            this.keySet = new HashSet<String>(keySet);
         }
 
         public void close() {
-            MDC.remove(this.key);
+            if(key != null) {
+                MDC.remove(this.key);
+            }
+            if(keySet != null) {
+                for(String key : keySet) {
+                    MDC.remove(key);
+                }
+            }
         }
     }
 
@@ -178,6 +194,43 @@ public class MDC {
     public static MDCCloseable putCloseable(String key, String val) throws IllegalArgumentException {
         put(key, val);
         return new MDCCloseable(key);
+    }
+
+    /**
+     * Put multiple diagnostic context values into the current thread's diagnostic context map.
+     *
+     * The map should not have null <code>keys</code>. The map <code>values</code>
+     * can be null only if the underlying implementation supports it.
+     *
+     * <p>
+     * This method delegates all work to the MDC of the underlying logging system.
+     * <p>
+     * This method return a <code>Closeable</code> object who can remove the <code>keys</code>
+     * when <code>close</code> is called.
+     *
+     * <p>
+     * Useful with Java 7 for example :
+     * <code>
+     *   try(MDC.MDCCloseable closeable = MDC.putAllCloseable(structuredValues)) {
+     *     ....
+     *   }
+     * </code>
+     *
+     * @param mdcValues the key-value pairs
+     * @return a <code>Closeable</code> who can remove all <code>keys</code> when <code>close</code>
+     * is called.
+     *
+     * @throws IllegalArgumentException
+     *           in case the "mdcValues" map parameter is null or at least one of the "key" is null
+     */
+    public static MDCCloseable putAllCloseable(Map<String, String> mdcValues) {
+        if(mdcValues == null || mdcValues.isEmpty()) {
+            throw new IllegalArgumentException("mdcValues cannot be null");
+        }
+        for(Map.Entry<String, String> keyValue : mdcValues.entrySet()) {
+            MDC.put(keyValue.getKey(), keyValue.getValue());
+        }
+        return new MDCCloseable(mdcValues.keySet());
     }
 
     /**

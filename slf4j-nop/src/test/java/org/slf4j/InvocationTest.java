@@ -28,6 +28,9 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Test whether invoking the SLF4J API causes problems or not.
  * 
@@ -116,6 +119,23 @@ public class InvocationTest {
         assertNull(MDC.get("k"));
         closeable.close();
         assertNull(MDC.get("k"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMultiValueMDCCloseable() {
+        Map<String, String> structuredValues = new HashMap<String, String>();
+        structuredValues.put("k1", "v1");
+        structuredValues.put("k2", "v2");
+        structuredValues.put("k3", "v3");
+        MDC.MDCCloseable closeable = MDC.putAllCloseable(structuredValues);
+        assertNull(MDC.get("k1"));
+        assertNull(MDC.get("k2"));
+        assertNull(MDC.get("k3"));
+        closeable.close();
+        assertNull(MDC.get("k1"));
+        assertNull(MDC.get("k2"));
+        assertNull(MDC.get("k3"));
         MDC.clear();
     }
 }
