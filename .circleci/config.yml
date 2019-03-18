@@ -6,12 +6,12 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        key: slf4j-javame-{{ checksum "pom.xml" }}
+          key: slf4j-javame-{{ checksum "pom.xml" }}
       - run: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
       - save_cache:
-        paths:
-          - ~/.m2
-        key: slf4j-javame-{{ checksum "pom.xml" }}
+          paths:
+            - ~/.m2
+          key: slf4j-javame-{{ checksum "pom.xml" }}
       - run: mvn package
       - store_test_results:
-        path: target/surefire-reports
+          path: target/surefire-reports
