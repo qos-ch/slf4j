@@ -8,7 +8,7 @@ jobs:
       - checkout
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn clean dependency:go-offline -s .circleci/.m2/settings.xml
+      - run: mvn clean dependency:go-offline -s .circleci/.m2/settings.xml --show-version
       - save_cache:
           paths:
             - ~/.m2
