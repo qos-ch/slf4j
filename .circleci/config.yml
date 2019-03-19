@@ -3,15 +3,44 @@ jobs:
   build:
     docker: 
       - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/workdir
     steps:
       - checkout
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn -DskipTests clean install dependency:resolve-plugins dependency:go-offline
+      - run: mvn clean dependency:go-offline -s .circleci/.m2/settings.xml
       - save_cache:
           paths:
             - ~/.m2
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn package
+      - run: mvn install --offline -s .circleci/.m2/settings.xml
       - store_test_results:
-          path: target/surefire-reports
+          path: slf4j-api/target/surefire-reports
+      - store_test_results:
+          path: slf4j-simple/target/surefire-reports
+      - persist_to_workspace:
+          root: ~/workdir
+          paths:
+            - .
+  deploy:
+    docker: 
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - run: mvn deploy -s .circleci/.m2/settings.xml
+workflows:
+  version: 2
+  build-and-approval-deploy:
+    jobs:
+      - build:
+          context: ArtifactRepository
+      - hold:
+          type: approval # A job that will require manual approval in the CircleCI web application.
+          requires: 
+            - build
+      - deploy:
+          context: ArtifactRepository
+          requires:
+            - hold

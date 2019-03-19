@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j.micro</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.22-SNAPSHOT</version>
+  <version>1.7.22.1-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -401,12 +401,15 @@
     </site>
 
     <repository>
-      <!--<id>pixie</id>-->
-      <!--<url>scp://pixie.qos.ch/var/mvnrepo/</url>-->
-      <id>sonatype-nexus-staging</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <id>repository</id>
+      <name>Releases</name>
+      <url>${env.MAVEN_REPO_URL}/maven-releases</url>
     </repository>
-
+    <snapshotRepository>
+      <id>repository</id>
+      <name>Snapshots</name>
+      <url>${env.MAVEN_REPO_URL}/maven-snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
 </project>
