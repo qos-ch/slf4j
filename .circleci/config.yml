@@ -8,12 +8,12 @@ jobs:
       - checkout
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn clean dependency:go-offline -s .circleci/.m2/settings.xml --show-version
+      - run: mvn clean package -DskipTests dependency:go-offline --settings .circleci/.m2/settings.xml --show-version
       - save_cache:
           paths:
             - ~/.m2
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn install --offline -s .circleci/.m2/settings.xml
+      - run: mvn install --offline --settings .circleci/.m2/settings.xml
       - store_test_results:
           path: slf4j-api/target/surefire-reports
       - store_test_results:
@@ -29,7 +29,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: mvn deploy -s .circleci/.m2/settings.xml
+      - run: mvn deploy --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-approval-deploy:
