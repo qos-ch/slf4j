@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j.micro</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.22-SNAPSHOT</version>
+    <version>1.7.22.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>slf4j-ext</artifactId>
@@ -28,11 +28,11 @@
       <artifactId>slf4j-log4j12</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
-    </dependency>		
+    </dependency>
     <dependency>
       <groupId>ch.qos.cal10n</groupId>
       <artifactId>cal10n-api</artifactId>
-    </dependency>		
+    </dependency>
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>

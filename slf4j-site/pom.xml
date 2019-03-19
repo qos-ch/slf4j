@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j.micro</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.22-SNAPSHOT</version>
+    <version>1.7.22.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>slf4j-site</artifactId>
@@ -21,7 +21,7 @@
     <resources>
       <resource>
         <directory>${project.basedir}/src/site/pages</directory>
-        <!-- The {project.basedir}/.. form breaks the eclipse plugin -->     
+        <!-- The {project.basedir}/.. form breaks the eclipse plugin -->
         <targetPath>../../../target/site</targetPath>
         <filtering>true</filtering>
       </resource>

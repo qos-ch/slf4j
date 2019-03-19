@@ -30,7 +30,7 @@
   <scm>
     <url>https://github.com/qos-ch/slf4j</url>
     <connection>git@github.com:qos-ch/slf4j.git</connection>
-  </scm>  
+  </scm>
 
   <properties>
     <required.jdk.version>1.5</required.jdk.version>
@@ -164,7 +164,7 @@
           <skipIfEmpty>true</skipIfEmpty>
         </configuration>
       </plugin>
- 
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
