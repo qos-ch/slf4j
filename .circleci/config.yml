@@ -37,13 +37,15 @@ jobs:
           command: |
             echo "Setting up SSH known hosts"
             #github public key, obtained with "ssh-keyscan github.com"
-            cat >> /root/.ssh/known_hosts <<EOL
+            whoami
+            mkdir -p ~/.ssh
+            cat >> ~/.ssh/known_hosts <<EOL
             github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
             EOL
 
             git config user.name "${GIT_USER_NAME}"
             git config user.email "${GIT_USER_EMAIL}"
-            
+
             mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
