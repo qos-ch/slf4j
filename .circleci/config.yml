@@ -31,7 +31,7 @@ jobs:
           at: .
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn deploy -DskipTests --offline --settings .circleci/.m2/settings.xml
+      - run: mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
   release:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
