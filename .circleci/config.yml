@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    docker: 
+    docker:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/workdir
     steps:
@@ -13,7 +13,7 @@ jobs:
           paths:
             - ~/.m2
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn install --offline --settings .circleci/.m2/settings.xml
+      - run: mvn install --fail-at-end --offline --settings .circleci/.m2/settings.xml
       - store_test_results:
           path: slf4j-api/target/surefire-reports
       - store_test_results:
@@ -23,24 +23,46 @@ jobs:
           paths:
             - .
   deploy:
-    docker: 
+    docker:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/workdir
     steps:
       - attach_workspace:
           at: .
-      - run: mvn deploy --settings .circleci/.m2/settings.xml
+      - restore_cache:
+          key: slf4j-javame-{{ checksum "pom.xml" }}
+      - run: mvn deploy -DskipTests --offline --settings .circleci/.m2/settings.xml
+  release:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: slf4j-javame-{{ checksum "pom.xml" }}
+      - run: mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --offline --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
-  build-and-approval-deploy:
+  build-and-deploy-snapshot-and-wait-release-approval:
     jobs:
       - build:
           context: ArtifactRepository
-      - hold:
-          type: approval # A job that will require manual approval in the CircleCI web application.
-          requires: 
-            - build
       - deploy:
           context: ArtifactRepository
           requires:
-            - hold
+            - build
+      - wait-release-approval:
+          type: approval # A job that will require manual approval in the CircleCI web application.
+          requires:
+            - deploy
+          filters:
+            branches:
+              only: master
+      - release:
+          context: ArtifactRepository
+          requires:
+            - wait-release-approval
+          filters:
+            branches:
+              only: master
