@@ -32,7 +32,12 @@ jobs:
           at: .
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --settings .circleci/.m2/settings.xml
+      - run:
+        name: Release new version to Git and artifacts repository
+        command: |
+          git config user.name "${GIT_USER_NAME}"
+          git config user.email "${GIT_USER_EMAIL}"
+          mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-deploy-snapshot-and-wait-release-approval:
