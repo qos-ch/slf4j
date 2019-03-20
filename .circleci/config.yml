@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-and-deploy:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/workdir
