@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j.micro</groupId>
   <artifactId>slf4j-bom</artifactId>
-  <version>1.7.22.1-SNAPSHOT</version>
+  <version>1.7.22-1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>SLF4J BOM</name>
   <description>SLF4J Bill of Materials</description>
