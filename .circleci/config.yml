@@ -14,6 +14,7 @@ jobs:
             - ~/.m2
           key: slf4j-javame-{{ checksum "pom.xml" }}
       - run: mvn install --fail-at-end --offline --settings .circleci/.m2/settings.xml
+      - run: mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
       - store_test_results:
           path: slf4j-api/target/surefire-reports
       - store_test_results:
@@ -22,16 +23,6 @@ jobs:
           root: ~/workdir
           paths:
             - .
-  deploy:
-    docker:
-      - image: circleci/openjdk:8-jdk-browsers
-    working_directory: ~/workdir
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
   release:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
@@ -41,21 +32,17 @@ jobs:
           at: .
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --offline --settings .circleci/.m2/settings.xml
+      - run: mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-deploy-snapshot-and-wait-release-approval:
     jobs:
-      - build:
+      - build-and-deploy:
           context: ArtifactRepository
-      - deploy:
-          context: ArtifactRepository
-          requires:
-            - build
       - wait-release-approval:
           type: approval # A job that will require manual approval in the CircleCI web application.
           requires:
-            - deploy
+            - build-and-deploy
           filters:
             branches:
               only: master
