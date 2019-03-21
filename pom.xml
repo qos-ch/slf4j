@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.slf4j.micro</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.22-1-SNAPSHOT</version>
+  <version>1.7.22-2</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -374,6 +373,7 @@
     <url>https://github.com/sympower/slf4j</url>
     <connection>git@github.com:sympower/slf4j.git</connection>
     <developerConnection>scm:git:git@github.com:sympower/slf4j.git</developerConnection>
+    <tag>slf4j-parent-1.7.22-2</tag>
   </scm>
 
 </project>
