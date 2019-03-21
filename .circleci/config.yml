@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-and-deploy:
+  build:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     working_directory: ~/workdir
@@ -14,7 +14,6 @@ jobs:
             - ~/.m2
           key: slf4j-javame-{{ checksum "pom.xml" }}
       - run: mvn install --fail-at-end --offline --settings .circleci/.m2/settings.xml
-      - run: mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
       - store_test_results:
           path: slf4j-api/target/surefire-reports
       - store_test_results:
@@ -23,6 +22,18 @@ jobs:
           root: ~/workdir
           paths:
             - .
+
+  deploy:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/workdir
+    steps:
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: slf4j-javame-{{ checksum "pom.xml" }}
+      - run: mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
+
   release:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
@@ -32,31 +43,40 @@ jobs:
           at: .
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
+      - add_ssh_keys:
+          fingerprints:
+            # The fingerprint of GitHub's "CircleCI read-write key" Deploy Key
+            - "4f:8a:f2:4a:70:25:cb:45:b0:37:ba:51:ff:1e:02:83"
       - run:
           name: Release new version to Git and artifacts repository
           command: |
-            echo "Setting up SSH known hosts"
+            echo "Setting up SSH known hosts for current user: $(whoami)"
+            echo "  adding github.com"
             #github public key, obtained with "ssh-keyscan github.com"
-            whoami
             mkdir -p ~/.ssh
             cat >> ~/.ssh/known_hosts <<EOL
             github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
             EOL
 
+            echo "Setting up git user as: ${GIT_USER_NAME} <${GIT_USER_EMAIL}>"
             git config user.name "${GIT_USER_NAME}"
             git config user.email "${GIT_USER_EMAIL}"
 
             mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
-  build-and-deploy-snapshot-and-wait-release-approval:
+  build-and-deploy-snapshot-and-wait-release-approval: # on every commit/push
     jobs:
-      - build-and-deploy:
+      - build:
           context: ArtifactRepository
+      - deploy:
+          context: ArtifactRepository
+          requires:
+            - build
       - wait-release-approval:
           type: approval # A job that will require manual approval in the CircleCI web application.
           requires:
-            - build-and-deploy
+            - deploy
           filters:
             branches:
               only: master
@@ -67,3 +87,13 @@ workflows:
           filters:
             branches:
               only: master
+  daily:
+    triggers:
+      - schedule:
+          cron: "0 12 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - build:
+          context: ArtifactRepository
