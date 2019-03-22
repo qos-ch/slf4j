@@ -361,7 +361,6 @@
         </plugins>
       </build>
     </profile>
-
   </profiles>
 
   <pluginRepositories>
