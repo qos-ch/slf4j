@@ -62,7 +62,7 @@ jobs:
             git config user.name "${GIT_USER_NAME}"
             git config user.email "${GIT_USER_EMAIL}"
 
-            mvn release:clean initialize release:prepare release:perform --batch-mode -DskipTests --settings .circleci/.m2/settings.xml
+            mvn release:clean initialize release:prepare release:perform --batch-mode -Darguments="-DskipTests" --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-deploy-snapshot-and-wait-release-approval: # on every commit/push
@@ -73,6 +73,9 @@ workflows:
           context: ArtifactRepository
           requires:
             - build
+          filters:
+            branches:
+              only: master
       - wait-release-approval:
           type: approval # A job that will require manual approval in the CircleCI web application.
           requires:

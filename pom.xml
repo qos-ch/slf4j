@@ -241,6 +241,17 @@
             <useReleaseProfile>false</useReleaseProfile>
             <releaseVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${parsedVersion.nextBuildNumber}</releaseVersion>
             <developmentVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${parsedVersion.nextBuildNumber}-SNAPSHOT</developmentVersion>
+            <!--
+              CircleCI will skip triggering a build for ALL commits that are
+              pushed together if a commit message contains [skip ci].
+              https://circleci.com/docs/2.0/skip-build/
+
+              The two commits made by the maven-release-plugin should be skipped,
+              because release artifacts are already deployed to artifacts repository
+              and the commit with just a new development version in pom.xml does
+              not need to be released (avoid cycle).
+            -->
+            <scmCommentPrefix>[skip ci] [maven-release-plugin]</scmCommentPrefix>
         </configuration>
       </plugin>
 
