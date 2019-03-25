@@ -32,7 +32,19 @@ jobs:
           at: .
       - restore_cache:
           key: slf4j-javame-{{ checksum "pom.xml" }}
-      - run: mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
+      - run:
+          name: Deploy artifacts to artifacts repository
+          command: |
+            project_version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            echo "Current maven project.version=${project_version} on branch=${CIRCLE_BRANCH}"
+
+            if [[ ${CIRCLE_BRANCH} != "master" && ${project_version} != *"-SNAPSHOT"* ]]; then
+              echo "Aborting CI build to prevent deploying release (non-SNAPSHOT: ${project_version}) artifacts to artifacts repository from a feature (not master) branch: ${CIRCLE_BRANCH}" >&2
+              echo "When working on feature branches, please ensure the maven project version is updated to match the 'x.y.z-w-SNAPSHOT' pattern" >&2
+              exit 1
+            fi
+
+            deploy -DskipTests --settings .circleci/.m2/settings.xml
 
   release:
     docker:
@@ -73,9 +85,6 @@ workflows:
           context: ArtifactRepository
           requires:
             - build
-          filters:
-            branches:
-              only: master
       - wait-release-approval:
           type: approval # A job that will require manual approval in the CircleCI web application.
           requires:
