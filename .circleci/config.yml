@@ -44,7 +44,7 @@ jobs:
               exit 1
             fi
 
-            deploy -DskipTests --settings .circleci/.m2/settings.xml
+            mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
 
   release:
     docker:
