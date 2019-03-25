@@ -251,7 +251,7 @@
               and the commit with just a new development version in pom.xml does
               not need to be released (avoid cycle).
             -->
-            <scmCommentPrefix>[skip ci] [maven-release-plugin]</scmCommentPrefix>
+            <scmCommentPrefix xml:space="preserve">[skip ci] [maven-release-plugin] </scmCommentPrefix>
         </configuration>
       </plugin>
 
