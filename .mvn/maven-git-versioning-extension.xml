@@ -3,9 +3,9 @@
 	The pom files will not be modified, versions are modified in memory only.
 	
 	The version resolution configuration can be tested on command line for example by:
-		mvn --non-recursive exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}' -q
+		mvn -N exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}' -q
 	or
-		mvn --non-recursive exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}' -q -Dgit.branch=feature/test-it
+		mvn -N exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}' -q -Dgit.branch=feature/test-it
 	
 	https://github.com/qoomon/maven-git-versioning-extension 
 -->
