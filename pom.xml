@@ -125,6 +125,13 @@
             </signature>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+
       </plugins>
     </pluginManagement>
 
@@ -239,7 +246,7 @@
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <tagNameFormat>@{project.artifactId}-@{project.version}</tagNameFormat>
             <useReleaseProfile>false</useReleaseProfile>
-            <releaseVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${parsedVersion.nextBuildNumber}</releaseVersion>
+            <releaseVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${parsedVersion.buildNumber}</releaseVersion>
             <developmentVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-${parsedVersion.nextBuildNumber}-SNAPSHOT</developmentVersion>
             <!--
               CircleCI will skip triggering a build for ALL commits that are

@@ -1,3 +1,7 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
 version: 2
 jobs:
   build:
@@ -7,17 +11,25 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: slf4j-javame-{{ checksum "pom.xml" }}
+          keys:
+            - slf4j-javame-{{ checksum "pom.xml" }}
+            # Fallback to using the latest cache if no exact match is found
+            - slf4j-javame-
       - run: mvn clean package -DskipTests dependency:go-offline --settings .circleci/.m2/settings.xml --show-version
       - save_cache:
           paths:
             - ~/.m2
           key: slf4j-javame-{{ checksum "pom.xml" }}
       - run: mvn install --fail-at-end --offline --settings .circleci/.m2/settings.xml
+      - run:
+          # https://circleci.com/docs/2.0/collect-test-data/#maven-surefire-plugin-for-java-junit-results
+          name: Gather test results
+          command: |
+            mkdir -p test-results
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} test-results \;
+          when: always
       - store_test_results:
-          path: slf4j-api/target/surefire-reports
-      - store_test_results:
-          path: slf4j-simple/target/surefire-reports
+          path: test-results
       - persist_to_workspace:
           root: ~/workdir
           paths:
@@ -31,7 +43,10 @@ jobs:
       - attach_workspace:
           at: .
       - restore_cache:
-          key: slf4j-javame-{{ checksum "pom.xml" }}
+          keys:
+            - slf4j-javame-{{ checksum "pom.xml" }}
+            # Fallback to using the latest cache if no exact match is found
+            - slf4j-javame-
       - run:
           name: Deploy artifacts to artifacts repository
           command: |
@@ -44,6 +59,7 @@ jobs:
               exit 1
             fi
 
+            # skip tests because we assume they were already run by "build" job
             mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
 
   release:
@@ -54,17 +70,20 @@ jobs:
       - attach_workspace:
           at: .
       - restore_cache:
-          key: slf4j-javame-{{ checksum "pom.xml" }}
+          keys:
+            - slf4j-javame-{{ checksum "pom.xml" }}
+            # Fallback to using the latest cache if no exact match is found
+            - slf4j-javame-
       - add_ssh_keys:
           fingerprints:
             # The fingerprint of GitHub's "CircleCI read-write key" Deploy Key
             - "4f:8a:f2:4a:70:25:cb:45:b0:37:ba:51:ff:1e:02:83"
       - run:
-          name: Release new version to Git and artifacts repository
+          name: Configure SSH known hosts and Git
           command: |
             echo "Setting up SSH known hosts for current user: $(whoami)"
             echo "  adding github.com"
-            #github public key, obtained with "ssh-keyscan github.com"
+            # GitHub public key, obtained with "ssh-keyscan github.com"
             mkdir -p ~/.ssh
             cat >> ~/.ssh/known_hosts <<EOL
             github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
@@ -74,7 +93,21 @@ jobs:
             git config user.name "${GIT_USER_NAME}"
             git config user.email "${GIT_USER_EMAIL}"
 
-            mvn release:clean initialize release:prepare release:perform --batch-mode -Darguments="-DskipTests" --settings .circleci/.m2/settings.xml
+      - run:
+          name: Prepare and commit new release version and new development version pom.xml files to Git
+          command: |
+            # skip tests because we assume they were already run by "build" job
+            mvn release:clean initialize release:prepare --batch-mode -Darguments="-DskipTests" --settings .circleci/.m2/settings.xml
+      - run:
+          name: Deploy new development version snapshot to artifacts repository
+          command: |
+            # skip tests because we assume they were already run by "build" job
+            mvn deploy -DskipTests --settings .circleci/.m2/settings.xml
+      - run:
+          name: Deploy release version to artifacts repository
+          command: |
+            # skip tests because we assume they were already run by "build" job
+            mvn release:perform --batch-mode -Darguments="-DskipTests" --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-deploy-snapshot-and-wait-release-approval: # on every commit/push
@@ -102,7 +135,7 @@ workflows:
   daily:
     triggers:
       - schedule:
-          cron: "0 12 * * *"
+          cron: "0 5 * * *" # Every day 5 am UTC
           filters:
             branches:
               only: master
