@@ -111,7 +111,7 @@ jobs:
             # because 'release:perform' checkouts code by tag name and ends up
             # in a detached HEAD state, so no branch information is available.
 
-            mvn release:perform --batch-mode -Darguments="-DskipTests" -Dgit.branch=${CIRCLE_BRANCH} --settings .circleci/.m2/settings.xml
+            mvn release:perform --batch-mode -Darguments="-DskipTests -Dgit.branch=${CIRCLE_BRANCH}" --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-deploy-snapshot-and-wait-release-approval: # on every commit/push
