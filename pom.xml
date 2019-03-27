@@ -5,7 +5,7 @@
 
   <groupId>org.slf4j.micro</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.22-5-SNAPSHOT</version>
+  <version>1.7.22-5</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -390,7 +390,7 @@
     <url>https://github.com/sympower/slf4j</url>
     <connection>git@github.com:sympower/slf4j.git</connection>
     <developerConnection>scm:git:git@github.com:sympower/slf4j.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>slf4j-parent-1.7.22-5</tag>
   </scm>
 
 </project>
