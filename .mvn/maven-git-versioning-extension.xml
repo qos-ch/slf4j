@@ -1,0 +1,27 @@
+<!-- 
+	A Maven extension that will virtually set project versions, based on current Git branch or Git tag.
+	The pom files will not be modified, versions are modified in memory only.
+	
+	The version resolution configuration can be tested on command line for example by:
+		mvn --non-recursive exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}' -q
+	or
+		mvn --non-recursive exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}' -q -Dgit.branch=feature/test-it
+	
+	https://github.com/qoomon/maven-git-versioning-extension 
+-->
+<gitVersioning>
+	<branch>
+		<!-- Matches the "master" branch and uses the "project.version" that was currently specified in the pom.xml file -->
+		<pattern>master</pattern>
+		<versionFormat>${version}</versionFormat>
+	</branch>
+	<branch>
+		<!-- Matches all branches except "master" and uses the branch name and "-SNAPSHOT" suffix for the "project.version" -->
+		<pattern>^((?!master$).*)</pattern>
+		<versionFormat>${1}-SNAPSHOT</versionFormat>
+	</branch>
+	<commit>
+		<!-- Fallback in case git branch information is not available (detached HEAD or no match with the branch patterns above) -->
+		<versionFormat>${commit.short}</versionFormat>
+	</commit>
+</gitVersioning>

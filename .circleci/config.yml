@@ -92,7 +92,6 @@ jobs:
             echo "Setting up git user as: ${GIT_USER_NAME} <${GIT_USER_EMAIL}>"
             git config user.name "${GIT_USER_NAME}"
             git config user.email "${GIT_USER_EMAIL}"
-
       - run:
           name: Prepare and commit new release version and new development version pom.xml files to Git
           command: |
@@ -107,7 +106,12 @@ jobs:
           name: Deploy release version to artifacts repository
           command: |
             # skip tests because we assume they were already run by "build" job
-            mvn release:perform --batch-mode -Darguments="-DskipTests" --settings .circleci/.m2/settings.xml
+
+            # Pass branch name as a parameter to maven-git-versioning-extension
+            # because 'release:perform' checkouts code by tag name and ends up
+            # in a detached HEAD state, so no branch information is available.
+
+            mvn release:perform --batch-mode -Darguments="-DskipTests" -Dgit.branch=${CIRCLE_BRANCH} --settings .circleci/.m2/settings.xml
 workflows:
   version: 2
   build-and-deploy-snapshot-and-wait-release-approval: # on every commit/push
