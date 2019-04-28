@@ -164,6 +164,11 @@ public interface Logger {
      */
     public boolean isTraceEnabled(Marker marker);
 
+    /**
+     * 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level TRACE
+     */
     default public LoggingEventBuilder atTrace() {
     	if(isTraceEnabled()) {
     		return new DefaultLoggingEventBuilder(TRACE, this);
@@ -171,6 +176,7 @@ public interface Logger {
     		return NOPLoggingEventBuilder.singleton();
     	}
     }
+    
     /**
      * Log a message with the specific Marker at the TRACE level.
      *

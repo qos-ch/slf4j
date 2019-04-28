@@ -46,20 +46,21 @@ import org.slf4j.helpers.SubstituteLogger;
  * @author Chetan Mehrotra
  */
 public class SubstitutableLoggerTest {
-    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName"));
+	// atTrace excluded during development of 2.0 API
+    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName", "atTrace"));
 
     @Test
     public void testDelegate() throws Exception {
-        SubstituteLogger log = new SubstituteLogger("foo", null, false);
-        assertTrue(log.delegate() instanceof EventRecodingLogger);
+        SubstituteLogger substituteLogger = new SubstituteLogger("foo", null, false);
+        assertTrue(substituteLogger.delegate() instanceof EventRecodingLogger);
 
         Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);
         LoggerInvocationHandler ih = new LoggerInvocationHandler();
         Logger proxyLogger = (Logger) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Logger.class }, ih);
-        log.setDelegate(proxyLogger);
+        substituteLogger.setDelegate(proxyLogger);
 
-        invokeMethods(log);
-
+        invokeMethods(substituteLogger);
+        
         // Assert that all methods are delegated
         expectedMethodSignatures.removeAll(ih.getInvokedMethodSignatures());
         if (!expectedMethodSignatures.isEmpty()) {
@@ -69,7 +70,7 @@ public class SubstitutableLoggerTest {
 
     private void invokeMethods(Logger proxyLogger) throws InvocationTargetException, IllegalAccessException {
         for (Method m : Logger.class.getDeclaredMethods()) {
-            if (!EXCLUDED_METHODS.contains(m.getName())) {
+        	if (!EXCLUDED_METHODS.contains(m.getName())) {
                 m.invoke(proxyLogger, new Object[m.getParameterTypes().length]);
             }
         }

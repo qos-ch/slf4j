@@ -34,7 +34,7 @@ import org.slf4j.Marker;
  * which need to provide hints so that the underlying logging system can extract
  * the correct location information (method name, line number).
  *
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  * @since 1.3
  */
 public interface LocationAwareLogger extends Logger {
