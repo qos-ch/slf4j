@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.8.0-beta5-SNAPSHOT</version>
+    <version>2.0.0-alpha0</version>
   </parent>
 
   <artifactId>integration</artifactId>
