@@ -1,5 +1,7 @@
 package org.slf4j.event;
 
+import java.util.List;
+
 import org.slf4j.Marker;
 
 /**
@@ -11,7 +13,7 @@ public interface LoggingEvent {
 
     Level getLevel();
 
-    Marker getMarker();
+    List<Marker> getMarkers();
 
     String getLoggerName();
 

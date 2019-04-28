@@ -1,12 +1,15 @@
 package org.slf4j.event;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Marker;
 import org.slf4j.helpers.SubstituteLogger;
 
 public class SubstituteLoggingEvent implements LoggingEvent {
 
     Level level;
-    Marker marker;
+    List<Marker> markers;
     String loggerName;
     SubstituteLogger logger;
     String threadName;
@@ -23,12 +26,15 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.level = level;
     }
 
-    public Marker getMarker() {
-        return marker;
+    public List<Marker> getMarkers() {
+    	if(markers == null) {
+			markers = new ArrayList<>(5);
+		}
+		return markers;
     }
 
-    public void setMarker(Marker marker) {
-        this.marker = marker;
+    public void addMarker(Marker marker) {
+        getMarkers().add(marker);
     }
 
     public String getLoggerName() {

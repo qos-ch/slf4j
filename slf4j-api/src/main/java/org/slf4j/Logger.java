@@ -25,7 +25,11 @@
 
 package org.slf4j;
 
+import static org.slf4j.event.Level.DEBUG;
+import static org.slf4j.event.Level.ERROR;
+import static org.slf4j.event.Level.INFO;
 import static org.slf4j.event.Level.TRACE;
+import static org.slf4j.event.Level.WARN;
 
 import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -165,7 +169,7 @@ public interface Logger {
     public boolean isTraceEnabled(Marker marker);
 
     /**
-     * 
+     * Entry point for fluent-logging for {@link TRACE} level. 
      *  
      * @return LoggingEventBuilder instance as appropriate for level TRACE
      */
@@ -359,6 +363,20 @@ public interface Logger {
      */
     public void debug(Marker marker, String msg, Throwable t);
 
+
+    /**
+     * Entry point for fluent-logging for {@link DEBUG} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level DEBUG
+     */
+    default public LoggingEventBuilder atDebug() {
+    	if(isDebugEnabled()) {
+    		return new DefaultLoggingEventBuilder(DEBUG, this);
+    	} else {
+    		return NOPLoggingEventBuilder.singleton();
+    	}
+    }
+    
     /**
      * Is the logger instance enabled for the INFO level?
      *
@@ -485,6 +503,20 @@ public interface Logger {
     public void info(Marker marker, String msg, Throwable t);
 
     /**
+     * Entry point for fluent-logging for {@link INFO} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level INFO
+     */
+    default public LoggingEventBuilder atInfo() {
+    	if(isInfoEnabled()) {
+    		return new DefaultLoggingEventBuilder(INFO, this);
+    	} else {
+    		return NOPLoggingEventBuilder.singleton();
+    	}
+    }
+ 
+    
+    /**
      * Is the logger instance enabled for the WARN level?
      *
      * @return True if this Logger is enabled for the WARN level,
@@ -610,6 +642,21 @@ public interface Logger {
      */
     public void warn(Marker marker, String msg, Throwable t);
 
+    
+    /**
+     * Entry point for fluent-logging for {@link WARN} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level WARN
+     */
+    default public LoggingEventBuilder atWarn() {
+    	if(isWarnEnabled()) {
+    		return new DefaultLoggingEventBuilder(WARN, this);
+    	} else {
+    		return NOPLoggingEventBuilder.singleton();
+    	}
+    }
+
+    
     /**
      * Is the logger instance enabled for the ERROR level?
      *
@@ -736,5 +783,20 @@ public interface Logger {
      * @param t      the exception (throwable) to log
      */
     public void error(Marker marker, String msg, Throwable t);
+    
+    
+    
+    /**
+     * Entry point for fluent-logging for {@link ERROR} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level ERROR
+     */
+    default public LoggingEventBuilder atError() {
+    	if(isErrorEnabled()) {
+    		return new DefaultLoggingEventBuilder(ERROR, this);
+    	} else {
+    		return NOPLoggingEventBuilder.singleton();
+    	}
+    }
 
 }
