@@ -26,12 +26,12 @@ public class NOPLoggingEventBuilder implements LoggingEventBuilder {
 	}
 
 	@Override
-	public LoggingEventBuilder addParameter(Object p) {
+	public LoggingEventBuilder addArgument(Object p) {
 		return singleton();
 	}
 
 	@Override
-	public LoggingEventBuilder addParameter(Supplier<Object> objectSupplier) {
+	public LoggingEventBuilder addArgument(Supplier<Object> objectSupplier) {
 		return singleton();
 	}
 

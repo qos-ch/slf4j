@@ -1,6 +1,7 @@
 package org.slf4j.event;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Marker;
@@ -15,6 +16,8 @@ public class SubstituteLoggingEvent implements LoggingEvent {
     String threadName;
     String message;
     Object[] argArray;
+    List<KeyValuePair> keyValuePairList;
+    
     long timeStamp;
     Throwable throwable;
 
@@ -69,6 +72,14 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.argArray = argArray;
     }
 
+	@Override
+	public List<Object> getArguments() {
+		if(argArray == null) {
+			return null;
+		}
+		return Arrays.asList(argArray);
+	}
+	
     public long getTimeStamp() {
         return timeStamp;
     }
@@ -92,4 +103,10 @@ public class SubstituteLoggingEvent implements LoggingEvent {
     public void setThrowable(Throwable throwable) {
         this.throwable = throwable;
     }
+
+
+	@Override
+	public List<KeyValuePair> getKeyValuePairs() {
+		return keyValuePairList;
+	}
 }

@@ -14,7 +14,6 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 	
 	public DefaultLoggingEventBuilder(Level level, Logger logger) {
 		logggingEvent = new DefaultLoggingEvent(level, logger);
-		logggingEvent.setThreadName(Thread.currentThread().getName());
 	}
 	
 	/**
@@ -38,11 +37,17 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 	}
 
 	@Override
-	public LoggingEventBuilder addParameter(Object p) {
-		logggingEvent.addParameter(p);
+	public LoggingEventBuilder addArgument(Object p) {
+		logggingEvent.addArgument(p);
 		return this;
 	}
-
+	
+	@Override
+	public LoggingEventBuilder addArgument(Supplier<Object> objectSupplier) {
+		logggingEvent.addArgument(objectSupplier.get());
+		return this;
+	}
+	
 	@Override
 	public void log(String message) {
 		
@@ -52,11 +57,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 	public void log(Supplier<String> messageSupplier) {
 	}
 	
-	@Override
-	public LoggingEventBuilder addParameter(Supplier<Object> objectSupplier) {
-		logggingEvent.addParameter(objectSupplier.get());
-		return this;
-	}
+	
 	
 	@Override
 	public LoggingEventBuilder addKeyValue(String key, Object value) {

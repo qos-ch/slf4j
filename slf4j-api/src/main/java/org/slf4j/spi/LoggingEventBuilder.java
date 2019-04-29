@@ -17,8 +17,8 @@ public interface LoggingEventBuilder {
 	LoggingEventBuilder setCause(Throwable cause);
 	
 	LoggingEventBuilder addMarker(Marker marker);
-	LoggingEventBuilder addParameter(Object p);
-	LoggingEventBuilder addParameter(Supplier<Object> objectSupplier);
+	LoggingEventBuilder addArgument(Object p);
+	LoggingEventBuilder addArgument(Supplier<Object> objectSupplier);
 	LoggingEventBuilder addKeyValue(String key, Object value);
 	LoggingEventBuilder addKeyValue(String key, Supplier<Object> value);
 	
