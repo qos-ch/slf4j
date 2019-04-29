@@ -23,7 +23,7 @@ public class DefaultLoggingEvent implements LoggingEvent {
 	List<Object> arguments;
 	List<KeyValuePair> keyValuePairs;
 
-	Throwable cause;
+	Throwable throwable;
 	String threadName;
 	long timeStamp;
 	
@@ -84,8 +84,8 @@ public class DefaultLoggingEvent implements LoggingEvent {
 		return keyValuePairs;
 	}
 
-	public void setCause(Throwable cause) {
-		this.cause = cause;
+	public void setThrowable(Throwable cause) {
+		this.throwable = cause;
 	}
 
 	@Override
@@ -103,9 +103,14 @@ public class DefaultLoggingEvent implements LoggingEvent {
 		return message;
 	}
 
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	
 	@Override
 	public Throwable getThrowable() {
-		return cause;
+		return throwable;
 	}
 	public String getThreadName() {
 		return threadName;

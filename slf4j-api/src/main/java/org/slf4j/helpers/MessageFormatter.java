@@ -152,6 +152,15 @@ final public class MessageFormatter {
     }
 
 
+    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
+        Throwable throwableCandidate = getThrowableCandidate(argArray);
+        Object[] args = argArray;
+        if (throwableCandidate != null) {
+            args = trimmedCopy(argArray);
+        }
+        return arrayFormat(messagePattern, args, throwableCandidate);
+    }
+    
     static final Throwable getThrowableCandidate(Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
             return null;
@@ -163,16 +172,6 @@ final public class MessageFormatter {
         }
         return null;
     }
-
-    final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
-        Throwable throwableCandidate = getThrowableCandidate(argArray);
-        Object[] args = argArray;
-        if (throwableCandidate != null) {
-            args = trimmedCopy(argArray);
-        }
-        return arrayFormat(messagePattern, args, throwableCandidate);
-    }
-
     private static Object[] trimmedCopy(Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
             throw new IllegalStateException("non-sensical empty or null argument array");

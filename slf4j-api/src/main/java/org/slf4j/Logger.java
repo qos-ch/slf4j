@@ -175,7 +175,7 @@ public interface Logger {
      */
     default public LoggingEventBuilder atTrace() {
     	if(isTraceEnabled()) {
-    		return new DefaultLoggingEventBuilder(TRACE, this);
+    		return new DefaultLoggingEventBuilder(this, TRACE);
     	} else {
     		return NOPLoggingEventBuilder.singleton();
     	}
@@ -371,7 +371,7 @@ public interface Logger {
      */
     default public LoggingEventBuilder atDebug() {
     	if(isDebugEnabled()) {
-    		return new DefaultLoggingEventBuilder(DEBUG, this);
+    		return new DefaultLoggingEventBuilder(this, DEBUG);
     	} else {
     		return NOPLoggingEventBuilder.singleton();
     	}
@@ -509,7 +509,7 @@ public interface Logger {
      */
     default public LoggingEventBuilder atInfo() {
     	if(isInfoEnabled()) {
-    		return new DefaultLoggingEventBuilder(INFO, this);
+    		return new DefaultLoggingEventBuilder(this, INFO);
     	} else {
     		return NOPLoggingEventBuilder.singleton();
     	}
@@ -650,7 +650,7 @@ public interface Logger {
      */
     default public LoggingEventBuilder atWarn() {
     	if(isWarnEnabled()) {
-    		return new DefaultLoggingEventBuilder(WARN, this);
+    		return new DefaultLoggingEventBuilder(this, WARN);
     	} else {
     		return NOPLoggingEventBuilder.singleton();
     	}
@@ -793,7 +793,7 @@ public interface Logger {
      */
     default public LoggingEventBuilder atError() {
     	if(isErrorEnabled()) {
-    		return new DefaultLoggingEventBuilder(ERROR, this);
+    		return new DefaultLoggingEventBuilder(this, ERROR);
     	} else {
     		return NOPLoggingEventBuilder.singleton();
     	}

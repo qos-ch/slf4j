@@ -46,139 +46,140 @@ import static org.junit.Assert.fail;
  */
 public class InvocationTest {
 
-    Level oldLevel;
-    java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+	Level oldLevel;
+	java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
 
-    ListHandler listHandler = new ListHandler();
+	ListHandler listHandler = new ListHandler();
 
-    @Before
-    public void setUp() throws Exception {
-        oldLevel = root.getLevel();
-        root.setLevel(Level.FINE);
-        // removeAllHandlers(root);
-        root.addHandler(listHandler);
-    }
+	@Before
+	public void setUp() throws Exception {
+		oldLevel = root.getLevel();
+		root.setLevel(Level.FINE);
+		// removeAllHandlers(root);
+		root.addHandler(listHandler);
+	}
 
-    @After
-    public void tearDown() throws Exception {
-        root.setLevel(oldLevel);
-        removeListHandlers(root);
-    }
+	@After
+	public void tearDown() throws Exception {
+		root.setLevel(oldLevel);
+		removeListHandlers(root);
+	}
 
-    @Test
-    public void smoke() {
-        Logger logger = LoggerFactory.getLogger("test1");
-        logger.debug("Hello world.");
-        assertLogMessage("Hello world.", 0);
-    }
+	void removeListHandlers(java.util.logging.Logger logger) {
+		Handler[] handlers = logger.getHandlers();
+		for (Handler h : handlers) {
+			if (h instanceof ListHandler)
+				logger.removeHandler(h);
+		}
+	}
 
-    @Test
-    public void verifyMessageFormatting() {
-        Integer i1 = new Integer(1);
-        Integer i2 = new Integer(2);
-        Integer i3 = new Integer(3);
-        Exception e = new Exception("This is a test exception.");
-        Logger logger = LoggerFactory.getLogger("test2");
+	@Test
+	public void smoke() {
+		Logger logger = LoggerFactory.getLogger("test1");
+		logger.debug("Hello world.");
+		assertLogMessage("Hello world.", 0);
+	}
 
-        int index = 0;
-        logger.debug("Hello world");
-        assertLogMessage("Hello world", index++);
+	@Test
+	public void verifyMessageFormatting() {
+		Integer i1 = new Integer(1);
+		Integer i2 = new Integer(2);
+		Integer i3 = new Integer(3);
+		Exception e = new Exception("This is a test exception.");
+		Logger logger = LoggerFactory.getLogger("test2");
 
-        logger.debug("Hello world {}", i1);
-        assertLogMessage("Hello world " + i1, index++);
+		int index = 0;
+		logger.debug("Hello world");
+		assertLogMessage("Hello world", index++);
 
-        logger.debug("val={} val={}", i1, i2);
-        assertLogMessage("val=1 val=2", index++);
+		logger.debug("Hello world {}", i1);
+		assertLogMessage("Hello world " + i1, index++);
 
-        logger.debug("val={} val={} val={}", new Object[] { i1, i2, i3 });
-        assertLogMessage("val=1 val=2 val=3", index++);
+		logger.debug("val={} val={}", i1, i2);
+		assertLogMessage("val=1 val=2", index++);
 
-        logger.debug("Hello world 2", e);
-        assertLogMessage("Hello world 2", index);
-        assertException(e.getClass(), index++);
-        logger.info("Hello world 2.");
+		logger.debug("val={} val={} val={}", new Object[] { i1, i2, i3 });
+		assertLogMessage("val=1 val=2 val=3", index++);
 
-        logger.warn("Hello world 3.");
-        logger.warn("Hello world 3", e);
+		logger.debug("Hello world 2", e);
+		assertLogMessage("Hello world 2", index);
+		assertException(e.getClass(), index++);
+		logger.info("Hello world 2.");
 
-        logger.error("Hello world 4.");
-        logger.error("Hello world {}", new Integer(3));
-        logger.error("Hello world 4.", e);
-    }
+		logger.warn("Hello world 3.");
+		logger.warn("Hello world 3", e);
 
-    @Test
-    public void testNull() {
-        Logger logger = LoggerFactory.getLogger("testNull");
-        logger.debug(null);
-        logger.info(null);
-        logger.warn(null);
-        logger.error(null);
+		logger.error("Hello world 4.");
+		logger.error("Hello world {}", new Integer(3));
+		logger.error("Hello world 4.", e);
+	}
 
-        Exception e = new Exception("This is a test exception.");
-        logger.debug(null, e);
-        logger.info(null, e);
-        logger.warn(null, e);
-        logger.error(null, e);
-    }
+	@Test
+	public void testNull() {
+		Logger logger = LoggerFactory.getLogger("testNull");
+		logger.debug(null);
+		logger.info(null);
+		logger.warn(null);
+		logger.error(null);
 
-    @Test
-    public void testMarker() {
-        Logger logger = LoggerFactory.getLogger("testMarker");
-        Marker blue = MarkerFactory.getMarker("BLUE");
-        logger.debug(blue, "hello");
-        logger.info(blue, "hello");
-        logger.warn(blue, "hello");
-        logger.error(blue, "hello");
+		Exception e = new Exception("This is a test exception.");
+		logger.debug(null, e);
+		logger.info(null, e);
+		logger.warn(null, e);
+		logger.error(null, e);
+	}
 
-        logger.debug(blue, "hello {}", "world");
-        logger.info(blue, "hello {}", "world");
-        logger.warn(blue, "hello {}", "world");
-        logger.error(blue, "hello {}", "world");
+	@Test
+	public void testMarker() {
+		Logger logger = LoggerFactory.getLogger("testMarker");
+		Marker blue = MarkerFactory.getMarker("BLUE");
+		logger.debug(blue, "hello");
+		logger.info(blue, "hello");
+		logger.warn(blue, "hello");
+		logger.error(blue, "hello");
 
-        logger.debug(blue, "hello {} and {} ", "world", "universe");
-        logger.info(blue, "hello {} and {} ", "world", "universe");
-        logger.warn(blue, "hello {} and {} ", "world", "universe");
-        logger.error(blue, "hello {} and {} ", "world", "universe");
-    }
+		logger.debug(blue, "hello {}", "world");
+		logger.info(blue, "hello {}", "world");
+		logger.warn(blue, "hello {}", "world");
+		logger.error(blue, "hello {}", "world");
 
-    @Test
-    public void testMDC() {
-        MDC.put("k", "v");
-        assertNotNull(MDC.get("k"));
-        assertEquals("v", MDC.get("k"));
+		logger.debug(blue, "hello {} and {} ", "world", "universe");
+		logger.info(blue, "hello {} and {} ", "world", "universe");
+		logger.warn(blue, "hello {} and {} ", "world", "universe");
+		logger.error(blue, "hello {} and {} ", "world", "universe");
+	}
 
-        MDC.remove("k");
-        assertNull(MDC.get("k"));
+	@Test
+	public void testMDC() {
+		MDC.put("k", "v");
+		assertNotNull(MDC.get("k"));
+		assertEquals("v", MDC.get("k"));
 
-        MDC.put("k1", "v1");
-        assertEquals("v1", MDC.get("k1"));
-        MDC.clear();
-        assertNull(MDC.get("k1"));
+		MDC.remove("k");
+		assertNull(MDC.get("k"));
 
-        try {
-            MDC.put(null, "x");
-            fail("null keys are invalid");
-        } catch (IllegalArgumentException e) {
-        }
-    }
- 
-    private void assertLogMessage(String expected, int index) {
-        LogRecord logRecord = listHandler.recordList.get(index);
-        Assert.assertNotNull(logRecord);
-        assertEquals(expected, logRecord.getMessage());
-    }
+		MDC.put("k1", "v1");
+		assertEquals("v1", MDC.get("k1"));
+		MDC.clear();
+		assertNull(MDC.get("k1"));
 
-    private void assertException(Class<? extends Throwable> exceptionType, int index) {
-        LogRecord logRecord = listHandler.recordList.get(index);
-        Assert.assertNotNull(logRecord);
-        assertEquals(exceptionType, logRecord.getThrown().getClass());
-    }
+		try {
+			MDC.put(null, "x");
+			fail("null keys are invalid");
+		} catch (IllegalArgumentException e) {
+		}
+	}
 
-    void removeListHandlers(java.util.logging.Logger logger) {
-        Handler[] handlers = logger.getHandlers();
-        for (Handler h : handlers) {
-            if (h instanceof ListHandler)
-                logger.removeHandler(h);
-        }
-    }
+	private void assertLogMessage(String expected, int index) {
+		LogRecord logRecord = listHandler.recordList.get(index);
+		Assert.assertNotNull(logRecord);
+		assertEquals(expected, logRecord.getMessage());
+	}
+
+	private void assertException(Class<? extends Throwable> exceptionType, int index) {
+		LogRecord logRecord = listHandler.recordList.get(index);
+		Assert.assertNotNull(logRecord);
+		assertEquals(exceptionType, logRecord.getThrown().getClass());
+	}
+
 }
