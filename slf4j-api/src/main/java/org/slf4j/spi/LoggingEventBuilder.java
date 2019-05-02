@@ -23,6 +23,11 @@ public interface LoggingEventBuilder {
 	LoggingEventBuilder addKeyValue(String key, Supplier<Object> value);
 	
 	void log(String message);
+
+	void log(String message, Object arg);
+	void log(String message, Object arg1, Object arg2);
+	void log(String message, Object... argss);
+	
 	void log(Supplier<String> messageSupplier);
 
 	
