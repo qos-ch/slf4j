@@ -22,7 +22,7 @@ import java.io.IOException;
 /**
  * This class is a minimal implementation of the original Log4J class.
  * 
- * @author Christian Trutz <christian.trutz@belaso.de>
+ * @author Christian Trutz 
  * */
 public class RollingFileAppender {
 
