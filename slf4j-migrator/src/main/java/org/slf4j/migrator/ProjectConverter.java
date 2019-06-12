@@ -56,7 +56,7 @@ public class ProjectConverter {
     /**
      * Ask for concrete matcher implementation depending on the conversion mode
      * Ask for user confirmation to convert the selected source directory if valid
-     * Ask for user confirmation in case of number of files to convert > 1000
+     * Ask for user confirmation in case of number of files to convert &gt; 1000
      *
      * @param conversionType 
      * @param progressListener 
