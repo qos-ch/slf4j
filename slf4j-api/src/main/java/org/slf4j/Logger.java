@@ -169,7 +169,7 @@ public interface Logger {
     public boolean isTraceEnabled(Marker marker);
 
     /**
-     * Entry point for fluent-logging for {@link TRACE} level. 
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#TRACE} level. 
      *  
      * @return LoggingEventBuilder instance as appropriate for level TRACE
      */
@@ -186,7 +186,7 @@ public interface Logger {
      *
      * @param marker the marker data specific to this log statement
      * @param msg    the message string to be logged
-     * @since 1.4
+     * @since 1.4@
      */
     public void trace(Marker marker, String msg);
 
@@ -365,7 +365,7 @@ public interface Logger {
 
 
     /**
-     * Entry point for fluent-logging for {@link DEBUG} level. 
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#DEBUG} level. 
      *  
      * @return LoggingEventBuilder instance as appropriate for level DEBUG
      */
@@ -503,7 +503,7 @@ public interface Logger {
     public void info(Marker marker, String msg, Throwable t);
 
     /**
-     * Entry point for fluent-logging for {@link INFO} level. 
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#INFO} level. 
      *  
      * @return LoggingEventBuilder instance as appropriate for level INFO
      */
@@ -644,7 +644,7 @@ public interface Logger {
 
     
     /**
-     * Entry point for fluent-logging for {@link WARN} level. 
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#WARN} level. 
      *  
      * @return LoggingEventBuilder instance as appropriate for level WARN
      */
@@ -787,7 +787,7 @@ public interface Logger {
     
     
     /**
-     * Entry point for fluent-logging for {@link ERROR} level. 
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#ERROR} level. 
      *  
      * @return LoggingEventBuilder instance as appropriate for level ERROR
      */

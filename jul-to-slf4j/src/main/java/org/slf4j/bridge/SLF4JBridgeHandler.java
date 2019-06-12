@@ -154,9 +154,9 @@ public class SLF4JBridgeHandler extends Handler {
      * Returns true if SLF4JBridgeHandler has been previously installed, returns false otherwise.
      *
      * @return true if SLF4JBridgeHandler is already installed, false other wise
-     * @throws SecurityException
+     *
      */
-    public static boolean isInstalled() throws SecurityException {
+    public static boolean isInstalled()  {
         java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {
@@ -201,6 +201,9 @@ public class SLF4JBridgeHandler extends Handler {
 
     /**
      * Return the Logger instance that will be used for logging.
+     * 
+     * @param record a LogRecord
+     * @return an SLF4J logger corresponding to the record parameter's logger name
      */
     protected Logger getSLF4JLogger(LogRecord record) {
         String name = record.getLoggerName();
