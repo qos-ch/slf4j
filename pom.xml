@@ -29,7 +29,7 @@
 
   <scm>
     <url>https://github.com/qos-ch/slf4j</url>
-    <connection>git@github.com:qos-ch/slf4j.git</connection>
+    <connection>scm:git@github.com:qos-ch/slf4j.git</connection>
   </scm>  
 
   <properties>
@@ -364,7 +364,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${javadoc.plugin.version}</version>
+            <version>2.10.4</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -374,6 +374,7 @@
               </execution>
             </executions>
             <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
               <sourceFileExcludes>
                 <sourceFileExclude>**/module-info.java</sourceFileExclude>
               </sourceFileExcludes>
