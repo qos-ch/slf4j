@@ -66,7 +66,7 @@ public class LogManager {
     /**
      * This bogus implementation returns an empty enumeration.
      *
-     * @return
+     * @return an Enumeration of current loggers
      */
     public static Enumeration getCurrentLoggers() {
         return new Vector().elements();

@@ -161,7 +161,7 @@ public class MDC {
      * <p>
      * This method delegates all work to the MDC of the underlying logging system.
      *
-     * @param key  
+     * @param key a key
      * @return the string value identified by the <code>key</code> parameter.
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
@@ -183,7 +183,7 @@ public class MDC {
      * cannot be null. This method does nothing if there is no previous value
      * associated with <code>key</code>.
      *
-     * @param key  
+     * @param key  a key
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */

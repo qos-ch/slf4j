@@ -80,6 +80,15 @@ public class Priority {
 
     /**
        Instantiate a level object.
+       @param
+     */
+    
+    /**
+     * Instantiate a level object. 
+     * 
+     * @param level a level as in int
+     * @param levelStr  a levelStr
+     * @param syslogEquivalent the syslog equivalent level integer
      */
     protected Priority(int level, String levelStr, int syslogEquivalent) {
         this.level = level;
@@ -102,20 +111,24 @@ public class Priority {
 
     /**
        Return the syslog equivalent of this priority as an integer.
+       @return the Syslog Equivalent of this Priority
      */
     public final int getSyslogEquivalent() {
         return syslogEquivalent;
     }
 
+  
     /**
-       Returns <code>true</code> if this level has a higher or equal
-       level than the level passed as argument, <code>false</code>
-       otherwise.  
-       
-       <p>You should think twice before overriding the default
-       implementation of <code>isGreaterOrEqual</code> method.
-
-    */
+     * Returns <code>true</code> if this level has a higher or equal
+     *  level than the level passed as argument, <code>false</code>
+     *  otherwise.  
+     *  
+     *  <p>You should think twice before overriding the default
+     *  implementation of <code>isGreaterOrEqual</code> method.
+     *
+     * @param r a priority
+     * @return a boolean
+     */
     public boolean isGreaterOrEqual(Priority r) {
         return level >= r.level;
     }
@@ -125,6 +138,7 @@ public class Priority {
        descending order.
 
        @deprecated This method will be removed with no replacement.
+       @return array of all possible priorities
     */
     @Deprecated
     public static Priority[] getAllPossiblePriorities() {
@@ -138,8 +152,11 @@ public class Priority {
         return levelStr;
     }
 
+    
     /**
-       Returns the integer representation of this level.
+     * Returns the integer representation of this level.
+     *
+     * @return integer representation of this level
      */
     public final int toInt() {
         return level;
@@ -147,6 +164,9 @@ public class Priority {
 
     /**
      * @deprecated Please use the {@link Level#toLevel(String)} method instead.
+     * 
+     * @param sArg a string to convert to a Priority 
+     * @return the corresponding Priority 
     */
     @Deprecated
     public static Priority toPriority(String sArg) {
@@ -155,6 +175,9 @@ public class Priority {
 
     /**
      * @deprecated Please use the {@link Level#toLevel(int)} method instead.   
+     * 
+     * @param val an integer to convert to a Priority
+     * @return the corresponding Priority
      */
     @Deprecated
     public static Priority toPriority(int val) {
@@ -163,7 +186,11 @@ public class Priority {
 
     /**
      * @deprecated Please use the {@link Level#toLevel(int, Level)} method instead.   
-    */
+     * 
+     * @param val an integer value
+     * @param defaultPriority a default priority value
+     * @return correspoding Priority value
+     */
     @Deprecated
     public static Priority toPriority(int val, Priority defaultPriority) {
         return Level.toLevel(val, (Level) defaultPriority);
@@ -171,6 +198,9 @@ public class Priority {
 
     /**
      * @deprecated Please use the {@link Level#toLevel(String, Level)} method instead.   
+     * @param sArg string value
+     * @param defaultPriority a default Priority
+     * @return a Priority
      */
     @Deprecated
     public static Priority toPriority(String sArg, Priority defaultPriority) {

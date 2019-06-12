@@ -55,7 +55,7 @@ public class LocLoggerFactory {
     /**
      * Get an LocLogger instance by name.
      *
-     * @param name
+     * @param name name of the logger to retrieve 
      * @return LocLogger instance by name.
      */
     public LocLogger getLocLogger(String name) {
@@ -66,7 +66,7 @@ public class LocLoggerFactory {
      * Get a new LocLogger instance by class. The returned LocLogger will be named
      * after the class.
      *
-     * @param clazz
+     * @param clazz a class 
      * @return LocLogger instance by class
      */
     public LocLogger getLocLogger(Class<?> clazz) {

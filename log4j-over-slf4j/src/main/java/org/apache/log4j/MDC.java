@@ -49,6 +49,8 @@ public class MDC {
      * This method is not part of the Log4J public API. However it 
      * has been called by other projects. This method is here temporarily  
      * until projects who are depending on this method release fixes. 
+     * 
+     * @return a copy of the underlying map returned as a Hashtable
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Deprecated

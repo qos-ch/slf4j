@@ -374,8 +374,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
     /**
      * Is the given log level currently enabled?
      *
-     * @param logLevel
-     *            is this level enabled?
+     * @param logLevel is this level enabled?
+     * @return whether the logger is enabled for the given level
      */
     protected boolean isLevelEnabled(int logLevel) {
         // log level are numerically ordered so can use simple numeric

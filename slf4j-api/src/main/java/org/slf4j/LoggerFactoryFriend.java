@@ -23,7 +23,7 @@ public class LoggerFactoryFriend {
     /**
      * Set LoggerFactory.DETECT_LOGGER_NAME_MISMATCH variable.
      * 
-     * @param enabled
+     * @param enabled a boolean
      */
     public static void setDetectLoggerNameMismatch(boolean enabled) {
         LoggerFactory.DETECT_LOGGER_NAME_MISMATCH = enabled;

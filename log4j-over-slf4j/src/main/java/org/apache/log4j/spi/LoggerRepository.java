@@ -37,6 +37,8 @@ public interface LoggerRepository {
 
     /**
      * Add a {@link HierarchyEventListener} event to the repository.
+     * 
+     * @param listener a listener
      */
     public void addHierarchyEventListener(HierarchyEventListener listener);
 

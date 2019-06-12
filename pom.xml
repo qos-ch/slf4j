@@ -307,17 +307,14 @@
           <linkJavadoc>true</linkJavadoc>
           <linksource>true</linksource>
           <aggregate>true</aggregate>
-          <additionalparam>-Xdoclint:none</additionalparam>
+          <additionalOptions>
+            <additionalOption>-Xdoclint:none</additionalOption>
+          </additionalOptions>
           <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
           <sourceFileExcludes>
             <sourceFileExclude>**/module-info.java</sourceFileExclude>
           </sourceFileExcludes>
           
-          <links>
-            <link>
-              http://java.sun.com/j2se/1.5.0/docs/api
-            </link>
-          </links>
           <groups>
             <group>
               <title>SLF4J packages</title>
