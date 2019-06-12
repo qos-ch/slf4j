@@ -21,8 +21,8 @@ package org.apache.log4j;
 // Contributors:  Kitching Simon <Simon.Kitching@OOOrange.ch>
 
 /**
-   <font color="#AA4444">Refrain from using this class directly, use
-   the {@link Level} class instead</font>.
+   <b>Refrain from using this class directly, use
+   the {@link Level} class instead</b>.
 
    @author Ceki G&uuml;lc&uuml; */
 public class Priority {

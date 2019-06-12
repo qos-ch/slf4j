@@ -35,7 +35,7 @@ import ch.qos.cal10n.MessageParameterObj;
 
 /**
  * A logger specialized in localized logging. Localization is based in the <a
- * href="http://cal10n.qos.ch">CAL10N project</p>.
+ * href="http://cal10n.qos.ch">CAL10N project</a>.
  * 
  * @author Ceki G&uuml;lc&uuml;
  */

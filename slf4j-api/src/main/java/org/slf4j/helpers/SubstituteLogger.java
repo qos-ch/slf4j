@@ -37,8 +37,8 @@ import org.slf4j.event.SubstituteLoggingEvent;
 /**
  * A logger implementation which logs via a delegate logger. By default, the delegate is a
  * {@link NOPLogger}. However, a different delegate can be set at any time.
- * <p/>
- * See also the <a href="http://www.slf4j.org/codes.html#substituteLogger">relevant
+ * 
+ * <p>See also the <a href="http://www.slf4j.org/codes.html#substituteLogger">relevant
  * error code</a> documentation.
  *
  * @author Chetan Mehrotra

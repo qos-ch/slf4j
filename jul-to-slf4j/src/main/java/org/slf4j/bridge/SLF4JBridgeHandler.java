@@ -39,12 +39,12 @@ import org.slf4j.spi.LocationAwareLogger;
 // Based on http://jira.qos.ch/browse/SLF4J-30
 
 /**
- * <p>Bridge/route all JUL log records to the SLF4J API.</p>
+ * <p>Bridge/route all JUL log records to the SLF4J API.
  * <p>Essentially, the idea is to install on the root logger an instance of
  * <code>SLF4JBridgeHandler</code> as the sole JUL handler in the system. Subsequently, the
  * SLF4JBridgeHandler instance will redirect all JUL log records are redirected
  * to the SLF4J API based on the following mapping of levels:
- * </p>
+ * 
  * <pre>
  * FINEST  -&gt; TRACE
  * FINER   -&gt; DEBUG
@@ -52,7 +52,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * INFO    -&gt; INFO
  * WARNING -&gt; WARN
  * SEVERE  -&gt; ERROR</pre>
- * <p><b>Programmatic installation:</b></p>
+ * <p><b>Programmatic installation:</b>
  * <pre>
  * // Optionally remove existing handlers attached to j.u.l root logger
  * SLF4JBridgeHandler.removeHandlersForRootLogger();  // (since SLF4J 1.6.5)
@@ -60,12 +60,12 @@ import org.slf4j.spi.LocationAwareLogger;
  * // add SLF4JBridgeHandler to j.u.l's root logger, should be done once during
  * // the initialization phase of your application
  * SLF4JBridgeHandler.install();</pre>
- * <p><b>Installation via <em>logging.properties</em> configuration file:</b></p>
+ * <p><b>Installation via <em>logging.properties</em> configuration file:</b>
  * <pre>
  * // register SLF4JBridgeHandler as handler for the j.u.l. root logger
  * handlers = org.slf4j.bridge.SLF4JBridgeHandler</pre>
  * <p>Once SLF4JBridgeHandler is installed, logging by j.u.l. loggers will be directed to
- * SLF4J. Example: </p>
+ * SLF4J. Example: 
  * <pre>
  * import  java.util.logging.Logger;
  * ...
@@ -81,10 +81,10 @@ import org.slf4j.spi.LocationAwareLogger;
  * statements (20% overall increase).</b> Please note that as of logback-version 0.9.25,
  * it is possible to completely eliminate the 60 fold translation overhead for disabled
  * log statements with the help of <a href="http://logback.qos.ch/manual/configuration.html#LevelChangePropagator">LevelChangePropagator</a>.
- * </p>
+ * 
  *
  * <p>If you are concerned about application performance, then use of <code>SLF4JBridgeHandler</code>
- * is appropriate only if any one the following two conditions is true:</p>
+ * is appropriate only if any one the following two conditions is true:
  * <ol>
  * <li>few j.u.l. logging statements are in play</li>
  * <li>LevelChangePropagator has been installed</li>
@@ -118,9 +118,8 @@ public class SLF4JBridgeHandler extends Handler {
 
     /**
      * Adds a SLF4JBridgeHandler instance to jul's root logger.
-     * <p/>
-     * <p/>
-     * This handler will redirect j.u.l. logging to SLF4J. However, only logs enabled
+     * 
+     * <p>This handler will redirect j.u.l. logging to SLF4J. However, only logs enabled
      * in j.u.l. will be redirected. For example, if a log statement invoking a
      * j.u.l. logger is disabled, then the corresponding non-event will <em>not</em>
      * reach SLF4JBridgeHandler and cannot be redirected.
@@ -283,10 +282,10 @@ public class SLF4JBridgeHandler extends Handler {
 
     /**
      * Publish a LogRecord.
-     * <p/>
+     * <p>
      * The logging request was made initially to a Logger object, which
      * initialized the LogRecord and forwarded it here.
-     * <p/>
+     * <p>
      * This handler ignores the Level attached to the LogRecord, as SLF4J cares
      * about discarding log statements.
      *

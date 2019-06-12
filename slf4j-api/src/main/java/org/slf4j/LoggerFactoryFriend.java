@@ -2,10 +2,10 @@ package org.slf4j;
 
 /**
  * All methods in this class are reserved for internal use, for testing purposes.
- * <p/>
- * <p/>They can can be modified, renamed or removed at any time without notice.
- * <p/>
- * You are strongly discouraged calling any of the methods of this class.
+ * 
+ * <p>They can can be modified, renamed or removed at any time without notice.
+ * 
+ * <p>You are strongly discouraged calling any of the methods of this class.
  *
  * @since 1.8.0
  *
@@ -14,7 +14,7 @@ package org.slf4j;
 public class LoggerFactoryFriend {
 
     /*
-     * Force LoggerFactory to consider itself uninitialized. <p/>
+     * Force LoggerFactory to consider itself uninitialized. 
      */
     static public void reset() {
         LoggerFactory.reset();

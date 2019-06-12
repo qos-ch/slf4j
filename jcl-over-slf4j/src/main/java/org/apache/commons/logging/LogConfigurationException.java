@@ -21,7 +21,7 @@ package org.apache.commons.logging;
  * An exception that is thrown only if a suitable <code>LogFactory</code> or
  * <code>Log</code> instance cannot be created by the corresponding factory
  * methods.
- * </p>
+ * 
  * 
  * <p>
  * In this version of JCL, this exception will never be thrown in practice.

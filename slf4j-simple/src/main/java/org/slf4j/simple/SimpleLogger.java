@@ -39,7 +39,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * Simple implementation of {@link Logger} that sends all enabled log messages,
  * for all defined loggers, to the console ({@code System.err}). The following
  * system properties are supported to configure the behavior of this logger:
- * </p>
+ * 
  *
  * <ul>
  * <li><code>org.slf4j.simpleLogger.logFile</code> - The output target which can
@@ -103,17 +103,17 @@ import org.slf4j.spi.LocationAwareLogger;
  * this implementation also checks for a class loader resource named
  * <code>"simplelogger.properties"</code>, and includes any matching definitions
  * from this resource (if it exists).
- * </p>
+ * 
  *
  * <p>
  * With no configuration, the default output includes the relative time in
  * milliseconds, thread name, the level, logger name, and the message followed
  * by the line separator for the host. In log4j terms it amounts to the "%r [%t]
  * %level %logger - %m%n" pattern.
- * </p>
+ * 
  * <p>
  * Sample output follows.
- * </p>
+ * 
  * 
  * <pre>
  * 176 [main] INFO examples.Sort - Populating an array of 2 elements in reverse order.
@@ -132,7 +132,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * This implementation is heavily inspired by
  * <a href="http://commons.apache.org/logging/">Apache Commons Logging</a>'s
  * SimpleLog.
- * </p>
+ * 
  *
  * @author Ceki G&uuml;lc&uuml;
  * @author Scott Sanders

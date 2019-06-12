@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogConfigurationException;
  * Simple implementation of Log that sends all enabled log messages, for all
  * defined loggers, to System.err. The following system properties are supported
  * to configure the behavior of this logger:
- * </p>
+ * 
  * <ul>
  * <li><code>org.apache.commons.logging.simplelog.defaultlog</code> - Default
  * logging detail level for all instances of SimpleLog. Must be one of ("trace",
@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogConfigurationException;
  * this implementation also checks for a class loader resource named
  * <code>"simplelog.properties"</code>, and includes any matching definitions
  * from this resource (if it exists).
- * </p>
+ * 
  * 
  * @author <a href="mailto:sanders@apache.org">Scott Sanders</a>
  * @author Rod Waldhoff
@@ -248,7 +248,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Set logging level.
-     * </p>
+     * 
      * 
      * @param currentLogLevel
      *          new logging level
@@ -262,7 +262,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Get logging level.
-     * </p>
+     * 
      */
     public int getLevel() {
 
@@ -275,7 +275,7 @@ public class SimpleLog implements Log, Serializable {
      * <p>
      * Do the actual logging. This method assembles the message and then calls
      * <code>write()</code> to cause it to be written.
-     * </p>
+     * 
      * 
      * @param type
      *          One of the LOG_LEVEL_XXX constants defining the log level
@@ -354,7 +354,7 @@ public class SimpleLog implements Log, Serializable {
      * Write the content of the message accumulated in the specified
      * <code>StringBuffer</code> to the appropriate output destination. The
      * default implementation writes to <code>System.err</code>.
-     * </p>
+     * 
      * 
      * @param buffer
      *          A <code>StringBuffer</code> containing the accumulated text to be
@@ -383,7 +383,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log a message with debug log level.
-     * </p>
+     * 
      */
     public final void debug(Object message) {
 
@@ -395,7 +395,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log an error with debug log level.
-     * </p>
+     * 
      */
     public final void debug(Object message, Throwable t) {
 
@@ -407,7 +407,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log a message with trace log level.
-     * </p>
+     * 
      */
     public final void trace(Object message) {
 
@@ -419,7 +419,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log an error with trace log level.
-     * </p>
+     * 
      */
     public final void trace(Object message, Throwable t) {
 
@@ -431,7 +431,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log a message with info log level.
-     * </p>
+     * 
      */
     public final void info(Object message) {
 
@@ -443,7 +443,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log an error with info log level.
-     * </p>
+     * 
      */
     public final void info(Object message, Throwable t) {
 
@@ -455,7 +455,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log a message with warn log level.
-     * </p>
+     * 
      */
     public final void warn(Object message) {
 
@@ -467,7 +467,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log an error with warn log level.
-     * </p>
+     * 
      */
     public final void warn(Object message, Throwable t) {
 
@@ -479,7 +479,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log a message with error log level.
-     * </p>
+     * 
      */
     public final void error(Object message) {
 
@@ -491,7 +491,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log an error with error log level.
-     * </p>
+     * 
      */
     public final void error(Object message, Throwable t) {
 
@@ -503,7 +503,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log a message with fatal log level.
-     * </p>
+     * 
      */
     public final void fatal(Object message) {
 
@@ -515,7 +515,7 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Log an error with fatal log level.
-     * </p>
+     * 
      */
     public final void fatal(Object message, Throwable t) {
 
@@ -527,12 +527,12 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Are debug messages currently enabled?
-     * </p>
+     * 
      * 
      * <p>
      * This allows expensive operations such as <code>String</code> concatenation
      * to be avoided when the message will be ignored by the logger.
-     * </p>
+     * 
      */
     public final boolean isDebugEnabled() {
 
@@ -542,12 +542,12 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Are error messages currently enabled?
-     * </p>
+     * 
      * 
      * <p>
      * This allows expensive operations such as <code>String</code> concatenation
      * to be avoided when the message will be ignored by the logger.
-     * </p>
+     * 
      */
     public final boolean isErrorEnabled() {
 
@@ -557,12 +557,12 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Are fatal messages currently enabled?
-     * </p>
+     * 
      * 
      * <p>
      * This allows expensive operations such as <code>String</code> concatenation
      * to be avoided when the message will be ignored by the logger.
-     * </p>
+     * 
      */
     public final boolean isFatalEnabled() {
 
@@ -572,12 +572,12 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Are info messages currently enabled?
-     * </p>
+     * 
      * 
      * <p>
      * This allows expensive operations such as <code>String</code> concatenation
      * to be avoided when the message will be ignored by the logger.
-     * </p>
+     * 
      */
     public final boolean isInfoEnabled() {
 
@@ -587,12 +587,12 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Are trace messages currently enabled?
-     * </p>
+     * 
      * 
      * <p>
      * This allows expensive operations such as <code>String</code> concatenation
      * to be avoided when the message will be ignored by the logger.
-     * </p>
+     * 
      */
     public final boolean isTraceEnabled() {
 
@@ -602,12 +602,12 @@ public class SimpleLog implements Log, Serializable {
     /**
      * <p>
      * Are warn messages currently enabled?
-     * </p>
+     * 
      * 
      * <p>
      * This allows expensive operations such as <code>String</code> concatenation
      * to be avoided when the message will be ignored by the logger.
-     * </p>
+     * 
      */
     public final boolean isWarnEnabled() {
 

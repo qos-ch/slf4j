@@ -46,11 +46,11 @@ import org.slf4j.helpers.MessageFormatter;
  * <p>
  * LogTransformer does the work of analyzing each class, and if appropriate add
  * log statements to each method to allow logging entry/exit.
- * </p>
+ * 
  * <p>
  * This class is based on the article <a href="http://today.java.net/pub/a/today/2008/04/24/add-logging-at-class-load-time-with-instrumentation.html"
  * >Add Logging at Class Load Time with Java Instrumentation</a>.
- * </p>
+ * 
  */
 public class LogTransformer implements ClassFileTransformer {
 

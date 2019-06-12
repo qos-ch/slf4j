@@ -46,17 +46,15 @@ import org.slf4j.spi.SLF4JServiceProvider;
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
  * various logging APIs, most notably for log4j, logback and JDK 1.4 logging.
- * Other implementations such as {@link org.slf4j.impl.NOPLogger NOPLogger} and
- * {@link org.slf4j.impl.SimpleLogger SimpleLogger} are also supported.
- * <p/>
- * <p/>
- * <code>LoggerFactory</code> is essentially a wrapper around an
+ * Other implementations such as {@link org.slf4j.nop.NOPLogger NOPLogger} and
+ * {@link org.slf4j.simple.SimpleLogger SimpleLogger} are also supported.
+ * 
+ * <p><code>LoggerFactory</code> is essentially a wrapper around an
  * {@link ILoggerFactory} instance bound with <code>LoggerFactory</code> at
  * compile time.
- * <p/>
- * <p/>
- * Please note that all methods in <code>LoggerFactory</code> are static.
  * 
+ * <p>
+ * Please note that all methods in <code>LoggerFactory</code> are static.
  * 
  * @author Alexander Dorokhine
  * @author Robert Elliot
@@ -112,8 +110,8 @@ public final class LoggerFactory {
     /**
      * It is LoggerFactory's responsibility to track version changes and manage
      * the compatibility list.
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * It is assumed that all versions in the 1.6 are mutually compatible.
      */
     static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.8", "1.7" };
@@ -124,13 +122,13 @@ public final class LoggerFactory {
 
     /**
      * Force LoggerFactory to consider itself uninitialized.
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * This method is intended to be called by classes (in the same package) for
      * testing purposes. This method is internal. It can be modified, renamed or
      * removed at any time without notice.
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * You are strongly discouraged from calling this method in production code.
      */
     static void reset() {
@@ -395,8 +393,8 @@ public final class LoggerFactory {
 
     /**
      * Return the {@link ILoggerFactory} instance in use.
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * ILoggerFactory instance is bound with this class at compile time.
      * 
      * @return the ILoggerFactory instance in use

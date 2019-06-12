@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>2.0.0-alpha0-SNAPSHOT</version>
+  <version>2.0.0-alpha0</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -47,9 +47,9 @@
     <log4j.version>1.2.17</log4j.version>
     <logback.version>1.0.13</logback.version>
     <junit.version>4.12</junit.version>
-    <maven-site-plugin.version>3.6</maven-site-plugin.version>
+    <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <compiler-plugin.version>3.8.0</compiler-plugin.version>
-    <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
+    <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
   </properties>
 
@@ -218,7 +218,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.19.1</version>
         <configuration>
-          <forkCount>2C</forkCount>
+          <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
           <reportFormat>plain</reportFormat>
           <trimStackTrace>false</trimStackTrace>
@@ -272,7 +272,17 @@
         </executions>
       </plugin>
 
-      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>${maven-site-plugin.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
     </plugins>
   
   </build>
@@ -292,11 +302,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${javadoc-plugin.version}</version>
+        <version>${maven-javadoc-plugin.version}</version>
         <configuration>
           <linkJavadoc>true</linkJavadoc>
           <linksource>true</linksource>
           <aggregate>true</aggregate>
+          <additionalparam>-Xdoclint:none</additionalparam>
           <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
           <sourceFileExcludes>
             <sourceFileExclude>**/module-info.java</sourceFileExclude>

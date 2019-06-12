@@ -25,7 +25,7 @@ import org.apache.commons.logging.impl.SLF4JLogFactory;
  * Factory for creating {@link Log} instances, which always delegates to an
  * instance of {@link SLF4JLogFactory}.
  * 
- * </p>
+ * 
  * 
  * @author Craig R. McClanahan
  * @author Costin Manolache
@@ -170,7 +170,7 @@ public abstract class LogFactory {
      * <p>
      * Construct (if necessary) and return a <code>Log</code> instance, using
      * the factory's current set of configuration attributes.
-     * </p>
+     * 
      * 
      * <p>
      * <strong>NOTE </strong>- Depending upon the implementation of the
@@ -178,7 +178,7 @@ public abstract class LogFactory {
      * you are returned may or may not be local to the current application, and
      * may or may not be returned again on a subsequent call with the same name
      * argument.
-     * </p>
+     * 
      * 
      * @param name
      *                Logical name of the <code>Log</code> instance to be
@@ -229,7 +229,7 @@ public abstract class LogFactory {
      * Construct (if necessary) and return a <code>LogFactory</code> instance,
      * using the following ordered lookup procedure to determine the name of the
      * implementation class to be loaded.
-     * </p>
+     * 
      * <ul>
      * <li>The <code>org.apache.commons.logging.LogFactory</code> system
      * property.</li>
@@ -248,7 +248,7 @@ public abstract class LogFactory {
      * <code>LogFactory</code> implementation class is utilized, all of the
      * properties defined in this file will be set as configuration attributes on
      * the corresponding <code>LogFactory</code> instance.
-     * </p>
+     * 
      * 
      * @exception LogConfigurationException
      *                    if the implementation class is not available or cannot

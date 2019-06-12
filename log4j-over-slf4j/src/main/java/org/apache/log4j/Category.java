@@ -29,7 +29,7 @@ import java.util.Enumeration;
  * This class is a minimal implementation of the original
  * <code>org.apache.log4j.Category</code> class (as found in log4j 1.2) by
  * delegation of all calls to a {@link org.slf4j.Logger} instance.
- * </p>
+ * 
  *
  * <p>
  * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>,

@@ -39,7 +39,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
  * of this interface.
- * <p/>
+ * 
  * <h3>Typical usage pattern:</h3>
  * <pre>
  * import org.slf4j.Logger;
@@ -55,7 +55,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  *     oldT = t;
  *     t = temperature;
  *     <span style="color:green">logger.debug("Temperature set to {}. Old temperature was {}.", t, oldT);</span>
- *     if(temperature.intValue() > 50) {
+ *     if(temperature.intValue() &gt; 50) {
  *       <span style="color:green">logger.info("Temperature has risen above 50 degrees.");</span>
  *     }
  *   }
@@ -67,7 +67,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  * <a href="../../../faq.html#paramException">presence of an exception/throwable</a>.
  *
  * <p>Once you are comfortable using loggers, i.e. instances of this interface, consider using
- * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.</p>
+ * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -106,9 +106,9 @@ public interface Logger {
     /**
      * Log a message at the TRACE level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the TRACE level. </p>
+     * is disabled for the TRACE level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -119,9 +119,9 @@ public interface Logger {
     /**
      * Log a message at the TRACE level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the TRACE level. </p>
+     * is disabled for the TRACE level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -133,12 +133,12 @@ public interface Logger {
     /**
      * Log a message at the TRACE level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the TRACE level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for TRACE. The variants taking {@link #trace(String, Object) one} and
-     * {@link #trace(String, Object, Object) two} arguments exist solely in order to avoid this hidden cost.</p>
+     * {@link #trace(String, Object, Object) two} arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -255,9 +255,9 @@ public interface Logger {
     /**
      * Log a message at the DEBUG level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the DEBUG level. </p>
+     * is disabled for the DEBUG level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -267,9 +267,9 @@ public interface Logger {
     /**
      * Log a message at the DEBUG level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the DEBUG level. </p>
+     * is disabled for the DEBUG level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -280,13 +280,13 @@ public interface Logger {
     /**
      * Log a message at the DEBUG level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the DEBUG level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for DEBUG. The variants taking
      * {@link #debug(String, Object) one} and {@link #debug(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -395,9 +395,9 @@ public interface Logger {
     /**
      * Log a message at the INFO level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the INFO level. </p>
+     * is disabled for the INFO level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -407,9 +407,9 @@ public interface Logger {
     /**
      * Log a message at the INFO level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the INFO level. </p>
+     * is disabled for the INFO level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -420,13 +420,13 @@ public interface Logger {
     /**
      * Log a message at the INFO level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the INFO level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for INFO. The variants taking
      * {@link #info(String, Object) one} and {@link #info(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -534,9 +534,9 @@ public interface Logger {
     /**
      * Log a message at the WARN level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the WARN level. </p>
+     * is disabled for the WARN level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -546,13 +546,13 @@ public interface Logger {
     /**
      * Log a message at the WARN level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the WARN level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for WARN. The variants taking
      * {@link #warn(String, Object) one} and {@link #warn(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -562,9 +562,9 @@ public interface Logger {
     /**
      * Log a message at the WARN level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the WARN level. </p>
+     * is disabled for the WARN level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -675,9 +675,9 @@ public interface Logger {
     /**
      * Log a message at the ERROR level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the ERROR level. </p>
+     * is disabled for the ERROR level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -687,9 +687,9 @@ public interface Logger {
     /**
      * Log a message at the ERROR level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the ERROR level. </p>
+     * is disabled for the ERROR level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -700,13 +700,13 @@ public interface Logger {
     /**
      * Log a message at the ERROR level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the ERROR level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for ERROR. The variants taking
      * {@link #error(String, Object) one} and {@link #error(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments

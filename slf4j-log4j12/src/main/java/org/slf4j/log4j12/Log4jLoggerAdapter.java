@@ -121,7 +121,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for level TRACE.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -142,7 +142,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the TRACE level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -165,7 +165,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the TRACE level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -217,7 +217,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for level DEBUG.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -238,7 +238,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the DEBUG level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -261,7 +261,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the DEBUG level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -311,7 +311,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the INFO level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -332,7 +332,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the INFO level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -355,7 +355,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the INFO level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -408,7 +408,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the WARN level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -429,7 +429,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the WARN level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -452,7 +452,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the WARN level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -505,7 +505,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the ERROR level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -526,7 +526,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the ERROR level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string
@@ -549,7 +549,7 @@ public final class Log4jLoggerAdapter extends MarkerIgnoringBase implements Loca
      * <p>
      * This form avoids superfluous object creation when the logger is disabled
      * for the ERROR level.
-     * </p>
+     * 
      * 
      * @param format
      *          the format string

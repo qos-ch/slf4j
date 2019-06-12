@@ -229,14 +229,14 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
     private void createAwareLabel() {
         awareLabel = new JLabel();
-        awareLabel.setText("<html>" + "<p>I am aware that this tool will directly modify all Java source files</p>"
-                        + "<p>in the selected folder without creating backup files.</p>" + "</html>");
+        awareLabel.setText("<html>" + "<p>I am aware that this tool will directly modify all Java source files"
+                        + "<p>in the selected folder without creating backup files." + "</html>");
     }
 
     private void createWarningLabel() {
         warningLabel = new JLabel();
-        warningLabel.setText("<html>" + "<p><span color=\"red\">WARNING:</span> This SLF4J migration tool will directly modify all Java source files</p>"
-                        + "<p>in the selected project folder without creating a backup of the original files.</p>" + "</html>");
+        warningLabel.setText("<html>" + "<p><span color=\"red\">WARNING:</span> This SLF4J migration tool will directly modify all Java source files"
+                        + "<p>in the selected project folder without creating a backup of the original files." + "</html>");
     }
 
     private void createMigrateButton() {
@@ -341,7 +341,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
             buf.append(i);
             buf.append(". ");
             buf.append(msg);
-            buf.append("</p>");
+            buf.append("");
             i++;
         }
         buf.append("</html>");

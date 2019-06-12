@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentMap;
  * 
  * <p>
  * This implementation ignores any configured attributes.
- * </p>
+ * 
  * 
  * @author Rod Waldhoff
  * @author Craig R. McClanahan
@@ -136,7 +136,7 @@ public class SLF4JLogFactory extends LogFactory {
      * <p>
      * Construct (if necessary) and return a <code>Log</code> instance, using
      * the factory's current set of configuration attributes.
-     * </p>
+     * 
      * 
      * @param name
      *          Logical name of the <code>Log</code> instance to be returned
