@@ -5,17 +5,19 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.DefaultLoggingEvent;
+import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
+import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.LoggingEventAware;
 
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 
-	DefaultLoggingEvent logggingEvent;
+	DefaultLoggingEvent loggingEvent;
 	Logger logger;
 
 	public DefaultLoggingEventBuilder(Logger logger, Level level) {
 		this.logger = logger;
-		logggingEvent = new DefaultLoggingEvent(level, logger);
+		loggingEvent = new DefaultLoggingEvent(level, logger);
 	}
 
 	/**
@@ -27,41 +29,67 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 	 */
 	@Override
 	public LoggingEventBuilder addMarker(Marker marker) {
-		logggingEvent.addMarker(marker);
+		loggingEvent.addMarker(marker);
 		return this;
 	}
 
 	@Override
 	public LoggingEventBuilder setCause(Throwable t) {
-		logggingEvent.setThrowable(t);
+		loggingEvent.setThrowable(t);
 		return this;
 	}
 
 	@Override
 	public LoggingEventBuilder addArgument(Object p) {
-		logggingEvent.addArgument(p);
+		loggingEvent.addArgument(p);
 		return this;
 	}
 
 	@Override
 	public LoggingEventBuilder addArgument(Supplier<Object> objectSupplier) {
-		logggingEvent.addArgument(objectSupplier.get());
+		loggingEvent.addArgument(objectSupplier.get());
 		return this;
 	}
 
 	@Override
 	public void log(String message) {
-		logggingEvent.setMessage(message);
+		loggingEvent.setMessage(message);
+		innerLog(loggingEvent);
+	}
 
+	
+	@Override
+	public void log(String message, Object arg) {
+		loggingEvent.setMessage(message);
+		loggingEvent.addArgument(arg);
+		innerLog(loggingEvent);
+	}
+
+	@Override
+	public void log(String message, Object arg0, Object arg1) {
+		loggingEvent.setMessage(message);
+		loggingEvent.addArgument(arg0);
+		loggingEvent.addArgument(arg1);
+		innerLog(loggingEvent);
+	}
+
+	@Override
+	public void log(String message, Object... args) {
+		loggingEvent.setMessage(message);
+		loggingEvent.addArguments(args);
+		
+		innerLog(loggingEvent);
+	}
+
+	private void innerLog(LoggingEvent logggingEvent) {
 		if (logger instanceof LoggingEventAware) {
 			((LoggingEventAware) logger).log(logggingEvent);
 		} else {
-			logViaPublicLoggerAPI();
+			logViaPublicLoggerAPI(logggingEvent);
 		}
-
 	}
-
-	private void logViaPublicLoggerAPI() {
+	
+	private void logViaPublicLoggerAPI(LoggingEvent logggingEvent) {
 		Object[] argArray = logggingEvent.getArgumentArray();
 		int argLen = argArray == null ? 0 : argArray.length;
 
@@ -79,6 +107,8 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 			combinedArguments[argLen] = t;
 		}
 
+		msg = mergeKeyValuePairs(logggingEvent, msg);
+		
 		switch (logggingEvent.getLevel()) {
 		case TRACE:
 			logger.trace(msg, combinedArguments);
@@ -99,6 +129,25 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 
 	}
 
+	private String mergeKeyValuePairs(LoggingEvent logggingEvent, String msg) {
+		
+		if(logggingEvent.getKeyValuePairs() != null) {
+			StringBuilder sb = new StringBuilder();
+			for(KeyValuePair kvp: logggingEvent.getKeyValuePairs()) {
+				sb.append(kvp.key);
+				sb.append('=');
+				sb.append(kvp.value);
+				sb.append(' ');
+			}
+			sb.append(msg);
+			return sb.toString();
+		} else {
+			return msg;
+			
+		}
+	}
+
+	
 	@Override
 	public void log(Supplier<String> messageSupplier) {
 		if (messageSupplier == null) {
@@ -110,13 +159,13 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 
 	@Override
 	public LoggingEventBuilder addKeyValue(String key, Object value) {
-		logggingEvent.addKeyValue(key, value);
+		loggingEvent.addKeyValue(key, value);
 		return this;
 	}
 
 	@Override
 	public LoggingEventBuilder addKeyValue(String key, Supplier<Object> value) {
-		logggingEvent.addKeyValue(key, value.get());
+		loggingEvent.addKeyValue(key, value.get());
 		return this;
 	}
 

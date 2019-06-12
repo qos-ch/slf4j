@@ -75,7 +75,16 @@ public class FluentApiInvocationTest {
 		assertLogMessage("Hello world.", 0);
 		assertThrowable(t, 0);
 	}
-	
+
+	@Test
+	public void messageWithKeyValuePair() {
+		String msg = "Hello world.";
+		
+		logger.atDebug().addKeyValue("k", "v").log(msg);
+		assertLogMessage("k=v Hello world.", 0);
+		
+	}
+
 
 	
 	private void assertLogMessage(String expected, int index) {

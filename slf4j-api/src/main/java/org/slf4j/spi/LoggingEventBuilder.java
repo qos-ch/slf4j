@@ -25,8 +25,8 @@ public interface LoggingEventBuilder {
 	void log(String message);
 
 	void log(String message, Object arg);
-	void log(String message, Object arg1, Object arg2);
-	void log(String message, Object... argss);
+	void log(String message, Object arg0, Object arg1);
+	void log(String message, Object... args);
 	
 	void log(Supplier<String> messageSupplier);
 

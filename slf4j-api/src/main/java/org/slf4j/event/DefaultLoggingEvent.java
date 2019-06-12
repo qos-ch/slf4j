@@ -1,6 +1,7 @@
 package org.slf4j.event;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -49,9 +50,13 @@ public class DefaultLoggingEvent implements LoggingEvent {
 		getNonNullArguments().add(p);
 	}
 
+	public void addArguments(Object... args) {
+		getNonNullArguments().addAll(Arrays.asList(args));
+	}
+
 	private List<Object> getNonNullArguments() {
 		if (arguments == null) {
-			arguments = new ArrayList<>(5);
+			arguments = new ArrayList<>(3);
 		}
 		return arguments;
 	}

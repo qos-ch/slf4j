@@ -59,4 +59,17 @@ public class NOPLoggingEventBuilder implements LoggingEventBuilder {
 	public void log(Supplier<String> messageSupplier) {
 	}
 
+	@Override
+	public void log(String message, Object arg) {
+	}
+
+	@Override
+	public void log(String message, Object arg0, Object arg1) {
+	}
+
+	@Override
+	public void log(String message, Object... args) {
+		
+	}
+
 }
