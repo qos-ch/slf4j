@@ -19,7 +19,7 @@ public class FluentApiInvocationTest {
 	java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
 	Level oldLevel;
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Before
 	public void setUp() throws Exception {
 		oldLevel = root.getLevel();
@@ -56,24 +56,23 @@ public class FluentApiInvocationTest {
 		assertLogMessage("Hello world.", 0);
 	}
 
-
 	@Test
 	public void messageWithTwoArguments() {
 		int old = 15;
 		int t = 16;
-		
+
 		{
 			String msg = "Temperature set to {}. Old temperature was {}.";
 			logger.atDebug().addArgument(t).addArgument(old).log(msg);
 			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
 		}
-		
+
 		{
 			String msg = "Temperature set to {}. Old temperature was {}.";
 			logger.atDebug().log(msg, t, old);
 			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
 		}
-		
+
 		{
 			String msg = "Temperature set to {}. Old temperature was {}.";
 			logger.atDebug().addArgument(t).log(msg, old);
@@ -86,11 +85,11 @@ public class FluentApiInvocationTest {
 			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
 		}
 	}
-	
+
 	public int t16() {
 		return 16;
 	}
-	
+
 	@Test
 	public void messageWithThrowable() {
 		String msg = "Hello world.";
@@ -104,7 +103,7 @@ public class FluentApiInvocationTest {
 	public void messageWithArgumentsAndThrowable() {
 		String msg = "Hello {}.";
 		Throwable t = new IllegalStateException();
-		
+
 		logger.atDebug().setCause(t).addArgument("world").log(msg);
 		assertLogMessage("Hello world.", 0);
 		assertThrowable(t, 0);
@@ -113,20 +112,22 @@ public class FluentApiInvocationTest {
 	@Test
 	public void messageWithKeyValuePair() {
 		String msg = "Hello world.";
-		
 		logger.atDebug().addKeyValue("k", "v").log(msg);
 		assertLogMessage("k=v Hello world.", 0);
-		
+
+		int oldT = 15;
+		int newT = 16;
+		logger.atDebug().addKeyValue("oldT", oldT).addKeyValue("newT", newT).log("Temperature changed.");
+		assertLogMessage("oldT=15 newT=16 Temperature changed.", 1);
+
 	}
 
-
-	
 	private void assertLogMessage(String expected, int index) {
 		LogRecord logRecord = listHandler.recordList.get(index);
 		Assert.assertNotNull(logRecord);
 		assertEquals(expected, logRecord.getMessage());
 	}
-	
+
 	private void assertThrowable(Throwable expected, int index) {
 		LogRecord logRecord = listHandler.recordList.get(index);
 		Assert.assertNotNull(logRecord);

@@ -68,7 +68,7 @@
     requires Java 8 and introduces a backward-compatible fluent logging
     API. By backward-compatible, we mean that existing logging
     frameworks do not have to be changed in order for the user to
-    benefit from the fluent logging API.
+    benefit from the <a href="#fluent">fluent logging API</a>.
     </p>
 
     <h3 class="doAnchor" name="hello_world">Hello World</h3>
@@ -92,7 +92,7 @@ public class HelloWorld {
      <p>To run this example, you first need to <a
      href="download.html">download the slf4j distribution</a>, and
      then to unpack it. Once that is done, add the file
-     <em>slf4j-api-${project.version}.jar</em> to your class path.</p>
+     <em>slf4j-api-${latest.stable.version}.jar</em> to your class path.</p>
 
      <p>Compiling and running <em>HelloWorld</em> will result in the
      following output being printed on the console.</p>
@@ -106,12 +106,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <p>The warning will disappear as soon as you add a <a
      href="#swapping">binding</a> to your class path. Assuming you add
-     <em>slf4j-simple-${project.version}.jar</em> so that your class
+     <em>slf4j-simple-${latest.stable.version}.jar</em> so that your class
      path contains:</p>
      
      <ul>
-       <li>slf4j-api-${project.version}.jar</li>
-       <li>slf4j-simple-${project.version}.jar</li>
+       <li>slf4j-api-${latest.stable.version}.jar</li>
+       <li>slf4j-simple-${latest.stable.version}.jar</li>
      </ul>
 
      <p>Compiling and running <em>HelloWorld</em> will now result in
@@ -157,11 +157,21 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <p>As of version 2.0, SLF4J API introduces a fluent API.</p>
 
-      <p>The idea is to contruct a logging event piece by piece and to
-      log it once constructed. If a given logger is disabled for a
-      given level, than the no construction takes place.</p>
+      <p>The idea is to build a logging event piece by piece with a <a
+      href="apidocs/org/slf4j/spi/LoggingEventBuilder.html">LoggingEventBuilder</a>
+      and to log once the event is fully built. The
+      <code>atTrace()</code>, <code>atDebug()</code>,
+      <code>atInfo()</code>, <code>atWarn()</code> and
+      <code>atError()</code> methods new in the
+      <code>org.slf4j.Logger</code> interface return an instance of <a
+      href="apidocs/org/slf4j/spi/LoggingEventBuilder.html"><code>LoggingEventBuilder</code></a>. For
+      disabled log levels, the returned
+      <code>LoggingEventBuilder</code> instance does nothing, thus
+      preserving the nano-second level performance of the regular
+      logging interface.</p>
 
-      <p>Here are few examples:</p>
+
+      <p>Here are few usage examples:</p>
 
       <p>The statement</p> 
       <pre class="prettyprint source">logger.atInfo().log("Hello world");</pre>
@@ -180,20 +190,44 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         logger.debug("Temperature set to {}. Old temperature was {}.", newT, oldT);
 
         // using fluent API, add arguments one by one and then log message
-        logger.atDebug().addArgument(newT).addArgument(oldT).log("Temperature set to {}. Old temperature was {}.");
+        logger.<b>atDebug()</b>.addArgument(newT).addArgument(oldT).log("Temperature set to {}. Old temperature was {}.");
 
         // using fluent API, log message with arguments
-        logger.atDebug().log("Temperature set to {}. Old temperature was {}.", newT, oldT);
+        logger.<b>atDebug()</b>.log("Temperature set to {}. Old temperature was {}.", newT, oldT);
 
         // using fluent API, add one argument and then log message providing one more argument
-        logger.atDebug().addArgument(newT).log("Temperature set to {}. Old temperature was {}.", oldT);
+        logger.<b>atDebug()</b>.addArgument(newT).log("Temperature set to {}. Old temperature was {}.", oldT);
 
         // using fluent API, add one argument with a Supplier and then log message with one more argument.
         // Assume the method t16() returns 16.
-        logger.atDebug().addArgument(() -> t16()).log(msg, "Temperature set to {}. Old temperature was {}.", oldT);
+        logger.<b>atDebug()</b>.addArgument(() -> t16()).log(msg, "Temperature set to {}. Old temperature was {}.", oldT);
       </pre>
 
+      <p>The fluent logging API allows the specification of many
+      different type of data to a <code>org.slf4j.Logger</code>
+      without a combinatorial explosion in the number of methods in
+      the <code>Logger</code> interface.</p>
+
+      <p>It is now possible to pass multiple <a
+      href="apidocs/org/slf4j/Marker.html">Markers</a>, pass arguments
+      with a <a
+      href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html">Supplier</a>
+      or pass multiple key-value pairs. Key-value pairs are
+      particularly useful in conjuction with log data analysers which
+      can interpret them automatically.</p>
+
+      <p>The following log statements are equivalent:</p>
       
+      <pre class="prettyprint source">
+        int newT = 15;
+        int oldT = 16;
+
+        // using classical API
+        logger.debug("oldT={} newT={} Temperature changed.", newT, oldT);
+
+        // using fluent API
+        logger.atDebug().<b>addKeyValue("oldT", oldT)</b>.addKeyValue("newT", newT).log("Temperature changed.");          
+      </pre>
 
       <h3 class="doAnchor" name="swapping">Binding with a logging
       framework at deployment time</h3>
@@ -205,23 +239,23 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <dl>
 
-        <dt><em>slf4j-log4j12-${project.version}.jar</em>
+        <dt><em>slf4j-log4j12-${latest.stable.version}.jar</em>
         </dt>
         <dd>Binding for <a
         href="http://logging.apache.org/log4j/1.2/index.html">log4j
         version 1.2</a>, a widely used logging framework. You also
         need to place <em>log4j.jar</em> on your class path.<p/></dd>
 
-        <dt><em>slf4j-jdk14-${project.version}.jar</em> </dt>
+        <dt><em>slf4j-jdk14-${latest.stable.version}.jar</em> </dt>
         <dd>Binding for java.util.logging, also referred to as JDK 1.4
         logging <p/></dd>
 
-        <dt><em>slf4j-nop-${project.version}.jar</em></dt>
+        <dt><em>slf4j-nop-${latest.stable.version}.jar</em></dt>
         <dd>Binding for <a
         href="http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html">NOP</a>,
         silently discarding all logging.<p/></dd>
         
-        <dt><em>slf4j-simple-${project.version}.jar</em></dt>
+        <dt><em>slf4j-simple-${latest.stable.version}.jar</em></dt>
         <dd>Binding for <a
         href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple
         </a> implementation, which outputs all events to
@@ -229,7 +263,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         printed. This binding may be useful in the context of small
         applications.<p/></dd>
         
-        <dt><em>slf4j-jcl-${project.version}.jar</em></dt>
+        <dt><em>slf4j-jcl-${latest.stable.version}.jar</em></dt>
         
         <dd>Binding for <a
         href="http://commons.apache.org/logging/">Jakarta Commons
@@ -260,16 +294,16 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <p>To switch logging frameworks, just replace slf4j bindings on
       your class path. For example, to switch from java.util.logging
-      to log4j, just replace slf4j-jdk14-${project.version}.jar with
-      slf4j-log4j12-${project.version}.jar.
+      to log4j, just replace slf4j-jdk14-${latest.stable.version}.jar with
+      slf4j-log4j12-${latest.stable.version}.jar.
       </p>
 
       <p>SLF4J does not rely on any special class loader machinery. In
       fact, each SLF4J binding is hardwired <em>at compile time</em>
       to use one and only one specific logging framework.  For
-      example, the slf4j-log4j12-${project.version}.jar binding is
+      example, the slf4j-log4j12-${latest.stable.version}.jar binding is
       bound at compile time to use log4j.  In your code, in addition
-      to <em>slf4j-api-${project.version}.jar</em>, you simply drop
+      to <em>slf4j-api-${latest.stable.version}.jar</em>, you simply drop
       <b>one and only one</b> binding of your choice onto the
       appropriate class path location. Do not place more than one
       binding on your class path. Here is a graphical illustration of
@@ -355,11 +389,11 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       you need to do is to declare "ch.qos.logback:logback-classic" as
       a dependency in your <em>pom.xml</em> file as shown below. In
       addition to <em>logback-classic-${logback.version}.jar</em>,
-      this will pull <em>slf4j-api-${project.version}.jar</em> as well
+      this will pull <em>slf4j-api-${latest.stable.version}.jar</em> as well
       as <em>logback-core-${logback.version}.jar</em> into your
       project. Note that explicitly declaring a dependency on
       <em>logback-core-${logback.version}</em> or
-      <em>slf4j-api-${project.version}.jar</em> is not wrong and may
+      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
       be necessary to impose the correct version of said artifacts by
       virtue of Maven's "nearest definition" dependency mediation
       rule.
@@ -377,12 +411,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       log4j as the underlying logging framework, all you need to do is
       to declare "org.slf4j:slf4j-log4j12" as a dependency in your
       <em>pom.xml</em> file as shown below. In addition to
-      <em>slf4j-log4j12-${project.version}.jar</em>, this will pull
-      <em>slf4j-api-${project.version}.jar</em> as well as
+      <em>slf4j-log4j12-${latest.stable.version}.jar</em>, this will pull
+      <em>slf4j-api-${latest.stable.version}.jar</em> as well as
       <em>log4j-${log4j.version}.jar</em> into your project.  Note
       that explicitly declaring a dependency on
       <em>log4j-${log4j.version}.jar</em> or
-      <em>slf4j-api-${project.version}.jar</em> is not wrong and may
+      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
       be necessary to impose the correct version of said artifacts by
       virtue of Maven's "nearest definition" dependency mediation
       rule.</p>
@@ -390,7 +424,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>
   &lt;artifactId>slf4j-log4j12&lt;/artifactId>
-  &lt;version>${project.version}&lt;/version>
+  &lt;version>${latest.stable.version}&lt;/version>
 &lt;/dependency></pre>
 
      <p/>
@@ -400,10 +434,10 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       framework, all you need to do is to declare
       "org.slf4j:slf4j-jdk14" as a dependency in your <em>pom.xml</em>
       file as shown below. In addition to
-      <em>slf4j-jdk14-${project.version}.jar</em>, this will pull
-      <em>slf4j-api-${project.version}.jar</em> into your project.
+      <em>slf4j-jdk14-${latest.stable.version}.jar</em>, this will pull
+      <em>slf4j-api-${latest.stable.version}.jar</em> into your project.
       Note that explicitly declaring a dependency on
-      <em>slf4j-api-${project.version}.jar</em> is not wrong and may
+      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
       be necessary to impose the correct version of said artifact by
       virtue of Maven's "nearest definition" dependency mediation
       rule.</p>
@@ -411,7 +445,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>
   &lt;artifactId>slf4j-jdk14&lt;/artifactId>
-  &lt;version>${project.version}&lt;/version>
+  &lt;version>${latest.stable.version}&lt;/version>
 &lt;/dependency></pre>
 
 
@@ -436,8 +470,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <p>Mixing different versions of <em>slf4j-api.jar</em> and SLF4J
       binding can cause problems. For example, if you are using
-      slf4j-api-${project.version}.jar, then you should also use
-      slf4j-simple-${project.version}.jar, using
+      slf4j-api-${latest.stable.version}.jar, then you should also use
+      slf4j-simple-${latest.stable.version}.jar, using
       slf4j-simple-1.5.5.jar will not work.</p>
 
      
