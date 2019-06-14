@@ -155,7 +155,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <h3 class="doAnchor" name="fluent">Fluent Logging API</h3>
 
-      <p>As of version 2.0, SLF4J API introduces a fluent API.</p>
+      <p><span class="label">since 2.0.0</span> SLF4J API version
+      2.0.0 requires Java 8 and introduces a backward-compatible
+      fluent logging API. By backward-compatible, we mean that
+      existing logging frameworks do not have to be changed in order
+      for the user to benefit from the <a href="#fluent">fluent
+      logging API</a>.
+      </p>
 
       <p>The idea is to build a logging event piece by piece with a <a
       href="apidocs/org/slf4j/spi/LoggingEventBuilder.html">LoggingEventBuilder</a>
