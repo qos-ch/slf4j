@@ -65,7 +65,10 @@
     </p>
 
     <p><span class="label">since 2.0.0</span> SLF4J API version 2.0.0
-    requires Java 8 and inroduces a fluent API.
+    requires Java 8 and introduces a backward-compatible fluent logging
+    API. By backward-compatible, we mean that existing logging
+    frameworks do not have to be changed in order for the user to
+    benefit from the fluent logging API.
     </p>
 
     <h3 class="doAnchor" name="hello_world">Hello World</h3>
@@ -149,7 +152,48 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 20:   }
 21: } </pre>
       
-     
+
+      <h3 class="doAnchor" name="fluent">Fluent Logging API</h3>
+
+      <p>As of version 2.0, SLF4J API introduces a fluent API.</p>
+
+      <p>The idea is to contruct a logging event piece by piece and to
+      log it once constructed. If a given logger is disabled for a
+      given level, than the no construction takes place.</p>
+
+      <p>Here are few examples:</p>
+
+      <p>The statement</p> 
+      <pre class="prettyprint source">logger.atInfo().log("Hello world");</pre>
+
+      <p>is equivalent to:</p>
+
+      <pre class="prettyprint source">logger.info("Hello world.");</pre>
+
+      <p>The following statements are all equivalent:</p> 
+
+      <pre class="prettyprint source">
+        int newT = 15;
+        int oldT = 16;
+
+        // using classical API
+        logger.debug("Temperature set to {}. Old temperature was {}.", newT, oldT);
+
+        // using fluent API, add arguments one by one and then log message
+        logger.atDebug().addArgument(newT).addArgument(oldT).log("Temperature set to {}. Old temperature was {}.");
+
+        // using fluent API, log message with arguments
+        logger.atDebug().log("Temperature set to {}. Old temperature was {}.", newT, oldT);
+
+        // using fluent API, add one argument and then log message providing one more argument
+        logger.atDebug().addArgument(newT).log("Temperature set to {}. Old temperature was {}.", oldT);
+
+        // using fluent API, add one argument with a Supplier and then log message with one more argument.
+        // Assume the method t16() returns 16.
+        logger.atDebug().addArgument(() -> t16()).log(msg, "Temperature set to {}. Old temperature was {}.", oldT);
+      </pre>
+
+      
 
       <h3 class="doAnchor" name="swapping">Binding with a logging
       framework at deployment time</h3>
