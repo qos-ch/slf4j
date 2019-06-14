@@ -58,6 +58,40 @@ public class FluentApiInvocationTest {
 
 
 	@Test
+	public void messageWithTwoArguments() {
+		int old = 15;
+		int t = 16;
+		
+		{
+			String msg = "Temperature set to {}. Old temperature was {}.";
+			logger.atDebug().addArgument(t).addArgument(old).log(msg);
+			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
+		}
+		
+		{
+			String msg = "Temperature set to {}. Old temperature was {}.";
+			logger.atDebug().log(msg, t, old);
+			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
+		}
+		
+		{
+			String msg = "Temperature set to {}. Old temperature was {}.";
+			logger.atDebug().addArgument(t).log(msg, old);
+			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
+		}
+
+		{
+			String msg = "Temperature set to {}. Old temperature was {}.";
+			logger.atDebug().addArgument(() -> t16()).log(msg, old);
+			assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
+		}
+	}
+	
+	public int t16() {
+		return 16;
+	}
+	
+	@Test
 	public void messageWithThrowable() {
 		String msg = "Hello world.";
 		Throwable t = new IllegalStateException();
