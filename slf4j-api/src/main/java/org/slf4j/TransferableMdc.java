@@ -84,7 +84,7 @@ public final class TransferableMdc implements MDCAdapter, Closeable {
 
     private final Map<String, String> context;
     /**
-     * null value is used to mark {@link TransferableMdc} a closed by {@link #close()}.
+     * null value is used to mark {@link TransferableMdc} as closed by {@link #close()}.
      * We could have used another field for this, but given the nature of this class, we should be as compact as possible.
      */
     //@Nullable

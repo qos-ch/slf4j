@@ -157,8 +157,7 @@ public final class TransferableMdcTest {
 
     @Test(expected = IllegalStateException.class)
     public final void closeMultipleTimes() {
-        final TransferableMdc mdc = MDC.createTransferable();
-        TransferableMdc transferredMdc = mdc.transfer();
+        final TransferableMdc transferredMdc = MDC.createTransferable().transfer();
         transferredMdc.close();
         transferredMdc.close();
     }
