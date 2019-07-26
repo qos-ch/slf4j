@@ -29,7 +29,7 @@ package org.slf4j;
  * instances by name.
  * 
  * <p>Most users retrieve {@link Logger} instances through the static
- * {@link LoggerFactory#getLogger(String)} method. An instance of of this
+ * {@link LoggerFactory#getLogger(String)} method. An instance of this
  * interface is bound internally with {@link LoggerFactory} class at 
  * compile time. 
  * 
