@@ -46,8 +46,10 @@ import org.slf4j.helpers.SubstituteLogger;
  * @author Chetan Mehrotra
  */
 public class SubstitutableLoggerTest {
+	
 	// atTrace excluded during development of 2.0 API
-    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName", "atTrace", "atDebug", "atInfo", "atWarn", "atError"));
+    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName", "makeLoggingEventBuilder", "atTrace", 
+    		"atDebug", "atInfo", "atWarn", "atError"));
 
     @Test
     public void testDelegate() throws Exception {
