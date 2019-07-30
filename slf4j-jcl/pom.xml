@@ -29,4 +29,8 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.jcl</project.Automatic-Module-Name>
+  </properties>
+
 </project>

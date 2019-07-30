@@ -65,4 +65,8 @@
     </plugins>
   </build>
 
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.site</project.Automatic-Module-Name>
+  </properties>
+
 </project>

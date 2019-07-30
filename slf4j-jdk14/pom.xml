@@ -31,5 +31,8 @@
     </dependency>
   </dependencies>
 
-  
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.jdk14</project.Automatic-Module-Name>
+  </properties>
+
 </project>

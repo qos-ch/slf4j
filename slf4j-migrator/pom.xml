@@ -16,4 +16,8 @@
   <name>SLF4J Migrator</name>
   <description>SLF4J Migrator</description>
 
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.migrator</project.Automatic-Module-Name>
+  </properties>
+
 </project>

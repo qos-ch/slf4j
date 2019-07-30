@@ -83,4 +83,8 @@
 
   </build>
 
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.ext</project.Automatic-Module-Name>
+  </properties>
+
 </project>

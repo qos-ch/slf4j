@@ -31,4 +31,8 @@
         </dependency>
     </dependencies>
 
+    <properties>
+        <project.Automatic-Module-Name>org.slf4j.android</project.Automatic-Module-Name>
+    </properties>
+
 </project>

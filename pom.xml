@@ -48,6 +48,7 @@
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
+    <project.Automatic-Module-Name>org.slf4j.parent</project.Automatic-Module-Name>
   </properties>
 
   <developers>
@@ -167,6 +168,7 @@
         <configuration>
           <archive>
             <manifestEntries>
+              <Automatic-Module-Name>${project.Automatic-Module-Name}</Automatic-Module-Name>
               <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
               <Bundle-Description>${project.description}</Bundle-Description>
               <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>

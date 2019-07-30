@@ -28,5 +28,8 @@
     </dependency>
   </dependencies>
 
- 
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.over.jcl</project.Automatic-Module-Name>
+  </properties>
+
 </project>
