@@ -81,6 +81,45 @@
     </dependencies>
   </dependencyManagement>
 
+  <organization>
+    <name>QOS.ch</name>
+    <url>http://www.qos.ch</url>
+  </organization>
+  <inceptionYear>2005</inceptionYear>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/qos-ch/slf4j</url>
+    <connection>scm:git@github.com:qos-ch/slf4j.git</connection>
+  </scm>
+
+  <distributionManagement>
+    <site>
+      <id>qos_ch</id>
+      <url>scp://yvo.qos.ch/var/www/www.slf4j.org/htdocs/</url>
+    </site>
+
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <developers>
+    <developer>
+      <id>ceki</id>
+      <name>Ceki Gulcu</name>
+      <email>ceki@qos.ch</email>
+    </developer>
+  </developers>
+
   <profiles>
     <profile>
       <id>sign-artifacts</id>
