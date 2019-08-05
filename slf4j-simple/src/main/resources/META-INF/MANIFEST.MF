@@ -5,6 +5,7 @@ Bundle-Name: slf4j-simple
 Bundle-Vendor: SLF4J.ORG
 Require-Bundle: slf4j.api
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Automatic-Module-Name: org.slf4j.simple
 Export-Package: org.slf4j.impl;version=${parsedVersion.osgiVersion}
 Import-Package: org.slf4j;version=${parsedVersion.osgiVersion},
  org.slf4j.spi;version=${parsedVersion.osgiVersion},
