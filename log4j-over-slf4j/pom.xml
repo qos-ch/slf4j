@@ -36,5 +36,9 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.over.log4j</project.Automatic-Module-Name>
+  </properties>
+
 </project>

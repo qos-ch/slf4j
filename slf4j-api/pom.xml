@@ -117,4 +117,8 @@
     </pluginManagement>
   </build>
 
+  <properties>
+    <project.Automatic-Module-Name>org.slf4j.api</project.Automatic-Module-Name>
+  </properties>
+
 </project>
