@@ -33,7 +33,7 @@
   </scm>  
 
   <properties>
-    <latest.stable.version>1.7.26</latest.stable.version>
+    <latest.stable.version>1.7.27</latest.stable.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
     <jdk.version>8</jdk.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
