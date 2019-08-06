@@ -47,7 +47,8 @@
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <javadoc.plugin.version>2.10.4</javadoc.plugin.version>
+    <javadoc.plugin.version>3.1.0</javadoc.plugin.version>
+    <doclint>none</doclint>
   </properties>
 
   <developers>
@@ -326,6 +327,9 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>${javadoc.plugin.version}</version>
+            <configuration>
+              <doclint>none</doclint>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
