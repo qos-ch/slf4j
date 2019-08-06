@@ -37,10 +37,57 @@
      class names in <code/>
    -->
 
-
    <hr noshade="noshade" size="1"/>
 
-   <h3>2019 - Release of SLF4J 2.0.0-alpha0</h3>
+   <h3>6th of August, 2019 - Release of SLF4J 1.7.27</h3>
+
+   <p>&bull; Added <code>Automatic-Module-Name</code> in
+   <em>MANIFEST.MF</em> files in various SLF4J artifacts. This fixes
+   <a href="https://jira.qos.ch/browse/SLF4J-420">SLF4J-420</a> as
+   reported by Gael Lalire.</p>
+
+   <p>The module names to JMPS automatic module name mappings are
+   listed in the table below.</p>
+
+   <table class="bodyTable striped" >
+     <tr >
+       <th>Maven artifact/module</th>
+       <th>JMPS module name</th>
+     </tr>
+     <tr>
+       <td>slf4j-api</td>
+       <td>org.slf4j</td>
+     </tr>
+     <tr>
+       <td>slf4j-jdk14</td>
+       <td>org.slf4j.jul</td>
+     </tr>
+     <tr>
+       <td>slf4j-nop</td>
+       <td>org.slf4j.nop</td>
+     </tr>
+     <tr><td>slf4j-simple</td>
+     <td>org.slf4j.simple</td>
+     </tr>
+     <tr>
+       <td>jcl-over-slf4j</td>
+       <td>org.apache.commons.logging</td>
+     </tr>
+     <tr>
+       <td>log4j-over-slf4j</td>
+       <td>log4j</td>
+     </tr>
+   </table>
+
+   <p>&bull; Fixed incorrect use of <code>TRACE</code> level in one of the
+   <code>debug()</code> printing methods in
+   <code>EventRecodingLogger</code> class. This corrects <a
+   href="">SLF4J-460</a> as reporeted byKevin Goveia.
+   </p>
+   
+   <hr noshade="noshade" size="1"/>
+
+   <h3>13th of June, 2019  - Release of SLF4J 2.0.0-alpha0</h3>
 
    <p class="highlight">The the 2.0.x series requires Java&nbsp;8 and
    adds a backward-compatible <a
