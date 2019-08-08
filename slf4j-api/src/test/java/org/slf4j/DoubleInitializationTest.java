@@ -51,6 +51,6 @@ public class DoubleInitializationTest {
 
         MarkerFactory.getMarker("dontcare");
 
-        assertEquals(InitializationCounterProvider.getInitializationCount(), 1);
+        assertEquals(1, InitializationCounterProvider.getInitializationCount());
     }
 }
