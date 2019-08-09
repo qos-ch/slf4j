@@ -51,11 +51,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <excludes>
-            <exclude>META-INF/services/*</exclude>
-          </excludes>
-        </configuration>
       </plugin>
     </plugins>
 
