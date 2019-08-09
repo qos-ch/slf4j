@@ -148,6 +148,7 @@ public final class LoggerFactory {
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
             	PROVIDER = providersList.get(0);
+            	// SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
             	PROVIDER.initialize();
             	INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
                 reportActualBinding(providersList);
