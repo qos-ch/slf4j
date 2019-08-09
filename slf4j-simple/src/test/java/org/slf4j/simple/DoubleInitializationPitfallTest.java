@@ -22,35 +22,27 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j;
+package org.slf4j.simple;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MarkerFactory;
-import org.slf4j.helpers.NOPServiceProvider;
-import org.slf4j.spi.SLF4JServiceProvider;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ServiceLoader;
-import java.util.concurrent.atomic.AtomicInteger;
+public class DoubleInitializationPitfallTest {
 
-public class DoubleInitializationTest {
 
     @Test
-    public void testNoDoubleInitialization() {
+    public void verifyImpactOfMarkerFactory() {
 
-        final ILoggerFactory unused = LoggerFactory.getILoggerFactory();
+        ILoggerFactory firstFactory = LoggerFactory.getILoggerFactory();
+        MarkerFactory.getMarker("DOUBLE_INIT");
+        ILoggerFactory secondFactory = LoggerFactory.getILoggerFactory();
 
-        MarkerFactory.getMarker("dontcare");
-
-        assertEquals(1, InitializationCounterProvider.getInitializationCount());
+        if (firstFactory != secondFactory) {
+            fail("MarkerFactory.getMarker causes multiple provider initialization");
+        }
     }
 }
