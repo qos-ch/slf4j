@@ -37,7 +37,7 @@
      class names in <code/>
    -->
 
-
+<!--
    <hr noshade="noshade" size="1"/>
    <h3> 2019  - Release of SLF4J 2.0.0-alpha1</h3>
 
@@ -47,10 +47,11 @@
    Dan Groves who also provided a test-case to reptoduce the problem
    and a relevant fix.
    </p>
-    
+   -->
+   
    <hr noshade="noshade" size="1"/>
 
-   <h3>6th of August, 2019 - Release of SLF4J 1.7.27</h3>
+   <h3>10th of August, 2019 - Release of SLF4J 1.7.28</h3>
 
    <p>&bull; Added <code>Automatic-Module-Name</code> in
    <em>MANIFEST.MF</em> files in various SLF4J artifacts. This fixes
@@ -86,15 +87,27 @@
      </tr>
      <tr>
        <td>log4j-over-slf4j</td>
-       <td>log4j</td>
+       <td>org.apache.log4j</td>
      </tr>
    </table>
 
-   <p>&bull; Fixed incorrect use of <code>TRACE</code> level in one of the
-   <code>debug()</code> printing methods in
+   <p>&bull; Fixed incorrect use of <code>TRACE</code> level in one of
+   the <code>debug()</code> printing methods in
    <code>EventRecodingLogger</code> class. This corrects <a
-   href="">SLF4J-460</a> as reporeted byKevin Goveia.
+   href="https://jira.qos.ch/browse/SLF4J-460">SLF4J-460</a> as
+   reporeted by Kevin Goveia.
    </p>
+
+
+   <hr noshade="noshade" size="1"/>
+
+   <h3>6th of August, 2019 - Release of SLF4J 1.7.27</h3>
+
+
+   <p>This version had the incorrect "Automatic-Module-Name" for the
+   <code>log4j-over-slf4j</code> artifact. Please use version 1.7.28
+   or later which contain correct automatic module names.</p>
+   
    
    <hr noshade="noshade" size="1"/>
 
