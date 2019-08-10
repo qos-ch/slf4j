@@ -1,4 +1,9 @@
 language: java
+
+jdk:
+  - openjdk8
+
 notifications:
   email:
       - notification@qos.ch
+
