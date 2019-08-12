@@ -129,11 +129,12 @@ public final class Util {
     }
 
     /**
-     * Helper method to determine if an {@link Object} array contains an {@link Throwable} as last element
+     * Helper method to determine if an {@link Object} array contains a {@link Throwable} as last element
      *
      * @param argArray
      *          The arguments off which we want to know if it contains a {@link Throwable} as last element
-     * @return if the last parameter in argArray is a Throwable this method will return it, otherwise it returns null
+     * @return if the last {@link Object} in argArray is a {@link Throwable} this method will return it,
+     *          otherwise it returns null
      */
     public static Throwable getThrowableCandidate(final Object[] argArray) {
         if (argArray == null || argArray.length == 0) {
