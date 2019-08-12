@@ -224,7 +224,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void warn(Marker marker, String format, Object arg) {
-        recordEvent(Level.WARN, format, new Object[] { arg }, null);
+        recordEvent(Level.WARN, marker, format, new Object[] { arg }, null);
     }
 
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
