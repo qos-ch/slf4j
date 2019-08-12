@@ -164,7 +164,10 @@ public final class Util {
         final int trimmedLen = argArray.length - 1;
 
         Object[] trimmed = new Object[trimmedLen];
-        System.arraycopy(argArray, 0, trimmed, 0, trimmedLen);
+
+        if (trimmedLen > 0) {
+            System.arraycopy(argArray, 0, trimmed, 0, trimmedLen);
+        }
 
         return trimmed;
     }
