@@ -51,7 +51,7 @@ public class EventRecodingLogger implements Logger {
         loggingEvent.setThreadName(Thread.currentThread().getName());
 
         // 1 and 2 args are covered by other methods
-        if(throwable == null && args != null && args.length > 2) {
+        if (throwable == null && args != null && args.length > 2) {
             Throwable throwableCandidate = Util.getThrowableCandidate(args);
             if(throwableCandidate != null) {
                 loggingEvent.setArgumentArray(Util.trimmedCopy(args));
