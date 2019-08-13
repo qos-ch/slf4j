@@ -9,8 +9,8 @@ import org.slf4j.helpers.SubstituteLogger;
 
 /**
  * 
- * This class is used to record events during the initialization phase of
- * the underlying logging framework. It is called by {@link SubstituteLogger}.
+ * This class is used to record events during the initialization phase of the
+ * underlying logging framework. It is called by {@link SubstituteLogger}.
  * 
  * 
  * @author Ceki G&uumllc&uuml;
@@ -19,315 +19,305 @@ import org.slf4j.helpers.SubstituteLogger;
  */
 public class EventRecodingLogger implements Logger {
 
-    String name;
-    SubstituteLogger logger;
-    Queue<SubstituteLoggingEvent> eventQueue;
+	String name;
+	SubstituteLogger logger;
+	Queue<SubstituteLoggingEvent> eventQueue;
+
+	// as an event recording logger we have no choice but to record all events
+	final static boolean RECORD_ALL_EVENTS = true;
+
+	public EventRecodingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
+		this.logger = logger;
+		this.name = logger.getName();
+		this.eventQueue = eventQueue;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public boolean isTraceEnabled() {
+		return RECORD_ALL_EVENTS;
+	}
+
+	public void trace(String msg) {
+		recordEvent_0Args(Level.TRACE, null, msg, null);
+	}
+
+	public void trace(String format, Object arg) {
+		recordEvent_1Args(Level.TRACE, null, format, arg);
+	}
+
+	public void trace(String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.TRACE, null, format, arg1, arg2);
+	}
+
+	public void trace(String format, Object... arguments) {
+		recordEventArgArray(Level.TRACE, null, format, arguments);
+	}
+
+	public void trace(String msg, Throwable t) {
+		recordEvent_0Args(Level.TRACE, null, msg, t);
+	}
+
+	public boolean isTraceEnabled(Marker marker) {
+		return RECORD_ALL_EVENTS;
+	}
+
+	public void trace(Marker marker, String msg) {
+		recordEvent_0Args(Level.TRACE, marker, msg, null);
+	}
+
+	public void trace(Marker marker, String format, Object arg) {
+		recordEvent_1Args(Level.TRACE, marker, format, arg);
+	}
+
+	public void trace(Marker marker, String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.TRACE, marker, format, arg1, arg2);
+	}
+
+	public void trace(Marker marker, String format, Object... argArray) {
+		recordEventArgArray(Level.TRACE, marker, format, argArray);
+	}
 
-    // as an event recording logger we have no choice but to record all events
-    final static boolean RECORD_ALL_EVENTS = true;
-    
-    public EventRecodingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
-        this.logger = logger;
-        this.name = logger.getName();
-        this.eventQueue = eventQueue;
-    }
+	public void trace(Marker marker, String msg, Throwable t) {
+		recordEvent_0Args(Level.TRACE, marker, msg, t);
+	}
 
-    public String getName() {
-        return name;
-    }
+	public boolean isDebugEnabled() {
+		return RECORD_ALL_EVENTS;
+	}
 
-    public boolean isTraceEnabled() {
-        return RECORD_ALL_EVENTS;
-    }
+	public void debug(String msg) {
+		recordEvent_0Args(Level.DEBUG, null, msg, null);
+	}
 
-    public void trace(String msg) {
-        recordEventwithoutMarkerArgArray(Level.TRACE, msg, null, null);
-    }
+	public void debug(String format, Object arg) {
+		recordEvent_1Args(Level.DEBUG, null, format, arg);
+	}
 
-    public void trace(String format, Object arg) {
-        recordEventwithoutMarkerArgArray(Level.TRACE, format, new Object[] { arg }, null);
-    }
+	public void debug(String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.DEBUG, null, format, arg1, arg2);
+	}
 
-    public void trace(String format, Object arg1, Object arg2) {
-        recordEventWithoutMarker2Args(Level.TRACE, format, arg1, arg2);
-    }
+	public void debug(String format, Object... arguments) {
+		recordEventArgArray(Level.DEBUG, null, format, arguments);
+	}
 
-    public void trace(String format, Object... arguments) {
-        recordEventwithoutMarkerArgArray(Level.TRACE, format, arguments, null);
-    }
+	public void debug(String msg, Throwable t) {
+		recordEvent_0Args(Level.DEBUG, null, msg, t);
+	}
 
-    public void trace(String msg, Throwable t) {
-        recordEventwithoutMarkerArgArray(Level.TRACE, msg, null, t);
-    }
+	public boolean isDebugEnabled(Marker marker) {
+		return RECORD_ALL_EVENTS;
+	}
 
-    public boolean isTraceEnabled(Marker marker) {
-        return RECORD_ALL_EVENTS;
-    }
+	public void debug(Marker marker, String msg) {
+		recordEvent_0Args(Level.DEBUG, marker, msg, null);
+	}
 
-    public void trace(Marker marker, String msg) {
-        recordEvent(Level.TRACE, marker, msg, null, null);
+	public void debug(Marker marker, String format, Object arg) {
+		recordEvent_1Args(Level.DEBUG, marker, format, arg);
+	}
 
-    }
+	public void debug(Marker marker, String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.DEBUG, marker, format, arg1, arg2);
+	}
 
-    public void trace(Marker marker, String format, Object arg) {
-        recordEvent(Level.TRACE, marker, format, new Object[] { arg }, null);
-    }
+	public void debug(Marker marker, String format, Object... arguments) {
+		recordEventArgArray(Level.DEBUG, marker, format, arguments);
+	}
 
-    public void trace(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent2Args(Level.TRACE, marker, format, arg1, arg2);
-    }
+	public void debug(Marker marker, String msg, Throwable t) {
+		recordEvent_0Args(Level.DEBUG, marker, msg, t);
+	}
 
-    public void trace(Marker marker, String format, Object... argArray) {
-        recordEvent(Level.TRACE, marker, format, argArray, null);
+	public boolean isInfoEnabled() {
+		return RECORD_ALL_EVENTS;
+	}
 
-    }
+	public void info(String msg) {
+		recordEvent_0Args(Level.INFO, null, msg, null);
+	}
 
-    public void trace(Marker marker, String msg, Throwable t) {
-        recordEvent(Level.TRACE, marker, msg, null, t);
-    }
+	public void info(String format, Object arg) {
+		recordEvent_1Args(Level.INFO, null, format, arg);
+	}
 
-    public boolean isDebugEnabled() {
-        return RECORD_ALL_EVENTS;
-    }
+	public void info(String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.INFO, null, format, arg1, arg2);
+	}
 
-    public void debug(String msg) {
-        recordEventwithoutMarkerArgArray(Level.DEBUG, msg, null, null);
-    }
+	public void info(String format, Object... arguments) {
+		recordEventArgArray(Level.INFO, null, format,  arguments);
+	}
 
-    public void debug(String format, Object arg) {
-        recordEventwithoutMarkerArgArray(Level.DEBUG, format, new Object[] { arg }, null);
+	public void info(String msg, Throwable t) {
+		recordEvent_0Args(Level.INFO, null, msg, t);
+	}
 
-    }
+	public boolean isInfoEnabled(Marker marker) {
+		return RECORD_ALL_EVENTS;
+	}
 
-    public void debug(String format, Object arg1, Object arg2) {
-        recordEventWithoutMarker2Args(Level.DEBUG, format, arg1, arg2);
-    }
+	public void info(Marker marker, String msg) {
+		recordEvent_0Args(Level.INFO, marker, msg, null);
+	}
 
-    public void debug(String format, Object... arguments) {
-        recordEventwithoutMarkerArgArray(Level.DEBUG, format, arguments, null);
-    }
+	public void info(Marker marker, String format, Object arg) {
+		recordEvent_1Args(Level.INFO, marker, format, arg);
+	}
 
-    public void debug(String msg, Throwable t) {
-        recordEventwithoutMarkerArgArray(Level.DEBUG, msg, null, t);
-    }
+	public void info(Marker marker, String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.INFO, marker, format, arg1, arg2);
+	}
 
-    public boolean isDebugEnabled(Marker marker) {
-        return RECORD_ALL_EVENTS;
-    }
+	public void info(Marker marker, String format, Object... arguments) {
+		recordEventArgArray(Level.INFO, marker, format, arguments);
+	}
 
-    public void debug(Marker marker, String msg) {
-        recordEvent(Level.DEBUG, marker, msg, null, null);
-    }
+	public void info(Marker marker, String msg, Throwable t) {
+		recordEvent_0Args(Level.INFO, marker, msg, t);
 
-    public void debug(Marker marker, String format, Object arg) {
-        recordEvent(Level.DEBUG, marker, format, new Object[] { arg }, null);
-    }
+	}
 
-    public void debug(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent2Args(Level.DEBUG, marker, format, arg1, arg2);
-    }
+	public boolean isWarnEnabled() {
+		return RECORD_ALL_EVENTS;
+	}
 
-    public void debug(Marker marker, String format, Object... arguments) {
-        recordEvent(Level.DEBUG, marker, format, arguments, null);
-    }
+	public void warn(String msg) {
+		recordEvent_0Args(Level.WARN, null, msg, null);
+	}
 
-    public void debug(Marker marker, String msg, Throwable t) {
-        recordEvent(Level.DEBUG, marker, msg, null, t);
-    }
-
-    public boolean isInfoEnabled() {
-        return RECORD_ALL_EVENTS;
-    }
-
-    public void info(String msg) {
-        recordEventwithoutMarkerArgArray(Level.INFO, msg, null, null);
-    }
-
-    public void info(String format, Object arg) {
-        recordEventwithoutMarkerArgArray(Level.INFO, format, new Object[] { arg }, null);
-    }
-
-    public void info(String format, Object arg1, Object arg2) {
-        recordEventWithoutMarker2Args(Level.INFO, format, arg1, arg2);
-    }
-
-    public void info(String format, Object... arguments) {
-        recordEventwithoutMarkerArgArray(Level.INFO, format, arguments, null);
-    }
-
-    public void info(String msg, Throwable t) {
-        recordEventwithoutMarkerArgArray(Level.INFO, msg, null, t);
-    }
-
-    public boolean isInfoEnabled(Marker marker) {
-        return RECORD_ALL_EVENTS;
-    }
-
-    public void info(Marker marker, String msg) {
-        recordEvent(Level.INFO, marker, msg, null, null);
-    }
-
-    public void info(Marker marker, String format, Object arg) {
-        recordEvent(Level.INFO, marker, format, new Object[] { arg }, null);
-    }
-
-    public void info(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent2Args(Level.INFO, marker, format, arg1, arg2);
-    }
-
-    public void info(Marker marker, String format, Object... arguments) {
-        recordEvent(Level.INFO, marker, format, arguments, null);
-    }
-
-    public void info(Marker marker, String msg, Throwable t) {
-        recordEvent(Level.INFO, marker, msg, null, t);
-
-    }
-
-    public boolean isWarnEnabled() {
-        return RECORD_ALL_EVENTS;
-    }
-
-    public void warn(String msg) {
-        recordEventwithoutMarkerArgArray(Level.WARN, msg, null, null);
-    }
-
-    public void warn(String format, Object arg) {
-        recordEventwithoutMarkerArgArray(Level.WARN, format, new Object[] { arg }, null);
-
-    }
-
-    public void warn(String format, Object arg1, Object arg2) {
-        recordEventWithoutMarker2Args(Level.WARN, format, arg1, arg2);
-    }
-
-    public void warn(String format, Object... arguments) {
-        recordEventwithoutMarkerArgArray(Level.WARN, format, arguments, null);
-    }
-
-    public void warn(String msg, Throwable t) {
-        recordEventwithoutMarkerArgArray(Level.WARN, msg, null, t);
-    }
-
-    public boolean isWarnEnabled(Marker marker) {
-        return RECORD_ALL_EVENTS;
-    }
-
-    public void warn(Marker marker, String msg) {
-        recordEvent(Level.WARN, marker, msg, null, null);
-    }
-
-    public void warn(Marker marker, String format, Object arg) {
-        recordEvent(Level.WARN, marker, format, new Object[] { arg }, null);
-    }
-
-    public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent2Args(Level.WARN, marker, format, arg1, arg2);
-    }
-
-    public void warn(Marker marker, String format, Object... arguments) {
-        recordEvent(Level.WARN, marker, format, arguments, null);
-    }
-
-    public void warn(Marker marker, String msg, Throwable t) {
-        recordEvent(Level.WARN, marker, msg, null, t);
-    }
-
-    public boolean isErrorEnabled() {
-        return RECORD_ALL_EVENTS;
-    }
-
-    public void error(String msg) {
-        recordEventwithoutMarkerArgArray(Level.ERROR, msg, null, null);
-    }
-
-    public void error(String format, Object arg) {
-        recordEventwithoutMarkerArgArray(Level.ERROR, format, new Object[] { arg }, null);
-
-    }
-
-    public void error(String format, Object arg1, Object arg2) {
-        recordEventWithoutMarker2Args(Level.ERROR, format, arg1, arg2);
-
-    }
-
-    public void error(String format, Object... arguments) {
-        recordEventwithoutMarkerArgArray(Level.ERROR, format, arguments, null);
-
-    }
-
-    public void error(String msg, Throwable t) {
-        recordEventwithoutMarkerArgArray(Level.ERROR, msg, null, t);
-    }
-
-    public boolean isErrorEnabled(Marker marker) {
-        return RECORD_ALL_EVENTS;
-    }
-
-    public void error(Marker marker, String msg) {
-        recordEvent(Level.ERROR, marker, msg, null, null);
-
-    }
-
-    public void error(Marker marker, String format, Object arg) {
-        recordEvent(Level.ERROR, marker, format, new Object[] { arg }, null);
-
-    }
-
-    public void error(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent2Args(Level.ERROR, marker, format, arg1, arg2);
-    }
-
-    public void error(Marker marker, String format, Object... arguments) {
-        recordEvent(Level.ERROR, marker, format, arguments, null);
-    }
-
-    public void error(Marker marker, String msg, Throwable t) {
-        recordEvent(Level.ERROR, marker, msg, null, t);
-    }
-
-    private void recordEventWithoutMarker2Args(Level level, String msg, Object arg1, Object arg2) {
-        recordEvent2Args(level, null, msg, arg1, arg2);
-    }
-
-    private void recordEvent2Args(Level level, Marker marker, String msg, Object arg1, Object arg2) {
-        if (arg2 instanceof Throwable) {
-            recordEvent(level, marker, msg, new Object[] { arg1 }, (Throwable) arg2);
-        } else {
-            recordEvent(level, marker, msg, new Object[] { arg1, arg2 }, null);
-        }
-    }
-
-    private void recordEventwithoutMarkerArgArray(Level level, String msg, Object[] args, Throwable throwable) {
-        recordEvent(level, null, msg, args, throwable);
-    }
-
-    private void recordEvent(Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
-        // System.out.println("recording logger:"+name+", msg:"+msg);
-        SubstituteLoggingEvent loggingEvent = new SubstituteLoggingEvent();
-        loggingEvent.setTimeStamp(System.currentTimeMillis());
-        loggingEvent.setLevel(level);
-        loggingEvent.setLogger(logger);
-        loggingEvent.setLoggerName(name);
-        loggingEvent.addMarker(marker);
-        loggingEvent.setMessage(msg);
-        loggingEvent.setThreadName(Thread.currentThread().getName());
-
-        // 1 and 2 args are covered by other methods
-        if (throwable == null && args != null && args.length > 2) {
-            Throwable throwableCandidate = MessageFormatter.getThrowableCandidate(args);
-            if(throwableCandidate != null) {
-                loggingEvent.setArgumentArray(MessageFormatter.trimmedCopy(args));
-                loggingEvent.setThrowable(throwableCandidate);
-            } else {
-                loggingEvent.setArgumentArray(args);
-                loggingEvent.setThrowable(null);
-            }
-        } else {
-            loggingEvent.setArgumentArray(args);
-            loggingEvent.setThrowable(throwable);
-        }
-
-        eventQueue.add(loggingEvent);
-    }
+	public void warn(String format, Object arg) {
+		recordEvent_1Args(Level.WARN, null, format, arg);
+	}
+
+	public void warn(String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.WARN, null, format, arg1, arg2);
+	}
+
+	public void warn(String format, Object... arguments) {
+		recordEventArgArray(Level.WARN, null, format, arguments);
+	}
+
+	public void warn(String msg, Throwable t) {
+		recordEvent_0Args(Level.WARN, null, msg, t);
+	}
+
+	public boolean isWarnEnabled(Marker marker) {
+		return RECORD_ALL_EVENTS;
+	}
+
+	public void warn(Marker marker, String msg) {
+		recordEvent_0Args(Level.WARN, marker, msg, null);
+	}
+
+	public void warn(Marker marker, String format, Object arg) {
+		recordEvent_1Args(Level.WARN, marker, format, arg);
+	}
+
+	public void warn(Marker marker, String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.WARN, marker, format, arg1, arg2);
+	}
+
+	public void warn(Marker marker, String format, Object... arguments) {
+		recordEventArgArray(Level.WARN, marker, format, arguments);
+	}
+
+	public void warn(Marker marker, String msg, Throwable t) {
+		recordEvent_0Args(Level.ERROR, marker, msg, t);
+	}
+
+	public boolean isErrorEnabled() {
+		return RECORD_ALL_EVENTS;
+	}
+
+	public void error(String msg) {
+		recordEvent_0Args(Level.ERROR, null, msg, null);
+	}
+
+	public void error(String format, Object arg) {
+		recordEvent_1Args(Level.ERROR, null, format, arg);
+	}
+
+	public void error(String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.ERROR, null, format, arg1, arg2);
+	}
+
+	public void error(String format, Object... arguments) {
+		recordEventArgArray(Level.ERROR, null, format, arguments);
+	}
+
+	public void error(String msg, Throwable t) {
+		recordEvent_0Args(Level.ERROR, null, msg, t);
+	}
+
+	public boolean isErrorEnabled(Marker marker) {
+		return RECORD_ALL_EVENTS;
+	}
+
+	public void error(Marker marker, String msg) {
+		recordEvent_0Args(Level.ERROR, marker, msg, null);
+	}
+
+	public void error(Marker marker, String format, Object arg) {
+		recordEvent_1Args(Level.ERROR, marker, format, arg);
+	}
+
+	public void error(Marker marker, String format, Object arg1, Object arg2) {
+		recordEvent2Args(Level.ERROR, marker, format, arg1, arg2);
+	}
+
+	public void error(Marker marker, String format, Object... arguments) {
+		recordEventArgArray(Level.ERROR, marker, format, arguments);
+	}
+
+	public void error(Marker marker, String msg, Throwable t) {
+		recordEvent_0Args(Level.ERROR, marker, msg, t);
+	}
+
+	private void recordEvent_0Args(Level level, Marker marker, String msg, Throwable t) {
+		recordEvent(level, marker, msg, null, t);
+	}
+
+	private void recordEvent_1Args(Level level, Marker marker, String msg, Object arg1) {
+		recordEvent(level, marker, msg, new Object[] { arg1 }, null);
+	}
+
+	private void recordEvent2Args(Level level, Marker marker, String msg, Object arg1, Object arg2) {
+		if (arg2 instanceof Throwable) {
+			recordEvent(level, marker, msg, new Object[] { arg1 }, (Throwable) arg2);
+		} else {
+			recordEvent(level, marker, msg, new Object[] { arg1, arg2 }, null);
+		}
+	}
+
+	private void recordEventArgArray(Level level, Marker marker, String msg, Object[] args) {
+		Throwable throwableCandidate = MessageFormatter.getThrowableCandidate(args);
+		if (throwableCandidate != null) {
+			Object[] trimmedCopy = MessageFormatter.trimmedCopy(args);
+			recordEvent(level, marker, msg, trimmedCopy, throwableCandidate);
+		} else {
+			recordEvent(level, marker, msg, args, null);
+		}
+	}
+
+
+	// WARNING: this method assumes that any throwable is priperly extracted 
+	private void recordEvent(Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
+		SubstituteLoggingEvent loggingEvent = new SubstituteLoggingEvent();
+		loggingEvent.setTimeStamp(System.currentTimeMillis());
+		loggingEvent.setLevel(level);
+		loggingEvent.setLogger(logger);
+		loggingEvent.setLoggerName(name);
+		loggingEvent.addMarker(marker);
+		loggingEvent.setMessage(msg);
+		loggingEvent.setThreadName(Thread.currentThread().getName());
+
+		loggingEvent.setArgumentArray(args);
+		loggingEvent.setThrowable(throwable);
+
+		eventQueue.add(loggingEvent);
+	}
 }
