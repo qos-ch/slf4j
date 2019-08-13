@@ -13,785 +13,513 @@ import java.util.concurrent.LinkedBlockingQueue;
 import static org.junit.Assert.*;
 
 public class EventRecodingLoggerTest {
-    private Queue<SubstituteLoggingEvent> queue;
-    private EventRecodingLogger logger;
-    private String message;
-    private Object param1;
-    private Object param2;
-    private Object param3;
-    private Object[] oneParam;
-    private Object[] twoParams;
-    private Object[] threeParams;
-    private Throwable exception;
-    private Marker marker;
-
-    @Before
-    public void setUp() {
-        queue = new LinkedBlockingQueue<>();
-        logger = new EventRecodingLogger(new SubstituteLogger("testLogger", queue, true), queue);
-        message = "Test message with 3 parameters {} {} {} {}";
-        param1 = 1;
-        param2 = 2;
-        param3 = 3;
-        oneParam = new Object[] { param1 };
-        twoParams = new Object[] { param1, param2 };
-        threeParams = new Object[] { param1, param2, param3 };
-        exception = new IllegalStateException("We just need an exception");
-        marker = new BasicMarkerFactory().getMarker("testMarker");
-    }
-
-    @After
-    public void tearDown() {
-        assertTrue(queue.isEmpty());
-    }
-
-    @Test
-    public void traceMessage() {
-        logger.trace(message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, null, null);
-    }
-
-    @Test
-    public void traceMessageOneParameter() {
-        logger.trace(message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, oneParam, null);
-    }
-
-    @Test
-    public void traceMessageTwoParameters() {
-        logger.trace(message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, twoParams, null);
-    }
-
-    @Test
-    public void traceMessageThreeParameters() {
-        logger.trace(message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, threeParams, null);
-    }
-
-    @Test
-    public void traceMessageThrowable() {
-        logger.trace(message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, null, exception);
-    }
-
-    @Test
-    public void traceMessageOneParameterThrowable() {
-        logger.trace(message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, oneParam, exception);
-    }
-
-    @Test
-    public void traceMessageTwoParametersThrowable() {
-        logger.trace(message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, twoParams, exception);
-    }
-
-    @Test
-    public void traceMessageThreeParametersThrowable() {
-        logger.trace(message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, threeParams, exception);
-    }
-
-    @Test
-    public void traceMarkerMessage() {
-        logger.trace(marker, message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, null, null);
-    }
-
-    @Test
-    public void traceMarkerMessageOneParameter() {
-        logger.trace(marker, message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, oneParam, null);
-    }
-
-    @Test
-    public void traceMarkerMessageTwoParameters() {
-        logger.trace(marker, message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, twoParams, null);
-    }
-
-    @Test
-    public void traceMarkerMessageThreeParameters() {
-        logger.trace(marker, message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, threeParams, null);
-    }
-
-    @Test
-    public void traceMarkerMessageThrowable() {
-        logger.trace(marker, message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, null, exception);
-    }
-
-    @Test
-    public void traceMarkerMessageOneParameterThrowable() {
-        logger.trace(marker, message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, oneParam, exception);
-    }
-
-    @Test
-    public void traceMarkerMessageTwoParametersThrowable() {
-        logger.trace(marker, message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, twoParams, exception);
-    }
-
-    @Test
-    public void traceMarkerMessageThreeParametersThrowable() {
-        logger.trace(marker, message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.TRACE, marker, threeParams, exception);
-    }
-
-    @Test
-    public void debugMessage() {
-        logger.debug(message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, null, null);
-    }
-
-    @Test
-    public void debugMessageOneParameter() {
-        logger.debug(message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, oneParam, null);
-    }
-
-    @Test
-    public void debugMessageTwoParameters() {
-        logger.debug(message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, twoParams, null);
-    }
-
-    @Test
-    public void debugMessageThreeParameters() {
-        logger.debug(message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, threeParams, null);
-    }
-
-    @Test
-    public void debugMessageThrowable() {
-        logger.debug(message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, null, exception);
-    }
-
-    @Test
-    public void debugMessageOneParameterThrowable() {
-        logger.debug(message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, oneParam, exception);
-    }
-
-    @Test
-    public void debugMessageTwoParametersThrowable() {
-        logger.debug(message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, twoParams, exception);
-    }
-
-    @Test
-    public void debugMessageThreeParametersThrowable() {
-        logger.debug(message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, threeParams, exception);
-    }
-
-    @Test
-    public void debugMarkerMessage() {
-        logger.debug(marker, message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, null, null);
-    }
-
-    @Test
-    public void debugMarkerMessageOneParameter() {
-        logger.debug(marker, message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, oneParam, null);
-    }
-
-    @Test
-    public void debugMarkerMessageTwoParameters() {
-        logger.debug(marker, message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, twoParams, null);
-    }
-
-    @Test
-    public void debugMarkerMessageThreeParameters() {
-        logger.debug(marker, message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, threeParams, null);
-    }
-
-    @Test
-    public void debugMarkerMessageThrowable() {
-        logger.debug(marker, message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, null, exception);
-    }
-
-    @Test
-    public void debugMarkerMessageOneParameterThrowable() {
-        logger.debug(marker, message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, oneParam, exception);
-    }
-
-    @Test
-    public void debugMarkerMessageTwoParametersThrowable() {
-        logger.debug(marker, message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, twoParams, exception);
-    }
-
-    @Test
-    public void debugMarkerMessageThreeParametersThrowable() {
-        logger.debug(marker, message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.DEBUG, marker, threeParams, exception);
-    }
-
-    @Test
-    public void infoMessage() {
-        logger.info(message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, null, null);
-    }
-
-    @Test
-    public void infoMessageOneParameter() {
-        logger.info(message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, oneParam, null);
-    }
-
-    @Test
-    public void infoMessageTwoParameters() {
-        logger.info(message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, twoParams, null);
-    }
-
-    @Test
-    public void infoMessageThreeParameters() {
-        logger.info(message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, threeParams, null);
-    }
-
-    @Test
-    public void infoMessageThrowable() {
-        logger.info(message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, null, exception);
-    }
-
-    @Test
-    public void infoMessageOneParameterThrowable() {
-        logger.info(message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, oneParam, exception);
-    }
-
-    @Test
-    public void infoMessageTwoParametersThrowable() {
-        logger.info(message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, twoParams, exception);
-    }
-
-    @Test
-    public void infoMessageThreeParametersThrowable() {
-        logger.info(message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, threeParams, exception);
-    }
-
-    @Test
-    public void infoMarkerMessage() {
-        logger.info(marker, message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, null, null);
-    }
-
-    @Test
-    public void infoMarkerMessageOneParameter() {
-        logger.info(marker, message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, oneParam, null);
-    }
-
-    @Test
-    public void infoMarkerMessageTwoParameters() {
-        logger.info(marker, message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, twoParams, null);
-    }
-
-    @Test
-    public void infoMarkerMessageThreeParameters() {
-        logger.info(marker, message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, threeParams, null);
-    }
-
-    @Test
-    public void infoMarkerMessageThrowable() {
-        logger.info(marker, message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, null, exception);
-    }
-
-    @Test
-    public void infoMarkerMessageOneParameterThrowable() {
-        logger.info(marker, message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, oneParam, exception);
-    }
-
-    @Test
-    public void infoMarkerMessageTwoParametersThrowable() {
-        logger.info(marker, message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, twoParams, exception);
-    }
-
-    @Test
-    public void infoMarkerMessageThreeParametersThrowable() {
-        logger.info(marker, message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.INFO, marker, threeParams, exception);
-    }
-
-    @Test
-    public void warnMessage() {
-        logger.warn(message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, null, null);
-    }
-
-    @Test
-    public void warnMessageOneParameter() {
-        logger.warn(message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, oneParam, null);
-    }
-
-    @Test
-    public void warnMessageTwoParameters() {
-        logger.warn(message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, twoParams, null);
-    }
-
-    @Test
-    public void warnMessageThreeParameters() {
-        logger.warn(message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, threeParams, null);
-    }
-
-    @Test
-    public void warnMessageThrowable() {
-        logger.warn(message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, null, exception);
-    }
-
-    @Test
-    public void warnMessageOneParameterThrowable() {
-        logger.warn(message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, oneParam, exception);
-    }
-
-    @Test
-    public void warnMessageTwoParametersThrowable() {
-        logger.warn(message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, twoParams, exception);
-    }
-
-    @Test
-    public void warnMessageThreeParametersThrowable() {
-        logger.warn(message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, threeParams, exception);
-    }
-
-    @Test
-    public void warnMarkerMessage() {
-        logger.warn(marker, message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, null, null);
-    }
-
-    @Test
-    public void warnMarkerMessageOneParameter() {
-        logger.warn(marker, message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, oneParam, null);
-    }
-
-    @Test
-    public void warnMarkerMessageTwoParameters() {
-        logger.warn(marker, message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, twoParams, null);
-    }
-
-    @Test
-    public void warnMarkerMessageThreeParameters() {
-        logger.warn(marker, message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, threeParams, null);
-    }
-
-    @Test
-    public void warnMarkerMessageThrowable() {
-        logger.warn(marker, message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, null, exception);
-    }
-
-    @Test
-    public void warnMarkerMessageOneParameterThrowable() {
-        logger.warn(marker, message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, oneParam, exception);
-    }
-
-    @Test
-    public void warnMarkerMessageTwoParametersThrowable() {
-        logger.warn(marker, message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, twoParams, exception);
-    }
-
-    @Test
-    public void warnMarkerMessageThreeParametersThrowable() {
-        logger.warn(marker, message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.WARN, marker, threeParams, exception);
-    }
-
-    @Test
-    public void errorMessage() {
-        logger.error(message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, null, null);
-    }
-
-    @Test
-    public void errorMessageOneParameter() {
-        logger.error(message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, oneParam, null);
-    }
-
-    @Test
-    public void errorMessageTwoParameters() {
-        logger.error(message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, twoParams, null);
-    }
-
-    @Test
-    public void errorMessageThreeParameters() {
-        logger.error(message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, threeParams, null);
-    }
-
-    @Test
-    public void errorMessageThrowable() {
-        logger.error(message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, null, exception);
-    }
-
-    @Test
-    public void errorMessageOneParameterThrowable() {
-        logger.error(message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, oneParam, exception);
-    }
-
-    @Test
-    public void errorMessageTwoParametersThrowable() {
-        logger.error(message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, twoParams, exception);
-    }
-
-    @Test
-    public void errorMessageThreeParametersThrowable() {
-        logger.error(message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, threeParams, exception);
-    }
-
-    @Test
-    public void errorMarkerMessage() {
-        logger.error(marker, message);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, null, null);
-    }
-
-    @Test
-    public void errorMarkerMessageOneParameter() {
-        logger.error(marker, message, param1);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, oneParam, null);
-    }
-
-    @Test
-    public void errorMarkerMessageTwoParameters() {
-        logger.error(marker, message, param1, param2);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, twoParams, null);
-    }
-
-    @Test
-    public void errorMarkerMessageThreeParameters() {
-        logger.error(marker, message, param1, param2, param3);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, threeParams, null);
-    }
-
-    @Test
-    public void errorMarkerMessageThrowable() {
-        logger.error(marker, message, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, null, exception);
-    }
-
-    @Test
-    public void errorMarkerMessageOneParameterThrowable() {
-        logger.error(marker, message, param1, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, oneParam, exception);
-    }
-
-    @Test
-    public void errorMarkerMessageTwoParametersThrowable() {
-        logger.error(marker, message, param1, param2, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, twoParams, exception);
-    }
-
-    @Test
-    public void errorMarkerMessageThreeParametersThrowable() {
-        logger.error(marker, message, param1, param2, param3, exception);
-
-        SubstituteLoggingEvent event = queue.poll();
-
-        verifyMessage(event, Level.ERROR, marker, threeParams, exception);
-    }
-
-    private void verifyMessage(SubstituteLoggingEvent event, Level level, Object[] arguments, Throwable exception) {
-        verifyMessage(event, level, null, arguments, exception);
-    }
-
-    private void verifyMessage(SubstituteLoggingEvent event, Level level, Marker marker, Object[] arguments, Throwable exception) {
-        assertNotNull(event);
-
-        if (marker == null) {
-            assertNull(event.getMarkers().get(0));
-        } else {
-            assertEquals(marker, event.getMarkers().get(0));
-        }
-
-        assertEquals(message, event.getMessage());
-
-        if (arguments == null) {
-            assertNull(event.getArgumentArray());
-        } else {
-            assertArrayEquals(arguments, event.getArgumentArray());
-        }
-
-        assertEquals(level, event.getLevel());
-
-        if (exception == null) {
-            assertNull(event.getThrowable());
-        } else {
-            assertEquals(exception, event.getThrowable());
-        }
-    }
+	private Queue<SubstituteLoggingEvent> queue;
+	private EventRecodingLogger logger;
+	private String message;
+	private Object param1;
+	private Object param2;
+	private Object param3;
+	private Object[] oneParam;
+	private Object[] twoParams;
+	private Object[] threeParams;
+	private Throwable exception;
+	private Marker marker;
+
+	@Before
+	public void setUp() {
+		queue = new LinkedBlockingQueue<>();
+		logger = new EventRecodingLogger(new SubstituteLogger("testLogger", queue, true), queue);
+		message = "Test message with 3 parameters {} {} {} {}";
+		param1 = 1;
+		param2 = 2;
+		param3 = 3;
+		oneParam = new Object[] { param1 };
+		twoParams = new Object[] { param1, param2 };
+		threeParams = new Object[] { param1, param2, param3 };
+		exception = new IllegalStateException("We just need an exception");
+		marker = new BasicMarkerFactory().getMarker("testMarker");
+	}
+
+	@After
+	public void tearDown() {
+		assertTrue(queue.isEmpty());
+	}
+
+	@Test
+	public void singleMessage() {
+		for (Level level : Level.values()) {
+			singleMessageCheck(level);
+		}
+	}
+
+	private void singleMessageCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message);
+			break;
+		case DEBUG:
+			logger.debug(message);
+			break;
+		case INFO:
+			logger.info(message);
+			break;
+		case WARN:
+			logger.warn(message);
+			break;
+		case ERROR:
+			logger.error(message);
+			break;
+		}
+		verifyMessageWithoutMarker(level, null, null);
+	}
+
+	@Test
+	public void oneParameter() {
+		for (Level level : Level.values()) {
+			oneParameterCheck(level);
+		}
+	}
+	private void oneParameterCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, param1);
+			break;
+		case DEBUG:
+			logger.debug(message, param1);
+			break;
+		case INFO:
+			logger.info(message, param1);
+			break;
+		case WARN:
+			logger.warn(message, param1);
+			break;
+		case ERROR:
+			logger.error(message, param1);
+			break;
+		}
+		verifyMessageWithoutMarker(level, oneParam, null);
+	}
+
+	@Test
+	public void messageTwoParameters() {
+		for (Level level : Level.values()) {
+			messageTwoParametersCheck(level);
+		}
+	}
+
+	private void messageTwoParametersCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, param1, param2);
+			break;
+		case DEBUG:
+			logger.debug(message, param1, param2);
+			break;
+		case INFO:
+			logger.info(message, param1, param2);
+			break;
+		case WARN:
+			logger.warn(message, param1, param2);
+			break;
+		case ERROR:
+			logger.error(message, param1, param2);
+			break;
+		}
+		verifyMessageWithoutMarker(level, twoParams, null);
+	}
+
+	@Test
+	public void traceMessageThreeParameters() {
+		for (Level level : Level.values()) {
+			threeParameterCheck(level);
+		}
+	}
+
+	private void threeParameterCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, param1, param2, param3);
+			break;
+		case DEBUG:
+			logger.debug(message, param1, param2, param3);
+			break;
+		case INFO:
+			logger.info(message, param1, param2, param3);
+			break;
+		case WARN:
+			logger.warn(message, param1, param2, param3);
+			break;
+		case ERROR:
+			logger.error(message, param1, param2, param3);
+			break;
+		}
+		verifyMessageWithoutMarker(level, threeParams, null);
+	}
+
+	@Test
+	public void testMessageThrowable() {
+		for (Level level : Level.values()) {
+			throwableCheck(level);
+		}
+	}
+
+	private void throwableCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, exception);
+			break;
+		case DEBUG:
+			logger.debug(message, exception);
+			break;
+		case INFO:
+			logger.info(message, exception);
+			break;
+		case WARN:
+			logger.warn(message, exception);
+			break;
+		case ERROR:
+			logger.error(message, exception);
+			break;
+		}
+		verifyMessageWithoutMarker(level, null, exception);
+	}
+
+	@Test
+	public void traceMessageOneParameterThrowable() {
+		for (Level level : Level.values()) {
+			oneParamThrowableCheck(level);
+		}
+	}
+
+	private void oneParamThrowableCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, param1, exception);
+			break;
+		case DEBUG:
+			logger.debug(message, param1, exception);
+			break;
+		case INFO:
+			logger.info(message, param1, exception);
+			break;
+		case WARN:
+			logger.warn(message, param1, exception);
+			break;
+		case ERROR:
+			logger.error(message, param1, exception);
+			break;
+		}
+		verifyMessageWithoutMarker(level, oneParam, exception);
+	}
+
+	@Test
+	public void traceMessageTwoParametersThrowable() {
+		for (Level level : Level.values()) {
+			twoParamThrowableCheck(level);
+		}
+	}
+
+	private void twoParamThrowableCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, param1, param2, exception);
+			break;
+		case DEBUG:
+			logger.debug(message, param1, param2, exception);
+			break;
+		case INFO:
+			logger.info(message, param1, param2, exception);
+			break;
+		case WARN:
+			logger.warn(message, param1, param2, exception);
+			break;
+		case ERROR:
+			logger.error(message, param1, param2, exception);
+			break;
+		}
+		verifyMessageWithoutMarker(level, twoParams, exception);
+	}
+
+	@Test
+	public void testMessageThreeParametersThrowable() {
+		for (Level level : Level.values()) {
+			messageWith3ArgsPlusException(level);
+		}
+	}
+
+	private void messageWith3ArgsPlusException(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(message, param1, param2, param3, exception);
+			break;
+		case DEBUG:
+			logger.debug(message, param1, param2, param3, exception);
+			break;
+		case INFO:
+			logger.info(message, param1, param2, param3, exception);
+			break;
+		case WARN:
+			logger.warn(message, param1, param2, param3, exception);
+			break;
+		case ERROR:
+			logger.error(message, param1, param2, param3, exception);
+			break;
+		}
+		verifyMessageWithoutMarker(level, threeParams, exception);
+	}
+
+	@Test
+	public void markerMessage() {
+		for (Level level : Level.values()) {
+			markerMessageCheck(level);
+		}
+	}
+	private void markerMessageCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message);
+			break;
+		case DEBUG:
+			logger.debug(marker, message);
+			break;
+		case INFO:
+			logger.info(marker, message);
+			break;
+		case WARN:
+			logger.warn(marker, message);
+			break;
+		case ERROR:
+			logger.error(marker, message);
+			break;
+		}
+		verifyMessage(level, marker, null, null);
+	}
+
+	@Test
+	public void markerMessageOneParameter() {
+		for (Level level : Level.values()) {
+			markerMessageOneParameter(level);
+		}
+	}
+	private void markerMessageOneParameter(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, param1);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, param1);
+			break;
+		case INFO:
+			logger.info(marker, message, param1);
+			break;
+		case WARN:
+			logger.warn(marker, message, param1);
+			break;
+		case ERROR:
+			logger.error(marker, message, param1);
+			break;
+		}
+		verifyMessage(level, marker, oneParam, null);
+	}
+
+	@Test
+	public void traceMarkerMessageTwoParameters() {
+		for (Level level : Level.values()) {
+			markerMessageTwoParameters(level);
+		}
+	}
+
+	private void markerMessageTwoParameters(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, param1, param2);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, param1, param2);
+			break;
+		case INFO:
+			logger.info(marker, message, param1, param2);
+			break;
+		case WARN:
+			logger.warn(marker, message, param1, param2);
+			break;
+		case ERROR:
+			logger.error(marker, message, param1, param2);
+			break;
+		}
+		verifyMessage(level, marker, twoParams, null);
+	}
+
+	@Test
+	public void traceMarkerMessageThreeParameters() {
+		for (Level level : Level.values()) {
+			markerMessageThreeParameters(level);
+		}
+	}
+
+	private void markerMessageThreeParameters(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, param1, param2, param3);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, param1, param2, param3);
+			break;
+		case INFO:
+			logger.info(marker, message, param1, param2, param3);
+			break;
+		case WARN:
+			logger.warn(marker, message, param1, param2, param3);
+			break;
+		case ERROR:
+			logger.error(marker, message, param1, param2, param3);
+			break;
+		}
+		verifyMessage(level, marker, threeParams, null);
+	}
+
+	@Test
+	public void markerMessageThrowable() {
+		for (Level level : Level.values()) {
+			markerMessageThrowable(level);
+		}
+	}
+
+	private void markerMessageThrowable(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, exception);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, exception);
+			break;
+		case INFO:
+			logger.info(marker, message, exception);
+			break;
+		case WARN:
+			logger.warn(marker, message, exception);
+			break;
+		case ERROR:
+			logger.error(marker, message, exception);
+			break;
+		}
+		verifyMessage(level, marker, null, exception);
+	}
+
+	@Test
+	public void markerMessageOneParameterThrowable() {
+		for (Level level : Level.values()) {
+			markerMessageOneParameterThrowableCheck(level);
+		}
+	}
+
+	private void markerMessageOneParameterThrowableCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, param1, exception);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, param1, exception);
+			break;
+		case INFO:
+			logger.info(marker, message, param1, exception);
+			break;
+		case WARN:
+			logger.warn(marker, message, param1, exception);
+			break;
+		case ERROR:
+			logger.error(marker, message, param1, exception);
+			break;
+		}
+		verifyMessage(level, marker, oneParam, exception);
+	}
+
+	@Test
+	public void traceMarkerMessageTwoParametersThrowable() {
+		for (Level level : Level.values()) {
+			markerMessageTwoParametersThrowableCheck(level);
+		}
+	}
+
+	private void markerMessageTwoParametersThrowableCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, param1, param2, exception);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, param1, param2, exception);
+			break;
+		case INFO:
+			logger.info(marker, message, param1, param2, exception);
+			break;
+		case WARN:
+			logger.warn(marker, message, param1, param2, exception);
+			break;
+		case ERROR:
+			logger.error(marker, message, param1, param2, exception);
+			break;
+		}
+		verifyMessage(level, marker, twoParams, exception);
+	}
+
+	@Test
+	public void traceMarkerMessageThreeParametersThrowable() {
+		for (Level level : Level.values()) {
+			markerMessageThreeParametersThrowableCheck(level);
+		}
+	}
+
+	private void markerMessageThreeParametersThrowableCheck(Level level) {
+		switch (level) {
+		case TRACE:
+			logger.trace(marker, message, param1, param2, param3, exception);
+			break;
+		case DEBUG:
+			logger.debug(marker, message, param1, param2, param3, exception);
+			break;
+		case INFO:
+			logger.info(marker, message, param1, param2, param3, exception);
+			break;
+		case WARN:
+			logger.warn(marker, message, param1, param2, param3, exception);
+			break;
+		case ERROR:
+			logger.error(marker, message, param1, param2, param3, exception);
+			break;
+		}
+		verifyMessage(level, marker, threeParams, exception);
+	}
+
+	private void verifyMessageWithoutMarker(Level level, Object[] arguments, Throwable exception) {
+		verifyMessage(level, null, arguments, exception);
+	}
+
+	private void verifyMessage(Level level, Marker marker, Object[] arguments, Throwable exception) {
+
+		assertEquals("missing event: ", 1, queue.size());
+		SubstituteLoggingEvent event = queue.poll();
+		assertNotNull(event);
+
+		if (marker == null) {
+			assertNull(event.getMarkers().get(0));
+		} else {
+			assertEquals(marker, event.getMarkers().get(0));
+		}
+
+		assertEquals(message, event.getMessage());
+
+		if (arguments == null) {
+			assertNull(event.getArgumentArray());
+		} else {
+			assertArrayEquals(arguments, event.getArgumentArray());
+		}
+
+		assertEquals("wrong level: ", level, event.getLevel());
+
+		if (exception == null) {
+			assertNull(event.getThrowable());
+		} else {
+			assertEquals(exception, event.getThrowable());
+		}
+	}
 }
