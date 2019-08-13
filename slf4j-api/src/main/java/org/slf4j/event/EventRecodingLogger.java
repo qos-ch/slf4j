@@ -5,6 +5,7 @@ import java.util.Queue;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.helpers.SubstituteLogger;
+import org.slf4j.helpers.Util;
 
 public class EventRecodingLogger implements Logger {
 
@@ -22,6 +23,18 @@ public class EventRecodingLogger implements Logger {
         return name;
     }
 
+    private void recordEvent(Level level, String msg, Object arg1, Object arg2) {
+        recordEvent(level, null, msg, arg1, arg2);
+    }
+
+    private void recordEvent(Level level, Marker marker, String msg, Object arg1, Object arg2) {
+        if (arg2 instanceof Throwable) {
+            recordEvent(level, marker, msg, new Object[] { arg1 }, (Throwable) arg2);
+        } else {
+            recordEvent(level, marker, msg, new Object[] { arg1, arg2 }, null);
+        }
+    }
+
     private void recordEvent(Level level, String msg, Object[] args, Throwable throwable) {
         recordEvent(level, null, msg, args, throwable);
     }
@@ -35,9 +48,23 @@ public class EventRecodingLogger implements Logger {
         loggingEvent.setLoggerName(name);
         loggingEvent.addMarker(marker);
         loggingEvent.setMessage(msg);
-        loggingEvent.setArgumentArray(args);
-        loggingEvent.setThrowable(throwable);
         loggingEvent.setThreadName(Thread.currentThread().getName());
+
+        // 1 and 2 args are covered by other methods
+        if (throwable == null && args != null && args.length > 2) {
+            Throwable throwableCandidate = Util.getThrowableCandidate(args);
+            if(throwableCandidate != null) {
+                loggingEvent.setArgumentArray(Util.trimmedCopy(args));
+                loggingEvent.setThrowable(throwableCandidate);
+            } else {
+                loggingEvent.setArgumentArray(args);
+                loggingEvent.setThrowable(null);
+            }
+        } else {
+            loggingEvent.setArgumentArray(args);
+            loggingEvent.setThrowable(throwable);
+        }
+
         eventQueue.add(loggingEvent);
     }
 
@@ -54,7 +81,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void trace(String format, Object arg1, Object arg2) {
-        recordEvent(Level.TRACE, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.TRACE, format, arg1, arg2);
     }
 
     public void trace(String format, Object... arguments) {
@@ -79,7 +106,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void trace(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent(Level.TRACE, marker, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.TRACE, marker, format, arg1, arg2);
     }
 
     public void trace(Marker marker, String format, Object... argArray) {
@@ -105,8 +132,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void debug(String format, Object arg1, Object arg2) {
-        recordEvent(Level.DEBUG, format, new Object[] { arg1, arg2 }, null);
-
+        recordEvent(Level.DEBUG, format, arg1, arg2);
     }
 
     public void debug(String format, Object... arguments) {
@@ -130,7 +156,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void debug(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent(Level.DEBUG, marker, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.DEBUG, marker, format, arg1, arg2);
     }
 
     public void debug(Marker marker, String format, Object... arguments) {
@@ -154,7 +180,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void info(String format, Object arg1, Object arg2) {
-        recordEvent(Level.INFO, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.INFO, format, arg1, arg2);
     }
 
     public void info(String format, Object... arguments) {
@@ -178,7 +204,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void info(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent(Level.INFO, marker, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.INFO, marker, format, arg1, arg2);
     }
 
     public void info(Marker marker, String format, Object... arguments) {
@@ -204,7 +230,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void warn(String format, Object arg1, Object arg2) {
-        recordEvent(Level.WARN, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.WARN, format, arg1, arg2);
     }
 
     public void warn(String format, Object... arguments) {
@@ -224,12 +250,11 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void warn(Marker marker, String format, Object arg) {
-        recordEvent(Level.WARN, format, new Object[] { arg }, null);
+        recordEvent(Level.WARN, marker, format, new Object[] { arg }, null);
     }
 
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent(Level.WARN, marker, format, new Object[] { arg1, arg2 }, null);
-
+        recordEvent(Level.WARN, marker, format, arg1, arg2);
     }
 
     public void warn(Marker marker, String format, Object... arguments) {
@@ -254,7 +279,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void error(String format, Object arg1, Object arg2) {
-        recordEvent(Level.ERROR, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.ERROR, format, arg1, arg2);
 
     }
 
@@ -282,7 +307,7 @@ public class EventRecodingLogger implements Logger {
     }
 
     public void error(Marker marker, String format, Object arg1, Object arg2) {
-        recordEvent(Level.ERROR, marker, format, new Object[] { arg1, arg2 }, null);
+        recordEvent(Level.ERROR, marker, format, arg1, arg2);
     }
 
     public void error(Marker marker, String format, Object... arguments) {
