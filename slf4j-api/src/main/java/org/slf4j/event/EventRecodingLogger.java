@@ -226,7 +226,7 @@ public class EventRecodingLogger implements Logger {
 	}
 
 	public void warn(Marker marker, String msg, Throwable t) {
-		recordEvent_0Args(Level.ERROR, marker, msg, t);
+		recordEvent_0Args(Level.WARN, marker, msg, t);
 	}
 
 	public boolean isErrorEnabled() {
@@ -304,7 +304,7 @@ public class EventRecodingLogger implements Logger {
 	}
 
 
-	// WARNING: this method assumes that any throwable is priperly extracted 
+	// WARNING: this method assumes that any throwable is properly extracted
 	private void recordEvent(Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
 		SubstituteLoggingEvent loggingEvent = new SubstituteLoggingEvent();
 		loggingEvent.setTimeStamp(System.currentTimeMillis());
