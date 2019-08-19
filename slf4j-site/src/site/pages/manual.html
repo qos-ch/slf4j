@@ -168,12 +168,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       and to log once the event is fully built. The
       <code>atTrace()</code>, <code>atDebug()</code>,
       <code>atInfo()</code>, <code>atWarn()</code> and
-      <code>atError()</code> methods new in the
-      <code>org.slf4j.Logger</code> interface return an instance of
-      <a href="apidocs/org/slf4j/spi/LoggingEventBuilder.html"><code>LoggingEventBuilder</code></a>.
-      For disabled log levels, the
-      returned <code>LoggingEventBuilder</code> instance does nothing,
-      thus preserving the nano-second level performance of the traditional
+      <code>atError()</code> methods, all new in the
+      <code>org.slf4j.Logger</code> interface, return an instance of
+      <a
+      href="apidocs/org/slf4j/spi/LoggingEventBuilder.html"><code>LoggingEventBuilder</code></a>.
+      For disabled log levels, the returned
+      <code>LoggingEventBuilder</code> instance does nothing, thus
+      preserving the nano-second level performance of the traditional
       logging interface.</p>
 
 
@@ -186,8 +187,10 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <pre class="prettyprint source">logger.info("Hello world.");</pre>
 
-      <p>The following statements are all equivalent:</p> 
-
+      
+      <p>The following log statements are equivalent in their output
+      (for the default implementation):</p>
+     
       <pre class="prettyprint source">
         int newT = 15;
         int oldT = 16;
@@ -210,7 +213,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       </pre>
 
       <p>The fluent logging API allows the specification of many
-      different type of data to a <code>org.slf4j.Logger</code>
+      different types of data to a <code>org.slf4j.Logger</code>
       without a combinatorial explosion in the number of methods in
       the <code>Logger</code> interface.</p>
 
@@ -235,6 +238,13 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         logger.atDebug().<b>addKeyValue("oldT", oldT)</b>.addKeyValue("newT", newT).log("Temperature changed.");          
       </pre>
 
+      <p>The key-value pair variant of the API stores the key-value
+      pairs as separates objects. The default implementation as
+      shipping in the <code>org.slf4j.Logger</code> class
+      <em>prefixes</em> key-value pairs to the message.  Logging
+      backends are free to customize the output as they see fit.</p>
+
+      
       <h3 class="doAnchor" name="swapping">Binding with a logging
       framework at deployment time</h3>
 
