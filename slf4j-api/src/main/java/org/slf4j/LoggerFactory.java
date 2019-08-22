@@ -157,7 +157,6 @@ public final class LoggerFactory {
                 Util.report("No SLF4J providers were found.");
                 Util.report("Defaulting to no-operation (NOP) logger implementation");
                 Util.report("See " + NO_PROVIDERS_URL + " for further details.");
-
                 Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportIgnoredStaticLoggerBinders(staticLoggerBinderPathSet);
             }
