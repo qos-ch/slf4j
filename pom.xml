@@ -414,18 +414,10 @@
   </pluginRepositories>
 
   <distributionManagement>
-    <site>
-      <id>qos_ch</id>
-      <url>scp://te.qos.ch/var/www/www.slf4j.org/htdocs/</url>
-    </site>
-
-    <repository>
-      <!--<id>pixie</id>-->
-      <!--<url>scp://pixie.qos.ch/var/mvnrepo/</url>-->
-      <id>sonatype-nexus-staging</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-
+     <snapshotRepository>
+        <id>nexus-snapshots</id>
+        <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+     </snapshotRepository>
   </distributionManagement>
 
 </project>
