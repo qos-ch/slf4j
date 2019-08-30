@@ -419,6 +419,11 @@
   </pluginRepositories>
 
   <distributionManagement>
+       <repository>
+         <id>nexus-snapshots</id>
+         <name>nexus</name>
+         <url>http://localhost:8001/nexus/content/repositories/snapshots</url>
+       </repository>
      <snapshotRepository>
         <id>nexus-snapshots</id>
         <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
