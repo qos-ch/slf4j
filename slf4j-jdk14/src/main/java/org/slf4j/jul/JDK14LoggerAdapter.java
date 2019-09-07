@@ -31,9 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.EventConstants;
 import org.slf4j.event.LoggingEvent;
+import org.slf4j.helpers.AbstractLogger;
 import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
+import org.slf4j.helpers.NormalizedParameters;
+import org.slf4j.helpers.ParameterNormalizer;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -46,667 +49,258 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  * @author Peter Royal
  */
-public final class JDK14LoggerAdapter extends MarkerIgnoringBase implements LocationAwareLogger {
+public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements LocationAwareLogger {
 
-    private static final long serialVersionUID = -8053026990503422791L;
+	private static final long serialVersionUID = -8053026990503422791L;
 
-    transient final java.util.logging.Logger logger;
+	transient final java.util.logging.Logger logger;
 
-    // WARN: JDK14LoggerAdapter constructor should have only package access so
-    // that only JDK14LoggerFactory be able to create one.
-    JDK14LoggerAdapter(java.util.logging.Logger logger) {
-        this.logger = logger;
-        this.name = logger.getName();
-    }
-
-    /**
-     * Is this logger instance enabled for the FINEST level?
-     * 
-     * @return True if this Logger is enabled for level FINEST, false otherwise.
-     */
-    public boolean isTraceEnabled() {
-        return logger.isLoggable(Level.FINEST);
-    }
-
-    /**
-     * Log a message object at level FINEST.
-     * 
-     * @param msg
-     *          - the message object to be logged
-     */
-    public void trace(String msg) {
-        if (logger.isLoggable(Level.FINEST)) {
-            log(SELF, Level.FINEST, msg, null);
-        }
-    }
-
-    /**
-     * Log a message at level FINEST according to the specified format and
-     * argument.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for level FINEST.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg
-     *          the argument
-     */
-    public void trace(String format, Object arg) {
-        if (logger.isLoggable(Level.FINEST)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level FINEST according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the FINEST level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg1
-     *          the first argument
-     * @param arg2
-     *          the second argument
-     */
-    public void trace(String format, Object arg1, Object arg2) {
-        if (logger.isLoggable(Level.FINEST)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level FINEST according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the FINEST level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param argArray
-     *          an array of arguments
-     */
-    public void trace(String format, Object... argArray) {
-        if (logger.isLoggable(Level.FINEST)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.FINEST, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log an exception (throwable) at level FINEST with an accompanying message.
-     * 
-     * @param msg
-     *          the message accompanying the exception
-     * @param t
-     *          the exception (throwable) to log
-     */
-    public void trace(String msg, Throwable t) {
-        if (logger.isLoggable(Level.FINEST)) {
-            log(SELF, Level.FINEST, msg, t);
-        }
-    }
-
-    /**
-     * Is this logger instance enabled for the FINE level?
-     * 
-     * @return True if this Logger is enabled for level FINE, false otherwise.
-     */
-    public boolean isDebugEnabled() {
-        return logger.isLoggable(Level.FINE);
-    }
-
-    /**
-     * Log a message object at level FINE.
-     * 
-     * @param msg
-     *          - the message object to be logged
-     */
-    public void debug(String msg) {
-        if (logger.isLoggable(Level.FINE)) {
-            log(SELF, Level.FINE, msg, null);
-        }
-    }
-
-    /**
-     * Log a message at level FINE according to the specified format and argument.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for level FINE.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg
-     *          the argument
-     */
-    public void debug(String format, Object arg) {
-        if (logger.isLoggable(Level.FINE)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level FINE according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the FINE level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg1
-     *          the first argument
-     * @param arg2
-     *          the second argument
-     */
-    public void debug(String format, Object arg1, Object arg2) {
-        if (logger.isLoggable(Level.FINE)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level FINE according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the FINE level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param argArray
-     *          an array of arguments
-     */
-    public void debug(String format, Object... argArray) {
-        if (logger.isLoggable(Level.FINE)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.FINE, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log an exception (throwable) at level FINE with an accompanying message.
-     * 
-     * @param msg
-     *          the message accompanying the exception
-     * @param t
-     *          the exception (throwable) to log
-     */
-    public void debug(String msg, Throwable t) {
-        if (logger.isLoggable(Level.FINE)) {
-            log(SELF, Level.FINE, msg, t);
-        }
-    }
-
-    /**
-     * Is this logger instance enabled for the INFO level?
-     * 
-     * @return True if this Logger is enabled for the INFO level, false otherwise.
-     */
-    public boolean isInfoEnabled() {
-        return logger.isLoggable(Level.INFO);
-    }
-
-    /**
-     * Log a message object at the INFO level.
-     * 
-     * @param msg
-     *          - the message object to be logged
-     */
-    public void info(String msg) {
-        if (logger.isLoggable(Level.INFO)) {
-            log(SELF, Level.INFO, msg, null);
-        }
-    }
-
-    /**
-     * Log a message at level INFO according to the specified format and argument.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the INFO level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg
-     *          the argument
-     */
-    public void info(String format, Object arg) {
-        if (logger.isLoggable(Level.INFO)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at the INFO level according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the INFO level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg1
-     *          the first argument
-     * @param arg2
-     *          the second argument
-     */
-    public void info(String format, Object arg1, Object arg2) {
-        if (logger.isLoggable(Level.INFO)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level INFO according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the INFO level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param argArray
-     *          an array of arguments
-     */
-    public void info(String format, Object... argArray) {
-        if (logger.isLoggable(Level.INFO)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.INFO, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log an exception (throwable) at the INFO level with an accompanying
-     * message.
-     * 
-     * @param msg
-     *          the message accompanying the exception
-     * @param t
-     *          the exception (throwable) to log
-     */
-    public void info(String msg, Throwable t) {
-        if (logger.isLoggable(Level.INFO)) {
-            log(SELF, Level.INFO, msg, t);
-        }
-    }
-
-    /**
-     * Is this logger instance enabled for the WARNING level?
-     * 
-     * @return True if this Logger is enabled for the WARNING level, false
-     *         otherwise.
-     */
-    public boolean isWarnEnabled() {
-        return logger.isLoggable(Level.WARNING);
-    }
-
-    /**
-     * Log a message object at the WARNING level.
-     * 
-     * @param msg
-     *          - the message object to be logged
-     */
-    public void warn(String msg) {
-        if (logger.isLoggable(Level.WARNING)) {
-            log(SELF, Level.WARNING, msg, null);
-        }
-    }
-
-    /**
-     * Log a message at the WARNING level according to the specified format and
-     * argument.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the WARNING level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg
-     *          the argument
-     */
-    public void warn(String format, Object arg) {
-        if (logger.isLoggable(Level.WARNING)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at the WARNING level according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the WARNING level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg1
-     *          the first argument
-     * @param arg2
-     *          the second argument
-     */
-    public void warn(String format, Object arg1, Object arg2) {
-        if (logger.isLoggable(Level.WARNING)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level WARNING according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the WARNING level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param argArray
-     *          an array of arguments
-     */
-    public void warn(String format, Object... argArray) {
-        if (logger.isLoggable(Level.WARNING)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            log(SELF, Level.WARNING, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log an exception (throwable) at the WARNING level with an accompanying
-     * message.
-     * 
-     * @param msg
-     *          the message accompanying the exception
-     * @param t
-     *          the exception (throwable) to log
-     */
-    public void warn(String msg, Throwable t) {
-        if (logger.isLoggable(Level.WARNING)) {
-            log(SELF, Level.WARNING, msg, t);
-        }
-    }
-
-    /**
-     * Is this logger instance enabled for level SEVERE?
-     * 
-     * @return True if this Logger is enabled for level SEVERE, false otherwise.
-     */
-    public boolean isErrorEnabled() {
-        return logger.isLoggable(Level.SEVERE);
-    }
-
-    /**
-     * Log a message object at the SEVERE level.
-     * 
-     * @param msg
-     *          - the message object to be logged
-     */
-    public void error(String msg) {
-        if (logger.isLoggable(Level.SEVERE)) {
-            log(SELF, Level.SEVERE, msg, null);
-        }
-    }
-
-    /**
-     * Log a message at the SEVERE level according to the specified format and
-     * argument.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the SEVERE level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg
-     *          the argument
-     */
-    public void error(String format, Object arg) {
-        if (logger.isLoggable(Level.SEVERE)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at the SEVERE level according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the SEVERE level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arg1
-     *          the first argument
-     * @param arg2
-     *          the second argument
-     */
-    public void error(String format, Object arg1, Object arg2) {
-        if (logger.isLoggable(Level.SEVERE)) {
-            FormattingTuple ft = MessageFormatter.format(format, arg1, arg2);
-            log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log a message at level SEVERE according to the specified format and
-     * arguments.
-     * 
-     * <p>
-     * This form avoids superfluous object creation when the logger is disabled
-     * for the SEVERE level.
-     * 
-     * 
-     * @param format
-     *          the format string
-     * @param arguments
-     *          an array of arguments
-     */
-    public void error(String format, Object... arguments) {
-        if (logger.isLoggable(Level.SEVERE)) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
-            log(SELF, Level.SEVERE, ft.getMessage(), ft.getThrowable());
-        }
-    }
-
-    /**
-     * Log an exception (throwable) at the SEVERE level with an accompanying
-     * message.
-     * 
-     * @param msg
-     *          the message accompanying the exception
-     * @param t
-     *          the exception (throwable) to log
-     */
-    public void error(String msg, Throwable t) {
-        if (logger.isLoggable(Level.SEVERE)) {
-            log(SELF, Level.SEVERE, msg, t);
-        }
-    }
-
-    /**
-     * Log the message at the specified level with the specified throwable if any.
-     * This method creates a LogRecord and fills in caller date before calling
-     * this instance's JDK14 logger.
-     * 
-     * See bug report #13 for more details.
-     * 
-     * @param level
-     * @param msg
-     * @param t
-     */
-    private void log(String callerFQCN, Level level, String msg, Throwable t) {
-        // millis and thread are filled by the constructor
-        LogRecord record = new LogRecord(level, msg);
-        record.setLoggerName(getName());
-        record.setThrown(t);
-        // Note: parameters in record are not set because SLF4J only
-        // supports a single formatting style
-        fillCallerData(callerFQCN, record);
-        logger.log(record);
-    }
-
-    static String SELF = JDK14LoggerAdapter.class.getName();
-    static String SUPER = MarkerIgnoringBase.class.getName();
-    static String SUBSTITUE = SubstituteLogger.class.getName();
-    
-    static String BARRIER_CLASSES[] = new String[] {SELF, SUPER, SUBSTITUE};
-  
-    /**
-     * Fill in caller data if possible.
-     * 
-     * @param record
-     *          The record to update
-     */
-	final private void fillCallerData(String callerFQCN, LogRecord record) {
-        StackTraceElement[] steArray = new Throwable().getStackTrace();
-
-        int selfIndex = -1;
-        for (int i = 0; i < steArray.length; i++) {
-            final String className = steArray[i].getClassName();
-            
-            if (barrierMatch(callerFQCN, className)) {
-                selfIndex = i;
-                break;
-            }
-        }
-
-        int found = -1;
-        for (int i = selfIndex + 1; i < steArray.length; i++) {
-            final String className = steArray[i].getClassName();
-            if (!(barrierMatch(callerFQCN, className))) {
-                found = i;
-                break;
-            }
-        }
-
-        if (found != -1) {
-            StackTraceElement ste = steArray[found];
-            // setting the class name has the side effect of setting
-            // the needToInferCaller variable to false.
-            record.setSourceClassName(ste.getClassName());
-            record.setSourceMethodName(ste.getMethodName());
-        }
-    }
-
-    private boolean barrierMatch(String callerFQCN, String candidateClassName) {
-    	if(candidateClassName.equals(callerFQCN))
-    		return true;
-    	for(String barrierClassName: BARRIER_CLASSES) {
-    		if(barrierClassName.equals(candidateClassName)) {
-    		  return true;
-    		}
-    	}
-    	return false;
+	// WARN: JDK14LoggerAdapter constructor should have only package access so
+	// that only JDK14LoggerFactory be able to create one.
+	JDK14LoggerAdapter(java.util.logging.Logger logger) {
+		this.logger = logger;
+		this.name = logger.getName();
 	}
 
-	public void log(Marker marker, String callerFQCN, int level, String message, Object[] argArray, Throwable t) {
-        Level julLevel = slf4jLevelIntToJULLevel(level);
-        // the logger.isLoggable check avoids the unconditional
-        // construction of location data for disabled log
-        // statements. As of 2008-07-31, callers of this method
-        // do not perform this check. See also
-        // http://jira.qos.ch/browse/SLF4J-81
-        if (logger.isLoggable(julLevel)) {
-            log(callerFQCN, julLevel, message, t);
-        }
-    }
+	/**
+	 * Is this logger instance enabled for the FINEST level?
+	 * 
+	 * @return True if this Logger is enabled for level FINEST, false otherwise.
+	 */
+	public boolean isTraceEnabled() {
+		return logger.isLoggable(Level.FINEST);
+	}
 
-    private Level slf4jLevelIntToJULLevel(int slf4jLevelInt) {
-        Level julLevel;
-        switch (slf4jLevelInt) {
-        case LocationAwareLogger.TRACE_INT:
-            julLevel = Level.FINEST;
-            break;
-        case LocationAwareLogger.DEBUG_INT:
-            julLevel = Level.FINE;
-            break;
-        case LocationAwareLogger.INFO_INT:
-            julLevel = Level.INFO;
-            break;
-        case LocationAwareLogger.WARN_INT:
-            julLevel = Level.WARNING;
-            break;
-        case LocationAwareLogger.ERROR_INT:
-            julLevel = Level.SEVERE;
-            break;
-        default:
-            throw new IllegalStateException("Level number " + slf4jLevelInt + " is not recognized.");
-        }
-        return julLevel;
-    }
+	/**
+	 * Is this logger instance enabled for the FINE level?
+	 * 
+	 * @return True if this Logger is enabled for level FINE, false otherwise.
+	 */
+	public boolean isDebugEnabled() {
+		return logger.isLoggable(Level.FINE);
+	}
 
-    /**
-     * @since 1.7.15
-     */
-    public void log(LoggingEvent event) {
-    	// assumes that the invocation is made from a substitute logger
-    	// this assumption might change in the future with the advent of a fluent API
-        Level julLevel = slf4jLevelIntToJULLevel(event.getLevel().toInt());
-        if (logger.isLoggable(julLevel)) {
-            LogRecord record = eventToRecord(event, julLevel);
-            logger.log(record);
-        }
-    }
+	/**
+	 * Is this logger instance enabled for the INFO level?
+	 * 
+	 * @return True if this Logger is enabled for the INFO level, false otherwise.
+	 */
+	public boolean isInfoEnabled() {
+		return logger.isLoggable(Level.INFO);
+	}
 
-    private LogRecord eventToRecord(LoggingEvent event, Level julLevel) {
-        String format = event.getMessage();
-        Object[] arguments = event.getArgumentArray();
-        FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
-        if (ft.getThrowable() != null && event.getThrowable() != null) {
-            throw new IllegalArgumentException("both last element in argument array and last argument are of type Throwable");
-        }
+	/**
+	 * Is this logger instance enabled for the WARNING level?
+	 * 
+	 * @return True if this Logger is enabled for the WARNING level, false
+	 *         otherwise.
+	 */
+	public boolean isWarnEnabled() {
+		return logger.isLoggable(Level.WARNING);
+	}
 
-        Throwable t = event.getThrowable();
-        if (ft.getThrowable() != null) {
-            t = ft.getThrowable();
-            throw new IllegalStateException("fix above code");
-        }
+	/**
+	 * Is this logger instance enabled for level SEVERE?
+	 * 
+	 * @return True if this Logger is enabled for level SEVERE, false otherwise.
+	 */
+	public boolean isErrorEnabled() {
+		return logger.isLoggable(Level.SEVERE);
+	}
 
-        LogRecord record = new LogRecord(julLevel, ft.getMessage());
-        record.setLoggerName(event.getLoggerName());
-        record.setMillis(event.getTimeStamp());
-        record.setSourceClassName(EventConstants.NA_SUBST);
-        record.setSourceMethodName(EventConstants.NA_SUBST);
+//    /**
+//     * Log the message at the specified level with the specified throwable if any.
+//     * This method creates a LogRecord and fills in caller date before calling
+//     * this instance's JDK14 logger.
+//     * 
+//     * See bug report #13 for more details.
+//     * 
+//     * @param level
+//     * @param msg
+//     * @param t
+//     */
+//    private void log(String callerFQCN, Level level, String msg, Throwable t) {
+//        // millis and thread are filled by the constructor
+//        LogRecord record = new LogRecord(level, msg);
+//        record.setLoggerName(getName());
+//        record.setThrown(t);
+//        // Note: parameters in record are not set because SLF4J only
+//        // supports a single formatting style
+//        fillCallerData(callerFQCN, record);
+//        logger.log(record);
+//    }
 
-        record.setThrown(t);
-        return record;
-    }
+	/**
+	 * Log the message at the specified level with the specified throwable if any.
+	 * This method creates a LogRecord and fills in caller date before calling this
+	 * instance's JDK14 logger.
+	 */
+	@Override
+	protected void handleNormalizedLoggingCall(org.slf4j.event.Level level, Marker marker, String msg, Object[] args,
+			Throwable throwable) {
+		innerNormalizedLoggingCallHandler(getFullyQualifiedCallerName(), level, marker, msg, args, throwable);
+	}
+
+	
+	private void innerNormalizedLoggingCallHandler(String fqcn, org.slf4j.event.Level level, Marker marker, String msg, Object[] args,
+			Throwable throwable) {
+		// millis and thread are filled by the constructor
+		Level julLevel = slf4jLevelToJULLevel(level);
+		String formattedMessage = MessageFormatter.basicArrayFormat(msg, args);
+		LogRecord record = new LogRecord(julLevel, formattedMessage);
+
+		// https://jira.qos.ch/browse/SLF4J-13
+		record.setLoggerName(getName());
+		record.setThrown(throwable);
+		// Note: parameters in record are not set because SLF4J only
+		// supports a single formatting style
+		// See also https://jira.qos.ch/browse/SLF4J-10
+		fillCallerData(fqcn, record);
+		logger.log(record);
+	}
+
+	
+	@Override
+	protected String getFullyQualifiedCallerName() {
+		return SELF;
+	}
+	
+	
+	@Override
+	public void log(Marker marker, String callerFQCN, int slf4jLevelInt, String message, Object[] arguments,
+			Throwable throwable) {
+
+		org.slf4j.event.Level slf4jLevel = org.slf4j.event.Level.intToLevel(slf4jLevelInt);
+		Level julLevel = slf4jLevelIntToJULLevel(slf4jLevelInt);
+		
+		if (logger.isLoggable(julLevel)) {
+			NormalizedParameters np = ParameterNormalizer.normalize(message, arguments, throwable);
+			innerNormalizedLoggingCallHandler(callerFQCN, slf4jLevel, marker, np.getMessage(), np.getArguments(), np.getThrowable());
+		}
+	}
+
+	
+	/**
+	 * Fill in caller data if possible.
+	 * 
+	 * @param record The record to update
+	 */
+	final private void fillCallerData(String callerFQCN, LogRecord record) {
+		StackTraceElement[] steArray = new Throwable().getStackTrace();
+
+		int selfIndex = -1;
+		for (int i = 0; i < steArray.length; i++) {
+			final String className = steArray[i].getClassName();
+
+			if (barrierMatch(callerFQCN, className)) {
+				selfIndex = i;
+				break;
+			}
+		}
+
+		int found = -1;
+		for (int i = selfIndex + 1; i < steArray.length; i++) {
+			final String className = steArray[i].getClassName();
+			if (!(barrierMatch(callerFQCN, className))) {
+				found = i;
+				break;
+			}
+		}
+
+		if (found != -1) {
+			StackTraceElement ste = steArray[found];
+			// setting the class name has the side effect of setting
+			// the needToInferCaller variable to false.
+			record.setSourceClassName(ste.getClassName());
+			record.setSourceMethodName(ste.getMethodName());
+		}
+	}
+
+	static String SELF = JDK14LoggerAdapter.class.getName();
+	
+	static String SUPER = LegacyAbstractLogger.class.getName();
+	static String SUPER_OF_SUPER = AbstractLogger.class.getName();
+	static String SUBSTITUE = SubstituteLogger.class.getName();
+
+	static String BARRIER_CLASSES[] = new String[] { SUPER_OF_SUPER, SUPER, SELF, SUBSTITUE };
+
+	private boolean barrierMatch(String callerFQCN, String candidateClassName) {
+		if (candidateClassName.equals(callerFQCN))
+			return true;
+		for (String barrierClassName : BARRIER_CLASSES) {
+			if (barrierClassName.equals(candidateClassName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private static Level slf4jLevelIntToJULLevel(int levelInt) {
+		org.slf4j.event.Level slf4jLevel = org.slf4j.event.Level.intToLevel(levelInt);
+		return slf4jLevelToJULLevel(slf4jLevel);
+	}
+
+	private static Level slf4jLevelToJULLevel(org.slf4j.event.Level slf4jLevel) {
+		Level julLevel;
+		switch (slf4jLevel) {
+		case TRACE:
+			julLevel = Level.FINEST;
+			break;
+		case DEBUG:
+			julLevel = Level.FINE;
+			break;
+		case INFO:
+			julLevel = Level.INFO;
+			break;
+		case WARN:
+			julLevel = Level.WARNING;
+			break;
+		case ERROR:
+			julLevel = Level.SEVERE;
+			break;
+		default:
+			throw new IllegalStateException("Level " + slf4jLevel + " is not recognized.");
+		}
+		return julLevel;
+	}
+
+	/**
+	 * @since 1.7.15
+	 */
+	public void log(LoggingEvent event) {
+		// assumes that the invocation is made from a substitute logger
+		// this assumption might change in the future with the advent of a fluent API
+		Level julLevel = slf4jLevelToJULLevel(event.getLevel());
+		if (logger.isLoggable(julLevel)) {
+			LogRecord record = eventToRecord(event, julLevel);
+			logger.log(record);
+		}
+	}
+
+	private LogRecord eventToRecord(LoggingEvent event, Level julLevel) {
+		String format = event.getMessage();
+		Object[] arguments = event.getArgumentArray();
+		FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
+		if (ft.getThrowable() != null && event.getThrowable() != null) {
+			throw new IllegalArgumentException(
+					"both last element in argument array and last argument are of type Throwable");
+		}
+
+		Throwable t = event.getThrowable();
+		if (ft.getThrowable() != null) {
+			t = ft.getThrowable();
+			throw new IllegalStateException("fix above code");
+		}
+
+		LogRecord record = new LogRecord(julLevel, ft.getMessage());
+		record.setLoggerName(event.getLoggerName());
+		record.setMillis(event.getTimeStamp());
+		record.setSourceClassName(EventConstants.NA_SUBST);
+		record.setSourceMethodName(EventConstants.NA_SUBST);
+
+		record.setThrown(t);
+		return record;
+	}
+
 }

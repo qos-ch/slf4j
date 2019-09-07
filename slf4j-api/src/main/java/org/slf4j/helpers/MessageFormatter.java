@@ -161,6 +161,17 @@ final public class MessageFormatter {
         return arrayFormat(messagePattern, args, throwableCandidate);
     }
 
+    /**
+     * Assumes that argArray only contains arguments with no throwable as last element.
+     * 
+     * @param messagePattern
+     * @param argArray
+     */
+    final public static String basicArrayFormat(final String messagePattern, final Object[] argArray) {
+    	FormattingTuple ft = arrayFormat(messagePattern, argArray, null);
+    	return ft.getMessage();
+    }
+    
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
         if (messagePattern == null) {
@@ -398,18 +409,9 @@ final public class MessageFormatter {
 	 *          otherwise it returns null
 	 */
 	public static Throwable getThrowableCandidate(final Object[] argArray) {
-	    if (argArray == null || argArray.length == 0) {
-	        return null;
-	    }
+		return ParameterNormalizer.getThrowableCandidate(argArray);
+    }
 	
-	    final Object lastEntry = argArray[argArray.length - 1];
-	    if (lastEntry instanceof Throwable) {
-	        return (Throwable) lastEntry;
-	    }
-	
-	    return null;
-	}
-
 	/**
 	 * Helper method to get all but the last element of an array
 	 *
@@ -419,19 +421,7 @@ final public class MessageFormatter {
 	 * @return a copy of the array without the last element
 	 */
 	public static Object[] trimmedCopy(final Object[] argArray) {
-	    if (argArray == null || argArray.length == 0) {
-	        throw new IllegalStateException("non-sensical empty or null argument array");
-	    }
-	
-	    final int trimmedLen = argArray.length - 1;
-	
-	    Object[] trimmed = new Object[trimmedLen];
-	
-	    if (trimmedLen > 0) {
-	        System.arraycopy(argArray, 0, trimmed, 0, trimmedLen);
-	    }
-	
-	    return trimmed;
+		return ParameterNormalizer.trimmedCopy(argArray);
 	}
 
 }

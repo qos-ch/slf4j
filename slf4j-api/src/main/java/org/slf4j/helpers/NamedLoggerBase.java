@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
  * @author Ceki Gulcu
  * @see #readResolve
  * @since 1.5.3
+ * @deprecated
  */
 abstract class NamedLoggerBase implements Logger, Serializable {
 
