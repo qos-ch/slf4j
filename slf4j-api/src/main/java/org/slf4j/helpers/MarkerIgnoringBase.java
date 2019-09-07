@@ -34,6 +34,7 @@ import org.slf4j.Marker;
  * any marker data passed as argument.
  * 
  * @author Ceki Gulcu
+ * @deprecated
  */
 public abstract class MarkerIgnoringBase extends NamedLoggerBase implements Logger {
 
