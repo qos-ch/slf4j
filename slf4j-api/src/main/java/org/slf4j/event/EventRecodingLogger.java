@@ -1,7 +1,6 @@
 package org.slf4j.event;
 
 import java.util.Queue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Marker;
 import org.slf4j.helpers.LegacyAbstractLogger;

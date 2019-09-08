@@ -241,8 +241,6 @@ public class SimpleLogger extends LegacyAbstractLogger {
 	}
 
 
-
-
 	void write(StringBuilder buf, Throwable t) {
 		PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
