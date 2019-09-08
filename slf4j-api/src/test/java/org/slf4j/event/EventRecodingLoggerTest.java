@@ -501,7 +501,7 @@ public class EventRecodingLoggerTest {
 		assertNotNull(event);
 
 		if (marker == null) {
-			assertNull(event.getMarkers().get(0));
+			assertNull(event.getMarkers());
 		} else {
 			assertEquals(marker, event.getMarkers().get(0));
 		}
