@@ -98,11 +98,10 @@ public interface Logger {
      * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
      * @since 2.0
      */
-    default LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+    default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
     	return new DefaultLoggingEventBuilder(this, level);
     }
 
-    
     /**
      * Is the logger instance enabled for the TRACE level?
      *
