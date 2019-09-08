@@ -25,18 +25,17 @@
 package org.slf4j.simple;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
-import org.slf4j.helpers.AbstractLogger;
-import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
-import org.slf4j.helpers.ParameterNormalizer;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -144,7 +143,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Robert Burrell Donkin
  * @author C&eacute;drik LIME
  */
-public class SimpleLogger extends AbstractLogger {
+public class SimpleLogger extends LegacyAbstractLogger {
 
 	private static final long serialVersionUID = -632788891211436180L;
 
@@ -352,8 +351,19 @@ public class SimpleLogger extends AbstractLogger {
 	protected void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments,
 			Throwable t) {
 
-		first convert to an event and then log
+		List<Marker> markers = null;
 		
+		if(marker != null) {
+			markers = new ArrayList<Marker>();
+			markers.add(marker);
+		}
+		
+		innerHandleNormalizedLoggingCall(level, markers, messagePattern, arguments, t);
+	}
+
+	private void innerHandleNormalizedLoggingCall(Level level, List<Marker> markers, String messagePattern, Object[] arguments,
+			Throwable t) {
+
 		StringBuilder buf = new StringBuilder(32);
 
 		// Append date-time if so configured
@@ -393,8 +403,13 @@ public class SimpleLogger extends AbstractLogger {
 			buf.append(String.valueOf(name)).append(" - ");
 		}
 
-		buf.append(SP).append(marker.getName()).append(SP);
-
+		if(markers != null) {
+			buf.append(SP);
+			for(Marker marker: markers) {
+				buf.append(marker.getName()).append(SP);		
+			}
+		}
+		
 		String formattedMessage = MessageFormatter.basicArrayFormat(messagePattern, arguments);
 
 		// Append the message
@@ -411,20 +426,15 @@ public class SimpleLogger extends AbstractLogger {
 			return;
 		}
 		
-		NormalizedParameters np = ParameterNormalizer.normalize(event);
+		NormalizedParameters np = NormalizedParameters.normalize(event);
 		
-		
-		
-		FormattingTuple tp = MessageFormatter.arrayFormat(event.getMessage(), event.getArgumentArray(),
-				event.getThrowable());
-		
-		handleNormalizedLoggingCall(level, event.getMarkers(), messagePattern, arguments, t);
-		log(event.getLevel(), tp.getMessage(), event.getThrowable());
+		innerHandleNormalizedLoggingCall(event.getLevel(), event.getMarkers(), np.getMessage(), np.getArguments(), event.getThrowable());
 	}
 
 	@Override
 	protected String getFullyQualifiedCallerName() {
 		return null;
 	}
+
 
 }

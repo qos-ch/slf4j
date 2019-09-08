@@ -46,7 +46,7 @@ public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedIn
     static int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
     private final PrintStream oldErr = System.err;
     final String loggerName = this.getClass().getName();
-    StringPrintStream sps = new StringPrintStream(oldErr, true);
+    StringPrintStream sps = new StringPrintStream(oldErr, false);
 
     @Before
     public void setup() {

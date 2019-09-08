@@ -36,7 +36,6 @@ import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
-import org.slf4j.helpers.ParameterNormalizer;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -174,7 +173,7 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
 		Level julLevel = slf4jLevelIntToJULLevel(slf4jLevelInt);
 		
 		if (logger.isLoggable(julLevel)) {
-			NormalizedParameters np = ParameterNormalizer.normalize(message, arguments, throwable);
+			NormalizedParameters np = NormalizedParameters.normalize(message, arguments, throwable);
 			innerNormalizedLoggingCallHandler(callerFQCN, slf4jLevel, marker, np.getMessage(), np.getArguments(), np.getThrowable());
 		}
 	}

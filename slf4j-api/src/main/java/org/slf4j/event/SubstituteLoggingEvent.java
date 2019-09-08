@@ -30,14 +30,18 @@ public class SubstituteLoggingEvent implements LoggingEvent {
     }
 
     public List<Marker> getMarkers() {
-    	if(markers == null) {
-			markers = new ArrayList<>(5);
-		}
 		return markers;
     }
 
     public void addMarker(Marker marker) {
-        getMarkers().add(marker);
+    	if(marker == null)
+    		return;
+    	
+    	if(markers == null) {
+			markers = new ArrayList<>(2);
+		}
+    	
+    	markers.add(marker);
     }
 
     public String getLoggerName() {

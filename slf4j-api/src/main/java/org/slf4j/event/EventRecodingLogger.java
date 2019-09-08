@@ -1,9 +1,10 @@
 package org.slf4j.event;
 
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Marker;
-import org.slf4j.helpers.AbstractLogger;
+import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.SubstituteLogger;
 
 /**
@@ -16,7 +17,9 @@ import org.slf4j.helpers.SubstituteLogger;
  * @author Wessel van Norel
  *
  */
-public class EventRecodingLogger extends AbstractLogger  {
+public class EventRecodingLogger extends LegacyAbstractLogger {
+
+	private static final long serialVersionUID = -176083308134819629L;
 
 	String name;
 	SubstituteLogger logger;
@@ -39,16 +42,7 @@ public class EventRecodingLogger extends AbstractLogger  {
 		return RECORD_ALL_EVENTS;
 	}
 
-	public boolean isTraceEnabled(Marker marker) {
-		return RECORD_ALL_EVENTS;
-	}
-
-
 	public boolean isDebugEnabled() {
-		return RECORD_ALL_EVENTS;
-	}
-
-	public boolean isDebugEnabled(Marker marker) {
 		return RECORD_ALL_EVENTS;
 	}
 
@@ -56,35 +50,25 @@ public class EventRecodingLogger extends AbstractLogger  {
 		return RECORD_ALL_EVENTS;
 	}
 
-	public boolean isInfoEnabled(Marker marker) {
-		return RECORD_ALL_EVENTS;
-	}
-
 	public boolean isWarnEnabled() {
 		return RECORD_ALL_EVENTS;
 	}
-
-	public boolean isWarnEnabled(Marker marker) {
-		return RECORD_ALL_EVENTS;
-	}
-
 
 	public boolean isErrorEnabled() {
 		return RECORD_ALL_EVENTS;
 	}
 
-	public boolean isErrorEnabled(Marker marker) {
-		return RECORD_ALL_EVENTS;
-	}
-
 	// WARNING: this method assumes that any throwable is properly extracted
-	protected void handleNormalizedLoggingCall(Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
+	protected void handleNormalizedLoggingCall(Level level, Marker marker, String msg, Object[] args,
+			Throwable throwable) {
 		SubstituteLoggingEvent loggingEvent = new SubstituteLoggingEvent();
 		loggingEvent.setTimeStamp(System.currentTimeMillis());
 		loggingEvent.setLevel(level);
 		loggingEvent.setLogger(logger);
 		loggingEvent.setLoggerName(name);
-		loggingEvent.addMarker(marker);
+		if (marker != null) {
+			loggingEvent.addMarker(marker);
+		}
 		loggingEvent.setMessage(msg);
 		loggingEvent.setThreadName(Thread.currentThread().getName());
 
@@ -92,5 +76,11 @@ public class EventRecodingLogger extends AbstractLogger  {
 		loggingEvent.setThrowable(throwable);
 
 		eventQueue.add(loggingEvent);
+
+	}
+
+	@Override
+	protected String getFullyQualifiedCallerName() {
+		return null;
 	}
 }
