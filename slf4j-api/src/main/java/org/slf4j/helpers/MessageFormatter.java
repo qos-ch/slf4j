@@ -172,6 +172,10 @@ final public class MessageFormatter {
     	return ft.getMessage();
     }
     
+    public static String basicArrayFormat(NormalizedParameters np) {
+		return basicArrayFormat(np.getMessage(), np.getArguments());
+	}
+    
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
         if (messagePattern == null) {
@@ -409,7 +413,7 @@ final public class MessageFormatter {
 	 *          otherwise it returns null
 	 */
 	public static Throwable getThrowableCandidate(final Object[] argArray) {
-		return ParameterNormalizer.getThrowableCandidate(argArray);
+		return NormalizedParameters.getThrowableCandidate(argArray);
     }
 	
 	/**
@@ -421,7 +425,9 @@ final public class MessageFormatter {
 	 * @return a copy of the array without the last element
 	 */
 	public static Object[] trimmedCopy(final Object[] argArray) {
-		return ParameterNormalizer.trimmedCopy(argArray);
+		return NormalizedParameters.trimmedCopy(argArray);
 	}
+
+	
 
 }

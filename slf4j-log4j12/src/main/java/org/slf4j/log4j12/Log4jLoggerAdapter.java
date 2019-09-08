@@ -37,7 +37,6 @@ import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
-import org.slf4j.helpers.ParameterNormalizer;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -148,7 +147,7 @@ public final class Log4jLoggerAdapter extends LegacyAbstractLogger implements Lo
     @Override
     public void log(Marker marker, String callerFQCN, int level, String msg, Object[] arguments, Throwable t) {
         Level log4jLevel = toLog4jLevel(level);
-        NormalizedParameters np = ParameterNormalizer.normalize(msg, arguments, t);
+        NormalizedParameters np = NormalizedParameters.normalize(msg, arguments, t);
         String formattedMessage = MessageFormatter.basicArrayFormat(np.getMessage(), np.getArguments());
         logger.log(callerFQCN, log4jLevel, formattedMessage, np.getThrowable());
     }

@@ -35,14 +35,14 @@ public class DefaultLoggingEvent implements LoggingEvent {
 	}
 
 	public void addMarker(Marker marker) {
-		getMarkers().add(marker);
+    	if(markers == null) {
+			markers = new ArrayList<>(2);
+		}
+		markers.add(marker);
 	}
 
 	@Override
 	public List<Marker> getMarkers() {
-		if (markers == null) {
-			markers = new ArrayList<>(5);
-		}
 		return markers;
 	}
 
