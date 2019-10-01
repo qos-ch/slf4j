@@ -107,7 +107,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 			combinedArguments[argLen] = t;
 		}
 
-		msg = mergeKeyValuePairs(logggingEvent, msg);
+		msg = mergeMarkersAndKeyValuePairs(logggingEvent, msg);
 		
 		switch (logggingEvent.getLevel()) {
 		case TRACE:
@@ -129,21 +129,42 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 
 	}
 
-	private String mergeKeyValuePairs(LoggingEvent logggingEvent, String msg) {
+	/**
+	 * Prepend markers and key-value pairs to the message.
+	 * 
+	 * @param logggingEvent
+	 * @param msg
+	 * @return
+	 */
+	private String mergeMarkersAndKeyValuePairs(LoggingEvent logggingEvent, String msg) {
 		
+		StringBuilder sb = null;
+		
+		if(loggingEvent.getMarkers() != null) {
+			sb = new StringBuilder();
+			for(Marker marker: logggingEvent.getMarkers()) {
+				sb.append(marker);
+				sb.append(' ');
+			}
+		}
+
 		if(logggingEvent.getKeyValuePairs() != null) {
-			StringBuilder sb = new StringBuilder();
+			if(sb == null) {
+				sb = new StringBuilder();
+			}
 			for(KeyValuePair kvp: logggingEvent.getKeyValuePairs()) {
 				sb.append(kvp.key);
 				sb.append('=');
 				sb.append(kvp.value);
 				sb.append(' ');
 			}
+		} 
+		
+		if(sb != null) {
 			sb.append(msg);
 			return sb.toString();
 		} else {
 			return msg;
-			
 		}
 	}
 
