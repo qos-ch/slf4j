@@ -37,17 +37,49 @@
      class names in <code/>
    -->
 
-<!--
-   <hr noshade="noshade" size="1"/>
-   <h3> 2019  - Release of SLF4J 2.0.0-alpha1</h3>
 
+   <hr noshade="noshade" size="1"/>
+   <h3>October 1st, 2019  - Release of SLF4J 2.0.0-alpha1</h3>
+
+   <p class="highlight">The the 2.0.x series requires Java&nbsp;8 and
+   adds a backward-compatible <a
+   href="manual.html#fluent">fluent logging api</a>.
+   <br/>   <br/>
+   Moreover, SLF4J has been modularized per <a
+   href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
+   specificaton. The resulting internal changes are <a class="big
+   bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
+   page.
+   </p>
+
+   <p>SLF4J version 2.0.0 requires Java 8. It builds upon the 1.8.x
+   series and adds a backward-compatible <a
+   href="manual.html#fluent">fluent logging api</a>.  By
+   backward-compatible, we mean that existing logging frameworks do
+   not have to be changed for the user to benefit from the fluent
+   logging API.
+   </p>
+   
+   <p>&bull; Refactored the fluent-api in
+   <code>org.slf4j.Logger</code> interface to ease the work required
+   by downstream implementations.
+   </p>
+
+   <p>&bull; By default, when using the fluent-API
+   <code>org.slf4j.Logger</code> will merge into the message part any
+   marker and key-value data passed to it.</p>
 
    <p>&bull; Fix the double back-end initializatoin problem reported
    in <a href="https://jira.qos.ch/browse/SLF4J-463">SLF4J-463</a> by
    Dan Groves who also provided a test-case to reptoduce the problem
    and a relevant fix.
    </p>
-   -->
+
+   <p>&bull; Fixed incorrect handling of <code>Throwable</code> as
+   last parameter in <a
+   href="https://jira.qos.ch/browse/SLF4J-466">SLF4J-466</a>.
+   </p>
+
    
    <hr noshade="noshade" size="1"/>
 
