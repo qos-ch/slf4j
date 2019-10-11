@@ -1,0 +1,54 @@
+<html>
+
+  <head>
+  </head>
+
+  <body>
+
+    <div style="xtext-align:center; font-size:200%;">
+
+      <h2>Weaning this server off HTTPS in the near future</h2>
+
+      <p>The "<span id="h1">host</span>" server will stop supporting SSL connections. </p>
+
+      <p>Please update your links.</p>
+      
+      <p>Redirecting you to <span id="s1" style="color:#0000FF">TARGET</span> in <span id="c1">15</span> seconds</p>
+
+    </div>
+
+
+    <script>
+      function getUrlVars() {
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+      vars[key] = value;
+      });
+      return vars;
+      }
+
+
+
+      var hostname = location.hostname;
+      var targetURL = "http://" + hostname + "/" + getUrlVars()["target"];
+
+      document.getElementById("h1").innerHTML = hostname;
+      document.getElementById("s1").innerHTML = "<a href=\"" + targetURL + "\">" + targetURL + "</a>";
+
+      var count = 15; 
+      
+      var timer = setInterval(function() {
+         var spanCount = document.querySelector('#c1');
+         count--;      
+         spanCount.textContent = count;
+         if(count <= 0) {
+		     window.location = targetURL;
+         }
+      }, 1000);
+
+    </script>
+
+  </body>
+
+
+</html>
