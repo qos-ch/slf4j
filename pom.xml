@@ -251,20 +251,6 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <descriptors>
-            <descriptor>src/main/assembly/source.xml</descriptor>
-          </descriptors>
-          <finalName>slf4j-${project.version}</finalName>
-          <appendAssemblyId>false</appendAssemblyId>
-          <outputDirectory>target/site/dist/</outputDirectory>
-        </configuration>
-      </plugin>
-
       <!-- as suggested in http://jira.qos.ch/browse/SLF4J-143 -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
