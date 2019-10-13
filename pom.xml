@@ -51,6 +51,7 @@
     <compiler-plugin.version>3.8.0</compiler-plugin.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
   </properties>
 
   <developers>
@@ -147,6 +148,13 @@
             </signature>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+
       </plugins>
     </pluginManagement>
 
