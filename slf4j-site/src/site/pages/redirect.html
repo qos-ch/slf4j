@@ -1,30 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
 <html>
 
   <head>
+    <style>
+      body {
+        font-size: 120%;
+        margin: 2em;
+	max-width: 50em;
+      }
+	
+
+      button.qLink {
+        font-size: 110%;
+        font-weight: bold;
+        border-radius: 2px;
+        padding: 2px 1em 2px 1em;
+        margin:  0px 0px 4px 0px;
+
+        border-top:    2px solid #DDD;
+        border-left:   2px solid #DDD;
+        border-right:  2px solid #888;
+        border-bottom: 2px solid #888;
+
+      }
+      
+      button.qLink:hover {
+        background: #E0E0EF;
+        cursor: pointer;
+      }
+
+      button.qLink:active {
+        background: #E8E8EF;
+
+        border-top:    2px solid #DDD;
+        border-left:   2px solid #DDD;
+        border-right:  2px solid #DDD;
+        border-bottom: 2px solid #DDD;
+        cursor: pointer;
+      }
+
+    </style>
   </head>
 
   <body>
 
-    <div style="xtext-align:center; font-size:200%;">
+    <div style="font-size:150%;">
 
-      <h2>Weaning this server off HTTPS in the near future</h2>
+      <h2>Weaning &quot;<span class="host">host</span>&quot; off HTTPS/SSL</h2>
 
-      <p>The "<span id="h1">host</span>" server will stop supporting SSL connections. </p>
-
-      <p>Please update your links.</p>
+      <p>The &quot;<span class="host">host</span>&quot; server will
+      eventually stop supporting incoming SSL connections. Please
+      update your links accordingly.</p>
       
-      <p>Redirecting you to <span id="s1" style="color:#0000FF">TARGET</span> in <span id="c1">15</span> seconds</p>
+      <p>Redirecting you to <span id="s1"
+      style="color:#0000FF">TARGET</span> in <span id="c1">15</span>
+      seconds.</p>
+      
+      <p style="text-align:center"><button class="qLink" id="button1"
+      onclick="suspendButtonClick()">Suspend redirect</button></p>
 
+
+      
     </div>
 
+    <div>
 
+      <h3>Why is SSL is being turned off?</h3>
+
+      
+      <p>Even if letsencrypt certificates are free, renewing these
+      certificates every three months takes time and effort. Given
+      that &quot;<span class="host">host</span>&quot; is load-balanced
+      over several machines, the effort involved in renewing the
+      certificates is non-negligible and could not be fully automated.
+      </p>
+
+      
+      <p>There is a bigger reason though. We think that mindless
+      security procedures are detrimental to all organizations.  When
+      security becomes an overriding concern above all else, it makes
+      organizations wither slowly but surely. Security needs should be
+      applied with intelligence and measure. In larger organizations,
+      the current trend is to apply security-motivated organizational
+      changes first and think later. </p>
+
+      <h3>But what about security risks?</h3>
+
+      <p>Admittedly, turning off SSL can have adverse affects.  An
+      attacker could eavesdrop and steal user credentials. However,
+      the site &quot;<span class="host">host</span>&quot; does not
+      store user credentials. Incidentally, it does not track users
+      nor store cookies either.</p>
+
+
+      <p>In a more severe case, an attacker could intercept the HTTP
+      connection and serve hacked binaries. To eliminate this risk
+      altogether, the site &quot;<span class="host">host</span>&quot;
+      will no longer directly serve downloadable binaries but
+      indirectly delegate this task to Maven Central where 99% of
+      users download the binaries anyhow.
+      </p>
+           
+    </div>
+    
     <script>
+      var suspended = false;
+      
+      function suspendButtonClick() {
+      var txt = "";
+       
+      if(suspended) {       
+          txt = "Suspend redirect" ;
+      } else {
+          txt = "Unsuspend redirect";
+      }
+
+      suspended = !suspended;      
+      document.getElementById("button1").innerHTML = txt;
+      }
+      
       function getUrlVars() {
-      var vars = {};
-      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-      vars[key] = value;
-      });
-      return vars;
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+        });
+        return vars;
       }
 
 
@@ -32,12 +132,23 @@
       var hostname = location.hostname;
       var targetURL = "http://" + hostname + "/" + getUrlVars()["target"];
 
-      document.getElementById("h1").innerHTML = hostname;
+      var hostElements = document.getElementsByClassName("host");
+      var hostElementsLen = hostElements.length;
+      var i;
+      for(i = 0; i < hostElementsLen; i++) {
+         hostElements[i].innerHTML = hostname;
+      }
+
+
+      
       document.getElementById("s1").innerHTML = "<a href=\"" + targetURL + "\">" + targetURL + "</a>";
 
       var count = 15; 
       
       var timer = setInterval(function() {
+        if(suspended) {      
+          return;
+         }
          var spanCount = document.querySelector('#c1');
          count--;      
          spanCount.textContent = count;
