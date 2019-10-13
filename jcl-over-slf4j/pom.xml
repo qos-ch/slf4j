@@ -16,6 +16,14 @@
   <description>JCL 1.2 implemented over SLF4J</description>
   <url>http://www.slf4j.org</url>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
     <module-name>org.apache.commons.logging</module-name>
   </properties>
