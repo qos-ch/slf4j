@@ -229,7 +229,7 @@ class B extends A {
 
     <h3 class="doAnchor" name="StaticLoggerBinder">Failed to load class
     <code>org.slf4j.impl.StaticLoggerBinder</code></h3>
-    
+
     <p>This warning message is reported when the
     <code>org.slf4j.impl.StaticLoggerBinder</code> class could not be
     loaded into memory.  This happens when no appropriate SLF4J
@@ -239,7 +239,18 @@ class B extends A {
     <em>logback-classic.jar</em> on the class path should solve the
     problem.
     </p>
+    
+    <p>Note that slf4j-api versions 2.0.x and later use the <a
+    href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+    mechanism. Backends such as logback 1.3 and later which target
+    slf4j-api 2.x, do not ship with
+    <code>org.slf4j.impl.StaticLoggerBinder</code>. If you place a
+    logging backend which targets slf4j-api 2.0.x, you need
+    <em>slf4j-api-2.x.jar</em> on the classpath. See also <a
+    href="faq.html#changesInVersion18">relevant faq</a> entry.
+    </p>
 
+    
     <p><span class="label">since 1.6.0</span> As of SLF4J version 1.6,
     in the absence of a binding, SLF4J will default to a no-operation
     (NOP) logger implementation.
@@ -351,7 +362,7 @@ class B extends A {
    declare a dependency on any SLF4J binding but only depend on
    slf4j-api. When a library declares a compile-time dependency on a
    SLF4J binding, it imposes that binding on the end-user, thus
-   negating SLF4J's purpose. When you come across an embedded
+   negating SLF4J&rsquo;s purpose. When you come across an embedded
    component declaring a compile-time dependency on any SLF4J binding,
    please take the time to contact the authors of said
    component/library and kindly ask them to mend their ways.</p>
@@ -373,16 +384,16 @@ class B extends A {
     slf4j-simple-${project.version}.jar, using slf4j-simple-1.5.5.jar
     will not work.</p>
 
-    <p><span class="label notice">Note</span> From the client's
+    <p><span class="label notice">Note</span> From the client&rsquo;s
     perspective all versions of slf4j-api are compatible. Client code
     compiled with <em>slf4j-api-N.jar</em> will run perfectly fine
     with <em>slf4j-api-M.jar</em> for any N and M. You only need to
     ensure that the version of your binding matches that of the
     slf4j-api.jar. You do not have to worry about the version of
-    slf4j-api.jar used by a given dependency in your project. You
-    can always use any version of <em>slf4j-api.jar</em>, and as long
-    as the version of <em>slf4j-api.jar</em> and its binding match,
-    you should be fine.
+    slf4j-api.jar used by a given dependency in your project. You can
+    always use any version of <em>slf4j-api.jar</em>, and as long as
+    the version of <em>slf4j-api.jar</em> and its binding match, you
+    should be fine.
     </p>
 
     <p>At initialization time, if SLF4J suspects that there may be a
