@@ -152,10 +152,6 @@ public final class LoggerFactory {
             	PROVIDER.initialize();
             	INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
                 reportActualBinding(providersList);
-                fixSubstituteLoggers();
-                replayEvents();
-                // release all resources in SUBST_FACTORY
-                SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
                 Util.report("No SLF4J providers were found.");
@@ -165,6 +161,10 @@ public final class LoggerFactory {
                 Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportIgnoredStaticLoggerBinders(staticLoggerBinderPathSet);
             }
+            fixSubstituteLoggers();
+            replayEvents();
+            // release all resources in SUBST_FACTORY
+            SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
         } catch (Exception e) {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
