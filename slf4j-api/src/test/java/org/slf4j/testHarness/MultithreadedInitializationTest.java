@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
@@ -25,8 +24,6 @@ abstract public class MultithreadedInitializationTest {
 
     final protected AtomicLong eventCount = new AtomicLong(0);
     final private CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
-
-    int diff = new Random().nextInt(10000);
 
     @Test
     public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {

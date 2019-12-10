@@ -24,22 +24,22 @@
  */
 package org.slf4j;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
-
 import org.slf4j.testHarness.MultithreadedInitializationTest;
 
+/**
+ * Checks that when no binding is present, proper clean up is performed by LoggerFactory.
+ * 
+ *  See SLF4J-469
+ * 
+ * @author David Harsha
+ */
 public class NoBindingMultithreadedInitializationTest extends MultithreadedInitializationTest {
     final String loggerName = this.getClass().getName();
 
     @Before
     public void setup() {
-        System.out.println("THREAD_COUNT=" + THREAD_COUNT);
         LoggerFactoryFriend.reset();
     }
 
