@@ -161,10 +161,7 @@ public final class LoggerFactory {
                 Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportIgnoredStaticLoggerBinders(staticLoggerBinderPathSet);
             }
-            fixSubstituteLoggers();
-            replayEvents();
-            // release all resources in SUBST_FACTORY
-            SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
+            postBindCleanUp();
         } catch (Exception e) {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
@@ -210,6 +207,13 @@ public final class LoggerFactory {
         }
         return staticLoggerBinderPathSet;
     }
+
+	private static void postBindCleanUp() {
+		fixSubstituteLoggers();
+		replayEvents();
+		// release all resources in SUBST_FACTORY
+		SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
+	}
 
     private static void fixSubstituteLoggers() {
         synchronized (SUBST_PROVIDER) {
