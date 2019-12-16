@@ -150,10 +150,6 @@ public final class LoggerFactory {
             StaticLoggerBinder.getSingleton();
             INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
             reportActualBinding(staticLoggerBinderPathSet);
-            fixSubstituteLoggers();
-            replayEvents();
-            // release all resources in SUBST_FACTORY
-            SUBST_FACTORY.clear();
         } catch (NoClassDefFoundError ncde) {
             String msg = ncde.getMessage();
             if (messageContainsOrgSlf4jImplStaticLoggerBinder(msg)) {
@@ -177,8 +173,17 @@ public final class LoggerFactory {
         } catch (Exception e) {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
+        } finally {
+            postBindCleanUp();
         }
     }
+
+	private static void postBindCleanUp() {
+		fixSubstituteLoggers();
+		replayEvents();
+		// release all resources in SUBST_FACTORY
+		SUBST_FACTORY.clear();
+	}
 
     private static void fixSubstituteLoggers() {
         synchronized (SUBST_FACTORY) {

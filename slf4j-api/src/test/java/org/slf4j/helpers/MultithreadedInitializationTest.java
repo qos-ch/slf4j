@@ -22,7 +22,7 @@ abstract public class MultithreadedInitializationTest {
 
     private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
 
-    final private AtomicLong eventCount = new AtomicLong(0);
+    protected final AtomicLong eventCount = new AtomicLong(0);
     final private CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
     int diff = new Random().nextInt(10000);

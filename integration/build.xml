@@ -56,7 +56,12 @@
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
 	</path >
 
+	<path id="pathNoBinding">
+		<pathelement location="target/test-classes/" />
+		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
+	</path >
 
+		
 	<path id="incompatibleMultiBinding">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
@@ -102,11 +107,12 @@
 	</target>
 
 	<target name="testAll" depends="init, 
-		            testMissingSingletonMethod,
+		        testMissingSingletonMethod,
                 testMismatch,
-                testMatch,
-		            testMultiBinding,
-		            testIncompatibleMultiBinding,
+                testNoBinding,
+				testMatch,
+		        testMultiBinding,
+		        testIncompatibleMultiBinding,
                 testFuture_16Series,
                 testActiveSecurityManager">
 	</target>
@@ -215,7 +221,17 @@
 		</junit>
 
 	</target>
-
+	
+	<target name="testNoBinding">
+			<junit printsummary="yes" fork="no" haltonfailure="yes">
+				<classpath refid="pathNoBinding" />
+				<formatter type="plain" />
+				<test fork="yes" todir="target/unit-reports" 
+	            outfile="TEST-NOBINDING"
+	            name="org.slf4j.helpers.NoBindingMultithreadedInitializationTest2" />
+			</junit>
+	</target>
+		
 
   <condition property="runFromWithinIntegrationModule">
     <contains string="${user.dir}" substring="integration" />
