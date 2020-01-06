@@ -83,8 +83,8 @@ APPLICATION_STOPPED=Application <b>{0}</b> has stopped.
 
     <p>Then, you
     can instantiate a <code>IMessageConveyor</code>, inject it into a
-    <code>LogLoggerFactory</code>, retrieve multiple
-    <code>LogLogger</code> instances by name and log away, as the next
+    <code>LocLoggerFactory</code>, retrieve multiple
+    <code>LocLogger</code> instances by name and log away, as the next
     sample code illustrates.
     </p>
     
@@ -102,7 +102,7 @@ public class MyApplication {
   // create a message conveyor for a given locale 
   IMessageConveyor  messageConveyor = new MessageConveyor(Locale.UK);
   
-  // create the LogLoggerFactory
+  // create the LocLoggerFactory
   LocLoggerFactory llFactory_uk = new LocLoggerFactory(messageConveyor);
   
   // create a locLogger
@@ -126,14 +126,14 @@ public class MyApplication {
     be output in UK English.
     </p>
 
-    <p>Note that a <code>LogLogger</code> is a regular SLF4J logger
+    <p>Note that a <code>LocLogger</code> is a regular SLF4J logger
     with additional methods supporting localization. For those
     additional methods which take an enum as first parameter,
-    <code>LogLogger</code> follows the standard Java convention for
+    <code>LocLogger</code> follows the standard Java convention for
     parameter substitution as defined by the <a
     href="http://java.sun.com/j2se/1.5.0/docs/api/java/text/MessageFormat.html">java.text.MessageFormat</a>
     class. For non-localized logs, which take a String as first
-    parameter, <code>LogLogger</code> follows the {} convention, as
+    parameter, <code>LocLogger</code> follows the {} convention, as
     customary for all <code>org.slf4j.Logger</code> implementations.
     </p>
 
@@ -151,7 +151,7 @@ public class MyApplication {
     locLogger.info(Production.APPLICATION_STARTED, "fooApp");
 
    // follows the {} convention
-   logLogger.info("Hello {}", name);
+   locLogger.info("Hello {}", name);
    ...  
   }  
 }</pre>
