@@ -152,4 +152,13 @@ public class XLoggerTest {
         }
 
     }
+    
+    @Test
+    public void testNoDoubleSubstitution_Bug421() {
+        XLogger logger = XLoggerFactory.getXLogger("UnitTest");
+        logger.error("{},{}", "foo", "[{}]");
+        logger.error("{},{}", "[{}]", "foo");
+        verify((LoggingEvent) listAppender.list.get(0), "foo,[\\{}]");
+        verify((LoggingEvent) listAppender.list.get(1), "[\\{}],foo");
+    }
 }

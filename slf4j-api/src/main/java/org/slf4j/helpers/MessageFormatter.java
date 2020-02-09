@@ -121,9 +121,13 @@ final public class MessageFormatter {
      * @return The formatted message
      */
     final public static FormattingTuple format(String messagePattern, Object arg) {
-        return arrayFormat(messagePattern, new Object[] { arg });
+        return arrayFormat(messagePattern, new Object[] { arg }, false);
     }
 
+    final public static FormattingTuple formatEscaped(String messagePattern, Object arg) {
+        return arrayFormat(messagePattern, new Object[] { arg }, true);
+    }
+    
     /**
      *
      * Performs a two argument substitution for the 'messagePattern' passed as
@@ -148,20 +152,39 @@ final public class MessageFormatter {
      * @return The formatted message
      */
     final public static FormattingTuple format(final String messagePattern, Object arg1, Object arg2) {
-        return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
+        return arrayFormat(messagePattern, new Object[] { arg1, arg2 }, false);
+    }
+    
+    final public static FormattingTuple formatEscaped(final String messagePattern, Object arg1, Object arg2) {
+        return arrayFormat(messagePattern, new Object[] { arg1, arg2 }, true);
     }
 
-
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
+        return arrayFormat(messagePattern, argArray, false);
+    }
+
+    final public static FormattingTuple arrayFormatEscaped(final String messagePattern, final Object[] argArray) {
+        return arrayFormat(messagePattern, argArray, true);
+    }
+
+    final private static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, boolean escapeDelimiters) {
         Throwable throwableCandidate = MessageFormatter.getThrowableCandidate(argArray);
         Object[] args = argArray;
         if (throwableCandidate != null) {
             args = MessageFormatter.trimmedCopy(argArray);
         }
-        return arrayFormat(messagePattern, args, throwableCandidate);
+        return arrayFormat(messagePattern, args, throwableCandidate, escapeDelimiters);
     }
 
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
+        return arrayFormat(messagePattern, argArray, throwable, false);
+    }
+    
+    final public static FormattingTuple arrayFormatEscaped(final String messagePattern, final Object[] argArray, Throwable throwable) {
+        return arrayFormat(messagePattern, argArray, throwable, true);
+    }
+    
+    final private static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable, boolean escapeDelimiters) {
 
         if (messagePattern == null) {
             return new FormattingTuple(null, argArray, throwable);
@@ -202,13 +225,13 @@ final public class MessageFormatter {
                         // itself escaped: "abc x:\\{}"
                         // we have to consume one backward slash
                         sbuf.append(messagePattern, i, j - 1);
-                        deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>());
+                        deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>(), escapeDelimiters);
                         i = j + 2;
                     }
                 } else {
                     // normal case
                     sbuf.append(messagePattern, i, j);
-                    deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>());
+                    deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>(), escapeDelimiters);
                     i = j + 2;
                 }
             }
@@ -240,13 +263,13 @@ final public class MessageFormatter {
     }
 
     // special treatment of array values was suggested by 'lizongbo'
-    private static void deeplyAppendParameter(StringBuilder sbuf, Object o, Map<Object[], Object> seenMap) {
+    private static void deeplyAppendParameter(StringBuilder sbuf, Object o, Map<Object[], Object> seenMap, boolean escapeDelimiters) {
         if (o == null) {
             sbuf.append("null");
             return;
         }
         if (!o.getClass().isArray()) {
-            safeObjectAppend(sbuf, o);
+            safeObjectAppend(sbuf, o, escapeDelimiters);
         } else {
             // check for primitive array types because they
             // unfortunately cannot be cast to Object[]
@@ -267,14 +290,17 @@ final public class MessageFormatter {
             } else if (o instanceof double[]) {
                 doubleArrayAppend(sbuf, (double[]) o);
             } else {
-                objectArrayAppend(sbuf, (Object[]) o, seenMap);
+                objectArrayAppend(sbuf, (Object[]) o, seenMap, escapeDelimiters);
             }
         }
     }
 
-    private static void safeObjectAppend(StringBuilder sbuf, Object o) {
+    private static void safeObjectAppend(StringBuilder sbuf, Object o, boolean escapeDelimiters) {
         try {
             String oAsString = o.toString();
+            if (escapeDelimiters) {
+                oAsString = oAsString.replace(DELIM_STR, ESCAPE_CHAR + DELIM_STR);
+            }
             sbuf.append(oAsString);
         } catch (Throwable t) {
             Util.report("SLF4J: Failed toString() invocation on an object of type [" + o.getClass().getName() + "]", t);
@@ -283,13 +309,13 @@ final public class MessageFormatter {
 
     }
 
-    private static void objectArrayAppend(StringBuilder sbuf, Object[] a, Map<Object[], Object> seenMap) {
+    private static void objectArrayAppend(StringBuilder sbuf, Object[] a, Map<Object[], Object> seenMap, boolean escapeDelimiters) {
         sbuf.append('[');
         if (!seenMap.containsKey(a)) {
             seenMap.put(a, null);
             final int len = a.length;
             for (int i = 0; i < len; i++) {
-                deeplyAppendParameter(sbuf, a[i], seenMap);
+                deeplyAppendParameter(sbuf, a[i], seenMap, escapeDelimiters);
                 if (i != len - 1)
                     sbuf.append(", ");
             }
