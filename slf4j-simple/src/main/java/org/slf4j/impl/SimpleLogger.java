@@ -394,6 +394,31 @@ public class SimpleLogger extends MarkerIgnoringBase {
         formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3, arg4 });
     }
 
+    private void formatAndLog(int level, String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
+            return;
+        }
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3, arg4, arg5 });
+    }
+    private void formatAndLog(int level, String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
+            return;
+        }
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3, arg4, arg5, arg6 });
+    }
+    private void formatAndLog(int level, String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
+            return;
+        }
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
+    }
+    private void formatAndLog(int level, String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8) {
+        if (INITIALIZED && !isLevelEnabled(level)) {
+            return;
+        }
+        formatAndLogImpl(level, format, new Object[] { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
+    }
+
     /**
      * For formatted messages, first substitute arguments and then log.
      *
@@ -459,6 +484,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
         formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3, param4);
     }
 
+    public void trace(String format, Object param1, Object param2, Object param3, Object param4, Object param5) {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3, param4, param5);
+    }
+    public void trace(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6) {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3, param4, param5, param6);
+    }
+    public void trace(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7) {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3, param4, param5, param6, param7);
+    }
+    public void trace(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7, Object param8) {
+        formatAndLog(LOG_LEVEL_TRACE, format, param1, param2, param3, param4, param5, param6, param7, param8);
+    }
+
     /**
      * Perform double parameter substitution before logging the message of level
      * TRACE according to the format outlined above.
@@ -505,6 +543,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
     public void debug(String format, Object param1, Object param2, Object param3, Object param4) {
         formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3, param4);
+    }
+
+    public void debug(String format, Object param1, Object param2, Object param3, Object param4, Object param5) {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3, param4, param5);
+    }
+    public void debug(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6) {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3, param4, param5, param6);
+    }
+    public void debug(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7) {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3, param4, param5, param6, param7);
+    }
+    public void debug(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7, Object param8) {
+        formatAndLog(LOG_LEVEL_DEBUG, format, param1, param2, param3, param4, param5, param6, param7, param8);
     }
 
     /**
@@ -555,6 +606,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
         formatAndLog(LOG_LEVEL_INFO, format, arg1, arg2, arg3, arg4);
     }
 
+    public void info(String format, Object param1, Object param2, Object param3, Object param4, Object param5) {
+        formatAndLog(LOG_LEVEL_INFO, format, param1, param2, param3, param4, param5);
+    }
+    public void info(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6) {
+        formatAndLog(LOG_LEVEL_INFO, format, param1, param2, param3, param4, param5, param6);
+    }
+    public void info(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7) {
+        formatAndLog(LOG_LEVEL_INFO, format, param1, param2, param3, param4, param5, param6, param7);
+    }
+    public void info(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7, Object param8) {
+        formatAndLog(LOG_LEVEL_INFO, format, param1, param2, param3, param4, param5, param6, param7, param8);
+    }
+
     /**
      * Perform double parameter substitution before logging the message of level
      * INFO according to the format outlined above.
@@ -603,6 +667,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
         formatAndLog(LOG_LEVEL_WARN, format, arg1, arg2, arg3, arg4);
     }
 
+    public void warn(String format, Object param1, Object param2, Object param3, Object param4, Object param5) {
+        formatAndLog(LOG_LEVEL_WARN, format, param1, param2, param3, param4, param5);
+    }
+    public void warn(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6) {
+        formatAndLog(LOG_LEVEL_WARN, format, param1, param2, param3, param4, param5, param6);
+    }
+    public void warn(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7) {
+        formatAndLog(LOG_LEVEL_WARN, format, param1, param2, param3, param4, param5, param6, param7);
+    }
+    public void warn(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7, Object param8) {
+        formatAndLog(LOG_LEVEL_WARN, format, param1, param2, param3, param4, param5, param6, param7, param8);
+    }
+
     /**
      * Perform double parameter substitution before logging the message of level
      * WARN according to the format outlined above.
@@ -649,6 +726,19 @@ public class SimpleLogger extends MarkerIgnoringBase {
     }
     public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
         formatAndLog(LOG_LEVEL_ERROR, format, arg1, arg2, arg3, arg4);
+    }
+
+    public void error(String format, Object param1, Object param2, Object param3, Object param4, Object param5) {
+        formatAndLog(LOG_LEVEL_ERROR, format, param1, param2, param3, param4, param5);
+    }
+    public void error(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6) {
+        formatAndLog(LOG_LEVEL_ERROR, format, param1, param2, param3, param4, param5, param6);
+    }
+    public void error(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7) {
+        formatAndLog(LOG_LEVEL_ERROR, format, param1, param2, param3, param4, param5, param6, param7);
+    }
+    public void error(String format, Object param1, Object param2, Object param3, Object param4, Object param5, Object param6, Object param7, Object param8) {
+        formatAndLog(LOG_LEVEL_ERROR, format, param1, param2, param3, param4, param5, param6, param7, param8);
     }
 
     /**

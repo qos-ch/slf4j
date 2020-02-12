@@ -150,6 +150,10 @@ public interface Logger {
      * @since 1.4
      */
     public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5);
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6);
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7);
+    public void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8);
 
     /**
      * Log a message at the TRACE level according to the specified format
@@ -313,6 +317,10 @@ public interface Logger {
      * @param arg4   the fourth argument
      */
     public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5);
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6);
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7);
+    public void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8);
 
     /**
      * Log a message at the DEBUG level according to the specified format
@@ -468,6 +476,10 @@ public interface Logger {
      * @param arg4   the fourth argument
      */
     public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5);
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6);
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7);
+    public void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8);
 
     /**
      * Log a message at the INFO level according to the specified format
@@ -638,6 +650,10 @@ public interface Logger {
      * @param arg4   the fourth argument
      */
     public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5);
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6);
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7);
+    public void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8);
 
     /**
      * Log an exception (throwable) at the WARN level with an
@@ -777,6 +793,10 @@ public interface Logger {
      * @param arg4   the fourth argument
      */
     public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4);
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5);
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6);
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7);
+    public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8);
 
     /**
      * Log a message at the ERROR level according to the specified format

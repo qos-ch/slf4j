@@ -88,6 +88,23 @@ public class NOPLogger extends MarkerIgnoringBase {
     }
 
     /** A NOP implementation.  */
+    public final void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void trace(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
     public final void trace(String format, Object[] argArray) {
         // NOP
     }
@@ -127,6 +144,23 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation.  */
     public final void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
+    public final void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void debug(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8) {
         // NOP
     }
 
@@ -175,6 +209,23 @@ public class NOPLogger extends MarkerIgnoringBase {
     }
 
     /** A NOP implementation.  */
+    public final void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void info(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
     public final void info(String format, Object[] argArray) {
         // NOP
     }
@@ -218,6 +269,23 @@ public class NOPLogger extends MarkerIgnoringBase {
     }
 
     /** A NOP implementation.  */
+    public final void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void warn(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
     public final void warn(String format, Object[] argArray) {
         // NOP
     }
@@ -254,6 +322,23 @@ public class NOPLogger extends MarkerIgnoringBase {
 
     /** A NOP implementation. */
     final public void error(String format, Object arg1, Object arg2, Object arg3, Object arg4) {
+        // NOP
+    }
+
+    /** A NOP implementation.  */
+    public final void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7) {
+        // NOP
+    }
+    /** A NOP implementation.  */
+    public final void error(String format, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7, Object arg8) {
         // NOP
     }
 
