@@ -3,6 +3,7 @@ package org.slf4j.jdk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import static java.util.Objects.requireNonNull;
@@ -53,7 +54,7 @@ class SLF4JSystemLogger implements System.Logger {
 
     @Override
     public void log(Level level, ResourceBundle bundle, String msg, Throwable thrown) {
-        String message = bundle == null ? msg : bundle.getString(msg);
+        String message = getResourceStringOrMessage(bundle, msg);
         switch(level) {
             case ALL:
                 // fall-through intended because a message is visible on all log levels
@@ -84,7 +85,7 @@ class SLF4JSystemLogger implements System.Logger {
 
     @Override
     public void log(Level level, ResourceBundle bundle, String format, Object... params) {
-        String message = bundle == null ? format : bundle.getString(format);
+        String message = getResourceStringOrMessage(bundle, format);
         switch(level) {
             case ALL:
                 // fall-through intended because a message is visible on all log levels
@@ -110,6 +111,25 @@ class SLF4JSystemLogger implements System.Logger {
             default:
                 INTERNAL_LOGGER.error(
                         "SLF4J internal error: unknown log level {} passed to `log` (likely by the JDK).", level);
+        }
+    }
+
+    private static String getResourceStringOrMessage(ResourceBundle bundle, String msg) {
+        if (bundle == null || msg == null)
+            return msg;
+        // ResourceBundle::getString throws:
+        //
+        //  * NullPointerException for null keys
+        //  * ClassCastException if the message is no string
+        //  * MissingResourceException if there is no message for the key
+        //
+        // Handle all of these cases here to avoid log-related exceptions from crashing the JVM.
+        try {
+            return bundle.getString(msg);
+        } catch (MissingResourceException ex) {
+            return msg;
+        } catch (ClassCastException ex) {
+            return bundle.getObject(msg).toString();
         }
     }
 
