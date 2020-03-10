@@ -25,4 +25,16 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <!-- target Java 9+ -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>11</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
