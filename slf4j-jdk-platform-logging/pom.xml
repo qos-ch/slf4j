@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>slf4j-parent</artifactId>
+    <groupId>org.slf4j</groupId>
+    <version>2.0.0-alpha0</version>
+  </parent>
+
+  <artifactId>slf4j-jdk-platform-logging</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J JDK Platform Logging Integration</name>
+  <description>Integrated SLF4J with the Platform Logging API added by JEP 264 in Java 9</description>
+
+  <url>http://www.slf4j.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>
