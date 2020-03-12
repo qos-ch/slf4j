@@ -1,0 +1,6 @@
+Implementation-Title: slf4j-ext
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: slf4j.ext
+Bundle-Name: slf4j-jdk-platform-logging
+Bundle-Vendor: SLF4J.ORG
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
