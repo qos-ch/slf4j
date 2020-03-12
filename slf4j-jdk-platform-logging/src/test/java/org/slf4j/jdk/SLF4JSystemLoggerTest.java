@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.ServiceLoader;
 
 import static org.junit.Assert.*;
@@ -28,8 +27,8 @@ public class SLF4JSystemLoggerTest {
     }
 
     @Test
-    public void loggerFinderLoadedAsOnlyService() {
-        // this method asserts that there is exactly one `LoggerFinder` and its of the correct type
+    public void loggerFinderLoadedAsService() {
+        // this method asserts that a `LoggerFinder` of the correct type was loaded
         getSLF4JSystemLoggerFinder();
     }
 
@@ -51,17 +50,14 @@ public class SLF4JSystemLoggerTest {
     }
 
     private static System.LoggerFinder getSLF4JSystemLoggerFinder() {
-        var loggerFinders = new ArrayList<System.LoggerFinder>();
         // this fails when test is executed from the module path
         // because the module declaration does not declare
         // `uses System.LoggerFinder`
-        ServiceLoader.load(System.LoggerFinder.class).forEach(loggerFinders::add);
-        assertEquals("There should be exactly one `LoggerFinder`.", 1, loggerFinders.size());
-        var loggerFinder = loggerFinders.get(0);
-        assertEquals("The `LoggerFinder` should be of type `SLF4JSystemLoggerFinder`.",
-                     SLF4JSystemLoggerFinder.class,
-                     loggerFinder.getClass());
-        return loggerFinder;
+        return ServiceLoader.load(System.LoggerFinder.class).stream()
+                .filter(finderProvider -> SLF4JSystemLoggerFinder.class.isAssignableFrom(finderProvider.type()))
+                .findAny()
+                .map(ServiceLoader.Provider::get)
+                .orElseThrow();
     }
 
     private static System.Logger getSLF4JSystemLogger() {
