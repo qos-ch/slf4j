@@ -105,13 +105,13 @@ public class MDC {
      * <p>
      * This method delegates all work to the MDC of the underlying logging system.
      *
-     * @param key non-null key 
+     * @param key non-null key
      * @param val value to put in the map
-     * 
+     *
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
-    public static void put(String key, String val) throws IllegalArgumentException {
+    public static void put(String key, Object val) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
@@ -166,7 +166,7 @@ public class MDC {
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
-    public static String get(String key) throws IllegalArgumentException {
+    public static Object get(String key) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
@@ -215,7 +215,7 @@ public class MDC {
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public static Map<String, String> getCopyOfContextMap() {
+    public static Map<String, Object> getCopyOfContextMap() {
         if (mdcAdapter == null) {
             throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
         }
@@ -231,7 +231,7 @@ public class MDC {
      *          must contain only keys and values of type String
      * @since 1.5.1
      */
-    public static void setContextMap(Map<String, String> contextMap) {
+    public static void setContextMap(Map<String, Object> contextMap) {
         if (mdcAdapter == null) {
             throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
         }

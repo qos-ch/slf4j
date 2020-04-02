@@ -42,21 +42,21 @@ public class NOPMDCAdapter implements MDCAdapter {
     public void clear() {
     }
 
-    public String get(String key) {
+    public Object get(String key) {
         return null;
     }
 
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
     }
 
     public void remove(String key) {
     }
 
-    public Map<String, String> getCopyOfContextMap() {
+    public Map<String, Object> getCopyOfContextMap() {
         return null;
     }
 
-    public void setContextMap(Map<String, String> contextMap) {
+    public void setContextMap(Map<String, Object> contextMap) {
         // NOP
     }
 

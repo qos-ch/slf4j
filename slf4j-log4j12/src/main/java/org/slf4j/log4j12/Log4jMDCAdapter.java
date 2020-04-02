@@ -47,7 +47,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
         }
     }
 
-    public String get(String key) {
+    public Object get(String key) {
         return (String) org.apache.log4j.MDC.get(key);
     }
 
@@ -63,7 +63,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
      * @throws IllegalArgumentException
      *             in case the "key" or <b>"val"</b> parameter is null
      */
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
         org.apache.log4j.MDC.put(key, val);
     }
 
@@ -72,7 +72,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public Map getCopyOfContextMap() {
+    public Map<String, Object> getCopyOfContextMap() {
         Map old = org.apache.log4j.MDC.getContext();
         if (old != null) {
             return new HashMap(old);
@@ -82,7 +82,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void setContextMap(Map contextMap) {
+    public void setContextMap(Map<String, Object> contextMap) {
         Map old = org.apache.log4j.MDC.getContext();
         if (old == null) {
             Iterator entrySetIterator = contextMap.entrySet().iterator();
