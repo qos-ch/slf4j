@@ -39,6 +39,7 @@ import java.util.Enumeration;
  *
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
+ * @author Elifazio Bernardes da Silva
  */
 @SuppressWarnings("rawtypes")
 public class Category {
@@ -120,7 +121,7 @@ public class Category {
      * @return Level - the assigned Level, can be <code>null</code>.
      */
     final public Level getLevel() {
-        return null;
+        return this.getEffectiveLevel(); // ajuste para compatilizar esta bridge com um projeto que nao espera receber nulo.
     }
 
     /**
