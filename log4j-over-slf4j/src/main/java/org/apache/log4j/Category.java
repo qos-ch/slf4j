@@ -116,12 +116,12 @@ public class Category {
 
     /**
      * Returns the assigned {@link Level}, if any, for this Category. This
-     * implementation always returns null.
+     * implementation always returns the effective level.
      *
-     * @return Level - the assigned Level, can be <code>null</code>.
+     * @return Level - the assigned Level, can not be <code>null</code>.
      */
     final public Level getLevel() {
-        return this.getEffectiveLevel(); // ajuste para compatilizar esta bridge com um projeto que nao espera receber nulo.
+        return this.getEffectiveLevel(); 
     }
 
     /**
