@@ -290,7 +290,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
 //     * @param level
 //     * @param format
 //     * @param arguments
-//     *            a list of 3 ore more arguments
+//     *            a list of 3 or more arguments
 //     */
 //    private void formatAndLog(int level, String format, Object... arguments) {
 //        if (!isLevelEnabled(level)) {
