@@ -44,13 +44,13 @@ import java.util.Map;
  */
 public class BasicMDCAdapter implements MDCAdapter {
 
-    private InheritableThreadLocal<Map<String, String>> inheritableThreadLocal = new InheritableThreadLocal<Map<String, String>>() {
+    private InheritableThreadLocal<Map<String, Object>> inheritableThreadLocal = new InheritableThreadLocal<Map<String, Object>>() {
         @Override
-        protected Map<String, String> childValue(Map<String, String> parentValue) {
+        protected Map<String, Object> childValue(Map<String, Object> parentValue) {
             if (parentValue == null) {
                 return null;
             }
-            return new HashMap<String, String>(parentValue);
+            return new HashMap<>(parentValue);
         }
     };
 
@@ -66,13 +66,13 @@ public class BasicMDCAdapter implements MDCAdapter {
      * @throws IllegalArgumentException
      *                 in case the "key" parameter is null
      */
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
         if (key == null) {
             throw new IllegalArgumentException("key cannot be null");
         }
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, Object> map = inheritableThreadLocal.get();
         if (map == null) {
-            map = new HashMap<String, String>();
+            map = new HashMap<>();
             inheritableThreadLocal.set(map);
         }
         map.put(key, val);
@@ -81,8 +81,8 @@ public class BasicMDCAdapter implements MDCAdapter {
     /**
      * Get the context identified by the <code>key</code> parameter.
      */
-    public String get(String key) {
-        Map<String, String> map = inheritableThreadLocal.get();
+    public Object get(String key) {
+        Map<String, Object> map = inheritableThreadLocal.get();
         if ((map != null) && (key != null)) {
             return map.get(key);
         } else {
@@ -94,7 +94,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Remove the the context identified by the <code>key</code> parameter.
      */
     public void remove(String key) {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, Object> map = inheritableThreadLocal.get();
         if (map != null) {
             map.remove(key);
         }
@@ -104,7 +104,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Clear all entries in the MDC.
      */
     public void clear() {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, Object> map = inheritableThreadLocal.get();
         if (map != null) {
             map.clear();
             inheritableThreadLocal.remove();
@@ -118,7 +118,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * @return the keys in the MDC
      */
     public Set<String> getKeys() {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, Object> map = inheritableThreadLocal.get();
         if (map != null) {
             return map.keySet();
         } else {
@@ -131,16 +131,16 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Returned value may be null.
      *
      */
-    public Map<String, String> getCopyOfContextMap() {
-        Map<String, String> oldMap = inheritableThreadLocal.get();
+    public Map<String, Object> getCopyOfContextMap() {
+        Map<String, Object> oldMap = inheritableThreadLocal.get();
         if (oldMap != null) {
-            return new HashMap<String, String>(oldMap);
+            return new HashMap<>(oldMap);
         } else {
             return null;
         }
     }
 
-    public void setContextMap(Map<String, String> contextMap) {
-        inheritableThreadLocal.set(new HashMap<String, String>(contextMap));
+    public void setContextMap(Map<String, Object> contextMap) {
+        inheritableThreadLocal.set(new HashMap<>(contextMap));
     }
 }

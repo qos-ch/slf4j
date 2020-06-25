@@ -44,7 +44,7 @@ public interface MDCAdapter {
      * <p>If the current thread does not have a context map it is created as a side
      * effect of this call.
      */
-    public void put(String key, String val);
+    public void put(String key, Object val);
 
     /**
      * Get the context identified by the <code>key</code> parameter.
@@ -52,7 +52,7 @@ public interface MDCAdapter {
      * 
      * @return the string value identified by the <code>key</code> parameter.
      */
-    public String get(String key);
+    public Object get(String key);
 
     /**
      * Remove the the context identified by the <code>key</code> parameter. 
@@ -76,7 +76,7 @@ public interface MDCAdapter {
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public Map<String, String> getCopyOfContextMap();
+    public Map<String, Object> getCopyOfContextMap();
 
     /**
      * Set the current thread's context map by first clearing any existing 
@@ -87,5 +87,5 @@ public interface MDCAdapter {
      * 
      * @since 1.5.1
      */
-    public void setContextMap(Map<String, String> contextMap);
+    public void setContextMap(Map<String, Object> contextMap);
 }
