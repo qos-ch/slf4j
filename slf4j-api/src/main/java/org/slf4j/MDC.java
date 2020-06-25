@@ -111,7 +111,7 @@ public class MDC {
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
-    public static void put(String key, String val) throws IllegalArgumentException {
+    public static void put(String key, Object val) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
@@ -149,7 +149,7 @@ public class MDC {
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
-    public static MDCCloseable putCloseable(String key, String val) throws IllegalArgumentException {
+    public static MDCCloseable putCloseable(String key, Object val) throws IllegalArgumentException {
         put(key, val);
         return new MDCCloseable(key);
     }
@@ -162,11 +162,11 @@ public class MDC {
      * This method delegates all work to the MDC of the underlying logging system.
      *
      * @param key a key
-     * @return the string value identified by the <code>key</code> parameter.
+     * @return the object identified by the <code>key</code> parameter.
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
-    public static String get(String key) throws IllegalArgumentException {
+    public static Object get(String key) throws IllegalArgumentException {
         if (key == null) {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
@@ -209,13 +209,13 @@ public class MDC {
     }
 
     /**
-     * Return a copy of the current thread's context map, with keys and values of
-     * type String. Returned value may be null.
+     * Return a copy of the current thread's context map, with keys of type String
+     * and values of type Object. Returned value may be null.
      * 
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public static Map<String, String> getCopyOfContextMap() {
+    public static Map<String, Object> getCopyOfContextMap() {
         if (mdcAdapter == null) {
             throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
         }
@@ -225,13 +225,13 @@ public class MDC {
     /**
      * Set the current thread's context map by first clearing any existing map and
      * then copying the map passed as parameter. The context map passed as
-     * parameter must only contain keys and values of type String.
+     * parameter must only contain keys of type String and values of type Object.
      * 
      * @param contextMap
-     *          must contain only keys and values of type String
+     *          must contain only keys of type String and values of type Object
      * @since 1.5.1
      */
-    public static void setContextMap(Map<String, String> contextMap) {
+    public static void setContextMap(Map<String, Object> contextMap) {
         if (mdcAdapter == null) {
             throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
         }

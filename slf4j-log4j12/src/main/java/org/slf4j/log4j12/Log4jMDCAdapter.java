@@ -47,7 +47,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
         }
     }
 
-    public String get(String key) {
+    public Object get(String key) {
         return (String) org.apache.log4j.MDC.get(key);
     }
 
@@ -63,7 +63,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
      * @throws IllegalArgumentException
      *             in case the "key" or <b>"val"</b> parameter is null
      */
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
         org.apache.log4j.MDC.put(key, val);
     }
 
