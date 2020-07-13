@@ -25,11 +25,14 @@
 package org.slf4j;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -84,6 +87,10 @@ public final class LoggerFactory {
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
     static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory in failed state. Original exception was thrown EARLIER. See also "
                     + UNSUCCESSFUL_INIT_URL;
+    /**
+     * @see <a href="https://jira.qos.ch/browse/SLF4J-450">SLF4J-450</a>
+     */
+    static final String BINDING_PROP = "slf4j.binding";
 
     static final int UNINITIALIZED = 0;
     static final int ONGOING_INITIALIZATION = 1;
@@ -172,6 +179,16 @@ public final class LoggerFactory {
     }
 
     private final static void bind() {
+        String explicitlySpecified = System.getProperty(BINDING_PROP);
+        PROVIDER = loadExplicitlySpecified(explicitlySpecified);
+        if (null != PROVIDER) {
+            PROVIDER.initialize();
+            INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
+            reportActualBinding(Collections.singletonList(PROVIDER));
+            postBindCleanUp();
+            return;
+        }
+
         try {
             List<SLF4JServiceProvider> providersList = findServiceProviders();
             reportMultipleBindingAmbiguity(providersList);
@@ -194,6 +211,27 @@ public final class LoggerFactory {
         } catch (Exception e) {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
+        }
+    }
+
+    static SLF4JServiceProvider loadExplicitlySpecified(String explicitlySpecified) {
+        if (null == explicitlySpecified) {
+            return null;
+        }
+        try {
+            Class<?> clazz = Class.forName(explicitlySpecified);
+            Constructor<?> constructor = clazz.getConstructor();
+            constructor.setAccessible(true);
+            Object provider = constructor.newInstance();
+            return (SLF4JServiceProvider) provider;
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            String message = String.format("Failed to instantiate the specified SLF4JServiceProvider (%s)", explicitlySpecified);
+            Util.report(message, e);
+            return null;
+        } catch (ClassCastException e) {
+            String message = String.format("Specified SLF4JServiceProvider (%s) does not implement SLF4JServiceProvider interface", explicitlySpecified);
+            Util.report(message, e);
+            return null;
         }
     }
 
