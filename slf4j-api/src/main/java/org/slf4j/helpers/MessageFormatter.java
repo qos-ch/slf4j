@@ -227,38 +227,24 @@ final public class MessageFormatter {
         return new FormattingTuple(sbuf.toString(), argArray, throwable);
     }
 
-    final static int countEscapeChars(String messagePattern, int delimeterStartIndex) {
+    /**
+     * Count how many escape chars exist before the delimiter.
+     * @param messagePattern The message pattern to count escape chars.
+     * @param delimiterStartIndex The 0-based index of the target delimiter.
+     * @return the number of escape chars
+     */
+    final static int countEscapeChars(String messagePattern, int delimiterStartIndex) {
         int count = 0;
-        int index = delimeterStartIndex - 1;
+        int index = delimiterStartIndex - 1;
         while (0 <= index) {
-            if (messagePattern.charAt(index) != ESCAPE_CHAR) {
+            char potentialEscape = messagePattern.charAt(index);
+            if (potentialEscape != ESCAPE_CHAR) {
                 break;
             }
             ++count;
             --index;
         }
         return count;
-    }
-
-    final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
-
-        if (delimeterStartIndex == 0) {
-            return false;
-        }
-        char potentialEscape = messagePattern.charAt(delimeterStartIndex - 1);
-        if (potentialEscape == ESCAPE_CHAR) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    final static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
-        if (delimeterStartIndex >= 2 && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // special treatment of array values was suggested by 'lizongbo'
