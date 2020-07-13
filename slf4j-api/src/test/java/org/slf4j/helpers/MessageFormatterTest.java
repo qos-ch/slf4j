@@ -28,6 +28,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -108,6 +109,18 @@ public class MessageFormatterTest {
         // escaping the escape character
         result = MessageFormatter.format("File name is C:\\\\{}.", "App folder.zip").getMessage();
         assertEquals("File name is C:\\App folder.zip.", result);
+
+        // Triple escaped
+        result = MessageFormatter.format("\\\\\\{}Escaped", i3).getMessage();
+        assertEquals("\\{}Escaped", result);
+
+        // Quadruple escaped
+        result = MessageFormatter.format("\\\\\\\\{}Escaped", i3).getMessage();
+        assertEquals("\\\\3Escaped", result);
+
+        // Pentaple escaped
+        result = MessageFormatter.format("\\\\\\\\\\{}Escaped", i3).getMessage();
+        assertEquals("\\\\{}Escaped", result);
     }
 
     @Test
