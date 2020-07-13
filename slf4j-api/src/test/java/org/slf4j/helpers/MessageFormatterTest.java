@@ -340,4 +340,17 @@ public class MessageFormatterTest {
         assertEquals(t, ft.getThrowable());
 
     }
+
+    @Test
+    public void testCountEscapeChars() {
+        assertThat(
+            MessageFormatter.countEscapeChars("{}", 0),
+            is(0));
+        assertThat(
+            MessageFormatter.countEscapeChars("\\{}", 1),
+            is(1));
+        assertThat(
+            MessageFormatter.countEscapeChars("\\\\{}", 2),
+            is(2));
+    }
 }

@@ -206,23 +206,17 @@ final public class MessageFormatter {
                     return new FormattingTuple(sbuf.toString(), argArray, throwable);
                 }
             } else {
-                if (isEscapedDelimeter(messagePattern, j)) {
-                    if (!isDoubleEscaped(messagePattern, j)) {
-                        L--; // DELIM_START was escaped, thus should not be incremented
-                        sbuf.append(messagePattern, i, j - 1);
-                        sbuf.append(DELIM_START);
-                        i = j + 1;
-                    } else {
-                        // The escape character preceding the delimiter start is
-                        // itself escaped: "abc x:\\{}"
-                        // we have to consume one backward slash
-                        sbuf.append(messagePattern, i, j - 1);
-                        deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>());
-                        i = j + 2;
-                    }
+                int escapeChars = countEscapeChars(messagePattern, j);
+                if (escapeChars % 2 == 1) {
+                    L--; // DELIM_START was escaped, thus should not be incremented
+                    sbuf.append(messagePattern, i, j - 1 - (escapeChars / 2));
+                    sbuf.append(DELIM_START);
+                    i = j + 1;
                 } else {
-                    // normal case
-                    sbuf.append(messagePattern, i, j);
+                    // The escape character preceding the delimiter start is
+                    // itself escaped: "abc x:\\{}"
+                    // we have to consume one backward slash
+                    sbuf.append(messagePattern, i, j - (escapeChars / 2));
                     deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>());
                     i = j + 2;
                 }
@@ -231,6 +225,19 @@ final public class MessageFormatter {
         // append the characters following the last {} pair.
         sbuf.append(messagePattern, i, messagePattern.length());
         return new FormattingTuple(sbuf.toString(), argArray, throwable);
+    }
+
+    final static int countEscapeChars(String messagePattern, int delimeterStartIndex) {
+        int count = 0;
+        int index = delimeterStartIndex - 1;
+        while (0 <= index) {
+            if (messagePattern.charAt(index) != ESCAPE_CHAR) {
+                break;
+            }
+            ++count;
+            --index;
+        }
+        return count;
     }
 
     final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
