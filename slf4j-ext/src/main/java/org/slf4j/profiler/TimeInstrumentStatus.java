@@ -35,6 +35,6 @@ package org.slf4j.profiler;
  * @author Ceki G&uuml;lc&uuml;
  *
  */
-enum TimeInstrumentStatus {
+public enum TimeInstrumentStatus {
     STARTED, STOPPED;
 }
