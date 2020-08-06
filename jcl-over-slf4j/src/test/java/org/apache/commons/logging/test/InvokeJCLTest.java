@@ -27,6 +27,7 @@ package org.apache.commons.logging.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,4 +89,56 @@ public class InvokeJCLTest {
         log.fatal(null, e);
         log.fatal("fatal message", e);
     }
+
+    @Test
+    public void testAvoidConvertingObjectToString() {
+        Log log = LogFactory.getLog(InvokeJCLTest.class);
+        Exception e = new Exception("just testing");
+
+        TestMessage fatalMsg = new TestMessage("fatal msg");
+        TestMessage errorMsg = new TestMessage("error msg");
+        TestMessage warnMsg = new TestMessage("warn msg");
+        TestMessage infoMsg = new TestMessage("info msg");
+        TestMessage debugMsg = new TestMessage("debug msg");
+        TestMessage traceMsg = new TestMessage("trace msg");
+
+        log.fatal(fatalMsg);
+        log.fatal(fatalMsg, e);
+        assertEquals(2, fatalMsg.invokedCount);
+
+        log.error(errorMsg);
+        log.error(errorMsg, e);
+        assertEquals(2, errorMsg.invokedCount);
+
+        log.warn(warnMsg);
+        log.warn(warnMsg, e);
+        assertEquals(2, warnMsg.invokedCount);
+
+        log.info(infoMsg);
+        log.info(infoMsg, e);
+        assertEquals(2, infoMsg.invokedCount);
+
+        log.debug(debugMsg);
+        log.debug(debugMsg, e);
+        assertEquals(0, debugMsg.invokedCount);
+
+        log.trace(traceMsg);
+        log.trace(traceMsg, e);
+        assertEquals(0, traceMsg.invokedCount);
+    }
+
+    static class TestMessage {
+
+        private final String msg;
+        int invokedCount = 0;
+
+        TestMessage(String msg) {this.msg = msg;}
+
+        @Override
+        public String toString() {
+            invokedCount++;
+            return msg;
+        }
+    }
+
 }
