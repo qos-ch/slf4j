@@ -104,7 +104,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the message to log. Converted to {@link String}
      */
     public void trace(Object message) {
-        logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null, null);
+        if (isTraceEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null, null);
+        }
     }
 
     /**
@@ -117,7 +119,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the exception to log
      */
     public void trace(Object message, Throwable t) {
-        logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null, t);
+        if (isTraceEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null, t);
+        }
     }
 
     /**
@@ -128,7 +132,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the message to log. Converted to {@link String}
      */
     public void debug(Object message) {
-        logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null, null);
+        if (isDebugEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null, null);
+        }
     }
 
     /**
@@ -141,7 +147,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the exception to log
      */
     public void debug(Object message, Throwable t) {
-        logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null, t);
+        if (isDebugEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null, t);
+        }
     }
 
     /**
@@ -152,7 +160,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the message to log. Converted to {@link String}
      */
     public void info(Object message) {
-        logger.log(null, FQCN, LocationAwareLogger.INFO_INT, String.valueOf(message), null, null);
+        if (isInfoEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.INFO_INT, String.valueOf(message), null, null);
+        }
     }
 
     /**
@@ -165,7 +175,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the exception to log
      */
     public void info(Object message, Throwable t) {
-        logger.log(null, FQCN, LocationAwareLogger.INFO_INT, String.valueOf(message), null, t);
+        if (isInfoEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.INFO_INT, String.valueOf(message), null, t);
+        }
     }
 
     /**
@@ -176,7 +188,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the message to log. Converted to {@link String}
      */
     public void warn(Object message) {
-        logger.log(null, FQCN, LocationAwareLogger.WARN_INT, String.valueOf(message), null, null);
+        if (isWarnEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.WARN_INT, String.valueOf(message), null, null);
+        }
     }
 
     /**
@@ -189,7 +203,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the exception to log
      */
     public void warn(Object message, Throwable t) {
-        logger.log(null, FQCN, LocationAwareLogger.WARN_INT, String.valueOf(message), null, t);
+        if (isWarnEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.WARN_INT, String.valueOf(message), null, t);
+        }
     }
 
     /**
@@ -200,7 +216,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the message to log. Converted to {@link String}
      */
     public void error(Object message) {
-        logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, null);
+        if (isErrorEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, null);
+        }
     }
 
     /**
@@ -213,7 +231,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the exception to log
      */
     public void error(Object message, Throwable t) {
-        logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, t);
+        if (isErrorEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, t);
+        }
     }
 
     /**
@@ -224,7 +244,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the message to log. Converted to {@link String}
      */
     public void fatal(Object message) {
-        logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, null);
+        if (isErrorEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, null);
+        }
     }
 
     /**
@@ -237,7 +259,9 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      *          the exception to log
      */
     public void fatal(Object message, Throwable t) {
-        logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, t);
+        if (isErrorEnabled()) {
+            logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, t);
+        }
     }
 
     /**
