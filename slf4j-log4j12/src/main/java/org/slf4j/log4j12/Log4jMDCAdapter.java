@@ -27,6 +27,7 @@ package org.slf4j.log4j12;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.log4j.MDCFriend;
 import org.slf4j.spi.MDCAdapter;
@@ -79,6 +80,11 @@ public class Log4jMDCAdapter implements MDCAdapter {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Optional<Map<String, String>> getCopiedContextMap() {
+        return Optional.ofNullable(getCopyOfContextMap());
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

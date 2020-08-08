@@ -140,6 +140,11 @@ public class BasicMDCAdapter implements MDCAdapter {
         }
     }
 
+    @Override
+    public Optional<Map<String, String>> getCopiedContextMap() {
+        return Optional.ofNullable(getCopyOfContextMap());
+    }
+
     public void setContextMap(Map<String, String> contextMap) {
         inheritableThreadLocal.set(new HashMap<String, String>(contextMap));
     }

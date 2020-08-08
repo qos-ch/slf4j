@@ -25,6 +25,7 @@
 package org.slf4j.nop;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.spi.MDCAdapter;
 
@@ -54,6 +55,11 @@ public class NOPMDCAdapter implements MDCAdapter {
 
     public Map<String, String> getCopyOfContextMap() {
         return null;
+    }
+
+    @Override
+    public Optional<Map<String, String>> getCopiedContextMap() {
+        return Optional.empty();
     }
 
     public void setContextMap(Map<String, String> contextMap) {

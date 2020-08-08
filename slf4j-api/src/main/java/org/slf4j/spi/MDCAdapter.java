@@ -25,6 +25,7 @@
 package org.slf4j.spi;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This interface abstracts the service offered by various MDC
@@ -75,8 +76,21 @@ public interface MDCAdapter {
      * 
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
+     * @deprecated use {@link #getCopiedContextMap()} instead.
      */
+    @Deprecated
     public Map<String, String> getCopyOfContextMap();
+
+    /**
+     * Return a copy of the current thread's context map, with keys and
+     * values of type String. Returned {@link Optional} value may be empty.
+     *
+     * @return A copy of the current thread's context map. May be empty.
+     * @since 2.0.0
+     */
+    default Optional<Map<String, String>> getCopiedContextMap() {
+        return Optional.ofNullable(getCopyOfContextMap());
+    }
 
     /**
      * Set the current thread's context map by first clearing any existing 
