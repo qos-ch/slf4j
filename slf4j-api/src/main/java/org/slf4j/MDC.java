@@ -228,7 +228,7 @@ public class MDC {
      * parameter must only contain keys and values of type String.
      * 
      * @param contextMap
-     *          must contain only keys and values of type String
+     *          must contain only keys and values of type String. Should be non-null.
      * @since 1.5.1
      */
     public static void setContextMap(Map<String, String> contextMap) {
