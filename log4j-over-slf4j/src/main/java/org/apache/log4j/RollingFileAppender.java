@@ -50,4 +50,8 @@ public class RollingFileAppender {
         // nothing to do
     }
 
+    public void setName(String value) {
+        // nothing to do
+    }
+
 }
