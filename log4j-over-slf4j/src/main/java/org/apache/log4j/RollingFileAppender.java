@@ -42,7 +42,7 @@ public class RollingFileAppender {
         // nothing to do
     }
 
-    public void setMaximumFileSize(long maxFileSize) {
+    public void setMaxFileSize(long maxFileSize) {
         // nothing to do
     }
 
