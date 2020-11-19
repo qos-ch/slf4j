@@ -26,6 +26,7 @@ package org.slf4j.helpers;
 
 import java.io.ObjectStreamException;
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,7 +77,14 @@ public abstract class AbstractLogger implements Logger, Serializable {
 		}
 	}
 
-    @Override
+	@Override
+	public void trace(Supplier<String> msgSupplier) {
+		if (isTraceEnabled()) {
+			handle_0ArgsCall(Level.TRACE, null, msgSupplier.get(), null);
+		}
+	}
+
+	@Override
 	public void trace(String format, Object arg) {
 		if (isTraceEnabled()) {
 			handle_1ArgsCall(Level.TRACE, null, format, arg);
@@ -104,7 +112,14 @@ public abstract class AbstractLogger implements Logger, Serializable {
 		}
 	}
 
-    @Override
+	@Override
+	public void trace(Supplier<String> msgSupplier, Throwable t) {
+		if (isTraceEnabled()) {
+			handle_0ArgsCall(Level.TRACE, null, msgSupplier.get(), t);
+		}
+	}
+
+	@Override
 	public void trace(Marker marker, String msg) {
 		if (isTraceEnabled(marker)) {
 			handle_0ArgsCall(Level.TRACE, marker, msg, null);
@@ -144,6 +159,13 @@ public abstract class AbstractLogger implements Logger, Serializable {
 		}
 	}
 
+	@Override
+	public void debug(Supplier<String> msgSupplier) {
+		if (isDebugEnabled()) {
+			handle_0ArgsCall(Level.DEBUG, null, msgSupplier.get(), null);
+		}
+	}
+
 	public void debug(String format, Object arg) {
 		if (isDebugEnabled()) {
 			handle_1ArgsCall(Level.DEBUG, null, format, arg);
@@ -165,6 +187,13 @@ public abstract class AbstractLogger implements Logger, Serializable {
 	public void debug(String msg, Throwable t) {
 		if (isDebugEnabled()) {
 			handle_0ArgsCall(Level.DEBUG, null, msg, t);
+		}
+	}
+
+	@Override
+	public void debug(Supplier<String> msgSupplier, Throwable t) {
+		if (isDebugEnabled()) {
+			handle_0ArgsCall(Level.DEBUG, null, msgSupplier.get(), t);
 		}
 	}
 
