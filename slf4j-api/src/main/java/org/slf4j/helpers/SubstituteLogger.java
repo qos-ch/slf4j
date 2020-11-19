@@ -27,6 +27,7 @@ package org.slf4j.helpers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Queue;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -73,6 +74,11 @@ public class SubstituteLogger implements Logger {
         delegate().trace(msg);
     }
 
+    @Override
+    public void trace(Supplier<String> msgSupplier) {
+        delegate().trace(msgSupplier);
+    }
+
     public void trace(String format, Object arg) {
         delegate().trace(format, arg);
     }
@@ -87,6 +93,11 @@ public class SubstituteLogger implements Logger {
 
     public void trace(String msg, Throwable t) {
         delegate().trace(msg, t);
+    }
+
+    @Override
+    public void trace(Supplier<String> msgSupplier, Throwable t) {
+        delegate().trace(msgSupplier, t);
     }
 
     public boolean isTraceEnabled(Marker marker) {
@@ -121,6 +132,11 @@ public class SubstituteLogger implements Logger {
         delegate().debug(msg);
     }
 
+    @Override
+    public void debug(Supplier<String> msgSupplier) {
+        delegate().debug(msgSupplier);
+    }
+
     public void debug(String format, Object arg) {
         delegate().debug(format, arg);
     }
@@ -135,6 +151,11 @@ public class SubstituteLogger implements Logger {
 
     public void debug(String msg, Throwable t) {
         delegate().debug(msg, t);
+    }
+
+    @Override
+    public void debug(Supplier<String> msgSupplier, Throwable t) {
+        delegate().debug(msgSupplier, t);
     }
 
     public boolean isDebugEnabled(Marker marker) {

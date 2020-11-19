@@ -36,6 +36,8 @@ import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
 
+import java.util.function.Supplier;
+
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
@@ -120,6 +122,14 @@ public interface Logger {
     public void trace(String msg);
 
     /**
+     * Log a message at the TRACE level.
+     *
+     * @param msgSupplier supplier for the message string to be logged
+     * @since 1.4
+     */
+    public void trace(Supplier<String> msgSupplier);
+
+    /**
      * Log a message at the TRACE level according to the specified format
      * and argument.
      * 
@@ -171,6 +181,16 @@ public interface Logger {
      * @since 1.4
      */
     public void trace(String msg, Throwable t);
+
+    /**
+     * Log an exception (throwable) at the TRACE level with an
+     * accompanying message.
+     *
+     * @param msgSupplier supplier for the message accompanying the exception
+     * @param t   the exception (throwable) to log
+     * @since 1.4
+     */
+    public void trace(Supplier<String> msgSupplier, Throwable t);
 
     /**
      * Similar to {@link #isTraceEnabled()} method except that the
@@ -270,6 +290,13 @@ public interface Logger {
     public void debug(String msg);
 
     /**
+     * Log a message at the DEBUG level.
+     *
+     * @param msgSupplier supplier for the message string to be logged
+     */
+    public void debug(Supplier<String> msgSupplier);
+
+    /**
      * Log a message at the DEBUG level according to the specified format
      * and argument.
      * 
@@ -309,6 +336,15 @@ public interface Logger {
      * @param arguments a list of 3 or more arguments
      */
     public void debug(String format, Object... arguments);
+
+    /**
+     * Log an exception (throwable) at the DEBUG level with an
+     * accompanying message.
+     *
+     * @param msgSupplier supplier for the message accompanying the exception
+     * @param t   the exception (throwable) to log
+     */
+    public void debug(Supplier<String> msgSupplier, Throwable t);
 
     /**
      * Log an exception (throwable) at the DEBUG level with an
