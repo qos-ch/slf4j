@@ -26,6 +26,7 @@ package org.slf4j.helpers;
 
 import java.io.ObjectStreamException;
 import java.io.Serializable;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +77,13 @@ public abstract class AbstractLogger implements Logger, Serializable {
 		}
 	}
 
+	@Override
+	public void trace(Supplier<String> msgSupplier) {
+		if (isTraceEnabled()) {
+			handle_0ArgsCall(Level.TRACE, null, msgSupplier.get(), null);
+		}
+	}
+
     @Override
 	public void trace(String format, Object arg) {
 		if (isTraceEnabled()) {
@@ -101,6 +109,13 @@ public abstract class AbstractLogger implements Logger, Serializable {
 	public void trace(String msg, Throwable t) {
 		if (isTraceEnabled()) {
 			handle_0ArgsCall(Level.TRACE, null, msg, t);
+		}
+	}
+
+    @Override
+	public void trace(Throwable t, Supplier<String> msgSupplier) {
+		if (isTraceEnabled()) {
+			handle_0ArgsCall(Level.TRACE, null, msgSupplier.get(), t);
 		}
 	}
 

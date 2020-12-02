@@ -30,6 +30,8 @@ import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
+import java.util.function.Supplier;
+
 /**
  * A helper class wrapping an {@link org.slf4j.Logger} instance preserving
  * location information if the wrapped instance supports it.
@@ -93,6 +95,20 @@ public class LoggerWrapper implements Logger {
     /**
      * Delegate to the appropriate method of the underlying logger.
      */
+    public void trace(Supplier<String> msgSupplier) {
+        if (!logger.isTraceEnabled())
+            return;
+
+        if (instanceofLAL) {
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, msgSupplier.get(), null, null);
+        } else {
+            logger.trace(msgSupplier.get());
+        }
+    }
+
+    /**
+     * Delegate to the appropriate method of the underlying logger.
+     */
     public void trace(String format, Object arg) {
         if (!logger.isTraceEnabled())
             return;
@@ -146,6 +162,20 @@ public class LoggerWrapper implements Logger {
             ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, msg, null, t);
         } else {
             logger.trace(msg, t);
+        }
+    }
+
+    /**
+     * Delegate to the appropriate method of the underlying logger.
+     */
+    public void trace(Throwable t, Supplier<String> msgSupplier) {
+        if (!logger.isTraceEnabled())
+            return;
+
+        if (instanceofLAL) {
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, msgSupplier.get(), null, t);
+        } else {
+            logger.trace(msgSupplier.get(), t);
         }
     }
 

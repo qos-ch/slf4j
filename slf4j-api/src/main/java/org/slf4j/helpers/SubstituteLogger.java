@@ -27,6 +27,7 @@ package org.slf4j.helpers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Queue;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -73,6 +74,10 @@ public class SubstituteLogger implements Logger {
         delegate().trace(msg);
     }
 
+    public void trace(Supplier<String> msgSupplier) {
+        delegate().trace(msgSupplier.get());
+    }
+
     public void trace(String format, Object arg) {
         delegate().trace(format, arg);
     }
@@ -87,6 +92,10 @@ public class SubstituteLogger implements Logger {
 
     public void trace(String msg, Throwable t) {
         delegate().trace(msg, t);
+    }
+
+    public void trace(Throwable t, Supplier<String> msgSupplier) {
+        delegate().trace(msgSupplier.get(), t);
     }
 
     public boolean isTraceEnabled(Marker marker) {
