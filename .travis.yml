@@ -1,6 +1,9 @@
 dist: trusty
 
 language: java
+arch:
+  - amd64
+  - ppc64le
 
 jdk:
   - oraclejdk11
