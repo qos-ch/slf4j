@@ -111,7 +111,7 @@ public final class Util {
         }
 
         // trace[i] = Util; trace[i+1] = caller; trace[i+2] = caller's caller
-        if (i >= trace.length || i + 2 >= trace.length) {
+        if (i + 2 >= trace.length) {
             throw new IllegalStateException("Failed to find org.slf4j.helpers.Util or its caller in the stack; " + "this should not happen");
         }
 
