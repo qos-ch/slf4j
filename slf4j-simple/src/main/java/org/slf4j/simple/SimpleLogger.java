@@ -197,6 +197,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
 	public static final String WARN_LEVEL_STRING_KEY = SimpleLogger.SYSTEM_PREFIX + "warnLevelString";
 
+	public static final String SHOW_LOG_LEVEL_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogLevel";
+
 	public static final String LEVEL_IN_BRACKETS_KEY = SimpleLogger.SYSTEM_PREFIX + "levelInBrackets";
 
 	public static final String LOG_FILE_KEY = SimpleLogger.SYSTEM_PREFIX + "logFile";
@@ -382,15 +384,17 @@ public class SimpleLogger extends LegacyAbstractLogger {
 			buf.append("] ");
 		}
 
-		if (CONFIG_PARAMS.levelInBrackets)
-			buf.append('[');
+		// Append a readable representation of the log level if so configured
+		if (CONFIG_PARAMS.showLogLevel) {
+			if (CONFIG_PARAMS.levelInBrackets)
+				buf.append('[');
 
-		// Append a readable representation of the log level
-		String levelStr = level.name();
-		buf.append(levelStr);
-		if (CONFIG_PARAMS.levelInBrackets)
-			buf.append(']');
-		buf.append(' ');
+			String levelStr = level.name();
+			buf.append(levelStr);
+			if (CONFIG_PARAMS.levelInBrackets)
+				buf.append(']');
+			buf.append(' ');
+		}
 
 		// Append the name of the log instance if so configured
 		if (CONFIG_PARAMS.showShortLogName) {

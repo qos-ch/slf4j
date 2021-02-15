@@ -51,6 +51,10 @@ public class SimpleLoggerTest {
     public void after() {
         System.clearProperty(A_KEY);
         System.clearProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY);
+        System.clearProperty(SimpleLogger.SHOW_DATE_TIME_KEY);
+        System.clearProperty(SimpleLogger.SHOW_LOG_NAME_KEY);
+        System.clearProperty(SimpleLogger.SHOW_THREAD_NAME_KEY);
+        System.clearProperty(SimpleLogger.SHOW_LOG_LEVEL_KEY);
         System.setErr(original);
     }
 
@@ -118,5 +122,20 @@ public class SimpleLoggerTest {
         simpleLogger.info("hello");
         replacement.flush();
         assertTrue(bout.toString().contains("INFO "+this.getClass().getName()+" - hello"));
+    }
+
+    @Test
+    public void checkUseOfMessageOnlyPatternLayout() {
+        System.setProperty(SimpleLogger.SHOW_DATE_TIME_KEY, "false");
+        System.setProperty(SimpleLogger.SHOW_LOG_NAME_KEY, "false");
+        System.setProperty(SimpleLogger.SHOW_THREAD_NAME_KEY, "false");
+        System.setProperty(SimpleLogger.SHOW_LOG_LEVEL_KEY, "false");
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+
+        System.setErr(replacement);
+        simpleLogger.info("hello");
+        replacement.flush();
+        assertEquals("hello" + System.lineSeparator(), bout.toString());
     }
 }
