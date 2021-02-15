@@ -49,7 +49,12 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li><code>org.slf4j.simpleLogger.logFile</code> - The output target which can
  * be the <em>path</em> to a file, or the special values "System.out" and
  * "System.err". Default is "System.err".</li>
- * 
+ *
+ * <li><code>org.slf4j.simpleLogger.logFileAppend</code> - If the output
+ *  target is set as <em>path</em> to a file (see preceding entry), by default
+ *  the file will be cleared before new records are written. By setting this
+ *  parameter to true, log records will be appended to the end of the file.</li>
+ *
  * <li><code>org.slf4j.simpleLogger.cacheOutputStream</code> - If the output
  * target is set to "System.out" or "System.err" (see preceding entry), by
  * default, logs will be output to the latest value referenced by
@@ -200,6 +205,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
 	public static final String LEVEL_IN_BRACKETS_KEY = SimpleLogger.SYSTEM_PREFIX + "levelInBrackets";
 
 	public static final String LOG_FILE_KEY = SimpleLogger.SYSTEM_PREFIX + "logFile";
+
+	public static final String LOG_FILE_APPEND_KEY = SimpleLogger.SYSTEM_PREFIX + "logFileAppend";
 
 	public static final String SHOW_SHORT_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showShortLogName";
 
