@@ -16,5 +16,22 @@
 package org.apache.log4j;
 
 public class ConsoleAppender extends WriterAppender {
-
+  public ConsoleAppender() {
+  }
+  public ConsoleAppender(Layout layout) {
+  }
+  public ConsoleAppender(Layout layout, String target) {
+  }
+  public void setTarget(String value) {
+  }
+  public String getTarget() {
+    return null;
+  }
+  public void setFollow(boolean newValue) {
+  }
+  public boolean getFollow() {
+    return false;
+  }
+  public void activateOptions() {
+  }
 }
