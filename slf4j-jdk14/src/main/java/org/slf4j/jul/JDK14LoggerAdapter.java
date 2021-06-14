@@ -37,6 +37,7 @@ import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.helpers.SubstituteLogger;
+import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -220,8 +221,9 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
 	static String SUPER = LegacyAbstractLogger.class.getName();
 	static String SUPER_OF_SUPER = AbstractLogger.class.getName();
 	static String SUBSTITUE = SubstituteLogger.class.getName();
-
-	static String BARRIER_CLASSES[] = new String[] { SUPER_OF_SUPER, SUPER, SELF, SUBSTITUE };
+	static String FLUENT = DefaultLoggingEventBuilder.class.getName();
+	
+	static String BARRIER_CLASSES[] = new String[] { SUPER_OF_SUPER, SUPER, SELF, SUBSTITUE, FLUENT };
 
 	private boolean barrierMatch(String callerFQCN, String candidateClassName) {
 		if (candidateClassName.equals(callerFQCN))

@@ -58,9 +58,24 @@ public class CallerInfoTest {
 		assertEquals(1, recordList.size());
 
 		LogRecord logRecod = recordList.get(0);
-		assertEquals(CallerInfoTest.class.getName(), logRecod.getSourceClassName());
+		assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
 	}
 
+	@Test
+	public void testCallerInfoWithFluentAPI() {
+		Logger logger = LoggerFactory.getLogger("bla");
+		logger.atDebug().log("hello");
+
+		List<LogRecord> recordList = listHandler.recordList;
+
+		assertEquals(1, recordList.size());
+
+		LogRecord logRecod = recordList.get(0);
+		assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
+	}
+
+	
+	
 	@Test
 	public void testPostInitializationCallerInfoWithSubstituteLogger() {
 		Logger logger = LoggerFactory.getLogger("bla");
