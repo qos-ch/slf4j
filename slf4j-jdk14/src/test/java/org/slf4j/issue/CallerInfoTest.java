@@ -61,6 +61,10 @@ public class CallerInfoTest {
 		assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
 	}
 
+	
+	// Do we preserve location info using fluent API?
+	// See https://jira.qos.ch/browse/SLF4J-511
+	
 	@Test
 	public void testCallerInfoWithFluentAPI() {
 		Logger logger = LoggerFactory.getLogger("bla");
