@@ -68,7 +68,7 @@ public final class Log4jLoggerAdapter extends LegacyAbstractLogger implements Lo
      * Following the pattern discussed in pages 162 through 168 of "The complete
      * log4j manual".
      */
-    final static String FQCN = Log4jLoggerAdapter.class.getName();
+    final static String FQCN = org.slf4j.helpers.AbstractLogger.class.getName();
 
     // Does the log4j version in use recognize the TRACE level?
     // The trace level was introduced in log4j 1.2.12.

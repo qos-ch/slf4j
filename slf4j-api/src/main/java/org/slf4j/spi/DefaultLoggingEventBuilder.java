@@ -85,11 +85,11 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 		if (logger instanceof LoggingEventAware) {
 			((LoggingEventAware) logger).log(logggingEvent);
 		} else {
-			logViaPublicLoggerAPI(logggingEvent);
+			logViaPublicSLF4JLoggerAPI(logggingEvent);
 		}
 	}
 	
-	private void logViaPublicLoggerAPI(LoggingEvent logggingEvent) {
+	private void logViaPublicSLF4JLoggerAPI(LoggingEvent logggingEvent) {
 		Object[] argArray = logggingEvent.getArgumentArray();
 		int argLen = argArray == null ? 0 : argArray.length;
 
