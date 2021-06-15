@@ -31,7 +31,7 @@ public class NOPLoggingEventBuilder implements LoggingEventBuilder {
 	}
 
 	@Override
-	public LoggingEventBuilder addArgument(Supplier<Object> objectSupplier) {
+	public LoggingEventBuilder addArgument(Supplier<?> objectSupplier) {
 		return singleton();
 	}
 

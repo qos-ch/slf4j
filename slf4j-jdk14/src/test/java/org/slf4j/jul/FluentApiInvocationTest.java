@@ -86,11 +86,12 @@ public class FluentApiInvocationTest {
             assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
         }
     }
-
+    
+    @Test
     public void supplierArguments() {
-        Supplier<String> stringSupplier = () -> "String";
-        logger.atDebug().addArgument(stringSupplier).log("hello");
-
+        Supplier<String> stringSupplier = () -> "world";
+        logger.atInfo().addArgument(stringSupplier).log("hello {}");
+        assertLogMessage("hello world", 0);
     }
 
     public int t16() {

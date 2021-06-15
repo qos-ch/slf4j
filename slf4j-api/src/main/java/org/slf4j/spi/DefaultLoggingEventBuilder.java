@@ -45,7 +45,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
     }
 
     @Override
-    public LoggingEventBuilder addArgument(Supplier<Object> objectSupplier) {
+    public LoggingEventBuilder addArgument(Supplier<?> objectSupplier) {
         loggingEvent.addArgument(objectSupplier.get());
         return this;
     }

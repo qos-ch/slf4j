@@ -19,7 +19,7 @@ public interface LoggingEventBuilder {
 
     LoggingEventBuilder addArgument(Object p);
 
-    LoggingEventBuilder addArgument(Supplier<Object> objectSupplier);
+    LoggingEventBuilder addArgument(Supplier<?> objectSupplier);
 
     LoggingEventBuilder addKeyValue(String key, Object value);
 
