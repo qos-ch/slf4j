@@ -8,7 +8,6 @@ import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
-import org.slf4j.event.LoggingEventAware;
 
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 
