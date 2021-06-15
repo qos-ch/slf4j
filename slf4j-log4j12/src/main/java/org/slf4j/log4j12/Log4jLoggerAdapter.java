@@ -33,14 +33,12 @@ import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.ThrowableInformation;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
-import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.helpers.SubstituteLogger;
-import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LocationAwareLogger;
 import org.slf4j.spi.LoggingEventAware;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -63,114 +61,110 @@ import org.slf4j.spi.LoggingEventBuilder;
  * 
  * @author Ceki G&uuml;lc&uuml;
  */
-public final class Log4jLoggerAdapter extends LegacyAbstractLogger
-		implements LocationAwareLogger, LoggingEventAware, Serializable {
+public final class Log4jLoggerAdapter extends LegacyAbstractLogger implements LocationAwareLogger, LoggingEventAware, Serializable {
 
-	private static final long serialVersionUID = 6182834493563598289L;
+    private static final long serialVersionUID = 6182834493563598289L;
 
-	final transient org.apache.log4j.Logger logger;
+    final transient org.apache.log4j.Logger logger;
 
-	/**
-	 * Following the pattern discussed in pages 162 through 168 of "The complete
-	 * log4j manual".
-	 */
+    /**
+     * Following the pattern discussed in pages 162 through 168 of "The complete
+     * log4j manual".
+     */
 
-	final static String FQCN_NOMINAL =  org.slf4j.helpers.AbstractLogger.class.getName();
-	final static String FQCN_SUBSTITUE = FQCN_NOMINAL;
-	final static String FQCN_FLUENT = org.slf4j.spi.DefaultLoggingEventBuilder.class.getName();
+    final static String FQCN_NOMINAL = org.slf4j.helpers.AbstractLogger.class.getName();
+    final static String FQCN_SUBSTITUE = FQCN_NOMINAL;
+    final static String FQCN_FLUENT = org.slf4j.spi.DefaultLoggingEventBuilder.class.getName();
 
-	
-	// Does the log4j version in use recognize the TRACE level?
-	// The trace level was introduced in log4j 1.2.12.
-	final boolean traceCapable;
+    // Does the log4j version in use recognize the TRACE level?
+    // The trace level was introduced in log4j 1.2.12.
+    final boolean traceCapable;
 
-	// WARN: Log4jLoggerAdapter constructor should have only package access so
-	// that only Log4jLoggerFactory be able to create one.
-	Log4jLoggerAdapter(org.apache.log4j.Logger logger) {
-		this.logger = logger;
-		this.name = logger.getName();
-		traceCapable = isTraceCapable();
-	}
+    // WARN: Log4jLoggerAdapter constructor should have only package access so
+    // that only Log4jLoggerFactory be able to create one.
+    Log4jLoggerAdapter(org.apache.log4j.Logger logger) {
+        this.logger = logger;
+        this.name = logger.getName();
+        traceCapable = isTraceCapable();
+    }
 
-	private boolean isTraceCapable() {
-		try {
-			logger.isTraceEnabled();
-			return true;
-		} catch (NoSuchMethodError e) {
-			return false;
-		}
-	}
+    private boolean isTraceCapable() {
+        try {
+            logger.isTraceEnabled();
+            return true;
+        } catch (NoSuchMethodError e) {
+            return false;
+        }
+    }
 
+    /**
+     * Is this logger instance enabled for the TRACE level?
+     * 
+     * @return True if this Logger is enabled for level TRACE, false otherwise.
+     */
+    public boolean isTraceEnabled() {
+        if (traceCapable) {
+            return logger.isTraceEnabled();
+        } else {
+            return logger.isDebugEnabled();
+        }
+    }
 
-	/**
-	 * Is this logger instance enabled for the TRACE level?
-	 * 
-	 * @return True if this Logger is enabled for level TRACE, false otherwise.
-	 */
-	public boolean isTraceEnabled() {
-		if (traceCapable) {
-			return logger.isTraceEnabled();
-		} else {
-			return logger.isDebugEnabled();
-		}
-	}
+    /**
+     * Is this logger instance enabled for the DEBUG level?
+     * 
+     * @return True if this Logger is enabled for level DEBUG, false otherwise.
+     */
+    public boolean isDebugEnabled() {
+        return logger.isDebugEnabled();
+    }
 
-	/**
-	 * Is this logger instance enabled for the DEBUG level?
-	 * 
-	 * @return True if this Logger is enabled for level DEBUG, false otherwise.
-	 */
-	public boolean isDebugEnabled() {
-		return logger.isDebugEnabled();
-	}
+    /**
+     * Is this logger instance enabled for the INFO level?
+     * 
+     * @return True if this Logger is enabled for the INFO level, false otherwise.
+     */
+    public boolean isInfoEnabled() {
+        return logger.isInfoEnabled();
+    }
 
-	/**
-	 * Is this logger instance enabled for the INFO level?
-	 * 
-	 * @return True if this Logger is enabled for the INFO level, false otherwise.
-	 */
-	public boolean isInfoEnabled() {
-		return logger.isInfoEnabled();
-	}
+    /**
+     * Is this logger instance enabled for the WARN level?
+     * 
+     * @return True if this Logger is enabled for the WARN level, false otherwise.
+     */
+    public boolean isWarnEnabled() {
+        return logger.isEnabledFor(Level.WARN);
+    }
 
-	/**
-	 * Is this logger instance enabled for the WARN level?
-	 * 
-	 * @return True if this Logger is enabled for the WARN level, false otherwise.
-	 */
-	public boolean isWarnEnabled() {
-		return logger.isEnabledFor(Level.WARN);
-	}
+    /**
+     * Is this logger instance enabled for level ERROR?
+     * 
+     * @return True if this Logger is enabled for level ERROR, false otherwise.
+     */
+    public boolean isErrorEnabled() {
+        return logger.isEnabledFor(Level.ERROR);
+    }
 
-	/**
-	 * Is this logger instance enabled for level ERROR?
-	 * 
-	 * @return True if this Logger is enabled for level ERROR, false otherwise.
-	 */
-	public boolean isErrorEnabled() {
-		return logger.isEnabledFor(Level.ERROR);
-	}
+    @Override
+    public void log(Marker marker, String callerFQCN, int level, String msg, Object[] arguments, Throwable t) {
+        Level log4jLevel = toLog4jLevel(level);
+        NormalizedParameters np = NormalizedParameters.normalize(msg, arguments, t);
+        String formattedMessage = MessageFormatter.basicArrayFormat(np.getMessage(), np.getArguments());
+        logger.log(callerFQCN, log4jLevel, formattedMessage, np.getThrowable());
+    }
 
-	@Override
-	public void log(Marker marker, String callerFQCN, int level, String msg, Object[] arguments, Throwable t) {
-		Level log4jLevel = toLog4jLevel(level);
-		NormalizedParameters np = NormalizedParameters.normalize(msg, arguments, t);
-		String formattedMessage = MessageFormatter.basicArrayFormat(np.getMessage(), np.getArguments());
-		logger.log(callerFQCN, log4jLevel, formattedMessage, np.getThrowable());
-	}
+    @Override
+    protected void handleNormalizedLoggingCall(org.slf4j.event.Level level, Marker marker, String msg, Object[] arguments, Throwable throwable) {
+        Level log4jLevel = toLog4jLevel(level.toInt());
+        String formattedMessage = MessageFormatter.basicArrayFormat(msg, arguments);
+        logger.log(getFullyQualifiedCallerName(), log4jLevel, formattedMessage, throwable);
+    }
 
-	@Override
-	protected void handleNormalizedLoggingCall(org.slf4j.event.Level level, Marker marker, String msg,
-			Object[] arguments, Throwable throwable) {
-		Level log4jLevel = toLog4jLevel(level.toInt());
-		String formattedMessage = MessageFormatter.basicArrayFormat(msg, arguments);
-		logger.log(getFullyQualifiedCallerName(), log4jLevel, formattedMessage, throwable);
-	}
-
-	/**
-	 * Called by {@link SubstituteLogger} or by {@link LoggingEventBuilder} instances
-	 * @param event
-	 */
+    /**
+     * Called by {@link SubstituteLogger} or by {@link LoggingEventBuilder} instances
+     * @param event
+     */
     public void log(LoggingEvent event) {
         Level log4jLevel = toLog4jLevel(event.getLevel().toInt());
         if (!logger.isEnabledFor(log4jLevel))
@@ -181,60 +175,58 @@ public final class Log4jLoggerAdapter extends LegacyAbstractLogger
 
     }
 
-	private org.apache.log4j.spi.LoggingEvent event2Log4jEvent(LoggingEvent event, Level log4jLevel) {
+    private org.apache.log4j.spi.LoggingEvent event2Log4jEvent(LoggingEvent event, Level log4jLevel) {
 
-		String formattedMessage = MessageFormatter.basicArrayFormat(event.getMessage(), event.getArgumentArray());
+        String formattedMessage = MessageFormatter.basicArrayFormat(event.getMessage(), event.getArgumentArray());
 
-		LocationInfo locationInfo = null; 
-		String fcqn = null;
-		
-		if(event instanceof SubstituteLoggingEvent) {
-			locationInfo = new LocationInfo(NA_SUBST, NA_SUBST, NA_SUBST, "0");
-			fcqn = FQCN_SUBSTITUE;
-		} else {
-			fcqn = FQCN_FLUENT;
-		}
-		
-		
-		ThrowableInformation ti = null;
-		Throwable t = event.getThrowable();
-		if (t != null)
-			ti = new ThrowableInformation(t);
+        LocationInfo locationInfo = null;
+        String fcqn = null;
 
-		org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(fcqn, logger,
-				event.getTimeStamp(), log4jLevel, formattedMessage, event.getThreadName(), ti, null, locationInfo,
-				null);
+        if (event instanceof SubstituteLoggingEvent) {
+            locationInfo = new LocationInfo(NA_SUBST, NA_SUBST, NA_SUBST, "0");
+            fcqn = FQCN_SUBSTITUE;
+        } else {
+            fcqn = FQCN_FLUENT;
+        }
 
-		return log4jEvent;
-	}
+        ThrowableInformation ti = null;
+        Throwable t = event.getThrowable();
+        if (t != null)
+            ti = new ThrowableInformation(t);
 
-	private Level toLog4jLevel(int slf4jLevelInt) {
-		Level log4jLevel;
-		switch (slf4jLevelInt) {
-		case LocationAwareLogger.TRACE_INT:
-			log4jLevel = traceCapable ? Level.TRACE : Level.DEBUG;
-			break;
-		case LocationAwareLogger.DEBUG_INT:
-			log4jLevel = Level.DEBUG;
-			break;
-		case LocationAwareLogger.INFO_INT:
-			log4jLevel = Level.INFO;
-			break;
-		case LocationAwareLogger.WARN_INT:
-			log4jLevel = Level.WARN;
-			break;
-		case LocationAwareLogger.ERROR_INT:
-			log4jLevel = Level.ERROR;
-			break;
-		default:
-			throw new IllegalStateException("Level number " + slf4jLevelInt + " is not recognized.");
-		}
-		return log4jLevel;
-	}
+        org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(fcqn, logger, event.getTimeStamp(), log4jLevel, formattedMessage,
+                        event.getThreadName(), ti, null, locationInfo, null);
 
-	@Override
-	protected String getFullyQualifiedCallerName() {
-		return FQCN_NOMINAL;
-	}
+        return log4jEvent;
+    }
+
+    private Level toLog4jLevel(int slf4jLevelInt) {
+        Level log4jLevel;
+        switch (slf4jLevelInt) {
+        case LocationAwareLogger.TRACE_INT:
+            log4jLevel = traceCapable ? Level.TRACE : Level.DEBUG;
+            break;
+        case LocationAwareLogger.DEBUG_INT:
+            log4jLevel = Level.DEBUG;
+            break;
+        case LocationAwareLogger.INFO_INT:
+            log4jLevel = Level.INFO;
+            break;
+        case LocationAwareLogger.WARN_INT:
+            log4jLevel = Level.WARN;
+            break;
+        case LocationAwareLogger.ERROR_INT:
+            log4jLevel = Level.ERROR;
+            break;
+        default:
+            throw new IllegalStateException("Level number " + slf4jLevelInt + " is not recognized.");
+        }
+        return log4jLevel;
+    }
+
+    @Override
+    protected String getFullyQualifiedCallerName() {
+        return FQCN_NOMINAL;
+    }
 
 }
