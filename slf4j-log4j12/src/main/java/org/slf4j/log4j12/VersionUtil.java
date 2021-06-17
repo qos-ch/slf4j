@@ -5,7 +5,8 @@ import java.lang.reflect.Method;
 import org.slf4j.helpers.Util;
 
 public class VersionUtil {
-    static final int MINIMAL_VERSION = 5;
+    // code was compiled under Java 8 or later
+    static final int MINIMAL_VERSION = 8;
 
     static public int getJavaMajorVersion() {
         String javaVersionString = Util.safeGetSystemProperty("java.version");
