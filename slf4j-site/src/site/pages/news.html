@@ -38,7 +38,6 @@
    -->
 
    <!--
-   -->
    
    <hr noshade="noshade" size="1"/>
 
@@ -83,9 +82,10 @@
    Goers.
    </p>
 
+   -->
    
    
-   <h3>XXth of June, 2021 - Release of SLF4J 1.7.31</h3>
+   <h3>18th of June, 2021 - Release of SLF4J 1.7.31</h3>
 
    <p>In the jcl-over-slf4j module avoid <code>Object</code> to
    <code>String</code> conversion. This issue was reported in <a
@@ -119,6 +119,25 @@
    <hr noshade="noshade" size="1"/>
 
    <h3>October 1st, 2019  - Release of SLF4J 2.0.0-alpha1</h3>
+
+   <p class="highlight">The the 2.0.x series requires Java&nbsp;8 and
+   adds a backward-compatible <a
+   href="manual.html#fluent">fluent logging api</a>.
+   <br/>   <br/>
+   Moreover, SLF4J has been modularized per <a
+   href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
+   specificaton. The resulting internal changes are <a class="big
+   bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
+   page.
+   </p>
+
+   <p>SLF4J version 2.0.0 requires Java 8. It builds upon the 1.8.x
+   series and adds a backward-compatible <a
+   href="manual.html#fluent">fluent logging api</a>.  By
+   backward-compatible, we mean that existing logging frameworks do
+   not have to be changed for the user to benefit from the fluent
+   logging API.
+   </p>
 
    
    <p>&bull; Refactored the fluent-api in
