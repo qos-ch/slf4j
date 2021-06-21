@@ -36,6 +36,8 @@ import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
 
+import java.util.function.Supplier;
+
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
@@ -120,6 +122,18 @@ public interface Logger {
     public void trace(String msg);
 
     /**
+     * Log a message from supplier at the TRACE level.
+     *
+     * @param msgSupplier the supplier of a message string to be logged
+     * @since 2.0
+     */
+    default public void trace(Supplier<String> msgSupplier) {
+        if (isTraceEnabled()) {
+            trace(msgSupplier.get());
+        }
+    }
+
+    /**
      * Log a message at the TRACE level according to the specified format
      * and argument.
      * 
@@ -171,6 +185,20 @@ public interface Logger {
      * @since 1.4
      */
     public void trace(String msg, Throwable t);
+
+    /**
+     * Log an exception (throwable) at the TRACE level with an
+     * accompanying message.
+     *
+     * @param t   the exception (throwable) to log
+     * @param msgSupplier the supplier of a message string to be logged
+     * @since 2.0
+     */
+    default public void trace(Throwable t, Supplier<String> msgSupplier) {
+        if (isTraceEnabled()) {
+            trace(msgSupplier.get(), t);
+        }
+    }
 
     /**
      * Similar to {@link #isTraceEnabled()} method except that the
