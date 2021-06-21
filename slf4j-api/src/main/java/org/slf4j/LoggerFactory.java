@@ -295,7 +295,7 @@ public final class LoggerFactory {
 
     private final static void versionSanityCheck() {
         try {
-            String requested = PROVIDER.getRequesteApiVersion();
+            String requested = PROVIDER.getRequestedApiVersion();
 
             boolean match = false;
             for (String aAPI_COMPATIBILITY_LIST : API_COMPATIBILITY_LIST) {

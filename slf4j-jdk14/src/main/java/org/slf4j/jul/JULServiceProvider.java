@@ -32,7 +32,7 @@ public class JULServiceProvider implements SLF4JServiceProvider {
 		return mdcAdapter;
 	}
 
-	public String getRequesteApiVersion() {
+	public String getRequestedApiVersion() {
 		return REQUESTED_API_VERSION;
 	}
 
