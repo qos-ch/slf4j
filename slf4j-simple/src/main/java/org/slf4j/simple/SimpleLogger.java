@@ -81,13 +81,17 @@ import org.slf4j.spi.LocationAwareLogger;
  * <code>SimpleDateFormat</code></a>. If the format is not specified or is
  * invalid, the number of milliseconds since start up will be output.</li>
  *
- * <li><code>org.slf4j.simpleLogger.showThreadName</code> -Set to
+ * <li><code>org.slf4j.simpleLogger.showThreadName</code> - Set to
  * <code>true</code> if you want to output the current thread name. Defaults to
  * <code>true</code>.</li>
  *
  * <li><code>org.slf4j.simpleLogger.showLogName</code> - Set to
  * <code>true</code> if you want the Logger instance name to be included in
  * output messages. Defaults to <code>true</code>.</li>
+ *
+ * <li><code>org.slf4j.simpleLogger.showLogLevel</code> - Set to
+ * <code>true</code> if you want the log level to be included in output messages.
+ * Defaults to <code>true</code>.</li>
  *
  * <li><code>org.slf4j.simpleLogger.showShortLogName</code> - Set to
  * <code>true</code> if you want the last component of the name to be included
@@ -204,6 +208,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
 	public static final String SHOW_SHORT_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showShortLogName";
 
 	public static final String SHOW_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogName";
+
+	public static final String SHOW_LOG_LEVEL_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogLevel";
 
 	public static final String SHOW_THREAD_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadName";
 
@@ -382,15 +388,17 @@ public class SimpleLogger extends LegacyAbstractLogger {
 			buf.append("] ");
 		}
 
-		if (CONFIG_PARAMS.levelInBrackets)
-			buf.append('[');
+		// Append a readable representation of the log level if so configured
+		if (CONFIG_PARAMS.showLogLevel) {
+			if (CONFIG_PARAMS.levelInBrackets)
+				buf.append('[');
 
-		// Append a readable representation of the log level
-		String levelStr = level.name();
-		buf.append(levelStr);
-		if (CONFIG_PARAMS.levelInBrackets)
-			buf.append(']');
-		buf.append(' ');
+			String levelStr = level.name();
+			buf.append(levelStr);
+			if (CONFIG_PARAMS.levelInBrackets)
+				buf.append(']');
+			buf.append(' ');
+		}
 
 		// Append the name of the log instance if so configured
 		if (CONFIG_PARAMS.showShortLogName) {

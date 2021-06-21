@@ -51,6 +51,9 @@ public class SimpleLoggerConfiguration {
     private static final boolean SHOW_SHORT_LOG_NAME_DEFAULT = false;
     boolean showShortLogName = SHOW_SHORT_LOG_NAME_DEFAULT;
 
+    private static final boolean SHOW_LOG_LEVEL_DEFAULT = true;
+    boolean showLogLevel = SHOW_LOG_LEVEL_DEFAULT;
+
     private static final boolean LEVEL_IN_BRACKETS_DEFAULT = false;
     boolean levelInBrackets = LEVEL_IN_BRACKETS_DEFAULT;
 
@@ -78,6 +81,7 @@ public class SimpleLoggerConfiguration {
         showDateTime = getBooleanProperty(SimpleLogger.SHOW_DATE_TIME_KEY, SHOW_DATE_TIME_DEFAULT);
         showThreadName = getBooleanProperty(SimpleLogger.SHOW_THREAD_NAME_KEY, SHOW_THREAD_NAME_DEFAULT);
         dateTimeFormatStr = getStringProperty(SimpleLogger.DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR_DEFAULT);
+        showLogLevel = getBooleanProperty(SimpleLogger.SHOW_LOG_LEVEL_KEY, SHOW_LOG_LEVEL_DEFAULT);
         levelInBrackets = getBooleanProperty(SimpleLogger.LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS_DEFAULT);
         warnLevelString = getStringProperty(SimpleLogger.WARN_LEVEL_STRING_KEY, WARN_LEVELS_STRING_DEFAULT);
 
