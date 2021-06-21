@@ -30,12 +30,22 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
 public class SimpleLoggerTest {
+
+    @Rule
+    public TemporaryFolder temp = new TemporaryFolder();
 
     String A_KEY = SimpleLogger.LOG_KEY_PREFIX + "a";
     PrintStream original = System.out;
@@ -51,6 +61,8 @@ public class SimpleLoggerTest {
     public void after() {
         System.clearProperty(A_KEY);
         System.clearProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY);
+        System.clearProperty(SimpleLogger.LOG_FILE_KEY);
+        System.clearProperty(SimpleLogger.LOG_FILE_APPEND_KEY);
         System.setErr(original);
     }
 
@@ -118,5 +130,40 @@ public class SimpleLoggerTest {
         simpleLogger.info("hello");
         replacement.flush();
         assertTrue(bout.toString().contains("INFO "+this.getClass().getName()+" - hello"));
+    }
+
+    @Test
+    public void checkUseOfFileLogOverride() throws IOException {
+        File logFile = temp.newFile("test.log");
+        System.setProperty(SimpleLogger.LOG_FILE_KEY, logFile.getPath());
+        System.setProperty(SimpleLogger.LOG_FILE_APPEND_KEY, "false");
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+        simpleLogger.info("hello");
+        // recreate OutputChoice
+        SimpleLogger.init();
+        simpleLogger.info("goodbye");
+
+        List<String> logRecords = Files.readAllLines(logFile.toPath());
+        assertEquals(1, logRecords.size());
+        assertTrue(logRecords.get(0).contains("INFO "+this.getClass().getName()+" - goodbye"));
+    }
+
+    @Test
+    public void checkUseOfFileLogAppend() throws IOException {
+        File logFile = temp.newFile("test.log");
+        System.setProperty(SimpleLogger.LOG_FILE_KEY, logFile.getPath());
+        System.setProperty(SimpleLogger.LOG_FILE_APPEND_KEY, "true");
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+        simpleLogger.info("hello");
+        // recreate OutputChoice
+        SimpleLogger.init();
+        simpleLogger.info("goodbye");
+
+        List<String> logRecords = Files.readAllLines(logFile.toPath());
+        assertEquals(2, logRecords.size());
+        assertTrue(logRecords.get(0).contains("INFO "+this.getClass().getName()+" - hello"));
+        assertTrue(logRecords.get(1).contains("INFO "+this.getClass().getName()+" - goodbye"));
     }
 }

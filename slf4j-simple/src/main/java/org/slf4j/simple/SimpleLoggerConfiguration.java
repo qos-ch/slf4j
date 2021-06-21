@@ -56,6 +56,10 @@ public class SimpleLoggerConfiguration {
 
     private static String LOG_FILE_DEFAULT = "System.err";
     private String logFile = LOG_FILE_DEFAULT;
+
+    private static final boolean LOG_FILE_APPEND_DEFAULT = false;
+    private boolean logFileAppend = LOG_FILE_APPEND_DEFAULT;
+
     OutputChoice outputChoice = null;
 
     private static final boolean CACHE_OUTPUT_STREAM_DEFAULT = false;
@@ -82,9 +86,10 @@ public class SimpleLoggerConfiguration {
         warnLevelString = getStringProperty(SimpleLogger.WARN_LEVEL_STRING_KEY, WARN_LEVELS_STRING_DEFAULT);
 
         logFile = getStringProperty(SimpleLogger.LOG_FILE_KEY, logFile);
+        logFileAppend = getBooleanProperty(SimpleLogger.LOG_FILE_APPEND_KEY, LOG_FILE_APPEND_DEFAULT);
 
         cacheOutputStream = getBooleanProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY, CACHE_OUTPUT_STREAM_DEFAULT);
-        outputChoice = computeOutputChoice(logFile, cacheOutputStream);
+        outputChoice = computeOutputChoice(logFile, logFileAppend, cacheOutputStream);
 
         if (dateTimeFormatStr != null) {
             try {
@@ -160,7 +165,7 @@ public class SimpleLoggerConfiguration {
         return SimpleLogger.LOG_LEVEL_INFO;
     }
 
-    private static OutputChoice computeOutputChoice(String logFile, boolean cacheOutputStream) {
+    private static OutputChoice computeOutputChoice(String logFile, boolean logFileAppend, boolean cacheOutputStream) {
         if ("System.err".equalsIgnoreCase(logFile))
             if (cacheOutputStream)
                 return new OutputChoice(OutputChoiceType.CACHED_SYS_ERR);
@@ -173,7 +178,7 @@ public class SimpleLoggerConfiguration {
                 return new OutputChoice(OutputChoiceType.SYS_OUT);
         } else {
             try {
-                FileOutputStream fos = new FileOutputStream(logFile);
+                FileOutputStream fos = new FileOutputStream(logFile, logFileAppend);
                 PrintStream printStream = new PrintStream(fos);
                 return new OutputChoice(printStream);
             } catch (FileNotFoundException e) {
