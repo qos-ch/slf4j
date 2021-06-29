@@ -48,10 +48,13 @@
     <logback.version>1.2.3</logback.version>
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-    <compiler-plugin.version>3.8.0</compiler-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+    <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+    <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+    <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
   </properties>
 
   <developers>
@@ -190,7 +193,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
+        <version>${maven-compiler-plugin.version}</version>
         <executions>
 
           <execution>
@@ -232,27 +235,36 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
-        <configuration>
-          <archive>
-            <manifestEntries>
-              <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-              <Bundle-Description>${project.description}</Bundle-Description>
-              <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-              <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-              <Implementation-Version>${project.version}</Implementation-Version>
-              <Multi-Release>true</Multi-Release>
-            </manifestEntries>
-            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-          </archive>
-          <skipIfEmpty>true</skipIfEmpty>
-        </configuration>
+        <version>${maven-jar-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
+                  <Bundle-Description>${project.description}</Bundle-Description>
+                  <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                  <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                  <Implementation-Version>${project.version}</Implementation-Version>
+                  <Multi-Release>true</Multi-Release>
+                </manifestEntries>
+                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+              </archive>
+              <skipIfEmpty>true</skipIfEmpty>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
  
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
@@ -314,7 +326,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.3</version>
+        <version>${maven-jxr-plugin.version}</version>
         <configuration>
           <aggregate>true</aggregate>
           <javadocDir>target/site/apidocs/</javadocDir>
