@@ -84,7 +84,7 @@ public class ToStringHelper {
                     return o.toString();
                 }
             } catch (Exception e) {
-                Long now = new Long(System.currentTimeMillis());
+                Long now = Long.valueOf(System.currentTimeMillis());
 
                 System.err.println("Disabling exception throwing class " + objectClass.getName() + ", " + e.getMessage());
 

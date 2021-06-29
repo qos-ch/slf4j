@@ -8,7 +8,6 @@ import java.util.Random;
 import org.apache.log4j.MDC;
 import org.apache.log4j.MDCFriend;
 import org.junit.Test;
-import org.slf4j.log4j12.VersionUtil;
 
 public class MDCFriendTest {
 
