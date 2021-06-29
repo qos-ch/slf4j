@@ -3,7 +3,6 @@ package org.apache.log4j;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.apache.log4j.MDC;
 import org.apache.log4j.helpers.ThreadLocalMap;
 
 public class MDCFriend {

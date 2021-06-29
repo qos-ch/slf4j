@@ -35,11 +35,11 @@ import static org.junit.Assert.*;
  */
 public class MessageFormatterTest {
 
-    Integer i1 = new Integer(1);
-    Integer i2 = new Integer(2);
-    Integer i3 = new Integer(3);
+    Integer i1 = Integer.valueOf(1);
+    Integer i2 = Integer.valueOf(2);
+    Integer i3 = Integer.valueOf(3);
     Integer[] ia0 = new Integer[] { i1, i2, i3 };
-    Integer[] ia1 = new Integer[] { new Integer(10), new Integer(20), new Integer(30) };
+    Integer[] ia1 = new Integer[] { Integer.valueOf(10), Integer.valueOf(20), Integer.valueOf(30) };
 
     String result;
 
