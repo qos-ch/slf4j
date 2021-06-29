@@ -56,7 +56,7 @@ public abstract class AbstractLogger implements Logger, Serializable {
      * 
      * <p>
      * This approach will work well if the desired ILoggerFactory is the one
-     * references by LoggerFactory. However, if the user manages its logger hierarchy
+     * referenced by {@link org.slf4j.LoggerFactory} However, if the user manages its logger hierarchy
      * through a different (non-static) mechanism, e.g. dependency injection, then
      * this approach would be mostly counterproductive.
      * 

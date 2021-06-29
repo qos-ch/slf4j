@@ -3,7 +3,7 @@ package org.slf4j.helpers;
 import org.slf4j.Marker;
 
 /**
- * Provides minimal default implementations for isXEnabled(Marker) methods.
+ * Provides minimal default implementations for {@link #isTraceEnabled(Marker)}, {@link #isDebugEnabled(Marker)} and other similar methods.
  * 
  * @since 2.0
  */
