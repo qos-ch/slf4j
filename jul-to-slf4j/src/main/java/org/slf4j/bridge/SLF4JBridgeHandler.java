@@ -156,7 +156,7 @@ public class SLF4JBridgeHandler extends Handler {
      * @return true if SLF4JBridgeHandler is already installed, false other wise
      *
      */
-    public static boolean isInstalled()  {
+    public static boolean isInstalled() {
         java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
         for (int i = 0; i < handlers.length; i++) {

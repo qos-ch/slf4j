@@ -43,12 +43,12 @@ import org.slf4j.event.SubstituteLoggingEvent;
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
     volatile boolean postInitialization = false;
-    
+
     final Map<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
 
     final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<SubstituteLoggingEvent>();
 
-    synchronized public  Logger getLogger(String name) {
+    synchronized public Logger getLogger(String name) {
         SubstituteLogger logger = loggers.get(name);
         if (logger == null) {
             logger = new SubstituteLogger(name, eventQueue, postInitialization);
@@ -70,9 +70,9 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     }
 
     public void postInitialization() {
-    	postInitialization = true;
+        postInitialization = true;
     }
-    
+
     public void clear() {
         loggers.clear();
         eventQueue.clear();

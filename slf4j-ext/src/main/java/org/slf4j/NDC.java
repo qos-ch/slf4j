@@ -24,7 +24,6 @@
  */
 package org.slf4j;
 
-
 public class NDC {
     public final static String PREFIX = "NDC";
 

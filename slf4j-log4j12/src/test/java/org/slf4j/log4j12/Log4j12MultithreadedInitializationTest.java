@@ -36,7 +36,7 @@ import org.slf4j.log4j12.testHarness.RecursiveAppender;
 
 public class Log4j12MultithreadedInitializationTest extends org.slf4j.testHarness.MultithreadedInitializationTest {
     static int NUM_LINES_BY_RECURSIVE_APPENDER = 3;
-    
+
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;
     static String CONFIG_FILE_KEY = "log4j.configuration";
     final String loggerName = this.getClass().getName();
@@ -61,7 +61,7 @@ public class Log4j12MultithreadedInitializationTest extends org.slf4j.testHarnes
     protected int extraLogEvents() {
         return NUM_LINES_BY_RECURSIVE_APPENDER;
     }
-    
+
     private List<LoggingEvent> getRecordedEvents() {
         org.apache.log4j.Logger root = LogManager.getRootLogger();
         RecursiveAppender ra = (RecursiveAppender) root.getAppender("RECURSIVE");

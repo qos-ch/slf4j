@@ -47,7 +47,6 @@ public class MarkerFactory {
     private MarkerFactory() {
     }
 
-
     // this is where the binding happens
     static {
         SLF4JServiceProvider provider = LoggerFactory.getProvider();

@@ -24,20 +24,18 @@ public class SubstituteServiceProvider implements SLF4JServiceProvider {
         return markerFactory;
     }
 
-
     @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }
 
-
     @Override
     public String getRequesteApiVersion() {
-       throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void initialize() {
-    	
+
     }
 }

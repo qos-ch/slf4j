@@ -80,7 +80,7 @@ public class BasicMarker implements Marker {
     }
 
     public Iterator<Marker> iterator() {
-      return referenceList.iterator();
+        return referenceList.iterator();
     }
 
     public boolean remove(Marker referenceToRemove) {

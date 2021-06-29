@@ -39,17 +39,16 @@ public class MultiBindingAssertionTest {
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-
     @Before
     public void setUp() throws Exception {
         System.setErr(sps);
     }
-    
+
     @After
     public void tearDown() throws Exception {
         System.setErr(old);
     }
-    
+
     @Test
     public void test() throws Exception {
         Logger logger = LoggerFactory.getLogger(this.getClass());

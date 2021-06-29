@@ -38,6 +38,6 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
     }
 
     public void initialize() {
-    	
+
     }
 }

@@ -7,7 +7,7 @@ import java.util.logging.LogRecord;
 public class CountingHandler extends Handler {
 
     final AtomicLong eventCount = new AtomicLong(0);
-    
+
     @Override
     public void publish(LogRecord record) {
         eventCount.getAndIncrement();

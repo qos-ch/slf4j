@@ -132,7 +132,9 @@ public class InvokeJCLTest {
         private final String msg;
         int invokedCount = 0;
 
-        TestMessage(String msg) {this.msg = msg;}
+        TestMessage(String msg) {
+            this.msg = msg;
+        }
 
         @Override
         public String toString() {

@@ -345,64 +345,64 @@ public abstract class LogFactory {
      * This method exists to ensure signature compatibility.
      */
     protected static Object createFactory(String factoryClass, ClassLoader classLoader) {
-        throw new UnsupportedOperationException("Operation [factoryClass] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [factoryClass] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static ClassLoader directGetContextClassLoader() {
-        throw new UnsupportedOperationException("Operation [directGetContextClassLoader] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [directGetContextClassLoader] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static ClassLoader getContextClassLoader() throws LogConfigurationException {
-        throw new UnsupportedOperationException("Operation [getContextClassLoader] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [getContextClassLoader] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static ClassLoader getClassLoader(Class clazz) {
-        throw new UnsupportedOperationException("Operation [getClassLoader] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [getClassLoader] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static boolean isDiagnosticsEnabled() {
-        throw new UnsupportedOperationException("Operation [isDiagnosticsEnabled] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [isDiagnosticsEnabled] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static void logRawDiagnostic(String msg) {
-        throw new UnsupportedOperationException("Operation [logRawDiagnostic] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [logRawDiagnostic] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static LogFactory newFactory(final String factoryClass, final ClassLoader classLoader, final ClassLoader contextClassLoader) {
-        throw new UnsupportedOperationException("Operation [logRawDiagnostic] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [logRawDiagnostic] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
     /**
      * This method exists to ensure signature compatibility.
      */
     protected static LogFactory newFactory(final String factoryClass, final ClassLoader classLoader) {
-        throw new UnsupportedOperationException("Operation [newFactory] is not supported in jcl-over-slf4j. See also "
-                        + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
+        throw new UnsupportedOperationException(
+                        "Operation [newFactory] is not supported in jcl-over-slf4j. See also " + UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J);
     }
 
 }

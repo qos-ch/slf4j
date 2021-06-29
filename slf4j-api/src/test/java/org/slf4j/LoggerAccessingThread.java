@@ -30,12 +30,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class LoggerAccessingThread extends Thread {
     private static int LOOP_LEN = 64;
-    
+
     final CyclicBarrier barrier;
     final int count;
     final AtomicLong eventCount;
     List<Logger> loggerList;
-    
+
     public LoggerAccessingThread(final CyclicBarrier barrier, List<Logger> loggerList, final int count, final AtomicLong eventCount) {
         this.barrier = barrier;
         this.loggerList = loggerList;

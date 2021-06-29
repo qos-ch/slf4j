@@ -41,7 +41,6 @@ public class CompatibilityAssertionTest {
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-
     @Before
     public void setUp() throws Exception {
         System.setErr(sps);
@@ -60,6 +59,6 @@ public class CompatibilityAssertionTest {
         assertEquals(1, sps.stringList.size());
         String s0 = (String) sps.stringList.get(0);
         assertTrue(s0.contains(msg));
-        
+
     }
 }
