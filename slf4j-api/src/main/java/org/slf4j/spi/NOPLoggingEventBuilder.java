@@ -6,7 +6,8 @@ import org.slf4j.Marker;
 
 /**
  * A no-operation implementation of {@link LoggingEventBuilder}. 
- * As the name indicates, this implementation does nothing.
+ * As the name indicates, this implementation does nothing or alternatively returns
+ * a singleton, i.e. the unique instance of this class.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * @since 2.0.0
@@ -16,6 +17,10 @@ public class NOPLoggingEventBuilder implements LoggingEventBuilder {
 
     static final NOPLoggingEventBuilder SINGLETON = new NOPLoggingEventBuilder();
 
+    
+    private NOPLoggingEventBuilder() {
+    }
+    
     public static LoggingEventBuilder singleton() {
         return SINGLETON;
     }
