@@ -25,6 +25,11 @@
 
 package org.slf4j;
 
+import static org.slf4j.event.EventConstants.DEBUG_INT;
+import static org.slf4j.event.EventConstants.ERROR_INT;
+import static org.slf4j.event.EventConstants.INFO_INT;
+import static org.slf4j.event.EventConstants.TRACE_INT;
+import static org.slf4j.event.EventConstants.WARN_INT;
 import static org.slf4j.event.Level.DEBUG;
 import static org.slf4j.event.Level.ERROR;
 import static org.slf4j.event.Level.INFO;
@@ -92,14 +97,44 @@ public interface Logger {
 
     /**
      * Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the 
-     * desired {@link Level} passed as parameter. 
+     * desired {@link Level} passed as parameter. If this Logger is disabled for the given Level, then 
+     * a {@link  NOPLoggingEventBuilder} is returned.
+     * 
      * 
      * @param level desired level for the event builder
      * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
      * @since 2.0
      */
     default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
-        return new DefaultLoggingEventBuilder(this, level);
+        if(isEnabledForLevel(level)) {
+            return new DefaultLoggingEventBuilder(this, level);          
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
+
+    /**
+     * Returns whether this Logger is enabled for a given {@link Level}. 
+     * 
+     * @param level
+     * @return true if enabled, false otherwise.
+     */
+    default public boolean isEnabledForLevel(Level level) {
+        int levelInt = level.toInt();
+        switch (levelInt) {
+        case (TRACE_INT):
+            return isTraceEnabled();
+        case (DEBUG_INT):
+            return isDebugEnabled();
+        case (INFO_INT):
+            return isInfoEnabled();
+        case (WARN_INT):
+            return isWarnEnabled();
+        case (ERROR_INT):
+            return isErrorEnabled();
+        default:
+            throw new IllegalArgumentException("Level [" + level + "] not recognized.");
+        }
     }
 
     /**
