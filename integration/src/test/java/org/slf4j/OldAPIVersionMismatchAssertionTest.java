@@ -44,7 +44,6 @@ public class OldAPIVersionMismatchAssertionTest {
         System.setErr(sps);
     }
 
-
     @After
     public void tearDown() throws Exception {
         System.setErr(old);

@@ -17,10 +17,10 @@ public class Log4j12ServiceProvider implements SLF4JServiceProvider {
     // to avoid constant folding by the compiler, this field must *not* be final
     public static String REQUESTED_API_VERSION = "1.8.99"; // !final
 
-    private ILoggerFactory loggerFactory; 
-    private IMarkerFactory markerFactory; 
+    private ILoggerFactory loggerFactory;
+    private IMarkerFactory markerFactory;
     private MDCAdapter mdcAdapter;
-    
+
     public Log4j12ServiceProvider() {
         try {
             @SuppressWarnings("unused")
@@ -36,7 +36,7 @@ public class Log4j12ServiceProvider implements SLF4JServiceProvider {
         markerFactory = new BasicMarkerFactory();
         mdcAdapter = new Log4jMDCAdapter();
     }
-    
+
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }

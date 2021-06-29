@@ -14,7 +14,7 @@ package org.slf4j;
 public class LoggerFactoryFriend {
 
     /*
-     * Force LoggerFactory to consider itself uninitialized. 
+     * Force LoggerFactory to consider itself uninitialized.
      */
     static public void reset() {
         LoggerFactory.reset();

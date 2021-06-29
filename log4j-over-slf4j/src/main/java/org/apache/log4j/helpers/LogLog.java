@@ -37,20 +37,20 @@ public class LogLog {
     /**
        Defining this value makes log4j print log4j-internal debug
        statements to <code>System.out</code>.
-
+    
       <p> The value of this string is <b>log4j.debug</b>.
-
+    
       <p>Note that the search for all option names is case sensitive.  */
     public static final String DEBUG_KEY = "log4j.debug";
 
     /**
        Defining this value makes log4j components print log4j-internal
        debug statements to <code>System.out</code>.
-
+    
       <p> The value of this string is <b>log4j.configDebug</b>.
-
+    
       <p>Note that the search for all option names is case sensitive.
-
+    
       @deprecated Use {@link #DEBUG_KEY} instead.
     */
     public static final String CONFIG_DEBUG_KEY = "log4j.configDebug";
@@ -127,7 +127,7 @@ public class LogLog {
     /**
        In quite mode no LogLog generates strictly no output, not even
        for errors.
-
+    
        @param quietMode A true for not
     */
     public static void setQuietMode(boolean quietMode) {

@@ -200,7 +200,7 @@ public class SLF4JBridgeHandlerTest {
         LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
         assertEquals("", le.getMessage());
     }
-    
+
     void assertLevel(int index, org.apache.log4j.Level expectedLevel) {
         LoggingEvent le = (LoggingEvent) listAppender.list.get(index);
         assertEquals(expectedLevel, le.getLevel());

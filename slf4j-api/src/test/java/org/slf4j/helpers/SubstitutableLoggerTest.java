@@ -45,10 +45,10 @@ import org.slf4j.event.EventRecodingLogger;
  * @author Chetan Mehrotra
  */
 public class SubstitutableLoggerTest {
-	
-	// atTrace excluded during development of 2.0 API
-    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName", "makeLoggingEventBuilder", "atTrace", 
-    		"atDebug", "atInfo", "atWarn", "atError"));
+
+    // atTrace excluded during development of 2.0 API
+    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(
+                    Arrays.asList("getName", "makeLoggingEventBuilder", "atTrace", "atDebug", "atInfo", "atWarn", "atError"));
 
     @Test
     public void testDelegate() throws Exception {
@@ -61,7 +61,7 @@ public class SubstitutableLoggerTest {
         substituteLogger.setDelegate(proxyLogger);
 
         invokeMethods(substituteLogger);
-        
+
         // Assert that all methods are delegated
         expectedMethodSignatures.removeAll(ih.getInvokedMethodSignatures());
         if (!expectedMethodSignatures.isEmpty()) {
@@ -71,7 +71,7 @@ public class SubstitutableLoggerTest {
 
     private void invokeMethods(Logger proxyLogger) throws InvocationTargetException, IllegalAccessException {
         for (Method m : Logger.class.getDeclaredMethods()) {
-        	if (!EXCLUDED_METHODS.contains(m.getName())) {
+            if (!EXCLUDED_METHODS.contains(m.getName())) {
                 m.invoke(proxyLogger, new Object[m.getParameterTypes().length]);
             }
         }

@@ -29,6 +29,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ XLoggerTest.class})
+@SuiteClasses({ XLoggerTest.class })
 public class PackageTest {
 }

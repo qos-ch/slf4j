@@ -86,7 +86,7 @@ public class FluentApiInvocationTest {
             assertLogMessage("Temperature set to 16. Old temperature was 15.", 0);
         }
     }
-    
+
     @Test
     public void supplierArguments() {
         Supplier<String> stringSupplier = () -> "world";

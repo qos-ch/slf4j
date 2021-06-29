@@ -67,7 +67,7 @@ public final class LoggerFactory {
 
     static final String NO_PROVIDERS_URL = CODES_PREFIX + "#noProviders";
     static final String IGNORED_BINDINGS_URL = CODES_PREFIX + "#ignoredBindings";
-    
+
     static final String NO_STATICLOGGERBINDER_URL = CODES_PREFIX + "#StaticLoggerBinder";
     static final String MULTIPLE_BINDINGS_URL = CODES_PREFIX + "#multiple_bindings";
     static final String NULL_LF_URL = CODES_PREFIX + "#null_LF";
@@ -147,10 +147,10 @@ public final class LoggerFactory {
             List<SLF4JServiceProvider> providersList = findServiceProviders();
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
-            	PROVIDER = providersList.get(0);
-            	// SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
-            	PROVIDER.initialize();
-            	INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
+                PROVIDER = providersList.get(0);
+                // SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
+                PROVIDER.initialize();
+                INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
                 reportActualBinding(providersList);
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
@@ -177,7 +177,6 @@ public final class LoggerFactory {
             Util.report("Ignoring binding found at [" + path + "]");
         }
         Util.report("See " + IGNORED_BINDINGS_URL + " for an explanation.");
-   
 
     }
 
@@ -208,12 +207,12 @@ public final class LoggerFactory {
         return staticLoggerBinderPathSet;
     }
 
-	private static void postBindCleanUp() {
-		fixSubstituteLoggers();
-		replayEvents();
-		// release all resources in SUBST_FACTORY
-		SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
-	}
+    private static void postBindCleanUp() {
+        fixSubstituteLoggers();
+        replayEvents();
+        // release all resources in SUBST_FACTORY
+        SUBST_PROVIDER.getSubstituteLoggerFactory().clear();
+    }
 
     private static void fixSubstituteLoggers() {
         synchronized (SUBST_PROVIDER) {
@@ -410,7 +409,7 @@ public final class LoggerFactory {
 
     /**
      * Return the {@link SLF4JServiceProvider} in use.
-
+    
      * @return provider in use
      * @since 1.8.0
      */

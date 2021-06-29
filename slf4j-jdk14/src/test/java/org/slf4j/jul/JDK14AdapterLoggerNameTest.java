@@ -39,17 +39,15 @@ public class JDK14AdapterLoggerNameTest {
     private MockHandler mockHandler;
     static Random random = new Random(System.currentTimeMillis());
     long diff = random.nextInt(10000);
-    String loggerName = "JDK14AdapterLoggerNameTest"+diff;
-    
+    String loggerName = "JDK14AdapterLoggerNameTest" + diff;
+
     Logger logger = Logger.getLogger(loggerName);
-    
+
     @Before
     public void setUp() throws Exception {
         Logger logger = Logger.getLogger(loggerName);
         addMockHandler(logger);
     }
-
-
 
     @After
     public void tearDown() throws Exception {
@@ -75,7 +73,7 @@ public class JDK14AdapterLoggerNameTest {
         removeHandlers(logger);
         logger.addHandler(mockHandler);
     }
-    
+
     private void removeHandlers(Logger logger) {
         logger.setUseParentHandlers(false);
         Handler[] handlers = logger.getHandlers();

@@ -151,7 +151,6 @@ final public class MessageFormatter {
         return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
     }
 
-
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
         Throwable throwableCandidate = MessageFormatter.getThrowableCandidate(argArray);
         Object[] args = argArray;
@@ -168,14 +167,14 @@ final public class MessageFormatter {
      * @param argArray
      */
     final public static String basicArrayFormat(final String messagePattern, final Object[] argArray) {
-    	FormattingTuple ft = arrayFormat(messagePattern, argArray, null);
-    	return ft.getMessage();
+        FormattingTuple ft = arrayFormat(messagePattern, argArray, null);
+        return ft.getMessage();
     }
-    
+
     public static String basicArrayFormat(NormalizedParameters np) {
-		return basicArrayFormat(np.getMessage(), np.getArguments());
-	}
-    
+        return basicArrayFormat(np.getMessage(), np.getArguments());
+    }
+
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
         if (messagePattern == null) {
@@ -404,30 +403,28 @@ final public class MessageFormatter {
         sbuf.append(']');
     }
 
-	/**
-	 * Helper method to determine if an {@link Object} array contains a {@link Throwable} as last element
-	 *
-	 * @param argArray
-	 *          The arguments off which we want to know if it contains a {@link Throwable} as last element
-	 * @return if the last {@link Object} in argArray is a {@link Throwable} this method will return it,
-	 *          otherwise it returns null
-	 */
-	public static Throwable getThrowableCandidate(final Object[] argArray) {
-		return NormalizedParameters.getThrowableCandidate(argArray);
+    /**
+     * Helper method to determine if an {@link Object} array contains a {@link Throwable} as last element
+     *
+     * @param argArray
+     *          The arguments off which we want to know if it contains a {@link Throwable} as last element
+     * @return if the last {@link Object} in argArray is a {@link Throwable} this method will return it,
+     *          otherwise it returns null
+     */
+    public static Throwable getThrowableCandidate(final Object[] argArray) {
+        return NormalizedParameters.getThrowableCandidate(argArray);
     }
-	
-	/**
-	 * Helper method to get all but the last element of an array
-	 *
-	 * @param argArray
-	 *          The arguments from which we want to remove the last element
-	 *
-	 * @return a copy of the array without the last element
-	 */
-	public static Object[] trimmedCopy(final Object[] argArray) {
-		return NormalizedParameters.trimmedCopy(argArray);
-	}
 
-	
+    /**
+     * Helper method to get all but the last element of an array
+     *
+     * @param argArray
+     *          The arguments from which we want to remove the last element
+     *
+     * @return a copy of the array without the last element
+     */
+    public static Object[] trimmedCopy(final Object[] argArray) {
+        return NormalizedParameters.trimmedCopy(argArray);
+    }
 
 }
