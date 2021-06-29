@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
  * @author Ceki Gulcu
  * @see #readResolve
  * @since 1.5.3
- * @deprecated
  */
 abstract class NamedLoggerBase implements Logger, Serializable {
 
@@ -56,7 +55,7 @@ abstract class NamedLoggerBase implements Logger, Serializable {
      * 
      * <p>
      * This approach will work well if the desired ILoggerFactory is the one
-     * references by LoggerFactory. However, if the user manages its logger hierarchy
+     * referenced by LoggerFactory. However, if the user manages its logger hierarchy
      * through a different (non-static) mechanism, e.g. dependency injection, then
      * this approach would be mostly counterproductive.
      * 
