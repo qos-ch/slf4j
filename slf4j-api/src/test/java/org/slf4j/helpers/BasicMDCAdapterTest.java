@@ -42,8 +42,13 @@ import org.slf4j.spi.MDCAdapter;
  * @author Lukasz Cwik
  */
 public class BasicMDCAdapterTest {
-    MDCAdapter mdc = new BasicMDCAdapter();
+    protected MDCAdapter mdc = instantiateMDC();
 
+    protected MDCAdapter instantiateMDC() {
+        return new BasicMDCAdapter();
+    }
+    
+    // leave MDC clean
     @After
     public void tearDown() throws Exception {
         mdc.clear();
@@ -103,6 +108,12 @@ public class BasicMDCAdapterTest {
         assertNull(mdc.get("childKey"));
     }
 
+    
+    @Test
+    public void testInvokingSetContextMap_WithANullMap_SLF4J_414() {
+        mdc.setContextMap(null);
+    }
+    
     @Test
     public void testMDCChildThreadCanOverwriteParentThread() throws Exception {
         mdc.put("sharedKey", "parentValue");

@@ -25,7 +25,6 @@
 package org.slf4j.log4j12;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.log4j.MDCFriend;
@@ -39,6 +38,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
         }
     }
 
+    @Override
     public void clear() {
         @SuppressWarnings("rawtypes")
         Map map = org.apache.log4j.MDC.getContext();
@@ -47,6 +47,7 @@ public class Log4jMDCAdapter implements MDCAdapter {
         }
     }
 
+    @Override
     public String get(String key) {
         return (String) org.apache.log4j.MDC.get(key);
     }
@@ -63,10 +64,12 @@ public class Log4jMDCAdapter implements MDCAdapter {
      * @throws IllegalArgumentException
      *             in case the "key" or <b>"val"</b> parameter is null
      */
+    @Override
     public void put(String key, String val) {
         org.apache.log4j.MDC.put(key, val);
     }
 
+    @Override
     public void remove(String key) {
         org.apache.log4j.MDC.remove(key);
     }
@@ -82,13 +85,21 @@ public class Log4jMDCAdapter implements MDCAdapter {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void setContextMap(Map contextMap) {
+    @Override
+    public void setContextMap(Map<String, String> contextMap) {
         Map old = org.apache.log4j.MDC.getContext();
+        
+        // we must cater for the case where the contextMap argument is null 
+        if(contextMap == null) {
+            if(old != null) {
+                old.clear();
+            }
+            return;
+        }
+        
         if (old == null) {
-            Iterator entrySetIterator = contextMap.entrySet().iterator();
-            while (entrySetIterator.hasNext()) {
-                Map.Entry mapEntry = (Map.Entry) entrySetIterator.next();
-                org.apache.log4j.MDC.put((String) mapEntry.getKey(), mapEntry.getValue());
+            for (Map.Entry<String, String> mapEntry : contextMap.entrySet()) {
+                org.apache.log4j.MDC.put(mapEntry.getKey(), mapEntry);
             }
         } else {
             old.clear();

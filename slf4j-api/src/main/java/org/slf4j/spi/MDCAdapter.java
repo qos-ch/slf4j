@@ -83,6 +83,8 @@ public interface MDCAdapter {
      * map and then copying the map passed as parameter. The context map 
      * parameter must only contain keys and values of type String.
      * 
+     * Implementations must support null valued map passed as parameter.
+     * 
      * @param contextMap must contain only keys and values of type String
      * 
      * @since 1.5.1
