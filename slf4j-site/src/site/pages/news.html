@@ -92,7 +92,14 @@
    <code>Set</code>. The spurious calls to
    <code>MessageFormatter.format()</code> were removed fixing <a
    href="https://jira.qos.ch/browse/SLF4J-421">SLF4J-421</a> and <a
-   href="https://jira.qos.ch/browse/SLF4J-287">SLF4J-287</a>.
+   href="https://jira.qos.ch/browse/SLF4J-287">SLF4J-287</a>.</p>
+
+   <p>The implementations of the
+   <code>MDCAdapter.setContextMap()</code> methods shipping with SLF4J
+   now cater for a null argument. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-414">SLF4J-414</a>. Both
+   Alexei Orischenko and Kengo TODA kindly provided PRs for this
+   issue.</p>
 
    
    
