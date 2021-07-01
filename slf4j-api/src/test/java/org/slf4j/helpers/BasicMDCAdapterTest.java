@@ -26,6 +26,7 @@ package org.slf4j.helpers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -77,7 +78,7 @@ public class BasicMDCAdapterTest {
         mdc.put("testKey", "testValue");
         Map<String, String> copy = mdc.getCopyOfContextMap();
         mdc.put("anotherTestKey", "anotherTestValue");
-        assertFalse(copy.size() == mdc.getCopyOfContextMap().size());
+        assertNotEquals(copy.size(), mdc.getCopyOfContextMap().size());
     }
 
     @Test

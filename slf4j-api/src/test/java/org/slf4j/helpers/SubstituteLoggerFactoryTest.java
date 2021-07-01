@@ -26,7 +26,7 @@ package org.slf4j.helpers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class SubstituteLoggerFactoryTest {
         assertNotNull(log);
 
         Logger log2 = factory.getLogger("foo");
-        assertTrue("Loggers with same name must be same", log == log2);
+        assertSame("Loggers with same name must be same", log, log2);
     }
 
     @Test
