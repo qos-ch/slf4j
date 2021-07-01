@@ -50,7 +50,7 @@
     
     <li><a href="#requirements">What are SLF4J's requirements?</a></li>
 
-    <li><a href="#changesInVersion18">What has changed in SLF4J version 1.8.0?</a></li>
+    <li><a href="#changesInVersion200">What has changed in SLF4J version 2.0.0?</a></li>
     
     <li><a href="#compatibility">Are SLF4J versions backward
     compatible?</a></li>
@@ -96,6 +96,13 @@
       Maven dependency?
       </a>
     </li>
+
+    <li>
+      <a href="#jmpsModuleNames">What are the JMPS module names of the
+      various SLF4J artificats?
+      </a>
+    </li>
+
   </ol>
   
   
@@ -352,37 +359,38 @@
     </dd>
 
     <!-- ==================================================== -->
-    <dt class="doAnchor" name="changesInVersion18">
-      What has changed in SLF4J version 1.8.0?
+    <dt class="doAnchor" name="changesInVersion200">
+      What has changed in SLF4J version 2.0.0?
     </dt>
 
     <dd>
-      <p><span class="label notice">Applicable to 2.x</span> Note that the
-      2.0.x series builds upon the 1.8.x series, as such the remarks
-      below are applicable to SLF4J 2.x as well.</p>
-      
-      <p>There are no client facing API changes in 1.8.x. For most
-      users upgrading to version 1.8.x should be a drop-in replacement
+     
+      <p>There are no client facing API changes in 2.0.x. For most
+      users upgrading to version 2.0..x should be a drop-in replacement
       as long as the logging provider is updated as well.
       </p>
       
 
-      <p>In version 1.8.0, SLF4J has been modularized per <a
+      <p>In version 2.0.0, SLF4J has been modularized per <a
       href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
-      specificaton. Moreover, slf4j-api now relies on the <a
+      specificaton. The <a href="#jmpsModuleNames">JMPS module names</a> are listed
+      in another FAQ entry.</p>
+
+      <p>More visibly, slf4j-api now relies on the <a
       href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
-      mechanism to find its logging backend. Earlier versions relied
-      on the static binder mechanism which is no loger honored by
-      slf4j-api version 1.8.x. More specifically, when initializing
-      the <code>LoggerFactory</code> class will no longer search for
-      the <code>StaticLoggerBinder</code> class on the class path.</p>
+      mechanism to find its logging backend. SLF4J 1.7.x and earlier
+      versions relied on the static binder mechanism which is no loger
+      honored by slf4j-api version 2.0.x. More specifically, when
+      initializing the <code>LoggerFactory</code> class will no longer
+      search for the <code>StaticLoggerBinder</code> class on the
+      class path.</p>
 
   
       <p>Instead of "bindings" now
       <code>org.slf4j.LoggerFactory</code> searches for
       "providers". These ship for example with
-      <em>slf4j-nop-1.8.x.jar</em>, <em>slf4j-simple-1.8.x.jar</em> or
-      <em>slf4j-jdk14-1.8.x.jar</em>.
+      <em>slf4j-nop-2.0.x.jar</em>, <em>slf4j-simple-2.0.x.jar</em> or
+      <em>slf4j-jdk14-2.0.x.jar</em>.
       </p>
       
       <p>The following table describes the results when various
@@ -402,26 +410,26 @@
         </tr>
         <tr class="striped">
           
-          <td>1.8.x</td>
-          <td>1.8.x</td>
+          <td>2.0.x</td>
+          <td>2.0.x</td>
           <td>OK</td>
           <td>Same version for slf4j-api and provider</td>
         </tr>
         
         <tr class="striped">
           <td>1.7.x</td>
-          <td>1.8.x</td>
+          <td>2.0.x</td>
           <td>no bindings can be found warning message</td>
-          <td>A 1.8.x providers do <b>not</b> act as 1.7.x/16.x
+          <td>A 2.0.x providers do <b>not</b> act as 1.7.x/16.x
           comptatible bindings</td>
         </tr>
         
         <tr class="striped">
           
-          <td>1.8.x</td>
+          <td>2.0.x</td>
           <td>1.7.x</td>
           <td>no providers can be found warning message</td>
-          <td>slf4j-api 1.8.x will no longer search for
+          <td>slf4j-api 2.0.x will no longer search for
           <code>StaticLoggerBinding</code></td>
         </tr>
         
@@ -852,7 +860,49 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
     </dd>
     
+    <dt class="doAnchor" name="jmpsModuleNames">What are the JMPS
+    module names of the various SLF4J artificats?
+    </dt>
     
+    <dd>
+      <p>Although compatible with Java 8, SLF4J version 2.0 supports
+      JMPS modularisation as introduced in Java 9. Here are the JMPS
+      module names for the various artificats shipping in SLF4J.</p>
+
+      <table class="bodyTable striped" cellspacing="4" cellpadding="4">
+        <tr>
+          <th>artifact name</th>
+          <th>JMPS module name</th>
+        </tr>
+        <tr>
+          <td>slf4j-api.jar</td> 
+          <td>org.slf4j</td>                   
+        </tr>
+        <tr>
+          <td>slf4j-simple.jar</td> 
+          <td>org.slf4j.simple</td>                   
+        </tr>
+        <tr>
+          <td>slf4j-jdk14.jar</td> 
+          <td>org.slf4j.jul</td>                   
+        </tr>
+        <tr>
+          <td>slf4j-nop.jar</td> 
+          <td>org.slf4j.nop</td>                   
+        </tr>
+
+        <tr>
+          <td>jcl-over-slf4j.jar</td> 
+          <td>org.apache.commons.logging</td>                   
+        </tr>
+
+        <tr>
+          <td>log4j-over-slf4j.jar</td> 
+          <td>log4j</td>                   
+        </tr>
+        
+      </table>
+    </dd>
     
   </dl>
   
