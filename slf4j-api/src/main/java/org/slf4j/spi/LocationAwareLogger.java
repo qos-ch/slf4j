@@ -39,8 +39,8 @@ import org.slf4j.Marker;
  */
 public interface LocationAwareLogger extends Logger {
 
-    // these constants should be in EventContants. However, in order to preserve binary backward compatibility
-    // we keep these constants here
+    // these constants should be in EventConstants. However, in order to preserve binary backward compatibility
+    // we keep these constants here. {@link EventConstants} redefines these constants using the values  below.
     final public int TRACE_INT = 00;
     final public int DEBUG_INT = 10;
     final public int INFO_INT = 20;

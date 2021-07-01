@@ -26,8 +26,8 @@ package org.slf4j.ext;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
-import org.slf4j.helpers.FormattingTuple;
-import org.slf4j.helpers.MessageFormatter;
+//import org.slf4j.helpers.FormattingTuple;
+//import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -40,8 +40,7 @@ import org.slf4j.spi.LocationAwareLogger;
 public class LoggerWrapper implements Logger {
 
     // To ensure consistency between two instances sharing the same name
-    // (homonyms)
-    // a LoggerWrapper should not contain any state beyond
+    // (homonyms) a LoggerWrapper should not contain any state beyond
     // the Logger instance it wraps.
     // Note that 'instanceofLAL' directly depends on Logger.
     // fqcn depend on the caller, but its value would not be different
@@ -98,8 +97,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, format, new Object[] { arg }, null);
         } else {
             logger.trace(format, arg);
         }
@@ -113,8 +111,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.trace(format, arg1, arg2);
         }
@@ -128,8 +125,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.TRACE_INT, format, args, null);
         } else {
             logger.trace(format, args);
         }
@@ -169,8 +165,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isTraceEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.TRACE_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.TRACE_INT, format, new Object[] { arg }, null);
         } else {
             logger.trace(marker, format, arg);
         }
@@ -183,8 +178,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isTraceEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.TRACE_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.TRACE_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.trace(marker, format, arg1, arg2);
         }
@@ -197,8 +191,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isTraceEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.TRACE_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.TRACE_INT, format, args, null);
         } else {
             logger.trace(marker, format, args);
         }
@@ -253,8 +246,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.DEBUG_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.DEBUG_INT, format, new Object[] { arg }, null);
         } else {
             logger.debug(format, arg);
         }
@@ -268,8 +260,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.DEBUG_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.DEBUG_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.debug(format, arg1, arg2);
         }
@@ -283,8 +274,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.DEBUG_INT, format, argArray, null);
         } else {
             logger.debug(format, argArray);
         }
@@ -324,8 +314,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isDebugEnabled(marker))
             return;
         if (instanceofLAL) {
-            FormattingTuple ft = MessageFormatter.format(format, arg);
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.DEBUG_INT, ft.getMessage(), ft.getArgArray(), ft.getThrowable());
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.DEBUG_INT, format, new Object[] { arg }, null);
         } else {
             logger.debug(marker, format, arg);
         }
@@ -338,8 +327,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isDebugEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.DEBUG_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.DEBUG_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.debug(marker, format, arg1, arg2);
         }
@@ -353,8 +341,7 @@ public class LoggerWrapper implements Logger {
             return;
         if (instanceofLAL) {
 
-            FormattingTuple ft = MessageFormatter.arrayFormat(format, argArray);
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.DEBUG_INT, ft.getMessage(), argArray, ft.getThrowable());
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.DEBUG_INT, format, argArray, null);
         } else {
             logger.debug(marker, format, argArray);
         }
@@ -409,8 +396,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.INFO_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.INFO_INT, format, new Object[] { arg }, null);
         } else {
             logger.info(format, arg);
         }
@@ -424,8 +410,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.INFO_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.INFO_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.info(format, arg1, arg2);
         }
@@ -439,8 +424,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.INFO_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.INFO_INT, format, args, null);
         } else {
             logger.info(format, args);
         }
@@ -480,8 +464,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isInfoEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.INFO_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.INFO_INT, format, new Object[] { arg }, null);
         } else {
             logger.info(marker, format, arg);
         }
@@ -494,8 +477,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isInfoEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.INFO_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.INFO_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.info(marker, format, arg1, arg2);
         }
@@ -508,8 +490,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isInfoEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.INFO_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.INFO_INT, format, args, null);
         } else {
             logger.info(marker, format, args);
         }
@@ -561,8 +542,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.WARN_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.WARN_INT, format, new Object[] { arg }, null);
         } else {
             logger.warn(format, arg);
         }
@@ -576,8 +556,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.WARN_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.WARN_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.warn(format, arg1, arg2);
         }
@@ -591,8 +570,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.WARN_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.WARN_INT, format, args, null);
         } else {
             logger.warn(format, args);
         }
@@ -632,8 +610,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isWarnEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.WARN_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.WARN_INT, format, new Object[] { arg }, null);
         } else {
             logger.warn(marker, format, arg);
         }
@@ -646,8 +623,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isWarnEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.WARN_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.WARN_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.warn(marker, format, arg1, arg2);
         }
@@ -660,8 +636,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isWarnEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.WARN_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.WARN_INT, format, args, null);
         } else {
             logger.warn(marker, format, args);
         }
@@ -716,8 +691,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.ERROR_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.ERROR_INT, format, new Object[] { arg }, null);
         } else {
             logger.error(format, arg);
         }
@@ -731,8 +705,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.ERROR_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.ERROR_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.error(format, arg1, arg2);
         }
@@ -746,8 +719,7 @@ public class LoggerWrapper implements Logger {
             return;
 
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.ERROR_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(null, fqcn, LocationAwareLogger.ERROR_INT, format, args, null);
         } else {
             logger.error(format, args);
         }
@@ -787,8 +759,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isErrorEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.ERROR_INT, formattedMessage, new Object[] { arg }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.ERROR_INT, format, new Object[] { arg }, null);
         } else {
             logger.error(marker, format, arg);
         }
@@ -801,8 +772,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isErrorEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.format(format, arg1, arg2).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.ERROR_INT, formattedMessage, new Object[] { arg1, arg2 }, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.ERROR_INT, format, new Object[] { arg1, arg2 }, null);
         } else {
             logger.error(marker, format, arg1, arg2);
         }
@@ -815,8 +785,7 @@ public class LoggerWrapper implements Logger {
         if (!logger.isErrorEnabled(marker))
             return;
         if (instanceofLAL) {
-            String formattedMessage = MessageFormatter.arrayFormat(format, args).getMessage();
-            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.ERROR_INT, formattedMessage, args, null);
+            ((LocationAwareLogger) logger).log(marker, fqcn, LocationAwareLogger.ERROR_INT, format, args, null);
         } else {
             logger.error(marker, format, args);
         }
