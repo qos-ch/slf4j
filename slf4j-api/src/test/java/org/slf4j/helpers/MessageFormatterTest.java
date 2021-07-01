@@ -50,6 +50,15 @@ public class MessageFormatterTest {
     }
 
     @Test
+    public void testParamaterContainingAnAnchor() {
+        result = MessageFormatter.format("Value is {}.", "[{}]").getMessage();
+        assertEquals("Value is [{}].", result);
+
+        result = MessageFormatter.format("Values are {} and {}.", i1, "[{}]").getMessage();
+        assertEquals("Values are 1 and [{}].", result);
+    }
+    
+    @Test
     public void nullParametersShouldBeHandledWithoutBarfing() {
         result = MessageFormatter.format("Value is {}.", null).getMessage();
         assertEquals("Value is null.", result);

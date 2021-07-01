@@ -37,7 +37,7 @@
      class names in <code/>
    -->
 
-   <!--
+   
    
    <hr noshade="noshade" size="1"/>
 
@@ -82,7 +82,19 @@
    Goers.
    </p>
 
-   -->
+   <p>Printing methods in the <code>LoggerWrapper</code> class part of
+   slf4j-ext spuriously called <code>MessageFormatter.format()</code>
+   method before delegating logging to the wrapped logger. However,
+   the wrapped logger invoked <code>MessageFormatter.format()</code> a
+   second time. The second call is usually innocuous unless the String
+   representation of any of the arguments contain the anchor
+   character, for example if an argument is an empty
+   <code>Set</code>. The spurious calls to
+   <code>MessageFormatter.format()</code> were removed fixing <a
+   href="https://jira.qos.ch/browse/SLF4J-421">SLF4J-421</a> and <a
+   href="https://jira.qos.ch/browse/SLF4J-287">SLF4J-287</a>.
+
+   
    
    
    <h3>18th of June, 2021 - Release of SLF4J 1.7.31</h3>
