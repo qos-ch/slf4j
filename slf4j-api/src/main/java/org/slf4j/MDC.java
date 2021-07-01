@@ -227,6 +227,8 @@ public class MDC {
      * then copying the map passed as parameter. The context map passed as
      * parameter must only contain keys and values of type String.
      * 
+     * Null valued argument is allowed (since SLF4J version 2.0.0).
+     * 
      * @param contextMap
      *          must contain only keys and values of type String
      * @since 1.5.1
