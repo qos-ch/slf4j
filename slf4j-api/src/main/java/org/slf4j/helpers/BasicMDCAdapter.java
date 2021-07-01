@@ -141,6 +141,10 @@ public class BasicMDCAdapter implements MDCAdapter {
     }
 
     public void setContextMap(Map<String, String> contextMap) {
-        inheritableThreadLocal.set(new HashMap<String, String>(contextMap));
+        Map<String, String> copy = null;
+        if(contextMap != null) {
+            copy = new HashMap<String, String>(contextMap);
+        }
+        inheritableThreadLocal.set(copy);
     }
 }
