@@ -33,7 +33,10 @@ sure that your code passes existing unit tests. Please add unit tests
 for your work if appropriate. It usually is.
 
 4. All commits must have signed off by the contributor attesting to
-[Developer Certificate of Origin (DCO)](https://developercertificate.org/).
+[Developer Certificate of Origin
+(DCO)](https://developercertificate.org/). Commits without sign off
+will be automatically rejected by the [DCO github
+check](https://probot.github.io/apps/dco/) application.
 
 5. Push your changes to your fork/branch in github. Don't push it to
 your master! If you do it will make it harder to submit new changes
