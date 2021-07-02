@@ -41,7 +41,7 @@
    
    <hr noshade="noshade" size="1"/>
 
-   <h3>XXth of June, 2021 - Release of SLF4J 2.0.0-alpha2</h3>
+   <h3>2nd of July, 2021 - Release of SLF4J 2.0.0-alpha2</h3>
 
    <p class="highlight">The the 2.0.x series requires Java&nbsp;8 and
    adds a backward-compatible <a
@@ -61,22 +61,21 @@
    not have to be changed for the user to benefit from the fluent
    logging API.
    </p>
-
-   
-   <p>Fixed important bug in the fluent API. The
+        
+   <p>&bull; Fixed important bug in the fluent API. The
    <code>LoggingEventBuilder.addArgument(Supplier)</code> method now
    takes <code>Supplier&lt;?&gt;</code> and not
    <code>Supplier&lt;Object&gt;</code>. This problem was reported in
    <a href="https://jira.qos.ch/browse/SLF4J-485">SLF4J-485</a> by
    Christoffer Hammarstr&ouml;m who also provided a relevant test case.</p>
-   
-   </p>
-   <p>Added support for the native OSGi service loader mechanism as
+ 
+ 
+   <p>&bull; Added support for the native OSGi service loader mechanism as
    described in <a
    href="https://jira.qos.ch/browse/SLF4J-457">SLF4J-457</a>. Our
    gratidude goes to Bj&ouml;rn Kautler for ptoviding the relevant PR.</p>
 
-   <p>Fixed inccorect location information computation when fluent API
+   <p>&bull;Fixed inccorect location information computation when fluent API
    is used. This issue was reported in <a
    href="https://jira.qos.ch/browse/SLF4J-511">SLF4J-511</a> by Ralph
    Goers.
@@ -94,7 +93,7 @@
    href="https://jira.qos.ch/browse/SLF4J-421">SLF4J-421</a> and <a
    href="https://jira.qos.ch/browse/SLF4J-287">SLF4J-287</a>.</p>
 
-   <p>The implementations of the
+   <p>&bull; The implementations of the
    <code>MDCAdapter.setContextMap()</code> methods shipping with SLF4J
    now cater for a null argument. This fixes <a
    href="https://jira.qos.ch/browse/SLF4J-414">SLF4J-414</a>. Both
