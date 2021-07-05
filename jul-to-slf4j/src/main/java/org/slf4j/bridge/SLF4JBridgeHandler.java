@@ -24,6 +24,9 @@
  */
 package org.slf4j.bridge;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -64,6 +67,15 @@ import org.slf4j.spi.LocationAwareLogger;
  * <pre>
  * // register SLF4JBridgeHandler as handler for the j.u.l. root logger
  * handlers = org.slf4j.bridge.SLF4JBridgeHandler</pre>
+ * <p><b>Installation via {@link org.slf4j.bridge.SLF4JBridgeHandler.Initializer}
+ * configuration class:</b></p>
+ * <p>Set the "java.util.logging.config.class" system property to
+ * {@code org.slf4j.bridge.SLF4JBridgeHandler.Initializer} prior to
+ * {@link java.util.logging.LogManager j.u.l.LogManager} startup.</p>
+ * <p>e.g.<code>java
+ * -Djava.util.logging.config.class=org.slf4j.bridge.SLF4JBridgeHandler.Initializer
+ * ...</code></p>
+ * <p><b>After installation:</b></p>
  * <p>Once SLF4JBridgeHandler is installed, logging by j.u.l. loggers will be directed to
  * SLF4J. Example: 
  * <pre>
@@ -103,6 +115,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Joern Huxhorn
  * @author Ceki G&uuml;lc&uuml;
  * @author Darryl Smith
+ * @author Mark Fulton
  * @since 1.5.1
  */
 public class SLF4JBridgeHandler extends Handler {
@@ -316,4 +329,27 @@ public class SLF4JBridgeHandler extends Handler {
         }
     }
 
+    /**
+     * A j.u.l. configuration class which registers {@link SLF4JBridgeHandler} as handler for the j.u.l. root logger.
+     * <p/>
+     * Intended to be used in conjunction with the <em>java.util.logging.config.class</em> system property,
+     * for example using <code>-Djava.util.logging.config.class=org.slf4j.bridge.SLF4JBridgeHandler.Initializer</code>
+     *
+     * @author Mark Fulton
+     * @see java.util.logging.LogManager
+     */
+    public static class Initializer {
+
+        /**
+         * Registers {@link SLF4JBridgeHandler} as handler for the j.u.l. root logger.
+         *
+         * @throws IOException will never happen from in-memory stream.
+         */
+        public Initializer() throws IOException{
+            String loggingConfigurationString = "handlers = " + SLF4JBridgeHandler.class.getName();
+            InputStream inputStream = new ByteArrayInputStream(loggingConfigurationString.getBytes());
+            LogManager.getLogManager().readConfiguration(inputStream);
+        }
+
+    }
 }
