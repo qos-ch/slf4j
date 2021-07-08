@@ -36,8 +36,6 @@ public class StateCheckingPrintStream extends PrintStream {
         INITIAL, UNKNOWN, HELLO, THROWABLE, AT1, AT2, OTHER;
     }
 
-    PrintStream other;
-
     List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
 
     State currentState = State.INITIAL;

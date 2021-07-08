@@ -90,7 +90,7 @@ public class MultithereadedExecutionTest {
         Logger logger = LoggerFactory.getLogger(WithException.class);
 
         @Override
-        public void run() { // TODO Auto-generated method stub
+        public void run() { 
             int i = 0;
 
             while (!signal) {
@@ -106,7 +106,7 @@ public class MultithereadedExecutionTest {
 
         }
     }
-
+ 
     class Other implements Runnable {
         Throwable throwable;
         Logger logger = LoggerFactory.getLogger(Other.class);

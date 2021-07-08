@@ -159,10 +159,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     protected static final int LOG_LEVEL_OFF = LOG_LEVEL_ERROR + 10;
 
     private static boolean INITIALIZED = false;
-    static SimpleLoggerConfiguration CONFIG_PARAMS = null;
-
-    private static final long MAX_TRY_LOCK_DURATION = 200L;
-    static ReentrantLock lock = new ReentrantLock();
+    static private SimpleLoggerConfiguration CONFIG_PARAMS = null;
 
     static void lazyInit() {
         if (INITIALIZED) {
@@ -320,15 +317,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
     void write(StringBuilder buf, Throwable t) {
         PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
-        try {
-            lock.tryLock(MAX_TRY_LOCK_DURATION, TimeUnit.MILLISECONDS);
+        synchronized (CONFIG_PARAMS) {
             targetStream.println(buf.toString());
             writeThrowable(t, targetStream);
             targetStream.flush();
-        } catch (InterruptedException e) {
-        } finally {
-            lock.unlock();
         }
+
     }
 
     protected void writeThrowable(Throwable t, PrintStream targetStream) {
