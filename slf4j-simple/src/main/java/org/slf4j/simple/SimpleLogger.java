@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2012 QOS.ch
+ * Copyright (c) 2004-2021 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -28,6 +28,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -164,6 +166,9 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     private static boolean INITIALIZED = false;
     static SimpleLoggerConfiguration CONFIG_PARAMS = null;
+    
+    private static final long MAX_TRY_LOCK_DURATION = 200L;
+    static ReentrantLock lock = new ReentrantLock();
 
     static void lazyInit() {
         if (INITIALIZED) {
@@ -243,9 +248,16 @@ public class SimpleLogger extends LegacyAbstractLogger {
     void write(StringBuilder buf, Throwable t) {
         PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
-        targetStream.println(buf.toString());
-        writeThrowable(t, targetStream);
-        targetStream.flush();
+        try {
+            lock.tryLock(MAX_TRY_LOCK_DURATION, TimeUnit.MILLISECONDS);
+            targetStream.println(buf.toString());
+            writeThrowable(t, targetStream);
+            targetStream.flush();
+        } catch (InterruptedException e) {
+        } finally {
+            lock.unlock();
+        }
+
     }
 
     protected void writeThrowable(Throwable t, PrintStream targetStream) {
