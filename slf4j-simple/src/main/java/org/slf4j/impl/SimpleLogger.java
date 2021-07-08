@@ -26,6 +26,8 @@ package org.slf4j.impl;
 
 import java.io.PrintStream;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.event.LoggingEvent;
@@ -158,6 +160,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
 
     private static boolean INITIALIZED = false;
     static SimpleLoggerConfiguration CONFIG_PARAMS = null;
+
+    private static final long MAX_TRY_LOCK_DURATION = 200L;
+    static ReentrantLock lock = new ReentrantLock();
 
     static void lazyInit() {
         if (INITIALIZED) {
@@ -315,9 +320,15 @@ public class SimpleLogger extends MarkerIgnoringBase {
     void write(StringBuilder buf, Throwable t) {
         PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
-        targetStream.println(buf.toString());
-        writeThrowable(t, targetStream);
-        targetStream.flush();
+        try {
+            lock.tryLock(MAX_TRY_LOCK_DURATION, TimeUnit.MILLISECONDS);
+            targetStream.println(buf.toString());
+            writeThrowable(t, targetStream);
+            targetStream.flush();
+        } catch (InterruptedException e) {
+        } finally {
+            lock.unlock();
+        }
     }
 
     protected void writeThrowable(Throwable t, PrintStream targetStream) {
