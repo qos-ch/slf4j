@@ -157,7 +157,7 @@ public class SimpleLogger extends MarkerIgnoringBase {
     protected static final int LOG_LEVEL_OFF = LOG_LEVEL_ERROR + 10;
 
     private static boolean INITIALIZED = false;
-    static private SimpleLoggerConfiguration CONFIG_PARAMS = null;
+    static final private SimpleLoggerConfiguration CONFIG_PARAMS =  new SimpleLoggerConfiguration();
 
     static void lazyInit() {
         if (INITIALIZED) {
@@ -170,7 +170,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
     // external software might be invoking this method directly. Do not rename
     // or change its semantics.
     static void init() {
-        CONFIG_PARAMS = new SimpleLoggerConfiguration();
         CONFIG_PARAMS.init();
     }
 
