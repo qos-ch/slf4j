@@ -25,9 +25,6 @@
 package org.slf4j.simple.multiThreadedExecution;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class StateCheckingPrintStream extends PrintStream {
@@ -38,9 +35,7 @@ public class StateCheckingPrintStream extends PrintStream {
 
     PrintStream other;
 
-    List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
-
-    State currentState = State.INITIAL;
+    volatile State currentState = State.INITIAL;
 
     public StateCheckingPrintStream(PrintStream ps) {
         super(ps);
@@ -100,8 +95,6 @@ public class StateCheckingPrintStream extends PrintStream {
         default:
             throw new IllegalStateException("Unreachable code");
         }
-
-        stringList.add(s);
     }
 
     private IllegalStateException badState(String s, State currentState2, State next) {

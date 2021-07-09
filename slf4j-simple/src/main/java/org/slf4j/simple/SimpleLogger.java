@@ -28,8 +28,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -167,9 +165,6 @@ public class SimpleLogger extends LegacyAbstractLogger {
     private static boolean INITIALIZED = false;
     static SimpleLoggerConfiguration CONFIG_PARAMS = null;
     
-    private static final long MAX_TRY_LOCK_DURATION = 200L;
-    static ReentrantLock lock = new ReentrantLock();
-
     static void lazyInit() {
         if (INITIALIZED) {
             return;
@@ -245,18 +240,21 @@ public class SimpleLogger extends LegacyAbstractLogger {
         return levelString;
     }
 
+    /**
+     * To avoid intermingling of log messages and associated stack traces, the two
+     * operations are done in a synchronized block.
+     * 
+     * @param buf
+     * @param t
+     */
     void write(StringBuilder buf, Throwable t) {
         PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
-        try {
-            lock.tryLock(MAX_TRY_LOCK_DURATION, TimeUnit.MILLISECONDS);
+        synchronized (CONFIG_PARAMS) {
             targetStream.println(buf.toString());
             writeThrowable(t, targetStream);
             targetStream.flush();
-        } catch (InterruptedException e) {
-        } finally {
-            lock.unlock();
-        }
+        } 
 
     }
 
