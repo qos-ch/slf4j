@@ -42,6 +42,8 @@ public class MultithereadedExecutionTest {
     private static int THREAD_COUNT = 2;
     private Thread[] threads = new Thread[THREAD_COUNT];
 
+    private static long TEST_DURATION_IN_MILLIS = 100;
+    
     private final PrintStream oldOut = System.out;
     StateCheckingPrintStream scps = new StateCheckingPrintStream(oldOut);
 
@@ -69,7 +71,7 @@ public class MultithereadedExecutionTest {
         threads[1] = new Thread(other);
         threads[0].start();
         threads[1].start();
-        Thread.sleep(100);
+        Thread.sleep(TEST_DURATION_IN_MILLIS);
         signal = true;
         threads[0].join();
         threads[1].join();
@@ -86,7 +88,7 @@ public class MultithereadedExecutionTest {
 
     class WithException implements Runnable {
 
-        Throwable throwable;
+        volatile Throwable throwable;
         Logger logger = LoggerFactory.getLogger(WithException.class);
 
         @Override
@@ -108,7 +110,7 @@ public class MultithereadedExecutionTest {
     }
 
     class Other implements Runnable {
-        Throwable throwable;
+        volatile Throwable throwable;
         Logger logger = LoggerFactory.getLogger(Other.class);
 
         @Override
