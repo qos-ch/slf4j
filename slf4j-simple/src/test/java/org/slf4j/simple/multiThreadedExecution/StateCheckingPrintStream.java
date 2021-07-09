@@ -25,20 +25,20 @@
 package org.slf4j.simple.multiThreadedExecution;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * This PrintStream checks that output lines are in an expected order.
+ * 
+ * @author ceki
+ */
 public class StateCheckingPrintStream extends PrintStream {
 
     enum State {
         INITIAL, UNKNOWN, HELLO, THROWABLE, AT1, AT2, OTHER;
     }
 
-    List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
-
-    State currentState = State.INITIAL;
+    volatile State currentState = State.INITIAL;
 
     public StateCheckingPrintStream(PrintStream ps) {
         super(ps);
@@ -57,6 +57,7 @@ public class StateCheckingPrintStream extends PrintStream {
             break;
 
         case UNKNOWN:
+            // ignore garbage
             currentState = next;
             break;
 
@@ -98,8 +99,6 @@ public class StateCheckingPrintStream extends PrintStream {
         default:
             throw new IllegalStateException("Unreachable code");
         }
-
-        stringList.add(s);
     }
 
     private IllegalStateException badState(String s, State currentState2, State next) {

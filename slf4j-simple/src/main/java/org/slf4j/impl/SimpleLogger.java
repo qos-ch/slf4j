@@ -26,8 +26,6 @@ package org.slf4j.impl;
 
 import java.io.PrintStream;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.event.LoggingEvent;
@@ -314,6 +312,13 @@ public class SimpleLogger extends MarkerIgnoringBase {
         throw new IllegalStateException("Unrecognized level [" + level + "]");
     }
 
+    /**
+     * To avoid intermingling of log messages and associated stack traces, the two
+     * operations are done in a synchronized block.
+     * 
+     * @param buf
+     * @param t
+     */
     void write(StringBuilder buf, Throwable t) {
         PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
