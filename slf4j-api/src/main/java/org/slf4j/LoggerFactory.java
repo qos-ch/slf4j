@@ -36,7 +36,7 @@ import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
-import org.slf4j.helpers.NOPServiceProvider;
+import org.slf4j.helpers.NOP_FallbackServiceProvider;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
 
@@ -88,7 +88,7 @@ public final class LoggerFactory {
 
     static volatile int INITIALIZATION_STATE = UNINITIALIZED;
     static final SubstituteServiceProvider SUBST_PROVIDER = new SubstituteServiceProvider();
-    static final NOPServiceProvider NOP_FALLBACK_FACTORY = new NOPServiceProvider();
+    static final NOP_FallbackServiceProvider NOP_FALLBACK_SERVICE_PROVIDER = new NOP_FallbackServiceProvider();
 
     // Support for detecting mismatched logger names.
     static final String DETECT_LOGGER_NAME_MISMATCH_PROPERTY = "slf4j.detectLoggerNameMismatch";
@@ -426,7 +426,7 @@ public final class LoggerFactory {
         case SUCCESSFUL_INITIALIZATION:
             return PROVIDER;
         case NOP_FALLBACK_INITIALIZATION:
-            return NOP_FALLBACK_FACTORY;
+            return NOP_FALLBACK_SERVICE_PROVIDER;
         case FAILED_INITIALIZATION:
             throw new IllegalStateException(UNSUCCESSFUL_INIT_MSG);
         case ONGOING_INITIALIZATION:
