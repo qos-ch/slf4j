@@ -14,7 +14,7 @@ public class SimpleServiceProvider implements SLF4JServiceProvider {
      * The value of this field is modified with each major release. 
      */
     // to avoid constant folding by the compiler, this field must *not* be final
-    public static String REQUESTED_API_VERSION = "1.8.99"; // !final
+    public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
     private ILoggerFactory loggerFactory;
     private IMarkerFactory markerFactory;
@@ -24,15 +24,18 @@ public class SimpleServiceProvider implements SLF4JServiceProvider {
         return loggerFactory;
     }
 
+    @Override
     public IMarkerFactory getMarkerFactory() {
         return markerFactory;
     }
 
+    @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }
 
-    public String getRequesteApiVersion() {
+    @Override
+    public String getRequestedApiVersion() {
         return REQUESTED_API_VERSION;
     }
 

@@ -14,16 +14,18 @@ public class JULServiceProvider implements SLF4JServiceProvider {
      * against. The value of this field is modified with each major release.
      */
     // to avoid constant folding by the compiler, this field must *not* be final
-    public static String REQUESTED_API_VERSION = "1.8.99"; // !final
+    public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
     private ILoggerFactory loggerFactory;
     private IMarkerFactory markerFactory;
     private MDCAdapter mdcAdapter;
 
+    @Override
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }
 
+    @Override
     public IMarkerFactory getMarkerFactory() {
         return markerFactory;
     }
@@ -32,10 +34,12 @@ public class JULServiceProvider implements SLF4JServiceProvider {
         return mdcAdapter;
     }
 
-    public String getRequesteApiVersion() {
+    @Override
+    public String getRequestedApiVersion() {
         return REQUESTED_API_VERSION;
     }
 
+    @Override
     public void initialize() {
         loggerFactory = new JDK14LoggerFactory();
         markerFactory = new BasicMarkerFactory();
