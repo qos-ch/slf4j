@@ -114,7 +114,7 @@ public final class LoggerFactory {
      * <p>
      * It is assumed that all versions in the 1.6 are mutually compatible.
      */
-    static private final String[] API_COMPATIBILITY_LIST = new String[] { "1.8", "1.7" };
+    static private final String[] API_COMPATIBILITY_LIST = new String[] { "2.0" };
 
     // private constructor prevents instantiation
     private LoggerFactory() {
@@ -294,7 +294,7 @@ public final class LoggerFactory {
 
     private final static void versionSanityCheck() {
         try {
-            String requested = PROVIDER.getRequesteApiVersion();
+            String requested = PROVIDER.getRequestedApiVersion();
 
             boolean match = false;
             for (String aAPI_COMPATIBILITY_LIST : API_COMPATIBILITY_LIST) {

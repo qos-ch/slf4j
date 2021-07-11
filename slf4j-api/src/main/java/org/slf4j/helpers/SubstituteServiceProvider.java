@@ -30,7 +30,7 @@ public class SubstituteServiceProvider implements SLF4JServiceProvider {
     }
 
     @Override
-    public String getRequesteApiVersion() {
+    public String getRequestedApiVersion() {
         throw new UnsupportedOperationException();
     }
 
