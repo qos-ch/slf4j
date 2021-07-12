@@ -205,23 +205,17 @@ final public class MessageFormatter {
                     return new FormattingTuple(sbuf.toString(), argArray, throwable);
                 }
             } else {
-                if (isEscapedDelimeter(messagePattern, j)) {
-                    if (!isDoubleEscaped(messagePattern, j)) {
-                        L--; // DELIM_START was escaped, thus should not be incremented
-                        sbuf.append(messagePattern, i, j - 1);
-                        sbuf.append(DELIM_START);
-                        i = j + 1;
-                    } else {
-                        // The escape character preceding the delimiter start is
-                        // itself escaped: "abc x:\\{}"
-                        // we have to consume one backward slash
-                        sbuf.append(messagePattern, i, j - 1);
-                        deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>());
-                        i = j + 2;
-                    }
+                int escapeChars = countEscapeChars(messagePattern, j);
+                if (escapeChars % 2 == 1) {
+                    L--; // DELIM_START was escaped, thus should not be incremented
+                    sbuf.append(messagePattern, i, j - 1 - (escapeChars / 2));
+                    sbuf.append(DELIM_START);
+                    i = j + 1;
                 } else {
-                    // normal case
-                    sbuf.append(messagePattern, i, j);
+                    // The escape character preceding the delimiter start is
+                    // itself escaped: "abc x:\\{}"
+                    // we have to consume one backward slash
+                    sbuf.append(messagePattern, i, j - (escapeChars / 2));
                     deeplyAppendParameter(sbuf, argArray[L], new HashMap<Object[], Object>());
                     i = j + 2;
                 }
@@ -232,25 +226,24 @@ final public class MessageFormatter {
         return new FormattingTuple(sbuf.toString(), argArray, throwable);
     }
 
-    final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
-
-        if (delimeterStartIndex == 0) {
-            return false;
+    /**
+     * Count how many escape chars exist before the delimiter.
+     * @param messagePattern The message pattern to count escape chars.
+     * @param delimiterStartIndex The 0-based index of the target delimiter.
+     * @return the number of escape chars
+     */
+    final static int countEscapeChars(String messagePattern, int delimiterStartIndex) {
+        int count = 0;
+        int index = delimiterStartIndex - 1;
+        while (0 <= index) {
+            char potentialEscape = messagePattern.charAt(index);
+            if (potentialEscape != ESCAPE_CHAR) {
+                break;
+            }
+            ++count;
+            --index;
         }
-        char potentialEscape = messagePattern.charAt(delimeterStartIndex - 1);
-        if (potentialEscape == ESCAPE_CHAR) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    final static boolean isDoubleEscaped(String messagePattern, int delimeterStartIndex) {
-        if (delimeterStartIndex >= 2 && messagePattern.charAt(delimeterStartIndex - 2) == ESCAPE_CHAR) {
-            return true;
-        } else {
-            return false;
-        }
+        return count;
     }
 
     // special treatment of array values was suggested by 'lizongbo'
