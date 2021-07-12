@@ -380,6 +380,18 @@ public class Category {
         // nothing to do
     }
 
+    public void removeAllAppenders() {
+    	 // nothing to do
+    }
+
+    public void removeAppender(Appender appender) {
+    	 // nothing to do
+    }
+
+    public void removeAppender(String name) {
+    	 // nothing to do
+    }
+
     public void setLevel(Level level) {
         // nothing to do
     }
