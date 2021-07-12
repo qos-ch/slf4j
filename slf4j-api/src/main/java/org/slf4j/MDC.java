@@ -52,7 +52,7 @@ import org.slf4j.spi.SLF4JServiceProvider;
  * 
  * <p>
  * For more information on MDC please see the <a
- * href="http://logback.qos.ch/manual/mdc.html">chapter on MDC</a> in the
+ * href="https://logback.qos.ch/manual/mdc.html">chapter on MDC</a> in the
  * logback manual.
  * 
  * <p>
