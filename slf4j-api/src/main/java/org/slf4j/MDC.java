@@ -25,7 +25,10 @@
 package org.slf4j;
 
 import java.io.Closeable;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.NOPMDCAdapter;
@@ -68,17 +71,21 @@ public class MDC {
     static MDCAdapter mdcAdapter;
 
     /**
-     * An adapter to remove the key when done.
+     * An adapter to remove the key(s) when done.
      */
     public static class MDCCloseable implements Closeable {
-        private final String key;
+        private final Set<String> keys;
 
-        private MDCCloseable(String key) {
-            this.key = key;
+        private MDCCloseable(Set<String> keys) {
+            this.keys = keys;
         }
 
         public void close() {
-            MDC.remove(this.key);
+            Iterator<String> keyIterator = this.keys.iterator();
+            while(keyIterator.hasNext()) {
+                MDC.remove(keyIterator.next());
+            }
+            keys.clear();
         }
     }
 
@@ -130,7 +137,7 @@ public class MDC {
      * <p>
      * This method delegates all work to the MDC of the underlying logging system.
      * <p>
-     * This method return a <code>Closeable</code> object who can remove <code>key</code> when
+     * This method return a <code>Closeable</code> object who can remove <code>key(s)</code> when
      * <code>close</code> is called.
      *
      * <p>
@@ -143,15 +150,25 @@ public class MDC {
      *
      * @param key non-null key
      * @param val value to put in the map
-     * @return a <code>Closeable</code> who can remove <code>key</code> when <code>close</code>
+     * @param keyValuePairs other key-value pairs to put in the map
+     * @return a <code>Closeable</code> who can remove the <code>key(s)</code> when <code>close</code>
      * is called.
      *
      * @throws IllegalArgumentException
-     *           in case the "key" parameter is null
+     *           in case the "key" parameter is null or if <code>keyValuePairs</code> is supplied, if its length is odd
      */
-    public static MDCCloseable putCloseable(String key, String val) throws IllegalArgumentException {
+    public static MDCCloseable putCloseable(String key, String val, String... keyValuePairs) throws IllegalArgumentException {
+        if (keyValuePairs.length % 2 != 0) {
+            throw new IllegalArgumentException("key-value pairs length cannot be odd");
+        }
+        Set<String> keys = new HashSet<String>();
         put(key, val);
-        return new MDCCloseable(key);
+        keys.add(key);
+        for (int i = 0; i < keyValuePairs.length; i += 2) {
+            put(keyValuePairs[i], keyValuePairs[i + 1]);
+            keys.add(keyValuePairs[i]);
+        }
+        return new MDCCloseable(keys);
     }
 
     /**
