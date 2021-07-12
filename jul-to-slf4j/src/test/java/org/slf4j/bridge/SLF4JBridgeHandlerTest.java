@@ -90,6 +90,7 @@ public class SLF4JBridgeHandlerTest {
         julLogger.info(msg);
         julLogger.warning(msg);
         julLogger.severe(msg);
+        julLogger.log( Level.OFF, msg );
 
         assertEquals(6, listAppender.list.size());
         int i = 0;
