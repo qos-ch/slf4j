@@ -39,6 +39,7 @@ import java.util.Enumeration;
  *
  * @author S&eacute;bastien Pennec
  * @author Ceki G&uuml;lc&uuml;
+ * @author Elifazio Bernardes da Silva
  */
 @SuppressWarnings("rawtypes")
 public class Category {
@@ -115,12 +116,12 @@ public class Category {
 
     /**
      * Returns the assigned {@link Level}, if any, for this Category. This
-     * implementation always returns null.
+     * implementation always returns the effective level.
      *
-     * @return Level - the assigned Level, can be <code>null</code>.
+     * @return Level - the assigned Level, can not be <code>null</code>.
      */
     final public Level getLevel() {
-        return null;
+        return this.getEffectiveLevel(); 
     }
 
     /**
