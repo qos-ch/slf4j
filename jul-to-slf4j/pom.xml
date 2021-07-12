@@ -18,6 +18,10 @@
 
   <url>http://www.slf4j.org</url>
 
+  <properties>
+    <module-name>jul.to.slf4j</module-name>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
