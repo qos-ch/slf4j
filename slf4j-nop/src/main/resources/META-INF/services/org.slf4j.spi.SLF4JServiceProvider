@@ -1,1 +1,1 @@
-org.slf4j.helpers.NOPServiceProvider
+org.slf4j.nop.NOPServiceProvider
