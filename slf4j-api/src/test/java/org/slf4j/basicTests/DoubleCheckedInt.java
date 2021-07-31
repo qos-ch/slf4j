@@ -1,4 +1,4 @@
-package org.slf4j;
+package org.slf4j.basicTests;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

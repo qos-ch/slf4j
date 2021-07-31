@@ -22,10 +22,11 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j;
+package org.slf4j.basicTests;
 
 import org.junit.After;
 import org.junit.Before;
+import org.slf4j.LoggerFactoryFriend;
 import org.slf4j.testHarness.MultithreadedInitializationTest;
 
 /**

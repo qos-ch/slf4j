@@ -22,13 +22,15 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j;
+package org.slf4j.basicTests;
 
 import static org.junit.Assert.*;
 
 import java.util.Iterator;
 
 import org.junit.Test;
+import org.slf4j.IMarkerFactory;
+import org.slf4j.Marker;
 import org.slf4j.helpers.BasicMarkerFactory;
 
 /**

@@ -23,7 +23,7 @@
  *
  */
 
-package org.slf4j;
+package org.slf4j.basicTests;
 
 import java.util.Random;
 
