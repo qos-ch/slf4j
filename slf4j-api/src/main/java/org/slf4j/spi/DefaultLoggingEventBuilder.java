@@ -53,14 +53,14 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
     @Override
     public void log(String message) {
         loggingEvent.setMessage(message);
-        innerLog(loggingEvent);
+        log(loggingEvent);
     }
 
     @Override
     public void log(String message, Object arg) {
         loggingEvent.setMessage(message);
         loggingEvent.addArgument(arg);
-        innerLog(loggingEvent);
+        log(loggingEvent);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
         loggingEvent.setMessage(message);
         loggingEvent.addArgument(arg0);
         loggingEvent.addArgument(arg1);
-        innerLog(loggingEvent);
+        log(loggingEvent);
     }
 
     @Override
@@ -76,10 +76,10 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
         loggingEvent.setMessage(message);
         loggingEvent.addArguments(args);
 
-        innerLog(loggingEvent);
+        log(loggingEvent);
     }
 
-    private void innerLog(LoggingEvent logggingEvent) {
+    protected void log(LoggingEvent logggingEvent) {
         if (logger instanceof LoggingEventAware) {
             ((LoggingEventAware) logger).log(logggingEvent);
         } else {
