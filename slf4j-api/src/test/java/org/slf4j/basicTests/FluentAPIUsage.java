@@ -20,7 +20,7 @@ public class FluentAPIUsage {
     @Test
     public void smokxce() {
         String name = "smoke";
-        Logger logger = LoggerFactory.getLogger("aa");
+        Logger logger = LoggerFactory.getLogger(name);
         assertFalse(logger.isEnabledForLevel(Level.DEBUG));
     }
 
