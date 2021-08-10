@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>2.0.0-alpha3-SNAPSHOT</version>
+  <version>2.0.0-alpha3</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -55,6 +55,8 @@
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
+    <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
+            
   </properties>
 
   <developers>
@@ -159,33 +161,6 @@
           <version>${maven-deploy-plugin.version}</version>
         </plugin>
 
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-        	<groupId>org.eclipse.m2e</groupId>
-        	<artifactId>lifecycle-mapping</artifactId>
-        	<version>1.0.0</version>
-        	<configuration>
-        		<lifecycleMappingMetadata>
-        			<pluginExecutions>
-        				<pluginExecution>
-        					<pluginExecutionFilter>
-        						<groupId>org.codehaus.mojo</groupId>
-        						<artifactId>
-        							build-helper-maven-plugin
-        						</artifactId>
-        						<versionRange>[1.7,)</versionRange>
-        						<goals>
-        							<goal>parse-version</goal>
-        						</goals>
-        					</pluginExecutionFilter>
-        					<action>
-        						<ignore></ignore>
-        					</action>
-        				</pluginExecution>
-        			</pluginExecutions>
-        		</lifecycleMappingMetadata>
-        	</configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -291,7 +266,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
+        <version>${build-helper-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>parse-version</id>
