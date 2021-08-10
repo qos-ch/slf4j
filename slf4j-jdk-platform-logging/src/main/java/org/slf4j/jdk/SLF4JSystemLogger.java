@@ -1,12 +1,12 @@
 package org.slf4j.jdk;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.Objects.requireNonNull;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import static java.util.Objects.requireNonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Adapts {@link Logger} to {@link System.Logger}.
@@ -46,8 +46,8 @@ class SLF4JSystemLogger implements System.Logger {
                 // all logging is disabled if the highest level is disabled
                 return !logger.isErrorEnabled();
             default:
-                INTERNAL_LOGGER.error(
-                        "SLF4J internal error: unknown log level {} passed to `isLoggable` (likely by the JDK).", level);
+                org.slf4j.helpers.Util.report(
+                        "unknown log level ["+level+"] passed to `isLoggable` (likely by the JDK).");
                 return true;
         }
     }

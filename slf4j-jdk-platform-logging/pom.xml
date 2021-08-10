@@ -8,7 +8,7 @@
   <parent>
     <artifactId>slf4j-parent</artifactId>
     <groupId>org.slf4j</groupId>
-    <version>2.0.0-alpha0</version>
+    <version>2.0.0-alpha4-SNAPSHOT</version>
   </parent>
 
   <artifactId>slf4j-jdk-platform-logging</artifactId>
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>2.0.0-alpha0</version>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -42,11 +42,36 @@
     <plugins>
       <!-- target Java 9+ -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <release>11</release>
-        </configuration>
+        <version>${maven-compiler-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <source>9</source>
+              <target>9</target>
+              <release>9</release>
+            </configuration>            
+          </execution>
+          <execution>
+            <id>default-test-compile</id>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <source>9</source>
+              <target>9</target>
+              <release>9</release>
+            </configuration>            
+          </execution> 
+
+        </executions>        
       </plugin>
+
     </plugins>
   </build>
 

@@ -1,5 +1,6 @@
 package org.slf4j.jdk;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -22,12 +23,11 @@ public class SLF4JSystemLoggerFinder extends System.LoggerFinder {
         //  > LoggerFinder so that the LoggerFinder can figure out which kind
         //  > of logger to return.
         //
-        // If backends support the distinction support this distinction and
-        // once `LoggerFactory`'s API is updated to forward a module, we
-        // should do that here.
+        // If backends support this distinction and once `LoggerFactory`'s API 
+        // is updated to forward a module, we should do that here.
         //
         // [1] https://openjdk.java.net/jeps/264
-        var slf4JLogger = LoggerFactory.getLogger(name);
+        Logger slf4JLogger = LoggerFactory.getLogger(name);
         return new SLF4JSystemLogger(slf4JLogger);
     }
 
