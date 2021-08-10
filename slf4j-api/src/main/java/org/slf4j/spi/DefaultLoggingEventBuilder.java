@@ -11,8 +11,8 @@ import org.slf4j.event.LoggingEvent;
 
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
 
-    DefaultLoggingEvent loggingEvent;
-    Logger logger;
+    protected DefaultLoggingEvent loggingEvent;
+    protected Logger logger;
 
     public DefaultLoggingEventBuilder(Logger logger, Level level) {
         this.logger = logger;
