@@ -36,20 +36,9 @@
      file names in <em/>
      class names in <code/>
    -->
-
    <hr noshade="noshade" size="1"/>
-
-   <h3>Xth of July, 2021 - Release of SLF4J 1.7.32</h3>
-
-   <p>In the slf4j-simple module, <code>SimpleLogger</code> now caters
-   for current access. This fixes <a
-   href="https://jira.qos.ch/browse/SLF4J-515">SLF4J-515</a> as
-   reported by Tibor Digana.
-   </p>
    
-   <hr noshade="noshade" size="1"/>
-
-   <h3>2nd of July, 2021 - Release of SLF4J 2.0.0-alpha2</h3>
+   <h3>10th of August, 2021 - Release of SLF4J 2.0.0-alpha3</h3>
 
    <p class="highlight">The the 2.0.x series requires Java&nbsp;8 and
    adds a backward-compatible <a
@@ -58,7 +47,7 @@
    Moreover, SLF4J has been modularized per <a
    href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
    specificaton. The resulting internal changes are <a class="big
-   bold" href="faq.html#changesInVersion18">detailed</a> in the FAQ
+   bold" href="faq.html#changesInVersion200">detailed</a> in the FAQ
    page.
    </p>
 
@@ -67,8 +56,52 @@
    href="manual.html#fluent">fluent logging api</a>.  By
    backward-compatible, we mean that existing logging frameworks do
    not have to be changed for the user to benefit from the fluent
-   logging API.
+   logging API. However, existing frameworks must migrate to the
+   <code>ServiceLoader</code> mechanism.  The resulting internal
+   changes are <a class="big bold"
+   href="faq.html#changesInVersion200">detailed</a> in the FAQ page.
    </p>
+
+  
+   <p>In addition to fixes imported from the 1.7 branch, such as <a
+   href="https://jira.qos.ch/browse/SLF4J-515">SLF4J-515</a>, this
+   version consists of changes visible only to frameworks implementing
+   the SLF4J API.
+   </p>
+   <ul>
+     <li>In <code>DefaultLoggingEventBuilder</code>, the
+     <code>innerLog(LoggingEvent)</code> method was renamed as
+     <code>log</code> and its visibility changed to
+     <code>protected</code>.
+     </li>
+     <li>In <code>DefaultLoggingEventBuilder</code>, the
+     <code>loggingEvent</code> and <code>logger</code> fields have
+     their visibility changed to <code>protected</code>.
+     </li>
+     <li>The <code>getRequesteApiVersion</code> method in
+     <code>SLF4JServiceProvider</code> was renamed as
+     getRequeste<b>d</b>ApiVersion. This fixes <a
+     href="https://jira.qos.ch/browse/SLF4J-516">SLF4J-516</a>.</li>
+
+   </ul>
+
+   <p>Fixed resource path to <code>NOPServiceProvider</code> in
+   slf4j-nop module. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-518">SLF4J-518</a>.</p>
+
+   <hr noshade="noshade" size="1"/>
+
+   <h3>20th of July, 2021 - Release of SLF4J 1.7.32</h3>
+
+   <p>In the slf4j-simple module, <code>SimpleLogger</code> now caters
+   for concurrent access. This fixes <a
+   href="https://jira.qos.ch/browse/SLF4J-515">SLF4J-515</a> as
+   reported by Tibor Digana.
+   </p>
+   
+   <hr noshade="noshade" size="1"/>
+
+   <h3>2nd of July, 2021 - Release of SLF4J 2.0.0-alpha2</h3>
         
    <p>&bull; Fixed important bug in the fluent API. The
    <code>LoggingEventBuilder.addArgument(Supplier)</code> method now
