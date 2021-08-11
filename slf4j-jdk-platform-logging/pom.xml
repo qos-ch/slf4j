@@ -27,15 +27,9 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+
   </dependencies>
 
   <build>
@@ -58,9 +52,9 @@
             </configuration>            
           </execution>
           <execution>
-            <id>default-test-compile</id>
+            <id>default-testCompile</id>
             <goals>
-              <goal>testCompile</goal>
+              <goal>testCompile</goal> 
             </goals>
             <configuration>
               <source>9</source>

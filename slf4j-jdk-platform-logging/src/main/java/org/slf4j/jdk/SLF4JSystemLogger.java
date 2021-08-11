@@ -6,122 +6,121 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Adapts {@link Logger} to {@link System.Logger}.
  */
 class SLF4JSystemLogger implements System.Logger {
 
-    private static final Logger INTERNAL_LOGGER = LoggerFactory.getLogger(SLF4JSystemLogger.class);
-
-    private final Logger logger;
+    private final Logger slf4jLogger;
 
     public SLF4JSystemLogger(Logger logger) {
-        this.logger = requireNonNull(logger);
+        this.slf4jLogger = requireNonNull(logger);
     }
 
     @Override
     public String getName() {
-        return logger.getName();
+        return slf4jLogger.getName();
     }
 
     @Override
-    public boolean isLoggable(Level level) {
-        switch(level) {
-            case ALL:
-                // fall-through intended because `ALL` is loggable if the
-                // lowest level is enabled
-            case TRACE:
-                return logger.isTraceEnabled();
-            case DEBUG:
-                return logger.isDebugEnabled();
-            case INFO:
-                return logger.isInfoEnabled();
-            case WARNING:
-                return logger.isWarnEnabled();
-            case ERROR:
-                return logger.isErrorEnabled();
-            case OFF:
-                // all logging is disabled if the highest level is disabled
-                return !logger.isErrorEnabled();
-            default:
-                org.slf4j.helpers.Util.report(
-                        "unknown log level ["+level+"] passed to `isLoggable` (likely by the JDK).");
-                return true;
+    public boolean isLoggable(Level jplLevel) {
+        switch (jplLevel) {
+        case ALL:
+            return true;
+        case TRACE:
+            return slf4jLogger.isTraceEnabled();
+        case DEBUG:
+            return slf4jLogger.isDebugEnabled();
+        case INFO:
+            return slf4jLogger.isInfoEnabled();
+        case WARNING:
+            return slf4jLogger.isWarnEnabled();
+        case ERROR:
+            return slf4jLogger.isErrorEnabled();
+        case OFF:
+            return false;
+        default:
+            reportUnknownLevel(jplLevel);
+            return true;
         }
     }
 
     @Override
-    public void log(Level level, ResourceBundle bundle, String msg, Throwable thrown) {
+    public void log(Level jplLevel, ResourceBundle bundle, String msg, Throwable thrown) {
         String message = getResourceStringOrMessage(bundle, msg);
-        switch(level) {
-            case ALL:
-                // fall-through intended because a message is visible on all log levels
-                // if it is logged on the lowest level
-            case TRACE:
-                logger.trace(message, thrown);
-                break;
-            case DEBUG:
-                logger.debug(message, thrown);
-                break;
-            case INFO:
-                logger.info(message, thrown);
-                break;
-            case WARNING:
-                logger.warn(message, thrown);
-                break;
-            case ERROR:
-                logger.error(message, thrown);
-                break;
-            case OFF:
-                // don't do anything for a message on level `OFF`
-                break;
-            default:
-                INTERNAL_LOGGER.error(
-                        "SLF4J internal error: unknown log level {} passed to `log` (likely by the JDK).", level);
+        switch (jplLevel) {
+        case ALL:
+            // fall-through intended because a message is visible on all log levels
+            // if it is logged on the lowest level
+        case TRACE:
+            slf4jLogger.trace(message, thrown);
+            break;
+        case DEBUG:
+            slf4jLogger.debug(message, thrown);
+            break;
+        case INFO:
+            slf4jLogger.info(message, thrown);
+            break;
+        case WARNING:
+            slf4jLogger.warn(message, thrown);
+            break;
+        case ERROR:
+            slf4jLogger.error(message, thrown);
+            break;
+        case OFF:
+            // don't do anything for a message on level `OFF`
+            break;
+        default:
+            reportUnknownLevel(jplLevel);
+
         }
     }
 
     @Override
-    public void log(Level level, ResourceBundle bundle, String format, Object... params) {
+    public void log(Level jplLevel, ResourceBundle bundle, String format, Object... params) {
         String message = getResourceStringOrMessage(bundle, format);
-        switch(level) {
-            case ALL:
-                // fall-through intended because a message is visible on all log levels
-                // if it is logged on the lowest level
-            case TRACE:
-                logger.trace(message, params);
-                break;
-            case DEBUG:
-                logger.debug(message, params);
-                break;
-            case INFO:
-                logger.info(message, params);
-                break;
-            case WARNING:
-                logger.warn(message, params);
-                break;
-            case ERROR:
-                logger.error(message, params);
-                break;
-            case OFF:
-                // don't do anything for a message on level `OFF`
-                break;
-            default:
-                INTERNAL_LOGGER.error(
-                        "SLF4J internal error: unknown log level {} passed to `log` (likely by the JDK).", level);
+        switch (jplLevel) {
+        case ALL:
+            // fall-through intended because a message is visible on all log levels
+            // if it is logged on the lowest level
+        case TRACE:
+            slf4jLogger.trace(message, params);
+            break;
+        case DEBUG:
+            slf4jLogger.debug(message, params);
+            break;
+        case INFO:
+            slf4jLogger.info(message, params);
+            break;
+        case WARNING:
+            slf4jLogger.warn(message, params);
+            break;
+        case ERROR:
+            slf4jLogger.error(message, params);
+            break;
+        case OFF:
+            // don't do anything for a message on level `OFF`
+            break;
+        default:
+            reportUnknownLevel(jplLevel);
         }
     }
 
+    private void reportUnknownLevel(Level jplLevel) {
+        String message = "Unknown log level [" + jplLevel + "]";
+        IllegalArgumentException iae = new IllegalArgumentException(message);
+        org.slf4j.helpers.Util.report("Unsupported log level", iae);
+    }
+    
     private static String getResourceStringOrMessage(ResourceBundle bundle, String msg) {
         if (bundle == null || msg == null)
             return msg;
         // ResourceBundle::getString throws:
         //
-        //  * NullPointerException for null keys
-        //  * ClassCastException if the message is no string
-        //  * MissingResourceException if there is no message for the key
+        // * NullPointerException for null keys
+        // * ClassCastException if the message is no string
+        // * MissingResourceException if there is no message for the key
         //
         // Handle all of these cases here to avoid log-related exceptions from crashing the JVM.
         try {

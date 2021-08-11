@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2016 QOS.ch
+ * Copyright (c) 2004-2021 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -22,41 +22,46 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j;
+package org.slf4j.helpers;
 
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicLong;
 
-public class LoggerAccessingThread extends Thread {
-    private static int LOOP_LEN = 32;
+public class StringPrintStream extends PrintStream {
 
-    final CyclicBarrier barrier;
-    final int count;
-    final AtomicLong eventCount;
-    List<Logger> loggerList;
+    public static final String LINE_SEP = System.getProperty("line.separator");
+    PrintStream other;
+    boolean duplicate = false;
 
-    public LoggerAccessingThread(final CyclicBarrier barrier, List<Logger> loggerList, final int count, final AtomicLong eventCount) {
-        this.barrier = barrier;
-        this.loggerList = loggerList;
-        this.count = count;
-        this.eventCount = eventCount;
+    public List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
+
+    public StringPrintStream(PrintStream ps, boolean duplicate) {
+        super(ps);
+        other = ps;
+        this.duplicate = duplicate;
     }
 
-    public void run() {
-        try {
-            barrier.await();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public StringPrintStream(PrintStream ps) {
+        this(ps, false);
+    }
 
-        String loggerNamePrefix = this.getClass().getName();
-        for (int i = 0; i < LOOP_LEN; i++) {
-            Logger logger = LoggerFactory.getLogger(loggerNamePrefix + "-" + count + "-" + i);
-            loggerList.add(logger);
-            Thread.yield();
-            logger.info("in run method");
-            eventCount.getAndIncrement();
-        }
+    public void print(String s) {
+        if (duplicate)
+            other.print(s);
+        stringList.add(s);
+    }
+
+    public void println(String s) {
+        if (duplicate)
+            other.println(s);
+        stringList.add(s);
+    }
+
+    public void println(Object o) {
+        if (duplicate)
+            other.println(o);
+        stringList.add(o.toString());
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2016 QOS.ch
+ * Copyright (c) 2004-2021 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -22,41 +22,22 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j;
+package org.slf4j.jdk;
 
-import java.util.List;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicLong;
+import java.lang.System.Logger;
 
-public class LoggerAccessingThread extends Thread {
-    private static int LOOP_LEN = 32;
+import java.lang.System.Logger.Level;
+import java.lang.System.LoggerFinder;
 
-    final CyclicBarrier barrier;
-    final int count;
-    final AtomicLong eventCount;
-    List<Logger> loggerList;
+import org.junit.Test;
 
-    public LoggerAccessingThread(final CyclicBarrier barrier, List<Logger> loggerList, final int count, final AtomicLong eventCount) {
-        this.barrier = barrier;
-        this.loggerList = loggerList;
-        this.count = count;
-        this.eventCount = eventCount;
-    }
+public class PlatformLoggingTest {
 
-    public void run() {
-        try {
-            barrier.await();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        String loggerNamePrefix = this.getClass().getName();
-        for (int i = 0; i < LOOP_LEN; i++) {
-            Logger logger = LoggerFactory.getLogger(loggerNamePrefix + "-" + count + "-" + i);
-            loggerList.add(logger);
-            Thread.yield();
-            logger.info("in run method");
-            eventCount.getAndIncrement();
-        }
+    
+    @Test
+    public void smoke() {
+        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        Logger systemLogger = finder.getLogger("x", null);
+        systemLogger.log(Level.INFO, "hello");
     }
 }

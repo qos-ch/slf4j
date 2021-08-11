@@ -29,6 +29,7 @@ import java.io.PrintStream;
 import org.junit.After;
 import org.junit.Before;
 import org.slf4j.LoggerFactoryFriend;
+import org.slf4j.helpers.StringPrintStream;
 import org.slf4j.testHarness.MultithreadedInitializationTest;
 
 public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedInitializationTest {
