@@ -1,6 +1,9 @@
-Implementation-Title: slf4j-ext
+Implementation-Title:  slf4j-jdk-platform-logging
 Bundle-ManifestVersion: 2
-Bundle-SymbolicName: slf4j.ext
+Bundle-SymbolicName:  slf4j.jdk.platform.logging
 Bundle-Name: slf4j-jdk-platform-logging
 Bundle-Vendor: SLF4J.ORG
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: slf4j.api
+Bundle-RequiredExecutionEnvironment: JavaSE-9
+Export-Package: slf4j.jdk.platform.logging;version=${parsedVersion.osgiVersion}
+Import-Package: org.slf4j;version=${parsedVersion.osgiVersion}

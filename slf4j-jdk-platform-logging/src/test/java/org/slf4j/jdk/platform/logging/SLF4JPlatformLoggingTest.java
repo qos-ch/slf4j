@@ -22,7 +22,23 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-module org.slf4j.jdk.platform.logging {
-    requires org.slf4j;
-    provides java.lang.System.LoggerFinder with org.slf4j.jdk.platform.logging.SLF4JSystemLoggerFinder;
-} 
+package org.slf4j.jdk.platform.logging;
+
+import java.lang.System.Logger;
+
+import java.lang.System.Logger.Level;
+import java.lang.System.LoggerFinder;
+
+import org.junit.Test;
+
+public class SLF4JPlatformLoggingTest {
+
+    
+    @Test
+    public void smoke() {
+        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        Logger systemLogger = finder.getLogger("x", null);
+        systemLogger.log(Level.INFO, "hello");
+        systemLogger.log(Level.INFO, "hello %s", "world");
+    }
+}

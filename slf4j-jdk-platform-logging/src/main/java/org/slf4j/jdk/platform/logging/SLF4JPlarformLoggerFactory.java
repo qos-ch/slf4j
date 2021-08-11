@@ -22,22 +22,38 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.jdk;
+package org.slf4j.jdk.platform.logging;
 
-import java.lang.System.Logger;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-import java.lang.System.Logger.Level;
-import java.lang.System.LoggerFinder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.junit.Test;
-
-public class PlatformLoggingTest {
-
+/**
+ * Manages instances of {@link SLF4JPlarformLogger}.
+ * 
+ * @since 1.3.0
+ * @author Ceki
+ *
+ */
+public class SLF4JPlarformLoggerFactory {
+    ConcurrentMap<String, SLF4JPlarformLogger> loggerMap = new ConcurrentHashMap<>();
     
-    @Test
-    public void smoke() {
-        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
-        Logger systemLogger = finder.getLogger("x", null);
-        systemLogger.log(Level.INFO, "hello");
+    /**
+     * Return an appropriate {@link SLF4JPlarformLogger} instance by name.
+     */
+    public SLF4JPlarformLogger getLogger(String loggerName) {
+        
+        
+        SLF4JPlarformLogger spla = loggerMap.get(loggerName);
+        if (spla != null) {
+            return spla;
+        } else {
+            Logger slf4jLogger = LoggerFactory.getLogger(loggerName);
+            SLF4JPlarformLogger newInstance = new SLF4JPlarformLogger(slf4jLogger);
+            SLF4JPlarformLogger oldInstance = loggerMap.putIfAbsent(loggerName, newInstance);
+            return oldInstance == null ? newInstance : oldInstance;
+        }
     }
 }

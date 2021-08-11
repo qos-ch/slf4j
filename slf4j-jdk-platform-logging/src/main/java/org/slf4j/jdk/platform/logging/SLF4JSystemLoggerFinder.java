@@ -22,17 +22,18 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.jdk;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package org.slf4j.jdk.platform.logging;
 
 /**
- * Uses SLF4J's {@link LoggerFactory#getLogger(String)} to get a logger
+ * Uses {@link SLF4JPlarformLoggerFactory#getLogger(String)} to get a logger
  * that is adapted for {@link System.Logger}.
+ * 
+ * @since 2.0.0
  */
 public class SLF4JSystemLoggerFinder extends System.LoggerFinder {
 
+    final SLF4JPlarformLoggerFactory platformLoggerFactory = new SLF4JPlarformLoggerFactory();
+    
     @Override
     public System.Logger getLogger(String name, Module module) {
         // JEP 264[1], which introduced the Platform Logging API,
@@ -51,8 +52,8 @@ public class SLF4JSystemLoggerFinder extends System.LoggerFinder {
         // is updated to forward a module, we should do that here.
         //
         // [1] https://openjdk.java.net/jeps/264
-        Logger slf4JLogger = LoggerFactory.getLogger(name);
-        return new SLF4JSystemLogger(slf4JLogger);
+         SLF4JPlarformLogger adapter = platformLoggerFactory.getLogger(name);
+        return adapter;
     }
 
 }
