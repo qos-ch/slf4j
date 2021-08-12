@@ -32,4 +32,14 @@ public interface LoggingEvent {
     long getTimeStamp();
 
     String getThreadName();
+ 
+    /**
+     * Returns the presumed caller boundary provided by the logging library (not the user of the library). 
+     * Null by default.
+     *  
+     * @return presumed caller, null by default.
+     */
+    default String getCallerBoundary() {
+        return null;
+    }
 }

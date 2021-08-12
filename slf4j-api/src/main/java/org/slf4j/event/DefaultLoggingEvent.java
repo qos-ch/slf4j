@@ -27,6 +27,8 @@ public class DefaultLoggingEvent implements LoggingEvent {
     Throwable throwable;
     String threadName;
     long timeStamp;
+    
+    String callerBoundary;
 
     public DefaultLoggingEvent(Level level, Logger logger) {
         this.logger = logger;
@@ -122,5 +124,13 @@ public class DefaultLoggingEvent implements LoggingEvent {
 
     public long getTimeStamp() {
         return timeStamp;
+    }
+
+    public void setCallerBoundary(String fqcn) {
+        this.callerBoundary = fqcn;
+    }
+    
+    public String getCallerBoundary() {
+        return callerBoundary;
     }
 }

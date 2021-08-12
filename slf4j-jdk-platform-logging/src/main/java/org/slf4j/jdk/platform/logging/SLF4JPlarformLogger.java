@@ -30,6 +30,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
+import org.slf4j.spi.CallerBoundaryAware;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
@@ -38,6 +39,8 @@ import org.slf4j.spi.LoggingEventBuilder;
  */
 class SLF4JPlarformLogger implements System.Logger {
 
+    static private String PRESUMED_CALLER_BOUNDARY = System.Logger.class.getName();
+                    
     private final Logger slf4jLogger;
 
     public SLF4JPlarformLogger(Logger logger) {
@@ -140,6 +143,10 @@ class SLF4JPlarformLogger implements System.Logger {
             }
             // The JDK uses a different formatting convention. We must invoke it now.
             message = String.format(message, params);
+        }
+        if(leb instanceof CallerBoundaryAware) {
+            CallerBoundaryAware cba = (CallerBoundaryAware) leb;
+            cba.setCallerBoundary(PRESUMED_CALLER_BOUNDARY);
         }
         leb.log(message);
     }

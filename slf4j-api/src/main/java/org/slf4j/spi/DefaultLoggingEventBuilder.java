@@ -9,7 +9,7 @@ import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 
-public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
+public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBoundaryAware {
 
     protected DefaultLoggingEvent loggingEvent;
     protected Logger logger;
@@ -50,6 +50,11 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
         return this;
     }
 
+    @Override
+    public void setCallerBoundary(String fqcn) {
+        loggingEvent.setCallerBoundary(fqcn);
+    }
+    
     @Override
     public void log(String message) {
         loggingEvent.setMessage(message);
@@ -186,5 +191,9 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder {
         loggingEvent.addKeyValue(key, value.get());
         return this;
     }
+
+    
+
+    
 
 }

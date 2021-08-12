@@ -29,7 +29,7 @@ import java.util.function.Supplier;
 import org.slf4j.Marker;
 
 /**
- * A fluent API for creating logging events.
+ * This is main interface in slf4j's fluent API for creating logging events.
  * 
  * @author Ceki G&uuml;lc&uuml;
  * @since 2.0.0
