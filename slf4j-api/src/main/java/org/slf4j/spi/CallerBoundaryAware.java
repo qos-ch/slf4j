@@ -1,8 +1,8 @@
 package org.slf4j.spi;
 
-
 /**
- * Additional interface to {@link LoggingEventBuilder} and {@link LoggingEvent}. 
+ * Additional interface to {@link LoggingEventBuilder} and 
+ * {@link org.slf4j.event.LoggingEvent LoggingEvent}. 
  * 
  * Implementations of {@link LoggingEventBuilder} and  {@link LoggingEvent} may optionally 
  * implement {@link CallerBoundaryAware} in order to support caller info extraction.

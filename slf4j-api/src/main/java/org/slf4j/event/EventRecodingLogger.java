@@ -12,7 +12,7 @@ import org.slf4j.helpers.SubstituteLogger;
  * underlying logging framework. It is called by {@link SubstituteLogger}.
  * 
  * 
- * @author Ceki G&uumllc&uuml;
+ * @author Ceki G&uuml;lc&uuml;
  * @author Wessel van Norel
  *
  */

@@ -46,7 +46,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  * It is expected that logging takes place through concrete implementations
  * of this interface.
  * 
- * <h3>Typical usage pattern:</h3>
+ * <H3>Typical usage pattern:</H3>
  * <pre>
  * import org.slf4j.Logger;
  * import org.slf4j.LoggerFactory;

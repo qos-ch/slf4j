@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
+import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.NOP_FallbackServiceProvider;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
@@ -46,8 +47,8 @@ import org.slf4j.spi.SLF4JServiceProvider;
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
  * various logging APIs, most notably for log4j, logback and JDK 1.4 logging.
- * Other implementations such as {@link org.slf4j.nop.NOPLogger NOPLogger} and
- * {@link org.slf4j.simple.SimpleLogger SimpleLogger} are also supported.
+ * Other implementations such as {@link org.slf4j.helpers.NOPLogger NOPLogger} and
+ * SimpleLogger are also supported.
  * 
  * <p><code>LoggerFactory</code> is essentially a wrapper around an
  * {@link ILoggerFactory} instance bound with <code>LoggerFactory</code> at
