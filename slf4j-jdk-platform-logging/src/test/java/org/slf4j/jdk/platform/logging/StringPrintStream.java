@@ -22,22 +22,13 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.helpers;
+package org.slf4j.jdk.platform.logging;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * 
- *  Copied from org.slfj.helpers. 
- *  
- *  Currently it is not possible to use test-jar from tests running on the module-path.
- * 
- * @author ceki
- *
- */
 public class StringPrintStream extends PrintStream {
 
     public static final String LINE_SEP = System.getProperty("line.separator");

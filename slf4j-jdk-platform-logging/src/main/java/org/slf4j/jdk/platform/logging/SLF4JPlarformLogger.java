@@ -26,7 +26,6 @@ package org.slf4j.jdk.platform.logging;
 
 import static java.util.Objects.requireNonNull;
 
-import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -35,6 +34,7 @@ import org.slf4j.spi.LoggingEventBuilder;
 
 /**
  * Adapts {@link Logger} to {@link System.Logger}.
+ * @since 2.0.0
  */
 class SLF4JPlarformLogger implements System.Logger {
 
