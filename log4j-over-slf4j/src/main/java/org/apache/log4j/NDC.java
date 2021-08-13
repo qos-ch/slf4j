@@ -54,7 +54,7 @@ public class NDC {
     public static int getDepth() {
         int i = 0;
         while (true) {
-            String val = MDC.get(PREFIX + i);
+            Object val = MDC.get(PREFIX + i);
             if (val != null) {
                 i++;
             } else {
@@ -64,26 +64,26 @@ public class NDC {
         return i;
     }
 
-    public static String pop() {
+    public static Object pop() {
         int next = getDepth();
         if (next == 0) {
             return "";
         }
         int last = next - 1;
         String key = PREFIX + last;
-        String val = MDC.get(key);
+        Object val = MDC.get(key);
         MDC.remove(key);
         return val;
     }
 
-    public static String peek() {
+    public static Object peek() {
         int next = getDepth();
         if (next == 0) {
             return "";
         }
         int last = next - 1;
         String key = PREFIX + last;
-        String val = MDC.get(key);
+        Object val = MDC.get(key);
         return val;
     }
 

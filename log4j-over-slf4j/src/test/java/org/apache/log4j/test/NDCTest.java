@@ -50,14 +50,14 @@ public class NDCTest {
     @Test
     public void testSmoke() {
         NDC.push("a");
-        String back = NDC.pop();
+        Object back = NDC.pop();
         assertEquals("a", back);
     }
 
     @Test
     public void testPop() {
         NDC.push("peek");
-        String back = NDC.peek();
+        Object back = NDC.peek();
         assertEquals("peek", back);
     }
 

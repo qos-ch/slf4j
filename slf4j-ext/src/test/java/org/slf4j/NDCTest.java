@@ -44,7 +44,7 @@ public class NDCTest {
     @Test
     public void testSmoke() {
         NDC.push("a");
-        String result = NDC.pop();
+        Object result = NDC.pop();
         assertEquals("a", result);
     }
 
@@ -52,8 +52,8 @@ public class NDCTest {
     public void testSmoke2() {
         NDC.push("a");
         NDC.push("b");
-        String result1 = NDC.pop();
-        String result0 = NDC.pop();
+        Object result1 = NDC.pop();
+        Object result0 = NDC.pop();
         assertEquals("b", result1);
         assertEquals("a", result0);
     }

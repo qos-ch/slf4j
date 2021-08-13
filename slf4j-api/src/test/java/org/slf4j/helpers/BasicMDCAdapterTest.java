@@ -75,7 +75,7 @@ public class BasicMDCAdapterTest {
     @Test
     public void testGetCopyOfContextMapFromMDC() {
         mdc.put("testKey", "testValue");
-        Map<String, String> copy = mdc.getCopyOfContextMap();
+        Map<String, Object> copy = mdc.getCopyOfContextMap();
         mdc.put("anotherTestKey", "anotherTestValue");
         assertFalse(copy.size() == mdc.getCopyOfContextMap().size());
     }
