@@ -377,12 +377,12 @@ class B extends A {
     <em>bind</em> slf4j to an underlying logging framework, say,
     java.util.logging and respectively log4j.
     </p>
-
-    <p>Mixing mixing different versions of <em>slf4j-api.jar</em> and
-    SLF4J binding can cause problems. For example, if you are using
-    slf4j-api-${project.version}.jar, then you should also use
-    slf4j-simple-${project.version}.jar, using slf4j-simple-1.5.5.jar
-    will not work.</p>
+    
+    <p>Mixing different versions of <em>slf4j-api.jar</em> and SLF4J
+    binding (a.k.a provider since 2.0.0) can cause problems. For
+    example, if you are using slf4j-api-${project.version}.jar, then
+    you should also use slf4j-simple-${project.version}.jar, using
+    slf4j-simple-1.5.5.jar will not work.</p>
 
     <p><span class="label notice">Note</span> From the client&#39;s
     perspective all versions of slf4j-api are compatible. Client code

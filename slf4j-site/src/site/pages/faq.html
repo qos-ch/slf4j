@@ -456,18 +456,18 @@
       has never been broken.</b></p>
 
       <p>However, while the SLF4J API is very stable from the client's
-      perspective, SLF4J bindings, e.g. slf4j-simple.jar or
+      perspective, SLF4J providers, e.g. slf4j-simple.jar or
       slf4j-log4j12.jar, may require a specific version of slf4j-api.
       Mixing different versions of slf4j artifacts can be problematic
       and is strongly discouraged. For instance, if you are using
-      slf4j-api-1.5.6.jar, then you should also use
-      slf4j-simple-1.5.6.jar, using slf4j-simple-1.4.2.jar will not
+      slf4j-api-2.0.0.jar, then you should also use
+      slf4j-simple-2.0.0.jar, using slf4j-simple-1.7.32.jar will not
       work.
       </p>        
 
       <p>At initialization time, if SLF4J suspects that there may be a
-      version mismatch problem, it emits a warning about the said
-      mismatch. 
+      version mismatch problem, it emits a <b>warning</b> about the
+      said mismatch.
       </p>
 
       
@@ -512,10 +512,6 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p class="source">mvn dependency:tree</p>
 
-      <p>If you are using Eclipse, please do not rely on the dependency
-      tree shown by <a
-      href="http://m2eclipse.codehaus.org/">m2eclipse</a>.</p>
-
       <p>In your <em>pom.xml</em> file, explicitly declaring a
       dependency on slf4j-api matching the version of the declared
       binding will make the problem go away.
@@ -549,29 +545,29 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     </dd>
 
     <!-- ==================================================== -->
-    <dt class="doAnchor" name="where_is_binding">Where can I get a
-    particular SLF4J binding?
+    <dt class="doAnchor" name="where_is_provider">Where can I get a
+    particular SLF4J provider?
     </dt>
     
     <dd>
       
-      <p>SLF4J bindings for <a
-      href="api/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>,
-      <a href="api/org/slf4j/impl/NOPLogger.html">NOPLogger</a>, <a
+      <p>SLF4J providers for <a
+      href="api/org/slf4j/impl/SimpleLogger.html">SimpleLogger</a>, <a
+      href="api/org/slf4j/impl/NOPLogger.html">NOPLogger</a>, <a
       href="api/org/slf4j/impl/Log4jLoggerAdapter.html">Log4jLoggerAdapter</a>
       and <a
       href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14LoggerAdapter</a>
       are contained within the files <em>slf4j-nop.jar</em>,
       <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>, and
-      <em>slf4j-jdk14.jar</em>. These files ship with the <a
-      href="download.html">official SLF4J distribution</a>. Please
-      note that all bindings depend on <em>slf4j-api.jar</em>.
+      <em>slf4j-jdk14.jar</em>. These files can be found on Maven
+      central. Please note that all providers depend on
+      <em>slf4j-api.jar</em>.
       </p>
       
-      <p>The binding for logback-classic ships with the <a
-      href="http://logback.qos.ch/download.html">logback
-      distribution</a>. However, as with all other bindings, the
-      logback-classic binding requires <em>slf4j-api.jar</em>.
+      <p>The providers for logback-classic is part of the <a
+      href="http:logback.qos.ch">logback project</a> and can be found
+      on Maven central. However, as with all other providers, the
+      logback-classic provider requires <em>slf4j-api.jar</em>.
       </p>
       
       
