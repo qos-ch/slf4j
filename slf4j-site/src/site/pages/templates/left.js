@@ -35,7 +35,7 @@ document.write('    </a>');
 document.write('</div>');
 
 document.write('<p>&nbsp;</p>');
-document.write('<div class="pub"><img src="https://travis-ci.org/qos-ch/slf4j.svg?branch=master"/></div>');
+document.write('<div class="pub"><img src="https://travis-ci.com/qos-ch-ro/slf4j.svg?branch=master"/></div>');
 
 
 //document.write('<p>&nbsp;</p>');

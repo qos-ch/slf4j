@@ -67,8 +67,8 @@
     </li>
     
     <li>
-      <a href="#where_is_binding">Where can I get a particular
-      SLF4J binding?
+      <a href="#where_is_provider">Where can I get a particular
+      SLF4J provider?
       </a>
     </li>
     
@@ -98,8 +98,14 @@
     </li>
 
     <li>
-      <a href="#jmpsModuleNames">What are the JMPS module names of the
+      <a href="#jmpsModuleNames">What are the JPMS module names of the
       various SLF4J artificats?
+      </a>
+    </li>
+
+    <li>
+      <a href="#bindingProviderDifference">What is the difference
+      between an SLFJ binding and an SLF4J provider?
       </a>
     </li>
 
@@ -373,7 +379,7 @@
 
       <p>In version 2.0.0, SLF4J has been modularized per <a
       href="http://openjdk.java.net/projects/jigsaw/spec/">JPMS/Jigsaw</a>
-      specificaton. The <a href="#jmpsModuleNames">JMPS module names</a> are listed
+      specificaton. The <a href="#jmpsModuleNames">JPMS module names</a> are listed
       in another FAQ entry.</p>
 
       <p>More visibly, slf4j-api now relies on the <a
@@ -856,19 +862,19 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
     </dd>
     
-    <dt class="doAnchor" name="jmpsModuleNames">What are the JMPS
+    <dt class="doAnchor" name="jmpsModuleNames">What are the JPMS
     module names of the various SLF4J artificats?
     </dt>
     
     <dd>
       <p>Although compatible with Java 8, SLF4J version 2.0 supports
-      JMPS modularisation as introduced in Java 9. Here are the JMPS
+      JPMS modularisation as introduced in Java 9. Here are the JPMS
       module names for the various artificats shipping in SLF4J.</p>
 
       <table class="bodyTable striped" cellspacing="4" cellpadding="4">
         <tr>
           <th>artifact name</th>
-          <th>JMPS module name</th>
+          <th>JPMS module name</th>
         </tr>
         <tr>
           <td>slf4j-api.jar</td> 
