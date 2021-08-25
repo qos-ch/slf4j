@@ -176,7 +176,7 @@ public class InvocationTest {
 
     @Test
     public void testMDCContextMapValues() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         map.put("ka", "va");
         map.put("kb", "vb");
 

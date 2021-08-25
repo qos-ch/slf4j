@@ -114,8 +114,8 @@ public class DoubleCheckedInt {
 
     private static int[] getStateCount(StateAccessingThread[] threads) {
         int[] valCount = new int[NUMBER_OF_STATES];
-        for (int i = 0; i < threads.length; i++) {
-            int val = threads[i].state;
+        for (StateAccessingThread thread : threads) {
+            int val = thread.state;
             valCount[val] = valCount[val] + 1;
         }
         return valCount;

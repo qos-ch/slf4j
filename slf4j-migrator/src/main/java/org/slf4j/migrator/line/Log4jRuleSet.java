@@ -57,7 +57,7 @@ public class Log4jRuleSet implements RuleSet {
 
         SingleConversionRule variable1 = new SingleConversionRule(Pattern.compile("(^Category\\b)"), "Logger");
 
-        conversionRuleList = new ArrayList<ConversionRule>();
+        conversionRuleList = new ArrayList<>();
         conversionRuleList.add(crImport0);
         conversionRuleList.add(catImport);
         conversionRuleList.add(crImport1);

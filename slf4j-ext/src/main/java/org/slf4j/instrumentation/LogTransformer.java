@@ -187,8 +187,8 @@ public class LogTransformer implements ClassFileTransformer {
     private byte[] transform0(String className, Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
 
         try {
-            for (int i = 0; i < ignore.length; i++) {
-                if (className.startsWith(ignore[i])) {
+            for (String s : ignore) {
+                if (className.startsWith(s)) {
                     return bytes;
                 }
             }
@@ -263,9 +263,9 @@ public class LogTransformer implements ClassFileTransformer {
                 // instrumented too.
 
                 CtBehavior[] methods = cl.getDeclaredBehaviors();
-                for (int i = 0; i < methods.length; i++) {
-                    if (methods[i].isEmpty() == false) {
-                        doMethod(methods[i]);
+                for (CtBehavior method : methods) {
+                    if (method.isEmpty() == false) {
+                        doMethod(method);
                     }
                 }
                 b = cl.toBytecode();

@@ -54,7 +54,7 @@ public class JCLRuleSet implements RuleSet {
 
         SingleConversionRule cr5 = new SingleConversionRule(Pattern.compile("LogFactory.getLog\\("), "LoggerFactory.getLogger(");
 
-        conversionRuleList = new ArrayList<ConversionRule>();
+        conversionRuleList = new ArrayList<>();
         conversionRuleList.add(cr0);
         conversionRuleList.add(cr1);
         conversionRuleList.add(cr2);

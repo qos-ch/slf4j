@@ -673,15 +673,13 @@ public class SimpleLog implements Log, Serializable {
     }
 
     private static InputStream getResourceAsStream(final String name) {
-        return AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-            public InputStream run() {
-                ClassLoader threadCL = getContextClassLoader();
+        return AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
+            ClassLoader threadCL = getContextClassLoader();
 
-                if (threadCL != null) {
-                    return threadCL.getResourceAsStream(name);
-                } else {
-                    return ClassLoader.getSystemResourceAsStream(name);
-                }
+            if (threadCL != null) {
+                return threadCL.getResourceAsStream(name);
+            } else {
+                return ClassLoader.getSystemResourceAsStream(name);
             }
         });
     }

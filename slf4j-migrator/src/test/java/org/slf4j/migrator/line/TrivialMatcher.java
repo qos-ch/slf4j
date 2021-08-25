@@ -51,7 +51,7 @@ class TrivialMatcher implements RuleSet {
         cr1.addReplacement(3, "");
         // no replacement for the third group it will remains the same
 
-        conversionRuleList = new ArrayList<ConversionRule>();
+        conversionRuleList = new ArrayList<>();
         conversionRuleList.add(cr);
         conversionRuleList.add(cr1);
     }

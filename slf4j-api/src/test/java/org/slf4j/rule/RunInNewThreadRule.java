@@ -41,7 +41,7 @@ public class RunInNewThreadRule implements TestRule {
     public Statement apply(Statement base, Description description) {
         RunInNewThread desiredAnnotaton = description.getAnnotation(RunInNewThread.class);
         
-        if(desiredAnnotaton ==  null) {
+        if (desiredAnnotaton ==  null) {
             System.out.println("test "+ description.getMethodName() +" not annotated");
             return base;
         } else {

@@ -56,8 +56,8 @@ public class SLF4JBridgeHandlerPerfTest {
         fileAppender = new FileAppender(new PatternLayout("%r [%t] %p %c %x - %m%n"), "target/test-output/toto.log");
 
         existingHandlers = julRootLogger.getHandlers();
-        for (int i = 0; i < existingHandlers.length; i++) {
-            julRootLogger.removeHandler(existingHandlers[i]);
+        for (Handler existingHandler : existingHandlers) {
+            julRootLogger.removeHandler(existingHandler);
         }
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(fileAppender);
@@ -68,8 +68,8 @@ public class SLF4JBridgeHandlerPerfTest {
         SLF4JBridgeHandler.uninstall();
         fileAppender.close();
         log4jRoot.getLoggerRepository().resetConfiguration();
-        for (int i = 0; i < existingHandlers.length; i++) {
-            julRootLogger.addHandler(existingHandlers[i]);
+        for (Handler existingHandler : existingHandlers) {
+            julRootLogger.addHandler(existingHandler);
         }
     }
 

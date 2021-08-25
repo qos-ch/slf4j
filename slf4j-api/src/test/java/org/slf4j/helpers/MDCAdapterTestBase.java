@@ -83,22 +83,16 @@ public class MDCAdapterTestBase {
     @Test
     public void testMDCInheritsValuesFromParentThread() throws Exception {
         mdc.put("parentKey", "parentValue");
-        runAndWait(new Runnable() {
-            public void run() {
-                mdc.put("childKey", "childValue");
-                assertEquals("parentValue", mdc.get("parentKey"));
-            }
+        runAndWait(() -> {
+            mdc.put("childKey", "childValue");
+            assertEquals("parentValue", mdc.get("parentKey"));
         });
     }
 
     @Test
     public void testMDCDoesntGetValuesFromChildThread() throws Exception {
         mdc.put("parentKey", "parentValue");
-        runAndWait(new Runnable() {
-            public void run() {
-                mdc.put("childKey", "childValue");
-            }
-        });
+        runAndWait(() -> mdc.put("childKey", "childValue"));
         assertEquals("parentValue", mdc.get("parentKey"));
         assertNull(mdc.get("childKey"));
     }
@@ -112,17 +106,15 @@ public class MDCAdapterTestBase {
     @Test
     public void testMDCChildThreadCanOverwriteParentThread() throws Exception {
         mdc.put("sharedKey", "parentValue");
-        runAndWait(new Runnable() {
-            public void run() {
-                assertEquals("parentValue", mdc.get("sharedKey"));
-                mdc.put("sharedKey", "childValue");
-                assertEquals("childValue", mdc.get("sharedKey"));
-            }
+        runAndWait(() -> {
+            assertEquals("parentValue", mdc.get("sharedKey"));
+            mdc.put("sharedKey", "childValue");
+            assertEquals("childValue", mdc.get("sharedKey"));
         });
         assertEquals("parentValue", mdc.get("sharedKey"));
     }
 
-    private void runAndWait(Runnable runnable) throws Exception {
+    private void runAndWait(Runnable runnable) {
         RecordingExceptionHandler handler = new RecordingExceptionHandler();
         Thread thread = new Thread(runnable);
         thread.setUncaughtExceptionHandler(handler);
@@ -139,6 +131,7 @@ public class MDCAdapterTestBase {
     private static class RecordingExceptionHandler implements UncaughtExceptionHandler {
         private Throwable exception;
 
+        @Override
         public void uncaughtException(Thread t, Throwable e) {
             exception = e;
         }

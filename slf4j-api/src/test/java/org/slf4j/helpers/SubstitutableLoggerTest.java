@@ -50,8 +50,8 @@ public class SubstitutableLoggerTest {
     
     // WARNING: if you need to add an excluded method to have tests pass, ask yourself whether you
     // forgot to implement the said method with delegation in SubstituteLogger. You probably did.
-    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(
-                    Arrays.asList("getName"));
+    private static final Set<String> EXCLUDED_METHODS = new HashSet<>(
+            Arrays.asList("getName"));
 
     
     /**
@@ -85,7 +85,7 @@ public class SubstitutableLoggerTest {
     }
 
     private static Set<String> determineMethodSignatures(Class<Logger> loggerClass) {
-        Set<String> methodSignatures = new HashSet<String>();
+        Set<String> methodSignatures = new HashSet<>();
         // Note: Class.getDeclaredMethods() does not include inherited methods
         for (Method m : loggerClass.getDeclaredMethods()) {
             if (!EXCLUDED_METHODS.contains(m.getName())) {
@@ -98,7 +98,7 @@ public class SubstitutableLoggerTest {
     
     // implements InvocationHandler 
     private class LoggerInvocationHandler implements InvocationHandler {
-        private final Set<String> invokedMethodSignatures = new HashSet<String>();
+        private final Set<String> invokedMethodSignatures = new HashSet<>();
 
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             invokedMethodSignatures.add(method.toString());

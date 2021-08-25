@@ -34,9 +34,9 @@ import java.util.Map;
  */
 public class ProfilerRegistry {
 
-    private static final InheritableThreadLocal<ProfilerRegistry> inheritableThreadLocal = new InheritableThreadLocal<ProfilerRegistry>();
+    private static final InheritableThreadLocal<ProfilerRegistry> inheritableThreadLocal = new InheritableThreadLocal<>();
 
-    Map<String, Profiler> profilerMap = new HashMap<String, Profiler>();
+    Map<String, Profiler> profilerMap = new HashMap<>();
 
     public void put(Profiler profiler) {
         put(profiler.getName(), profiler);

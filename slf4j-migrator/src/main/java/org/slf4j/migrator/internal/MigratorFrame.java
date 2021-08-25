@@ -313,7 +313,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
     List<String> doSanityAnalysis() {
 
-        List<String> errorList = new ArrayList<String>();
+        List<String> errorList = new ArrayList<>();
         if (!radioJCL.isSelected() && !radioLog4j.isSelected() && !radioJUL.isSelected()) {
             errorList.add("Please select the migration type: JCL, log4j, or JUL to SLF4J.");
         }

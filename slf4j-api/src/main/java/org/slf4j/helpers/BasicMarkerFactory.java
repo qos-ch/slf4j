@@ -41,7 +41,7 @@ import org.slf4j.Marker;
  */
 public class BasicMarkerFactory implements IMarkerFactory {
 
-    private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<String, Marker>();
+    private final ConcurrentMap<String, Marker> markerMap = new ConcurrentHashMap<>();
 
     /**
      * Regular users should <em>not</em> create

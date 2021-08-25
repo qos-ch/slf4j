@@ -359,7 +359,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
         List<Marker> markers = null;
 
         if (marker != null) {
-            markers = new ArrayList<Marker>();
+            markers = new ArrayList<>();
             markers.add(marker);
         }
 

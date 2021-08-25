@@ -20,7 +20,7 @@ import org.slf4j.helpers.SubstituteLogger;
 abstract public class MultithreadedInitializationTest {
     final protected static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
-    private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<Logger>());
+    private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<>());
 
     final protected AtomicLong eventCount = new AtomicLong(0);
     final private CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);

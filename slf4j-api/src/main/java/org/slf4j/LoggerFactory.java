@@ -36,7 +36,6 @@ import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
-import org.slf4j.helpers.NOPLoggerFactory;
 import org.slf4j.helpers.NOP_FallbackServiceProvider;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
@@ -101,7 +100,7 @@ public final class LoggerFactory {
 
     private static List<SLF4JServiceProvider> findServiceProviders() {
         ServiceLoader<SLF4JServiceProvider> serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class);
-        List<SLF4JServiceProvider> providerList = new ArrayList<SLF4JServiceProvider>();
+        List<SLF4JServiceProvider> providerList = new ArrayList<>();
         for (SLF4JServiceProvider provider : serviceLoader) {
             providerList.add(provider);
         }
@@ -189,7 +188,7 @@ public final class LoggerFactory {
         // use Set instead of list in order to deal with bug #138
         // LinkedHashSet appropriate here because it preserves insertion order
         // during iteration
-        Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<URL>();
+        Set<URL> staticLoggerBinderPathSet = new LinkedHashSet<>();
         try {
             ClassLoader loggerFactoryClassLoader = LoggerFactory.class.getClassLoader();
             Enumeration<URL> paths;
@@ -236,7 +235,7 @@ public final class LoggerFactory {
         final int queueSize = queue.size();
         int count = 0;
         final int maxDrain = 128;
-        List<SubstituteLoggingEvent> eventList = new ArrayList<SubstituteLoggingEvent>(maxDrain);
+        List<SubstituteLoggingEvent> eventList = new ArrayList<>(maxDrain);
         while (true) {
             int numDrained = queue.drainTo(eventList, maxDrain);
             if (numDrained == 0)

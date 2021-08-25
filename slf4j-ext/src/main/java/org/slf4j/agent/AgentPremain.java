@@ -114,13 +114,10 @@ public class AgentPremain {
 
         System.err.println("Start at " + new Date());
 
-        Thread hook = new Thread() {
-            @Override
-            public void run() {
-                long timePassed = System.currentTimeMillis() - start;
-                System.err.println("Stop at " + new Date() + ", execution time = " + timePassed + " ms");
-            }
-        };
+        Thread hook = new Thread(() -> {
+            long timePassed = System.currentTimeMillis() - start;
+            System.err.println("Stop at " + new Date() + ", execution time = " + timePassed + " ms");
+        });
         Runtime.getRuntime().addShutdownHook(hook);
     }
 }

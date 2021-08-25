@@ -64,7 +64,7 @@ public class SLF4JLogFactory extends LogFactory {
      * Public no-arguments constructor required by the lookup mechanism.
      */
     public SLF4JLogFactory() {
-        loggerMap = new ConcurrentHashMap<String, Log>();
+        loggerMap = new ConcurrentHashMap<>();
     }
 
     // ----------------------------------------------------- Manifest Constants
@@ -105,7 +105,7 @@ public class SLF4JLogFactory extends LogFactory {
     @SuppressWarnings("unchecked")
     public String[] getAttributeNames() {
 
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         Enumeration<String> keys = attributes.keys();
         while (keys.hasMoreElements()) {
             names.add((String) keys.nextElement());

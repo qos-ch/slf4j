@@ -90,8 +90,8 @@ public class Log4jMDCAdapter implements MDCAdapter {
         Map old = org.apache.log4j.MDC.getContext();
         
         // we must cater for the case where the contextMap argument is null 
-        if(contextMap == null) {
-            if(old != null) {
+        if (contextMap == null) {
+            if (old != null) {
                 old.clear();
             }
             return;

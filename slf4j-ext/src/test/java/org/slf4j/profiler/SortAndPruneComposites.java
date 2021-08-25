@@ -63,7 +63,7 @@ public class SortAndPruneComposites {
     }
 
     int[] pruneComposites(int[] sortedArray) {
-        ArrayList<Integer> primesArray = new ArrayList<Integer>();
+        ArrayList<Integer> primesArray = new ArrayList<>();
         for (int i = 0; i < originalArrrayLength; i++) {
             int n = sortedArray[i];
             if (isPrime(n)) {

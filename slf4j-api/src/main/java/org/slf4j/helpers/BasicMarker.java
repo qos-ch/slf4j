@@ -40,7 +40,7 @@ public class BasicMarker implements Marker {
 
     private static final long serialVersionUID = -2849567615646933777L;
     private final String name;
-    private List<Marker> referenceList = new CopyOnWriteArrayList<Marker>();
+    private List<Marker> referenceList = new CopyOnWriteArrayList<>();
 
     BasicMarker(String name) {
         if (name == null) {

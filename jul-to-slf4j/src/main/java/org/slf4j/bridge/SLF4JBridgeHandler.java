@@ -143,9 +143,9 @@ public class SLF4JBridgeHandler extends Handler {
     public static void uninstall() throws SecurityException {
         java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            if (handlers[i] instanceof SLF4JBridgeHandler) {
-                rootLogger.removeHandler(handlers[i]);
+        for (Handler handler : handlers) {
+            if (handler instanceof SLF4JBridgeHandler) {
+                rootLogger.removeHandler(handler);
             }
         }
     }
@@ -153,14 +153,14 @@ public class SLF4JBridgeHandler extends Handler {
     /**
      * Returns true if SLF4JBridgeHandler has been previously installed, returns false otherwise.
      *
-     * @return true if SLF4JBridgeHandler is already installed, false other wise
+     * @return true if SLF4JBridgeHandler is already installed, false otherwise
      *
      */
     public static boolean isInstalled() {
         java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            if (handlers[i] instanceof SLF4JBridgeHandler) {
+        for (Handler handler : handlers) {
+            if (handler instanceof SLF4JBridgeHandler) {
                 return true;
             }
         }

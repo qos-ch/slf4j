@@ -32,8 +32,9 @@ import org.osgi.framework.FrameworkListener;
 
 public class FrameworkErrorListener implements FrameworkListener {
 
-    public List<FrameworkEvent> errorList = new ArrayList<FrameworkEvent>();
+    public List<FrameworkEvent> errorList = new ArrayList<>();
 
+    @Override
     public void frameworkEvent(FrameworkEvent fe) {
         if (fe.getType() == FrameworkEvent.ERROR) {
             errorList.add(fe);
@@ -54,9 +55,8 @@ public class FrameworkErrorListener implements FrameworkListener {
     }
 
     public void dumpAll() {
-        for (int i = 0; i < errorList.size(); i++) {
-            FrameworkEvent fe = (FrameworkEvent) errorList.get(i);
-            dump(fe);
+        for (FrameworkEvent frameworkEvent : errorList) {
+            dump(frameworkEvent);
         }
     }
 }

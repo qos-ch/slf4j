@@ -77,8 +77,8 @@ public class JDK14AdapterLoggerNameTest {
     private void removeHandlers(Logger logger) {
         logger.setUseParentHandlers(false);
         Handler[] handlers = logger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            logger.removeHandler(handlers[i]);
+        for (Handler handler : handlers) {
+            logger.removeHandler(handler);
         }
     }
 
@@ -87,7 +87,7 @@ public class JDK14AdapterLoggerNameTest {
         assertNotNull("missing logger name", mockHandler.record.getLoggerName());
     }
 
-    private class MockHandler extends java.util.logging.Handler {
+    private static class MockHandler extends java.util.logging.Handler {
         public LogRecord record;
 
         public void close() throws SecurityException {
