@@ -102,8 +102,8 @@ public class InplaceFileConverter {
     }
 
     private void writeReplacement(OutputStream os, String[] replacement) throws IOException {
-        for (int i = 0; i < replacement.length; i++) {
-            os.write(replacement[i].getBytes());
+        for (String s : replacement) {
+            os.write(s.getBytes());
             os.write(lineTerminator.getBytes());
         }
     }

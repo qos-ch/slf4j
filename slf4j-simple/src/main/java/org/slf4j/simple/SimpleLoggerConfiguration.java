@@ -97,14 +97,12 @@ public class SimpleLoggerConfiguration {
 
     private void loadProperties() {
         // Add props from the resource simplelogger.properties
-        InputStream in = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-            public InputStream run() {
-                ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
-                if (threadCL != null) {
-                    return threadCL.getResourceAsStream(CONFIGURATION_FILE);
-                } else {
-                    return ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
-                }
+        InputStream in = AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
+            ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
+            if (threadCL != null) {
+                return threadCL.getResourceAsStream(CONFIGURATION_FILE);
+            } else {
+                return ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
             }
         });
         if (null != in) {

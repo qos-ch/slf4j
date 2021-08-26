@@ -32,7 +32,7 @@ import org.apache.log4j.spi.LoggingEvent;
 
 public class ListAppender extends AppenderSkeleton {
 
-    public List<LoggingEvent> list = new ArrayList<LoggingEvent>();
+    public List<LoggingEvent> list = new ArrayList<>();
 
     public boolean extractLocationInfo = false;
 

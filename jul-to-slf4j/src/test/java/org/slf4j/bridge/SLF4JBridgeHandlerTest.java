@@ -115,7 +115,7 @@ public class SLF4JBridgeHandlerTest {
 
         julResourceBundleLogger.info(msg);
         assertEquals(1, listAppender.list.size());
-        LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+        LoggingEvent le = listAppender.list.get(0);
         assertEquals(LOGGER_NAME, le.getLoggerName());
         assertEquals(expectedMsg, le.getMessage());
     }
@@ -149,19 +149,19 @@ public class SLF4JBridgeHandlerTest {
 
         LoggingEvent le = null;
 
-        le = (LoggingEvent) listAppender.list.get(0);
+        le = listAppender.list.get(0);
         assertEquals("foo", le.getLoggerName());
         assertEquals(expectedMsg1, le.getMessage());
 
-        le = (LoggingEvent) listAppender.list.get(1);
+        le = listAppender.list.get(1);
         assertEquals("foo", le.getLoggerName());
         assertEquals(expectedMsg2, le.getMessage());
 
-        le = (LoggingEvent) listAppender.list.get(2);
+        le = listAppender.list.get(2);
         assertEquals("foo", le.getLoggerName());
         assertEquals(expectedMsg3, le.getMessage());
 
-        le = (LoggingEvent) listAppender.list.get(3);
+        le = listAppender.list.get(3);
         assertEquals("yay", le.getLoggerName());
         assertEquals(expectedMsg3, le.getMessage());
     }
@@ -173,7 +173,7 @@ public class SLF4JBridgeHandlerTest {
         julLogger.logp(Level.INFO, "SLF4JBridgeHandlerTest", "testLogWithPlaceholderNoParameters", msg, new Object[0]);
 
         assertEquals(1, listAppender.list.size());
-        LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+        LoggingEvent le = listAppender.list.get(0);
         assertEquals(LOGGER_NAME, le.getLoggerName());
         assertEquals(msg, le.getMessage());
     }
@@ -187,7 +187,7 @@ public class SLF4JBridgeHandlerTest {
 
         julLogger.log(Level.INFO, msg, "ignored parameter due to IllegalArgumentException");
         assertEquals(1, listAppender.list.size());
-        LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+        LoggingEvent le = listAppender.list.get(0);
         assertEquals(msg, le.getMessage());
     }
 
@@ -197,12 +197,12 @@ public class SLF4JBridgeHandlerTest {
         String msg = null;
         julLogger.log(Level.INFO, msg);
         assertEquals(1, listAppender.list.size());
-        LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+        LoggingEvent le = listAppender.list.get(0);
         assertEquals("", le.getMessage());
     }
 
     void assertLevel(int index, org.apache.log4j.Level expectedLevel) {
-        LoggingEvent le = (LoggingEvent) listAppender.list.get(index);
+        LoggingEvent le = listAppender.list.get(index);
         assertEquals(expectedLevel, le.getLevel());
     }
 }

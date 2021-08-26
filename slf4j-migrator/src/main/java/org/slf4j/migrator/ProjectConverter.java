@@ -27,7 +27,6 @@ package org.slf4j.migrator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
@@ -38,18 +37,16 @@ import org.slf4j.migrator.line.RuleSet;
 
 public class ProjectConverter {
 
-    private RuleSet ruleSet;
+    private final RuleSet ruleSet;
     private List<ConversionException> exception;
 
     ProgressListener progressListener;
 
-    public static void main(String[] args) throws IOException {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                MigratorFrame inst = new MigratorFrame();
-                inst.setLocationRelativeTo(null);
-                inst.setVisible(true);
-            }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            MigratorFrame inst = new MigratorFrame();
+            inst.setLocationRelativeTo(null);
+            inst.setVisible(true);
         });
     }
 
@@ -83,9 +80,7 @@ public class ProjectConverter {
      */
     private void scanFileList(List<File> lstFiles) {
         progressListener.onFileScanBegin();
-        Iterator<File> itFile = lstFiles.iterator();
-        while (itFile.hasNext()) {
-            File currentFile = itFile.next();
+        for (File currentFile : lstFiles) {
             progressListener.onFileScan(currentFile);
             scanFile(currentFile);
         }
@@ -108,16 +103,14 @@ public class ProjectConverter {
 
     public void addException(ConversionException exc) {
         if (exception == null) {
-            exception = new ArrayList<ConversionException>();
+            exception = new ArrayList<>();
         }
         exception.add(exc);
     }
 
     public void printException() {
         if (exception != null) {
-            Iterator<ConversionException> iterator = exception.iterator();
-            while (iterator.hasNext()) {
-                ConversionException exc = (ConversionException) iterator.next();
+            for (ConversionException exc : exception) {
                 exc.print();
             }
             exception = null;

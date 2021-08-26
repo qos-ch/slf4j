@@ -50,7 +50,7 @@ public class RunInNewThreadStatement extends Statement implements Runnable {
        System.out.println("Timeout is "+timeout);
        thread.join(timeout);
        
-       if(throwable != null) {
+       if (throwable != null) {
            throw throwable;
        }
     }

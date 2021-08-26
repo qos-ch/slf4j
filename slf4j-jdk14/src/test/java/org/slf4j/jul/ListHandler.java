@@ -6,7 +6,7 @@ import java.util.logging.LogRecord;
 
 public class ListHandler extends java.util.logging.Handler {
 
-    public List<LogRecord> recordList = new ArrayList<LogRecord>();
+    public List<LogRecord> recordList = new ArrayList<>();
 
     @Override
     public void publish(LogRecord record) {

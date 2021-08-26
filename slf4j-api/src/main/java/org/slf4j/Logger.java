@@ -61,7 +61,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  *     oldT = t;
  *     t = temperature;
  *     <span style="color:green">logger.debug("Temperature set to {}. Old temperature was {}.", t, oldT);</span>
- *     if(temperature.intValue() &gt; 50) {
+ *     if (temperature.intValue() &gt; 50) {
  *       <span style="color:green">logger.info("Temperature has risen above 50 degrees.");</span>
  *     }
  *   }
@@ -106,7 +106,7 @@ public interface Logger {
      * @since 2.0
      */
     default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
-        if(isEnabledForLevel(level)) {
+        if (isEnabledForLevel(level)) {
             return new DefaultLoggingEventBuilder(this, level);          
         } else {
             return NOPLoggingEventBuilder.singleton();

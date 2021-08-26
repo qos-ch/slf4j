@@ -144,7 +144,7 @@ class SLF4JPlarformLogger implements System.Logger {
             // The JDK uses a different formatting convention. We must invoke it now.
             message = String.format(message, params);
         }
-        if(leb instanceof CallerBoundaryAware) {
+        if (leb instanceof CallerBoundaryAware) {
             CallerBoundaryAware cba = (CallerBoundaryAware) leb;
             cba.setCallerBoundary(PRESUMED_CALLER_BOUNDARY);
         }

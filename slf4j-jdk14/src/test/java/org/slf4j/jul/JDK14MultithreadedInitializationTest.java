@@ -47,8 +47,8 @@ public class JDK14MultithreadedInitializationTest extends MultithreadedInitializ
 
     private void removeAllHandlers(java.util.logging.Logger logger) {
         Handler[] handlers = logger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            logger.removeHandler(handlers[i]);
+        for (Handler handler : handlers) {
+            logger.removeHandler(handler);
         }
     }
 

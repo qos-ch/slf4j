@@ -44,9 +44,9 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
 
     volatile boolean postInitialization = false;
 
-    final Map<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
+    final Map<String, SubstituteLogger> loggers = new ConcurrentHashMap<>();
 
-    final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<SubstituteLoggingEvent>();
+    final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<>();
 
     synchronized public Logger getLogger(String name) {
         SubstituteLogger logger = loggers.get(name);
@@ -58,11 +58,11 @@ public class SubstituteLoggerFactory implements ILoggerFactory {
     }
 
     public List<String> getLoggerNames() {
-        return new ArrayList<String>(loggers.keySet());
+        return new ArrayList<>(loggers.keySet());
     }
 
     public List<SubstituteLogger> getLoggers() {
-        return new ArrayList<SubstituteLogger>(loggers.values());
+        return new ArrayList<>(loggers.values());
     }
 
     public LinkedBlockingQueue<SubstituteLoggingEvent> getEventQueue() {

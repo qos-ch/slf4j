@@ -52,8 +52,8 @@ public class SubstituteLoggerFactoryTest {
         factory.getLogger("foo1");
         factory.getLogger("foo2");
 
-        Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1", "foo2"));
-        Set<String> actualNames = new HashSet<String>(factory.getLoggerNames());
+        Set<String> expectedNames = new HashSet<>(Arrays.asList("foo1", "foo2"));
+        Set<String> actualNames = new HashSet<>(factory.getLoggerNames());
 
         assertEquals(expectedNames, actualNames);
     }
@@ -63,9 +63,9 @@ public class SubstituteLoggerFactoryTest {
         factory.getLogger("foo1");
         factory.getLogger("foo2");
 
-        Set<String> expectedNames = new HashSet<String>(Arrays.asList("foo1", "foo2"));
+        Set<String> expectedNames = new HashSet<>(Arrays.asList("foo1", "foo2"));
 
-        Set<String> actualNames = new HashSet<String>();
+        Set<String> actualNames = new HashSet<>();
         for (SubstituteLogger slog : factory.getLoggers()) {
             actualNames.add(slog.getName());
         }

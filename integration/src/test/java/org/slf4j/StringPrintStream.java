@@ -32,7 +32,7 @@ public class StringPrintStream extends PrintStream {
 
     public static final String LINE_SEP = System.getProperty("line.separator");
     PrintStream other;
-    List<String> stringList = new ArrayList<String>();
+    List<String> stringList = new ArrayList<>();
 
     public StringPrintStream(PrintStream ps) {
         super(ps);

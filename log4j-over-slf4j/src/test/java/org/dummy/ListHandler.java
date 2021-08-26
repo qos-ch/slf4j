@@ -31,7 +31,7 @@ import java.util.logging.LogRecord;
 
 public class ListHandler extends Handler {
 
-    List<LogRecord> list = new ArrayList<LogRecord>();
+    List<LogRecord> list = new ArrayList<>();
 
     public void close() throws SecurityException {
 

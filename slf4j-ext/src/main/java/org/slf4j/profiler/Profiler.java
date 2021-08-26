@@ -57,7 +57,7 @@ public class Profiler implements TimeInstrument {
     final String name;
     final StopWatch globalStopWatch;
 
-    List<TimeInstrument> childTimeInstrumentList = new ArrayList<TimeInstrument>();
+    List<TimeInstrument> childTimeInstrumentList = new ArrayList<>();
 
     // optional field
     ProfilerRegistry profilerRegistry;
@@ -209,7 +209,7 @@ public class Profiler implements TimeInstrument {
      * @since 1.5.9
      */
     public List<TimeInstrument> getCopyOfChildTimeInstruments() {
-        List<TimeInstrument> copy = new ArrayList<TimeInstrument>(childTimeInstrumentList);
+        List<TimeInstrument> copy = new ArrayList<>(childTimeInstrumentList);
         return copy;
     }
 

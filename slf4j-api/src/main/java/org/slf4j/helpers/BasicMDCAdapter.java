@@ -27,7 +27,6 @@ package org.slf4j.helpers;
 import org.slf4j.spi.MDCAdapter;
 
 import java.util.*;
-import java.util.Map;
 
 /**
  * Basic MDC implementation, which can be used with logging systems that lack
@@ -50,7 +49,7 @@ public class BasicMDCAdapter implements MDCAdapter {
             if (parentValue == null) {
                 return null;
             }
-            return new HashMap<String, String>(parentValue);
+            return new HashMap<>(parentValue);
         }
     };
 
@@ -72,7 +71,7 @@ public class BasicMDCAdapter implements MDCAdapter {
         }
         Map<String, String> map = inheritableThreadLocal.get();
         if (map == null) {
-            map = new HashMap<String, String>();
+            map = new HashMap<>();
             inheritableThreadLocal.set(map);
         }
         map.put(key, val);
@@ -134,7 +133,7 @@ public class BasicMDCAdapter implements MDCAdapter {
     public Map<String, String> getCopyOfContextMap() {
         Map<String, String> oldMap = inheritableThreadLocal.get();
         if (oldMap != null) {
-            return new HashMap<String, String>(oldMap);
+            return new HashMap<>(oldMap);
         } else {
             return null;
         }
@@ -142,8 +141,8 @@ public class BasicMDCAdapter implements MDCAdapter {
 
     public void setContextMap(Map<String, String> contextMap) {
         Map<String, String> copy = null;
-        if(contextMap != null) {
-            copy = new HashMap<String, String>(contextMap);
+        if (contextMap != null) {
+            copy = new HashMap<>(contextMap);
         }
         inheritableThreadLocal.set(copy);
     }

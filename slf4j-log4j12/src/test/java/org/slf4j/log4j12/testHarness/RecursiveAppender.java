@@ -39,7 +39,7 @@ public class RecursiveAppender extends AppenderSkeleton {
     int activationDelay = 0;
     String loggerName = "org.slf4j.impl.RecursiveAppender" + diff;
 
-    public List<LoggingEvent> events = new ArrayList<LoggingEvent>();
+    public List<LoggingEvent> events = new ArrayList<>();
 
     public RecursiveAppender() {
         System.out.println("XXXXXXX entering RecursiveAppender constructor");

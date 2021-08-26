@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentMap;
 class Log4jLoggerFactory {
 
     // String, Logger
-    private static ConcurrentMap<String, Logger> log4jLoggers = new ConcurrentHashMap<String, Logger>();
+    private static ConcurrentMap<String, Logger> log4jLoggers = new ConcurrentHashMap<>();
 
     public static Logger getLogger(String name) {
         org.apache.log4j.Logger instance = log4jLoggers.get(name);

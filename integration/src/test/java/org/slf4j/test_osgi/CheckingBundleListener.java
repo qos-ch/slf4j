@@ -33,7 +33,7 @@ import org.osgi.framework.BundleListener;
 
 public class CheckingBundleListener implements BundleListener {
 
-    List<BundleEvent> eventList = new ArrayList<BundleEvent>();
+    List<BundleEvent> eventList = new ArrayList<>();
 
     public void bundleChanged(BundleEvent be) {
         eventList.add(be);
@@ -45,16 +45,14 @@ public class CheckingBundleListener implements BundleListener {
     }
 
     public void dumpAll() {
-        for (int i = 0; i < eventList.size(); i++) {
-            BundleEvent fe = (BundleEvent) eventList.get(i);
+        for (BundleEvent fe : eventList) {
             dump(fe);
         }
     }
 
     boolean exists(String bundleName) {
-        for (int i = 0; i < eventList.size(); i++) {
-            BundleEvent fe = (BundleEvent) eventList.get(i);
-            Bundle b = fe.getBundle();
+        for (BundleEvent bundleEvent : eventList) {
+            Bundle b = bundleEvent.getBundle();
             System.out.println("===[" + b + "]");
             if (bundleName.equals(b.getSymbolicName())) {
                 return true;

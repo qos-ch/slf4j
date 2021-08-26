@@ -75,7 +75,7 @@ public class FelixHost {
         try {
             // Create host activator;
 
-            List<Object> list = new ArrayList<Object>();
+            List<Object> list = new ArrayList<>();
 
             // list.add(new HostActivator());
             configMap.put(Constants.FRAMEWORK_SYSTEMPACKAGES_EXTRA, "org.xml.sax, org.xml.sax.helpers, javax.xml.parsers, javax.naming");

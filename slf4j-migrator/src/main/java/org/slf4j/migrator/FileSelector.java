@@ -32,7 +32,7 @@ import org.slf4j.migrator.internal.ProgressListener;
 
 public class FileSelector {
 
-    private List<File> javaFileList = new ArrayList<File>();
+    private final List<File> javaFileList = new ArrayList<>();
 
     ProgressListener pl;
 
@@ -54,8 +54,8 @@ public class FileSelector {
             pl.onDirectory(file);
             File[] files = file.listFiles();
             if (files != null) {
-                for (int i = 0; i < files.length; i++) {
-                    selectFiles(files[i]);
+                for (File value : files) {
+                    selectFiles(value);
                 }
             }
         } else {
