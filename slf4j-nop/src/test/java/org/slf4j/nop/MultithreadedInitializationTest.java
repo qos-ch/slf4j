@@ -45,7 +45,7 @@ public class MultithreadedInitializationTest {
 
     final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
-    private static AtomicLong EVENT_COUNT = new AtomicLong(0);
+    private static final AtomicLong EVENT_COUNT = new AtomicLong(0);
 
     final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 

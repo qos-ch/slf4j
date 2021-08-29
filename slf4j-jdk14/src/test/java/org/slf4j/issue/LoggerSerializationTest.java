@@ -47,7 +47,7 @@ public class LoggerSerializationTest {
     static class LoggerHolder implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private Logger log = LoggerFactory.getLogger(LoggerHolder.class);
+        private final Logger log = LoggerFactory.getLogger(LoggerHolder.class);
 
         public String toString() {
             return "log=" + getLog();

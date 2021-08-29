@@ -216,7 +216,7 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
     static String SUBSTITUE = SubstituteLogger.class.getName();
     static String FLUENT = DefaultLoggingEventBuilder.class.getName();
 
-    static String BARRIER_CLASSES[] = new String[] { SUPER_OF_SUPER, SUPER, SELF, SUBSTITUE, FLUENT };
+    static String[] BARRIER_CLASSES = new String[] { SUPER_OF_SUPER, SUPER, SELF, SUBSTITUE, FLUENT };
 
     private boolean barrierMatch(String callerFQCN, String candidateClassName) {
         if (candidateClassName.equals(callerFQCN))

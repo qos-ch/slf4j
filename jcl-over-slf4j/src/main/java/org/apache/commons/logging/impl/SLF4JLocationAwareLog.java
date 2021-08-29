@@ -43,7 +43,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
 
     // in both Log4jLogger and Jdk14Logger classes in the original JCL, the
     // logger instance is transient
-    private transient LocationAwareLogger logger;
+    private final transient LocationAwareLogger logger;
 
     private static final String FQCN = SLF4JLocationAwareLog.class.getName();
 

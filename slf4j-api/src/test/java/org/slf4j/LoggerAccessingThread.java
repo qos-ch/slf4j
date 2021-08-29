@@ -29,7 +29,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class LoggerAccessingThread extends Thread {
-    private static int LOOP_LEN = 32;
+    private static final int LOOP_LEN = 32;
 
     final CyclicBarrier barrier;
     final int count;

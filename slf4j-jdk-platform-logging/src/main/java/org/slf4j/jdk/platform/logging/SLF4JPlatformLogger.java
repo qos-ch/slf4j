@@ -37,13 +37,13 @@ import org.slf4j.spi.LoggingEventBuilder;
  * Adapts {@link Logger} to {@link System.Logger}.
  * @since 2.0.0
  */
-class SLF4JPlarformLogger implements System.Logger {
+class SLF4JPlatformLogger implements System.Logger {
 
-    static private String PRESUMED_CALLER_BOUNDARY = System.Logger.class.getName();
+    static private final String PRESUMED_CALLER_BOUNDARY = System.Logger.class.getName();
                     
     private final Logger slf4jLogger;
 
-    public SLF4JPlarformLogger(Logger logger) {
+    public SLF4JPlatformLogger(Logger logger) {
         this.slf4jLogger = requireNonNull(logger);
     }
 

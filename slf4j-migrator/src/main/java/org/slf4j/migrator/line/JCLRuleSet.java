@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 public class JCLRuleSet implements RuleSet {
 
-    private ArrayList<ConversionRule> conversionRuleList;
+    private final ArrayList<ConversionRule> conversionRuleList;
 
     public JCLRuleSet() {
         // matching : import org.apache.commons.logging.LogFactory;

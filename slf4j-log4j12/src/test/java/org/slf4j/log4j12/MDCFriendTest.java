@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class MDCFriendTest {
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
     int diff = random.nextInt(1024 * 8);
 
     @Test

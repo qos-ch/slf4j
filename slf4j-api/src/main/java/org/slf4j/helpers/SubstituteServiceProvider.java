@@ -6,9 +6,9 @@ import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
 public class SubstituteServiceProvider implements SLF4JServiceProvider {
-    private SubstituteLoggerFactory loggerFactory = new SubstituteLoggerFactory();
-    private IMarkerFactory markerFactory = new BasicMarkerFactory();
-    private MDCAdapter mdcAdapter = new BasicMDCAdapter();
+    private final SubstituteLoggerFactory loggerFactory = new SubstituteLoggerFactory();
+    private final IMarkerFactory markerFactory = new BasicMarkerFactory();
+    private final MDCAdapter mdcAdapter = new BasicMDCAdapter();
 
     @Override
     public ILoggerFactory getLoggerFactory() {

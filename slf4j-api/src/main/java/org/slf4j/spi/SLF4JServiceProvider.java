@@ -3,6 +3,7 @@ package org.slf4j.spi;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 /**
  * This interface based on {@link java.util.ServiceLoader} paradigm. 
@@ -31,7 +32,7 @@ public interface SLF4JServiceProvider {
     public IMarkerFactory getMarkerFactory();
 
     /**
-     * Return the instnace of {@link MDCAdapter} that
+     * Return the instance of {@link MDCAdapter} that
      * {@link MDC} should bind to.
      * 
      * @return instance of {@link MDCAdapter} 

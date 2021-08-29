@@ -40,7 +40,7 @@ public class BasicMarker implements Marker {
 
     private static final long serialVersionUID = -2849567615646933777L;
     private final String name;
-    private List<Marker> referenceList = new CopyOnWriteArrayList<>();
+    private final List<Marker> referenceList = new CopyOnWriteArrayList<>();
 
     BasicMarker(String name) {
         if (name == null) {
@@ -128,9 +128,9 @@ public class BasicMarker implements Marker {
         return false;
     }
 
-    private static String OPEN = "[ ";
-    private static String CLOSE = " ]";
-    private static String SEP = ", ";
+    private static final String OPEN = "[ ";
+    private static final String CLOSE = " ]";
+    private static final String SEP = ", ";
 
     public boolean equals(Object obj) {
         if (this == obj)

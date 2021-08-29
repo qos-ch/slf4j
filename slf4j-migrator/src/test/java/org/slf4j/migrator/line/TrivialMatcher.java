@@ -35,7 +35,7 @@ import org.slf4j.migrator.line.SingleConversionRule;
 
 class TrivialMatcher implements RuleSet {
 
-    private ArrayList<ConversionRule> conversionRuleList;
+    private final ArrayList<ConversionRule> conversionRuleList;
 
     public TrivialMatcher() {
         // simple rule no capturing group is defined, we use default capturing group which is group zero
