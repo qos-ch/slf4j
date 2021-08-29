@@ -1,1 +1,1 @@
-package org.slf4j.jdk.platform.logging.SLF4JSystemLoggerFinder
+org.slf4j.jdk.platform.logging.SLF4JSystemLoggerFinder
