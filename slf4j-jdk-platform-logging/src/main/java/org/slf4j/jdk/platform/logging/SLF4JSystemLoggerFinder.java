@@ -52,7 +52,7 @@ public class SLF4JSystemLoggerFinder extends System.LoggerFinder {
         // is updated to forward a module, we should do that here.
         //
         // [1] https://openjdk.java.net/jeps/264
-         SLF4JPlarformLogger adapter = platformLoggerFactory.getLogger(name);
+         SLF4JPlatformLogger adapter = platformLoggerFactory.getLogger(name);
         return adapter;
     }
 
