@@ -135,8 +135,8 @@ public class LogTransformer implements ClassFileTransformer {
         }
     }
 
-    private String level;
-    private String levelEnabled;
+    private final String level;
+    private final String levelEnabled;
 
     private LogTransformer(Builder builder) {
         String s = "WARNING: javassist not available on classpath for javaagent, log statements will not be added";
@@ -156,10 +156,10 @@ public class LogTransformer implements ClassFileTransformer {
         this.levelEnabled = "is" + builder.level.substring(0, 1).toUpperCase() + builder.level.substring(1) + "Enabled";
     }
 
-    private boolean addEntryExit;
+    private final boolean addEntryExit;
     // private boolean addVariableAssignment;
-    private boolean verbose;
-    private String[] ignore;
+    private final boolean verbose;
+    private final String[] ignore;
 
     public byte[] transform(ClassLoader loader, String className, Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
 

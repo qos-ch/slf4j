@@ -39,10 +39,10 @@ import org.slf4j.LoggerFactory;
  */
 public class MultithereadedExecutionTest {
 
-    private static int THREAD_COUNT = 2;
-    private Thread[] threads = new Thread[THREAD_COUNT];
+    private static final int THREAD_COUNT = 2;
+    private final Thread[] threads = new Thread[THREAD_COUNT];
 
-    private static long TEST_DURATION_IN_MILLIS = 100;
+    private static final long TEST_DURATION_IN_MILLIS = 100;
     
     private final PrintStream oldOut = System.out;
     StateCheckingPrintStream scps = new StateCheckingPrintStream(oldOut);

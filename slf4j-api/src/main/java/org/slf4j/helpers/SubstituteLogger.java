@@ -53,7 +53,7 @@ public class SubstituteLogger implements Logger {
     private Boolean delegateEventAware;
     private Method logMethodCache;
     private EventRecodingLogger eventRecodingLogger;
-    private Queue<SubstituteLoggingEvent> eventQueue;
+    private final Queue<SubstituteLoggingEvent> eventQueue;
 
     public final boolean createdPostInitialization;
 

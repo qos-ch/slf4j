@@ -147,7 +147,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     private static final long serialVersionUID = -632788891211436180L;
 
-    private static long START_TIME = System.currentTimeMillis();
+    private static final long START_TIME = System.currentTimeMillis();
 
     protected static final int LOG_LEVEL_TRACE = LocationAwareLogger.TRACE_INT;
     protected static final int LOG_LEVEL_DEBUG = LocationAwareLogger.DEBUG_INT;

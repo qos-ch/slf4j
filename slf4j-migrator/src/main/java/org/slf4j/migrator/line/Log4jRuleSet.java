@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 public class Log4jRuleSet implements RuleSet {
 
-    private ArrayList<ConversionRule> conversionRuleList;
+    private final ArrayList<ConversionRule> conversionRuleList;
 
     public Log4jRuleSet() {
 

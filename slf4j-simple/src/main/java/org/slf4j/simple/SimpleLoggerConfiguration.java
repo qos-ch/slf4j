@@ -54,7 +54,7 @@ public class SimpleLoggerConfiguration {
     private static final boolean LEVEL_IN_BRACKETS_DEFAULT = false;
     boolean levelInBrackets = LEVEL_IN_BRACKETS_DEFAULT;
 
-    private static String LOG_FILE_DEFAULT = "System.err";
+    private static final String LOG_FILE_DEFAULT = "System.err";
     private String logFile = LOG_FILE_DEFAULT;
     OutputChoice outputChoice = null;
 

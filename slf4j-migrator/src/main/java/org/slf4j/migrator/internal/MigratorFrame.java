@@ -58,8 +58,8 @@ public class MigratorFrame extends JFrame implements ActionListener {
     static final int X_SIZE = 700;
     static final int Y_SIZE = 400;
 
-    private SpringLayout layoutManager = new SpringLayout();
-    private SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager, BASIC_PADDING);
+    private final SpringLayout layoutManager = new SpringLayout();
+    private final SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager, BASIC_PADDING);
 
     private JLabel migrationLabel;
 

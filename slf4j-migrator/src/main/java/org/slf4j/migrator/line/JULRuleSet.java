@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 public class JULRuleSet implements RuleSet {
 
-    private ArrayList<ConversionRule> conversionRuleList;
+    private final ArrayList<ConversionRule> conversionRuleList;
 
     public JULRuleSet() {
 

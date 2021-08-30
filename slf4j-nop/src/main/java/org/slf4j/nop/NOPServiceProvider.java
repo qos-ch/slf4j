@@ -17,9 +17,9 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
     // to avoid constant folding by the compiler, this field must *not* be final
     public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
-    private ILoggerFactory loggerFactory = new NOPLoggerFactory();
-    private IMarkerFactory markerFactory = new BasicMarkerFactory();
-    private MDCAdapter mdcAdapter = new NOPMDCAdapter();
+    private final ILoggerFactory loggerFactory = new NOPLoggerFactory();
+    private final IMarkerFactory markerFactory = new BasicMarkerFactory();
+    private final MDCAdapter mdcAdapter = new NOPMDCAdapter();
 
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;

@@ -40,8 +40,8 @@ public class MultiGroupConversionRule implements ConversionRule {
     // our conversion reg-expressions
     final private static int MAX_GROUPS = 10;
 
-    private Pattern pattern;
-    private String[] replacementTable = new String[MAX_GROUPS];
+    private final Pattern pattern;
+    private final String[] replacementTable = new String[MAX_GROUPS];
 
     public MultiGroupConversionRule(Pattern pattern) {
         this.pattern = pattern;

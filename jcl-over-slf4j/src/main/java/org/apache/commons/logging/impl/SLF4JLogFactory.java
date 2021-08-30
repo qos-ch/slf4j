@@ -110,7 +110,7 @@ public class SLF4JLogFactory extends LogFactory {
         while (keys.hasMoreElements()) {
             names.add((String) keys.nextElement());
         }
-        String results[] = new String[names.size()];
+        String[] results = new String[names.size()];
         for (int i = 0; i < results.length; i++) {
             results[i] = (String) names.get(i);
         }

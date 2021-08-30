@@ -45,12 +45,12 @@ public class Category {
 
     private static final String CATEGORY_FQCN = Category.class.getName();
 
-    private String name;
+    private final String name;
 
     protected org.slf4j.Logger slf4jLogger;
     private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
 
-    private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
+    private static final Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 
     Category(String name) {
         this.name = name;
