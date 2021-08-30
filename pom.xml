@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>2.0.0-alpha5</version>
+  <version>2.0.0-alpha6-SNAPSNOT</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -46,7 +46,7 @@
     <cal10n.version>0.8.1</cal10n.version>
     <log4j.version>1.2.17</log4j.version>
     <logback.version>1.2.3</logback.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13.1</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
@@ -428,17 +428,6 @@
       </build>
 
       <pluginRepositories>
-        <pluginRepository>
-          <id>mc-release</id>
-          <name>Local Maven repository of releases</name>
-          <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-        </pluginRepository>
       </pluginRepositories>
     </profile>
 
