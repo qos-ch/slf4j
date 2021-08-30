@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.jdk.platform.logging;
+package org.slf4j.jdk.platform.logging.test;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class StringPrintStream extends PrintStream {
     PrintStream other;
     boolean duplicate = false;
 
-    public List<String> stringList = Collections.synchronizedList(new ArrayList<>());
+    public List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
 
     public StringPrintStream(PrintStream ps, boolean duplicate) {
         super(ps);

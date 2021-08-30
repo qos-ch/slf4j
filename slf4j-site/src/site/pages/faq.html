@@ -67,8 +67,8 @@
     </li>
     
     <li>
-      <a href="#where_is_provider">Where can I get a particular
-      SLF4J provider?
+      <a href="#where_is_binding">Where can I get a particular
+      SLF4J provider/binding?
       </a>
     </li>
     
@@ -234,14 +234,14 @@
       
       <p>Suppose that your CRM application uses log4j for its
       logging. However, one of your important clients request that
-      logging be performed through JDK 1.4 logging. If your
-      application is riddled with thousands of direct log4j calls,
-      migration to JDK 1.4 would be a relatively lengthy and
-      error-prone process. Even worse, you would potentially need to
-      maintain two versions of your CRM software. Had you been
-      invoking SLF4J API instead of log4j, the migration could be
-      completed in a matter of minutes by replacing one jar file with
-      another.
+      logging be performed through java.util.Logging, a.k.a. JDK 1.4
+      logging. If your application is riddled with thousands of direct
+      log4j calls, migration to java.util.logging would be a
+      relatively lengthy and error-prone process. Even worse, you
+      would potentially need to maintain two versions of your CRM
+      software. Had you been invoking SLF4J API instead of log4j, the
+      migration could be completed in a matter of minutes by replacing
+      one jar file with another.
       </p> 
       
       <p>SLF4J lets component developers to defer the choice of the
@@ -274,11 +274,12 @@
     
     <dd>
       <p>This is a very good question. First, SLF4J static binding
-      approach is very simple, perhaps even laughably so. It was
-      not easy to convince developers of the validity of that
-      approach. It is only after SLF4J was released and started to
-      become accepted did it gain respectability in the relevant
-      community. 
+      approach is very simple, perhaps even laughably so. It was not
+      easy to convince developers of the validity of that
+      approach. Note that as of version 2.0.0, SLF4J uses the
+      <code>ServiceLoader</code> mechanism offered by the Java
+      platform. This new approach is still relatively static and
+      therefore predictable.
       </p>
       
       <p>Second, SLF4J offers two enhancements which tend to be
@@ -290,7 +291,10 @@
       open to switching back to more traditional logging systems if
       need be.
       </p>
-      
+
+      <p>In 2021, the question is moot since JCL has been defunct for
+      at least a decade.
+      </p>
       
     </dd>
     
@@ -302,14 +306,15 @@
     <dd>
       <p>No, you do not need to recompile your application. You can
       switch to a different logging system by removing the previous
-      SLF4J binding and replacing it with the binding of your choice.
+      SLF4J provider and replacing it with the provider of your
+      choice.
       </p>
       
       <p>For example, if you were using the NOP implementation and
       would like to switch to log4j version 1.2, simply replace
       <em>slf4j-nop.jar</em> with <em>slf4j-log4j12.jar</em> on
       your class path but do not forget to add log4j-1.2.x.jar as
-      well. Want to switch to JDK 1.4 logging?  Just replace
+      well. Want to switch to java.util.logging?  Just replace
       <em>slf4j-log4j12.jar</em> with <em>slf4j-jdk14.jar</em>.
       </p>
       
@@ -322,40 +327,39 @@
     
     <dd>
       
-      <p>As of version 1.7.0, SLF4J requires JDK 1.5 or later. Earlier
-      SLF4J versions, namely SLF4J 1.4, 1.5. and 1.6, required JDK
-      1.4.
+      <p>As of version 2.0.0, SLF4J requires JDK 8 or later. Version
+      1.7.0 requires JDK 1.5 or later.
       </p>
       
       <p>&nbsp;</p>
       
       <table class="bodyTable striped">
         <tr align="left">
-          <th>Binding</th>
+          <th>Provider</th>
           <th>Requirements</th>
         </tr>
         
         <tr>
           <td>slf4j-nop</td>
-          <td>JDK 1.5</td>
+          <td>JDK 8</td>
         </tr>
         <tr>
           <td>slf4j-simple</td>
-          <td>JDK 1.5</td>
+          <td>JDK 8</td>
         </tr>
         
         <tr>
           <td>slf4j-log4j12</td>
-          <td align="left">JDK 1.5, plus any other library
+          <td align="left">JDK 8, plus any other library
           dependencies required by the log4j appenders in use</td>
         </tr>
         <tr>
           <td>slf4j-jdk14</td>
-          <td>JDK 1.5 or later</td>
+          <td>JDK 8 or later</td>
         </tr>
         <tr>
           <td>logback-classic</td>
-          <td>JDK 1.5 or later, plus any other library dependencies
+          <td>JDK 8 or later, plus any other library dependencies
           required by the logback appenders in use</td>
         </tr>
         
@@ -403,7 +407,7 @@
       slf4j-api and slf4j-simple versions are placed on the class
       path.  Please note that the table below applies by analogy not
       just to slf4j-simple but also to other providers such as
-      slf4j-log4j12, logback-classic, slf4j-jul14, etc...
+      slf4j-log4j12, logback-classic, slf4j-jdk14, etc...
       </p>
 
    
@@ -426,7 +430,7 @@
           <td>1.7.x</td>
           <td>2.0.x</td>
           <td>no bindings can be found warning message</td>
-          <td>A 2.0.x providers do <b>not</b> act as 1.7.x/16.x
+          <td>2.0.x providers do <b>not</b> act as 1.7.x/16.x
           comptatible bindings</td>
         </tr>
         
@@ -476,6 +480,10 @@
       said mismatch.
       </p>
 
+      <p><span class="label">Fluent API requires version 2.0</span> If
+      your code accesses the fluent API introduced in slf4j 2.0, then
+      your code will require version 2.0 or later.</p>
+      
       
     </dd>
 
@@ -520,7 +528,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p>In your <em>pom.xml</em> file, explicitly declaring a
       dependency on slf4j-api matching the version of the declared
-      binding will make the problem go away.
+      provider/binding will make the problem go away.
       </p>
 
       <p>Please also read the FAQ entry on <a
@@ -551,8 +559,8 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     </dd>
 
     <!-- ==================================================== -->
-    <dt class="doAnchor" name="where_is_provider">Where can I get a
-    particular SLF4J provider?
+    <dt class="doAnchor" name="where_is_binding">Where can I get a
+    particular SLF4J provider/binding?
     </dt>
     
     <dd>
@@ -566,14 +574,14 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       are contained within the files <em>slf4j-nop.jar</em>,
       <em>slf4j-simple.jar</em>, <em>slf4j-log4j12.jar</em>, and
       <em>slf4j-jdk14.jar</em>. These files can be found on Maven
-      central. Please note that all providers depend on
+      central. Please note that all providers/bindings depend on
       <em>slf4j-api.jar</em>.
       </p>
       
       <p>The providers for logback-classic is part of the <a
-      href="http:logback.qos.ch">logback project</a> and can be found
-      on Maven central. However, as with all other providers, the
-      logback-classic provider requires <em>slf4j-api.jar</em>.
+      href="http:logback.qos.ch">logback project</a> and can also be
+      found on Maven central. However, as with all other providers,
+      the logback-classic provider requires <em>slf4j-api.jar</em>.
       </p>
       
       
@@ -678,7 +686,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       logging.  While one can come up with a seemingly working
       SLF4J-wrapper within hours, many technical issues will emerge
       over time which Wombat developers will have to deal with. Note
-      that SLF4J has evolved over several years and has 260 bug
+      that SLF4J has evolved over several years and has 500 bug
       reports filed against it.</p>
 
       <p>For the above reasons, developers of frameworks should resist
@@ -698,7 +706,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
     
     <dd>
       <p>As an author of a library built with Maven, you might want to
-      test your application using a binding, say slf4j-log4j12 or
+      test your application using a provider, say slf4j-log4j12 or
       logback-classic, without forcing log4j or logback-classic as a
       dependency upon your users. This is rather easy to accomplish.
       </p>
@@ -713,9 +721,9 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
   &lt;version&gt;${project.version}&lt;/version&gt;
 &lt;/dependency&gt;</pre>
       
-      <p>Limiting the transitivity of the SLF4J binding used in your
+      <p>Limiting the transitivity of the SLF4J provider used in your
       tests can be accomplished by declaring the scope of the
-      SLF4J-binding dependency as "test".  Here is an example:</p>
+      SLF4J-provider dependency as "test".  Here is an example:</p>
       
       <pre class="prettyprint source">&lt;dependency&gt;
   &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
@@ -726,11 +734,11 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       
       <p>Thus, as far as your users are concerned you are exporting
       slf4j-api as a transitive dependency of your library, but not
-      any SLF4J-binding or any underlying logging system.
+      any SLF4J-provider or any underlying logging system.
       </p>
       
       <p>Note that as of SLF4J version 1.6, in the absence of an SLF4J
-      binding, slf4j-api will default to a no-operation
+      provider, slf4j-api will default to a no-operation
       implementation.
       </p>
 
@@ -1344,7 +1352,7 @@ class Bar {
       around an <a
       href="xref/org/slf4j/ILoggerFactory.html"><code>ILoggerFactory</code></a>
       instance. The <code>ILoggerFactory</code> instance in use is
-      determined according to the static binding conventions of the
+      determined according to the static provider conventions of the
       SLF4J framework. See the <a
       href="xref/org/slf4j/LoggerFactory.html#217">getSingleton()</a>
       method in <code>LoggerFactory</code> for details.
@@ -1418,7 +1426,7 @@ try {
     <dd>
       
       <p>Adding supporting for the SLF4J is surprisingly
-      easy. Essentially, you coping an existing binding and tailoring
+      easy. Essentially, you coping an existing provider and tailoring
       it a little (as explained below) does the trick.
       </p>
       
@@ -1451,7 +1459,7 @@ try {
       existing NOP implementations.
       </p>
       
-      <p>In summary, to create an SLF4J binding for your logging
+      <p>In summary, to create an SLF4J provider for your logging
       system, follow these steps:</p>
       
       <ol>
@@ -1527,14 +1535,14 @@ try {
       <p>For each version, SLF4J API maintains a list of compatible
       versions. SLF4J will emit a version mismatch warning only if
       the requested version is not found in the compatibility
-      list. So even if your SLF4J binding has a different release
+      list. So even if your SLF4J provider has a different release
       schedule than SLF4J, assuming you update the SLF4J version you
       use every 6 to 12 months, you can still participate in the
       version check without incurring a mismatch warning. For
       example, logback has a different release schedule but still
       participates in version checks.</p>
       
-      <p><b>As of SLF4J 1.5.5</b>, all bindings shipped within the
+      <p><b>As of SLF4J 1.5.5</b>, all providers shipped within the
       SLF4J distribution, e.g. slf4j-log4j12, slf4j-simple and
       slf4j-jdk14, declare the REQUESTED_API_VERSION field with a
       value equal to their SLF4J version. It follows that, for example
@@ -1595,7 +1603,7 @@ try {
             <ol>
               <li>For libraries shared between applications, not
               possible to take advantage of repository selectors. It
-              should be noted that if the SLF4J binding and the
+              should be noted that if the SLF4J provider and the
               underlying API ships with each application (not shared
               between applications), then each application will still
               have its own logging environment.  
@@ -1681,7 +1689,7 @@ try {
       <p>Unfortunately, for non-native implementations of the SLF4J
       API, namely with slf4j-log4j12, log4j's repository selector will
       not be able to do its job properly because slf4j-log4j12, a
-      non-native SLF4J binding, will store logger instances in a map,
+      non-native SLF4J provider, will store logger instances in a map,
       short-circuiting context-dependent logger retrieval. For native
       SLF4J implementations, such as logback-classic, repository
       selectors will work as expected.

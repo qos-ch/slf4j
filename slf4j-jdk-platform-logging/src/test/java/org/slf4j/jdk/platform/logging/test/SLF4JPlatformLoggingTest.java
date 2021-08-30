@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.jdk.platform.logging;
+package org.slf4j.jdk.platform.logging.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -57,6 +57,8 @@ public class SLF4JPlatformLoggingTest {
     static final String SIMPLE_LOGGER_FILE_PROPERTY = PREFIX + "logFile";
     static final String SIMPLE_LOGGER_THREAD_NAME_PROPERTY = PREFIX + "showThreadName";
     
+    static final String EXPECTED_FINDER_CLASS = "org.slf4j.jdk.platform.logging.SLF4JSystemLoggerFinder";
+    
     static int diff = new Random().nextInt(100*1000*1000);
    
     static final PrintStream oldErr = System.err;
@@ -83,6 +85,7 @@ public class SLF4JPlatformLoggingTest {
     @Test
     public void smoke() throws IOException {
         LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
         Logger systemLogger = finder.getLogger("smoke", null);
         systemLogger.log(Level.INFO, "hello");
         systemLogger.log(Level.INFO, "hello %s", "world");
@@ -96,6 +99,8 @@ public class SLF4JPlatformLoggingTest {
     @Test
     public void throwTest() throws IOException {
         LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
+
         Logger systemLogger = finder.getLogger("throwTest", null);
         systemLogger.log(Level.INFO, "we have a problem", new Exception());
         
