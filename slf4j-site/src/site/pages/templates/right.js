@@ -25,7 +25,7 @@ function addBlockDetected() {
 add blocker.</p>');
 }
 
-document.write('      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" \
+document.write('      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7471410671306824" \
   onerror="addBlockDetected();"  ></script>');
 
 //      <!-- SLF4J -->
