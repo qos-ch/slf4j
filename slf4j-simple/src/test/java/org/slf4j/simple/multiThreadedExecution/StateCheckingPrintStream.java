@@ -29,6 +29,9 @@ import java.util.regex.Pattern;
 
 public class StateCheckingPrintStream extends PrintStream {
 
+    static String PACKAGE_NAME = "org.slf4j.simple.multiThreadedExecution";
+    
+    
     enum State {
         INITIAL, UNKNOWN, HELLO, THROWABLE, AT1, AT2, OTHER;
     }
@@ -105,7 +108,7 @@ public class StateCheckingPrintStream extends PrintStream {
     String OTHER_PATTERN_STR = ".*Other \\d{1,5}";
     String HELLO_PATTERN_STR = ".*Hello \\d{1,5}";
     String THROWABLE_PATTERN_STR = "java.lang.Throwable: i=\\d{1,5}";
-    String AT1_PATTERN_STR = "\\s*at " + this.getClass().getPackageName() + ".*";
+    String AT1_PATTERN_STR = "\\s*at " + PACKAGE_NAME + ".*";
     String AT2_PATTERN_STR = "\\s*at " + ".*Thread.java.*";
 
     Pattern PATTERN_OTHER = Pattern.compile(OTHER_PATTERN_STR);
