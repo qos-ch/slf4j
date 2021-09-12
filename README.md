@@ -45,4 +45,4 @@ later.
 6. Submit a pull request to SLF4J from from your commit page on github.
 
 7. Did we mention that you will be asked to link your pull request
-with a Jira ticket?
+with a Jira ticket? update information to profile.
