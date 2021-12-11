@@ -51,16 +51,28 @@
 
       <p class="highlight">As log4j 1.x does not offer a look-up
       mechanism, it does not suffer from CVE-2021-44228 in any shape
-      or form.</p>
+      or form. However, note that log4j 1.x is no longer being
+      maintained. Thus, we definitely urge you to migrate to one of
+      its successors such as SLF4J and logback.  <b>Do migrate without
+      delaying too much!</b></p>
 
-      <p>As log4j version 1.x is still very widely deployed, we have
-      been receiving a steady stream of questions regarding the
-      vulnerability of log4j version 1.x.
+      <p>Given that log4j version 1.x is still very widely deployed,
+      we have been receiving a steady stream of questions regarding
+      the vulnerability of log4j version 1.x.
 
 
-      <p><b>As log4j 1.x does not offer a look up mechanism, it does not
-      suffer from CVE-2021-44228 in any shape or form.</b> Any innuendo
-      claiming otherwise is false.</p>
+      <p><b>As log4j 1.x does not offer a look up mechanism, it does
+      not suffer from CVE-2021-44228 in any shape or form.</b> Any
+      innuendo claiming otherwise is false.</p>
+
+      <p>Having said this, log4j 1.x is no longer being maintained
+      with all the entailed security implications. Thus, we definitely
+      urge you to migrate to one of its successors such as
+      SLF4J/logback, sooner rather than later. <b>But do migrate
+      without waiting for months!</b> Also note that <a
+      href="migrator.html">tools exist</a> to automate the
+      migration. </p>
+
 
 
       <h3>How about the SLF4J API?</h3>
@@ -70,9 +82,10 @@
       mitigate the vulnerability.
       </p>
 
-      <p>However, as mentioned previously, log4j 1.x is safe. Thus, if
-      your SLF4J provider/binding is <em>slf4j-logj12.jar</em>, you
-      are safe.</p>
+      <p>However, as mentioned previously, log4j 1.x is safe with
+      respect to CVE-2021-44228. Thus, if your SLF4J provider/binding
+      is <em>slf4j-logj12.jar</em>, you are safe regarding
+      CVE-2021-44228.</p>
 
       <p>If you are using <em>log4j-over-slf4j.jar</em> with SLF4J
       API, you are safe unless the underlying implementation is log4j
@@ -91,7 +104,8 @@
       are fine. Otherwise, either remove the said artifact or upgrade
       to a log4j 2.x version which fixes the issue.
       <p>
-      
+
+
       <h3>Further reading</h3>
       
       <ol>
