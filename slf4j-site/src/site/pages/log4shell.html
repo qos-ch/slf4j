@@ -7,10 +7,11 @@
     <title>SLF4J</title>
     <link rel="stylesheet" type="text/css" media="screen" href="css/site.css" />
   </head>
-  <body>
-    
+  <body onload="prettyPrint(); decorate();">
     <script type="text/javascript">prefix='';</script>
+    <script type="text/javascript" src="js/prettify.js"></script>
     <script type="text/javascript" src="js/jquery-min.js"></script>
+    <script type="text/javascript" src="js/decorator.js"></script>
 
     <div id="container">
 
@@ -31,10 +32,10 @@
 
       <h3>Preamble</h3>
       
-      <p>The JNDI serialization rabbit hole goes deep and leads to
-      much uncertainty. <b>Thus, the contents of this page are the
-      result of our current knowledge and are provided AS IS without
-      warranty of any kind.</b></p>
+      <p>The JNDI/LDAP/RMI/X serialization rabbit hole goes deep and
+      leads to much uncertainty. <b>Thus, the contents of this page
+      are the result of our current knowledge and are provided AS IS
+      without warranty of any kind.</b></p>
 
       <h3>What is CVE-2021-44228?</h3>
       
@@ -57,38 +58,38 @@
       lookup, aka string substitution, using the JNDI protocol,
       whenever the "&dollar;&lbrace;jndi:...&rbrace;" string is found
       within a message parameter. As mentioned above, the contents of
-      the message parameter can be injected by the attacker quite
-      easily.</p>
+      the message parameter can be injected quite easily by the
+      attacker.</p>
 
       <h3>Is log4j 1.x vulnerable?</h3>
 
       <p class="highlight">As log4j 1.x does <span class="big
-      green">NOT</span> offer a look-up mechanism, it does <span
-      class="big green">NOT</span> suffer from CVE-2021-44228. </p>
+      green">NOT</span> offer a JNDI look-up mechanism at the message
+      level, it does <span class="big green">NOT</span> suffer from
+      CVE-2021-44228. </p>
 
       <p>Given that log4j version 1.x is still very widely deployed,
-      we have been receiving a steady stream of questions regarding
-      the vulnerability of log4j version 1.x.
+      perhaps 10 times more than log4j 2.x, we have been receiving a
+      steady stream of questions regarding the vulnerability of log4j
+      version 1.x.
       </p>
 
-
       <p><b>As log4j 1.x does <span class="big green">NOT</span> offer
-      a look up mechanism, it does <span class="big green">NOT</span>
-      suffer from CVE-2021-44228.</b></p>
+      a JNDI look up mechanism at the message level, it does <span
+      class="big green">NOT</span> suffer from CVE-2021-44228.</b></p>
 
-      <h3>Does a similar vulnerability exist in logback?</h3>
-
-      <p>Logback does <span class="big green">NOT</span> offer a
-      lookup mechanism at the message level. Thus, it is deemed safe
-      with respect to CVE-2021-44228. However, we are still looking at
-      other possible vulnerabilities of lesser severity. Indeed, the
-      JNDI/serialization vulnerability is a true minefield. </p>
+      <p>However, log4j 1.x comes with <code>JMSAppender</code> which
+      will perform a JNDI lookup if enabled in log4j's configuration
+      file, i.e. <em>log4j.properties</em> or
+      <em>log4j.xml</em>. Thus, an attacker who has write access to an
+      application's log4j configuration file can perform an RCE attack
+      whenever log4j 1.x reads a corrupt/malicious configuration
+      file. More on this <a href="#concreteMeasures"> below</a>.</p>
 
       <h3>How about the SLF4J API?</h3>
-
-      
+     
       <p>The SLF4J API is just an API which lets message data go
-      through. As such, using log4j 2.x even via SLF4J does not
+      through. As such, using log4j 2.x, even via SLF4J does not
       mitigate the vulnerability.
       </p>
 
@@ -100,21 +101,57 @@
       <p>If you are using <em>log4j-over-slf4j.jar</em> with SLF4J
       API, you are safe unless the underlying implementation is log4j
       2.x.</p>
+      
+      <h3>Does a similar vulnerability exist in logback?</h3>
 
-      <h3>How do I know if log4j 2.x is in use in my project?</h3>
+      <p>Logback does <span class="big green">NOT</span> offer a
+      lookup mechanism at the message level. Thus, it is deemed safe
+      with respect to CVE-2021-44228. However, we are still looking at
+      other possible vulnerabilities of <a span="big green">lesser</a>
+      severity. Indeed, the JNDI/RMI/LDAP serialization
+      vulnerabilities are a true minefield. </p>
 
-      <p>As an artifact can be pulled into a project transitively,
-      looking at explicit dependency declarations may not be
-      sufficient. We suggest that you look into your project's full
-      dependency tree. For Maven users, this full tree can be obtained
-      with the "mvn dependency:tree" command. </p>
+      <h3 class="doAnchor" name="concreteMeasures">Concrete protective
+      measure: write protect log4j{1,2}/logback configuration
+      files</h3>
 
-      <p>If <code>log4j-core</code>, located in the
-      <code>org.apache.logging.log4j</code> group, is absent, then you
-      are fine. Otherwise, either remove the said artifact or upgrade
-      to a log4j 2.x version which fixes the issue.</p>
+      <p>While there are obviously differences between JNDI/LDAP/RMI
+      serialization attacks, from an abstract point of view, they are
+      all related to serialization, the gift that never seems to stop
+      giving.</p>
+      
+      <p>At this point, we hope that you appreciate the distinction
+      between serialization attacks where the injection of malicious
+      input is performed at the level of 1) log message data 2)
+      configuration file. The point of injection matters, a lot. If
+      you understand the difference, please read on.</p>
+      
+      <p>While log4j 1.x is old, it is still very extensible. So are
+      logback and log4j 2.x. </p>
 
+      <p>What if there exist other vulnerable extension points, in any
+      of the aforementioned logging frameworks, that we do not know
+      about?  Do you think you can enumerate these weak points by
+      searching a CVE database?</p>
 
+      <p>Trying to harden <code>JMSAppender</code> in log4j 1.x or
+      some other component in log4j 2.x or logback against
+      serialization injection seems like a half-measure. If you are
+      fond of analogies, it is a bit like trying to empty a bathtub
+      with a leaky faucet armed only with a spoon.
+      </p>
+      
+      <p>Therefore, in addition to hardening KNOWN vulnerable
+      components in aforementioned frameworks, we also recommend that
+      configuration files be protected against write access. In
+      Unix-speak they should be read-only for all users, including the
+      <code>owner</code>. If possible, they should also be monitored
+      against changes and unauthorized manipulation.</p>
+
+      <p>If you have read this far, you might also get an "Aha but
+      wait!" moment related to serialization attacks but having
+      nothing to do with logging.</p>
+      
       <h3>Is there a bigger lesson?</h3>
 
       <p>CVE-2021-44228 involves a cascade of failures in various
@@ -127,12 +164,12 @@
       <p>Thus, while keeping up with the latest patches is a good
       practice, it is probably just as important to invest resources
       so that your organization is capable of understanding the actual
-      root causes of various vulnerabilities and can avoid them in the
-      first place. </p>
+      root causes of vulnerabilities and avoid them in the first
+      place. </p>
 
       <p>Another question is the reaction speed. Once a vulnerability
-      is detected, can your organization quickly fix a vulnerability?
-      On this front, the log4j 2.x developers deserve credit for their
+      is detected, can your organization fix a vulnerability quickly?
+      On this front, log4j 2.x developers deserve credit for their
       quick response.
       </p>
 
