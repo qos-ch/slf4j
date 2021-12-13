@@ -28,9 +28,16 @@
       <div id="content">
 
       <h1>Comments on the CVE-2021-44228 vulnerability</h1>
-          
 
+      <h3>Preamble</h3>
+      
+      <p>The JNDI serialization rabbit hole goes deep and leads to
+      much uncertainty. <b>Thus, the contents of this page are the
+      result of our current knowledge and are provided AS IS without
+      warranty of any kind.</b></p>
 
+      <h3>What is CVE-2021-44228?</h3>
+      
       <p>CVE-2021-44228 is a vulnerability classified under the
       highest severity mark, i.e. 10 out of 10. It allows an attacker
       to execute arbitrary code by injecting attacker-controlled data
@@ -55,12 +62,9 @@
 
       <h3>Is log4j 1.x vulnerable?</h3>
 
-      <p class="highlight">As log4j 1.x does not offer a look-up
-      mechanism, it does not suffer from CVE-2021-44228 in any shape
-      or form. However, note that log4j 1.x is no longer being
-      maintained. Thus, we definitely urge you to migrate to one of
-      its successors such as SLF4J and logback.  <b>Do migrate without
-      delaying too much!</b></p>
+      <p class="highlight">As log4j 1.x does <span class="big
+      green">NOT</span> offer a look-up mechanism, it does <span
+      class="big green">NOT</span> suffer from CVE-2021-44228. </p>
 
       <p>Given that log4j version 1.x is still very widely deployed,
       we have been receiving a steady stream of questions regarding
@@ -68,19 +72,17 @@
       </p>
 
 
-      <p><b>As log4j 1.x does not offer a look up mechanism, it does
-      not suffer from CVE-2021-44228 in any shape or form.</b> Any
-      innuendo claiming otherwise is false.</p>
+      <p><b>As log4j 1.x does <span class="big green">NOT</span> offer
+      a look up mechanism, it does <span class="big green">NOT</span>
+      suffer from CVE-2021-44228.</b></p>
 
-      <p>Having said this, log4j 1.x is no longer being maintained
-      with all the entailed security implications. Thus, we definitely
-      urge you to migrate to one of its successors such as
-      SLF4J/logback, sooner rather than later. <b>But do migrate
-      without waiting for months!</b> Also note that <a
-      href="migrator.html">tools exist</a> to automate the
-      migration. </p>
+      <h3>Does a similar vulnerability exist in logback?</h3>
 
-
+      <p>Logback does <span class="big green">NOT</span> offer a
+      lookup mechanism at the message level. Thus, it is deemed safe
+      with respect to CVE-2021-44228. However, we are still looking at
+      other possible vulnerabilities of lesser severity. Indeed, the
+      JNDI/serialization vulnerability is a true minefield. </p>
 
       <h3>How about the SLF4J API?</h3>
 
@@ -134,7 +136,14 @@
       quick response.
       </p>
 
-      
+      <h3>Conclusion</h3>
+
+      <p>CVE-2021-44228 became public knowledge in 2021-12-10, about
+      48 hours ago. It raises a number of very tough questions which
+      are not necessarily related to logging. As mentioned at the top
+      of this page, the JNDI serialization rabbit hole goes deep and
+      leads to much uncertainty. We are still investigating.</p>
+            
       <h3>Further reading</h3>
       
       <ol>
