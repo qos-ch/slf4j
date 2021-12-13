@@ -11,15 +11,21 @@
     
     <script type="text/javascript">prefix='';</script>
     <script type="text/javascript" src="js/jquery-min.js"></script>
-    <script src="templates/header.js" type="text/javascript"></script>
-    <div id="left">
-      <noscript>Please turn on Javascript to view this menu</noscript>
-      <script src="templates/left.js" type="text/javascript"></script>
-    </div>
-    <div id="right">
-      <script src="templates/right.js" type="text/javascript"></script>
-    </div>
-    <div id="content">
+
+    <div id="container">
+
+       <script src="templates/header.js" type="text/javascript"></script>
+
+   
+      <div id="left">
+        <noscript>Please turn on Javascript to view this menu</noscript>
+        <script src="templates/left.js" type="text/javascript"></script>
+      </div>
+      <div id="right">
+        <script src="templates/right.js" type="text/javascript"></script>
+      </div>
+      
+      <div id="content">
 
       <h1>Comments on the CVE-2021-44228 vulnerability</h1>
           
@@ -36,8 +42,8 @@
       href="https://www.lunasec.io/docs/blog/log4j-zero-day/">mechanics
       of the vulnerability</a>. The exploit becomes effective when the
       attacker can inject a string containing a substring in the form
-      "&dollar;&lbrace;jndi:ldap://some.attacker-controlled.site/&rbrace;". Opportunities
-      for injecting such a string seem endless.
+      "&dollar;&lbrace;jndi:ldap://some.attacker-controlled.site/&rbrace;".
+      Opportunities for injecting such strings appear to be endless.
       </p>
 
       <p>Log4j 2.x is open for this attack because it performs a
@@ -59,6 +65,7 @@
       <p>Given that log4j version 1.x is still very widely deployed,
       we have been receiving a steady stream of questions regarding
       the vulnerability of log4j version 1.x.
+      </p>
 
 
       <p><b>As log4j 1.x does not offer a look up mechanism, it does
@@ -77,6 +84,7 @@
 
       <h3>How about the SLF4J API?</h3>
 
+      
       <p>The SLF4J API is just an API which lets message data go
       through. As such, using log4j 2.x even via SLF4J does not
       mitigate the vulnerability.
@@ -102,10 +110,31 @@
       <p>If <code>log4j-core</code>, located in the
       <code>org.apache.logging.log4j</code> group, is absent, then you
       are fine. Otherwise, either remove the said artifact or upgrade
-      to a log4j 2.x version which fixes the issue.
-      <p>
+      to a log4j 2.x version which fixes the issue.</p>
 
 
+      <h3>Is there a bigger lesson?</h3>
+
+      <p>CVE-2021-44228 involves a cascade of failures in various
+      components, of which only one is actually located in log4j
+      2.x. Indeed, it takes only a moment of inattention to
+      unwittingly create a vulnerability. However, vulnerabilities may
+      arise even when you follow best practices.
+      </p>
+
+      <p>Thus, while keeping up with the latest patches is a good
+      practice, it is probably just as important to invest resources
+      so that your organization is capable of understanding the actual
+      root causes of various vulnerabilities and can avoid them in the
+      first place. </p>
+
+      <p>Another question is the reaction speed. Once a vulnerability
+      is detected, can your organization quickly fix a vulnerability?
+      On this front, the log4j 2.x developers deserve credit for their
+      quick response.
+      </p>
+
+      
       <h3>Further reading</h3>
       
       <ol>
@@ -118,9 +147,6 @@
         href="https://github.com/lunasec-io/lunasec/blob/master/docs/blog/2021-12-09-log4j-zero-day.md">lunasec-io/lunasec</a></li>
 
       </ol>
-      
-      
-      
     </div>
   </body>
 </html>

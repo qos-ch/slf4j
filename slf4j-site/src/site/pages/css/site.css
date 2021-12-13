@@ -35,6 +35,13 @@ a {
  text-decoration: none; 
 }
 
+#container {  
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100em;
+
+}
+
 #content a:hover {
  text-decoration: underline;
 }
@@ -117,20 +124,22 @@ strong {
 /*  positioning-layers static and absolute */
 
 #breadcrumbs {
-	padding: 3px 10px 3px 10px;
-  margin: 0px 4px 0px 4px;
-	font-size: small;
-	border: 1px solid #CCCCCC;
+    padding: 3px 10px 3px 10px;
+    margin: 0px 4px 0px 4px;
+    font-size: small;
+    border: 1px solid #CCCCCC;
 	/*border-bottom: 1px solid #aaa;
   /* background-color: #ccc; lime;
   border-color: #663300;*/
-	background-color: #ffd0a0;
+    background-color: #ffd0a0;
 	/*max-width: 77em;*/
 }
 
 #left {
-  position: absolute;
-  left: 0px;
+    //position: fixed;
+    //left: 0px;
+
+    float: left;
   width: 15em;
   margin: 4px 0px 0px 4px; 
   padding: 0px;
@@ -211,15 +220,16 @@ strong {
 }
 
 #right {
-  position: absolute;
-  right: 0px;        
-  width: 14em;
-  color: #564b47;
-  margin: 4px 4px 0px 0px; 
-  padding: 0px;
-  background-color: #ffffff;    
-  border: 1px solid #cccccc;
-  font-size: 80%;
+    //position: absolute;
+    //right: 0px;        
+    float: right;
+    width: 14em;
+    color: #564b47;
+    margin: 4px 4px 0px 0px; 
+    padding: 0px;
+    background-color: #ffffff;    
+    border: 1px solid #cccccc;
+    font-size: 80%;
 }
 
 p.menu_header {
