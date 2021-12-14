@@ -93,7 +93,7 @@
       enough. The attacker also needs to force log4j to reload its
       configuration file with the poisoned parameters. Given that
       log4j 1.x does not offer automatic reloading, the poisoned
-      configuratin file will typically only become effectve at
+      configuration file will typically only become effective at
       application restart.</p>
 
       <p>Nevertheless, while not easy, such an attack is
@@ -132,7 +132,7 @@
       <em>slf4j-logj12.jar</em>, you are safe regarding
       CVE-2021-44228.</p>
 
-      <p>If you are using <em>log4j-over-slf4j.jar</em> in conjections
+      <p>If you are using <em>log4j-over-slf4j.jar</em> in conjunction
       with the SLF4J API, you are safe unless the underlying
       implementation is log4j 2.x.</p>
       
@@ -152,7 +152,7 @@
 
       <p>Note that the vulnerability affecting logback requires write
       access to logback's configuration file as a prerequisite. To
-      escalate to a succesful Remote Code Execution attack, ALL of the
+      escalate to a successful Remote Code Execution attack, ALL of the
       following conditions have to be met:
       </p>
       
@@ -192,7 +192,7 @@
       <p>Trying to harden <code>JMSAppender</code> in log4j 1.x or
       some other component in log4j 2.x or logback against
       serialization injections (via configuration files) will be a
-      long and ardous task. Moreover, we think you should err on the
+      long and arduous task. Moreover, we think you should err on the
       side of caution by assuming that there will remain hidden
       vulnerabilities.</p>
 
