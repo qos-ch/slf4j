@@ -14,7 +14,7 @@ document.write('    <a href="https://github.com/qos-ch/slf4j">Source Repository<
 document.write('    <a href="http://www.qos.ch/shop/products/professionalSupport">Support offerings</a>');
 
 document.write('  <p class="menu_header">Native implementations</p>');
-document.write('    <a href="http://logback.qos.ch/">Logback</a>');
+document.write('    <a href="https://logback.qos.ch/">Logback</a>');
 
 document.write('    <p class="menu_header">Wrapped implementations</p>');
 document.write('    <a href="api/org/slf4j/impl/JDK14LoggerAdapter.html">JDK14</a>');
@@ -29,7 +29,7 @@ document.write('</div>');
 document.write('<p>&nbsp;</p>');
 
 document.write('<div class="pub">');
-document.write('    <a href="http://twitter.com/qos_ch" style="">');
+document.write('    <a href="https://twitter.com/qos_ch" style="">');
 document.write('      <img alt="Follow @qos_ch" src="images/follow_us.png" />');
 document.write('    </a>');
 document.write('</div>');
