@@ -114,6 +114,17 @@ public interface Logger {
     }
 
     /**
+     * An alias for {@link #makeLoggingEventBuilder}. 
+     * 
+     * @since 2.0
+     */
+    default public LoggingEventBuilder at(Level level) {
+        return makeLoggingEventBuilder(level);
+    }
+
+    
+    
+    /**
      * Returns whether this Logger is enabled for a given {@link Level}. 
      * 
      * @param level
