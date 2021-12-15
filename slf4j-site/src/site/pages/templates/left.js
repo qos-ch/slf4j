@@ -5,7 +5,7 @@ document.write('    <a href="download.html">Download</a>');
 document.write('    <a href="docs.html">Documentation</a>');
 document.write('    <a href="license.html">License</a>');
 document.write('    <a href="news.html">News</a>');
-
+document.write('    <a href="log4shell.html">log4shell</a>');
 document.write('  <p class="menu_header">Support</p>');
 
 document.write('    <a href="mailing-lists.html">Mailing Lists</a>');

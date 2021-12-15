@@ -217,6 +217,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>${maven-jar-plugin.version}</version>
         <executions>
+          <!--  Repeated in slf4j-api/pom.xml -->
           <execution>
             <id>default-jar</id>
             <phase>package</phase>

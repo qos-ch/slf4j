@@ -96,9 +96,9 @@
       configuration file will typically only become effective at
       application restart.</p>
 
-      <p>Nevertheless, while not easy, such an attack is
-      feasible. Thus it makes sense to make job of the attacker harder
-      by removing <code>JMSAppender</code> altogether from
+      <p>Nevertheless, while not easy, such an attack is not
+      impossible. Thus it makes some sense to make job of the attacker
+      even harder by removing <code>JMSAppender</code> altogether from
       <em>log4j-1.2.17.jar</em>.</p>
 
       <p>In the absence of a new log4j 1.x release, you can remove
@@ -144,7 +144,7 @@
 
       <p>However, logback may make JNDI calls from within its
       configuration file. This was <a
-      href="https://github.com/cn-panda/logbackRceDemo">recently
+      href="https://jira.qos.ch/browse/LOGBACK-1591">recently
       reported</a> as a vulnerability of <span class="big
       green">lesser</span> severity. In response, we have released
       logback version 1.2.8. Please upgrade.
@@ -168,6 +168,9 @@
       upgrading to logback version 1.2.8, we also recommend users to
       deploy their logback configuration files as read-only.</p>
 
+      <p><span class="green">If you have read thus far, you
+      probably understand that log4Shell/CVE-2021-44228 and
+      LOGBACK-1591 are of different severity levels.</span></p>
 
       <h3 class="doAnchor" name="concreteMeasures">Additional protective
       measure: write protect log4j{1,2}/logback configuration
