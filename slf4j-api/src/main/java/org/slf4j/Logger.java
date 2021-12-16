@@ -114,11 +114,11 @@ public interface Logger {
     }
 
     /**
-     * An alias for {@link #makeLoggingEventBuilder}. 
+     * A convenient alias for {@link #makeLoggingEventBuilder}. 
      * 
      * @since 2.0
      */
-    default public LoggingEventBuilder at(Level level) {
+    default public LoggingEventBuilder atLevel(Level level) {
         return makeLoggingEventBuilder(level);
     }
 
