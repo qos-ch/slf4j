@@ -45,9 +45,21 @@ public interface LoggingEventBuilder {
 
     LoggingEventBuilder addArgument(Supplier<?> objectSupplier);
 
+    default LoggingEventBuilder arg(Object argument) {
+        return addArgument(argument);
+    }
+
+    default LoggingEventBuilder arg(Supplier<?> argumentSupplier) {
+        return addArgument(argumentSupplier);
+    }
+
     LoggingEventBuilder addKeyValue(String key, Object value);
 
     LoggingEventBuilder addKeyValue(String key, Supplier<Object> value);
+
+    LoggingEventBuilder message(String message);
+
+    LoggingEventBuilder message(Supplier<String> messageSupplier);
 
     void log(String message);
 
@@ -58,5 +70,7 @@ public interface LoggingEventBuilder {
     void log(String message, Object... args);
 
     void log(Supplier<String> messageSupplier);
+
+    void log();
 
 }
