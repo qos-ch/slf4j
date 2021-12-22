@@ -88,7 +88,7 @@ public class SLF4JPlatformLoggingTest {
         assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
         Logger systemLogger = finder.getLogger("smoke", null);
         systemLogger.log(Level.INFO, "hello");
-        systemLogger.log(Level.INFO, "hello %s", "world");
+        systemLogger.log(Level.INFO, "hello {0}", "world");
         
         List<String> results = SPS.stringList;
         assertEquals(2, results.size());
