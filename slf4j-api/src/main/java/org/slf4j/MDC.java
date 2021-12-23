@@ -26,7 +26,9 @@ package org.slf4j;
 
 import java.io.Closeable;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.helpers.BasicMDCAdapter;
 import org.slf4j.helpers.NOPMDCAdapter;
@@ -74,13 +76,25 @@ public class MDC {
      */
     public static class MDCCloseable implements Closeable {
         private final String key;
+        private final Set<String> keys;
 
         private MDCCloseable(String key) {
             this.key = key;
+            this.keys = null;
+        }
+
+        private MDCCloseable(Set<String> keys) {
+            this.key = null;
+            this.keys = new HashSet<>(keys);
         }
 
         public void close() {
-            MDC.remove(this.key);
+            if (this.key != null) {
+                MDC.remove(this.key);
+            }
+            if (this.keys != null) {
+                this.keys.forEach(MDC::remove);
+            }
         }
     }
 
@@ -124,6 +138,32 @@ public class MDC {
     }
 
     /**
+     * Put a diagnostic context map (the <code>entries</code> parameter) as identified with each
+     * <code>key</code> into the current thread's diagnostic context map. The
+     * <code>entries</code> parameter and its <code>keys</code> cannot be null. The
+     * <code>value</code> of each entry can be null only if the underlying implementation
+     * supports it.
+     *
+     * <p>
+     * This method delegates all work to the MDC of the underlying logging system.
+     *
+     * @param entries entries to put in the map
+     *
+     * @throws IllegalArgumentException
+     *           in case the "entries" parameter is null
+     * @since 2.0.0
+     */
+    public static void putAll(Map<String, String> entries) throws IllegalArgumentException {
+        if (entries == null) {
+            throw new IllegalArgumentException("entries parameter cannot be null");
+        }
+        if (mdcAdapter == null) {
+            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+        }
+        entries.forEach((k,v) -> mdcAdapter.put(k, v));
+    }
+
+    /**
      * Put a diagnostic context value (the <code>val</code> parameter) as identified with the
      * <code>key</code> parameter into the current thread's diagnostic context map. The
      * <code>key</code> parameter cannot be null. The <code>val</code> parameter
@@ -154,6 +194,40 @@ public class MDC {
     public static MDCCloseable putCloseable(String key, String val) throws IllegalArgumentException {
         put(key, val);
         return new MDCCloseable(key);
+    }
+
+    /**
+     * Put a diagnostic context map (the <code>entries</code> parameter) as identified with each
+     * <code>key</code> into the current thread's diagnostic context map. The
+     * <code>entries</code> parameter and its <code>keys</code> cannot be null. The
+     * <code>value</code> of each entry can be null only if the underlying implementation
+     * supports it.
+     *
+     * <p>
+     * This method delegates all work to the MDC of the underlying logging system.
+     * <p>
+     * This method returns a <code>Closeable</code> object which can remove all <code>keys</code>
+     * that are part of the <code>entries</code> when <code>close</code> is called.
+     *
+     * <p>
+     * Useful with Java 9 for example :
+     * <code>
+     *   try(MDC.MDCCloseable closeable = MDC.putAllCloseable(Map.of(key1, value, key2, value2)) {
+     *     ....
+     *   }
+     * </code>
+     *
+     * @param entries entries to put in the map
+     * @return a <code>Closeable</code> who can remove all originally supplied <code>keys</code>
+     * when <code>close</code> is called.
+     *
+     * @throws IllegalArgumentException
+     *           in case the "entries" parameter is null
+     * @since 2.0.0
+     */
+    public static MDCCloseable putAllCloseable(Map<String, String> entries) throws IllegalArgumentException {
+        MDC.putAll(entries);
+        return new MDCCloseable(entries.keySet());
     }
 
     /**
