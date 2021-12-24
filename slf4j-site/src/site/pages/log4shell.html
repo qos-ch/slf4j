@@ -28,22 +28,23 @@
       
       <div id="content">
 
-      <h1>Comments on the CVE-2021-44228 vulnerability</h1>
+      <h1>Comments on the log4shell(CVE-2021-44228) vulnerability</h1>
 
       <h3>Preamble</h3>
       
-      <p>The JNDI/LDAP/RMI/X serialization rabbit hole runs deep and
-      leads to much uncertainty. <b>Thus, the contents of this page
-      are the result of our current knowledge and are provided AS IS
-      without warranty of any kind.</b></p>
-
+      <p><b>The contents of this page are the result of our
+      understanding of the situation and are provided AS IS without
+      warranty of any kind.</b></p>
+      
+      
       <h3>What is CVE-2021-44228?</h3>
       
-      <p>CVE-2021-44228 is a vulnerability classified under the
-      highest severity mark, i.e. 10 out of 10. It allows an attacker
-      to execute arbitrary code by injecting attacker-controlled data
-      into a logged message. As far as vulnerabilities are concerned,
-      CVE-2021-44228 is probably as bad as it gets.
+      <p><a href="https://cve.report/CVE-2021-44228">CVE-2021-44228</a>
+      is a vulnerability classified under the highest severity mark,
+      i.e. 10 out of 10. It allows an attacker to execute arbitrary
+      code by injecting attacker-controlled data into a logged
+      message. As far as vulnerabilities are concerned, CVE-2021-44228
+      is probably as bad as it gets.
       </p>
 
       <p>Superlatives aside, it is important to understand the <a
@@ -54,12 +55,12 @@
       Opportunities for injecting such strings appear to be endless.
       </p>
 
-      <p>Log4j 2.x is open for this attack because it performs a
-      lookup, aka string substitution, using the JNDI protocol,
-      whenever the "&dollar;&lbrace;jndi:...&rbrace;" string is found
-      within a message parameter. As mentioned above, the contents of
-      the message parameter can be injected quite easily by the
-      attacker.</p>
+      <p>Log4j version 2.15 and earlier are open for this attack
+      because it performs a lookup, aka string substitution, using the
+      JNDI protocol, whenever the "&dollar;&lbrace;jndi:...&rbrace;"
+      string is found within a message parameter. As mentioned above,
+      the contents of the message parameter can be injected quite
+      easily by the attacker.</p>
 
       <h3>Is log4j 1.x vulnerable?</h3>
 
@@ -143,11 +144,12 @@
       with respect to CVE-2021-44228.</p>
 
       <p>However, logback may make JNDI calls from within its
-      configuration file. This was <a
-      href="https://jira.qos.ch/browse/LOGBACK-1591">recently
-      reported</a> as a vulnerability of <span class="big
-      green">lesser</span> severity. In response, we have released
-      logback version 1.2.8. Please upgrade.
+      configuration file. This was recently reported
+      in <a href="https://cve.report/CVE-2021-42550">CVE-2021-42550</a>
+      (aka <a href="https://jira.qos.ch/browse/LOGBACK-1591">LOGBACK-1591</a>)
+      as a vulnerability of <span class="big green">lesser</span>
+      severity. In response, we have released logback version
+      1.2.9. Please upgrade.
       </p>
 
       <p>Note that the vulnerability affecting logback requires write
@@ -159,18 +161,23 @@
     
       <ol>
         <li>attacker has write access to logback.xml</li>      
-        <li>use of logback version older than 1.2.8</li>
+        <li>use of logback version older than 1.2.9</li>
         <li>loading of poisoned configuration data, which implies
         application restart or scan="true" set prior to attack</li>
       </ol>
 
       <p>As a belt-and-suspenders type of precaution, in addition to
-      upgrading to logback version 1.2.8, we also recommend users to
+      upgrading to logback version 1.2.9, we also recommend users to
       deploy their logback configuration files as read-only.</p>
 
-      <p><span class="green">If you have read thus far, you
-      probably understand that log4Shell/CVE-2021-44228 and
-      LOGBACK-1591 are of different severity levels.</span></p>
+      <p>More details about the contents latest logback releases can
+      be found in the <a href="http://logback.qos.ch/news.html">logback
+      news</a> page.
+      
+      <p><span class="green">If you have read thus far, you probably
+      understand that log4Shell/CVE-2021-44228 and
+      LOGBACK-1591/CVE-2021-42550 are of different severity
+      levels.</span></p>
 
       <h3 class="doAnchor" name="concreteMeasures">Additional protective
       measure: write protect log4j{1,2}/logback configuration
@@ -211,10 +218,116 @@
       <code>owner</code>. If possible, they should also be monitored
       against changes and unauthorized manipulation.</p>
       
-            
+      <h3 class="doAnchor" name="prevalence">Prevalence of logging
+      frameworks</h3>
+
+      <p>As discussed above, while log4j 2.14 and earlier are
+      vulnerable to log4shell, log4j 1.x and logback are not.</p>
+
+      <p>At this stage, it might be useful mention the prevalence of
+      each logging library in order to put things into
+      perspective. Here are the relevant figures as found
+      in <a href="https://mvnrepository.com/">mvnrepository site</a>
+      on 2021-12-17. </p>
+
+      <table  class="bodyTable striped" cellspacing="4" cellpadding="4">
+
+        <tr>
+          <th>Project</th>
+          <th>Category</th>
+          <th>group:artifact</th>
+          <th>usageCount</th>
+          <th>percentage</th>          
+        </tr>
+        <tr>
+          <td>SLF4J</td>
+          <td>API</td>
+          <td>org.slf4j:slf4j-api</td>
+          <td>52,247</td>
+          <td>69%</td>
+        </tr>
+        <tr>
+          <td>Commons-logging</td>
+          <td>API</td>
+          <td>commons-logging:commons-logging</td>
+          <td>10,412</td>
+          <td>14%</td>
+        </tr>
+        <tr>
+          <td>SLF4J</td>
+          <td>API</td>
+          <td>org.slf4j:jcl-over-slf4j</td>
+          <td>7,546</td>
+          <td>10%</td>
+        </tr>
+
+        <tr>
+          <td>LOG4J2</td>
+          <td>API</td>
+          <td>org.apache.logging.log4j:log4j-api</td>
+          <td>5,226</td>
+          <td> 7%</td>
+        </tr>
+
+        <tr>
+          <td>Total</td>
+          <td>API </td>
+          <td>-</td>
+          <td>45,174 </td>
+          <td>100%</td>
+        </tr>
+        
+        
+      </table>
+      <table  class="bodyTable striped" cellspacing="4" cellpadding="4">
+        <tr>
+          <th>Project</th>
+          <th>Category</th>
+          <th>group:artifact</th>
+          <th>usageCount</th>
+          <th>percentage</th>          
+        </tr>
+        
+        <tr>
+          <td>LOGBACK</td>
+          <td>implementation</td>          
+          <td>ch.qos.logback:logback-classic</td>
+          <td>21,770</td>
+          <td>48%</td>          
+        </tr>
+
+        <tr>
+          <td>LOG4J1</td>
+          <td>implementation</td>                    
+          <td>log4j:log4j</td>
+          <td>16,610</td>
+          <td>37%</td>                              
+        </tr>
+        <tr>
+          <td>LOG4J2</td>
+          <td>implementation</td>                    
+          <td>org.apache.logging.log4j:log4j-core</td>
+          <td>6,974</td>
+          <td>15%</td>
+        </tr>
+
+        <tr>
+          <td>Total</td>
+          <td>implementaion </td>
+          <td>-</td>
+          <td>45,174 </td>
+          <td>100%</td>
+        </tr>
+      </table>
+
+      <p>Notwithstanding its 48% prevalence overall (implementation),
+      no attacks have been reported against logback that we are aware
+      of.</p>
+      
       <h3>Further reading</h3>
       
       <ol>
+        <li><a href="https://bmuskalla.github.io/blog/2019-10-02-log4j2-ghost-logging-framework/">Log4j 2 - The Ghost in the logging framework from (2019)</a></li>
         <li><a
         href="https://www.lunasec.io/docs/blog/log4j-zero-day/">Log4Shell:
         RCE 0-day exploit found in log4j2, a popular Java logging
@@ -222,7 +335,8 @@
 
         <li><a
         href="https://github.com/lunasec-io/lunasec/blob/master/docs/blog/2021-12-09-log4j-zero-day.md">lunasec-io/lunasec</a></li>
-
+        
+        <li><a href="https://snyk.io/blog/when-is-a-cve-not-a-cve/">Security in context: When is a CVE not a CVE?</a></li>
       </ol>
     </div>
   </body>
