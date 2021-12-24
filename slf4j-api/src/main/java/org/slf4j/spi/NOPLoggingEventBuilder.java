@@ -51,6 +51,16 @@ public class NOPLoggingEventBuilder implements LoggingEventBuilder {
     }
 
     @Override
+    public LoggingEventBuilder message(String message) {
+        return singleton();
+    }
+
+    @Override
+    public LoggingEventBuilder message(Supplier<String> messageSupplier) {
+        return singleton();
+    }
+
+    @Override
     public LoggingEventBuilder setCause(Throwable cause) {
         return singleton();
     }
@@ -62,6 +72,10 @@ public class NOPLoggingEventBuilder implements LoggingEventBuilder {
 
     @Override
     public void log(Supplier<String> messageSupplier) {
+    }
+
+    @Override
+    public void log() {
     }
 
     @Override

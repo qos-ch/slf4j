@@ -84,22 +84,36 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         log(loggingEvent);
     }
 
-    protected void log(LoggingEvent logggingEvent) {
-        if (logger instanceof LoggingEventAware) {
-            ((LoggingEventAware) logger).log(logggingEvent);
+    @Override
+    public void log(Supplier<String> messageSupplier) {
+        if (messageSupplier == null) {
+            log((String) null);
         } else {
-            logViaPublicSLF4JLoggerAPI(logggingEvent);
+            log(messageSupplier.get());
         }
     }
 
-    private void logViaPublicSLF4JLoggerAPI(LoggingEvent logggingEvent) {
-        Object[] argArray = logggingEvent.getArgumentArray();
+    @Override
+    public void log() {
+        log(loggingEvent);
+    }
+
+    protected void log(LoggingEvent loggingEvent) {
+        if (logger instanceof LoggingEventAware) {
+            ((LoggingEventAware) logger).log(loggingEvent);
+        } else {
+            logViaPublicSLF4JLoggerAPI(loggingEvent);
+        }
+    }
+
+    private void logViaPublicSLF4JLoggerAPI(LoggingEvent loggingEvent) {
+        Object[] argArray = loggingEvent.getArgumentArray();
         int argLen = argArray == null ? 0 : argArray.length;
 
-        Throwable t = logggingEvent.getThrowable();
+        Throwable t = loggingEvent.getThrowable();
         int tLen = t == null ? 0 : 1;
 
-        String msg = logggingEvent.getMessage();
+        String msg = loggingEvent.getMessage();
 
         Object[] combinedArguments = new Object[argLen + tLen];
 
@@ -110,9 +124,9 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
             combinedArguments[argLen] = t;
         }
 
-        msg = mergeMarkersAndKeyValuePairs(logggingEvent, msg);
+        msg = mergeMarkersAndKeyValuePairs(loggingEvent, msg);
 
-        switch (logggingEvent.getLevel()) {
+        switch (loggingEvent.getLevel()) {
         case TRACE:
             logger.trace(msg, combinedArguments);
             break;
@@ -135,27 +149,27 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     /**
      * Prepend markers and key-value pairs to the message.
      * 
-     * @param logggingEvent
+     * @param loggingEvent
      * @param msg
      * @return
      */
-    private String mergeMarkersAndKeyValuePairs(LoggingEvent logggingEvent, String msg) {
+    private String mergeMarkersAndKeyValuePairs(LoggingEvent loggingEvent, String msg) {
 
         StringBuilder sb = null;
 
-        if (loggingEvent.getMarkers() != null) {
+        if (this.loggingEvent.getMarkers() != null) {
             sb = new StringBuilder();
-            for (Marker marker : logggingEvent.getMarkers()) {
+            for (Marker marker : loggingEvent.getMarkers()) {
                 sb.append(marker);
                 sb.append(' ');
             }
         }
 
-        if (logggingEvent.getKeyValuePairs() != null) {
+        if (loggingEvent.getKeyValuePairs() != null) {
             if (sb == null) {
                 sb = new StringBuilder();
             }
-            for (KeyValuePair kvp : logggingEvent.getKeyValuePairs()) {
+            for (KeyValuePair kvp : loggingEvent.getKeyValuePairs()) {
                 sb.append(kvp.key);
                 sb.append('=');
                 sb.append(kvp.value);
@@ -172,15 +186,6 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     }
 
     @Override
-    public void log(Supplier<String> messageSupplier) {
-        if (messageSupplier == null) {
-            log((String) null);
-        } else {
-            log(messageSupplier.get());
-        }
-    }
-
-    @Override
     public LoggingEventBuilder addKeyValue(String key, Object value) {
         loggingEvent.addKeyValue(key, value);
         return this;
@@ -192,8 +197,17 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         return this;
     }
 
-    
+    @Override
+    public LoggingEventBuilder message(String message) {
+        loggingEvent.setMessage(message);
+        return this;
+    }
 
-    
+    @Override
+    public LoggingEventBuilder message(Supplier<String> messageSupplier) {
+        loggingEvent.setMessage(messageSupplier == null? null : messageSupplier.get());
+        return this;
+    }
+
 
 }
