@@ -1,150 +1,105 @@
+/*
+  Many thanks to Ian Zamojc izamojc(at)zamtools.com for making
+  suggestions to improbve the site look and feel.
+*/
+
+
 html { 
-  padding:0px;
-  margin:0px;
+/*  padding:0px;
+  margin:0px; */
 }
 
 body {
   background-color: #fff;
   font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
   color: #000;  
-  padding:0px;
-  margin:0px;
-  font-size: small;
-}
-
-#job img { border:1px solid #DDDDDD; }
-#job:hover img {   border:1px solid #8888EE; }
-
-p, h2, pre {
- margin: 0px; 
- padding-top: 5px;
- padding-bottom: 5px;
- /*padding-left: 1ex;*/
- /*padding: 5px 20px 5px 20px; */
-}
-
-p.rm {
- padding-top: 0px;
- padding-bottom: 0px; 
-}
-
-a { 
- color: #4183c4;
- /*font-size: smaller;*/
- background-color:transparent;
- text-decoration: none; 
-}
-
-#container {  
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 90em;
-
-}
-
-#content a:hover {
- text-decoration: underline;
-}
-
-.source { 
-  border-top: 1px solid #DDDDDD;
-  border-bottom: 1px solid #DDDDDD;
-  background:#f5f5f5;
-  font-family: Courier, "MS Courier New", Prestige, Everson Monocourrier, monospace;
-  padding-bottom: 0.5ex;
-  padding-top: 0.5ex;
-  padding-left: 1ex;
-
-  margin-left: 0ex;
-  margin-top: 0.5ex; 
-  margin-bottom: 0.5ex; 
-  white-space: pre;
-
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-pre { 
- background-color:transparent;
- font-family: Monaco, Andale Mono, Courier New, monospace;
-}
-
-.alignright {
- margin-top: 0; 
- text-align: right;
- font-size: 10px;
-}
-
-h1, h2, h3, h4 {
-  color: #333;
-}
-
-h2 {
-  padding-top:10px; 
-  background-color: transparent;
-  font-weight: 900;
-  font-size: x-large;
-}
-
-h3 {
-  padding-top: 5px; 
-  background-color: transparent;
-  font-weight: normal;
-  font-size: large;
-}
-
-h4 {
-  padding-top:5px; 
-  background-color: transparent;
-  font-weight: normal;
-  font-size: large;
-}
-
-table.footer {
-  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  counter-reset: example;  /* Create an example counter scope */
 }
 
 .footer {
-  text-align: right;
-  color: #564b47;
-  background-color: #fff;
-  padding:0px;
-  border-top:  1px solid #CCCCCC;
-  margin-top: 3ex;
-	font-size: smaller;
+    color: #564b47;
+    background-color: #fff;
+    padding:0px;
+    border-top:  1px solid #CCCCCC;
+    margin-top: 3ex;
+    font-size: smaller;
+}
+
+#job img {
+   border:1px solid #DDDDDD;
+}
+
+#job:hover img {
+   border:1px solid #8888EE;
+}
+
+p.menu {
+ padding-top: 0px;
+ padding-bottom: 0px; 
+ margin-top: 0px;
+ margin-bottom: 0px;
+ font-size: smaller;
+}
+
+#container {
+    display: grid;
+    grid-template-columns: 15em 1fr 15em;
+    grid-template-areas: "header header  header"
+                         "left   content right";
+    max-width: 90rem;
+    margin-left: 1rem;
+    #  margin-right: auto;
+
 }
 
 
-strong { 
-  /*font-size: 13px;*/
-  font-weight: bold;
-}
-
-/*  positioning-layers static and absolute */
-
-#breadcrumbs {
-    padding: 3px 10px 3px 10px;
-    margin: 0px 4px 0px 4px;
-    font-size: small;
-    border: 1px solid #CCCCCC;
-	/*border-bottom: 1px solid #aaa;
-  /* background-color: #ccc; lime;
-  border-color: #663300;*/
-    background-color: #ffd0a0;
-	/*max-width: 77em;*/
+#header {
+    grid-column-start: 1;
+    grid-column-end: 4;    
 }
 
 #left {
-    //position: fixed;
-    //left: 0px;
+    grid-area: left;    
+    margin: 4px 0px 0px 4px; 
+    padding: 0px;
+    font-size: 80%;
+    background-color: #ffffff;
+}
 
-    float: left;
-  width: 15em;
-  margin: 4px 0px 0px 4px; 
-  padding: 0px;
-  font-size: 80%;
-  background-color: #ffffff;
+#content {
+    grid-area: content;
+    max-width: 60rem;
+    margin: 0px 1em 0px 1em;
+    padding: 0px;
+    line-height: 130%;
+    background-color: #ffffff;  
+}
+
+#right {
+    grid-area: right;    
+    color: #564b47;
+    margin: 4px 4px 0px 0px; 
+    padding: 0px;
+    background-color: #ffffff;    
+    #border: 1px solid #cccccc;
+    font-size: 80%;
+}
+
+#headerLine {
+  background-color:#FFD0A0;
+  border:1px solid #CCCCCC;
+  font-size:small;
+  margin:0 4px;
+  padding:3px 10px;
+}
+
+
+a { 
+ color: #4183c4; 
+ background-color:transparent;
+ text-decoration: none; 
 }
 
 .menuGroup {
@@ -157,9 +112,8 @@ strong {
   border-radius: 3px;
 }
 
-.menuGroup a {
+#left a, #right a {
   display: block; 
-  width: 95.5%; 
   margin: 0px; 
   padding: 2px; 
   border: solid 1px #fff8e8; 
@@ -167,22 +121,13 @@ strong {
   text-decoration: none;
 }
 
-.menuGroup a:hover {
-  border: solid 1px #FFFFFF; 
-  background-color: #3333CC; 
-  color: #ffffff;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-.pub {
-  text-align: center;
-}
-
-#left .pub a:hover {
-  background-color: transparent; 
-  border: solid 0px #FFFFFF; 
+p.menu_header {
+  margin: 0px; 
+  padding: 2px;
+  font-weight: normal; 
+  background-color: #ffd0a0; 
+  border-top: solid 1px #CCCCCC;
+  border-bottom: solid 1px #CCCCCC;
 }
 
 #left a:hover, #right a:hover {
@@ -193,12 +138,24 @@ strong {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+.pub {
+  text-align: center;
+}
+
+#left .pub a:hover {
+  background-color: transparent;
+  border: solid 0px #FFFFFF;
+}
+
+#left img {
+	border: none;
+}
 
 #left div.jobadd {
-   font-size: 160%;
+  font-size: 140%;
   color: #fff;
   margin: 0px;
-  padding: 1ex;
+  padding: 0px;
 
   text-align: center;
   -webkit-border-radius: 3px;
@@ -219,96 +176,262 @@ strong {
   border-width: 0px;	
 }
 
-#right {
-    //position: absolute;
-    //right: 0px;        
-    float: right;
-    width: 14em;
-    color: #564b47;
-    margin: 4px 4px 0px 0px; 
-    padding: 0px;
-    background-color: #ffffff;    
-    border: 1px solid #cccccc;
-    font-size: 80%;
-}
+/* ------------------------------------------- */
 
-p.menu_header {
-  margin: 0px; 
-  padding: 2px;
-  font-weight: normal; 
-  background-color: #ffd0a0; 
-  border-top: solid 1px #CCCCCC;
-  border-bottom: solid 1px #CCCCCC;
-}
-
-#content {
-  margin: 0px 12em 0px 16em;
-  padding: 0px 2em 0px 0px;
-  background-color: #ffffff;  
-}
 
 
 #content img {
 	border:none;
 	margin-left: auto;
 	margin-right: auto;
+        
 	display: block;
 }
 
-.author {
-	text-align: left;
+span.asGroovy {
+   background: #fff; 
+   color: #0079C5;   
+   font-family: "Comic Sans MS", sans-serif;
+   white-space: nowrap;
+   font-size: 80%;
+
+   border-top:    2px solid #DDD;  
+   border-left:   2px solid #DDD;  
+   border-right:  2px solid #888;  
+   border-bottom: 2px solid #888;    
+   padding: 0px 1em 0px 1em;
+   margin:  -4px 4px 0 4px; 
+   float: right;
+}
+ 
+span.asGroovy:hover {
+   background: #E0E0EF;
+   cursor: pointer;
+}
+
+/* ------------------------------------ */
+
+.anchor { display:none; }
+
+
+h1, h2, h3, h4 {
+    color: #505050;
+    padding-top: 0ex; 
+    background-color: transparent;
+}
+
+h2 {
+    font-weight: 900;
+    font-size: x-large;
+}
+
+h3 {
+    font-weight: bold;
+    font-size: large;
+}
+
+h4 {
+    font-weight: bold;
+    font-size: medium;
+}
+
+h1 .anchor:before {content:url(anchor24.png);}
+h2 .anchor:before {content:url(anchor20.png);}
+h3 .anchor:before {content:url(anchor16.png);}
+h4 .anchor:before {content:url(anchor12.png);}
+td .anchor:before {content:url(anchor12.png);}
+
+h1:hover .anchor { margin-left: -24px; }
+h2:hover .anchor { margin-left: -20px; }
+h3:hover .anchor { margin-left: -16px; }
+h4:hover .anchor { margin-left: -12px; }
+td:hover .anchor { margin-left: -12px; }
+
+h1:hover .anchor, 
+h2:hover .anchor,  
+h3:hover .anchor, 
+h4:hover .anchor,
+td:hover .anchor {
+  display: inline-block;
+  text-decoration: none;
+}
+
+
+div.source {
+    margin-top: 1em;
+}
+
+.source, .command, .console {
+    overflow-x: auto;  
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    background: #f5f5f5;
+    font-family: Courier, "MS Courier New", Prestige, monospace;
+    padding-left: 1ex;
+    white-space: pre;
+    font-size: 16px;
+}
+
+.source {
+  padding-bottom: 0.5ex;
+  padding-top: 0.5ex;
+}
+
+.command {
+  padding-bottom: 0ex;
+  padding-top: 0ex;
+}
+
+.console {
+}
+
+pre {
+    overflow-x: auto;
+    padding: 0px;
+    margin: 0px; 
+    background-color:transparent;
+    font-family: Courier, Monaco, Monospace;
+}
+
+.alignright {
+ margin-top: 0; 
+ text-align: right;
+ font-size: 10px;
+}
+
+/* ========== body table ============ */
+table.bodyTable {
+	padding: 0px;
+	margin-left: -2px;
+	margin-right: -2px;
+}
+
+table.bodyTable th {
+	color: white;
+	background-color: #bbb;
 	font-weight: bold;
 }
 
-.definition {
-	padding-left: 5px;
-	padding-right: 5px;
-	margin: 5px 50px 5px 50px;
-	text-align: justify;
-	background-color: #E6E64C;
+
+table.bodyTable td {
+  vertical-align: text-top;
+  padding-left: 0.5ex;
+  padding-bottom: 0.5ex;
 }
 
-.deftitle {
-	font-weight: bold;
+table.bodyTable.rightAlign tr td {
+    text-align: right;
 }
+
+/* apply to tr elements of tables which are both bodytable and dark */
+table.bodyTable[class="dark"] tr {
+	background-color: #ddd;
+}
+
+/* table.bodyTable tr.a { 	background-color: #ddd; } */
+/* table.bodyTable tr.b {	background-color: #eee; } */
+/* table.bodyTable tr.alt {	background-color: #eee;} */
+
+/* we don't want the first p under td to appear indented */
+table.bodyTable tr td p:first-child {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+.striped tr:nth-child(odd) td {
+  background-color: #f9f9f9;
+}
+.striped td {
+  background-color: #f0f0f0;
+}
+.striped tr:last-child td {
+  border-bottom: 2px solid #ddd;
+}
+
+td.word {
+  text-align: right;
+}
+
+/* EOF =============== bodyTable =============== */
+
+/* cosmetics */
+
 
 .big {
   font-size: 130%;
 }
 
+
 .green {
 	color: green;
 }
+
+.white_bg {
+	background-color: #FFFFFF;
+}
+
+.lgray_bg {
+	background-color: #EEE;
+}
+
 .blue {
 	color: blue;	
 }
 
 .red {
-	color: red;	
-}
-
-.bold {
-	font-weight: bold; 
+	color: red;
 }
 
 .redBold {
 	color: red;
 	font-weight: bold;	
 }
+
 .greenBold {
 	color: green;	
   font-weight: bold;	
 }
 
+.code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;    
+    background-color: #EEE;
+}
+
+.pattern {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;    
+    background-color: #DDD;
+}
+
 code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    background-color: #EEE;
+}
+    
+
+.variable {
+    font-family: Courier, monospace;
+    font-style:italic;  
+}
+
+
+
+.attr {
 	font-family: Courier, monospace;
+  font-style:italic; 
+
 }
 
-
-.option {
-  border: 1px solid black;
-  font-family: Arial, sans-serif;	
+.option, .prop {
+  border-top: 1px dotted #BBBBBB;
+  border-bottom: 1px dotted #BBBBBB;
+  border-left: 1px dotted #AAAAAA;
+  border-right: 1px dotted #AAAAAA;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-family: Arial, sans-serif;
 }
+
+/*  background:#FFCC99;	*/
 .highlight {
   width: 18em;
   float: right;	
@@ -329,67 +452,19 @@ code {
   margin-bottom: 1ex;
 }
 
-
-.survey { 
-  font-weight: bolder;
-  font-size: larger;  
-
-  border:1px solid #cccccc;
-  background:#FFCC99;	
-  padding-left: 1ex;
-  padding-right: 1ex; 
-}
-/* ========== body table ============ */
-table.bodyTable {
-	padding: 0px;
-	margin-left: -2px;
-	margin-right: -2px;
+.quote {
+   text-align: right;
+  padding-left: 12em;
 }
 
-table.bodyTable th {
-	color: white;
-	background-color: #bbb;
-	font-weight: bold;
+/* --------- numbering --------- */
+.autoEx:before {
+  counter-increment: example;  /* Add 1 to example */
+  content: counter(example)
 }
 
 
-table.bodyTable td {
-  padding-left: 0.5ex;
-  padding-bottom: 0.5ex;
-}
-
-
-/* apply to tr elements of tables which are both bodytable and dark */
-table[class="bodyTable dark"] tr {
-	background-color: #ddd;
-}
-
-/* apply to tr elements of tables which are both bodytable and dark */
-table[class="bodyTable properties"] tr {
-	vertical-align: top;
-}
-
-table.bodyTable tr.a {
-	background-color: #ddd;
-}
-
-table.bodyTable tr.b {
-	background-color: #eee;
-}
-
-table.bodyTable tr.alt {
-	background-color: #eee;
-}
-
-.striped tr:nth-child(odd) td {
-  background-color: #f9f9f9;
-}
-.striped td {
-  background-color: #f0f0f0;
-}
-
-/* EOF =============== bodyTable =============== */
-
+/** ----------- labels -------- */
 .label {
   padding: 1px 3px 2px;
   font-size: 9.75px;
@@ -402,70 +477,70 @@ table.bodyTable tr.alt {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+
 .label.notice {
   background-color: #62cffc;
 }
 
 
-/* ------------------------------------ */
+/* from common.css */
 
-dt {
-  border-top: 2px solid #888888;
-  color: #333;
-  padding-bottom: 1ex;
-  padding-top: 1ex;
-  font-weight: bold;  
-}
-dd {
-  margin-top: 1ex;
-  margin-bottom: 1ex;
+/* used in example headers */
+.example {
+    width: 90%;
+    font-style: italic;
 }
 
-/* ------------------------------------ */
-.anchor { display:none; }
+/* for highligting breaking changes */
+div.breaking {
+    border: 1px solid #F44; 
+    background-color: #FED; 
+    padding-left: 1ex; 
+    padding-right: 1ex;
+}
 
-h1 .anchor:before {content:url(anchor24.png);}
-h2 .anchor:before {content:url(anchor20.png);}
-h3 .anchor:before {content:url(anchor16.png);}
-h4 .anchor:before {content:url(anchor12.png);}
-td .anchor:before {content:url(anchor12.png);}
-dt .anchor:before {content:url(anchor12.png);}
+table.footer {
+    width: 100%;
+}
 
-h1:hover .anchor { margin-left: -24px; }
-h2:hover .anchor { margin-left: -20px; }
-h3:hover .anchor { margin-left: -16px; }
-h4:hover .anchor { margin-left: -12px; }
-td:hover .anchor { margin-left: -12px; }
-dt:hover .anchor { margin-left: -12px; }
-
-h1:hover .anchor, 
-h2:hover .anchor,  
-h3:hover .anchor, 
-h4:hover .anchor,
-td:hover .anchor,
-dt:hover .anchor {
-  display: inline-block;
-  text-decoration: none;
+.footer {
+    color: #564b47;
+    background-color: #fff;
+    padding:0px;
+    border-top:  1px solid #CCCCCC;
+    margin-top: 3ex;
+    font-size: smaller;
 }
 
 
-/* ------------ twitter button ------- */
-.twitter_button {
-  vertical-align: text-bottom;
-  padding-top: 3px;
-  padding-right: 16px;
-  float: left;
-  height: 18px;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
-  background-color: white;
-  background-image: -moz-linear-gradient(top, #ffffff, #dedede);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedede));
-  background-image: -ms-linear-gradient(top, #ffffff, #dedede);
-  background-image: linear-gradient(top, #ffffff, #dedede);
-  background-image: -o-linear-gradient(top, #ffffff, #dedede);
-  border: #CCC solid 1px;
-  -webkit-border-radius: 3px;
-     -moz-border-radius: 3px;
-          border-radius: 3px;
+p.menu {
+    padding-top: 0px;
+    padding-bottom: 0px; 
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.small { 
+    font-size: smaller;
+}
+
+.strong, .bold { 
+  font-weight: bold;
+}
+
+.author {
+    text-align: left;
+    font-weight: bold;
+}
+
+.definition {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px 50px 5px 50px;
+    text-align: justify;
+    background-color: #E6E64C;
+}
+
+.deftitle {
+    font-weight: bold;
 }
