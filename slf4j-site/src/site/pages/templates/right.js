@@ -22,7 +22,7 @@
 
 function addBlockDetected() {
     jQuery("#right").append('<p class="big">If using SLF4J saves you hours of work, please whitelist this site in your \
-add blocker.</p>');
+ad blocker.</p>');
 }
 
 document.write('      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7471410671306824" \

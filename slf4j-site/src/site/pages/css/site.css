@@ -210,6 +210,22 @@ span.asGroovy:hover {
 }
 
 /* ------------------------------------ */
+ 
+dt.separator {
+  border-top: 2px solid #888888;
+  color: #333;
+  padding-bottom: 1ex;
+  padding-top: 1ex;
+  font-weight: bold;  
+}
+
+/*
+dd {
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+}
+*/
+/* ------------------------------------ */
 
 .anchor { display:none; }
 
