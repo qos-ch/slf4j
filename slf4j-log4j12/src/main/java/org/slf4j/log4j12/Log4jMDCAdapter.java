@@ -24,14 +24,18 @@
  */
 package org.slf4j.log4j12;
 
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.MDCFriend;
+import org.slf4j.helpers.ThreadLocalMapOfStacks;
 import org.slf4j.spi.MDCAdapter;
 
 public class Log4jMDCAdapter implements MDCAdapter {
 
+    private final ThreadLocalMapOfStacks threadLocalMapOfStacks = new ThreadLocalMapOfStacks();
+    
     static {
         if (VersionUtil.getJavaMajorVersion() >= 9) {
             MDCFriend.fixForJava9();
@@ -106,4 +110,20 @@ public class Log4jMDCAdapter implements MDCAdapter {
             old.putAll(contextMap);
         }
     }
+
+    @Override
+    public void pushByKey(String key, String value) {
+        threadLocalMapOfStacks.pushByKey(key, value);
+    }
+
+    @Override
+    public String popByKey(String key) {
+        return threadLocalMapOfStacks.popByKey(key);    
+     }
+
+    @Override
+    public Deque<String> getCopyOfStackByKey(String key) {
+        return threadLocalMapOfStacks.getCopyOfStackByKey(key);
+    }
+ 
 }

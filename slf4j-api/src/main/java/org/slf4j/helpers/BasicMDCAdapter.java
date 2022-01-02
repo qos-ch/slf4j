@@ -43,7 +43,9 @@ import java.util.*;
  */
 public class BasicMDCAdapter implements MDCAdapter {
 
-    private final InheritableThreadLocal<Map<String, String>> inheritableThreadLocal = new InheritableThreadLocal<Map<String, String>>() {
+    private final ThreadLocalMapOfStacks threadLocalMapOfStacks = new ThreadLocalMapOfStacks();
+
+    private final InheritableThreadLocal<Map<String, String>> inheritableThreadLocalMap = new InheritableThreadLocal<Map<String, String>>() {
         @Override
         protected Map<String, String> childValue(Map<String, String> parentValue) {
             if (parentValue == null) {
@@ -69,10 +71,10 @@ public class BasicMDCAdapter implements MDCAdapter {
         if (key == null) {
             throw new IllegalArgumentException("key cannot be null");
         }
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocalMap.get();
         if (map == null) {
             map = new HashMap<>();
-            inheritableThreadLocal.set(map);
+            inheritableThreadLocalMap.set(map);
         }
         map.put(key, val);
     }
@@ -81,7 +83,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Get the context identified by the <code>key</code> parameter.
      */
     public String get(String key) {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocalMap.get();
         if ((map != null) && (key != null)) {
             return map.get(key);
         } else {
@@ -93,7 +95,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Remove the the context identified by the <code>key</code> parameter.
      */
     public void remove(String key) {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocalMap.get();
         if (map != null) {
             map.remove(key);
         }
@@ -103,10 +105,10 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Clear all entries in the MDC.
      */
     public void clear() {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocalMap.get();
         if (map != null) {
             map.clear();
-            inheritableThreadLocal.remove();
+            inheritableThreadLocalMap.remove();
         }
     }
 
@@ -117,7 +119,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * @return the keys in the MDC
      */
     public Set<String> getKeys() {
-        Map<String, String> map = inheritableThreadLocal.get();
+        Map<String, String> map = inheritableThreadLocalMap.get();
         if (map != null) {
             return map.keySet();
         } else {
@@ -131,7 +133,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      *
      */
     public Map<String, String> getCopyOfContextMap() {
-        Map<String, String> oldMap = inheritableThreadLocal.get();
+        Map<String, String> oldMap = inheritableThreadLocalMap.get();
         if (oldMap != null) {
             return new HashMap<>(oldMap);
         } else {
@@ -144,6 +146,21 @@ public class BasicMDCAdapter implements MDCAdapter {
         if (contextMap != null) {
             copy = new HashMap<>(contextMap);
         }
-        inheritableThreadLocal.set(copy);
+        inheritableThreadLocalMap.set(copy);
+    }
+
+    @Override
+    public void pushByKey(String key, String value) {
+        threadLocalMapOfStacks.pushByKey(key, value);
+    }
+
+    @Override
+    public String popByKey(String key) {
+        return threadLocalMapOfStacks.popByKey(key);    
+     }
+
+    @Override
+    public Deque<String> getCopyOfStackByKey(String key) {
+        return threadLocalMapOfStacks.getCopyOfStackByKey(key);
     }
 }

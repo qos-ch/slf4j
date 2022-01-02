@@ -24,6 +24,7 @@
  */
 package org.slf4j.spi;
 
+import java.util.Deque;
 import java.util.Map;
 
 /**
@@ -90,4 +91,32 @@ public interface MDCAdapter {
      * @since 1.5.1
      */
     public void setContextMap(Map<String, String> contextMap);
+    
+    /**
+     * Push a value into the stack referenced by 'key'.
+     *      * 
+     * @param key identifies the appropriate stack
+     * @param value the value to push into the stack
+     * @since 2.0.0
+     */
+    public void pushByKey(String key, String value);
+    
+    /**
+     * Pop the stack referenced by 'key' and return the value possibly null.
+     * 
+     * @param key identifies the  stack
+     * @return the value just popped. May be null/
+     * @since 2.0.0
+     */
+    public String popByKey(String key);
+
+    /**
+     * Returns a copy of the stack referenced by 'key'. May be null.
+     * 
+     * @param key identifies the  stack
+     * @return copy of stack referenced by 'key'. May be null.
+     * 
+     * @since 2.0.0
+     */
+    public Deque<String>  getCopyOfStackByKey(String key);
 }

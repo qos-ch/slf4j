@@ -84,22 +84,31 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         log(loggingEvent);
     }
 
-    protected void log(LoggingEvent logggingEvent) {
-        if (logger instanceof LoggingEventAware) {
-            ((LoggingEventAware) logger).log(logggingEvent);
+    @Override
+    public void log(Supplier<String> messageSupplier) {
+        if (messageSupplier == null) {
+            log((String) null);
         } else {
-            logViaPublicSLF4JLoggerAPI(logggingEvent);
+            log(messageSupplier.get());
+        }
+    }
+    
+    protected void log(LoggingEvent aLoggingEvent) {
+        if (logger instanceof LoggingEventAware) {
+            ((LoggingEventAware) logger).log(aLoggingEvent);
+        } else {
+            logViaPublicSLF4JLoggerAPI(aLoggingEvent);
         }
     }
 
-    private void logViaPublicSLF4JLoggerAPI(LoggingEvent logggingEvent) {
-        Object[] argArray = logggingEvent.getArgumentArray();
+    private void logViaPublicSLF4JLoggerAPI(LoggingEvent aLoggingEvent) {
+        Object[] argArray = aLoggingEvent.getArgumentArray();
         int argLen = argArray == null ? 0 : argArray.length;
 
-        Throwable t = logggingEvent.getThrowable();
+        Throwable t = aLoggingEvent.getThrowable();
         int tLen = t == null ? 0 : 1;
 
-        String msg = logggingEvent.getMessage();
+        String msg = aLoggingEvent.getMessage();
 
         Object[] combinedArguments = new Object[argLen + tLen];
 
@@ -110,9 +119,9 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
             combinedArguments[argLen] = t;
         }
 
-        msg = mergeMarkersAndKeyValuePairs(logggingEvent, msg);
+        msg = mergeMarkersAndKeyValuePairs(aLoggingEvent, msg);
 
-        switch (logggingEvent.getLevel()) {
+        switch (aLoggingEvent.getLevel()) {
         case TRACE:
             logger.trace(msg, combinedArguments);
             break;
@@ -135,27 +144,27 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     /**
      * Prepend markers and key-value pairs to the message.
      * 
-     * @param logggingEvent
+     * @param aLoggingEvent
      * @param msg
      * @return
      */
-    private String mergeMarkersAndKeyValuePairs(LoggingEvent logggingEvent, String msg) {
+    private String mergeMarkersAndKeyValuePairs(LoggingEvent aLoggingEvent, String msg) {
 
         StringBuilder sb = null;
 
-        if (loggingEvent.getMarkers() != null) {
+        if (aLoggingEvent.getMarkers() != null) {
             sb = new StringBuilder();
-            for (Marker marker : logggingEvent.getMarkers()) {
+            for (Marker marker : aLoggingEvent.getMarkers()) {
                 sb.append(marker);
                 sb.append(' ');
             }
         }
 
-        if (logggingEvent.getKeyValuePairs() != null) {
+        if (aLoggingEvent.getKeyValuePairs() != null) {
             if (sb == null) {
                 sb = new StringBuilder();
             }
-            for (KeyValuePair kvp : logggingEvent.getKeyValuePairs()) {
+            for (KeyValuePair kvp : aLoggingEvent.getKeyValuePairs()) {
                 sb.append(kvp.key);
                 sb.append('=');
                 sb.append(kvp.value);
@@ -171,14 +180,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         }
     }
 
-    @Override
-    public void log(Supplier<String> messageSupplier) {
-        if (messageSupplier == null) {
-            log((String) null);
-        } else {
-            log(messageSupplier.get());
-        }
-    }
+
 
     @Override
     public LoggingEventBuilder addKeyValue(String key, Object value) {
@@ -191,9 +193,5 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         loggingEvent.addKeyValue(key, value.get());
         return this;
     }
-
-    
-
-    
 
 }
