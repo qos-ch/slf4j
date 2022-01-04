@@ -25,17 +25,7 @@ document.write('  </p>');
 
 document.write('</div>');
 
-
-document.write('<p>&nbsp;</p>');
-
-document.write('<div class="pub">');
-document.write('    <a href="https://twitter.com/qos_ch" style="">');
-document.write('      <img alt="Follow @qos_ch" src="images/follow_us.png" />');
-document.write('    </a>');
-document.write('</div>');
-
-document.write('<p>&nbsp;</p>');
-document.write('<div class="pub"><img src="https://travis-ci.com/qos-ch-ro/slf4j.svg?branch=master"/></div>');
+//document.write('<div class="pub"><img src="https://travis-ci.com/qos-ch-ro/slf4j.svg?branch=master"/></div>');
 
 
 //document.write('<p>&nbsp;</p>');
