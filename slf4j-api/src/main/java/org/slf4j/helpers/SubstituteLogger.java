@@ -75,7 +75,7 @@ public class SubstituteLogger implements Logger {
 
     @Override
     public LoggingEventBuilder atLevel(Level level) {
-        return makeLoggingEventBuilder(level); 
+        return delegate().atLevel(level); 
     }
     
     @Override

@@ -63,14 +63,14 @@ public class SubstitutableLoggerTest {
         assertTrue(substituteLogger.delegate() instanceof EventRecodingLogger);
 
         Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);
-        LoggerInvocationHandler ih = new LoggerInvocationHandler();
-        Logger proxyLogger = (Logger) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Logger.class }, ih);
+        LoggerInvocationHandler loggerInvocationHandler = new LoggerInvocationHandler();
+        Logger proxyLogger = (Logger) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Logger.class }, loggerInvocationHandler);
         substituteLogger.setDelegate(proxyLogger);
 
         invokeAllMethodsOf(substituteLogger);
 
         // Assert that all methods are delegated
-        expectedMethodSignatures.removeAll(ih.getInvokedMethodSignatures());
+        expectedMethodSignatures.removeAll(loggerInvocationHandler.getInvokedMethodSignatures());
         if (!expectedMethodSignatures.isEmpty()) {
             fail("Following methods are not delegated " + expectedMethodSignatures.toString());
         }
