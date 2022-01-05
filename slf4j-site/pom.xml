@@ -26,6 +26,13 @@
         <filtering>true</filtering>
       </resource>
       <resource>
+        <directory>${project.basedir}/src/site/resources</directory>
+        <!-- The {project.basedir}/.. form breaks the eclipse plugin -->     
+        <targetPath>../../../target/site</targetPath>
+        <filtering>false</filtering>
+      </resource>
+
+      <resource>
         <directory>${project.basedir}/src/main/resources</directory>
       </resource>
     </resources>
