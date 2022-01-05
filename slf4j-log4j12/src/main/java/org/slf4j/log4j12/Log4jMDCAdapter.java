@@ -34,7 +34,7 @@ import org.slf4j.spi.MDCAdapter;
 
 public class Log4jMDCAdapter implements MDCAdapter {
 
-    private final ThreadLocalMapOfStacks threadLocalMapOfStacks = new ThreadLocalMapOfStacks();
+    private final ThreadLocalMapOfStacks threadLocalMapOfDeques = new ThreadLocalMapOfStacks();
     
     static {
         if (VersionUtil.getJavaMajorVersion() >= 9) {
@@ -113,17 +113,21 @@ public class Log4jMDCAdapter implements MDCAdapter {
 
     @Override
     public void pushByKey(String key, String value) {
-        threadLocalMapOfStacks.pushByKey(key, value);
+        threadLocalMapOfDeques.pushByKey(key, value);
     }
 
     @Override
     public String popByKey(String key) {
-        return threadLocalMapOfStacks.popByKey(key);    
+        return threadLocalMapOfDeques.popByKey(key);    
      }
 
     @Override
-    public Deque<String> getCopyOfStackByKey(String key) {
-        return threadLocalMapOfStacks.getCopyOfStackByKey(key);
+    public Deque<String> getCopyOfDequeByKey(String key) {
+        return threadLocalMapOfDeques.getCopyOfDequeByKey(key);
     }
- 
+
+    @Override
+    public void clearDequeByKey(String key) {
+        threadLocalMapOfDeques.clearDequeByKey(key);
+    }
 }

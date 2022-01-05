@@ -71,8 +71,11 @@ public class NOPMDCAdapter implements MDCAdapter {
     }
 
     @Override
-    public Deque<String> getCopyOfStackByKey(String key) {
+    public Deque<String> getCopyOfDequeByKey(String key) {
         return null;
+    }
+    
+    public void clearDequeByKey(String key) {
     }
 
 }

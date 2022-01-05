@@ -43,7 +43,7 @@ import java.util.*;
  */
 public class BasicMDCAdapter implements MDCAdapter {
 
-    private final ThreadLocalMapOfStacks threadLocalMapOfStacks = new ThreadLocalMapOfStacks();
+    private final ThreadLocalMapOfStacks threadLocalMapOfDeques = new ThreadLocalMapOfStacks();
 
     private final InheritableThreadLocal<Map<String, String>> inheritableThreadLocalMap = new InheritableThreadLocal<Map<String, String>>() {
         @Override
@@ -151,16 +151,20 @@ public class BasicMDCAdapter implements MDCAdapter {
 
     @Override
     public void pushByKey(String key, String value) {
-        threadLocalMapOfStacks.pushByKey(key, value);
+        threadLocalMapOfDeques.pushByKey(key, value);
     }
 
     @Override
     public String popByKey(String key) {
-        return threadLocalMapOfStacks.popByKey(key);    
+        return threadLocalMapOfDeques.popByKey(key);    
      }
 
     @Override
-    public Deque<String> getCopyOfStackByKey(String key) {
-        return threadLocalMapOfStacks.getCopyOfStackByKey(key);
+    public Deque<String> getCopyOfDequeByKey(String key) {
+        return threadLocalMapOfDeques.getCopyOfDequeByKey(key);
+    }
+    @Override
+    public void clearDequeByKey(String key) {
+        threadLocalMapOfDeques.clearDequeByKey(key);
     }
 }

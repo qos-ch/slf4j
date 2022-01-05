@@ -5,6 +5,14 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * A simple implementation of ThreadLocal backed Map containing values of type 
+ * Deque<String>.
+ * 
+ * @author Ceki Guuml;c&uuml;
+ * @since 2.0.0
+ */
 public class ThreadLocalMapOfStacks {
 
     final ThreadLocal<Map<String, Deque<String>>> tlMapOfStacks = new ThreadLocal<>();
@@ -20,12 +28,12 @@ public class ThreadLocalMapOfStacks {
             tlMapOfStacks.set(map);
         }
 
-        Deque<String> stack = map.get(key);
-        if (stack == null) {
-            stack = new ArrayDeque<>();
+        Deque<String> deque = map.get(key);
+        if (deque == null) {
+            deque = new ArrayDeque<>();
         }
-        stack.push(value);
-        map.put(key, stack);
+        deque.push(value);
+        map.put(key, deque);
     }
 
     public String popByKey(String key) {
@@ -35,24 +43,44 @@ public class ThreadLocalMapOfStacks {
         Map<String, Deque<String>> map = tlMapOfStacks.get();
         if (map == null)
             return null;
-        Deque<String> stack = map.get(key);
-        if (stack == null)
+        Deque<String> deque = map.get(key);
+        if (deque == null)
             return null;
-        return stack.pop();
+        return deque.pop();
     }
 
-    public Deque<String> getCopyOfStackByKey(String key) {
+    public Deque<String> getCopyOfDequeByKey(String key) {
         if (key == null)
             return null;
 
         Map<String, Deque<String>> map = tlMapOfStacks.get();
         if (map == null)
             return null;
-        Deque<String> stack = map.get(key);
-        if (stack == null)
+        Deque<String> deque = map.get(key);
+        if (deque == null)
             return null;
 
-        return new ArrayDeque<String>(stack);
+        return new ArrayDeque<String>(deque);
+    }
+    
+    /**
+     * Clear the deque(stack) referenced by 'key'. 
+     * 
+     * @param key identifies the  stack
+     * 
+     * @since 2.0.0
+     */
+    public void clearDequeByKey(String key) {
+        if (key == null)
+            return;
+
+        Map<String, Deque<String>> map = tlMapOfStacks.get();
+        if (map == null)
+            return;
+        Deque<String> deque = map.get(key);
+        if (deque == null)
+            return;
+        deque.clear();
     }
 
 }
