@@ -33,9 +33,9 @@
 
       <h3>Preamble</h3>
       
-      <p><b>The contents of this page are the result of our
-      understanding of the situation and are provided AS IS without
-      warranty of any kind.</b></p>
+      <p>Please note that the contents of this page are the result of
+      our understanding of the situation and are provided AS IS
+      without warranty of any kind.</p>
       
       
       <h3>What is CVE-2021-44228?</h3>
@@ -121,6 +121,22 @@
 
       <p>It goes without saying that once <em>log4j-1.2.17.jar</em> is
       patched, you would need to deploy it.</p>
+
+      <h4><span class="green">Reload4j 1.2.18 as a replacement for
+      log4j 1.2.17</span></h4>
+      
+      <p>The <a href="https://reload4j.qos.ch">reload4j</a> project is
+      a fork of Apache log4j version 1.2.17 with the goal of fixing
+      the pressing issues mentioned above. It is intended as a drop-in
+      replacement for log4j version 1.2.17. By drop-in, we mean the
+      replacement of <em>log4j.jar</em> with <em>reload4j.jar</em> in
+      your build with no source code changes in .java files being
+      necessary.
+      </p>
+      
+      <p>With version 1.2.18.0, the reload4j project offers a clear
+      and easy migration path for the thousands of users who have an
+      urgent need to fix vulnerabilities in log4j 1.2.17.</p>
       
       <h3>How about the SLF4J API?</h3>
      
