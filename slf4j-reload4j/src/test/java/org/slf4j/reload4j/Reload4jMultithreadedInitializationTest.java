@@ -34,7 +34,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.slf4j.reload4j.testHarness.RecursiveAppender;
 
-public class Log4j12MultithreadedInitializationTest extends org.slf4j.testHarness.MultithreadedInitializationTest {
+public class Reload4jMultithreadedInitializationTest extends org.slf4j.testHarness.MultithreadedInitializationTest {
     static int NUM_LINES_BY_RECURSIVE_APPENDER = 3;
 
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;

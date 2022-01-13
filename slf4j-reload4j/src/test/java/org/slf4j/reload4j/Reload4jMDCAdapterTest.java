@@ -8,7 +8,7 @@ import org.slf4j.helpers.MDCAdapterTestBase;
 import org.slf4j.reload4j.Reload4jMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
-public class Log4jMDCAdapterTest extends MDCAdapterTestBase {
+public class Reload4jMDCAdapterTest extends MDCAdapterTestBase {
     
     protected MDCAdapter instantiateMDC() {
         return new Reload4jMDCAdapter();

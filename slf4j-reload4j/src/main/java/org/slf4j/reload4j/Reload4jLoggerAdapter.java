@@ -44,7 +44,7 @@ import org.slf4j.spi.LoggingEventAware;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
- * A wrapper over {@link org.apache.log4j.Logger org.apache.log4j.Logger} in
+ * A wrapper over {@link org.apache.log4j.Logger org.apache.log4j.Logger} 
  * conforming to the {@link Logger} interface.
  * 
  * <p>
@@ -53,48 +53,27 @@ import org.slf4j.spi.LoggingEventBuilder;
  * "http://logging.apache.org/log4j/docs/api/org/apache/log4j/Level.html">
  * <code>org.apache.log4j.Level</code></a> class.
  * 
- * <p>
- * The TRACE level was introduced in log4j version 1.2.12. In order to avoid
- * crashing the host application, in the case the log4j version in use predates
- * 1.2.12, the TRACE level will be mapped as DEBUG. See also
- * <a href="http://jira.qos.ch/browse/SLF4J-59">SLF4J-59</a>.
+ * <p>This class is a copy-and-paste of Log4j12LoggerAdapter from the
+ * slf4j-log4j12 module.</p>
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @since 2.0.0-alpha6
  */
 public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements LocationAwareLogger, LoggingEventAware, Serializable {
 
-    private static final long serialVersionUID = 6182834493563598289L;
+    private static final long serialVersionUID = 6989384227325275811L;
 
     final transient org.apache.log4j.Logger logger;
-
-    /**
-     * Following the pattern discussed in pages 162 through 168 of "The complete
-     * log4j manual".
-     */
 
     final static String FQCN_NOMINAL = org.slf4j.helpers.AbstractLogger.class.getName();
     final static String FQCN_SUBSTITUE = FQCN_NOMINAL;
     final static String FQCN_FLUENT = org.slf4j.spi.DefaultLoggingEventBuilder.class.getName();
 
-    // Does the log4j version in use recognize the TRACE level?
-    // The trace level was introduced in log4j 1.2.12.
-    final boolean traceCapable;
-
-    // WARN: Log4jLoggerAdapter constructor should have only package access so
-    // that only Log4jLoggerFactory be able to create one.
+    // WARN: Reload4jLoggerAdapter constructor should have only package access so
+    // that only Reload4jLoggerFactory be able to create one.
     Reload4jLoggerAdapter(org.apache.log4j.Logger logger) {
         this.logger = logger;
         this.name = logger.getName();
-        traceCapable = isTraceCapable();
-    }
-
-    private boolean isTraceCapable() {
-        try {
-            logger.isTraceEnabled();
-            return true;
-        } catch (NoSuchMethodError e) {
-            return false;
-        }
     }
 
     /**
@@ -103,11 +82,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * @return True if this Logger is enabled for level TRACE, false otherwise.
      */
     public boolean isTraceEnabled() {
-        if (traceCapable) {
-            return logger.isTraceEnabled();
-        } else {
-            return logger.isDebugEnabled();
-        }
+        return logger.isTraceEnabled();
     }
 
     /**
@@ -204,7 +179,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
         Level log4jLevel;
         switch (slf4jLevelInt) {
         case LocationAwareLogger.TRACE_INT:
-            log4jLevel = traceCapable ? Level.TRACE : Level.DEBUG;
+            log4jLevel = Level.TRACE;
             break;
         case LocationAwareLogger.DEBUG_INT:
             log4jLevel = Level.DEBUG;
