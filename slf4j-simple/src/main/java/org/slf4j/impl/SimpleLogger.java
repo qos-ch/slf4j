@@ -83,7 +83,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * <code>true</code>.</li>
  *
  * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> - 
- * If you would like to output the current thread name, then set to
+ * If you would like to output the current thread id, then set to
  * <code>true</code>. Defaults to <code>false</code>.</li>
  * 
  * <li><code>org.slf4j.simpleLogger.showLogName</code> - If you would like 
