@@ -409,7 +409,7 @@
       slf4j-api and slf4j-simple versions are placed on the class
       path.  Please note that the table below applies by analogy not
       just to slf4j-simple but also to other providers such as
-      slf4j-log4j12, logback-classic, slf4j-jdk14, etc...
+      slf4j-reload4j, logback-classic, slf4j-jdk14, etc...
       </p>
 
    
@@ -432,7 +432,7 @@
           <td>1.7.x</td>
           <td>2.0.x</td>
           <td>no bindings can be found warning message</td>
-          <td>2.0.x providers do <b>not</b> act as 1.7.x/16.x
+          <td>2.0.x providers do <b>not</b> act as 1.7.x/1.6.x
           comptatible bindings</td>
         </tr>
         
@@ -469,7 +469,7 @@
 
       <p>However, while the SLF4J API is very stable from the client's
       perspective, SLF4J providers, e.g. slf4j-simple.jar or
-      slf4j-log4j12.jar, may require a specific version of slf4j-api.
+      slf4j-reload4j.jar, may require a specific version of slf4j-api.
       Mixing different versions of slf4j artifacts can be problematic
       and is strongly discouraged. For instance, if you are using
       slf4j-api-2.0.0.jar, then you should also use
@@ -484,7 +484,7 @@
 
       <p><span class="label">Fluent API requires version 2.0</span> If
       your code accesses the fluent API introduced in slf4j 2.0, then
-      your code will require version 2.0 or later.</p>
+      your code will require slf4j-api version 2.0 or later.</p>
       
       
     </dd>

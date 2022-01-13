@@ -206,6 +206,20 @@
     href="codes.html#log4jDelegationLoop">endless loop</a>.
     </p>
 
+    <h4 class="doAnchor" name="log4jRecursion2">log4j-over-slf4j.jar
+    and slf4j-reload4j.jar cannot be present simultaneously
+    </h4>
+    
+    <p>The presence of <em>slf4j-reload4j.jar</em>, that is the
+    reload4j binding for SLF4J, will force all SLF4J calls to be
+    delegated to reload4j which has the same exact API as log4j
+    1.x. The presence of <em>log4j-over-slf4j.jar</em> will in turn
+    delegate all reload4j API calls to their SLF4J equivalents. If
+    both are present simultaneously, SLF4J calls will be delegated to
+    reload4j (which contains the log4j 1.x API), and log4j calls
+    redirected to SLF4j, resulting in
+    an <a href="codes.html#log4jDelegationLoop">endless loop</a>.
+    </p>
 
     
     <h2 class="doAnchor" name="jul-to-slf4j">jul-to-slf4j bridge</h2>

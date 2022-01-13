@@ -269,22 +269,37 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
         <dt><em>slf4j-log4j12-${latest.stable.version}.jar</em>
         </dt>
-        <dd>Binding for <a
+        <dd>Binding/provider for <a
         href="http://logging.apache.org/log4j/1.2/index.html">log4j
         version 1.2</a>, a widely used logging framework. You also
-        need to place <em>log4j.jar</em> on your class path.<p/></dd>
+        need to place <em>log4j.jar</em> on your class path.  <span
+        class="red">Given that the log4j 1.x has reached EOL
+        status, we strongly encourage you to use
+        <em>slf4j-reload4j</em> instead.</span>
+        <p/>
 
+        </dd>
+
+        <dt><em>slf4j-reload4j-${latest.stable.version}.jar</em>
+        </dt>
+        <dd><span class="label notice">since 1.7.33</span> Binding/provider for
+        <a href="http://reload4j.qos.ch">reload4j</a>
+        framework. Reload4j is a drop-in replacement for log4j version
+        1.2.7. You also need to place <em>reload4j.jar</em> on your
+        class path.<p/></dd>
+
+        
         <dt><em>slf4j-jdk14-${latest.stable.version}.jar</em> </dt>
-        <dd>Binding for java.util.logging, also referred to as JDK 1.4
+        <dd>Binding/provider for java.util.logging, also referred to as JDK 1.4
         logging <p/></dd>
 
         <dt><em>slf4j-nop-${latest.stable.version}.jar</em></dt>
-        <dd>Binding for <a
+        <dd>Binding/provider for <a
         href="http://www.slf4j.org/api/org/slf4j/helpers/NOPLogger.html">NOP</a>,
         silently discarding all logging.<p/></dd>
         
         <dt><em>slf4j-simple-${latest.stable.version}.jar</em></dt>
-        <dd>Binding for <a
+        <dd>Binding/provider for <a
         href="http://www.slf4j.org/apidocs/org/slf4j/impl/SimpleLogger.html">Simple
         </a> implementation, which outputs all events to
         System.err. Only messages of level INFO and higher are
@@ -293,7 +308,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         
         <dt><em>slf4j-jcl-${latest.stable.version}.jar</em></dt>
         
-        <dd>Binding for <a
+        <dd>Binding/provider for <a
         href="http://commons.apache.org/logging/">Jakarta Commons
         Logging</a>. This binding will delegate all SLF4J logging to
         JCL.<p/>
@@ -302,7 +317,7 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         <dt><em>logback-classic-${logback.version}.jar (requires logback-core-${logback.version}.jar)</em></dt>
 
         <dd><span class="label notice">Native implementation</span> There are also
-        SLF4J bindings external to the SLF4J project, e.g. <a
+        SLF4J bindings/providers external to the SLF4J project, e.g. <a
         href="http://logback.qos.ch/">logback</a> which implements
         SLF4J natively.  Logback's
         <a href="http://logback.qos.ch/apidocs/ch/qos/logback/classic/Logger.html">
@@ -334,8 +349,20 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       to <em>slf4j-api-${latest.stable.version}.jar</em>, you simply drop
       <b>one and only one</b> binding of your choice onto the
       appropriate class path location. Do not place more than one
-      binding on your class path. Here is a graphical illustration of
-      the general idea.
+      binding on your class path.</p>
+
+      
+      <p><span class="label">since 2.0.0</span> As of version 2.0.0,
+      SLF4J bindings are called providers. Nevertheless, the general
+      idea remains the same.  SLF4J API version 2.0.0 relies on the <a
+      href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>
+      mechanism to find its logging backend. See the relevant <a
+      href="faq.html#changesInVersion200">FAQ entry</a> for more
+      details.
+    </p>
+
+
+      <p>Here is a graphical illustration of the general idea.
       </p>
 
       <p><a href="images/concrete-bindings.png">

@@ -33,7 +33,7 @@
   </scm>  
 
   <properties>
-    <latest.stable.version>1.7.32</latest.stable.version>
+    <latest.stable.version>1.7.33</latest.stable.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
     <jdk.version>8</jdk.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
@@ -46,7 +46,7 @@
     <cal10n.version>0.8.1</cal10n.version>
     <reload4j.version>1.2.18.0</reload4j.version>    
     <log4j.version>1.2.17</log4j.version>
-    <logback.version>1.2.3</logback.version>
+    <logback.version>1.2.10</logback.version>
     <junit.version>4.13.1</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
