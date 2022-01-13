@@ -44,6 +44,7 @@
     <!-- used in integration testing -->
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
+    <reload4j.version>1.2.18.0</reload4j.version>    
     <log4j.version>1.2.17</log4j.version>
     <logback.version>1.2.3</logback.version>
     <junit.version>4.13.1</junit.version>
@@ -74,6 +75,7 @@
     <module>slf4j-jdk14</module>
     <module>slf4j-jdk-platform-logging</module>
     <module>slf4j-log4j12</module>
+    <module>slf4j-reload4j</module>    
     <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
     <module>log4j-over-slf4j</module>
@@ -123,6 +125,12 @@
         <version>${log4j.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>ch.qos.reload4j</groupId>
+        <artifactId>reload4j</artifactId>
+        <version>${reload4j.version}</version>
+      </dependency>
+      
       <dependency>
         <groupId>ch.qos.cal10n</groupId>
         <artifactId>cal10n-api</artifactId>
