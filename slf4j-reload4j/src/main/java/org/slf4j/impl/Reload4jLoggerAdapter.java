@@ -40,7 +40,7 @@ import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * A wrapper over {@link org.apache.log4j.Logger org.apache.log4j.Logger} in
+ * A wrapper over {@link org.apache.log4j.Logger org.apache.log4j.Logger} 
  * conforming to the {@link Logger} interface.
  * 
  * <p>
@@ -48,12 +48,9 @@ import org.slf4j.spi.LocationAwareLogger;
  * in the <a
  * href="http://logging.apache.org/log4j/docs/api/org/apache/log4j/Level.html">
  * <code>org.apache.log4j.Level</code></a> class.
- * 
- * <p>
- * The TRACE level was introduced in log4j version 1.2.12. In order to avoid
- * crashing the host application, in the case the log4j version in use predates
- * 1.2.12, the TRACE level will be mapped as DEBUG. See also <a
- * href="http://jira.qos.ch/browse/SLF4J-59">SLF4J-59</a>.
+ *
+ * <p>This class is a copy-and-paste of Log4j12LoggerAdapter from the
+ * slf4j-log4j12 module.</p>  
  * 
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.7.33
