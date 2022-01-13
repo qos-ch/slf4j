@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2012 QOS.ch
+ * Copyright (c) 2004-2022 QOS.ch Sarl (Switzerland)
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -123,22 +123,23 @@ public class SimpleLoggerTest {
         replacement.flush();
         assertTrue(bout.toString().contains("INFO " + this.getClass().getName() + " - hello"));
     }
-    
+
     @Test
-    public void testTheadIdWithoutThreadName () {
+    public void testTheadIdWithoutThreadName() {
         System.setProperty(SimpleLogger.SHOW_THREAD_NAME_KEY, Boolean.FALSE.toString());
-        String patternStr = "^tid=\\d{1,12} INFO org.slf4j.impl.SimpleLoggerTest - hello";
+        String patternStr = "^tid=\\d{1,12} INFO org.slf4j.simple.SimpleLoggerTest - hello";
         commonTestThreadId(patternStr);
     }
 
     @Test
     public void testThreadId() {
-        String patternStr = "^\\[.*\\] tid=\\d{1,12} INFO org.slf4j.impl.SimpleLoggerTest - hello";
+        String patternStr = "^\\[.*\\] tid=\\d{1,12} INFO org.slf4j.simple.SimpleLoggerTest - hello";
         commonTestThreadId(patternStr);
     }
-        private void commonTestThreadId(String patternStr) {
-                System.setErr(replacement);
-                System.setProperty(SimpleLogger.SHOW_THREAD_ID_KEY, Boolean.TRUE.toString());
+
+    private void commonTestThreadId(String patternStr) {
+        System.setErr(replacement);
+        System.setProperty(SimpleLogger.SHOW_THREAD_ID_KEY, Boolean.TRUE.toString());
         SimpleLogger.init();
         SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
         simpleLogger.info("hello");
@@ -147,5 +148,5 @@ public class SimpleLoggerTest {
         System.out.println(patternStr);
         System.out.println(output);
         assertTrue(Pattern.compile(patternStr).matcher(output).lookingAt());
-        }
+    }
 }
