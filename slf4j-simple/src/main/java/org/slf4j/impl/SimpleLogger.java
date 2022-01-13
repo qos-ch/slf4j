@@ -56,20 +56,20 @@ import org.slf4j.spi.LocationAwareLogger;
  * </li>
  * 
  * <li><code>org.slf4j.simpleLogger.defaultLogLevel</code> - Default log level
- * for all instances of SimpleLogger. Must be one of ("trace", "debug", "info",
- * "warn", "error" or "off"). If not specified, defaults to "info".</li>
+ * for all instances of SimpleLogger. Must be one of "trace", "debug", "info",
+ * "warn", "error" or "off". If not specified, defaults to "info".</li>
  *
- * <li><code>org.slf4j.simpleLogger.log.<em>a.b.c</em></code> - Logging detail
- * level for a SimpleLogger instance named "a.b.c". Right-side value must be one
+ * <li><code>org.slf4j.simpleLogger.log.<em>com.foo.bar</em></code> - Logging detail
+ * level for a SimpleLogger instance named "com.foo.bar". Right-side value must be one
  * of "trace", "debug", "info", "warn", "error" or "off". When a SimpleLogger
  * named "a.b.c" is initialized, its level is assigned from this property. If
  * unspecified, the level of nearest parent logger will be used, and if none is
  * set, then the value specified by
  * <code>org.slf4j.simpleLogger.defaultLogLevel</code> will be used.</li>
  *
- * <li><code>org.slf4j.simpleLogger.showDateTime</code> - Set to
- * <code>true</code> if you want the current date and time to be included in
- * output messages. Default is <code>false</code></li>
+ * <li><code>org.slf4j.simpleLogger.showDateTime</code> - If you would like the 
+ * current date and time to be included in output messages, then set it to
+ * <code>true</code>. Default is <code>false</code></li>
  *
  * <li><code>org.slf4j.simpleLogger.dateTimeFormat</code> - The date and time
  * format to be used in the output messages. The pattern describing the date and
@@ -78,13 +78,17 @@ import org.slf4j.spi.LocationAwareLogger;
  * <code>SimpleDateFormat</code></a>. If the format is not specified or is
  * invalid, the number of milliseconds since start up will be output.</li>
  *
- * <li><code>org.slf4j.simpleLogger.showThreadName</code> -Set to
- * <code>true</code> if you want to output the current thread name. Defaults to
+ * <li><code>org.slf4j.simpleLogger.showThreadName</code> - If you want to output 
+ * the current thread name, then set it to <code>true</code>. Defaults to
  * <code>true</code>.</li>
  *
- * <li><code>org.slf4j.simpleLogger.showLogName</code> - Set to
- * <code>true</code> if you want the Logger instance name to be included in
- * output messages. Defaults to <code>true</code>.</li>
+ * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> - 
+ * If you would like to output the current thread name, then set to
+ * <code>true</code>. Defaults to <code>false</code>.</li>
+ * 
+ * <li><code>org.slf4j.simpleLogger.showLogName</code> - If you would like 
+ * the Logger instance name to be included in output messages, then set it to
+ * <code>true</code>. Defaults to <code>true</code>.</li>
  *
  * <li><code>org.slf4j.simpleLogger.showShortLogName</code> - Set to
  * <code>true</code> if you want the last component of the name to be included
@@ -142,7 +146,8 @@ import org.slf4j.spi.LocationAwareLogger;
  */
 public class SimpleLogger extends MarkerIgnoringBase {
 
-    private static final long serialVersionUID = -632788891211436180L;
+
+	private static final long serialVersionUID = -632788891211436180L;
 
     private static long START_TIME = System.currentTimeMillis();
 
@@ -151,6 +156,9 @@ public class SimpleLogger extends MarkerIgnoringBase {
     protected static final int LOG_LEVEL_INFO = LocationAwareLogger.INFO_INT;
     protected static final int LOG_LEVEL_WARN = LocationAwareLogger.WARN_INT;
     protected static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
+    
+    private static final String TID_PREFIX = "tid=";
+
     // The OFF level can only be used in configuration files to disable logging.
     // It has
     // no printing method associated with it in o.s.Logger interface.
@@ -199,6 +207,8 @@ public class SimpleLogger extends MarkerIgnoringBase {
     public static final String SHOW_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogName";
 
     public static final String SHOW_THREAD_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadName";
+
+    public static final String SHOW_THREAD_ID_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadId";
 
     public static final String DATE_TIME_FORMAT_KEY = SimpleLogger.SYSTEM_PREFIX + "dateTimeFormat";
 
@@ -269,6 +279,12 @@ public class SimpleLogger extends MarkerIgnoringBase {
             buf.append("] ");
         }
 
+        if (CONFIG_PARAMS.showThreadId) {
+            buf.append(TID_PREFIX);
+            buf.append(Thread.currentThread().getId());
+            buf.append(' ');
+        }
+        
         if (CONFIG_PARAMS.levelInBrackets)
             buf.append('[');
 
@@ -326,7 +342,6 @@ public class SimpleLogger extends MarkerIgnoringBase {
             writeThrowable(t, targetStream);
             targetStream.flush();
         }
-
     }
 
     protected void writeThrowable(Throwable t, PrintStream targetStream) {
