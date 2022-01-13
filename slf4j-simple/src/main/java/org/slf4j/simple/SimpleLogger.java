@@ -84,7 +84,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li><code>org.slf4j.simpleLogger.showThreadName</code> -Set to
  * <code>true</code> if you want to output the current thread name. Defaults to
  * <code>true</code>.</li>
- *
+ * 
+ * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> - 
+ * If you would like to output the current thread name, then set to
+ * <code>true</code>. Defaults to <code>false</code>.</li>
+ * 
  * <li><code>org.slf4j.simpleLogger.showLogName</code> - Set to
  * <code>true</code> if you want the Logger instance name to be included in
  * output messages. Defaults to <code>true</code>.</li>
@@ -156,6 +160,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
     protected static final int LOG_LEVEL_ERROR = LocationAwareLogger.ERROR_INT;
 
     static char SP = ' ';
+    static final String TID_PREFIX = "tid=";
+
 
     // The OFF level can only be used in configuration files to disable logging.
     // It has
@@ -206,6 +212,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     public static final String SHOW_THREAD_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadName";
 
+    public static final String SHOW_THREAD_ID_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadId";
+    
     public static final String DATE_TIME_FORMAT_KEY = SimpleLogger.SYSTEM_PREFIX + "dateTimeFormat";
 
     public static final String SHOW_DATE_TIME_KEY = SimpleLogger.SYSTEM_PREFIX + "showDateTime";
@@ -374,10 +382,10 @@ public class SimpleLogger extends LegacyAbstractLogger {
         if (CONFIG_PARAMS.showDateTime) {
             if (CONFIG_PARAMS.dateFormatter != null) {
                 buf.append(getFormattedDate());
-                buf.append(' ');
+                buf.append(SP);
             } else {
                 buf.append(System.currentTimeMillis() - START_TIME);
-                buf.append(' ');
+                buf.append(SP);
             }
         }
 
@@ -386,6 +394,12 @@ public class SimpleLogger extends LegacyAbstractLogger {
             buf.append('[');
             buf.append(Thread.currentThread().getName());
             buf.append("] ");
+        }
+        
+        if (CONFIG_PARAMS.showThreadId) {
+            buf.append(TID_PREFIX);
+            buf.append(Thread.currentThread().getId());
+            buf.append(SP);
         }
 
         if (CONFIG_PARAMS.levelInBrackets)
@@ -396,7 +410,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
         buf.append(levelStr);
         if (CONFIG_PARAMS.levelInBrackets)
             buf.append(']');
-        buf.append(' ');
+        buf.append(SP);
 
         // Append the name of the log instance if so configured
         if (CONFIG_PARAMS.showShortLogName) {
