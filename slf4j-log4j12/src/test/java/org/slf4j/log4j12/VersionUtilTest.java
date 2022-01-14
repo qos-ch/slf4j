@@ -24,42 +24,34 @@
  */
 package org.slf4j.log4j12;
 
-import org.slf4j.helpers.Util;
+import static org.junit.Assert.assertEquals;
 
-public class VersionUtil {
-    // code was compiled under Java 8 or later
-    static final int DEFAULT_GUESS = 8;
+import org.junit.Test;
 
-    static public int getJavaMajorVersion() {
-        String javaVersionString = Util.safeGetSystemProperty("java.version");
-        int result = getJavaMajorVersion(javaVersionString);
-        return result;
+public class VersionUtilTest {
+
+    
+    @Test
+    public void test() {
+        System.out.println(System.getProperty("java.version"));
+        assertEquals(6, VersionUtil.getJavaMajorVersion("1.6"));
+        assertEquals(7, VersionUtil.getJavaMajorVersion("1.7.0_21-b11"));
+        assertEquals(8, VersionUtil.getJavaMajorVersion("1.8.0_25"));
     }
 
-    static public int getJavaMajorVersion(String versionString) {
-        if (versionString == null)
-            return DEFAULT_GUESS;
-        if (versionString.startsWith("1.")) {
-            return versionString.charAt(2) - '0';
-        } else {
-            String firstDigits = extractFirstDigits(versionString);
-            try {
-               return Integer.parseInt(firstDigits);
-            } catch(NumberFormatException e) {
-                return DEFAULT_GUESS;
-            }
-        }
+    @Test 
+    public void testJava9() {
+        assertEquals(9, VersionUtil.getJavaMajorVersion("9"));
+        assertEquals(9, VersionUtil.getJavaMajorVersion("9.12"));
+        assertEquals(9, VersionUtil.getJavaMajorVersion("9ea"));
+        
     }
 
-    private static String extractFirstDigits(String versionString) {
-        StringBuffer buf = new StringBuffer();
-        for (char c : versionString.toCharArray()) {
-            if (Character.isDigit(c))
-                buf.append(c);
-            else
-                break;
-        }
-        return buf.toString();
+    @Test 
+    public void testJava11() {
+        assertEquals(11, VersionUtil.getJavaMajorVersion("11"));
+        assertEquals(11, VersionUtil.getJavaMajorVersion("11.612"));
 
     }
+
 }
