@@ -417,12 +417,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
       <p><span class="label">Basic rule</span> <b>Embedded components
       such as libraries or frameworks should not declare a dependency
-      on any SLF4J binding but only depend on slf4j-api</b>. When a
-      library declares a transitive dependency on a specific binding,
-      that binding is imposed on the end-user negating the purpose of
-      SLF4J. Note that declaring a non-transitive dependency on a
-      binding, for example for testing, does not affect the
-      end-user.</p>
+      on any SLF4J binding/provider but only depend on
+      slf4j-api</b>. When a library declares a transitive dependency
+      on a specific binding, that binding is imposed on the end-user
+      negating the purpose of SLF4J. Note that declaring a
+      non-transitive dependency on a binding, for example for testing,
+      does not affect the end-user.</p>
 
       <p>SLF4J usage in embedded components is also discussed in the
       FAQ in relation with <a
@@ -462,7 +462,32 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <p/>
 
-      <p><span class="label notice">log4j</span> If you wish to use
+     <!-- ================================== -->
+     <p><span class="label notice">reload4j</span> If you wish to use
+      reload4j as the underlying logging framework, all you need to do is
+      to declare "org.slf4j:slf4j-reload4j" as a dependency in your
+      <em>pom.xml</em> file as shown below. In addition to
+      <em>slf4j-reload4j-${latest.stable.version}.jar</em>, this will pull
+      <em>slf4j-api-${latest.stable.version}.jar</em> as well as
+      <em>reload4j-${reload4j.version}.jar</em> into your project.  Note
+      that explicitly declaring a dependency on
+      <em>reload4j-${reload4j.version}.jar</em> or
+      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
+      be necessary to impose the correct version of said artifacts by
+      virtue of Maven's "nearest definition" dependency mediation
+      rule.</p>
+
+      
+<pre class="prettyprint source">&lt;dependency> 
+  &lt;groupId>org.slf4j&lt;/groupId>
+  &lt;artifactId>slf4j-reload4j&lt;/artifactId>
+  &lt;version>${latest.stable.version}&lt;/version>
+&lt;/dependency></pre>
+
+
+     <!-- ================================== -->     
+
+     <p><span class="label notice">log4j</span> If you wish to use
       log4j as the underlying logging framework, all you need to do is
       to declare "org.slf4j:slf4j-log4j12" as a dependency in your
       <em>pom.xml</em> file as shown below. In addition to
@@ -484,6 +509,8 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <p/>
 
+     <!-- ================================== -->
+     
       <p><span class="label notice">java.util.logging</span> If you
       wish to use java.util.logging as the underlying logging
       framework, all you need to do is to declare
@@ -561,6 +588,22 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       APIs</b></a>.
       </p>
 
+      <h3 class="doAnchor" name="jep264">Support for JDK Platform Logging (JEP 264)
+      SLF4J</h3>
+
+      <p><span class="label notice">Since 2.0.0-alpha5</span> The
+      <em>slf4j-jdk-platform-logging</em> module adds support for <a
+      href="http://openjdk.java.net/jeps/264">JDK Platform
+      Logging</a>. </p>
+
+<pre class="prettyprint source">&lt;dependency> 
+  &lt;groupId>org.slf4j&lt;/groupId>
+  &lt;artifactId>slf4j-jdk-platform-logging&lt;/artifactId>
+  &lt;version>${latest.2.version}&lt;/version>
+&lt;/dependency></pre>
+
+
+      
       <h3 class="doAnchor" name="mdc">Mapped Diagnostic Context (MDC) support</h3>
 
       <p>"Mapped Diagnostic Context" is essentially a map maintained

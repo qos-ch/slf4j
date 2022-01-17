@@ -41,6 +41,11 @@ public class JDK14LoggerFactory implements ILoggerFactory {
     // key: name (String), value: a JDK14LoggerAdapter;
     ConcurrentMap<String, Logger> loggerMap;
 
+    /**
+     * the root logger is called "" in JUL
+     */
+    private static String JUL_ROOT_LOGGER_NAME = "";
+    
     public JDK14LoggerFactory() {
         loggerMap = new ConcurrentHashMap<>();
         // ensure jul initialization. see SLF4J-359
@@ -57,7 +62,7 @@ public class JDK14LoggerFactory implements ILoggerFactory {
     public Logger getLogger(String name) {
         // the root logger is called "" in JUL
         if (name.equalsIgnoreCase(Logger.ROOT_LOGGER_NAME)) {
-            name = "";
+            name = JUL_ROOT_LOGGER_NAME;
         }
 
         Logger slf4jLogger = loggerMap.get(name);
