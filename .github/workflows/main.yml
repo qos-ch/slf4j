@@ -38,8 +38,6 @@ jobs:
         java-version: ${{ matrix.jdk }}
     - name: Compile
       # download dependencies, etc, so test log looks better
-      run: mvn -B compile
-    - name: Test
-      run: mvn -B verify
+      run: mvn -B install
 
 
