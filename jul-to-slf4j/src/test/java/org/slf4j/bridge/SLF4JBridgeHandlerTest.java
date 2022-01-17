@@ -42,14 +42,16 @@ public class SLF4JBridgeHandlerTest {
 
     ListAppender listAppender = new ListAppender();
     org.apache.log4j.Logger log4jRoot;
-    java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger("yay");
-
+    java.util.logging.Logger julLogger = java.util.logging.Logger.getLogger(LOGGER_NAME);
+    java.util.logging.Logger julRootLogger = java.util.logging.Logger.getLogger("");
+    
     @Before
     public void setUp() throws Exception {
         listAppender.extractLocationInfo = true;
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(listAppender);
         log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
+        julRootLogger.setLevel(Level.FINEST);
     }
 
     @After
@@ -61,6 +63,7 @@ public class SLF4JBridgeHandlerTest {
     @Test
     public void testSmoke() {
         SLF4JBridgeHandler.install();
+        
         String msg = "msg";
         julLogger.info(msg);
         assertEquals(1, listAppender.list.size());
@@ -76,6 +79,19 @@ public class SLF4JBridgeHandlerTest {
         System.out.println(li.fullInfo);
         assertEquals("SLF4JBridgeHandlerTest.java", li.getFileName());
         assertEquals("testSmoke", li.getMethodName());
+    }
+    
+    @Test
+    public void LOGBACK_1612() {
+        SLF4JBridgeHandler.install();
+        
+        String msg = "LOGBACK_1612";
+        julLogger.finer(msg);
+        assertEquals(1, listAppender.list.size());
+        LoggingEvent le = (LoggingEvent) listAppender.list.get(0);
+        assertEquals(LOGGER_NAME, le.getLoggerName());
+        assertEquals(msg, le.getMessage());
+
     }
 
     @Test
@@ -101,6 +117,8 @@ public class SLF4JBridgeHandlerTest {
         assertLevel(i++, org.apache.log4j.Level.ERROR);
     }
 
+   
+    
     @Test
     public void testLogWithResourceBundle() {
         SLF4JBridgeHandler.install();
