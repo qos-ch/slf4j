@@ -50,7 +50,7 @@ p.menu {
                          "left   content right";
     max-width: 90rem;
     margin-left: 1rem;
-    #  margin-right: auto;
+    /**  margin-right: auto; **/
 
 }
 
@@ -83,7 +83,7 @@ p.menu {
     margin: 4px 4px 0px 0px; 
     padding: 0px;
     background-color: #ffffff;    
-    #border: 1px solid #cccccc;
+    /** #border: 1px solid #cccccc; **/
     font-size: 80%;
 }
 
