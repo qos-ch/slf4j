@@ -4,38 +4,24 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-parent</artifactId>
-    <version>1.7.34-SNAPSHOT</version>
-  </parent>
 
+  <groupId>org.slf4j</groupId>
   <artifactId>slf4j-log4j12</artifactId>
-
-  <packaging>jar</packaging>
-  <name>SLF4J LOG4J-12 Binding</name>
-  <description>SLF4J LOG4J-12 Binding</description>
+  <version>1.7.34-SNAPSHOT</version>
+  
+  <name>SLF4J LOG4J-12 Binding relocated </name>
+  <description>SLF4J LOG4J-12 relocated to slf4j-reload4h</description>
   <url>http://www.slf4j.org</url>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
 
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
-    
-    <dependency>
+  <distributionManagement>
+    <relocation>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <type>test-jar</type>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+      <artifactId>slf4j-reload4j</artifactId>
+      <version>${project.version}</version>      
+    </relocation>
+  </distributionManagement>
+  
 
   
 </project>
