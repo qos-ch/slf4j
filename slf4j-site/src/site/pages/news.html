@@ -40,6 +40,36 @@
      class names in <code/>
    -->
 
+   <hr noshade="noshade" size="1"/>
+   
+    <h3>2022-01-25 - Release of SLF4J 1.7.35</h3>
+
+    <p>&bull; In this release, the "slf4j-log4j12" artifact
+    automatically instructs Maven to use the "slf4j-reload4j" artifact
+    instead. As you might have guessed, the "slf4j-reload4j" binding
+    delegates log processing to the reload4j logging framework.
+    </p>
+      
+    <p>The <a href="https://reload4j.qos.ch">reload4j</a> project is a
+    fork of Apache log4j version 1.2.17 with the goal of fixing
+    pressing security issues. It is intended as a drop-in replacement
+    for log4j version 1.2.17. By drop-in, we mean the replacement of
+    log4j.jar with reload4j.jar in your build with no source code
+    changes in .java files being necessary.
+    </p>
+
+    <p>&bull; Fix incorrect version number in the relocation element
+    in <em>slf4j-log4j12/pom.ml</em>. This issue was reported in <a
+    href="https://jira.qos.ch/browse/SLF4J-539">SLF4J-539</a> by
+    Alexander Veit.
+    </p>
+    
+    <h3>2022-01-25 - Release of SLF4J 1.7.34</h3>
+
+    <p>The relocation element in slf4j-log4j12 had incorrect
+    version number. Version 1.7.34 should not be used.
+    </p>
+    
    <h3>2022-01-13 - Release of SLF4J 2.0.0-alpha6</h3>
 
    <p class="highlight">The the 2.0.x series requires Java&nbsp;8 and

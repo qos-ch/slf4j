@@ -31,10 +31,10 @@
     
     <p>The Simple Logging Facade for Java (SLF4J) serves as a simple
     facade or abstraction for various logging frameworks, such as
-    java.util.logging, logback and log4j. SLF4J allows the end-user to
-    plug in the desired logging framework at <em>deployment</em> time.
-    Note that SLF4J-enabling your library/application implies the
-    addition of only a single mandatory dependency, namely
+    java.util.logging, logback and reload4j. SLF4J allows the end-user
+    to plug in the desired logging framework at <em>deployment</em>
+    time.  Note that SLF4J-enabling your library/application implies
+    the addition of only a single mandatory dependency, namely
     <em>slf4j-api-${project.version}.jar</em>.</p>
 
     <p><span class="label">since 1.6.0</span> If no binding is found on the
@@ -271,12 +271,14 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
         </dt>
         <dd>Binding/provider for <a
         href="http://logging.apache.org/log4j/1.2/index.html">log4j
-        version 1.2</a>, a widely used logging framework. You also
-        need to place <em>log4j.jar</em> on your class path.  <span
-        class="red">Assuming you wish to continue to use the log4j 1.x
-        framework, given that the log4j 1.x has reached EOL status, we
-        strongly encourage you to use <em>slf4j-reload4j</em>
-        instead.</span> See below.
+        version 1.2</a>, a widely used logging framework. <span
+        class="red">Given that log4j 1.x has been declared EOL in 2015
+        and again in 2022, as of SLF4J 1.7.35, the <em>slf4j-log4j
+        module</em> automatically redirects to the
+        <em>slf4j-reload4j</em> module at <b>build time</b>.</span>
+        Assuming you wish to continue to use the log4j 1.x framework,
+        we strongly encourage you to use <code>slf4j-reload4j</code>
+        instead. See below.
         <p/>
 
         </dd>
@@ -445,13 +447,14 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       you need to do is to declare "ch.qos.logback:logback-classic" as
       a dependency in your <em>pom.xml</em> file as shown below. In
       addition to <em>logback-classic-${logback.version}.jar</em>,
-      this will pull <em>slf4j-api-${latest.stable.version}.jar</em> as well
-      as <em>logback-core-${logback.version}.jar</em> into your
+      this will pull in
+      <em>slf4j-api-${latest.stable.version}.jar</em> as well as
+      <em>logback-core-${logback.version}.jar</em> into your
       project. Note that explicitly declaring a dependency on
       <em>logback-core-${logback.version}</em> or
-      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
-      be necessary to impose the correct version of said artifacts by
-      virtue of Maven's "nearest definition" dependency mediation
+      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and
+      may be necessary to impose the correct version of said artifacts
+      by virtue of Maven's "nearest definition" dependency mediation
       rule.
       </p>
 
@@ -465,19 +468,18 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <!-- ================================== -->
      <p><span class="label notice">reload4j</span> If you wish to use
-      reload4j as the underlying logging framework, all you need to do is
-      to declare "org.slf4j:slf4j-reload4j" as a dependency in your
-      <em>pom.xml</em> file as shown below. In addition to
-      <em>slf4j-reload4j-${latest.stable.version}.jar</em>, this will pull
-      <em>slf4j-api-${latest.stable.version}.jar</em> as well as
-      <em>reload4j-${reload4j.version}.jar</em> into your project.  Note
-      that explicitly declaring a dependency on
-      <em>reload4j-${reload4j.version}.jar</em> or
-      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
-      be necessary to impose the correct version of said artifacts by
-      virtue of Maven's "nearest definition" dependency mediation
-      rule.</p>
-
+     reload4j as the underlying logging framework, all you need to do
+     is to declare "org.slf4j:slf4j-reload4j" as a dependency in your
+     <em>pom.xml</em> file as shown below. In addition to
+     <em>slf4j-reload4j-${latest.stable.version}.jar</em>, this will
+     pull in <em>slf4j-api-${latest.stable.version}.jar</em> as well
+     as <em>reload4j-${reload4j.version}.jar</em> into your project.
+     Note that explicitly declaring a dependency on
+     <em>reload4j-${reload4j.version}.jar</em> or
+     <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and
+     may be necessary to impose the correct version of said artifacts
+     by virtue of Maven's "nearest definition" dependency mediation
+     rule.</p>
       
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>
@@ -488,19 +490,10 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
      <!-- ================================== -->     
 
-     <p><span class="label notice">log4j</span> If you wish to use
-      log4j as the underlying logging framework, all you need to do is
-      to declare "org.slf4j:slf4j-log4j12" as a dependency in your
-      <em>pom.xml</em> file as shown below. In addition to
-      <em>slf4j-log4j12-${latest.stable.version}.jar</em>, this will pull
-      <em>slf4j-api-${latest.stable.version}.jar</em> as well as
-      <em>log4j-${log4j.version}.jar</em> into your project.  Note
-      that explicitly declaring a dependency on
-      <em>log4j-${log4j.version}.jar</em> or
-      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
-      be necessary to impose the correct version of said artifacts by
-      virtue of Maven's "nearest definition" dependency mediation
-      rule.</p>
+     <p><span class="label notice">log4j</span> As of version 1.7.35,
+     declaring a dependency on <code>org.slf4j:slf4j-log4j12</code>
+     redirects to <code>org.slf4j:slf4j-reload4j</code> by virtue of
+     Maven &lt;relocation&gt; directive. </p>
 
 <pre class="prettyprint source">&lt;dependency> 
   &lt;groupId>org.slf4j&lt;/groupId>
@@ -517,12 +510,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
       framework, all you need to do is to declare
       "org.slf4j:slf4j-jdk14" as a dependency in your <em>pom.xml</em>
       file as shown below. In addition to
-      <em>slf4j-jdk14-${latest.stable.version}.jar</em>, this will pull
-      <em>slf4j-api-${latest.stable.version}.jar</em> into your project.
-      Note that explicitly declaring a dependency on
-      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and may
-      be necessary to impose the correct version of said artifact by
-      virtue of Maven's "nearest definition" dependency mediation
+      <em>slf4j-jdk14-${latest.stable.version}.jar</em>, this will
+      pull in <em>slf4j-api-${latest.stable.version}.jar</em> into
+      your project.  Note that explicitly declaring a dependency on
+      <em>slf4j-api-${latest.stable.version}.jar</em> is not wrong and
+      may be necessary to impose the correct version of said artifact
+      by virtue of Maven's "nearest definition" dependency mediation
       rule.</p>
 
 <pre class="prettyprint source">&lt;dependency> 
