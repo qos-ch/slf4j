@@ -4,10 +4,15 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>1.7.34</version>
+  </parent>
+  
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-log4j12</artifactId>
-  <version>1.7.34-SNAPSHOT</version>
+  <packaging>pom</packaging>
   
   <name>SLF4J LOG4J-12 Binding relocated</name>
   <description>SLF4J LOG4J-12 relocated to slf4j-reload4j</description>
@@ -21,7 +26,7 @@
       <version>${project.version}</version>      
     </relocation>
   </distributionManagement>
-  
 
+  
   
 </project>

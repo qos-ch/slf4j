@@ -47,6 +47,7 @@
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
     <javadoc.plugin.version>3.1.0</javadoc.plugin.version>
     <doclint>none</doclint>
   </properties>
@@ -165,7 +166,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>${maven-jar-plugin.version}</version>
         <configuration>
           <archive>
             <manifestEntries>
