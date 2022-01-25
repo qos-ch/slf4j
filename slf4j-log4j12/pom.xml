@@ -9,8 +9,8 @@
   <artifactId>slf4j-log4j12</artifactId>
   <version>1.7.34-SNAPSHOT</version>
   
-  <name>SLF4J LOG4J-12 Binding relocated </name>
-  <description>SLF4J LOG4J-12 relocated to slf4j-reload4h</description>
+  <name>SLF4J LOG4J-12 Binding relocated</name>
+  <description>SLF4J LOG4J-12 relocated to slf4j-reload4j</description>
   <url>http://www.slf4j.org</url>
 
 
