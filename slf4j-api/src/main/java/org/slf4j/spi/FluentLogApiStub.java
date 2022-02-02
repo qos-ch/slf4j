@@ -24,10 +24,9 @@
  */
 package org.slf4j.spi;
 
-import java.util.function.Supplier;
-
 import org.slf4j.Marker;
-import org.slf4j.event.LoggingEvent;
+
+import java.util.function.Supplier;
 
 /**
  * This is main interface in slf4j's fluent API for creating logging events.
@@ -36,38 +35,28 @@ import org.slf4j.event.LoggingEvent;
  * @since 2.0.0
  *
  */
-public interface LoggingEventBuilder {
+public interface FluentLogApiStub {
 
-    LoggingEventBuilder setMessage(String message);
+    FluentLogApiStub setCause(Throwable cause);
 
-    default public LoggingEventBuilder message(String message) {
-        return this.setMessage(message);
-    }
+    FluentLogApiStub addMarker(Marker marker);
 
-    LoggingEventBuilder setCause(Throwable cause);
+    FluentLogApiStub addArgument(Object p);
 
-    default public LoggingEventBuilder cause(Throwable cause) {
-        return this.setCause(cause);
-    }
+    FluentLogApiStub addArgument(Supplier<?> objectSupplier);
 
-    LoggingEventBuilder addMarker(Marker marker);
+    FluentLogApiStub addKeyValue(String key, Object value);
 
-    LoggingEventBuilder addArgument(Object p);
+    FluentLogApiStub addKeyValue(String key, Supplier<Object> value);
 
-    default public LoggingEventBuilder arg(Object p) {
-        return this.addArgument(p);
-    }
+    void log(String message);
 
-    LoggingEventBuilder addArgument(Supplier<?> objectSupplier);
+    void log(String message, Object arg);
 
-    default public LoggingEventBuilder arg(Supplier<?> argSupplier) {
-        return this.addArgument(argSupplier);
-    }
+    void log(String message, Object arg0, Object arg1);
 
-    LoggingEventBuilder addKeyValue(String key, Object value);
+    void log(String message, Object... args);
 
-    LoggingEventBuilder addKeyValue(String key, Supplier<Object> value);
-
-    LoggingEvent build();
+    void log(Supplier<String> messageSupplier);
 
 }

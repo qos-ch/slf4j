@@ -9,7 +9,7 @@ import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 
-public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBoundaryAware {
+public class DefaultLoggingEventBuilder implements FluentLogApiStub, LoggingEventBuilder, CallerBoundaryAware {
 
     protected DefaultLoggingEvent loggingEvent;
     protected Logger logger;
@@ -17,6 +17,12 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     public DefaultLoggingEventBuilder(Logger logger, Level level) {
         this.logger = logger;
         loggingEvent = new DefaultLoggingEvent(level, logger);
+    }
+
+    @Override
+    public DefaultLoggingEventBuilder setMessage(String message) {
+        loggingEvent.setMessage(message);
+        return this;
     }
 
     /**
@@ -27,27 +33,32 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
      * @param marker the marker to add
      */
     @Override
-    public LoggingEventBuilder addMarker(Marker marker) {
+    public DefaultLoggingEventBuilder addMarker(Marker marker) {
         loggingEvent.addMarker(marker);
         return this;
     }
 
     @Override
-    public LoggingEventBuilder setCause(Throwable t) {
+    public DefaultLoggingEventBuilder setCause(Throwable t) {
         loggingEvent.setThrowable(t);
         return this;
     }
 
     @Override
-    public LoggingEventBuilder addArgument(Object p) {
+    public DefaultLoggingEventBuilder addArgument(Object p) {
         loggingEvent.addArgument(p);
         return this;
     }
 
     @Override
-    public LoggingEventBuilder addArgument(Supplier<?> objectSupplier) {
+    public DefaultLoggingEventBuilder addArgument(Supplier<?> objectSupplier) {
         loggingEvent.addArgument(objectSupplier.get());
         return this;
+    }
+
+    @Override
+    public LoggingEvent build() {
+        return this.loggingEvent;
     }
 
     @Override
@@ -92,7 +103,11 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
             log(messageSupplier.get());
         }
     }
-    
+
+    public void log() {
+        log(loggingEvent);
+    }
+
     protected void log(LoggingEvent aLoggingEvent) {
         if (logger instanceof LoggingEventAware) {
             ((LoggingEventAware) logger).log(aLoggingEvent);
@@ -183,13 +198,13 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
 
 
     @Override
-    public LoggingEventBuilder addKeyValue(String key, Object value) {
+    public DefaultLoggingEventBuilder addKeyValue(String key, Object value) {
         loggingEvent.addKeyValue(key, value);
         return this;
     }
 
     @Override
-    public LoggingEventBuilder addKeyValue(String key, Supplier<Object> value) {
+    public DefaultLoggingEventBuilder addKeyValue(String key, Supplier<Object> value) {
         loggingEvent.addKeyValue(key, value.get());
         return this;
     }

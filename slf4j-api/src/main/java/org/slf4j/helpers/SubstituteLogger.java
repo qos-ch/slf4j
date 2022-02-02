@@ -27,6 +27,7 @@ package org.slf4j.helpers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Queue;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
@@ -34,6 +35,7 @@ import org.slf4j.event.EventRecodingLogger;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
+import org.slf4j.spi.FluentLogApiStub;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
@@ -69,15 +71,21 @@ public class SubstituteLogger implements Logger {
     }
     
     @Override
-    public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+    public FluentLogApiStub makeLoggingEventBuilder(Level level) {
         return delegate().makeLoggingEventBuilder(level);
     }
 
     @Override
-    public LoggingEventBuilder atLevel(Level level) {
+    public FluentLogApiStub atLevel(Level level) {
         return delegate().atLevel(level); 
     }
-    
+
+    @Override
+    public void atLevel(Level level, Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        delegate().atLevel(level, eventBuilderConsumer);
+    }
+
+
     @Override
     public boolean isEnabledForLevel(Level level) {
         return delegate().isEnabledForLevel(level);
@@ -142,10 +150,15 @@ public class SubstituteLogger implements Logger {
     }
     
     @Override
-    public LoggingEventBuilder atTrace() {
+    public FluentLogApiStub atTrace() {
         return delegate().atTrace();
     }
-    
+
+    @Override
+    public void atTrace(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        delegate().atTrace(eventBuilderConsumer);
+    }
+
     @Override
     public boolean isDebugEnabled() {
         return delegate().isDebugEnabled();
@@ -207,10 +220,15 @@ public class SubstituteLogger implements Logger {
     }
     
     @Override
-    public LoggingEventBuilder atDebug() {
+    public FluentLogApiStub atDebug() {
         return delegate().atDebug();
     }
-    
+
+    @Override
+    public void atDebug(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        delegate().atDebug(eventBuilderConsumer);
+    }
+
     @Override
     public boolean isInfoEnabled() {
         return delegate().isInfoEnabled();
@@ -273,11 +291,15 @@ public class SubstituteLogger implements Logger {
     }
     
     @Override
-    public LoggingEventBuilder atInfo() {
+    public FluentLogApiStub atInfo() {
         return delegate().atInfo();
     }
 
-    
+    @Override
+    public void atInfo(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        delegate().atInfo(eventBuilderConsumer);
+    }
+
     @Override
     public boolean isWarnEnabled() {
         return delegate().isWarnEnabled();
@@ -338,11 +360,15 @@ public class SubstituteLogger implements Logger {
     }
     
     @Override
-    public LoggingEventBuilder atWarn() {
+    public FluentLogApiStub atWarn() {
         return delegate().atWarn();
     }
 
-    
+    @Override
+    public void atWarn(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        delegate().atWarn(eventBuilderConsumer);
+    }
+
     
     @Override
     public boolean isErrorEnabled() {
@@ -405,10 +431,15 @@ public class SubstituteLogger implements Logger {
     }
 
     @Override
-    public LoggingEventBuilder atError() {
+    public FluentLogApiStub atError() {
         return delegate().atError();
     }
-    
+
+    @Override
+    public void atError(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        delegate().atError(eventBuilderConsumer);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

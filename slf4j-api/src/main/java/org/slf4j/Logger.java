@@ -38,8 +38,11 @@ import static org.slf4j.event.Level.WARN;
 
 import org.slf4j.event.Level;
 import org.slf4j.spi.DefaultLoggingEventBuilder;
+import org.slf4j.spi.FluentLogApiStub;
 import org.slf4j.spi.LoggingEventBuilder;
-import org.slf4j.spi.NOPLoggingEventBuilder;
+import org.slf4j.spi.NopFluentApiStub;
+
+import java.util.function.Consumer;
 
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
@@ -96,30 +99,43 @@ public interface Logger {
     public String getName();
 
     /**
-     * Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the 
+     * Make a new {@link FluentLogApiStub} instance as appropriate for this logger and the
      * desired {@link Level} passed as parameter. If this Logger is disabled for the given Level, then 
-     * a {@link  NOPLoggingEventBuilder} is returned.
+     * a {@link  NopFluentApiStub} is returned.
      * 
      * 
      * @param level desired level for the event builder
      * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
      * @since 2.0
      */
-    default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+    default public FluentLogApiStub makeLoggingEventBuilder(Level level) {
         if (isEnabledForLevel(level)) {
             return new DefaultLoggingEventBuilder(this, level);          
         } else {
-            return NOPLoggingEventBuilder.singleton();
+            return NopFluentApiStub.singleton();
         }
     }
 
+    default public FluentLogApiStub atLevel(Level level) {
+        return makeLoggingEventBuilder(level);
+    }
+
+
     /**
-     * A convenient alias for {@link #makeLoggingEventBuilder}. 
-     * 
+     * Use provided LoggingEventBuilder consumer to construct the logging event, and log at provided level.
+     *
+     * <code>
+     *     logger.atDebug(log->log.message("Temperature rise from {} to {}")
+     * </code>
+     *
      * @since 2.0
      */
-    default public LoggingEventBuilder atLevel(Level level) {
-        return makeLoggingEventBuilder(level);
+    default public void atLevel(Level level, Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        if (isEnabledForLevel(level)) {
+            DefaultLoggingEventBuilder eventBuilder= new DefaultLoggingEventBuilder(this, level);
+            eventBuilderConsumer.accept(eventBuilder);
+            eventBuilder.log();
+        }
     }
 
     
@@ -233,15 +249,18 @@ public interface Logger {
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#TRACE} level. 
      *  
-     * @return LoggingEventBuilder instance as appropriate for level TRACE
+     * @return FluentLogApiStub instance as appropriate for level TRACE
      * @since 2.0
      */
-    default public LoggingEventBuilder atTrace() {
+    default public FluentLogApiStub atTrace() {
         if (isTraceEnabled()) {
             return makeLoggingEventBuilder(TRACE);
         } else {
-            return NOPLoggingEventBuilder.singleton();
+            return NopFluentApiStub.singleton();
         }
+    }
+    default public void atTrace(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        this.atLevel(TRACE, eventBuilderConsumer);
     }
 
     /**
@@ -429,15 +448,19 @@ public interface Logger {
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#DEBUG} level. 
      *  
-     * @return LoggingEventBuilder instance as appropriate for level DEBUG
+     * @return FluentLogApiStub instance as appropriate for level DEBUG
      * @since 2.0
      */
-    default public LoggingEventBuilder atDebug() {
+    default public FluentLogApiStub atDebug() {
         if (isDebugEnabled()) {
             return makeLoggingEventBuilder(DEBUG);
         } else {
-            return NOPLoggingEventBuilder.singleton();
+            return NopFluentApiStub.singleton();
         }
+    }
+
+    default public void atDebug(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        this.atLevel(DEBUG, eventBuilderConsumer);
     }
 
     /**
@@ -568,15 +591,18 @@ public interface Logger {
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#INFO} level. 
      *  
-     * @return LoggingEventBuilder instance as appropriate for level INFO
+     * @return FluentLogApiStub instance as appropriate for level INFO
      * @since 2.0
      */
-    default public LoggingEventBuilder atInfo() {
+    default public FluentLogApiStub atInfo() {
         if (isInfoEnabled()) {
             return makeLoggingEventBuilder(INFO);
         } else {
-            return NOPLoggingEventBuilder.singleton();
+            return NopFluentApiStub.singleton();
         }
+    }
+    default public void atInfo(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        this.atLevel(INFO, eventBuilderConsumer);
     }
 
     /**
@@ -708,15 +734,18 @@ public interface Logger {
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#WARN} level. 
      *  
-     * @return LoggingEventBuilder instance as appropriate for level WARN
+     * @return FluentLogApiStub instance as appropriate for level WARN
      * @since 2.0
      */
-    default public LoggingEventBuilder atWarn() {
+    default public FluentLogApiStub atWarn() {
         if (isWarnEnabled()) {
             return makeLoggingEventBuilder(WARN);
         } else {
-            return NOPLoggingEventBuilder.singleton();
+            return NopFluentApiStub.singleton();
         }
+    }
+    default public void atWarn(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        this.atLevel(WARN, eventBuilderConsumer);
     }
 
     /**
@@ -849,15 +878,21 @@ public interface Logger {
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#ERROR} level. 
      *  
-     * @return LoggingEventBuilder instance as appropriate for level ERROR
+     * @return FluentLogApiStub instance as appropriate for level ERROR
      * @since 2.0
      */
-    default public LoggingEventBuilder atError() {
+    default public FluentLogApiStub atError() {
         if (isErrorEnabled()) {
             return makeLoggingEventBuilder(ERROR);
         } else {
-            return NOPLoggingEventBuilder.singleton();
+            return NopFluentApiStub.singleton();
         }
     }
+
+    default public void atError(Consumer<LoggingEventBuilder> eventBuilderConsumer) {
+        this.atLevel(ERROR, eventBuilderConsumer);
+    }
+
+
 
 }

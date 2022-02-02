@@ -24,4 +24,13 @@ public class FluentAPIUsage {
         assertFalse(logger.isEnabledForLevel(Level.DEBUG));
     }
 
+    @Test
+    public void fluentApiWithLambda() {
+        Logger logger = LoggerFactory.getLogger("fluentApiWithLambda");
+        logger.atDebug(l-> l.setMessage("Hello {}")
+                            .addArgument("world")
+                            .setCause(new Throwable()));
+
+    }
+
 }
