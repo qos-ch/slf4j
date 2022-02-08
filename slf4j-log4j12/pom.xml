@@ -7,10 +7,9 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.35</version>
+    <version>1.7.36</version>
   </parent>
   
-  <groupId>org.slf4j</groupId>
   <artifactId>slf4j-log4j12</artifactId>
   <packaging>pom</packaging>
   
@@ -23,7 +22,7 @@
     <relocation>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-reload4j</artifactId>
-      <version>1.7.35</version>      
+      <version>1.7.36</version>      
     </relocation>
   </distributionManagement>
 

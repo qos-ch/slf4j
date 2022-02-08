@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-parent</artifactId>
-  <version>1.7.35</version>
+  <version>1.7.36</version>
 
   <packaging>pom</packaging>
   <name>SLF4J</name>
@@ -33,6 +33,9 @@
   </scm>  
 
   <properties>
+    <!-- yyyy-MM-dd'T'HH:mm:ss'Z' -->
+    <project.build.outputTimestamp>2022-02-08T07:38:00Z</project.build.outputTimestamp>    
+
     <required.jdk.version>1.5</required.jdk.version>
     <maven.compiler.source>${required.jdk.version}</maven.compiler.source>
     <maven.compiler.target>${required.jdk.version}</maven.compiler.target>
@@ -42,8 +45,8 @@
     <!-- used in integration testing -->
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
-    <reload4j.version>1.2.18.3</reload4j.version>    
-    <logback.version>1.0.13</logback.version>
+    <reload4j.version>1.2.18.5</reload4j.version>    
+    <logback.version>1.2.10</logback.version>
     <junit.version>4.12</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
