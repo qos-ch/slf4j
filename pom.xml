@@ -45,12 +45,12 @@
     <!-- used in integration testing -->
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
-    <reload4j.version>1.2.18.5</reload4j.version>    
+    <reload4j.version>1.2.19</reload4j.version>    
     <logback.version>1.2.10</logback.version>
-    <junit.version>4.12</junit.version>
+    <junit.version>4.13</junit.version>
     <maven-site-plugin.version>3.3</maven-site-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
+    <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+    <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <javadoc.plugin.version>3.1.0</javadoc.plugin.version>
     <doclint>none</doclint>
   </properties>
