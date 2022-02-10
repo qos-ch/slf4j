@@ -323,7 +323,8 @@ public class Category {
         case Priority.FATAL_INT:
             return LocationAwareLogger.ERROR_INT;
         default:
-            throw new IllegalStateException("Unknown Priority " + p);
+            slf4jLogger.warn("Unknown Priority " + p);
+            return LocationAwareLogger.TRACE_INT;
         }
     }
 
