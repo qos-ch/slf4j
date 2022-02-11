@@ -35,6 +35,7 @@ import org.slf4j.Marker;
  * @since 2.0.0
  *
  */
+@CheckReturnValue
 public interface LoggingEventBuilder {
 
     LoggingEventBuilder setCause(Throwable cause);
