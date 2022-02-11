@@ -20,6 +20,7 @@
 
   <properties>
     <module-name>org.slf4j</module-name>
+    <errorprone.version>2.11.0</errorprone.version>
   </properties>
   
   <build>
@@ -56,4 +57,18 @@
 
   </build>
 
+  <dependencies>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_core</artifactId>
+      <version>${errorprone.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_test_helpers</artifactId>
+      <version>${errorprone.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
