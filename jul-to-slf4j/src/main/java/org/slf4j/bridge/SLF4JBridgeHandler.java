@@ -218,22 +218,22 @@ public class SLF4JBridgeHandler extends Handler {
             slf4jLevel = LocationAwareLogger.ERROR_INT;
         }
         String i18nMessage = getMessageI18N(record);
-        lal.log(null, FQCN, slf4jLevel, i18nMessage, null, record.getThrown());
+        lal.log(null, FQCN, slf4jLevel, i18nMessage, record.getParameters(), record.getThrown());
     }
 
     protected void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
         String i18nMessage = getMessageI18N(record);
         int julLevelValue = record.getLevel().intValue();
         if (julLevelValue <= TRACE_LEVEL_THRESHOLD) {
-            slf4jLogger.trace(i18nMessage, record.getThrown());
+            slf4jLogger.trace(i18nMessage, record.getThrown(), record.getParameters());
         } else if (julLevelValue <= DEBUG_LEVEL_THRESHOLD) {
-            slf4jLogger.debug(i18nMessage, record.getThrown());
+            slf4jLogger.debug(i18nMessage, record.getThrown(), record.getParameters());
         } else if (julLevelValue <= INFO_LEVEL_THRESHOLD) {
-            slf4jLogger.info(i18nMessage, record.getThrown());
+            slf4jLogger.info(i18nMessage, record.getThrown(), record.getParameters());
         } else if (julLevelValue <= WARN_LEVEL_THRESHOLD) {
-            slf4jLogger.warn(i18nMessage, record.getThrown());
+            slf4jLogger.warn(i18nMessage, record.getThrown(), record.getParameters());
         } else {
-            slf4jLogger.error(i18nMessage, record.getThrown());
+            slf4jLogger.error(i18nMessage, record.getThrown(), record.getParameters());
         }
     }
 
