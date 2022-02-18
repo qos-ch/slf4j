@@ -33,7 +33,7 @@
   </scm>  
 
   <properties>
-    <latest.stable.version>1.7.35</latest.stable.version>
+    <latest.stable.version>1.7.36</latest.stable.version>
     <latest.2.version>2.0.0-alpha6</latest.2.version>    
     <!-- java.util.ServiceLoader requires Java 6 -->
     <jdk.version>8</jdk.version>

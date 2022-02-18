@@ -514,6 +514,34 @@ class B extends A {
     </p>
 
     <!-- ====================================================== -->
+    <h3 class="doAnchor" name="no_tlm">Exception in
+    thread "main" java.lang.NoSuchFieldError: tlm</h3>
+
+    <pre class="prettyprint source">
+      Exception in thread "main" java.lang.NoSuchFieldError: tlm
+	at org.apache.log4j.MDCFriend.fixForJava9(MDCFriend.java:11)
+	at org.slf4j.impl.Log4jMDCAdapter.<clinit>(Log4jMDCAdapter.java:38)
+	at Main.main(Main.java:5) </pre>
+
+    <p>The <code>NoSuchFieldError</code> is thrown
+    when <em>slf4j-log4j12</em> attempts to access the 'tlm' package
+    private field in <code>org.apache.log4j.MDC</code> which was
+    specified as being of type
+      <em>java.lang.Object</em> in log4j 1.2.x but was changed
+      to <em>java.lang.ThreadLocal</em> in reload4j. Moreover, such
+      access to package private fields from different modules is not
+      authorized by default in modularized applications in Java 9 and
+      later.</p>
+
+    <p>To keep a long story short, the <code>NoSuchFieldError</code>
+    can be avoided by using <em>slf4j-reload4j.jar</em>
+    with <em>reload4j.jar</e>. Stated
+    differently, <code>org.slf4j.MDC</code> <b>cannot</b> be used with
+    the <em>slf4j-log4j12.jar</em> and <em>reload4j.jar</em>
+    combination.</p>
+    
+    
+    <!-- ====================================================== -->
 
     <h3 class="doAnchor" name="no_static_mdc_binder">Failed to load
     class "org.slf4j.impl.StaticMDCBinder"</h3>

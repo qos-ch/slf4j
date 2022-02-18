@@ -6,11 +6,6 @@ document.write('      <img src="' + prefix + 'images/logos/slf4j-logo.jpg" alt="
 document.write('       </a>')
 document.write('    </td>')
 
-document.write('   <td style="vertical-align:bottom;">')
-document.write('     <p style="background-color: #fffbd9; border-color: #db4545; border-width: thin;')
-document.write('        border-style: dotted; padding: 5px;">');
-document.write('     Sponsor us for the purchase of dedicated hardware. This will enable the production of automated and <b>isolated</b> releases.</p>');
-document.write('   </td>');
 
 document.write('   <td style="vertical-align:bottom;">');
 
