@@ -1428,7 +1428,7 @@ try {
     <dd>
       
       <p>Adding supporting for the SLF4J is surprisingly
-      easy. Essentially, you coping an existing provider and tailoring
+      easy. Essentially, you copying an existing provider and tailoring
       it a little (as explained below) does the trick.
       </p>
       
@@ -1436,7 +1436,7 @@ try {
       logger, called say <code>MyLogger</code>, you need to provide
       an adapter for <code>MyLogger</code> to
       <code>org.slf4j.Logger</code> interface. Refer to slf4j-jcl,
-      slf4j-jdk14, and slf4j-log4j12 modules for examples of
+      slf4j-jdk14, and slf4j-reload4j modules for examples of
       adapters.
       </p>
       
@@ -1452,9 +1452,9 @@ try {
       <code>MyLoggerAdapter</code>, and a factory, namely
       <code>MyLoggerFactory</code>, the last remaining step is to
       modify the <code>StaticLoggerBinder</code> class so that it
-      returns an new instance of <code>MyLoggerFactory</code>. You
-      will also need to modify the
-      <code>loggerFactoryClassStr</code> variable.
+      returns an new instance of <code>MyLoggerFactory</code>. Note
+      that as of version 2.0, you need to
+      implement <code>SLF4JServiceProvider</code>.
       </p>
       
       <p>For Marker or MDC support, you could use the one of the
@@ -1470,9 +1470,11 @@ try {
         <code>org.slf4j.Logger</code> interface
         </li>
         <li>create a factory for the adapter created in the previous step,</li>
-        <li>modify <code>StaticLoggerBinder</code> class to use the
-        factory you created in the previous step</li>
-      </ol>
+        <li>implement <code>SLF4JServiceProvider</code> class to use
+          the factory you created in the previous step; for SLF4J
+          versoin 1.7 and earlier, you need to
+          copy <code>StaticLoggerBinder</code></li>
+      </y>
       
       
     </dd>
