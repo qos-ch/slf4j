@@ -11,6 +11,11 @@ import org.slf4j.event.LoggingEvent;
 
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBoundaryAware {
 
+    
+    // The caller boundary when the log() methods are invoked, is this class itself.
+    
+    static String DLEB_FQCN = DefaultLoggingEventBuilder.class.getName();
+    
     protected DefaultLoggingEvent loggingEvent;
     protected Logger logger;
 
@@ -94,6 +99,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     }
     
     protected void log(LoggingEvent aLoggingEvent) {
+        setCallerBoundary(DLEB_FQCN);
         if (logger instanceof LoggingEventAware) {
             ((LoggingEventAware) logger).log(aLoggingEvent);
         } else {
