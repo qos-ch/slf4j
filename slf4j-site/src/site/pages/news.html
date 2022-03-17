@@ -55,20 +55,37 @@
 
    <h3>2022-03-17 - Release of SLF4J 2.0.0-alpha7</h3>
 
-   <p>The <code>log(LoggingEvent)</code> method in
+   <p>&bull; Mirroring the change in the 1.7.x series, in this release
+   also the "slf4j-log4j12" artifact automatically instructs Maven to
+   use the "slf4j-reload4j" artifact instead. As you might have
+   guessed, the "slf4j-reload4j" binding delegates log processing to
+   the reload4j logging framework.
+    </p>
+      
+   <p>The <a href="https://reload4j.qos.ch">reload4j</a> project is a
+   fork of Apache log4j version 1.2.17 with the goal of fixing
+   pressing security issues. It is intended as a drop-in replacement
+   for log4j version 1.2.17. By drop-in, we mean the replacement of
+   log4j.jar with reload4j.jar in your build with no source code
+   changes in .java files being necessary.
+   </p>
+
+   
+   <p>&bull; The <code>log(LoggingEvent)</code> method in
    <code>DefaultLoggingEventBuilder</code> now invokes
    <code>setCallerBoundary()</code> method in order to correctly set
    the caller boundary. The caller boundary information can be used by
    logging implementations to compute caller informaiton. This fixes
    <a href="https://jira.qos.ch/browse/SLF4J-511">SLF4J-511</a>.</p>
 
+
      
-   <p>Correct corrupt "Export-Package" declaration in
+   <p>&bull; Correct corrupt "Export-Package" declaration in
    <em>MANIFEST.MF</em> in <em>log4j-over-slf4j</em> module. This
    fixes <a href="https://jira.qos.ch/browse/SLF4J-541">SLF4J-541</a>
    reported by Flavio Donz&eacute;.</p>
 
-   <p>The binary of this version can reproduced by checking out the
+   <p>&bull; The binary of this version can reproduced by checking out the
    tag v_2.0.0-alpha7 from the source code repository
    (github). Release built using Java "18" 2022-03-22 build 18+36-2087
    under Linux Debian 11.2.</p>
