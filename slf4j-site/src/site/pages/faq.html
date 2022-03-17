@@ -720,7 +720,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       <pre class="prettyprint source">&lt;dependency&gt;
   &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
   &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
-  &lt;version&gt;${project.version}&lt;/version&gt;
+  &lt;version&gt;${latest.stable.version}&lt;/version&gt;
 &lt;/dependency&gt;</pre>
       
       <p>Limiting the transitivity of the SLF4J provider used in your
@@ -730,7 +730,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       <pre class="prettyprint source">&lt;dependency&gt;
   &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
   &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
-  &lt;version&gt;${project.version}&lt;/version&gt;
+  &lt;version&gt;${latest.stable.version}&lt;/version&gt;
   <b>&lt;scope&gt;test&lt;/scope&gt;</b>
 &lt;/dependency&gt;</pre>
       
@@ -787,7 +787,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 &lt;dependency>
   &lt;groupId>org.slf4j&lt;/groupId>
   &lt;artifactId>jcl-over-slf4j&lt;/artifactId>
-  &lt;version>${project.version}&lt;/version>
+  &lt;version>${latest.stable.version}&lt;/version>
 &lt;/dependency></pre>
 
       <p>The first dependency declaration essentially states that
@@ -807,6 +807,10 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
       </p>
 
       <p><b>alternative 3) empty artifacts</b></p>
+
+      <p class="bold red">Version99 service will be disabled at the of
+      2022.</p>
+
       
       <p>An alternative approach is to depend on an <b>empty</b>
       <em>commons-logging.jar</em> artifact. This clever <a
@@ -817,8 +821,8 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
 
       <p>The empty artifact is available from a <a
       href="http://version99.qos.ch">http://version99.qos.ch</a> a
-      high-availability Maven repository, replicated on several hosts
-      located in different geographical regions.</p>
+      high-availability Maven repository, replicated on several
+      hosts.</p>
 
       <p>The following declaration adds the version99 repository to
       the set of remote repositories searched by Maven. This
@@ -863,7 +867,7 @@ org.slf4j.impl.StaticLoggerBinder.SINGLETON from class org.slf4j.LoggerFactory
   &lt;dependency>
     &lt;groupId>org.slf4j&lt;/groupId>
     &lt;artifactId>jcl-over-slf4j&lt;/artifactId>
-    &lt;version>${project.version}&lt;/version>
+    &lt;version>${latest.stable.version}&lt;/version>
   &lt;/dependency>
   ... other dependency declarations
 &lt;/dependencies>
