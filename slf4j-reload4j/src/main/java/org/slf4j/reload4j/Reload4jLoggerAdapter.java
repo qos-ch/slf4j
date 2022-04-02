@@ -155,13 +155,13 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
         String formattedMessage = MessageFormatter.basicArrayFormat(event.getMessage(), event.getArgumentArray());
 
         LocationInfo locationInfo = null;
-        String fcqn = null;
+        String fqcn = null;
 
         if (event instanceof SubstituteLoggingEvent) {
             locationInfo = new LocationInfo(NA_SUBST, NA_SUBST, NA_SUBST, "0");
-            fcqn = FQCN_SUBSTITUE;
+            fqcn = FQCN_SUBSTITUE;
         } else {
-            fcqn = FQCN_FLUENT;
+            fqcn = FQCN_FLUENT;
         }
 
         ThrowableInformation ti = null;
@@ -169,7 +169,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
         if (t != null)
             ti = new ThrowableInformation(t);
 
-        org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(fcqn, logger, event.getTimeStamp(), log4jLevel, formattedMessage,
+        org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(fqcn, logger, event.getTimeStamp(), log4jLevel, formattedMessage,
                         event.getThreadName(), ti, null, locationInfo, null);
 
         return log4jEvent;
