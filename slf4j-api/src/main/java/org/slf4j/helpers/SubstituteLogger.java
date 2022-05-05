@@ -52,7 +52,7 @@ public class SubstituteLogger implements Logger {
     private volatile Logger _delegate;
     private Boolean delegateEventAware;
     private Method logMethodCache;
-    private EventRecordingLogger eventRecodingLogger;
+    private EventRecordingLogger eventRecordingLogger;
     private final Queue<SubstituteLoggingEvent> eventQueue;
 
     public final boolean createdPostInitialization;
@@ -445,10 +445,10 @@ public class SubstituteLogger implements Logger {
     }
 
     private Logger getEventRecordingLogger() {
-        if (eventRecodingLogger == null) {
-            eventRecodingLogger = new EventRecordingLogger(this, eventQueue);
+        if (eventRecordingLogger == null) {
+            eventRecordingLogger = new EventRecordingLogger(this, eventQueue);
         }
-        return eventRecodingLogger;
+        return eventRecordingLogger;
     }
 
     /**
