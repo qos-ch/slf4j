@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Marker;
-import org.slf4j.event.EventRecodingLogger;
+import org.slf4j.event.EventRecordingLogger;
 import org.slf4j.event.Level;
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.BasicMarkerFactory;
@@ -15,9 +15,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.Assert.*;
 
-public class EventRecodingLoggerTest {
+public class EventRecordingLoggerTest {
     private Queue<SubstituteLoggingEvent> queue;
-    private EventRecodingLogger logger;
+    private EventRecordingLogger logger;
     private String message;
     private Object param1;
     private Object param2;
@@ -31,7 +31,7 @@ public class EventRecodingLoggerTest {
     @Before
     public void setUp() {
         queue = new LinkedBlockingQueue<>();
-        logger = new EventRecodingLogger(new SubstituteLogger("testLogger", queue, true), queue);
+        logger = new EventRecordingLogger(new SubstituteLogger("testLogger", queue, true), queue);
         message = "Test message with 3 parameters {} {} {} {}";
         param1 = 1;
         param2 = 2;

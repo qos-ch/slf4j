@@ -16,7 +16,7 @@ import org.slf4j.helpers.SubstituteLogger;
  * @author Wessel van Norel
  *
  */
-public class EventRecodingLogger extends LegacyAbstractLogger {
+public class EventRecordingLogger extends LegacyAbstractLogger {
 
     private static final long serialVersionUID = -176083308134819629L;
 
@@ -27,7 +27,7 @@ public class EventRecodingLogger extends LegacyAbstractLogger {
     // as an event recording logger we have no choice but to record all events
     final static boolean RECORD_ALL_EVENTS = true;
 
-    public EventRecodingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
+    public EventRecordingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
         this.logger = logger;
         this.name = logger.getName();
         this.eventQueue = eventQueue;
