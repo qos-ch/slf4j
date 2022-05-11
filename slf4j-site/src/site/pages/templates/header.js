@@ -7,6 +7,10 @@ document.write('       </a>')
 document.write('    </td>')
 
 
+document.write('   <td style="vertical-align:bottom;"> ');
+document.write('    <div style="height: 40px; line-height: 40px; text-align: center; vertical-align: middle;background-color: cornsilk; border-style: dotted; border-color: #F00;">&nbsp;Please voice your opinion regarding the proposed <a href="https://github.com/qos-ch/slf4j/discussions/280">Fluent API change</a></div> ');
+document.write('   </td> ');
+
 document.write('   <td style="vertical-align:bottom;">');
 
 document.write('    <div style="display: flex; float: right; align-items: flex-end;">');

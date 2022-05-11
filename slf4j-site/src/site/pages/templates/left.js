@@ -15,6 +15,7 @@ document.write('    <a href="http://www.qos.ch/shop/products/professionalSupport
 
 document.write('  <p class="menu_header">Native implementations</p>');
 document.write('    <a href="https://logback.qos.ch/">Logback</a>');
+document.write('    <a href="https://github.com/jhannes/logevents">logevents</a>');
 
 document.write('    <p class="menu_header">Wrapped implementations</p>');
 document.write('    <a href="api/org/slf4j/jul/JDK14LoggerAdapter.html">JUL</a>');
