@@ -509,10 +509,6 @@
   </pluginRepositories>
 
   <distributionManagement>
-    <site>
-      <id>qos_ch</id>
-      <url>scp://yvo.qos.ch/var/www/www.slf4j.org/htdocs/</url>
-    </site>
 
     <repository>
       <!--<id>pixie</id>-->
