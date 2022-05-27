@@ -2,9 +2,6 @@
 
 MVN='/java/maven-3.5.2//bin/mvn'
 
-PASS=$1
-echo $PASS
-
 function checkExit(){
     if test "$?" != "0"; then
       echo Command $1 exited with abnormal status
@@ -21,7 +18,7 @@ function echoRunAndCheck () { # echo and then run the command
   then
      echo Failed command: $1 
      exit 1;
-  else echo Succussful run: $1
+  else echo Successful run: $1
   fi
 }
 
@@ -31,25 +28,23 @@ echoRunAndCheck "$MVN install"
 
 #echoRunAndCheck "$MVN site:site"
 
-echoRunAndCheck "$MVN javadoc:aggregate"
+#echoRunAndCheck "$MVN javadoc:aggregate"
 
-echoRunAndCheck "$MVN jxr:aggregate"
+#echoRunAndCheck "$MVN jxr:aggregate"
 
-echoRunAndCheck "$MVN assembly:single"
 
 if [ ! -z "$PASS"  ]
 then
-  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts -Dgpg.passphrase=$PASS"
+  export GPG_TTY=$(tty)    
+  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts 
 fi
 
-#$MVN site:deploy -N # with Java 8!!!
-#checkExit "mvn site:deploy -N"
 
-#git tag -m "tagging" -a v_${VERSION_NUMBER}
-#git push --tags
+git tag -m "tagging" -a v_${VERSION_NUMBER}
+git push --tags
 
-#release version and add next version on jira
+#Update release version and add next version on jira
 
-# for 1.7.x series, scp slf4j-1.7.*.tar.gz yvo.qos.ch:/var/www/www.slf4j.org/htdocs/dist/
+
 
 echo Full Success
