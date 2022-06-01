@@ -37,7 +37,7 @@ public class MyApplication {
     // create a message conveyor for a given locale
     IMessageConveyor messageConveyor = new MessageConveyor(Locale.JAPAN);
 
-    // create the LogLoggerFactory
+    // create the LocLoggerFactory
     LocLoggerFactory llFactory_uk = new LocLoggerFactory(messageConveyor);
 
     // create a locLogger
