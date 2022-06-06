@@ -243,13 +243,13 @@ public final class LoggerFactory {
             for (SubstituteLoggingEvent event : eventList) {
                 replaySingleEvent(event);
                 if (count++ == 0)
-                    emitReplayOrSubstituionWarning(event, queueSize);
+                    emitReplayOrSubstitutionWarning(event, queueSize);
             }
             eventList.clear();
         }
     }
 
-    private static void emitReplayOrSubstituionWarning(SubstituteLoggingEvent event, int queueSize) {
+    private static void emitReplayOrSubstitutionWarning(SubstituteLoggingEvent event, int queueSize) {
         if (event.getLogger().isDelegateEventAware()) {
             emitReplayWarning(queueSize);
         } else if (event.getLogger().isDelegateNOP()) {
