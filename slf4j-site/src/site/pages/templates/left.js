@@ -19,7 +19,7 @@ document.write('    <a href="https://github.com/jhannes/logevents">logevents</a>
 
 document.write('    <p class="menu_header">Wrapped implementations</p>');
 document.write('    <a href="api/org/slf4j/jul/JDK14LoggerAdapter.html">JUL</a>');
-document.write('    <a href="org/org/slf4j/log4j12/Log4jLoggerAdapter.html">Log4j</a>');
+document.write('    <a href="api/org/slf4j/log4j12/Log4jLoggerAdapter.html">Log4j</a>');
 document.write('    <a href="api/org/slf4j/reload4j/Reload4jLoggerAdapter.html">reload4j</a>');
 document.write('    <a href="api/org/slf4j/simple/SimpleLogger.html">Simple</a>');
 document.write('  </p>');
