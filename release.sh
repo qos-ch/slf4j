@@ -36,7 +36,7 @@ echoRunAndCheck "$MVN install"
 if [ ! -z "$PASS"  ]
 then
   export GPG_TTY=$(tty)    
-  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts 
+  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts"
 fi
 
 
