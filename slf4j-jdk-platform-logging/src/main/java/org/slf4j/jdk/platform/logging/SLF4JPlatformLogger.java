@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.spi.CallerBoundaryAware;
-import org.slf4j.spi.LoggingEventBuilder;
+import org.slf4j.spi.FluentLogApiStub;
 
 /**
  * Adapts {@link Logger} to {@link System.Logger}.
@@ -132,7 +132,7 @@ class SLF4JPlatformLogger implements System.Logger {
 
     private void performLog(org.slf4j.event.Level slf4jLevel, ResourceBundle bundle, String msg, Throwable thrown, Object... params) {
         String message = getResourceStringOrMessage(bundle, msg);
-        LoggingEventBuilder leb = slf4jLogger.makeLoggingEventBuilder(slf4jLevel);
+        FluentLogApiStub leb = slf4jLogger.atLevel(slf4jLevel);
         if (thrown != null) {
             leb = leb.setCause(thrown);
         }
