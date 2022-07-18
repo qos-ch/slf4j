@@ -81,7 +81,7 @@ import java.util.Map;
  * will return the string "File name is C:\file.zip".
  *
  * <p>
- * The formatting conventions are different than those of {@link MessageFormat}
+ * The formatting conventions are different from those of {@link MessageFormat}
  * which ships with the Java platform. This is justified by the fact that
  * SLF4J's implementation is 10 times faster than that of {@link MessageFormat}.
  * This local performance difference is both measurable and significant in the

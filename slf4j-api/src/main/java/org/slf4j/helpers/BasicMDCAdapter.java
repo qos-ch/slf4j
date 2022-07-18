@@ -92,7 +92,7 @@ public class BasicMDCAdapter implements MDCAdapter {
     }
 
     /**
-     * Remove the the context identified by the <code>key</code> parameter.
+     * Remove the context identified by the <code>key</code> parameter.
      */
     public void remove(String key) {
         Map<String, String> map = inheritableThreadLocalMap.get();

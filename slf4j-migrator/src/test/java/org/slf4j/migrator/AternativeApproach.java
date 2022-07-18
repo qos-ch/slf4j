@@ -34,7 +34,7 @@ import junit.framework.TestCase;
 public class AternativeApproach extends TestCase {
 
     /**
-     * In this test we see that we cans use more simple Pattern to do the
+     * In this test we see that we can use more simple Pattern to do the
      * conversion
      * 
      */

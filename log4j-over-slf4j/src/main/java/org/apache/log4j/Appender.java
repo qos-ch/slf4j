@@ -114,7 +114,7 @@ public interface Appender {
      * Configurators call this method to determine if the appender
      * requires a layout. If this method returns <code>true</code>,
      * meaning that layout is required, then the configurator will
-     * configure an layout using the configuration information at its
+     * configure a layout using the configuration information at its
      * disposal.  If this method returns <code>false</code>, meaning that
      * a layout is not required, then layout configuration will be
      * skipped even if there is available layout configuration
