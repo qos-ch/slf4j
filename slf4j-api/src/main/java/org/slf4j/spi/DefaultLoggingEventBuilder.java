@@ -86,7 +86,23 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     public void setCallerBoundary(String fqcn) {
         loggingEvent.setCallerBoundary(fqcn);
     }
-    
+
+    @Override
+    public void log() {
+        log(loggingEvent);
+    }
+
+    @Override
+    public LoggingEventBuilder setMessage(String message) {
+        loggingEvent.setMessage(message);
+        return this;
+    }
+    @Override
+    public LoggingEventBuilder setMessage(Supplier<String> messageSupplier) {
+        loggingEvent.setMessage(messageSupplier.get());
+        return this;
+    }
+
     @Override
     public void log(String message) {
         loggingEvent.setMessage(message);
