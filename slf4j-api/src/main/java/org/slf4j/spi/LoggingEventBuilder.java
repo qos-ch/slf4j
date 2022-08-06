@@ -28,6 +28,8 @@ import java.util.function.Supplier;
 
 import org.slf4j.Marker;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * This is the main interface in slf4j's fluent API for creating
  * {@link org.slf4j.event.LoggingEvent logging events}.
@@ -42,6 +44,7 @@ public interface LoggingEventBuilder {
      * @param cause a throwable
      * @return a LoggingEventBuilder, usually <b>this</b>.
      */
+    @CheckReturnValue
     LoggingEventBuilder setCause(Throwable cause);
 
     /**
@@ -50,6 +53,7 @@ public interface LoggingEventBuilder {
      * @param marker a Marker instance to add.
      * @return a LoggingEventBuilder, usually <b>this</b>.
      */
+    @CheckReturnValue
     LoggingEventBuilder addMarker(Marker marker);
 
     /**
@@ -58,6 +62,7 @@ public interface LoggingEventBuilder {
      * @param p an Object to add.
      * @return a LoggingEventBuilder, usually <b>this</b>.
      */
+    @CheckReturnValue
     LoggingEventBuilder addArgument(Object p);
 
     /**
@@ -66,6 +71,7 @@ public interface LoggingEventBuilder {
      * @param objectSupplier an Object supplier to add.
      * @return a LoggingEventBuilder, usually <b>this</b>.
      */
+    @CheckReturnValue
     LoggingEventBuilder addArgument(Supplier<?> objectSupplier);
 
 
@@ -76,6 +82,7 @@ public interface LoggingEventBuilder {
      * @param value the value of the key value pair.
      * @return a LoggingEventBuilder, usually <b>this</b>.
      */
+    @CheckReturnValue
     LoggingEventBuilder addKeyValue(String key, Object value);
 
     /**
@@ -85,6 +92,7 @@ public interface LoggingEventBuilder {
      * @param valueSupplier a supplier of a value for the key value pair.
      * @return a LoggingEventBuilder, usually <b>this</b>.
      */
+    @CheckReturnValue
     LoggingEventBuilder addKeyValue(String key, Supplier<Object> valueSupplier);
 
     /**
@@ -92,6 +100,7 @@ public interface LoggingEventBuilder {
      *
      *  @since 2.0.0-beta0
      */
+    @CheckReturnValue
     LoggingEventBuilder setMessage(String message);
 
     /**
@@ -100,6 +109,7 @@ public interface LoggingEventBuilder {
      * @param messageSupplier supplies a String to be used as the message for the event
      * @since 2.0.0-beta0
      */
+    @CheckReturnValue
     LoggingEventBuilder setMessage(Supplier<String> messageSupplier);
 
     /**
