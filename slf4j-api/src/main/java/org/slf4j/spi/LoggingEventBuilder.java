@@ -28,7 +28,7 @@ import java.util.function.Supplier;
 
 import org.slf4j.Marker;
 
-import javax.annotation.CheckReturnValue;
+import org.slf4j.helpers.CheckReturnValue;
 
 /**
  * This is the main interface in slf4j's fluent API for creating
