@@ -12,8 +12,9 @@ import java.lang.annotation.*;
  * <code>void</code>.</p>
  * <p></p>
  * <p>IntelliJ IDEA supports a check for annotations named as <code>CheckReturnValue</code>
- * regardless of the containing package. For more information on this feature in IntelliJ IDEA, select File &#8594; Setting &#8594;
- * Editor &#8594; Inspections and then Java &#8594; Probable Bugs &#8594; Result of method call ignored. </p>
+ * regardless of the containing package. For more information on this feature in IntelliJ IDEA,
+ * select File &#8594; Setting &#8594; Editor &#8594; Inspections and then Java &#8594; Probable Bugs &#8594;
+ * Result of method call ignored. </p>
  * <p></p>
  *
  * <p>As for Eclipse, this feature has been requested in
