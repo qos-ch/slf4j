@@ -1,3 +1,10 @@
+
+# Javadoc
+
+#JDK8 - mvn site:site
+#rscpSLF4J apidocs/ 
+
+
 #mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${VERSION_NUMBER} 
 
 MVN='/java/maven-3.5.2//bin/mvn'
