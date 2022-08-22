@@ -172,7 +172,8 @@ public final class LoggerFactory {
         if (staticLoggerBinderPathSet.isEmpty()) {
             return;
         }
-        Util.report("Class path contains SLF4J bindings targeting slf4j-api versions prior to 1.8.");
+        Util.report("Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.");
+
         for (URL path : staticLoggerBinderPathSet) {
             Util.report("Ignoring binding found at [" + path + "]");
         }

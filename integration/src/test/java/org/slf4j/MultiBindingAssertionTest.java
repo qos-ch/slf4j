@@ -58,7 +58,7 @@ public class MultiBindingAssertionTest {
         assertMsgContains(list, 0, "Class path contains multiple SLF4J providers.");
         assertMsgContains(list, 1, "Found provider");
         assertMsgContains(list, 2, "Found provider");
-        assertMsgContains(list, 3, "See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.");
+        assertMsgContains(list, 3, "See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.");
         assertMsgContains(list, 4, "Actual provider is of type [");
     }
 
