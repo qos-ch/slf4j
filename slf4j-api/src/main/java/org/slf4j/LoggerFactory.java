@@ -63,7 +63,7 @@ import org.slf4j.spi.SLF4JServiceProvider;
  */
 public final class LoggerFactory {
 
-    static final String CODES_PREFIX = "http://www.slf4j.org/codes.html";
+    static final String CODES_PREFIX = "https://www.slf4j.org/codes.html";
 
     static final String NO_PROVIDERS_URL = CODES_PREFIX + "#noProviders";
     static final String IGNORED_BINDINGS_URL = CODES_PREFIX + "#ignoredBindings";
