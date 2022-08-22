@@ -1,6 +1,12 @@
 # About SLF4J
-The Simple Logging Facade for Java (SLF4J) serves as a simple facade or abstraction for various logging frameworks (e.g. java.util.logging, logback, log4j) allowing the end user to plug in the desired logging framework at deployment time.
+
+The Simple Logging Facade for Java (SLF4J) serves as a simple facade
+or abstraction for various logging frameworks (e.g. java.util.logging,
+logback, log4j) allowing the end user to plug in the desired logging
+framework at deployment time.
+
 More information can be found on the [SLF4J website](http://www.slf4j.org).
+
 # Build Status
 [![Build Status](https://travis-ci.org/qos-ch/slf4j.svg)](https://travis-ci.org/qos-ch/slf4j)
 
@@ -9,8 +15,7 @@ More information can be found on the [SLF4J website](http://www.slf4j.org).
 
 SLF4J uses Maven as its build tool.
 
-All versions upto and including 1.7.x require Java 5 or later to
-build. SLF4J version 2.0.x requires Java 9 or later.
+SLF4J version 2.0.x will run under Java 8 but requires Java 9 or later to build.
 
 # How to contribute pull requests
 
