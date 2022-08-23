@@ -31,6 +31,7 @@ import org.slf4j.ILoggerFactory;
  * class bind with the appropriate {@link ILoggerFactory} instance. 
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @deprecated
  */
 public interface LoggerFactoryBinder {
 
