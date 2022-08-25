@@ -40,7 +40,7 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
     return targetStream != null;
   }
 
-  public void log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
+  public boolean log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
     StringBuffer buf = new StringBuffer(32);
 
     // Append date-time if so configured
@@ -92,6 +92,7 @@ public class SimpleLogListenerImpl implements SimpleLogListener {
     buf.append(message);
 
     write(buf, t);
+    return true;
   }
 
   void write(StringBuffer buf, Throwable t) {

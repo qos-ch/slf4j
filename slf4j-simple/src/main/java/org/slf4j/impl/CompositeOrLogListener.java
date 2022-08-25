@@ -9,13 +9,12 @@ public class CompositeOrLogListener implements SimpleLogListener {
 
   public CompositeOrLogListener(SimpleLogListener[] listeners) {this.listeners = listeners;}
 
-  public void log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
+  public boolean log(String logName, long timestamp, int level, String threadName, String message, Throwable t) {
     for(int i = 0; i < listeners.length; i++) {
       try {
         SimpleLogListener listener = listeners[i];
-        if (listener.isAlive()) {
-          listener.log(logName, timestamp, level, threadName, message, t);
-          return;
+        if (listener.isAlive() && listener.log(logName, timestamp, level, threadName, message, t)) {
+          return true;
         }
       } catch (Exception e) {
         // do not log it, as we are inside the logging system
@@ -23,6 +22,7 @@ public class CompositeOrLogListener implements SimpleLogListener {
         e.printStackTrace();
       }
     }
+    return listeners.length == 0;
   }
 
   public boolean isAlive() {
