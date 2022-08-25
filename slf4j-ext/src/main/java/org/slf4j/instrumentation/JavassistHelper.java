@@ -41,7 +41,7 @@ public class JavassistHelper {
 
     /**
      * Create a javassist source snippet which either is empty (for anything
-     * which does not return a value) or a explanatory text around the $_
+     * which does not return a value) or an explanatory text around the $_
      * javassist return value variable.
      * 
      * @param method

@@ -105,7 +105,7 @@ class SLF4JPlatformLogger implements System.Logger {
     }
 
     /**
-     * Single point of processing taking all possible paramets.
+     * Single point of processing taking all possible parameters.
      * 
      * @param jplLevel 
      * @param bundle

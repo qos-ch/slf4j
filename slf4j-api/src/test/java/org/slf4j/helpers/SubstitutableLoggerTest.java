@@ -45,7 +45,7 @@ import org.slf4j.event.EventRecordingLogger;
  */
 public class SubstitutableLoggerTest {
 
-    // NOTE: previous implementations of this class performed a hand crafted conversion of 
+    // NOTE: previous implementations of this class performed a handcrafted conversion of
     // a method to a string. In this implementation we just invoke method.toString().
     
     // WARNING: if you need to add an excluded method to have tests pass, ask yourself whether you

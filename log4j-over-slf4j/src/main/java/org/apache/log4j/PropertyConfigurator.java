@@ -23,7 +23,7 @@ import org.apache.log4j.spi.Configurator;
 import org.apache.log4j.spi.LoggerRepository;
 
 /**
- * An nop implementation of PropertyConfigurator.
+ * A no-op implementation of PropertyConfigurator.
  */
 public class PropertyConfigurator implements Configurator {
     public static void configure(Properties properties) {

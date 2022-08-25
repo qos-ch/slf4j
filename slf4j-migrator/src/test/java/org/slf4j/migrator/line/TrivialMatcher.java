@@ -41,15 +41,15 @@ class TrivialMatcher implements RuleSet {
         // simple rule no capturing group is defined, we use default capturing group which is group zero
         SingleConversionRule cr = new SingleConversionRule(Pattern.compile("import org.slf4j.converter"), "simple replacement with an unique capturing group");
 
-        // we define 4 differents capturing groups
+        // we define 4 different capturing groups
         MultiGroupConversionRule cr1 = new MultiGroupConversionRule(Pattern.compile("(first group)( second group)( third group)( 4th group)"));
         // group zero is ignored during treatment
         // replacement for the first
         cr1.addReplacement(1, "1st group");
-        // no replacement for the second group it will remains the same
+        // no replacement for the second group it will remain the same
         // empty string for the third group it will be deleted
         cr1.addReplacement(3, "");
-        // no replacement for the third group it will remains the same
+        // no replacement for the third group it will remain the same
 
         conversionRuleList = new ArrayList<>();
         conversionRuleList.add(cr);

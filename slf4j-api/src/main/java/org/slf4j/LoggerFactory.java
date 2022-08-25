@@ -363,7 +363,7 @@ public final class LoggerFactory {
      * using the statically bound {@link ILoggerFactory} instance.
      * 
      * <p>
-     * In case the the <code>clazz</code> parameter differs from the name of the
+     * In case the <code>clazz</code> parameter differs from the name of the
      * caller as computed internally by SLF4J, a logger name mismatch warning
      * will be printed but only if the
      * <code>slf4j.detectLoggerNameMismatch</code> system property is set to

@@ -128,7 +128,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
      */
     private void constrainAll() {
 
-        // contrain migration label
+        // constraints migration label
         layoutManager.putConstraint(SpringLayout.WEST, migrationLabel, BASIC_PADDING, SpringLayout.EAST, this);
 
         layoutManager.putConstraint(SpringLayout.NORTH, migrationLabel, BASIC_PADDING, SpringLayout.NORTH, this);
