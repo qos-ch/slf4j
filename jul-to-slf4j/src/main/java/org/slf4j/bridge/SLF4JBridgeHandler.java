@@ -79,12 +79,12 @@ import org.slf4j.spi.LocationAwareLogger;
  * SLF4J translation can seriously increase the cost of disabled logging
  * statements (60 fold or 6000% increase) and measurably impact the performance of enabled log
  * statements (20% overall increase).</b> Please note that as of logback-version 0.9.25,
- * it is possible to completely eliminate the 60 fold translation overhead for disabled
+ * it is possible to completely eliminate the 60-fold translation overhead for disabled
  * log statements with the help of <a href="http://logback.qos.ch/manual/configuration.html#LevelChangePropagator">LevelChangePropagator</a>.
  * 
  *
  * <p>If you are concerned about application performance, then use of <code>SLF4JBridgeHandler</code>
- * is appropriate only if any one the following two conditions is true:
+ * is appropriate only if any of the following conditions is true:
  * <ol>
  * <li>few j.u.l. logging statements are in play</li>
  * <li>LevelChangePropagator has been installed</li>
@@ -93,7 +93,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * <h2>As a Java 9/Jigsaw module</h2>
  * 
  * <p>Given that <b>to</b> is a reserved keyword under Java 9 within module productions, 
- * the MAFIFEST.MF file in <em>jul-to-slf4j.jar</em> declares <b>jul_to_slf4j</b> as 
+ * the MANIFEST.MF file in <em>jul-to-slf4j.jar</em> declares <b>jul_to_slf4j</b> as
  * its Automatic Module Name. Thus, if your application is Jigsaw modularized, the requires 
  * statement in your <em>module-info.java</em> needs to be <b>jul_to_slf4j</b> 
  * (note the two underscores).

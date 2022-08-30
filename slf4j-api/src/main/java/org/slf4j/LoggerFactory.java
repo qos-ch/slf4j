@@ -63,7 +63,7 @@ import org.slf4j.spi.SLF4JServiceProvider;
  */
 public final class LoggerFactory {
 
-    static final String CODES_PREFIX = "http://www.slf4j.org/codes.html";
+    static final String CODES_PREFIX = "https://www.slf4j.org/codes.html";
 
     static final String NO_PROVIDERS_URL = CODES_PREFIX + "#noProviders";
     static final String IGNORED_BINDINGS_URL = CODES_PREFIX + "#ignoredBindings";
@@ -172,7 +172,8 @@ public final class LoggerFactory {
         if (staticLoggerBinderPathSet.isEmpty()) {
             return;
         }
-        Util.report("Class path contains SLF4J bindings targeting slf4j-api versions prior to 1.8.");
+        Util.report("Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.");
+
         for (URL path : staticLoggerBinderPathSet) {
             Util.report("Ignoring binding found at [" + path + "]");
         }
@@ -362,7 +363,7 @@ public final class LoggerFactory {
      * using the statically bound {@link ILoggerFactory} instance.
      * 
      * <p>
-     * In case the the <code>clazz</code> parameter differs from the name of the
+     * In case the <code>clazz</code> parameter differs from the name of the
      * caller as computed internally by SLF4J, a logger name mismatch warning
      * will be printed but only if the
      * <code>slf4j.detectLoggerNameMismatch</code> system property is set to

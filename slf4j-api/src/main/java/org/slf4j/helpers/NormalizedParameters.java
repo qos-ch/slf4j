@@ -3,7 +3,7 @@ package org.slf4j.helpers;
 import org.slf4j.event.LoggingEvent;
 
 /**
- * Holds normalized calling call parameters.
+ * Holds normalized call parameters.
  * 
  * Includes utility methods such as {@link #normalize(String, Object[], Throwable)} to help the normalization of parameters.
  * 

@@ -37,7 +37,7 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.slf4j.Logger;
-import org.slf4j.event.EventRecodingLogger;
+import org.slf4j.event.EventRecordingLogger;
 
 /**
  * @author Chetan Mehrotra
@@ -45,7 +45,7 @@ import org.slf4j.event.EventRecodingLogger;
  */
 public class SubstitutableLoggerTest {
 
-    // NOTE: previous implementations of this class performed a hand crafted conversion of 
+    // NOTE: previous implementations of this class performed a handcrafted conversion of
     // a method to a string. In this implementation we just invoke method.toString().
     
     // WARNING: if you need to add an excluded method to have tests pass, ask yourself whether you
@@ -60,7 +60,7 @@ public class SubstitutableLoggerTest {
     @Test
     public void delegateIsInvokedTest() throws Exception {
         SubstituteLogger substituteLogger = new SubstituteLogger("foo", null, false);
-        assertTrue(substituteLogger.delegate() instanceof EventRecodingLogger);
+        assertTrue(substituteLogger.delegate() instanceof EventRecordingLogger);
 
         Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);
         LoggerInvocationHandler loggerInvocationHandler = new LoggerInvocationHandler();

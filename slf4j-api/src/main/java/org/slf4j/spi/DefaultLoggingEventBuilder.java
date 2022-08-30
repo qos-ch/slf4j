@@ -1,3 +1,27 @@
+/**
+ * Copyright (c) 2004-2022 QOS.ch
+ * All rights reserved.
+ *
+ * Permission is hereby granted, free  of charge, to any person obtaining
+ * a  copy  of this  software  and  associated  documentation files  (the
+ * "Software"), to  deal in  the Software without  restriction, including
+ * without limitation  the rights to  use, copy, modify,  merge, publish,
+ * distribute,  sublicense, and/or sell  copies of  the Software,  and to
+ * permit persons to whom the Software  is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The  above  copyright  notice  and  this permission  notice  shall  be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ */
 package org.slf4j.spi;
 
 import java.util.function.Supplier;
@@ -9,8 +33,16 @@ import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 
+/**
+ * Default implementation of {@link LoggingEventBuilder}
+ */
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBoundaryAware {
 
+    
+    // The caller boundary when the log() methods are invoked, is this class itself.
+    
+    static String DLEB_FQCN = DefaultLoggingEventBuilder.class.getName();
+    
     protected DefaultLoggingEvent loggingEvent;
     protected Logger logger;
 
@@ -54,7 +86,23 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     public void setCallerBoundary(String fqcn) {
         loggingEvent.setCallerBoundary(fqcn);
     }
-    
+
+    @Override
+    public void log() {
+        log(loggingEvent);
+    }
+
+    @Override
+    public LoggingEventBuilder setMessage(String message) {
+        loggingEvent.setMessage(message);
+        return this;
+    }
+    @Override
+    public LoggingEventBuilder setMessage(Supplier<String> messageSupplier) {
+        loggingEvent.setMessage(messageSupplier.get());
+        return this;
+    }
+
     @Override
     public void log(String message) {
         loggingEvent.setMessage(message);
@@ -94,6 +142,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     }
     
     protected void log(LoggingEvent aLoggingEvent) {
+        setCallerBoundary(DLEB_FQCN);
         if (logger instanceof LoggingEventAware) {
             ((LoggingEventAware) logger).log(aLoggingEvent);
         } else {

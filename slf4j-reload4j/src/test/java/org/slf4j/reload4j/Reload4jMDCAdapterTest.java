@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.helpers.MDCAdapterTestBase;
-import org.slf4j.reload4j.Reload4jMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 
 public class Reload4jMDCAdapterTest extends MDCAdapterTestBase {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2021 QOS.ch
+ * Copyright (c) 2004-2022 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -83,7 +83,7 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
 public interface Logger {
 
     /**
-     * Case insensitive String constant used to retrieve the name of the root logger.
+     * Case-insensitive String constant used to retrieve the name of the root logger.
      *
      * @since 1.3
      */
@@ -514,7 +514,8 @@ public interface Logger {
      * data is also taken into consideration.
      *
      * @param marker The marker data to take into consideration
-     * @return true if this logger is warn enabled, false otherwise 
+     * @return true if this Logger is enabled for the INFO level,
+     *         false otherwise.
      */
     public boolean isInfoEnabled(Marker marker);
 

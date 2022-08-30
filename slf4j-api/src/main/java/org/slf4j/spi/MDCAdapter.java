@@ -56,7 +56,7 @@ public interface MDCAdapter {
     public String get(String key);
 
     /**
-     * Remove the the context identified by the <code>key</code> parameter. 
+     * Remove the context identified by the <code>key</code> parameter.
      * The <code>key</code> parameter cannot be null. 
      * 
      * <p>

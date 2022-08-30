@@ -39,7 +39,7 @@
 	<!-- ================================================================= -->
 	<target name="usage">
 		<echo>      
-      These are some of the targets supported by this ANT build scpript:
+      These are some of the targets supported by this ANT build script:
 
       all - run all available tests
       refresh - copy required jar files to the lib directory

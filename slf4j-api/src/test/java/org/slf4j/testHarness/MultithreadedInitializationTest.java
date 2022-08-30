@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerAccessingThread;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.EventRecodingLogger;
+import org.slf4j.event.EventRecordingLogger;
 import org.slf4j.helpers.SubstituteLogger;
 
 abstract public class MultithreadedInitializationTest {
@@ -54,7 +54,7 @@ abstract public class MultithreadedInitializationTest {
         for (Logger logger : createdLoggers) {
             if (logger instanceof SubstituteLogger) {
                 SubstituteLogger substLogger = (SubstituteLogger) logger;
-                if (substLogger.delegate() instanceof EventRecodingLogger)
+                if (substLogger.delegate() instanceof EventRecordingLogger)
                     fail("substLogger " + substLogger.getName() + " has a delegate of type EventRecodingLogger");
             }
         }

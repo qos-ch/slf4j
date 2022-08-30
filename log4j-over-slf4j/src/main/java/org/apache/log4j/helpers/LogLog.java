@@ -25,7 +25,7 @@ package org.apache.log4j.helpers;
    <b>log4j.configDebug</b> variable.
 
    <p>All log4j internal debug calls go to <code>System.out</code>
-   where as internal error messages are sent to
+   whereas internal error messages are sent to
    <code>System.err</code>. All internal messages are prepended with
    the string "log4j: ".
 
@@ -40,7 +40,7 @@ public class LogLog {
     
       <p> The value of this string is <b>log4j.debug</b>.
     
-      <p>Note that the search for all option names is case sensitive.  */
+      <p>Note that the search for all option names is case-sensitive.  */
     public static final String DEBUG_KEY = "log4j.debug";
 
     /**
@@ -49,7 +49,7 @@ public class LogLog {
     
       <p> The value of this string is <b>log4j.configDebug</b>.
     
-      <p>Note that the search for all option names is case sensitive.
+      <p>Note that the search for all option names is case-sensitive.
     
       @deprecated Use {@link #DEBUG_KEY} instead.
     */

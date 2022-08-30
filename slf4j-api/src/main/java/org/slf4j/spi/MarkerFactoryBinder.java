@@ -31,6 +31,7 @@ import org.slf4j.IMarkerFactory;
  * class bind with the appropriate {@link IMarkerFactory} instance. 
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @deprecated
  */
 public interface MarkerFactoryBinder {
 

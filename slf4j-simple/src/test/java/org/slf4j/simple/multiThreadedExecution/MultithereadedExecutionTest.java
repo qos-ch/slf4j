@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Tests that output in multi-threaded environments is not mingled.
+ * Tests that output in multithreaded environments is not mingled.
  * 
  * See also https://jira.qos.ch/browse/SLF4J-515
  */

@@ -30,7 +30,7 @@ import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
-import org.slf4j.event.EventRecodingLogger;
+import org.slf4j.event.EventRecordingLogger;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
@@ -52,7 +52,7 @@ public class SubstituteLogger implements Logger {
     private volatile Logger _delegate;
     private Boolean delegateEventAware;
     private Method logMethodCache;
-    private EventRecodingLogger eventRecodingLogger;
+    private EventRecordingLogger eventRecordingLogger;
     private final Queue<SubstituteLoggingEvent> eventQueue;
 
     public final boolean createdPostInitialization;
@@ -445,10 +445,10 @@ public class SubstituteLogger implements Logger {
     }
 
     private Logger getEventRecordingLogger() {
-        if (eventRecodingLogger == null) {
-            eventRecodingLogger = new EventRecodingLogger(this, eventQueue);
+        if (eventRecordingLogger == null) {
+            eventRecordingLogger = new EventRecordingLogger(this, eventQueue);
         }
-        return eventRecodingLogger;
+        return eventRecordingLogger;
     }
 
     /**

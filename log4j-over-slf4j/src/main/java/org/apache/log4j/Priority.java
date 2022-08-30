@@ -187,7 +187,7 @@ public class Priority {
      * 
      * @param val an integer value
      * @param defaultPriority a default priority value
-     * @return correspoding Priority value
+     * @return corresponding Priority value
      */
     @Deprecated
     public static Priority toPriority(int val, Priority defaultPriority) {

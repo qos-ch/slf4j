@@ -5,7 +5,7 @@ that uses either log4j 1.2.x, or log4j 1.3.x.
 
 In the same directory is a build.xml file that uses ant to 
 compile the test cases with the corresponding log4j version, 
-and to runs these tests without log4j in the classpath but with 
+and to run these tests without log4j in the classpath but with
 logback jars instead.
 
 To run the tests, one must have ant installed. Issuing the following command, 
