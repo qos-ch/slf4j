@@ -308,7 +308,7 @@ public final class LoggerFactory {
                                 + Arrays.asList(API_COMPATIBILITY_LIST).toString());
                 Util.report("See " + VERSION_MISMATCH + " for further details.");
             }
-        } catch (java.lang.NoSuchFieldError nsfe) {
+        } catch (java.lang.NoSuchFieldError | java.lang.AbstractMethodError unsupported) {
             // given our large user base and SLF4J's commitment to backward
             // compatibility, we cannot cry here. Only for implementations
             // which willingly declare a REQUESTED_API_VERSION field do we
