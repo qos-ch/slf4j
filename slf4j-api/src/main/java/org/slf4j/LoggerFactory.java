@@ -26,20 +26,24 @@ package org.slf4j;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.AccessControlException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOP_FallbackServiceProvider;
-import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.SubstituteLogger;
-
+import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -98,11 +102,22 @@ public final class LoggerFactory {
 
     static volatile SLF4JServiceProvider PROVIDER;
 
-    private static List<SLF4JServiceProvider> findServiceProviders() {
-        ServiceLoader<SLF4JServiceProvider> serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class);
+    // Package access for tests
+    static List<SLF4JServiceProvider> findServiceProviders() {
+        final ClassLoader cl = LoggerFactory.class.getClassLoader();
+        final PrivilegedAction<ServiceLoader<SLF4JServiceProvider>> action = () -> ServiceLoader.load(SLF4JServiceProvider.class, cl);
+        final ServiceLoader<SLF4JServiceProvider> serviceLoader = System.getSecurityManager() != null
+                        ? AccessController.doPrivileged(action)
+                        : action.run();
         List<SLF4JServiceProvider> providerList = new ArrayList<>();
-        for (SLF4JServiceProvider provider : serviceLoader) {
-            providerList.add(provider);
+        Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
+        while (iterator.hasNext()) {
+            try {
+                providerList.add(iterator.next());
+            } catch (ServiceConfigurationError | AccessControlException e) {
+                // Short warning
+                Util.report("A SLF4J service provider failed to instantiate:\n" + e.getMessage());
+            }
         }
         return providerList;
     }
