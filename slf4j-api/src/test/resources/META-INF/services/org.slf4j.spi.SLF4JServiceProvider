@@ -1,0 +1,3 @@
+###
+# Used in `LoggerFactoryTest`:
+org.slf4j.helpers.NOP_FallbackServiceProvider
