@@ -37,6 +37,7 @@ import static org.slf4j.event.Level.TRACE;
 import static org.slf4j.event.Level.WARN;
 
 import org.slf4j.event.Level;
+import org.slf4j.helpers.CheckReturnValue;
 import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LoggingEventBuilder;
 import org.slf4j.spi.NOPLoggingEventBuilder;
@@ -105,6 +106,7 @@ public interface Logger {
      * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
         if (isEnabledForLevel(level)) {
             return new DefaultLoggingEventBuilder(this, level);          
@@ -118,6 +120,7 @@ public interface Logger {
      * 
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder atLevel(Level level) {
         return makeLoggingEventBuilder(level);
     }
@@ -236,6 +239,7 @@ public interface Logger {
      * @return LoggingEventBuilder instance as appropriate for level TRACE
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder atTrace() {
         if (isTraceEnabled()) {
             return makeLoggingEventBuilder(TRACE);
@@ -432,6 +436,7 @@ public interface Logger {
      * @return LoggingEventBuilder instance as appropriate for level DEBUG
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder atDebug() {
         if (isDebugEnabled()) {
             return makeLoggingEventBuilder(DEBUG);
@@ -572,6 +577,7 @@ public interface Logger {
      * @return LoggingEventBuilder instance as appropriate for level INFO
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder atInfo() {
         if (isInfoEnabled()) {
             return makeLoggingEventBuilder(INFO);
@@ -712,6 +718,7 @@ public interface Logger {
      * @return LoggingEventBuilder instance as appropriate for level WARN
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder atWarn() {
         if (isWarnEnabled()) {
             return makeLoggingEventBuilder(WARN);
@@ -853,6 +860,7 @@ public interface Logger {
      * @return LoggingEventBuilder instance as appropriate for level ERROR
      * @since 2.0
      */
+    @CheckReturnValue
     default public LoggingEventBuilder atError() {
         if (isErrorEnabled()) {
             return makeLoggingEventBuilder(ERROR);
