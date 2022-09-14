@@ -97,7 +97,7 @@ public interface Logger {
 
     /**
      * <p>Make a new {@link LoggingEventBuilder} instance as appropriate for this logger implementation.
-     * The default implementation returns an instance of {@link DefaultLoggingEventBuilder}.</p>
+     * This default implementation always returns a new instance of {@link DefaultLoggingEventBuilder}.</p>
      *
      * <p>Note that the {@link LoggingEventBuilder} should be built for all levels, independently of the level.
      * In other words, this method is an <b>unconditional</b> constructor for the {@link LoggingEventBuilder}
