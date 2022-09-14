@@ -96,30 +96,37 @@ public interface Logger {
     public String getName();
 
     /**
-     * Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the 
-     * desired {@link Level} passed as parameter. If this Logger is disabled for the given Level, then 
-     * a {@link  NOPLoggingEventBuilder} is returned.
-     * 
-     * 
+     * <p>Make a new {@link LoggingEventBuilder} instance as appropriate for this logger implementation.
+     * The default implementation returns an instance of {@link DefaultLoggingEventBuilder}.</p>
+     *
+     * <p>Note that the {@link LoggingEventBuilder} should be built for all levels, independently of the level.
+     * In other words, this method is an <b>unconditional</b> constructor for the {@link LoggingEventBuilder}
+     * appropriate for this logger implementation.</p>
+     *
      * @param level desired level for the event builder
      * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
      * @since 2.0
      */
     default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
-        if (isEnabledForLevel(level)) {
-            return new DefaultLoggingEventBuilder(this, level);          
-        } else {
-            return NOPLoggingEventBuilder.singleton();
-        }
+        return new DefaultLoggingEventBuilder(this, level);
     }
 
     /**
-     * A convenient alias for {@link #makeLoggingEventBuilder}. 
-     * 
+     * Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the
+     * desired {@link Level} passed as parameter. If this Logger is disabled for the given Level, then
+     * a {@link  NOPLoggingEventBuilder} is returned.
+     *
+     *
+     * @param level desired level for the event builder
+     * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
      * @since 2.0
      */
     default public LoggingEventBuilder atLevel(Level level) {
-        return makeLoggingEventBuilder(level);
+        if (isEnabledForLevel(level)) {
+            return makeLoggingEventBuilder(level);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
     }
 
     
