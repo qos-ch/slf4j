@@ -96,7 +96,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
         
         if (old == null) {
             for (Map.Entry<String, String> mapEntry : contextMap.entrySet()) {
-                org.apache.log4j.MDC.put(mapEntry.getKey(), mapEntry);
+                org.apache.log4j.MDC.put(mapEntry.getKey(), mapEntry.getValue());
             }
         } else {
             old.clear();

@@ -1,11 +1,13 @@
 package org.slf4j.reload4j;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.slf4j.helpers.MDCAdapterTestBase;
 import org.slf4j.spi.MDCAdapter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class Reload4jMDCAdapterTest extends MDCAdapterTestBase {
     
@@ -22,6 +24,16 @@ public class Reload4jMDCAdapterTest extends MDCAdapterTestBase {
         assertTrue(mdc.getCopyOfContextMap().isEmpty());
     }
 
+    @Test
+    public void testSetContextMap() {
+        Map<String, String> map0 = new HashMap<>();
+        map0.put("key0", "val0");
+
+        mdc.setContextMap(map0);
+        Map map1 = mdc.getCopyOfContextMap();
+
+        assertEquals(map0, map1);
+    }
     
 
 }
