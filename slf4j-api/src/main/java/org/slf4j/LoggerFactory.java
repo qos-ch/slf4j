@@ -198,9 +198,13 @@ public final class LoggerFactory {
             } else {
                 paths = loggerFactoryClassLoader.getResources(STATIC_LOGGER_BINDER_PATH);
             }
-            while (paths.hasMoreElements()) {
-                URL path = paths.nextElement();
-                staticLoggerBinderPathSet.add(path);
+            if (null == paths) {
+                Util.report("Getting resources from static logger binder path was empty.");
+            } else {
+                while (paths.hasMoreElements()) {
+                    URL path = paths.nextElement();
+                    staticLoggerBinderPathSet.add(path);
+                }
             }
         } catch (IOException ioe) {
             Util.report("Error getting resources from path", ioe);
