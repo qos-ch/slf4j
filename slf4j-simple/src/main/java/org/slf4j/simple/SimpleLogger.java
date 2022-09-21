@@ -357,9 +357,11 @@ public class SimpleLogger extends LegacyAbstractLogger {
      * This is our internal implementation for logging regular (non-parameterized)
      * log messages.
      *
-     * @param level   One of the LOG_LEVEL_XXX constants defining the log level
-     * @param message The message itself
-     * @param t       The exception whose stack trace should be logged
+     * @param level          One of the LOG_LEVEL_XXX constants defining the log level
+     * @param marker         The marker to be used for this event, may be null.
+     * @param messagePattern The message pattern which will be parsed and formatted
+     * @param arguments      The array of arguments
+     * @param t              The exception whose stack trace should be logged
      */
     @Override
     protected void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments, Throwable t) {
