@@ -407,17 +407,17 @@ public abstract class AbstractLogger implements Logger, Serializable {
     abstract protected String getFullyQualifiedCallerName();
 
     /**
-     * Given various arguments passed as parameters perform actual logging. 
+     * Given various arguments passed as parameters, perform actual logging.
      * 
      * <p>This method assumes that the separation of the args array into actual
      * objects and a throwable has been already operated.
      * 
-     * @param level
-     * @param marker
-     * @param msg
-     * @param arguments
-     * @param throwable
+     * @param level the SLF4J level for this event
+     * @param marker  The marker to be used for this event, may be null.
+     * @param messagePattern The message pattern which will be parsed and formatted
+     * @param arguments  the array of arguments to be formatted, may be null
+     * @param throwable  The exception whose stack trace should be logged, may be null
      */
-    abstract protected void handleNormalizedLoggingCall(Level level, Marker marker, String msg, Object[] arguments, Throwable throwable);
+    abstract protected void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments, Throwable throwable);
 
 }

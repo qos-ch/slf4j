@@ -354,17 +354,18 @@ public class SimpleLogger extends LegacyAbstractLogger {
     }
 
     /**
-     * This is our internal implementation for logging regular (non-parameterized)
-     * log messages.
+     * SimpleLogger's implementation of
+     * {@link org.slf4j.helpers.AbstractLogger#handleNormalizedLoggingCall(Level, Marker, String, Object[], Throwable) AbstractLogger#handleNormalizedLoggingCall}
+     * }
      *
-     * @param level          One of the LOG_LEVEL_XXX constants defining the log level
-     * @param marker         The marker to be used for this event, may be null.
+     * @param level the SLF4J level for this event
+     * @param marker  The marker to be used for this event, may be null.
      * @param messagePattern The message pattern which will be parsed and formatted
-     * @param arguments      The array of arguments
-     * @param t              The exception whose stack trace should be logged
+     * @param arguments  the array of arguments to be formatted, may be null
+     * @param throwable  The exception whose stack trace should be logged, may be null
      */
     @Override
-    protected void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments, Throwable t) {
+    protected void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments, Throwable throwable) {
 
         List<Marker> markers = null;
 
@@ -373,7 +374,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             markers.add(marker);
         }
 
-        innerHandleNormalizedLoggingCall(level, markers, messagePattern, arguments, t);
+        innerHandleNormalizedLoggingCall(level, markers, messagePattern, arguments, throwable);
     }
 
     private void innerHandleNormalizedLoggingCall(Level level, List<Marker> markers, String messagePattern, Object[] arguments, Throwable t) {
