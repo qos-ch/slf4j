@@ -29,14 +29,13 @@ import java.util.Iterator;
 
 /**
  * Markers are named objects used to enrich log statements. Conforming logging
- * system Implementations of SLF4J determine how information conveyed by markers
- * are used, if at all. In particular, many conforming logging systems ignore
- * marker data.
- * 
- * <p>
- * Markers can contain references to other markers, which in turn may contain 
- * references of their own.
- * 
+ * system implementations of SLF4J should determine how information conveyed by
+ * any markers are used, if at all. Many conforming logging systems ignore marker
+ * data entirely.
+ *
+ * <p>Markers can contain references to other markers, which in turn may
+ * contain references of their own.
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public interface Marker extends Serializable {
