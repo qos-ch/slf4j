@@ -39,6 +39,14 @@ public interface SLF4JServiceProvider {
      */
     public MDCAdapter getMDCAdapter();
 
+    /**
+     * Return the maximum API version for SLF4J that the logging
+     * implementation supports.
+     *
+     * <p>For example: {@code "2.0.1"}.
+     *
+     * @return the string API version.
+     */
     public String getRequestedApiVersion();
 
     /**
