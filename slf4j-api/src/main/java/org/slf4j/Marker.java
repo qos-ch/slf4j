@@ -33,8 +33,11 @@ import java.util.Iterator;
  * any markers are used, if at all. Many conforming logging systems ignore marker
  * data entirely.
  *
- * <p>Markers can contain references to other markers, which in turn may
- * contain references of their own.
+ * <p>Markers can contain references to nested markers, which in turn may
+ * contain references of their own. Note that the fluent API (new in 2.0) allows adding
+ * multiple markers to a logging statement. It is often preferable to use
+ * multiple markers instead of nested markers.
+ * </p>
  *
  * @author Ceki G&uuml;lc&uuml;
  */
@@ -59,7 +62,11 @@ public interface Marker extends Serializable {
 
     /**
      * Add a reference to another Marker.
-     * 
+     *
+     * <p>Note that the fluent API allows adding multiple markers to a logging statement.
+     * It is often preferable to use multiple markers instead of nested markers.
+     * </p>
+     *
      * @param reference
      *                a reference to another marker
      * @throws IllegalArgumentException
