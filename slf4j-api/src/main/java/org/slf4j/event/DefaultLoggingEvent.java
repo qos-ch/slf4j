@@ -33,6 +33,7 @@ public class DefaultLoggingEvent implements LoggingEvent {
     public DefaultLoggingEvent(Level level, Logger logger) {
         this.logger = logger;
         this.level = level;
+        this.timeStamp = System.currentTimeMillis();
     }
 
     public void addMarker(Marker marker) {

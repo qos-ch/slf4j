@@ -51,4 +51,11 @@ public class RecursiveInitializationTest {
         logger.info("hello");
     }
 
+    @Test
+    public void testFluent() {
+      System.setProperty(CONFIG_FILE_KEY, "recursiveInit.properties");
+      Logger logger = LoggerFactory.getLogger("testFluent");
+      logger.info("A simple message");
+      logger.atInfo().log("Fluent message");
+    }
 }
