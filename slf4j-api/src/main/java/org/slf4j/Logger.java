@@ -99,16 +99,18 @@ public interface Logger {
     /**
      * <p>Make a new {@link LoggingEventBuilder} instance as appropriate for this logger implementation.
      * This default implementation always returns a new instance of {@link DefaultLoggingEventBuilder}.</p>
-     *
-     * <p>Note that the {@link LoggingEventBuilder} should be built for all levels, independently of the level.
-     * In other words, this method is an <b>unconditional</b> constructor for the {@link LoggingEventBuilder}
-     * appropriate for this logger implementation.</p>
-     *
+     * <p></p>
+     * <p>This method is intended to be used by logging systems implementing the SLF4J API and <b>not</b>
+     * by end users.</p>
+     * <p></p>
+     * <p>Also note that a {@link LoggingEventBuilder} instance should be built for all levels,
+     * independently of the level argument. In other words, this method is an <b>unconditional</b>
+     * constructor for the {@link LoggingEventBuilder} appropriate for this logger implementation.</p>
+     * <p></p>
      * @param level desired level for the event builder
-     * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
+     * @return a new {@link LoggingEventBuilder} instance as appropriate for <b>this</b> logger
      * @since 2.0
      */
-    @CheckReturnValue
     default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
         return new DefaultLoggingEventBuilder(this, level);
     }
