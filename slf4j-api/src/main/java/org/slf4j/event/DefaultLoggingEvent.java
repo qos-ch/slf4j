@@ -126,6 +126,10 @@ public class DefaultLoggingEvent implements LoggingEvent {
         return timeStamp;
     }
 
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public void setCallerBoundary(String fqcn) {
         this.callerBoundary = fqcn;
     }
