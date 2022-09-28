@@ -10,6 +10,9 @@ More information can be found on the [SLF4J website](http://www.slf4j.org).
 # Build Status
 [![Build Status](https://travis-ci.org/qos-ch/slf4j.svg)](https://travis-ci.org/qos-ch/slf4j)
 
+# Maven Central
+[![Maven Central](https://img.shields.io/badge/slf4j-2.0.3-green)](https://search.maven.org/search%3Fq%3Dg%3Aorg.slf4j%20AND%20v:2.0.3) 
+
 
 # How to build SLF4J
 
