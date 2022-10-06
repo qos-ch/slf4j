@@ -18,7 +18,7 @@ More information can be found on the [SLF4J website](http://www.slf4j.org).
 
 SLF4J uses Maven as its build tool.
 
-SLF4J version 2.0.x will run under Java 8 but requires Java 9 or later to build.
+SLF4J version 2.0.x will run under Java 8 but requires Java 11 or later to build.
 
 # How to contribute pull requests
 
