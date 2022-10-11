@@ -13,6 +13,9 @@ More information can be found on the [SLF4J website](http://www.slf4j.org).
 # Search org.slf4j artifacts on Maven Central
 [![Maven Central](https://img.shields.io/badge/Search%20org%2Eslf4j%20artifacts%20on%20Maven%20Central-2.0.x-green)](https://search.maven.org/search?q=g:org.slf4j%20AND%20v:2.0.%3F) 
 
+# Urgent issues
+
+For urgent issues do not hesitate to [champion a release](https://github.com/sponsors/qos-ch/sponsorships?tier_id=77436).
 
 # How to build SLF4J
 
