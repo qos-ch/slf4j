@@ -18,12 +18,12 @@ import java.util.concurrent.CyclicBarrier;
  */
 public class DoubleCheckedInt {
 
-    final static int THREAD_COUNT = 10 + Runtime.getRuntime().availableProcessors() * 2;
-    final static int UNINITIALIZED_STATE = 0;
-    final static int ONGOING_INITIALIZATION = 1;
-    final static int SUCCESS = 2;
-    final static int FAILURE = 3;
-    final static int NUMBER_OF_STATES = FAILURE + 1;
+    static final int THREAD_COUNT = 10 + Runtime.getRuntime().availableProcessors() * 2;
+    static final int UNINITIALIZED_STATE = 0;
+    static final int ONGOING_INITIALIZATION = 1;
+    static final int SUCCESS = 2;
+    static final int FAILURE = 3;
+    static final int NUMBER_OF_STATES = FAILURE + 1;
 
     private static int STATE = UNINITIALIZED_STATE;
 
@@ -48,7 +48,7 @@ public class DoubleCheckedInt {
         return STATE;
     }
 
-    static public void main(String[] args) throws InterruptedException, BrokenBarrierException {
+    public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
         StateAccessingThread[] preInitializationThreads = harness();
         check(preInitializationThreads, false);
 

@@ -36,9 +36,9 @@ import java.util.regex.Pattern;
  */
 public class SingleConversionRule implements ConversionRule {
 
-    final private Pattern pattern;
-    final private String replacementText;
-    final private String additionalLine;
+    private final Pattern pattern;
+    private final String replacementText;
+    private final String additionalLine;
 
     public SingleConversionRule(Pattern pattern, String replacementText) {
         this(pattern, replacementText, null);

@@ -7,7 +7,7 @@ import org.slf4j.Marker;
  * 
  * @since 2.0
  */
-abstract public class LegacyAbstractLogger extends AbstractLogger {
+public abstract class LegacyAbstractLogger extends AbstractLogger {
 
     private static final long serialVersionUID = -7041884104854048950L;
 

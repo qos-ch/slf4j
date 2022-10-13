@@ -25,7 +25,7 @@ public class EventRecordingLogger extends LegacyAbstractLogger {
     Queue<SubstituteLoggingEvent> eventQueue;
 
     // as an event recording logger we have no choice but to record all events
-    final static boolean RECORD_ALL_EVENTS = true;
+    static final boolean RECORD_ALL_EVENTS = true;
 
     public EventRecordingLogger(SubstituteLogger logger, Queue<SubstituteLoggingEvent> eventQueue) {
         this.logger = logger;

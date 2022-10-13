@@ -66,19 +66,19 @@ public class BasicProfilerDemo {
         profiler.stop().print();
     }
 
-    static private void doA() {
+    private static void doA() {
         delay(200);
     }
 
-    static private void doB() {
+    private static void doB() {
         delay(2500);
     }
 
-    static private void doOther() {
+    private static void doOther() {
         delay(3300);
     }
 
-    static private void delay(int millis) {
+    private static void delay(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

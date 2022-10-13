@@ -17,13 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.event.EventRecordingLogger;
 import org.slf4j.helpers.SubstituteLogger;
 
-abstract public class MultithreadedInitializationTest {
-    final protected static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
+public abstract class MultithreadedInitializationTest {
+    protected static final int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
     private final List<Logger> createdLoggers = Collections.synchronizedList(new ArrayList<>());
 
-    final protected AtomicLong eventCount = new AtomicLong(0);
-    final private CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
+    protected final AtomicLong eventCount = new AtomicLong(0);
+    private final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
 
     @Test
     public void multiThreadedInitialization() throws InterruptedException, BrokenBarrierException {
@@ -44,7 +44,7 @@ abstract public class MultithreadedInitializationTest {
         assertTrue(expectedEventCount + " < " + recordedEventCount + "+" + LENIENCY_COUNT, expectedEventCount < recordedEventCount + LENIENCY_COUNT);
     }
 
-    abstract protected long getRecordedEventCount();
+    protected abstract long getRecordedEventCount();
 
     protected int extraLogEvents() {
         return 0;

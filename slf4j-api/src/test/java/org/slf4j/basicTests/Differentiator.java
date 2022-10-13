@@ -31,7 +31,7 @@ public class Differentiator {
 
     static Random random = new Random(System.currentTimeMillis());
 
-    static public short getDiffentiator() {
+    public static short getDiffentiator() {
         return (short) random.nextInt(Short.MAX_VALUE);
     }
 }

@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactoryFriend;
 
 public class MultithreadedInitializationTest {
 
-    final static int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
+    static final int THREAD_COUNT = 4 + Runtime.getRuntime().availableProcessors() * 2;
 
     private static final AtomicLong EVENT_COUNT = new AtomicLong(0);
 

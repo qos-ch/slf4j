@@ -28,7 +28,7 @@ import java.util.Stack;
 
 public class NDC {
 
-    public final static String PREFIX = "NDC";
+    public static final String PREFIX = "NDC";
 
     public static void clear() {
         int depth = getDepth();
@@ -47,7 +47,7 @@ public class NDC {
     public static void inherit(Stack stack) {
     }
 
-    static public String get() {
+    public static String get() {
         return null;
     }
 
@@ -92,11 +92,11 @@ public class NDC {
         MDC.put(PREFIX + next, message);
     }
 
-    static public void remove() {
+    public static void remove() {
         clear();
     }
 
-    static public void setMaxDepth(int maxDepth) {
+    public static void setMaxDepth(int maxDepth) {
     }
 
 }

@@ -41,7 +41,7 @@ import org.slf4j.migrator.line.RuleSet;
 
 public class InplaceFileConverter {
 
-    final static int BUFFER_LEN = 8 * 1024;
+    static final int BUFFER_LEN = 8 * 1024;
     final LineConverter lineConverter;
     final String lineTerminator;
     final ProgressListener pl;

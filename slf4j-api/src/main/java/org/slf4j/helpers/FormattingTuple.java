@@ -31,7 +31,7 @@ package org.slf4j.helpers;
  */
 public class FormattingTuple {
 
-    static public FormattingTuple NULL = new FormattingTuple(null);
+    public static FormattingTuple NULL = new FormattingTuple(null);
 
     private final String message;
     private final Throwable throwable;

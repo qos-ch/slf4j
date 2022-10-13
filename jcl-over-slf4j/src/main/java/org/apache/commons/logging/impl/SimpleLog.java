@@ -85,28 +85,28 @@ public class SimpleLog implements Log, Serializable {
     // ------------------------------------------------------- Class Attributes
 
     /** All system properties used by <code>SimpleLog</code> start with this */
-    static protected final String systemPrefix = "org.apache.commons.logging.simplelog.";
+    protected static final String systemPrefix = "org.apache.commons.logging.simplelog.";
 
     /** Properties loaded from simplelog.properties */
-    static protected final Properties simpleLogProps = new Properties();
+    protected static final Properties simpleLogProps = new Properties();
 
     /** The default format to use when formatting dates */
-    static protected final String DEFAULT_DATE_TIME_FORMAT = "yyyy/MM/dd HH:mm:ss:SSS zzz";
+    protected static final String DEFAULT_DATE_TIME_FORMAT = "yyyy/MM/dd HH:mm:ss:SSS zzz";
 
     /** Include the instance name in the log message? */
-    static protected boolean showLogName = false;
+    protected static boolean showLogName = false;
     /**
      * Include the short name ( last component ) of the logger in the log message.
      * Defaults to true - otherwise we'll be lost in a flood of messages without
      * knowing who sends them.
      */
-    static protected boolean showShortName = true;
+    protected static boolean showShortName = true;
     /** Include the current time in the log message */
-    static protected boolean showDateTime = false;
+    protected static boolean showDateTime = false;
     /** The date and time format to use in the log message */
-    static protected String dateTimeFormat = DEFAULT_DATE_TIME_FORMAT;
+    protected static String dateTimeFormat = DEFAULT_DATE_TIME_FORMAT;
     /** Used to format times */
-    static protected DateFormat dateFormatter = null;
+    protected static DateFormat dateFormatter = null;
 
     // ---------------------------------------------------- Log Level Constants
 

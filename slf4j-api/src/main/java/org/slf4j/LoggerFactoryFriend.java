@@ -40,7 +40,7 @@ public class LoggerFactoryFriend {
     /*
      * Force LoggerFactory to consider itself uninitialized.
      */
-    static public void reset() {
+    public static void reset() {
         LoggerFactory.reset();
     }
 

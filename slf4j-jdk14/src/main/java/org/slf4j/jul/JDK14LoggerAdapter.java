@@ -53,7 +53,7 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
 
     private static final long serialVersionUID = -8053026990503422791L;
 
-    transient final java.util.logging.Logger logger;
+    final transient java.util.logging.Logger logger;
 
     // WARN: JDK14LoggerAdapter constructor should have only package access so
     // that only JDK14LoggerFactory be able to create one.
@@ -178,7 +178,7 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
      * 
      * @param record The record to update
      */
-    final private void fillCallerData(String callerFQCN, LogRecord record) {
+    private final void fillCallerData(String callerFQCN, LogRecord record) {
         StackTraceElement[] steArray = new Throwable().getStackTrace();
 
         int selfIndex = -1;

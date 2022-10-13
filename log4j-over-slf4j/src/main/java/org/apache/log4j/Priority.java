@@ -31,43 +31,43 @@ public class Priority {
     transient String levelStr;
     transient int syslogEquivalent;
 
-    public final static int OFF_INT = Integer.MAX_VALUE;
-    public final static int FATAL_INT = 50000;
-    public final static int ERROR_INT = 40000;
-    public final static int WARN_INT = 30000;
-    public final static int INFO_INT = 20000;
-    public final static int DEBUG_INT = 10000;
+    public static final int OFF_INT = Integer.MAX_VALUE;
+    public static final int FATAL_INT = 50000;
+    public static final int ERROR_INT = 40000;
+    public static final int WARN_INT = 30000;
+    public static final int INFO_INT = 20000;
+    public static final int DEBUG_INT = 10000;
     // public final static int FINE_INT = DEBUG_INT;
-    public final static int ALL_INT = Integer.MIN_VALUE;
+    public static final int ALL_INT = Integer.MIN_VALUE;
 
     /**
      * @deprecated Use {@link Level#FATAL} instead.
      */
-    final static public Priority FATAL = new Level(FATAL_INT, "FATAL", 0);
+    public static final Priority FATAL = new Level(FATAL_INT, "FATAL", 0);
 
     /**
      * @deprecated Use {@link Level#ERROR} instead.
      */
     @Deprecated
-    final static public Priority ERROR = new Level(ERROR_INT, "ERROR", 3);
+    public static final Priority ERROR = new Level(ERROR_INT, "ERROR", 3);
 
     /**
      * @deprecated Use {@link Level#WARN} instead.
      */
     @Deprecated
-    final static public Priority WARN = new Level(WARN_INT, "WARN", 4);
+    public static final Priority WARN = new Level(WARN_INT, "WARN", 4);
 
     /**
      * @deprecated Use {@link Level#INFO} instead.
      */
     @Deprecated
-    final static public Priority INFO = new Level(INFO_INT, "INFO", 6);
+    public static final Priority INFO = new Level(INFO_INT, "INFO", 6);
 
     /**
      * @deprecated Use {@link Level#DEBUG} instead.
      */
     @Deprecated
-    final static public Priority DEBUG = new Level(DEBUG_INT, "DEBUG", 7);
+    public static final Priority DEBUG = new Level(DEBUG_INT, "DEBUG", 7);
 
     /**
       * Default constructor for deserialization.
@@ -147,7 +147,7 @@ public class Priority {
     /**
        Returns the string representation of this priority.
      */
-    final public String toString() {
+    public final String toString() {
         return levelStr;
     }
 

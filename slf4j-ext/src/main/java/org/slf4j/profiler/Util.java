@@ -56,15 +56,15 @@ class Util {
         }
     }
 
-    static public double convertToMicros(long nanos) {
+    public static double convertToMicros(long nanos) {
         return (double) nanos / NANOS_IN_ONE_MICROSECOND;
     }
 
-    static public double convertToMillis(long nanos) {
+    public static double convertToMillis(long nanos) {
         return (double) nanos / NANOS_IN_ONE_MILLISECOND;
     }
 
-    static public double convertToSeconds(long nanos) {
+    public static double convertToSeconds(long nanos) {
         return ((double) nanos / NANOS_IN_ONE_SECOND);
     }
 

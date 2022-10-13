@@ -68,9 +68,9 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
 
     final transient org.apache.log4j.Logger logger;
 
-    final static String FQCN_NOMINAL = AbstractLogger.class.getName();
-    final static String FQCN_SUBSTITUE = FQCN_NOMINAL;
-    final static String FQCN_FLUENT = DefaultLoggingEventBuilder.class.getName();
+    static final String FQCN_NOMINAL = AbstractLogger.class.getName();
+    static final String FQCN_SUBSTITUE = FQCN_NOMINAL;
+    static final String FQCN_FLUENT = DefaultLoggingEventBuilder.class.getName();
 
     // WARN: Reload4jLoggerAdapter constructor should have only package access so
     // that only Reload4jLoggerFactory be able to create one.

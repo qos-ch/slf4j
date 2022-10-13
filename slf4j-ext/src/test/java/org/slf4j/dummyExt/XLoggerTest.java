@@ -40,7 +40,7 @@ public class XLoggerTest {
     ListAppender listAppender;
     Logger log4jRoot;
 
-    final static String EXPECTED_FILE_NAME = "XLoggerTest.java";
+    static final String EXPECTED_FILE_NAME = "XLoggerTest.java";
 
     @Before
     public void setUp() throws Exception {

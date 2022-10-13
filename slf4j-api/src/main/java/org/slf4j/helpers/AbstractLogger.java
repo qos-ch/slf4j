@@ -404,7 +404,7 @@ public abstract class AbstractLogger implements Logger, Serializable {
         }
     }
 
-    abstract protected String getFullyQualifiedCallerName();
+    protected abstract String getFullyQualifiedCallerName();
 
     /**
      * Given various arguments passed as parameters, perform actual logging.
@@ -418,6 +418,6 @@ public abstract class AbstractLogger implements Logger, Serializable {
      * @param arguments  the array of arguments to be formatted, may be null
      * @param throwable  The exception whose stack trace should be logged, may be null
      */
-    abstract protected void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments, Throwable throwable);
+    protected abstract void handleNormalizedLoggingCall(Level level, Marker marker, String messagePattern, Object[] arguments, Throwable throwable);
 
 }

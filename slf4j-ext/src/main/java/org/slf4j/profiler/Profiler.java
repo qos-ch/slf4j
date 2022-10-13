@@ -49,10 +49,10 @@ import org.slf4j.MarkerFactory;
  */
 public class Profiler implements TimeInstrument {
 
-    final static String PROFILER_MARKER_NAME = "PROFILER";
+    static final String PROFILER_MARKER_NAME = "PROFILER";
 
-    final static int MIN_SW_NAME_LENGTH = 24;
-    final static int MIN_SW_ELAPSED_TIME_NUMBER_LENGTH = 9;
+    static final int MIN_SW_NAME_LENGTH = 24;
+    static final int MIN_SW_ELAPSED_TIME_NUMBER_LENGTH = 9;
 
     final String name;
     final StopWatch globalStopWatch;

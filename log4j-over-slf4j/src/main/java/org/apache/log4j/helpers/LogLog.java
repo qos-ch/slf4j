@@ -72,7 +72,7 @@ public class LogLog {
     /**
        Allows to enable/disable log4j internal logging.
      */
-    static public void setInternalDebugging(boolean enabled) {
+    public static void setInternalDebugging(boolean enabled) {
         debugEnabled = enabled;
     }
 

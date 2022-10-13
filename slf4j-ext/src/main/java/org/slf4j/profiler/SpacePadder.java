@@ -27,13 +27,13 @@ package org.slf4j.profiler;
 public class SpacePadder {
     public static final String LINE_SEP = System.getProperty("line.separator");
 
-    final static String[] SPACES = { " ", "  ", "    ", "        ", // 1,2,4,8
+    static final String[] SPACES = { " ", "  ", "    ", "        ", // 1,2,4,8
             // spaces
             "                ", // 16 spaces
             "                                " }; // 32 spaces
 
     @Deprecated
-    final static public void leftPad(StringBuffer buf, String s, int desiredLength) {
+    public static final void leftPad(StringBuffer buf, String s, int desiredLength) {
         int actualLen = 0;
         if (s != null) {
             actualLen = s.length();
@@ -46,7 +46,7 @@ public class SpacePadder {
         }
     }
 
-    final static public void leftPad(StringBuilder buf, String s, int desiredLength) {
+    public static final void leftPad(StringBuilder buf, String s, int desiredLength) {
         int actualLen = 0;
         if (s != null) {
             actualLen = s.length();
@@ -60,7 +60,7 @@ public class SpacePadder {
     }
 
     @Deprecated
-    final static public void rightPad(StringBuffer buf, String s, int desiredLength) {
+    public static final void rightPad(StringBuffer buf, String s, int desiredLength) {
         int actualLen = 0;
         if (s != null) {
             actualLen = s.length();
@@ -73,7 +73,7 @@ public class SpacePadder {
         }
     }
 
-    final static public void rightPad(StringBuilder buf, String s, int desiredLength) {
+    public static final void rightPad(StringBuilder buf, String s, int desiredLength) {
         int actualLen = 0;
         if (s != null) {
             actualLen = s.length();
@@ -93,7 +93,7 @@ public class SpacePadder {
      * @param length the target size of the buffer after padding
      */
     @Deprecated
-    final static public void spacePad(StringBuffer sbuf, int length) {
+    public static final void spacePad(StringBuffer sbuf, int length) {
         while (length >= 32) {
             sbuf.append(SPACES[5]);
             length -= 32;
@@ -112,7 +112,7 @@ public class SpacePadder {
      * @param sbuf the buffer to pad
      * @param length the target size of the buffer after padding
      */
-    final static public void spacePad(StringBuilder sbuf, int length) {
+    public static final void spacePad(StringBuilder sbuf, int length) {
         while (length >= 32) {
             sbuf.append(SPACES[5]);
             length -= 32;

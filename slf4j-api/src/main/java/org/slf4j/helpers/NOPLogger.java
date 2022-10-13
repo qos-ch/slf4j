@@ -62,19 +62,19 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * @return always false
      */
     @Override
-    final public boolean isTraceEnabled() {
+    public final boolean isTraceEnabled() {
         return false;
     }
 
     /** A NOP implementation. */
     @Override
-    final public void trace(String msg) {
+    public final void trace(String msg) {
         // NOP
     }
 
     /** A NOP implementation.  */
     @Override
-    final public void trace(String format, Object arg) {
+    public final void trace(String format, Object arg) {
         // NOP
     }
 
@@ -92,7 +92,7 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
 
     /** A NOP implementation. */
     @Override
-    final public void trace(String msg, Throwable t) {
+    public final void trace(String msg, Throwable t) {
         // NOP
     }
 
@@ -100,32 +100,32 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * Always returns false.
      * @return always false
      */
-    final public boolean isDebugEnabled() {
+    public final boolean isDebugEnabled() {
         return false;
     }
 
     /** A NOP implementation. */
-    final public void debug(String msg) {
+    public final void debug(String msg) {
         // NOP
     }
 
     /** A NOP implementation.  */
-    final public void debug(String format, Object arg) {
+    public final void debug(String format, Object arg) {
         // NOP
     }
 
     /** A NOP implementation.  */
-    final public void debug(String format, Object arg1, Object arg2) {
+    public final void debug(String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation.  */
-    final public void debug(String format, Object... argArray) {
+    public final void debug(String format, Object... argArray) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void debug(String msg, Throwable t) {
+    public final void debug(String msg, Throwable t) {
         // NOP
     }
 
@@ -133,33 +133,33 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * Always returns false.
      * @return always false
      */
-    final public boolean isInfoEnabled() {
+    public final boolean isInfoEnabled() {
         // NOP
         return false;
     }
 
     /** A NOP implementation. */
-    final public void info(String msg) {
+    public final void info(String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void info(String format, Object arg1) {
+    public final void info(String format, Object arg1) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void info(String format, Object arg1, Object arg2) {
+    public final void info(String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation.  */
-    final public void info(String format, Object... argArray) {
+    public final void info(String format, Object... argArray) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void info(String msg, Throwable t) {
+    public final void info(String msg, Throwable t) {
         // NOP
     }
 
@@ -167,62 +167,62 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * Always returns false.
      * @return always false
      */
-    final public boolean isWarnEnabled() {
+    public final boolean isWarnEnabled() {
         return false;
     }
 
     /** A NOP implementation. */
-    final public void warn(String msg) {
+    public final void warn(String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void warn(String format, Object arg1) {
+    public final void warn(String format, Object arg1) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void warn(String format, Object arg1, Object arg2) {
+    public final void warn(String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation.  */
-    final public void warn(String format, Object... argArray) {
+    public final void warn(String format, Object... argArray) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void warn(String msg, Throwable t) {
+    public final void warn(String msg, Throwable t) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public boolean isErrorEnabled() {
+    public final boolean isErrorEnabled() {
         return false;
     }
 
     /** A NOP implementation. */
-    final public void error(String msg) {
+    public final void error(String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void error(String format, Object arg1) {
+    public final void error(String format, Object arg1) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void error(String format, Object arg1, Object arg2) {
+    public final void error(String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation.  */
-    final public void error(String format, Object... argArray) {
+    public final void error(String format, Object... argArray) {
         // NOP
     }
 
     /** A NOP implementation. */
-    final public void error(String msg, Throwable t) {
+    public final void error(String msg, Throwable t) {
         // NOP
     }
 
@@ -233,38 +233,38 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * Always returns false.
      * @return always false
      */
-    final public boolean isTraceEnabled(Marker marker) {
+    public final boolean isTraceEnabled(Marker marker) {
         // NOP
         return false;
     }
 
     /** A NOP implementation. */
     @Override
-    final public void trace(Marker marker, String msg) {
+    public final void trace(Marker marker, String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void trace(Marker marker, String format, Object arg) {
+    public final void trace(Marker marker, String format, Object arg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void trace(Marker marker, String format, Object arg1, Object arg2) {
+    public final void trace(Marker marker, String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void trace(Marker marker, String format, Object... argArray) {
+    public final void trace(Marker marker, String format, Object... argArray) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void trace(Marker marker, String msg, Throwable t) {
+    public final void trace(Marker marker, String msg, Throwable t) {
         // NOP
     }
 
@@ -272,35 +272,35 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * Always returns false.
      * @return always false
      */
-    final public boolean isDebugEnabled(Marker marker) {
+    public final boolean isDebugEnabled(Marker marker) {
         return false;
     }
 
     /** A NOP implementation. */
     @Override
-    final public void debug(Marker marker, String msg) {
+    public final void debug(Marker marker, String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void debug(Marker marker, String format, Object arg) {
+    public final void debug(Marker marker, String format, Object arg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void debug(Marker marker, String format, Object arg1, Object arg2) {
+    public final void debug(Marker marker, String format, Object arg1, Object arg2) {
         // NOP
     }
 
     @Override
-    final public void debug(Marker marker, String format, Object... arguments) {
+    public final void debug(Marker marker, String format, Object... arguments) {
         // NOP
     }
 
     @Override
-    final public void debug(Marker marker, String msg, Throwable t) {
+    public final void debug(Marker marker, String msg, Throwable t) {
         // NOP
     }
 
@@ -315,70 +315,31 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
 
     /** A NOP implementation. */
     @Override
-    final public void info(Marker marker, String msg) {
+    public final void info(Marker marker, String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void info(Marker marker, String format, Object arg) {
+    public final void info(Marker marker, String format, Object arg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void info(Marker marker, String format, Object arg1, Object arg2) {
+    public final void info(Marker marker, String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void info(Marker marker, String format, Object... arguments) {
+    public final void info(Marker marker, String format, Object... arguments) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void info(Marker marker, String msg, Throwable t) {
-        // NOP
-    }
-
-    /**
-     * Always returns false.
-     * @return always false
-     */
-    @Override
-    final public boolean isWarnEnabled(Marker marker) {
-        return false;
-    }
-
-    /** A NOP implementation. */
-    @Override
-    final public void warn(Marker marker, String msg) {
-        // NOP
-    }
-
-    /** A NOP implementation. */
-    @Override
-    final public void warn(Marker marker, String format, Object arg) {
-        // NOP
-    }
-
-    /** A NOP implementation. */
-    @Override
-    final public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        // NOP
-    }
-
-    /** A NOP implementation. */
-    @Override
-    final public void warn(Marker marker, String format, Object... arguments) {
-        // NOP
-    }
-
-    /** A NOP implementation. */
-    @Override
-    final public void warn(Marker marker, String msg, Throwable t) {
+    public final void info(Marker marker, String msg, Throwable t) {
         // NOP
     }
 
@@ -387,37 +348,76 @@ public class NOPLogger extends NamedLoggerBase implements Logger {
      * @return always false
      */
     @Override
-    final public boolean isErrorEnabled(Marker marker) {
+    public final boolean isWarnEnabled(Marker marker) {
         return false;
     }
 
     /** A NOP implementation. */
     @Override
-    final public void error(Marker marker, String msg) {
+    public final void warn(Marker marker, String msg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void error(Marker marker, String format, Object arg) {
+    public final void warn(Marker marker, String format, Object arg) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void error(Marker marker, String format, Object arg1, Object arg2) {
+    public final void warn(Marker marker, String format, Object arg1, Object arg2) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void error(Marker marker, String format, Object... arguments) {
+    public final void warn(Marker marker, String format, Object... arguments) {
         // NOP
     }
 
     /** A NOP implementation. */
     @Override
-    final public void error(Marker marker, String msg, Throwable t) {
+    public final void warn(Marker marker, String msg, Throwable t) {
+        // NOP
+    }
+
+    /**
+     * Always returns false.
+     * @return always false
+     */
+    @Override
+    public final boolean isErrorEnabled(Marker marker) {
+        return false;
+    }
+
+    /** A NOP implementation. */
+    @Override
+    public final void error(Marker marker, String msg) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    @Override
+    public final void error(Marker marker, String format, Object arg) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    @Override
+    public final void error(Marker marker, String format, Object arg1, Object arg2) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    @Override
+    public final void error(Marker marker, String format, Object... arguments) {
+        // NOP
+    }
+
+    /** A NOP implementation. */
+    @Override
+    public final void error(Marker marker, String msg, Throwable t) {
         // NOP
     }
     // ===================================================================

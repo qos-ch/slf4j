@@ -56,7 +56,7 @@ public class ToStringHelper {
      * System.currentTimeMillis when an instance of the class failed to render.
      */
 
-    final static Map<Class<?>, Object> unrenderableClasses = new WeakHashMap<>();
+    static final Map<Class<?>, Object> unrenderableClasses = new WeakHashMap<>();
 
     /**
      * Returns o.toString() unless it throws an exception (which causes it to be

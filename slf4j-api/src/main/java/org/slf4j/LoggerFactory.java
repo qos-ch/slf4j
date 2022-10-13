@@ -114,7 +114,7 @@ public final class LoggerFactory {
      * <p>
      * It is assumed that all versions in the 1.6 are mutually compatible.
      */
-    static private final String[] API_COMPATIBILITY_LIST = new String[] { "2.0" };
+    private static final String[] API_COMPATIBILITY_LIST = new String[] { "2.0" };
 
     // private constructor prevents instantiation
     private LoggerFactory() {
@@ -135,14 +135,14 @@ public final class LoggerFactory {
         INITIALIZATION_STATE = UNINITIALIZED;
     }
 
-    private final static void performInitialization() {
+    private static final void performInitialization() {
         bind();
         if (INITIALIZATION_STATE == SUCCESSFUL_INITIALIZATION) {
             versionSanityCheck();
         }
     }
 
-    private final static void bind() {
+    private static final void bind() {
         try {
             List<SLF4JServiceProvider> providersList = findServiceProviders();
             reportMultipleBindingAmbiguity(providersList);
@@ -293,7 +293,7 @@ public final class LoggerFactory {
         Util.report("See also " + REPLAY_URL);
     }
 
-    private final static void versionSanityCheck() {
+    private static final void versionSanityCheck() {
         try {
             String requested = PROVIDER.getRequestedApiVersion();
 

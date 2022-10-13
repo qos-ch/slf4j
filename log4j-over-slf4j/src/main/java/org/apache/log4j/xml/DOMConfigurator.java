@@ -35,10 +35,10 @@ public class DOMConfigurator implements Configurator {
     public static void configure(String filename) throws FactoryConfigurationError {
     }
 
-    static public void configure(URL url) throws FactoryConfigurationError {
+    public static void configure(URL url) throws FactoryConfigurationError {
     }
 
-    static public void configureAndWatch(String configFilename) {
+    public static void configureAndWatch(String configFilename) {
     }
 
     public static void configureAndWatch(String configFilename, long delay) {

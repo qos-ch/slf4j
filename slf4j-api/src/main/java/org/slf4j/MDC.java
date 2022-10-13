@@ -261,7 +261,7 @@ public class MDC {
      * @param value the value to push into the stack
      * @since 2.0.0
      */
-    static public void pushByKey(String key, String value) {
+    public static void pushByKey(String key, String value) {
         if (mdcAdapter == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
@@ -275,7 +275,7 @@ public class MDC {
      * @return the value just popped. May be null/
      * @since 2.0.0
      */
-    static public String popByKey(String key) {
+    public static String popByKey(String key) {
         if (mdcAdapter == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }

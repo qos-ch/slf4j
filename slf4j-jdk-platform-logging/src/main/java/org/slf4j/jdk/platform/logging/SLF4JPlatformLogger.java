@@ -39,7 +39,7 @@ import org.slf4j.spi.LoggingEventBuilder;
  */
 class SLF4JPlatformLogger implements System.Logger {
 
-    static private final String PRESUMED_CALLER_BOUNDARY = System.Logger.class.getName();
+    private static final String PRESUMED_CALLER_BOUNDARY = System.Logger.class.getName();
                     
     private final Logger slf4jLogger;
 

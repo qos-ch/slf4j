@@ -119,7 +119,7 @@ public class Category {
      *
      * @return Level - the assigned Level, can be <code>null</code>.
      */
-    final public Level getLevel() {
+    public final Level getLevel() {
         return null;
     }
 
@@ -127,7 +127,7 @@ public class Category {
      * @deprecated Please use {@link #getLevel} instead.
      * @return a Level
      */
-    final public Level getPriority() {
+    public final Level getPriority() {
         return null;
     }
 

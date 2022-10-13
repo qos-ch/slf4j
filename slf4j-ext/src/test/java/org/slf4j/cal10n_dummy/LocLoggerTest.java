@@ -48,7 +48,7 @@ public class LocLoggerTest {
     IMessageConveyor imc = new MessageConveyor(Locale.UK);
     LocLoggerFactory llFactory_uk = new LocLoggerFactory(imc);
 
-    final static String EXPECTED_FILE_NAME = "LocLoggerTest.java";
+    static final String EXPECTED_FILE_NAME = "LocLoggerTest.java";
 
     @Before
     public void setUp() throws Exception {

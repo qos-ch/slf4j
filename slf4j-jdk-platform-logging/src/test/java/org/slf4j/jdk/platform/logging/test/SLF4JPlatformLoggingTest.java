@@ -65,14 +65,14 @@ public class SLF4JPlatformLoggingTest {
     static StringPrintStream SPS = new StringPrintStream(oldErr, false);
     
     @BeforeClass
-    static public void beforeClass() throws Exception {
+    public static void beforeClass() throws Exception {
         System.setErr(SPS);
         //System.setProperty(SIMPLE_LOGGER_FILE_PROPERTY, targetFile);
         System.setProperty(SIMPLE_LOGGER_THREAD_NAME_PROPERTY, "false");
     }
 
     @AfterClass
-    static public void afterClass() {
+    public static void afterClass() {
         System.setErr(oldErr);
         System.clearProperty(SIMPLE_LOGGER_THREAD_NAME_PROPERTY);
     }

@@ -38,7 +38,7 @@ public class MultiGroupConversionRule implements ConversionRule {
 
     // It is extremely unlikely to encounter more than 10 groups in one of
     // our conversion reg-expressions
-    final private static int MAX_GROUPS = 10;
+    private static final int MAX_GROUPS = 10;
 
     private final Pattern pattern;
     private final String[] replacementTable = new String[MAX_GROUPS];
