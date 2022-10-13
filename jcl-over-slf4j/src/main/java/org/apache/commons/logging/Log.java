@@ -71,7 +71,7 @@ public interface Log {
      * (for example, <code>String</code> concatenation)
      * when the log level is more than debug. 
      */
-    public boolean isDebugEnabled();
+    boolean isDebugEnabled();
 
     /**
      * <p> Is error logging currently enabled? 
@@ -80,7 +80,7 @@ public interface Log {
      * (for example, <code>String</code> concatenation)
      * when the log level is more than error. 
      */
-    public boolean isErrorEnabled();
+    boolean isErrorEnabled();
 
     /**
      * <p> Is fatal logging currently enabled? 
@@ -89,7 +89,7 @@ public interface Log {
      * (for example, <code>String</code> concatenation)
      * when the log level is more than fatal. 
      */
-    public boolean isFatalEnabled();
+    boolean isFatalEnabled();
 
     /**
      * <p> Is info logging currently enabled? 
@@ -100,7 +100,7 @@ public interface Log {
      * 
      * @return true if info enabled, false otherwise
      */
-    public boolean isInfoEnabled();
+    boolean isInfoEnabled();
 
     /**
      * <p> Is trace logging currently enabled? 
@@ -111,7 +111,7 @@ public interface Log {
      * 
      * @return true if trace enabled, false otherwise
      */
-    public boolean isTraceEnabled();
+    boolean isTraceEnabled();
 
     /**
      * <p> Is warn logging currently enabled? 
@@ -120,7 +120,7 @@ public interface Log {
      * (for example, <code>String</code> concatenation)
      * when the log level is more than warn. 
      */
-    public boolean isWarnEnabled();
+    boolean isWarnEnabled();
 
     // -------------------------------------------------------- Logging Methods
 
@@ -129,7 +129,7 @@ public interface Log {
      *
      * @param message log this message
      */
-    public void trace(Object message);
+    void trace(Object message);
 
     /**
      * <p> Log an error with trace log level. 
@@ -137,14 +137,14 @@ public interface Log {
      * @param message log this message
      * @param t log this cause
      */
-    public void trace(Object message, Throwable t);
+    void trace(Object message, Throwable t);
 
     /**
      * <p> Log a message with debug log level. 
      *
      * @param message log this message
      */
-    public void debug(Object message);
+    void debug(Object message);
 
     /**
      * <p> Log an error with debug log level. 
@@ -152,14 +152,14 @@ public interface Log {
      * @param message log this message
      * @param t log this cause
      */
-    public void debug(Object message, Throwable t);
+    void debug(Object message, Throwable t);
 
     /**
      * <p> Log a message with info log level. 
      *
      * @param message log this message
      */
-    public void info(Object message);
+    void info(Object message);
 
     /**
      * <p> Log an error with info log level. 
@@ -167,14 +167,14 @@ public interface Log {
      * @param message log this message
      * @param t log this cause
      */
-    public void info(Object message, Throwable t);
+    void info(Object message, Throwable t);
 
     /**
      * <p> Log a message with warn log level. 
      *
      * @param message log this message
      */
-    public void warn(Object message);
+    void warn(Object message);
 
     /**
      * <p> Log an error with warn log level. 
@@ -182,14 +182,14 @@ public interface Log {
      * @param message log this message
      * @param t log this cause
      */
-    public void warn(Object message, Throwable t);
+    void warn(Object message, Throwable t);
 
     /**
      * <p> Log a message with error log level. 
      *
      * @param message log this message
      */
-    public void error(Object message);
+    void error(Object message);
 
     /**
      * <p> Log an error with error log level. 
@@ -197,14 +197,14 @@ public interface Log {
      * @param message log this message
      * @param t log this cause
      */
-    public void error(Object message, Throwable t);
+    void error(Object message, Throwable t);
 
     /**
      * <p> Log a message with fatal log level. 
      *
      * @param message log this message
      */
-    public void fatal(Object message);
+    void fatal(Object message);
 
     /**
      * <p> Log an error with fatal log level. 
@@ -212,6 +212,6 @@ public interface Log {
      * @param message log this message
      * @param t log this cause
      */
-    public void fatal(Object message, Throwable t);
+    void fatal(Object message, Throwable t);
 
 }

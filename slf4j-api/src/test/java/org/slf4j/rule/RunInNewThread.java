@@ -34,6 +34,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface RunInNewThread {
-    static final long DEFAULT_TIMEOUT = 1000L;
-    public long timeout() default DEFAULT_TIMEOUT;
+    long DEFAULT_TIMEOUT = 1000L;
+    long timeout() default DEFAULT_TIMEOUT;
 }

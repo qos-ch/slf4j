@@ -30,13 +30,13 @@ public interface Configurator {
        Special level value signifying inherited behaviour. The current
        value of this string constant is <b>inherited</b>. {@link #NULL}
        is a synonym.  */
-    public static final String INHERITED = "inherited";
+    String INHERITED = "inherited";
 
     /**
        Special level signifying inherited behaviour, same as {@link
        #INHERITED}. The current value of this string constant is
        <b>null</b>. */
-    public static final String NULL = "null";
+    String NULL = "null";
 
     /**
        Interpret a resource pointed by a URL and set up log4j accordingly.

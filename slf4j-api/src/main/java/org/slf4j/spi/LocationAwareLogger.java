@@ -41,11 +41,11 @@ public interface LocationAwareLogger extends Logger {
 
     // these constants should be in EventConstants. However, in order to preserve binary backward compatibility
     // we keep these constants here. {@link EventConstants} redefines these constants using the values  below.
-    final public int TRACE_INT = 00;
-    final public int DEBUG_INT = 10;
-    final public int INFO_INT = 20;
-    final public int WARN_INT = 30;
-    final public int ERROR_INT = 40;
+    int TRACE_INT = 00;
+    int DEBUG_INT = 10;
+    int INFO_INT = 20;
+    int WARN_INT = 30;
+    int ERROR_INT = 40;
 
     /**
      * Printing method with support for location information. 
@@ -60,6 +60,6 @@ public interface LocationAwareLogger extends Logger {
      * @param message The message for the log event
      * @param t Throwable associated with the log event, may be null.
      */
-    public void log(Marker marker, String fqcn, int level, String message, Object[] argArray, Throwable t);
+    void log(Marker marker, String fqcn, int level, String message, Object[] argArray, Throwable t);
 
 }

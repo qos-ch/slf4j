@@ -42,7 +42,7 @@ public interface LoggerFactoryBinder {
      * @return the instance of {@link ILoggerFactory} that 
      * {@link org.slf4j.LoggerFactory} class should bind to.
      */
-    public ILoggerFactory getLoggerFactory();
+    ILoggerFactory getLoggerFactory();
 
     /**
      * The String form of the {@link ILoggerFactory} object that this 
@@ -54,5 +54,5 @@ public interface LoggerFactoryBinder {
      * 
      * @return the class name of the intended {@link ILoggerFactory} instance
      */
-    public String getLoggerFactoryClassStr();
+    String getLoggerFactoryClassStr();
 }

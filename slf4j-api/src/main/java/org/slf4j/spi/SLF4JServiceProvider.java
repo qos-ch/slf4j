@@ -21,7 +21,7 @@ public interface SLF4JServiceProvider {
      * 
      * @return instance of {@link ILoggerFactory} 
      */
-    public ILoggerFactory getLoggerFactory();
+    ILoggerFactory getLoggerFactory();
 
     /**
      * Return the instance of {@link IMarkerFactory} that 
@@ -29,7 +29,7 @@ public interface SLF4JServiceProvider {
      * 
      * @return instance of {@link IMarkerFactory} 
      */
-    public IMarkerFactory getMarkerFactory();
+    IMarkerFactory getMarkerFactory();
 
     /**
      * Return the instance of {@link MDCAdapter} that
@@ -37,7 +37,7 @@ public interface SLF4JServiceProvider {
      * 
      * @return instance of {@link MDCAdapter} 
      */
-    public MDCAdapter getMDCAdapter();
+    MDCAdapter getMDCAdapter();
 
     /**
      * Return the maximum API version for SLF4J that the logging
@@ -47,7 +47,7 @@ public interface SLF4JServiceProvider {
      *
      * @return the string API version.
      */
-    public String getRequestedApiVersion();
+    String getRequestedApiVersion();
 
     /**
      * Initialize the logging back-end.
@@ -56,5 +56,5 @@ public interface SLF4JServiceProvider {
      * {@link LoggerFactory} class and from nowhere else. 
      * 
      */
-    public void initialize();
+    void initialize();
 }

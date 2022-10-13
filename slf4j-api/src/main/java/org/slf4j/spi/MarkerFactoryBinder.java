@@ -42,7 +42,7 @@ public interface MarkerFactoryBinder {
      * @return the instance of {@link IMarkerFactory} that 
      * {@link org.slf4j.MarkerFactory} class should bind to.
      */
-    public IMarkerFactory getMarkerFactory();
+    IMarkerFactory getMarkerFactory();
 
     /**
      * The String form of the {@link IMarkerFactory} object that this 
@@ -54,5 +54,5 @@ public interface MarkerFactoryBinder {
      * 
      * @return the class name of the intended {@link IMarkerFactory} instance
      */
-    public String getMarkerFactoryClassStr();
+    String getMarkerFactoryClassStr();
 }

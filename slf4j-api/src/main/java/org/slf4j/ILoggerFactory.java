@@ -53,5 +53,5 @@ public interface ILoggerFactory {
      * @param name the name of the Logger to return
      * @return a Logger instance 
      */
-    public Logger getLogger(String name);
+    Logger getLogger(String name);
 }

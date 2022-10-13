@@ -88,13 +88,13 @@ public interface Logger {
      *
      * @since 1.3
      */
-    final public String ROOT_LOGGER_NAME = "ROOT";
+    String ROOT_LOGGER_NAME = "ROOT";
 
     /**
      * Return the name of this <code>Logger</code> instance.
      * @return name of this logger instance 
      */
-    public String getName();
+    String getName();
 
     /**
      * <p>Make a new {@link LoggingEventBuilder} instance as appropriate for this logger implementation.
@@ -111,7 +111,7 @@ public interface Logger {
      * @return a new {@link LoggingEventBuilder} instance as appropriate for <b>this</b> logger
      * @since 2.0
      */
-    default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+    default LoggingEventBuilder makeLoggingEventBuilder(Level level) {
         return new DefaultLoggingEventBuilder(this, level);
     }
 
@@ -126,7 +126,7 @@ public interface Logger {
      * @since 2.0
      */
     @CheckReturnValue
-    default public LoggingEventBuilder atLevel(Level level) {
+    default LoggingEventBuilder atLevel(Level level) {
         if (isEnabledForLevel(level)) {
             return makeLoggingEventBuilder(level);
         } else {
@@ -142,7 +142,7 @@ public interface Logger {
      * @param level
      * @return true if enabled, false otherwise.
      */
-    default public boolean isEnabledForLevel(Level level) {
+    default boolean isEnabledForLevel(Level level) {
         int levelInt = level.toInt();
         switch (levelInt) {
         case (TRACE_INT):
@@ -167,7 +167,7 @@ public interface Logger {
      *         false otherwise.
      * @since 1.4
      */
-    public boolean isTraceEnabled();
+    boolean isTraceEnabled();
 
     /**
      * Log a message at the TRACE level.
@@ -175,7 +175,7 @@ public interface Logger {
      * @param msg the message string to be logged
      * @since 1.4
      */
-    public void trace(String msg);
+    void trace(String msg);
 
     /**
      * Log a message at the TRACE level according to the specified format
@@ -188,7 +188,7 @@ public interface Logger {
      * @param arg    the argument
      * @since 1.4
      */
-    public void trace(String format, Object arg);
+    void trace(String format, Object arg);
 
     /**
      * Log a message at the TRACE level according to the specified format
@@ -202,7 +202,7 @@ public interface Logger {
      * @param arg2   the second argument
      * @since 1.4
      */
-    public void trace(String format, Object arg1, Object arg2);
+    void trace(String format, Object arg1, Object arg2);
 
     /**
      * Log a message at the TRACE level according to the specified format
@@ -218,7 +218,7 @@ public interface Logger {
      * @param arguments a list of 3 or more arguments
      * @since 1.4
      */
-    public void trace(String format, Object... arguments);
+    void trace(String format, Object... arguments);
 
     /**
      * Log an exception (throwable) at the TRACE level with an
@@ -228,7 +228,7 @@ public interface Logger {
      * @param t   the exception (throwable) to log
      * @since 1.4
      */
-    public void trace(String msg, Throwable t);
+    void trace(String msg, Throwable t);
 
     /**
      * Similar to {@link #isTraceEnabled()} method except that the
@@ -240,7 +240,7 @@ public interface Logger {
      *         
      * @since 1.4
      */
-    public boolean isTraceEnabled(Marker marker);
+    boolean isTraceEnabled(Marker marker);
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#TRACE} level. 
@@ -249,7 +249,7 @@ public interface Logger {
      * @since 2.0
      */
     @CheckReturnValue
-    default public LoggingEventBuilder atTrace() {
+    default LoggingEventBuilder atTrace() {
         if (isTraceEnabled()) {
             return makeLoggingEventBuilder(TRACE);
         } else {
@@ -264,7 +264,7 @@ public interface Logger {
      * @param msg    the message string to be logged
      * @since 1.4
      */
-    public void trace(Marker marker, String msg);
+    void trace(Marker marker, String msg);
 
     /**
      * This method is similar to {@link #trace(String, Object)} method except that the
@@ -275,7 +275,7 @@ public interface Logger {
      * @param arg    the argument
      * @since 1.4
      */
-    public void trace(Marker marker, String format, Object arg);
+    void trace(Marker marker, String format, Object arg);
 
     /**
      * This method is similar to {@link #trace(String, Object, Object)}
@@ -288,7 +288,7 @@ public interface Logger {
      * @param arg2   the second argument
      * @since 1.4
      */
-    public void trace(Marker marker, String format, Object arg1, Object arg2);
+    void trace(Marker marker, String format, Object arg1, Object arg2);
 
     /**
      * This method is similar to {@link #trace(String, Object...)}
@@ -300,7 +300,7 @@ public interface Logger {
      * @param argArray an array of arguments
      * @since 1.4
      */
-    public void trace(Marker marker, String format, Object... argArray);
+    void trace(Marker marker, String format, Object... argArray);
 
     /**
      * This method is similar to {@link #trace(String, Throwable)} method except that the
@@ -311,7 +311,7 @@ public interface Logger {
      * @param t      the exception (throwable) to log
      * @since 1.4
      */
-    public void trace(Marker marker, String msg, Throwable t);
+    void trace(Marker marker, String msg, Throwable t);
 
     /**
      * Is the logger instance enabled for the DEBUG level?
@@ -319,14 +319,14 @@ public interface Logger {
      * @return True if this Logger is enabled for the DEBUG level,
      *         false otherwise.
      */
-    public boolean isDebugEnabled();
+    boolean isDebugEnabled();
 
     /**
      * Log a message at the DEBUG level.
      *
      * @param msg the message string to be logged
      */
-    public void debug(String msg);
+    void debug(String msg);
 
     /**
      * Log a message at the DEBUG level according to the specified format
@@ -338,7 +338,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void debug(String format, Object arg);
+    void debug(String format, Object arg);
 
     /**
      * Log a message at the DEBUG level according to the specified format
@@ -351,7 +351,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void debug(String format, Object arg1, Object arg2);
+    void debug(String format, Object arg1, Object arg2);
 
     /**
      * Log a message at the DEBUG level according to the specified format
@@ -367,7 +367,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void debug(String format, Object... arguments);
+    void debug(String format, Object... arguments);
 
     /**
      * Log an exception (throwable) at the DEBUG level with an
@@ -376,7 +376,7 @@ public interface Logger {
      * @param msg the message accompanying the exception
      * @param t   the exception (throwable) to log
      */
-    public void debug(String msg, Throwable t);
+    void debug(String msg, Throwable t);
 
     /**
      * Similar to {@link #isDebugEnabled()} method except that the
@@ -386,7 +386,7 @@ public interface Logger {
      * @return True if this Logger is enabled for the DEBUG level,
      *         false otherwise. 
      */
-    public boolean isDebugEnabled(Marker marker);
+    boolean isDebugEnabled(Marker marker);
 
     /**
      * Log a message with the specific Marker at the DEBUG level.
@@ -394,7 +394,7 @@ public interface Logger {
      * @param marker the marker data specific to this log statement
      * @param msg    the message string to be logged
      */
-    public void debug(Marker marker, String msg);
+    void debug(Marker marker, String msg);
 
     /**
      * This method is similar to {@link #debug(String, Object)} method except that the
@@ -404,7 +404,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void debug(Marker marker, String format, Object arg);
+    void debug(Marker marker, String format, Object arg);
 
     /**
      * This method is similar to {@link #debug(String, Object, Object)}
@@ -416,7 +416,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void debug(Marker marker, String format, Object arg1, Object arg2);
+    void debug(Marker marker, String format, Object arg1, Object arg2);
 
     /**
      * This method is similar to {@link #debug(String, Object...)}
@@ -427,7 +427,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void debug(Marker marker, String format, Object... arguments);
+    void debug(Marker marker, String format, Object... arguments);
 
     /**
      * This method is similar to {@link #debug(String, Throwable)} method except that the
@@ -437,7 +437,7 @@ public interface Logger {
      * @param msg    the message accompanying the exception
      * @param t      the exception (throwable) to log
      */
-    public void debug(Marker marker, String msg, Throwable t);
+    void debug(Marker marker, String msg, Throwable t);
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#DEBUG} level. 
@@ -446,7 +446,7 @@ public interface Logger {
      * @since 2.0
      */
     @CheckReturnValue
-    default public LoggingEventBuilder atDebug() {
+    default LoggingEventBuilder atDebug() {
         if (isDebugEnabled()) {
             return makeLoggingEventBuilder(DEBUG);
         } else {
@@ -460,14 +460,14 @@ public interface Logger {
      * @return True if this Logger is enabled for the INFO level,
      *         false otherwise.
      */
-    public boolean isInfoEnabled();
+    boolean isInfoEnabled();
 
     /**
      * Log a message at the INFO level.
      *
      * @param msg the message string to be logged
      */
-    public void info(String msg);
+    void info(String msg);
 
     /**
      * Log a message at the INFO level according to the specified format
@@ -479,7 +479,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void info(String format, Object arg);
+    void info(String format, Object arg);
 
     /**
      * Log a message at the INFO level according to the specified format
@@ -492,7 +492,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void info(String format, Object arg1, Object arg2);
+    void info(String format, Object arg1, Object arg2);
 
     /**
      * Log a message at the INFO level according to the specified format
@@ -508,7 +508,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void info(String format, Object... arguments);
+    void info(String format, Object... arguments);
 
     /**
      * Log an exception (throwable) at the INFO level with an
@@ -517,7 +517,7 @@ public interface Logger {
      * @param msg the message accompanying the exception
      * @param t   the exception (throwable) to log
      */
-    public void info(String msg, Throwable t);
+    void info(String msg, Throwable t);
 
     /**
      * Similar to {@link #isInfoEnabled()} method except that the marker
@@ -527,7 +527,7 @@ public interface Logger {
      * @return true if this Logger is enabled for the INFO level,
      *         false otherwise.
      */
-    public boolean isInfoEnabled(Marker marker);
+    boolean isInfoEnabled(Marker marker);
 
     /**
      * Log a message with the specific Marker at the INFO level.
@@ -535,7 +535,7 @@ public interface Logger {
      * @param marker The marker specific to this log statement
      * @param msg    the message string to be logged
      */
-    public void info(Marker marker, String msg);
+    void info(Marker marker, String msg);
 
     /**
      * This method is similar to {@link #info(String, Object)} method except that the
@@ -545,7 +545,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void info(Marker marker, String format, Object arg);
+    void info(Marker marker, String format, Object arg);
 
     /**
      * This method is similar to {@link #info(String, Object, Object)}
@@ -557,7 +557,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void info(Marker marker, String format, Object arg1, Object arg2);
+    void info(Marker marker, String format, Object arg1, Object arg2);
 
     /**
      * This method is similar to {@link #info(String, Object...)}
@@ -568,7 +568,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void info(Marker marker, String format, Object... arguments);
+    void info(Marker marker, String format, Object... arguments);
 
     /**
      * This method is similar to {@link #info(String, Throwable)} method
@@ -578,7 +578,7 @@ public interface Logger {
      * @param msg    the message accompanying the exception
      * @param t      the exception (throwable) to log
      */
-    public void info(Marker marker, String msg, Throwable t);
+    void info(Marker marker, String msg, Throwable t);
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#INFO} level. 
@@ -587,7 +587,7 @@ public interface Logger {
      * @since 2.0
      */
     @CheckReturnValue
-    default public LoggingEventBuilder atInfo() {
+    default LoggingEventBuilder atInfo() {
         if (isInfoEnabled()) {
             return makeLoggingEventBuilder(INFO);
         } else {
@@ -601,14 +601,14 @@ public interface Logger {
      * @return True if this Logger is enabled for the WARN level,
      *         false otherwise.
      */
-    public boolean isWarnEnabled();
+    boolean isWarnEnabled();
 
     /**
      * Log a message at the WARN level.
      *
      * @param msg the message string to be logged
      */
-    public void warn(String msg);
+    void warn(String msg);
 
     /**
      * Log a message at the WARN level according to the specified format
@@ -620,7 +620,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void warn(String format, Object arg);
+    void warn(String format, Object arg);
 
     /**
      * Log a message at the WARN level according to the specified format
@@ -636,7 +636,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void warn(String format, Object... arguments);
+    void warn(String format, Object... arguments);
 
     /**
      * Log a message at the WARN level according to the specified format
@@ -649,7 +649,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void warn(String format, Object arg1, Object arg2);
+    void warn(String format, Object arg1, Object arg2);
 
     /**
      * Log an exception (throwable) at the WARN level with an
@@ -658,7 +658,7 @@ public interface Logger {
      * @param msg the message accompanying the exception
      * @param t   the exception (throwable) to log
      */
-    public void warn(String msg, Throwable t);
+    void warn(String msg, Throwable t);
 
     /**
      * Similar to {@link #isWarnEnabled()} method except that the marker
@@ -668,7 +668,7 @@ public interface Logger {
      * @return True if this Logger is enabled for the WARN level,
      *         false otherwise.
      */
-    public boolean isWarnEnabled(Marker marker);
+    boolean isWarnEnabled(Marker marker);
 
     /**
      * Log a message with the specific Marker at the WARN level.
@@ -676,7 +676,7 @@ public interface Logger {
      * @param marker The marker specific to this log statement
      * @param msg    the message string to be logged
      */
-    public void warn(Marker marker, String msg);
+    void warn(Marker marker, String msg);
 
     /**
      * This method is similar to {@link #warn(String, Object)} method except that the
@@ -686,7 +686,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void warn(Marker marker, String format, Object arg);
+    void warn(Marker marker, String format, Object arg);
 
     /**
      * This method is similar to {@link #warn(String, Object, Object)}
@@ -698,7 +698,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void warn(Marker marker, String format, Object arg1, Object arg2);
+    void warn(Marker marker, String format, Object arg1, Object arg2);
 
     /**
      * This method is similar to {@link #warn(String, Object...)}
@@ -709,7 +709,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void warn(Marker marker, String format, Object... arguments);
+    void warn(Marker marker, String format, Object... arguments);
 
     /**
      * This method is similar to {@link #warn(String, Throwable)} method
@@ -719,7 +719,7 @@ public interface Logger {
      * @param msg    the message accompanying the exception
      * @param t      the exception (throwable) to log
      */
-    public void warn(Marker marker, String msg, Throwable t);
+    void warn(Marker marker, String msg, Throwable t);
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#WARN} level. 
@@ -728,7 +728,7 @@ public interface Logger {
      * @since 2.0
      */
     @CheckReturnValue
-    default public LoggingEventBuilder atWarn() {
+    default LoggingEventBuilder atWarn() {
         if (isWarnEnabled()) {
             return makeLoggingEventBuilder(WARN);
         } else {
@@ -742,14 +742,14 @@ public interface Logger {
      * @return True if this Logger is enabled for the ERROR level,
      *         false otherwise.
      */
-    public boolean isErrorEnabled();
+    boolean isErrorEnabled();
 
     /**
      * Log a message at the ERROR level.
      *
      * @param msg the message string to be logged
      */
-    public void error(String msg);
+    void error(String msg);
 
     /**
      * Log a message at the ERROR level according to the specified format
@@ -761,7 +761,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void error(String format, Object arg);
+    void error(String format, Object arg);
 
     /**
      * Log a message at the ERROR level according to the specified format
@@ -774,7 +774,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void error(String format, Object arg1, Object arg2);
+    void error(String format, Object arg1, Object arg2);
 
     /**
      * Log a message at the ERROR level according to the specified format
@@ -790,7 +790,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void error(String format, Object... arguments);
+    void error(String format, Object... arguments);
 
     /**
      * Log an exception (throwable) at the ERROR level with an
@@ -799,7 +799,7 @@ public interface Logger {
      * @param msg the message accompanying the exception
      * @param t   the exception (throwable) to log
      */
-    public void error(String msg, Throwable t);
+    void error(String msg, Throwable t);
 
     /**
      * Similar to {@link #isErrorEnabled()} method except that the
@@ -809,7 +809,7 @@ public interface Logger {
      * @return True if this Logger is enabled for the ERROR level,
      *         false otherwise.
      */
-    public boolean isErrorEnabled(Marker marker);
+    boolean isErrorEnabled(Marker marker);
 
     /**
      * Log a message with the specific Marker at the ERROR level.
@@ -817,7 +817,7 @@ public interface Logger {
      * @param marker The marker specific to this log statement
      * @param msg    the message string to be logged
      */
-    public void error(Marker marker, String msg);
+    void error(Marker marker, String msg);
 
     /**
      * This method is similar to {@link #error(String, Object)} method except that the
@@ -827,7 +827,7 @@ public interface Logger {
      * @param format the format string
      * @param arg    the argument
      */
-    public void error(Marker marker, String format, Object arg);
+    void error(Marker marker, String format, Object arg);
 
     /**
      * This method is similar to {@link #error(String, Object, Object)}
@@ -839,7 +839,7 @@ public interface Logger {
      * @param arg1   the first argument
      * @param arg2   the second argument
      */
-    public void error(Marker marker, String format, Object arg1, Object arg2);
+    void error(Marker marker, String format, Object arg1, Object arg2);
 
     /**
      * This method is similar to {@link #error(String, Object...)}
@@ -850,7 +850,7 @@ public interface Logger {
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
-    public void error(Marker marker, String format, Object... arguments);
+    void error(Marker marker, String format, Object... arguments);
 
     /**
      * This method is similar to {@link #error(String, Throwable)}
@@ -861,7 +861,7 @@ public interface Logger {
      * @param msg    the message accompanying the exception
      * @param t      the exception (throwable) to log
      */
-    public void error(Marker marker, String msg, Throwable t);
+    void error(Marker marker, String msg, Throwable t);
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#ERROR} level. 
@@ -870,7 +870,7 @@ public interface Logger {
      * @since 2.0
      */
     @CheckReturnValue
-    default public LoggingEventBuilder atError() {
+    default LoggingEventBuilder atError() {
         if (isErrorEnabled()) {
             return makeLoggingEventBuilder(ERROR);
         } else {
