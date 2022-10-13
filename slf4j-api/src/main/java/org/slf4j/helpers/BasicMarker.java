@@ -49,10 +49,12 @@ public class BasicMarker implements Marker {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void add(Marker reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A null value cannot be added to a Marker as reference.");
@@ -70,23 +72,28 @@ public class BasicMarker implements Marker {
         }
     }
 
+    @Override
     public boolean hasReferences() {
         return (referenceList.size() > 0);
     }
 
+    @Override
     @Deprecated
     public boolean hasChildren() {
         return hasReferences();
     }
 
+    @Override
     public Iterator<Marker> iterator() {
         return referenceList.iterator();
     }
 
+    @Override
     public boolean remove(Marker referenceToRemove) {
         return referenceList.remove(referenceToRemove);
     }
 
+    @Override
     public boolean contains(Marker other) {
         if (other == null) {
             throw new IllegalArgumentException("Other cannot be null");
@@ -109,6 +116,7 @@ public class BasicMarker implements Marker {
     /**
      * This method is mainly used with Expression Evaluators.
      */
+    @Override
     public boolean contains(String name) {
         if (name == null) {
             throw new IllegalArgumentException("Other cannot be null");

@@ -308,6 +308,7 @@ public class SubstituteLogger implements Logger {
         delegate().warn(msg, t);
     }
 
+    @Override
     public boolean isWarnEnabled(Marker marker) {
         return delegate().isWarnEnabled(marker);
     }

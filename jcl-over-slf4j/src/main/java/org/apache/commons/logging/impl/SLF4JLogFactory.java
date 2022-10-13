@@ -91,6 +91,7 @@ public class SLF4JLogFactory extends LogFactory {
      * @param name
      *          Name of the attribute to return
      */
+    @Override
     public Object getAttribute(String name) {
 
         return (attributes.get(name));
@@ -102,6 +103,7 @@ public class SLF4JLogFactory extends LogFactory {
      * attributes. If there are no such attributes, a zero length array is
      * returned.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public String[] getAttributeNames() {
 
@@ -128,6 +130,7 @@ public class SLF4JLogFactory extends LogFactory {
      * @exception LogConfigurationException
      *              if a suitable <code>Log</code> instance cannot be returned
      */
+    @Override
     public Log getInstance(Class clazz) throws LogConfigurationException {
         return (getInstance(clazz.getName()));
     }
@@ -146,6 +149,7 @@ public class SLF4JLogFactory extends LogFactory {
      * @exception LogConfigurationException
      *              if a suitable <code>Log</code> instance cannot be returned
      */
+    @Override
     public Log getInstance(String name) throws LogConfigurationException {
         Log instance = loggerMap.get(name);
         if (instance != null) {
@@ -170,6 +174,7 @@ public class SLF4JLogFactory extends LogFactory {
      * application reloading by throwing away a ClassLoader. Dangling references
      * to objects in that class loader would prevent garbage collection.
      */
+    @Override
     public void release() {
         // This method is never called by jcl-over-slf4j classes. However,
         // in certain deployment scenarios, in particular if jcl-over-slf4j.jar
@@ -189,6 +194,7 @@ public class SLF4JLogFactory extends LogFactory {
      * @param name
      *          Name of the attribute to remove
      */
+    @Override
     public void removeAttribute(String name) {
         attributes.remove(name);
     }
@@ -204,6 +210,7 @@ public class SLF4JLogFactory extends LogFactory {
      *          Value of the attribute to set, or <code>null</code> to remove
      *          any setting for this attribute
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void setAttribute(String name, Object value) {
 

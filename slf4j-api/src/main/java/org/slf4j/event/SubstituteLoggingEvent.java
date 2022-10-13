@@ -21,6 +21,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
     long timeStamp;
     Throwable throwable;
 
+    @Override
     public Level getLevel() {
         return level;
     }
@@ -29,6 +30,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.level = level;
     }
 
+    @Override
     public List<Marker> getMarkers() {
         return markers;
     }
@@ -44,6 +46,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         markers.add(marker);
     }
 
+    @Override
     public String getLoggerName() {
         return loggerName;
     }
@@ -60,6 +63,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.logger = logger;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
@@ -68,6 +72,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.message = message;
     }
 
+    @Override
     public Object[] getArgumentArray() {
         return argArray;
     }
@@ -84,6 +89,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         return Arrays.asList(argArray);
     }
 
+    @Override
     public long getTimeStamp() {
         return timeStamp;
     }
@@ -92,6 +98,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.timeStamp = timeStamp;
     }
 
+    @Override
     public String getThreadName() {
         return threadName;
     }
@@ -100,6 +107,7 @@ public class SubstituteLoggingEvent implements LoggingEvent {
         this.threadName = threadName;
     }
 
+    @Override
     public Throwable getThrowable() {
         return throwable;
     }

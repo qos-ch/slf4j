@@ -35,6 +35,7 @@ public class CheckingBundleListener implements BundleListener {
 
     List<BundleEvent> eventList = new ArrayList<>();
 
+    @Override
     public void bundleChanged(BundleEvent be) {
         eventList.add(be);
     }

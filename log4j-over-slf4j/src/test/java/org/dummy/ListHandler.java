@@ -33,14 +33,17 @@ public class ListHandler extends Handler {
 
     List<LogRecord> list = new ArrayList<>();
 
+    @Override
     public void close() throws SecurityException {
 
     }
 
+    @Override
     public void flush() {
 
     }
 
+    @Override
     public void publish(LogRecord logRecord) {
         logRecord.getSourceClassName();
         list.add(logRecord);

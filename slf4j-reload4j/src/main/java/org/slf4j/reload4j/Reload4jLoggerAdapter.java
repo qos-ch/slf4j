@@ -84,6 +84,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * 
      * @return True if this Logger is enabled for level TRACE, false otherwise.
      */
+    @Override
     public boolean isTraceEnabled() {
         return logger.isTraceEnabled();
     }
@@ -93,6 +94,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * 
      * @return True if this Logger is enabled for level DEBUG, false otherwise.
      */
+    @Override
     public boolean isDebugEnabled() {
         return logger.isDebugEnabled();
     }
@@ -102,6 +104,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * 
      * @return True if this Logger is enabled for the INFO level, false otherwise.
      */
+    @Override
     public boolean isInfoEnabled() {
         return logger.isInfoEnabled();
     }
@@ -111,6 +114,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * 
      * @return True if this Logger is enabled for the WARN level, false otherwise.
      */
+    @Override
     public boolean isWarnEnabled() {
         return logger.isEnabledFor(Level.WARN);
     }
@@ -120,6 +124,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * 
      * @return True if this Logger is enabled for level ERROR, false otherwise.
      */
+    @Override
     public boolean isErrorEnabled() {
         return logger.isEnabledFor(Level.ERROR);
     }
@@ -143,6 +148,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
      * Called by {@link SubstituteLogger} or by {@link LoggingEventBuilder} instances
      * @param event
      */
+    @Override
     public void log(LoggingEvent event) {
         Level log4jLevel = toLog4jLevel(event.getLevel().toInt());
         if (!logger.isEnabledFor(log4jLevel))

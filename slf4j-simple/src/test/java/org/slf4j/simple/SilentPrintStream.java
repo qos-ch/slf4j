@@ -35,12 +35,15 @@ public class SilentPrintStream extends PrintStream {
         other = ps;
     }
 
+    @Override
     public void print(String s) {
     }
 
+    @Override
     public void println(String s) {
     }
 
+    @Override
     public void println(Object x) {
     }
 }

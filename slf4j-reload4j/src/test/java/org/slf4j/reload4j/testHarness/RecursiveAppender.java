@@ -48,13 +48,16 @@ public class RecursiveAppender extends AppenderSkeleton {
         System.out.println("exiting RecursiveAppender constructor");
     }
 
+    @Override
     protected void append(LoggingEvent e) {
         events.add(e);
     }
 
+    @Override
     public void close() {
     }
 
+    @Override
     public boolean requiresLayout() {
         return false;
     }

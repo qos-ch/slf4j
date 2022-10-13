@@ -72,6 +72,7 @@ public class LogServiceImpl implements LogService {
      * 
      * @see org.osgi.service.log.LogService#log(int, java.lang.String)
      */
+    @Override
     public void log(int level, String message) {
 
         switch (level) {
@@ -97,6 +98,7 @@ public class LogServiceImpl implements LogService {
      * 
      * @see org.osgi.service.log.LogService#log(int, java.lang.String, java.lang.Throwable)
      */
+    @Override
     public void log(int level, String message, Throwable exception) {
 
         switch (level) {
@@ -122,6 +124,7 @@ public class LogServiceImpl implements LogService {
      * 
      * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference, int, java.lang.String)
      */
+    @Override
     public void log(ServiceReference sr, int level, String message) {
 
         switch (level) {
@@ -176,6 +179,7 @@ public class LogServiceImpl implements LogService {
      * @see org.osgi.service.log.LogService#log(org.osgi.framework.ServiceReference, int, java.lang.String,
      * java.lang.Throwable)
      */
+    @Override
     public void log(ServiceReference sr, int level, String message, Throwable exception) {
 
         switch (level) {

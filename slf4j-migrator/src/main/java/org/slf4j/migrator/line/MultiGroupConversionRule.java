@@ -52,6 +52,7 @@ public class MultiGroupConversionRule implements ConversionRule {
      * 
      * @see org.slf4j.converter.ConversionRule#getPattern()
      */
+    @Override
     public Pattern getPattern() {
         return pattern;
     }
@@ -77,6 +78,7 @@ public class MultiGroupConversionRule implements ConversionRule {
      * 
      * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
      */
+    @Override
     public String replace(Matcher matcher) {
         StringBuilder replacementBuffer = new StringBuilder();
         String replacementText;
@@ -94,6 +96,7 @@ public class MultiGroupConversionRule implements ConversionRule {
         return replacementBuffer.toString();
     }
 
+    @Override
     public String getAdditionalLine() {
         return null;
     }

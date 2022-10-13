@@ -49,16 +49,19 @@ public class StopWatch implements TimeInstrument {
         this.status = original.status;
     }
 
+    @Override
     public void start(String name) {
         this.name = name;
         startTime = System.nanoTime();
         status = TimeInstrumentStatus.STARTED;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public TimeInstrument stop() {
         if (status == TimeInstrumentStatus.STOPPED) {
             return this;
@@ -93,6 +96,7 @@ public class StopWatch implements TimeInstrument {
         return buf.toString();
     }
 
+    @Override
     public final long elapsedTime() {
         if (status == TimeInstrumentStatus.STARTED) {
             return 0;
@@ -101,14 +105,17 @@ public class StopWatch implements TimeInstrument {
         }
     }
 
+    @Override
     public TimeInstrumentStatus getStatus() {
         return status;
     }
 
+    @Override
     public void print() {
         System.out.println(toString());
     }
 
+    @Override
     public void log() {
         throw new UnsupportedOperationException("A stopwatch instance does not know how to log");
     }

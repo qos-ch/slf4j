@@ -30,24 +30,31 @@ import org.slf4j.migrator.internal.ProgressListener;
 
 public class NopProgressListener implements ProgressListener {
 
+    @Override
     public void onDirectory(File file) {
     }
 
+    @Override
     public void onDone() {
     }
 
+    @Override
     public void onFileAddition(File file) {
     }
 
+    @Override
     public void onFileScan(File file) {
     }
 
+    @Override
     public void onInplaceConversion(File file) {
     }
 
+    @Override
     public void onFileScanBegin() {
     }
 
+    @Override
     public void onMigrationBegin() {
     }
 

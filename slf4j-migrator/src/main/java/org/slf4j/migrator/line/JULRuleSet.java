@@ -65,6 +65,7 @@ public class JULRuleSet implements RuleSet {
         conversionRuleList.add(crSevere);
     }
 
+    @Override
     public Iterator<ConversionRule> iterator() {
         return conversionRuleList.iterator();
     }

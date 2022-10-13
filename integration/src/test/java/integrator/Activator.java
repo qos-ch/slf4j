@@ -39,12 +39,14 @@ public class Activator implements BundleActivator {
 
     private BundleContext m_context = null;
 
+    @Override
     public void start(BundleContext context) {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         logger.info("Activator.start()");
         m_context = context;
     }
 
+    @Override
     public void stop(BundleContext context) {
         m_context = null;
         Logger logger = LoggerFactory.getLogger(this.getClass());

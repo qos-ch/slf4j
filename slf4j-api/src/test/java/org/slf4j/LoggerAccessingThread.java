@@ -43,6 +43,7 @@ public class LoggerAccessingThread extends Thread {
         this.eventCount = eventCount;
     }
 
+    @Override
     public void run() {
         try {
             barrier.await();

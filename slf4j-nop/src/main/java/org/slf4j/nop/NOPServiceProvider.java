@@ -21,14 +21,17 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
     private final IMarkerFactory markerFactory = new BasicMarkerFactory();
     private final MDCAdapter mdcAdapter = new NOPMDCAdapter();
 
+    @Override
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }
 
+    @Override
     public IMarkerFactory getMarkerFactory() {
         return markerFactory;
     }
 
+    @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }
@@ -38,6 +41,7 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
         return REQUESTED_API_VERSION;
     }
 
+    @Override
     public void initialize() {
 
     }

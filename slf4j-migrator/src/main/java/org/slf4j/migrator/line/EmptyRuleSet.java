@@ -32,6 +32,7 @@ public class EmptyRuleSet implements RuleSet {
 
     List<ConversionRule> list = new ArrayList<>();
 
+    @Override
     public Iterator<ConversionRule> iterator() {
         return list.iterator();
     }

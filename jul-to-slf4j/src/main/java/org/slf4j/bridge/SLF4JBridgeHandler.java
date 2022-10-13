@@ -188,6 +188,7 @@ public class SLF4JBridgeHandler extends Handler {
     /**
      * No-op implementation.
      */
+    @Override
     public void close() {
         // empty
     }
@@ -195,6 +196,7 @@ public class SLF4JBridgeHandler extends Handler {
     /**
      * No-op implementation.
      */
+    @Override
     public void flush() {
         // empty
     }
@@ -295,6 +297,7 @@ public class SLF4JBridgeHandler extends Handler {
      * @param record Description of the log event. A null record is silently ignored
      *               and is not published.
      */
+    @Override
     public void publish(LogRecord record) {
         // Silently ignore null records.
         if (record == null) {

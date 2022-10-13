@@ -118,10 +118,12 @@ public class DefaultLoggingEvent implements LoggingEvent {
         return throwable;
     }
 
+    @Override
     public String getThreadName() {
         return threadName;
     }
 
+    @Override
     public long getTimeStamp() {
         return timeStamp;
     }
@@ -134,6 +136,7 @@ public class DefaultLoggingEvent implements LoggingEvent {
         this.callerBoundary = fqcn;
     }
     
+    @Override
     public String getCallerBoundary() {
         return callerBoundary;
     }

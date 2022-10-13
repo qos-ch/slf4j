@@ -56,6 +56,7 @@ public class DOMConfigurator implements Configurator {
     public void doConfigure(String filename, LoggerRepository repository) {
     }
 
+    @Override
     public void doConfigure(URL url, LoggerRepository repository) {
     }
 

@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class Reload4jMDCAdapterTest extends MDCAdapterTestBase {
     
+    @Override
     protected MDCAdapter instantiateMDC() {
         return new Reload4jMDCAdapter();
     }

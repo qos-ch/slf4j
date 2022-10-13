@@ -47,6 +47,7 @@ public class PropertyConfigurator implements Configurator {
     public void doConfigure(String configFileName, LoggerRepository hierarchy) {
     }
 
+    @Override
     public void doConfigure(URL configURL, LoggerRepository hierarchy) {
     }
 }

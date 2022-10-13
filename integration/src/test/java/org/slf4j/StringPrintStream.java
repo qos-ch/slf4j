@@ -39,16 +39,19 @@ public class StringPrintStream extends PrintStream {
         other = ps;
     }
 
+    @Override
     public void print(String s) {
         other.print(s);
         stringList.add(s);
     }
 
+    @Override
     public void println(String s) {
         other.println(s);
         stringList.add(s);
     }
 
+    @Override
     public void println(Object o) {
         other.println(o);
         stringList.add(o.toString());

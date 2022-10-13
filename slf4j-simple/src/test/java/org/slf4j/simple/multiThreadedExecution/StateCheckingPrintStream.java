@@ -44,9 +44,11 @@ public class StateCheckingPrintStream extends PrintStream {
         super(ps);
     }
 
+    @Override
     public void print(String s) {
     }
 
+    @Override
     public void println(String s) {
 
         State next = computeState(s);
@@ -134,6 +136,7 @@ public class StateCheckingPrintStream extends PrintStream {
         }
     }
 
+    @Override
     public void println(Object o) {
         println(o.toString());
     }

@@ -55,6 +55,7 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
+    @Override
     public void start(BundleContext bundleContext) throws Exception {
 
         Properties props = new Properties();
@@ -70,6 +71,7 @@ public class Activator implements BundleActivator {
      * @param bundleContext the framework context for the bundle
      * @throws Exception
      */
+    @Override
     public void stop(BundleContext bundleContext) throws Exception {
 
         // Note: It is not required that we remove the service here, since

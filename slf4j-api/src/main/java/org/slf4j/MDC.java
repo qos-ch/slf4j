@@ -79,6 +79,7 @@ public class MDC {
             this.key = key;
         }
 
+        @Override
         public void close() {
             MDC.remove(this.key);
         }

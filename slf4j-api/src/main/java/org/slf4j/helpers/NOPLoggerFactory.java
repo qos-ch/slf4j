@@ -40,6 +40,7 @@ public class NOPLoggerFactory implements ILoggerFactory {
         // nothing to do
     }
 
+    @Override
     public Logger getLogger(String name) {
         return NOPLogger.NOP_LOGGER;
     }

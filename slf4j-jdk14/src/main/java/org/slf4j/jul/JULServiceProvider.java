@@ -30,6 +30,7 @@ public class JULServiceProvider implements SLF4JServiceProvider {
         return markerFactory;
     }
 
+    @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }

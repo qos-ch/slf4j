@@ -108,6 +108,7 @@ public class MultithreadedInitializationTest {
             this.count = count;
         }
 
+        @Override
         public void run() {
             try {
                 barrier.await();
@@ -131,16 +132,19 @@ public class MultithreadedInitializationTest {
             other = ps;
         }
 
+        @Override
         public void print(String s) {
             other.print(s);
             stringList.add(s);
         }
 
+        @Override
         public void println(String s) {
             other.println(s);
             stringList.add(s);
         }
 
+        @Override
         public void println(Object o) {
             other.println(o);
             stringList.add(o.toString());

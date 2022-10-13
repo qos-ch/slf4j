@@ -272,6 +272,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
 
         if (MIGRATE_COMMAND.equals(e.getActionCommand())) {

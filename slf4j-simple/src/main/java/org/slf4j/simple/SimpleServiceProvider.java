@@ -20,6 +20,7 @@ public class SimpleServiceProvider implements SLF4JServiceProvider {
     private IMarkerFactory markerFactory;
     private MDCAdapter mdcAdapter;
 
+    @Override
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }

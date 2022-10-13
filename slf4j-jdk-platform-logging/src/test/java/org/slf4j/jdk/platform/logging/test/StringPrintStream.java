@@ -47,18 +47,21 @@ public class StringPrintStream extends PrintStream {
         this(ps, false);
     }
 
+    @Override
     public void print(String s) {
         if (duplicate)
             other.print(s);
         stringList.add(s);
     }
 
+    @Override
     public void println(String s) {
         if (duplicate)
             other.println(s);
         stringList.add(s);
     }
 
+    @Override
     public void println(Object o) {
         if (duplicate)
             other.println(o);

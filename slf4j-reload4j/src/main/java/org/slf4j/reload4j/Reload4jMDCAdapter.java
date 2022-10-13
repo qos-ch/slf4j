@@ -72,6 +72,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
         MDC.remove(key);
     }
 
+    @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public Map getCopyOfContextMap() {
         Map old = MDC.getContext();

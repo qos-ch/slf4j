@@ -90,12 +90,15 @@ public class JDK14AdapterLoggerNameTest {
     private static class MockHandler extends Handler {
         public LogRecord record;
 
+        @Override
         public void close() throws SecurityException {
         }
 
+        @Override
         public void flush() {
         }
 
+        @Override
         public void publish(LogRecord record) {
             this.record = record;
         }

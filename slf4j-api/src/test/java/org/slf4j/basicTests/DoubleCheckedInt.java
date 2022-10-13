@@ -129,6 +129,7 @@ public class DoubleCheckedInt {
             this.barrier = barrier;
         }
 
+        @Override
         public void run() {
             try {
                 barrier.await();

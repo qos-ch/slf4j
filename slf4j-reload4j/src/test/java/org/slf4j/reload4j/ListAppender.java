@@ -36,6 +36,7 @@ public class ListAppender extends AppenderSkeleton {
 
     public boolean extractLocationInfo = false;
 
+    @Override
     protected void append(LoggingEvent event) {
         list.add(event);
         if (extractLocationInfo) {
@@ -43,9 +44,11 @@ public class ListAppender extends AppenderSkeleton {
         }
     }
 
+    @Override
     public void close() {
     }
 
+    @Override
     public boolean requiresLayout() {
         return false;
     }

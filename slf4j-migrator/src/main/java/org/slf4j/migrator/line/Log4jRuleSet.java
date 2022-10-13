@@ -71,6 +71,7 @@ public class Log4jRuleSet implements RuleSet {
         conversionRuleList.add(variable1);
     }
 
+    @Override
     public Iterator<ConversionRule> iterator() {
         return conversionRuleList.iterator();
     }

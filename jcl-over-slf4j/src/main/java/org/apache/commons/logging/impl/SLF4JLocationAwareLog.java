@@ -56,6 +56,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * Delegates to the <code>isTraceEnabled<code> method of the wrapped 
      * <code>org.slf4j.Logger</code> instance.
      */
+    @Override
     public boolean isTraceEnabled() {
         return logger.isTraceEnabled();
     }
@@ -63,6 +64,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
     /**
      * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
      */
+    @Override
     public boolean isDebugEnabled() {
         return logger.isDebugEnabled();
     }
@@ -70,6 +72,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
     /**
      * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
      */
+    @Override
     public boolean isInfoEnabled() {
         return logger.isInfoEnabled();
     }
@@ -77,6 +80,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
     /**
      * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
      */
+    @Override
     public boolean isWarnEnabled() {
         return logger.isWarnEnabled();
     }
@@ -84,6 +88,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
     /**
      * Directly delegates to the wrapped <code>org.slf4j.Logger</code> instance.
      */
+    @Override
     public boolean isErrorEnabled() {
         return logger.isErrorEnabled();
     }
@@ -92,6 +97,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * Delegates to the <code>isErrorEnabled<code> method of the wrapped 
      * <code>org.slf4j.Logger</code> instance.
      */
+    @Override
     public boolean isFatalEnabled() {
         return logger.isErrorEnabled();
     }
@@ -103,6 +109,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param message
      *          the message to log. Converted to {@link String}
      */
+    @Override
     public void trace(Object message) {
         if (isTraceEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null, null);
@@ -118,6 +125,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param t
      *          the exception to log
      */
+    @Override
     public void trace(Object message, Throwable t) {
         if (isTraceEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.TRACE_INT, String.valueOf(message), null, t);
@@ -131,6 +139,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param message
      *          the message to log. Converted to {@link String}
      */
+    @Override
     public void debug(Object message) {
         if (isDebugEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null, null);
@@ -146,6 +155,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param t
      *          the exception to log
      */
+    @Override
     public void debug(Object message, Throwable t) {
         if (isDebugEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.DEBUG_INT, String.valueOf(message), null, t);
@@ -159,6 +169,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param message
      *          the message to log. Converted to {@link String}
      */
+    @Override
     public void info(Object message) {
         if (isInfoEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.INFO_INT, String.valueOf(message), null, null);
@@ -174,6 +185,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param t
      *          the exception to log
      */
+    @Override
     public void info(Object message, Throwable t) {
         if (isInfoEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.INFO_INT, String.valueOf(message), null, t);
@@ -187,6 +199,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param message
      *          the message to log. Converted to {@link String}
      */
+    @Override
     public void warn(Object message) {
         if (isWarnEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.WARN_INT, String.valueOf(message), null, null);
@@ -202,6 +215,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param t
      *          the exception to log
      */
+    @Override
     public void warn(Object message, Throwable t) {
         if (isWarnEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.WARN_INT, String.valueOf(message), null, t);
@@ -215,6 +229,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param message
      *          the message to log. Converted to {@link String}
      */
+    @Override
     public void error(Object message) {
         if (isErrorEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, null);
@@ -230,6 +245,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param t
      *          the exception to log
      */
+    @Override
     public void error(Object message, Throwable t) {
         if (isErrorEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, t);
@@ -243,6 +259,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param message
      *          the message to log. Converted to {@link String}
      */
+    @Override
     public void fatal(Object message) {
         if (isErrorEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, null);
@@ -258,6 +275,7 @@ public class SLF4JLocationAwareLog implements Log, Serializable {
      * @param t
      *          the exception to log
      */
+    @Override
     public void fatal(Object message, Throwable t) {
         if (isErrorEnabled()) {
             logger.log(null, FQCN, LocationAwareLogger.ERROR_INT, String.valueOf(message), null, t);

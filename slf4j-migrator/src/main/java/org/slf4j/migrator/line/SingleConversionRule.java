@@ -55,6 +55,7 @@ public class SingleConversionRule implements ConversionRule {
      * 
      * @see org.slf4j.converter.ConversionRule#getPattern()
      */
+    @Override
     public Pattern getPattern() {
         return pattern;
     }
@@ -64,10 +65,12 @@ public class SingleConversionRule implements ConversionRule {
      * 
      * @see org.slf4j.converter.ConversionRule#replace(java.util.regex.Matcher)
      */
+    @Override
     public String replace(Matcher matcher) {
         return replacementText;
     }
 
+    @Override
     public String getAdditionalLine() {
         return additionalLine;
     }

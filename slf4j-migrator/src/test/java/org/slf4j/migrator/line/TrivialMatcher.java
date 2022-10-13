@@ -56,6 +56,7 @@ class TrivialMatcher implements RuleSet {
         conversionRuleList.add(cr1);
     }
 
+    @Override
     public Iterator<ConversionRule> iterator() {
         return conversionRuleList.iterator();
     }

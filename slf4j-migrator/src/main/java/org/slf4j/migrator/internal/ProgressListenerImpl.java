@@ -48,6 +48,7 @@ public class ProgressListenerImpl implements ProgressListener {
         this.abbr = new Abbreviator((int) projectFolder.length(), TARGET_FILE_LENGTH, File.separatorChar);
     }
 
+    @Override
     public void onMigrationBegin() {
         frame.disableInput();
     }
@@ -62,6 +63,7 @@ public class ProgressListenerImpl implements ProgressListener {
         }
     }
 
+    @Override
     public void onDirectory(File file) {
         if (isTooSoon())
             return;
@@ -70,6 +72,7 @@ public class ProgressListenerImpl implements ProgressListener {
         frame.otherLabel.setText("<html><p>Searching folder [" + abbreviatedName + "]<p>Found " + addFileCount + " java files to scan.</html>");
     }
 
+    @Override
     public void onDone() {
         frame.progressBar.setVisible(false);
         frame.otherLabel.setText("<html><font color='BLUE'>Scanned " + addFileCount + " java files, " + inplaceConversionCount
@@ -82,10 +85,12 @@ public class ProgressListenerImpl implements ProgressListener {
 
     }
 
+    @Override
     public void onFileAddition(File file) {
         addFileCount++;
     }
 
+    @Override
     public void onFileScan(File file) {
 
         scanFileCount++;
@@ -100,6 +105,7 @@ public class ProgressListenerImpl implements ProgressListener {
         frame.progressBar.setValue(scanFileCount);
     }
 
+    @Override
     public void onInplaceConversion(File file) {
         inplaceConversionCount++;
     }
@@ -112,6 +118,7 @@ public class ProgressListenerImpl implements ProgressListener {
         }
     }
 
+    @Override
     public void onFileScanBegin() {
         frame.progressBar.setMaximum(addFileCount);
         frame.progressBar.setValue(0);

@@ -25,6 +25,7 @@ public class AppenderSkeleton implements OptionHandler {
     public void setName(String name) {
     }
 
+    @Override
     public void activateOptions() {
     }
 

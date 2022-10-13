@@ -100,6 +100,7 @@ public class SubstitutableLoggerTest {
     private class LoggerInvocationHandler implements InvocationHandler {
         private final Set<String> invokedMethodSignatures = new HashSet<>();
 
+        @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             invokedMethodSignatures.add(method.toString());
             if (method.getName().startsWith("is")) {

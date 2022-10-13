@@ -58,6 +58,7 @@ public class JDK14MultithreadedInitializationTest extends MultithreadedInitializ
         removeAllHandlers(julOrgLogger);
     }
 
+    @Override
     protected long getRecordedEventCount() {
         CountingHandler ra = findRecordingHandler();
         if (ra == null) {

@@ -69,6 +69,7 @@ public class Profiler implements TimeInstrument {
         this.globalStopWatch = new StopWatch(name);
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -97,6 +98,7 @@ public class Profiler implements TimeInstrument {
      * Starts a child stop watch and stops any previously started time
      * instruments.
      */
+    @Override
     public void start(String name) {
         stopLastTimeInstrument();
         StopWatch childSW = new StopWatch(name);
@@ -134,16 +136,19 @@ public class Profiler implements TimeInstrument {
     // }
     // }
 
+    @Override
     public long elapsedTime() {
         return globalStopWatch.elapsedTime();
     }
 
+    @Override
     public TimeInstrument stop() {
         stopLastTimeInstrument();
         globalStopWatch.stop();
         return this;
     }
 
+    @Override
     public TimeInstrumentStatus getStatus() {
         return globalStopWatch.status;
     }
@@ -180,6 +185,7 @@ public class Profiler implements TimeInstrument {
     static String SUBTOTAL_ELAPSED = " Subtotal     ";
     static String ELAPSED_TIME = " elapsed time ";
 
+    @Override
     public void print() {
         System.out.println(toString());
     }
@@ -190,6 +196,7 @@ public class Profiler implements TimeInstrument {
         return buildProfilerString(du, TOP_PROFILER_FIRST_PREFIX, TOTAL_ELAPSED, "");
     }
 
+    @Override
     public void log() {
         Marker profilerMarker = MarkerFactory.getMarker(PROFILER_MARKER_NAME);
         if (logger == null) {

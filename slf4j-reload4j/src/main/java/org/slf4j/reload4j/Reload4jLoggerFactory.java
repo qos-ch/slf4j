@@ -71,6 +71,7 @@ public class Reload4jLoggerFactory implements ILoggerFactory {
      * 
      * @see org.slf4j.ILoggerFactory#getLogger(java.lang.String)
      */
+    @Override
     public Logger getLogger(String name) {
         Logger slf4jLogger = loggerMap.get(name);
         if (slf4jLogger != null) {

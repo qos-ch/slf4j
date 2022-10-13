@@ -161,6 +161,7 @@ public class LogTransformer implements ClassFileTransformer {
     private final boolean verbose;
     private final String[] ignore;
 
+    @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> clazz, ProtectionDomain domain, byte[] bytes) {
 
         try {
