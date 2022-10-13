@@ -63,7 +63,7 @@ public class Reload4jLoggerFactory implements ILoggerFactory {
     public Reload4jLoggerFactory() {
         loggerMap = new ConcurrentHashMap<>();
         // force log4j to initialize
-        org.apache.log4j.LogManager.getRootLogger();
+        LogManager.getRootLogger();
     }
 
     /*

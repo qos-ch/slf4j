@@ -26,6 +26,8 @@ package org.slf4j.dummyExt;
 
 import static org.junit.Assert.assertEquals;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.Before;
@@ -36,7 +38,7 @@ import org.slf4j.ext.XLoggerFactory;
 public class XLoggerTest {
 
     ListAppender listAppender;
-    org.apache.log4j.Logger log4jRoot;
+    Logger log4jRoot;
 
     final static String EXPECTED_FILE_NAME = "XLoggerTest.java";
 
@@ -47,9 +49,9 @@ public class XLoggerTest {
 
         listAppender = new ListAppender();
         listAppender.extractLocationInfo = true;
-        log4jRoot = org.apache.log4j.Logger.getRootLogger();
+        log4jRoot = Logger.getRootLogger();
         log4jRoot.addAppender(listAppender);
-        log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
+        log4jRoot.setLevel(Level.TRACE);
     }
 
     void verify(LoggingEvent le, String expectedMsg) {

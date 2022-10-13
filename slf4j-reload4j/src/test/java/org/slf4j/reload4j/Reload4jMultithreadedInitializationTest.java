@@ -29,12 +29,14 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.After;
 import org.junit.Before;
 import org.slf4j.reload4j.testHarness.RecursiveAppender;
+import org.slf4j.testHarness.MultithreadedInitializationTest;
 
-public class Reload4jMultithreadedInitializationTest extends org.slf4j.testHarness.MultithreadedInitializationTest {
+public class Reload4jMultithreadedInitializationTest extends MultithreadedInitializationTest {
     static int NUM_LINES_BY_RECURSIVE_APPENDER = 3;
 
     // value of LogManager.DEFAULT_CONFIGURATION_KEY;
@@ -63,7 +65,7 @@ public class Reload4jMultithreadedInitializationTest extends org.slf4j.testHarne
     }
 
     private List<LoggingEvent> getRecordedEvents() {
-        org.apache.log4j.Logger root = LogManager.getRootLogger();
+        Logger root = LogManager.getRootLogger();
         RecursiveAppender ra = (RecursiveAppender) root.getAppender("RECURSIVE");
         assertNotNull(ra);
         return ra.events;

@@ -36,7 +36,7 @@ class Log4jLoggerFactory {
     private static final ConcurrentMap<String, Logger> log4jLoggers = new ConcurrentHashMap<>();
 
     public static Logger getLogger(String name) {
-        org.apache.log4j.Logger instance = log4jLoggers.get(name);
+        Logger instance = log4jLoggers.get(name);
         if (instance != null) {
             return instance;
         } else {
@@ -47,7 +47,7 @@ class Log4jLoggerFactory {
     }
 
     public static Logger getLogger(String name, LoggerFactory loggerFactory) {
-        org.apache.log4j.Logger instance = log4jLoggers.get(name);
+        Logger instance = log4jLoggers.get(name);
         if (instance != null) {
             return instance;
         } else {

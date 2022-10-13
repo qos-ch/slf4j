@@ -48,7 +48,7 @@ public class Category {
     private final String name;
 
     protected org.slf4j.Logger slf4jLogger;
-    private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
+    private LocationAwareLogger locationAwareLogger;
 
     private static final Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 

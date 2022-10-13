@@ -27,7 +27,7 @@ public class EventFieldsTest {
         logger.info("hello");
         logger.atInfo().setMessage("hello").log();
 
-        org.slf4j.reload4j.Reload4jLoggerAdapter rootReload4j = (org.slf4j.reload4j.Reload4jLoggerAdapter) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        Reload4jLoggerAdapter rootReload4j = (Reload4jLoggerAdapter) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 
 
         ListAppender listAppender = (ListAppender) rootReload4j.logger.getAppender("LIST");

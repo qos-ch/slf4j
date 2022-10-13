@@ -28,6 +28,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogManager;
 
 import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
 import org.apache.log4j.PatternLayout;
 import org.junit.After;
 import org.junit.Before;
@@ -96,7 +97,7 @@ public class SLF4JBridgeHandlerPerfTest {
         SLF4JBridgeHandler.install();
 
         if (disabledLogger) {
-            log4jRoot.setLevel(org.apache.log4j.Level.ERROR);
+            log4jRoot.setLevel(Level.ERROR);
         }
         julLoggerLoop();
         double julAvg = julLoggerLoop();

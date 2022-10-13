@@ -27,6 +27,7 @@ package org.slf4j.jul;
 import static org.junit.Assert.fail;
 
 import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,8 +35,8 @@ import org.slf4j.testHarness.MultithreadedInitializationTest;
 
 public class JDK14MultithreadedInitializationTest extends MultithreadedInitializationTest {
 
-    java.util.logging.Logger julRootLogger = java.util.logging.Logger.getLogger("");
-    java.util.logging.Logger julOrgLogger = java.util.logging.Logger.getLogger("org");
+    Logger julRootLogger = Logger.getLogger("");
+    Logger julOrgLogger = Logger.getLogger("org");
 
     @Before
     public void addRecordingHandler() {
@@ -45,7 +46,7 @@ public class JDK14MultithreadedInitializationTest extends MultithreadedInitializ
         julOrgLogger.addHandler(new CountingHandler());
     }
 
-    private void removeAllHandlers(java.util.logging.Logger logger) {
+    private void removeAllHandlers(Logger logger) {
         Handler[] handlers = logger.getHandlers();
         for (Handler handler : handlers) {
             logger.removeHandler(handler);

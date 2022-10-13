@@ -55,7 +55,7 @@ public class SLF4JLogFactory extends LogFactory {
     // ----------------------------------------------------------- Constructors
 
     /**
-     * The {@link org.apache.commons.logging.Log}instances that have already been
+     * The {@link Log}instances that have already been
      * created, keyed by logger name.
      */
     ConcurrentMap<String, Log> loggerMap;
@@ -165,7 +165,7 @@ public class SLF4JLogFactory extends LogFactory {
 
     /**
      * Release any internal references to previously created
-     * {@link org.apache.commons.logging.Log}instances returned by this factory.
+     * {@link Log}instances returned by this factory.
      * This is useful in environments like servlet containers, which implement
      * application reloading by throwing away a ClassLoader. Dangling references
      * to objects in that class loader would prevent garbage collection.

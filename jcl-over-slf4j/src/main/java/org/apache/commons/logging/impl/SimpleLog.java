@@ -16,8 +16,11 @@
 
 package org.apache.commons.logging.impl;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -157,12 +160,12 @@ public class SimpleLog implements Log, Serializable {
         if (null != in) {
             try {
                 simpleLogProps.load(in);
-            } catch (java.io.IOException e) {
+            } catch (IOException e) {
                 // ignored
             } finally {
                 try {
                     in.close();
-                } catch (java.io.IOException e) {
+                } catch (IOException e) {
                     // ignored
                 }
             }
@@ -337,8 +340,8 @@ public class SimpleLog implements Log, Serializable {
             buf.append(t.toString());
             buf.append(">");
 
-            java.io.StringWriter sw = new java.io.StringWriter(1024);
-            java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+            StringWriter sw = new StringWriter(1024);
+            PrintWriter pw = new PrintWriter(sw);
             t.printStackTrace(pw);
             pw.close();
             buf.append(sw.toString());

@@ -42,7 +42,7 @@ public final class Util {
         String result = null;
         try {
             result = System.getProperty(key);
-        } catch (java.lang.SecurityException sm) {
+        } catch (SecurityException sm) {
             ; // ignore
         }
         return result;
@@ -85,7 +85,7 @@ public final class Util {
     private static ClassContextSecurityManager safeCreateSecurityManager() {
         try {
             return new ClassContextSecurityManager();
-        } catch (java.lang.SecurityException sm) {
+        } catch (SecurityException sm) {
             return null;
         }
     }

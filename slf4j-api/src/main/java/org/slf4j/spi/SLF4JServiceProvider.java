@@ -17,7 +17,7 @@ public interface SLF4JServiceProvider {
 
     /**
      * Return the instance of {@link ILoggerFactory} that 
-     * {@link org.slf4j.LoggerFactory} class should bind to.
+     * {@link LoggerFactory} class should bind to.
      * 
      * @return instance of {@link ILoggerFactory} 
      */

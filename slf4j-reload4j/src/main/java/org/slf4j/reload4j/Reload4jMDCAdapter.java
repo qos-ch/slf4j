@@ -28,6 +28,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.MDC;
 import org.slf4j.helpers.ThreadLocalMapOfStacks;
 import org.slf4j.spi.MDCAdapter;
 
@@ -38,7 +39,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
     @Override
     public void clear() {
         @SuppressWarnings("rawtypes")
-        Map map = org.apache.log4j.MDC.getContext();
+        Map map = MDC.getContext();
         if (map != null) {
             map.clear();
         }
@@ -46,7 +47,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
 
     @Override
     public String get(String key) {
-        return (String) org.apache.log4j.MDC.get(key);
+        return (String) MDC.get(key);
     }
 
     /**
@@ -63,17 +64,17 @@ public class Reload4jMDCAdapter implements MDCAdapter {
      */
     @Override
     public void put(String key, String val) {
-        org.apache.log4j.MDC.put(key, val);
+        MDC.put(key, val);
     }
 
     @Override
     public void remove(String key) {
-        org.apache.log4j.MDC.remove(key);
+        MDC.remove(key);
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public Map getCopyOfContextMap() {
-        Map old = org.apache.log4j.MDC.getContext();
+        Map old = MDC.getContext();
         if (old != null) {
             return new HashMap(old);
         } else {
@@ -84,7 +85,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public void setContextMap(Map<String, String> contextMap) {
-        Map old = org.apache.log4j.MDC.getContext();
+        Map old = MDC.getContext();
         
         // we must cater for the case where the contextMap argument is null 
         if (contextMap == null) {
@@ -96,7 +97,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
         
         if (old == null) {
             for (Map.Entry<String, String> mapEntry : contextMap.entrySet()) {
-                org.apache.log4j.MDC.put(mapEntry.getKey(), mapEntry.getValue());
+                MDC.put(mapEntry.getKey(), mapEntry.getValue());
             }
         } else {
             old.clear();

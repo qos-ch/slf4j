@@ -87,7 +87,7 @@ public class JDK14AdapterLoggerNameTest {
         assertNotNull("missing logger name", mockHandler.record.getLoggerName());
     }
 
-    private static class MockHandler extends java.util.logging.Handler {
+    private static class MockHandler extends Handler {
         public LogRecord record;
 
         public void close() throws SecurityException {

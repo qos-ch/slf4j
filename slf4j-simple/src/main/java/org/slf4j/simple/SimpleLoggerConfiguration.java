@@ -2,6 +2,7 @@ package org.slf4j.simple;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.security.AccessController;
@@ -116,12 +117,12 @@ public class SimpleLoggerConfiguration {
         if (null != in) {
             try {
                 properties.load(in);
-            } catch (java.io.IOException e) {
+            } catch (IOException e) {
                 // ignored
             } finally {
                 try {
                     in.close();
-                } catch (java.io.IOException e) {
+                } catch (IOException e) {
                     // ignored
                 }
             }

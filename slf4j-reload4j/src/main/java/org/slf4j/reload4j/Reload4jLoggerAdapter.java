@@ -36,10 +36,12 @@ import org.slf4j.Marker;
 import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
+import org.slf4j.helpers.AbstractLogger;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.helpers.SubstituteLogger;
+import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LocationAwareLogger;
 import org.slf4j.spi.LoggingEventAware;
 import org.slf4j.spi.LoggingEventBuilder;
@@ -66,9 +68,9 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
 
     final transient org.apache.log4j.Logger logger;
 
-    final static String FQCN_NOMINAL = org.slf4j.helpers.AbstractLogger.class.getName();
+    final static String FQCN_NOMINAL = AbstractLogger.class.getName();
     final static String FQCN_SUBSTITUE = FQCN_NOMINAL;
-    final static String FQCN_FLUENT = org.slf4j.spi.DefaultLoggingEventBuilder.class.getName();
+    final static String FQCN_FLUENT = DefaultLoggingEventBuilder.class.getName();
 
     // WARN: Reload4jLoggerAdapter constructor should have only package access so
     // that only Reload4jLoggerFactory be able to create one.

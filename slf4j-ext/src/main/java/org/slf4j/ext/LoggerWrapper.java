@@ -31,7 +31,7 @@ import org.slf4j.Marker;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * A helper class wrapping an {@link org.slf4j.Logger} instance preserving
+ * A helper class wrapping an {@link Logger} instance preserving
  * location information if the wrapped instance supports it.
  * 
  * @author Ralph Goers

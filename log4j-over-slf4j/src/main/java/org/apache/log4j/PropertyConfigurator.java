@@ -32,7 +32,7 @@ public class PropertyConfigurator implements Configurator {
     public static void configure(String configFilename) {
     }
 
-    public static void configure(java.net.URL configURL) {
+    public static void configure(URL configURL) {
     }
 
     public static void configureAndWatch(String configFilename) {
