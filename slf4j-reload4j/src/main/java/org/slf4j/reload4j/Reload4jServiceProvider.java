@@ -8,6 +8,9 @@ import org.slf4j.helpers.Util;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
+import aQute.bnd.annotation.spi.ServiceProvider;
+
+@ServiceProvider(value = SLF4JServiceProvider.class, attribute = { "type:String='reload4j'" })
 public class Reload4jServiceProvider implements SLF4JServiceProvider {
 
     /**

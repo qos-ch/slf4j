@@ -23,6 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
+import aQute.bnd.annotation.spi.ServiceProvider;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -50,6 +52,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author Ceki G&uuml;lc&uuml;
  */
 @SuppressWarnings("rawtypes")
+@ServiceProvider(value = LogFactory.class)
 public class SLF4JLogFactory extends LogFactory {
 
     // ----------------------------------------------------------- Constructors

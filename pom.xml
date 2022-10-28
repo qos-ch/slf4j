@@ -44,6 +44,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <bnd.version>6.3.1</bnd.version>
     <!-- used in integration testing -->
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
@@ -53,7 +54,7 @@
     <junit.version>4.13.1</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
     <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
@@ -76,7 +77,9 @@
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>
     <module>slf4j-jdk14</module>
+<!-- 
     <module>slf4j-jdk-platform-logging</module>
+    -->
     <module>slf4j-log4j12</module>
     <module>slf4j-reload4j</module>    
     <module>slf4j-ext</module>
@@ -95,6 +98,17 @@
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>biz.aQute.bnd</groupId>
+	  <artifactId>biz.aQute.bnd.annotation</artifactId>
+	  <version>${bnd.version}</version>
     </dependency>
   </dependencies>
 
@@ -221,37 +235,67 @@
         </executions>
 
       </plugin>
-
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <version>${bnd.version}</version>
+        <extensions>true</extensions>
         <executions>
-          <!--  Repeated in slf4j-api/pom.xml -->
           <execution>
-            <id>default-jar</id>
-            <phase>package</phase>
+            <id>bnd-process</id>
+            <goals>
+              <goal>bnd-process</goal>
+            </goals>
+              <configuration>
+              <bnd>
+                <![CDATA[
+                # only goal of this execution is to produce the serviceLoader files
+                # because test phase is before jar they will not exist in the build folder
+                # so surefire could not pic them up
+-fixupmessages: 'Classes found in the wrong directory: .*'
+]]>
+              </bnd>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jar</id>
             <goals>
               <goal>jar</goal>
             </goals>
             <configuration>
-              <archive>
-                <manifestEntries>
-                  <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-                  <Bundle-Description>${project.description}</Bundle-Description>
-                  <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-                  <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-                  <Implementation-Version>${project.version}</Implementation-Version>
-                  <Multi-Release>true</Multi-Release>
-                </manifestEntries>
-                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-              </archive>
-              <skipIfEmpty>true</skipIfEmpty>
+              <bnd>
+                <![CDATA[
+Bundle-SymbolicName: ${replacestring;${project.artifactId};-;.}
+Bundle-Name: ${project.artifactId}
+Bundle-Description:${project.description}
+X-Compile-Source-JDK:${maven.compiler.source}
+X-Compile-Target-JDK:${maven.compiler.target}
+Implementation-Version:${project.version}
+Multi-Release:true
+SPDX-License-Identifier: ${project.licenses[0].name}
+Git-Descriptor: ${system-allow-fail;git describe --dirty --always --abbrev=9}
+Git-SHA: ${system-allow-fail;git rev-list -1 --no-abbrev-commit HEAD}
+-noextraheaders: true
+-reproducible: true
+-jpms-module-info: ${module-name}
+-fixupmessages: 'Classes found in the wrong directory: .*'
+]]>
+              </bnd>
+            </configuration>
+          </execution>
+          <!-- Integration Test Configuration -->
+          <execution>
+            <id>test-jar</id>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+            <configuration>
+              <artifactFragment>false</artifactFragment>
             </configuration>
           </execution>
         </executions>
       </plugin>
- 
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -261,6 +305,7 @@
           <reuseForks>false</reuseForks>
           <reportFormat>plain</reportFormat>
           <trimStackTrace>false</trimStackTrace>
+          
           <excludes>
             <exclude>**/AllTest.java</exclude>
             <exclude>**/PackageTest.java</exclude>
@@ -282,20 +327,6 @@
         </executions>
       </plugin>
 
-      <!-- as suggested in http://jira.qos.ch/browse/SLF4J-143 -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${build-helper-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>parse-version</id>
-            <goals>
-              <goal>parse-version</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

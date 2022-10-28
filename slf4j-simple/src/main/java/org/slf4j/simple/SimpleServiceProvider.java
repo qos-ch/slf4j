@@ -7,6 +7,9 @@ import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
+import aQute.bnd.annotation.spi.ServiceProvider;
+
+@ServiceProvider(value = SLF4JServiceProvider.class, attribute = { "type:String='simple'" })
 public class SimpleServiceProvider implements SLF4JServiceProvider {
 
     /**

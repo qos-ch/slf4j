@@ -34,8 +34,10 @@ package org.slf4j.osgi.logservice.impl;
 
 import java.util.Properties;
 
+import org.osgi.annotation.bundle.Header;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceFactory;
 import org.osgi.service.log.LogService;
 
@@ -46,6 +48,7 @@ import org.osgi.service.log.LogService;
  * @author John Conlon
  * @author Matt Bishop
  **/
+@Header(name = Constants.BUNDLE_ACTIVATOR, value = "${@class}")
 public class Activator implements BundleActivator {
     /**
      *

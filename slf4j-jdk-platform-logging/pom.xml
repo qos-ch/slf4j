@@ -11,6 +11,11 @@
     <version>2.0.4-SNAPSHOT</version>
   </parent>
 
+  <properties>
+      <jdk.version>9</jdk.version>
+  </properties>
+  
+  
   <artifactId>slf4j-jdk-platform-logging</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J JDK Platform Logging Integration</name>
@@ -34,36 +39,7 @@
 
   <build>
     <plugins>
-      <!-- target Java 9+ -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <source>9</source>
-              <target>9</target>
-              <release>9</release>
-            </configuration>            
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <goals>
-              <goal>testCompile</goal> 
-            </goals>
-            <configuration>
-              <source>9</source>
-              <target>9</target>
-              <release>9</release>
-            </configuration>            
-          </execution> 
-        </executions>        
-      </plugin>
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

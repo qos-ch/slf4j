@@ -43,6 +43,8 @@ import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
 
+import aQute.bnd.annotation.spi.ServiceConsumer;
+
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
  * various logging APIs, most notably for log4j, logback and JDK 1.4 logging.
@@ -61,6 +63,7 @@ import org.slf4j.spi.SLF4JServiceProvider;
  * @author Ceki G&uuml;lc&uuml;
  * 
  */
+@ServiceConsumer(SLF4JServiceProvider.class)
 public final class LoggerFactory {
 
     static final String CODES_PREFIX = "https://www.slf4j.org/codes.html";
