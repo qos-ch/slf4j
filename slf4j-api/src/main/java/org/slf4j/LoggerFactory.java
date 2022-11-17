@@ -26,9 +26,6 @@ package org.slf4j;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.AccessControlException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -104,22 +101,25 @@ public final class LoggerFactory {
 
     // Package access for tests
     static List<SLF4JServiceProvider> findServiceProviders() {
-        final ClassLoader cl = LoggerFactory.class.getClassLoader();
-        final PrivilegedAction<ServiceLoader<SLF4JServiceProvider>> action = () -> ServiceLoader.load(SLF4JServiceProvider.class, cl);
-        final ServiceLoader<SLF4JServiceProvider> serviceLoader = System.getSecurityManager() != null
-                        ? AccessController.doPrivileged(action)
-                        : action.run();
+        // retain behaviour similar to that of 1.7 series and earlier. More specifically, use the class loader that
+        // loaded the present class to search for services
+        final ClassLoader classLoaderOfLoggerFactory = LoggerFactory.class.getClassLoader();
+        ServiceLoader<SLF4JServiceProvider> serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
         List<SLF4JServiceProvider> providerList = new ArrayList<>();
         Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
         while (iterator.hasNext()) {
-            try {
-                providerList.add(iterator.next());
-            } catch (ServiceConfigurationError | AccessControlException e) {
-                // Short warning
-                Util.report("A SLF4J service provider failed to instantiate:\n" + e.getMessage());
-            }
+            safelyInstantiate(providerList, iterator);
         }
         return providerList;
+    }
+
+    private static void safelyInstantiate(List<SLF4JServiceProvider> providerList, Iterator<SLF4JServiceProvider> iterator) {
+        try {
+            SLF4JServiceProvider provider = iterator.next();
+            providerList.add(provider);
+        } catch (ServiceConfigurationError e) {
+            Util.report("A SLF4J service provider failed to instantiate:\n" + e.getMessage());
+        }
     }
 
     /**
