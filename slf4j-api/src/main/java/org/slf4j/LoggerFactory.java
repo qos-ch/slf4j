@@ -26,6 +26,8 @@ package org.slf4j;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -43,6 +45,8 @@ import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
+
+import javax.accessibility.AccessibleComponent;
 
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
@@ -104,13 +108,25 @@ public final class LoggerFactory {
         // retain behaviour similar to that of 1.7 series and earlier. More specifically, use the class loader that
         // loaded the present class to search for services
         final ClassLoader classLoaderOfLoggerFactory = LoggerFactory.class.getClassLoader();
-        ServiceLoader<SLF4JServiceProvider> serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
+        ServiceLoader<SLF4JServiceProvider> serviceLoader = getServiceLoader(classLoaderOfLoggerFactory);
         List<SLF4JServiceProvider> providerList = new ArrayList<>();
         Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
         while (iterator.hasNext()) {
             safelyInstantiate(providerList, iterator);
         }
         return providerList;
+    }
+
+    private static ServiceLoader<SLF4JServiceProvider> getServiceLoader(final ClassLoader classLoaderOfLoggerFactory) {
+        ServiceLoader<SLF4JServiceProvider> serviceLoader;
+        SecurityManager securityManager = System.getSecurityManager();
+        if(securityManager == null) {
+            serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
+        } else {
+            final PrivilegedAction<ServiceLoader<SLF4JServiceProvider>> action = () -> ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
+            serviceLoader = AccessController.doPrivileged(action);
+        }
+        return serviceLoader;
     }
 
     private static void safelyInstantiate(List<SLF4JServiceProvider> providerList, Iterator<SLF4JServiceProvider> iterator) {
