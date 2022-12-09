@@ -228,14 +228,6 @@
             </goals>
             <configuration>
               <archive>
-                <manifestEntries>
-                  <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-                  <Bundle-Description>${project.description}</Bundle-Description>
-                  <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-                  <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-                  <Implementation-Version>${project.version}</Implementation-Version>
-                  <Multi-Release>true</Multi-Release>
-                </manifestEntries>
                 <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
               </archive>
               <skipIfEmpty>true</skipIfEmpty>
@@ -243,7 +235,32 @@
           </execution>
         </executions>
       </plugin>
- 
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+            <configuration>
+              <unpackBundle>true</unpackBundle>
+              <instructions>
+                <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
+                <Bundle-Description>${project.description}</Bundle-Description>
+                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+                <Implementation-Version>${project.version}</Implementation-Version>
+                <Multi-Release>true</Multi-Release>
+              </instructions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
