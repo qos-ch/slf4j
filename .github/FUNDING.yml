@@ -1,2 +1,5 @@
-tidelift: maven/ch.qos.reload4j:reload4j
+tidelift: maven/org.slf4j:slf4j-api
+tidelift: maven/org.slf4j:jcl-over-slf4j
+tidelift: maven/org.slf4j:
+
 github: qos-ch
