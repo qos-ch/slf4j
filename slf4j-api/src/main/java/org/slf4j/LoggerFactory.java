@@ -304,7 +304,9 @@ public final class LoggerFactory {
         if (substLogger.isDelegateNOP()) {
             // nothing to do
         } else if (substLogger.isDelegateEventAware()) {
-            substLogger.log(event);
+            if(substLogger.isEnabledForLevel(event.getLevel())) {
+                substLogger.log(event);
+            }
         } else {
             Util.report(loggerName);
         }
