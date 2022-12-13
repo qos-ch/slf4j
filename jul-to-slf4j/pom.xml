@@ -31,4 +31,20 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <configuration>
+          <bnd><![CDATA[
+            Automatic-Module-Name: ${bsn}
+          ]]></bnd>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>

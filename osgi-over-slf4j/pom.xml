@@ -37,8 +37,29 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <configuration>
+          <bnd><![CDATA[
+            Bundle-SymbolicName: org.slf4j.osgi-over-slf4j
+            Import-Package: org.slf4j.*, *
+            -exportcontents:
+            Bundle-Activator: org.slf4j.osgi.logservice.impl.Activator
+            Bundle-Category: osgi
+            Automatic-Module-Name: ${bsn}
+          ]]></bnd>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>

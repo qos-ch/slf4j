@@ -16,4 +16,8 @@
   <name>SLF4J Migrator</name>
   <description>SLF4J Migrator</description>
 
+  <properties>
+    <bnd.skip>true</bnd.skip>
+  </properties>
+
 </project>

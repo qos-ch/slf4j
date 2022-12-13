@@ -39,5 +39,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
 
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <configuration>
+          <bnd><![CDATA[
+            -exportcontents: org.apache.commons.logging.*;version=${jcl.version}
+          ]]></bnd>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
 </project>

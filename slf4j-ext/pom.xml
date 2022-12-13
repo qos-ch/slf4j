@@ -73,8 +73,26 @@
           </archive>
         </configuration>
       </plugin>
-    </plugins>
 
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <configuration>
+          <bnd><![CDATA[
+            Import-Package: \
+              ch.qos.cal10n;version="${cal10n.version}";resolution:="optional",\
+              org.slf4j,\
+              org.slf4j.spi,\
+              org.slf4j.helpers
+            -exportcontents: \
+              org.slf4j.ext,\
+              org.slf4j.profiler,\
+              org.slf4j.cal10n
+          ]]></bnd>
+        </configuration>
+      </plugin>
+
+    </plugins>
   </build>
 
 </project>

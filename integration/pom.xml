@@ -22,6 +22,7 @@
     <!-- 1.9.1 does not work. Do not update lightly -->
     <ant-junit.version>1.9.0</ant-junit.version>
     <antrun-plugin.version>1.8</antrun-plugin.version>
+    <bnd.skip>true</bnd.skip>
   </properties>
 
 

@@ -35,4 +35,24 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <configuration>
+          <bnd><![CDATA[
+            Provide-Capability: \
+              osgi.service;objectClass:List<String>="org.slf4j.spi.SLF4JServiceProvider";type=jul;effective:=active,\
+              osgi.serviceloader;osgi.serviceloader="org.slf4j.spi.SLF4JServiceProvider";register:="org.slf4j.jul.JULServiceProvider";type=jul
+            Require-Capability: \
+              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.registrar)(version>=1.0.0)(!(version>=2.0.0)))"
+          ]]></bnd>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>

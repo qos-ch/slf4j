@@ -41,4 +41,21 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>biz.aQute.bnd</groupId>
+        <artifactId>bnd-maven-plugin</artifactId>
+        <configuration>
+          <bnd><![CDATA[
+            Import-Package: org.slf4j.*;version="${range;[===,3);${slf4j.api.minimum.compatible.version}}"
+            Export-Package: org.apache.log4j.*;version=${reload4j.version}
+          ]]></bnd>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>
