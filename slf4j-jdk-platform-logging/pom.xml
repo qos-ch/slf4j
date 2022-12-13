@@ -49,20 +49,20 @@
               <source>9</source>
               <target>9</target>
               <release>9</release>
-            </configuration>            
+            </configuration>
           </execution>
           <execution>
             <id>default-testCompile</id>
             <goals>
-              <goal>testCompile</goal> 
+              <goal>testCompile</goal>
             </goals>
             <configuration>
               <source>9</source>
               <target>9</target>
               <release>9</release>
-            </configuration>            
-          </execution> 
-        </executions>        
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -76,7 +76,6 @@
           <trimStackTrace>false</trimStackTrace>
         </configuration>
       </plugin>
-
 
     </plugins>
   </build>
