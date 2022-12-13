@@ -30,13 +30,13 @@
   <scm>
     <url>https://github.com/qos-ch/slf4j</url>
     <connection>scm:git:https://github.com/qos-ch/slf4j.git</connection>
-  </scm>  
+  </scm>
 
   <properties>
     <!-- yyyy-MM-dd'T'HH:mm:ss'Z' -->
-    <project.build.outputTimestamp>2022-12-12T19:19:39Z</project.build.outputTimestamp>    
+    <project.build.outputTimestamp>2022-12-12T19:19:39Z</project.build.outputTimestamp>
     <latest.stable.version>1.7.36</latest.stable.version>
-    <latest.2.version>2.0.0-alpha7</latest.2.version>    
+    <latest.2.version>2.0.0-alpha7</latest.2.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
     <jdk.version>8</jdk.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
@@ -47,7 +47,7 @@
     <!-- used in integration testing -->
     <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
-    <reload4j.version>1.2.22</reload4j.version>    
+    <reload4j.version>1.2.22</reload4j.version>
     <logback.version>1.2.10</logback.version>
     <junit.version>4.13.1</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
@@ -60,7 +60,6 @@
     <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
     <maven-bundle-plugin.version>5.1.8</maven-bundle-plugin.version>
     <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
-            
   </properties>
 
   <developers>
@@ -78,7 +77,7 @@
     <module>slf4j-jdk14</module>
     <module>slf4j-jdk-platform-logging</module>
     <module>slf4j-log4j12</module>
-    <module>slf4j-reload4j</module>    
+    <module>slf4j-reload4j</module>
     <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
     <module>log4j-over-slf4j</module>
@@ -113,7 +112,6 @@
         <version>${project.version}</version>
       </dependency>
 
-      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
@@ -125,7 +123,7 @@
         <artifactId>reload4j</artifactId>
         <version>${reload4j.version}</version>
       </dependency>
-      
+
       <dependency>
         <groupId>ch.qos.cal10n</groupId>
         <artifactId>cal10n-api</artifactId>
@@ -192,14 +190,14 @@
               <source>${jdk.version}</source>
               <target>${jdk.version}</target>
             </configuration>
-          </execution> 
+          </execution>
 
-          <execution>                      
+          <execution>
             <id>module-compile</id>
             <phase>compile</phase>
             <goals>
               <goal>compile</goal>
-            </goals>          
+            </goals>
             <configuration>
               <release>9</release>
               <compileSourceRoots>
@@ -208,8 +206,6 @@
               <multiReleaseOutput>true</multiReleaseOutput>
             </configuration>
           </execution>
-
-
 
         </executions>
 
@@ -241,6 +237,17 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>${maven-bundle-plugin.version}</version>
+        <configuration>
+          <instructions>
+            <!-- populated by the plugin itself -->
+            <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
+            <Bundle-Description>${project.description}</Bundle-Description>
+            <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+            <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+            <Implementation-Version>${project.version}</Implementation-Version>
+            <Multi-Release>true</Multi-Release>
+          </instructions>
+        </configuration>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -248,17 +255,6 @@
             <goals>
               <goal>manifest</goal>
             </goals>
-            <configuration>
-              <instructions>
-                <!-- populated by the plugin itself -->
-                <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-                <Bundle-Description>${project.description}</Bundle-Description>
-                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-                <Implementation-Version>${project.version}</Implementation-Version>
-                <Multi-Release>true</Multi-Release>
-              </instructions>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -319,8 +315,8 @@
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>3.0.0</version>
       </plugin>
+
     </plugins>
-  
   </build>
 
   <reporting>
@@ -335,7 +331,7 @@
           <linkJavadoc>true</linkJavadoc>
         </configuration>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -382,7 +378,7 @@
           </groups>
         </configuration>
       </plugin>
-      
+
     </plugins>
   </reporting>
 
@@ -450,8 +446,7 @@
         </plugins>
       </build>
 
-      <pluginRepositories>
-      </pluginRepositories>
+      <pluginRepositories />
     </profile>
 
     <profile>
@@ -506,16 +501,15 @@
 
   <pluginRepositories>
     <pluginRepository>
-         <id>apache-snapshot-repo</id>
-         <name>apache-snapshot-repo</name>
-         <url>https://repository.apache.org/content/groups/snapshots/</url>
-         <releases>
-           <enabled>false</enabled>
-         </releases>
-         <snapshots>
-           <enabled>true</enabled>
-         </snapshots>
-
+      <id>apache-snapshot-repo</id>
+      <name>apache-snapshot-repo</name>
+      <url>https://repository.apache.org/content/groups/snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
 
