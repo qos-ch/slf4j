@@ -7,6 +7,9 @@ import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
+import aQute.bnd.annotation.spi.ServiceProvider;
+
+@ServiceProvider(value = SLF4JServiceProvider.class, attribute = { "type=jul" })
 public class JULServiceProvider implements SLF4JServiceProvider {
 
     /**
@@ -30,6 +33,7 @@ public class JULServiceProvider implements SLF4JServiceProvider {
         return markerFactory;
     }
 
+    @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }

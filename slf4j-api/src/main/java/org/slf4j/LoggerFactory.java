@@ -46,7 +46,7 @@ import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
 
-import javax.accessibility.AccessibleComponent;
+import aQute.bnd.annotation.spi.ServiceConsumer;
 
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
@@ -66,6 +66,7 @@ import javax.accessibility.AccessibleComponent;
  * @author Ceki G&uuml;lc&uuml;
  * 
  */
+@ServiceConsumer(SLF4JServiceProvider.class)
 public final class LoggerFactory {
 
     static final String CODES_PREFIX = "https://www.slf4j.org/codes.html";

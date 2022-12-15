@@ -95,6 +95,12 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>biz.aQute.bnd</groupId>
+      <artifactId>biz.aQute.bnd.annotation</artifactId>
+      <version>${bnd.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <dependencyManagement>

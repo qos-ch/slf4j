@@ -66,11 +66,6 @@
             Import-Package: \
               org.apache.log4j;version="${range;[==,+)}",\
               org.slf4j.*
-            Provide-Capability: \
-              osgi.service;objectClass:List<String>="org.slf4j.spi.SLF4JServiceProvider";type=reload4j;effective:=active,\
-              osgi.serviceloader;osgi.serviceloader="org.slf4j.spi.SLF4JServiceProvider";register:="org.slf4j.reload4j.Reload4jServiceProvider";type=reload4j
-            Require-Capability: \
-              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.registrar)(version>=1.0.0)(!(version>=2.0.0)))"
           ]]></bnd>
         </configuration>
       </plugin>

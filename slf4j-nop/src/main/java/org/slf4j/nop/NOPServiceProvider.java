@@ -8,6 +8,9 @@ import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
+import aQute.bnd.annotation.spi.ServiceProvider;
+
+@ServiceProvider(value = SLF4JServiceProvider.class, attribute = { "type=nop" })
 public class NOPServiceProvider implements SLF4JServiceProvider {
 
     /**
@@ -21,14 +24,17 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
     private final IMarkerFactory markerFactory = new BasicMarkerFactory();
     private final MDCAdapter mdcAdapter = new NOPMDCAdapter();
 
+    @Override
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }
 
+    @Override
     public IMarkerFactory getMarkerFactory() {
         return markerFactory;
     }
 
+    @Override
     public MDCAdapter getMDCAdapter() {
         return mdcAdapter;
     }
@@ -38,9 +44,9 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
         return REQUESTED_API_VERSION;
     }
 
+    @Override
     public void initialize() {
 
     }
 
-   
 }
