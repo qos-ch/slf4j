@@ -59,6 +59,11 @@
         <configuration>
           <instructions>
             <Import-Package>org.slf4j.spi;version="${range;[===,+);${version;===;${maven_version;${project.version}}}}"</Import-Package>
+            <!-- Export the client/user package of slf4j-api version 1 to make the slf4j-api bundle in version 2 usable for bundles that only import slf4j-1.x -->
+            <_exportcontents><![CDATA[
+              *,\
+              org.slf4j;uses:="org.slf4j.event,org.slf4j.helpers,org.slf4j.spi";version="${latest.1.version}"
+            ]]></_exportcontents>
             <Require-Capability><![CDATA[
               osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))",
               osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.spi.SLF4JServiceProvider)";osgi.serviceloader="org.slf4j.spi.SLF4JServiceProvider"
