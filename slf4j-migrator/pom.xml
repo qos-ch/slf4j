@@ -16,4 +16,20 @@
   <name>SLF4J Migrator</name>
   <description>SLF4J Migrator</description>
 
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Main-Class>org.slf4j.migrator.Main</Main-Class>
+          </instructions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>
