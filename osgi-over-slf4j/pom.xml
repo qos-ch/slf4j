@@ -37,8 +37,27 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>org.slf4j.osgi-over-slf4j</Bundle-SymbolicName>
+            <Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
+            <Bundle-Category>osgi</Bundle-Category>
+            <_exportcontents combine.self="override" />
+          </instructions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
 </project>
