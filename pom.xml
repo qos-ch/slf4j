@@ -44,10 +44,10 @@
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- used in integration testing -->
-    <slf4j.api.minimum.compatible.version>1.6.0</slf4j.api.minimum.compatible.version>
     <cal10n.version>0.8.1</cal10n.version>
     <reload4j.version>1.2.22</reload4j.version>    
     <logback.version>1.2.10</logback.version>
+    <jcl.version>1.2</jcl.version>
     <junit.version>4.13.1</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -58,8 +58,6 @@
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
     <maven-bundle-plugin.version>5.1.8</maven-bundle-plugin.version>
-    <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
-            
   </properties>
 
   <developers>
@@ -303,21 +301,6 @@
             <phase>package</phase>
             <goals>
               <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- as suggested in http://jira.qos.ch/browse/SLF4J-143 -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${build-helper-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>parse-version</id>
-            <goals>
-              <goal>parse-version</goal>
             </goals>
           </execution>
         </executions>

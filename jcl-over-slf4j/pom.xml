@@ -27,7 +27,7 @@
   <properties>
     <module-name>org.apache.commons.logging</module-name>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -39,5 +39,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
 
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <_exportcontents>org.apache.commons.logging*;version=${jcl.version};-noimport:=true</_exportcontents>
+          </instructions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
 </project>
