@@ -120,7 +120,7 @@ public final class LoggerFactory {
             }
         }
 
-        // Load from local class loader.
+        // Load from current class'es class loader.
         ClassLoader localLoader = LoggerFactory.class.getClassLoader();
         if (loader != localLoader) {
             serviceLoader = getServiceLoader(localLoader);
