@@ -241,6 +241,25 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
         <version>${maven-bundle-plugin.version}</version>
+        <configuration>
+          <supportIncrementalBuild>true</supportIncrementalBuild>
+          <!-- populated by the plugin itself -->
+          <instructions>
+			  <Bundle-SymbolicName>${replacestring;${project.artifactId};-;.}</Bundle-SymbolicName>
+			  <Bundle-Name>${project.artifactId}</Bundle-Name>
+			  <Bundle-Vendor>SLF4J.ORG</Bundle-Vendor>
+			  <_snapshot/>
+			  <_exportcontents>!META-INF.versions.9,*;-noimport:=true</_exportcontents>
+			  <Bundle-Description>${project.description}</Bundle-Description>
+			  <Bundle-DocURL>${project.url}</Bundle-DocURL>
+			  <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+			  <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+			  <Implementation-Version>${project.version}</Implementation-Version>
+			  <Implementation-Title>${project.artifactId}</Implementation-Title>
+			  <Multi-Release>true</Multi-Release>
+			  <_removeheaders>Private-Package,Bundle-SCM, Bundle-Developers, Include-Resource</_removeheaders>
+		  </instructions>
+        </configuration>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -248,17 +267,6 @@
             <goals>
               <goal>manifest</goal>
             </goals>
-            <configuration>
-              <instructions>
-                <!-- populated by the plugin itself -->
-                <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-                <Bundle-Description>${project.description}</Bundle-Description>
-                <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
-                <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
-                <Implementation-Version>${project.version}</Implementation-Version>
-                <Multi-Release>true</Multi-Release>
-              </instructions>
-            </configuration>
           </execution>
         </executions>
       </plugin>
