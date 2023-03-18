@@ -1,5 +1,0 @@
-Bundle-ManifestVersion: 2
-Export-Package: org.apache.log4j;version=${reload4j.version},
- org.apache.log4j.helpers;version=${reload4j.version},
- org.apache.log4j.spi;version=${reload4j.version},
- org.apache.log4j.xml;version=${reload4j.version}

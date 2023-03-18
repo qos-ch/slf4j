@@ -19,6 +19,8 @@
 
   <properties>
     <module-name>org.slf4j.nop</module-name>
+    <slf4j.provider.implementation>org.slf4j.nop.NOPServiceProvider</slf4j.provider.implementation>
+    <slf4j.provider.type>nop</slf4j.provider.type>
   </properties>
 
   <dependencies>

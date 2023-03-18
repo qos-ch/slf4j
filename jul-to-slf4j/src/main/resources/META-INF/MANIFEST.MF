@@ -1,2 +1,0 @@
-Bundle-ManifestVersion: 2
-Automatic-Module-Name: jul.to.slf4j

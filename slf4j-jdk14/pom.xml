@@ -18,6 +18,8 @@
 
   <properties>
     <module-name>org.slf4j.jul</module-name>
+    <slf4j.provider.implementation>org.slf4j.jul.JULServiceProvider</slf4j.provider.implementation>
+    <slf4j.provider.type>jul</slf4j.provider.type>
   </properties>
 
   <dependencies>
