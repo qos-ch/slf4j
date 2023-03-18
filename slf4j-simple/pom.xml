@@ -18,6 +18,8 @@
 
   <properties>
     <module-name>org.slf4j.simple</module-name>
+    <slf4j.provider.implementation>org.slf4j.simple.SimpleServiceProvider</slf4j.provider.implementation>
+    <slf4j.provider.type>simple</slf4j.provider.type>
   </properties>
 
   <dependencies>

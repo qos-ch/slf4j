@@ -1,7 +1,0 @@
-Bundle-ManifestVersion: 2
-Provide-Capability: osgi.service;objectClass:List<String>="org.slf4j.s
- pi.SLF4JServiceProvider";type=nop;effective:=active,osgi.serviceloade
- r;osgi.serviceloader="org.slf4j.spi.SLF4JServiceProvider";register:="
- org.slf4j.nop.NOPServiceProvider";type=nop
-Require-Capability: osgi.extender;filter:="(&(osgi.extender=osgi.servi
- celoader.registrar)(version>=1.0.0)(!(version>=2.0.0)))"
