@@ -46,8 +46,6 @@ import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
 
-import javax.accessibility.AccessibleComponent;
-
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
  * various logging APIs, most notably for log4j, logback and JDK 1.4 logging.
@@ -178,7 +176,7 @@ public final class LoggerFactory {
             List<SLF4JServiceProvider> providersList = findServiceProviders();
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
-                PROVIDER = providersList.get(0);
+                PROVIDER = actualProvider(providersList);
                 // SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
                 PROVIDER.initialize();
                 INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
@@ -197,6 +195,10 @@ public final class LoggerFactory {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
         }
+    }
+
+    private static SLF4JServiceProvider actualProvider(List<SLF4JServiceProvider> providersList) {
+        return providersList.get(0);
     }
 
     private static void reportIgnoredStaticLoggerBinders(Set<URL> staticLoggerBinderPathSet) {
@@ -374,7 +376,7 @@ public final class LoggerFactory {
     private static void reportActualBinding(List<SLF4JServiceProvider> providerList) {
         // binderPathSet can be null under Android
         if (!providerList.isEmpty() && isAmbiguousProviderList(providerList)) {
-            Util.report("Actual provider is of type [" + providerList.get(0) + "]");
+            Util.report("Actual provider is of type [" + actualProvider(providerList) + "]");
         }
     }
 
