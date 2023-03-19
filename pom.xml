@@ -251,7 +251,6 @@
           <!-- populated by the plugin itself -->
           <instructions>
 			  <Bundle-SymbolicName>${replacestring;${project.artifactId};-;.}</Bundle-SymbolicName>
-			  <Bundle-Name>${project.artifactId}</Bundle-Name>
 			  <Bundle-Vendor>SLF4J.ORG</Bundle-Vendor>
 			  <_snapshot/>
 			  <_exportcontents>!META-INF.versions.9,*;-noimport:=true</_exportcontents>
