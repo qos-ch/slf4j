@@ -12,8 +12,8 @@
 
   <artifactId>slf4j-jdk14</artifactId>
   <packaging>jar</packaging>
-  <name>SLF4J JDK14 Binding</name>
-  <description>SLF4J JDK14 Binding</description>
+  <name>SLF4J JDK14 Provider</name>
+  <description>SLF4J JDK14 Provider</description>
   <url>http://www.slf4j.org</url>
 
   <properties>

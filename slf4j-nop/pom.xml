@@ -13,8 +13,8 @@
   <artifactId>slf4j-nop</artifactId>
 
   <packaging>jar</packaging>
-  <name>SLF4J NOP Binding</name>
-  <description>SLF4J NOP Binding</description>
+  <name>SLF4J NOP Provider</name>
+  <description>SLF4J NOP Provider</description>
   <url>http://www.slf4j.org</url>
 
   <properties>
