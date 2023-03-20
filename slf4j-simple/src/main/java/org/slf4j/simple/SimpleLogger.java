@@ -49,7 +49,12 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li><code>org.slf4j.simpleLogger.logFile</code> - The output target which can
  * be the <em>path</em> to a file, or the special values "System.out" and
  * "System.err". Default is "System.err".</li>
- * 
+ *
+ * <li><code>org.slf4j.simpleLogger.logFileAppend</code> - If the output
+ *  target is set as <em>path</em> to a file (see preceding entry), by default
+ *  the file will be cleared before new records are written. By setting this
+ *  parameter to true, log records will be appended to the end of the file.</li>
+ *
  * <li><code>org.slf4j.simpleLogger.cacheOutputStream</code> - If the output
  * target is set to "System.out" or "System.err" (see preceding entry), by
  * default, logs will be output to the latest value referenced by
@@ -84,11 +89,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li><code>org.slf4j.simpleLogger.showThreadName</code> -Set to
  * <code>true</code> if you want to output the current thread name. Defaults to
  * <code>true</code>.</li>
- * 
- * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> - 
+ *
+ * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> -
  * If you would like to output the current thread id, then set to
  * <code>true</code>. Defaults to <code>false</code>.</li>
- * 
+ *
  * <li><code>org.slf4j.simpleLogger.showLogName</code> - Set to
  * <code>true</code> if you want the Logger instance name to be included in
  * output messages. Defaults to <code>true</code>.</li>
@@ -170,7 +175,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     private static boolean INITIALIZED = false;
     static final SimpleLoggerConfiguration CONFIG_PARAMS = new SimpleLoggerConfiguration();
-    
+
     static void lazyInit() {
         if (INITIALIZED) {
             return;
@@ -206,6 +211,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     public static final String LOG_FILE_KEY = SimpleLogger.SYSTEM_PREFIX + "logFile";
 
+    public static final String LOG_FILE_APPEND_KEY = SimpleLogger.SYSTEM_PREFIX + "logFileAppend";
+
     public static final String SHOW_SHORT_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showShortLogName";
 
     public static final String SHOW_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogName";
@@ -213,7 +220,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
     public static final String SHOW_THREAD_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadName";
 
     public static final String SHOW_THREAD_ID_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadId";
-    
+
     public static final String DATE_TIME_FORMAT_KEY = SimpleLogger.SYSTEM_PREFIX + "dateTimeFormat";
 
     public static final String SHOW_DATE_TIME_KEY = SimpleLogger.SYSTEM_PREFIX + "showDateTime";
@@ -250,7 +257,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
     /**
      * To avoid intermingling of log messages and associated stack traces, the two
      * operations are done in a synchronized block.
-     * 
+     *
      * @param buf
      * @param t
      */
@@ -261,7 +268,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             targetStream.println(buf.toString());
             writeThrowable(t, targetStream);
             targetStream.flush();
-        } 
+        }
 
     }
 
@@ -398,7 +405,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             buf.append(Thread.currentThread().getName());
             buf.append("] ");
         }
-        
+
         if (CONFIG_PARAMS.showThreadId) {
             buf.append(TID_PREFIX);
             buf.append(Thread.currentThread().getId());
