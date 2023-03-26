@@ -71,7 +71,7 @@ public class BasicMarker implements Marker {
     }
 
     public boolean hasReferences() {
-        return (referenceList.size() > 0);
+        return (!referenceList.isEmpty());
     }
 
     @Deprecated

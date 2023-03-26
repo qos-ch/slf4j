@@ -277,7 +277,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
         if (MIGRATE_COMMAND.equals(e.getActionCommand())) {
 
             List<String> errorList = doSanityAnalysis();
-            if (errorList.size() > 0) {
+            if (!errorList.isEmpty()) {
                 showDialogBox(errorList);
             } else {
 
@@ -354,10 +354,6 @@ public class MigratorFrame extends JFrame implements ActionListener {
             return false;
         }
         File file = new File(filename);
-        if (file.exists() && file.isDirectory()) {
-            return true;
-        } else {
-            return false;
-        }
+        return file.exists() && file.isDirectory();
     }
 }

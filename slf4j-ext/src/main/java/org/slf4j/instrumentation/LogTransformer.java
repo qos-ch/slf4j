@@ -124,7 +124,7 @@ public class LogTransformer implements ClassFileTransformer {
 
         public Builder level(String level) {
             level = level.toLowerCase();
-            if (level.equals("info") || level.equals("debug") || level.equals("trace")) {
+            if ("info".equals(level) || "debug".equals(level) || "trace".equals(level)) {
                 this.level = level;
             } else {
                 if (verbose) {

@@ -419,9 +419,9 @@ public class SimpleLogger extends LegacyAbstractLogger {
         if (CONFIG_PARAMS.showShortLogName) {
             if (shortLogName == null)
                 shortLogName = computeShortName();
-            buf.append(String.valueOf(shortLogName)).append(" - ");
+            buf.append(shortLogName).append(" - ");
         } else if (CONFIG_PARAMS.showLogName) {
-            buf.append(String.valueOf(name)).append(" - ");
+            buf.append(name).append(" - ");
         }
 
         if (markers != null) {

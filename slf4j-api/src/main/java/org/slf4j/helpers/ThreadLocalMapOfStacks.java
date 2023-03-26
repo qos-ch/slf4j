@@ -63,7 +63,7 @@ public class ThreadLocalMapOfStacks {
         if (deque == null)
             return null;
 
-        return new ArrayDeque<String>(deque);
+        return new ArrayDeque<>(deque);
     }
     
     /**

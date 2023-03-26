@@ -53,7 +53,7 @@ public final class Util {
         if (value == null)
             return false;
         else
-            return value.equalsIgnoreCase("true");
+            return "true".equalsIgnoreCase(value);
     }
 
     /**

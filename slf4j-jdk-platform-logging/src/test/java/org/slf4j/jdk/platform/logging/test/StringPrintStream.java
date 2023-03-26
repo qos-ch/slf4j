@@ -35,7 +35,7 @@ public class StringPrintStream extends PrintStream {
     PrintStream other;
     boolean duplicate = false;
 
-    public List<String> stringList = Collections.synchronizedList(new ArrayList<String>());
+    public List<String> stringList = Collections.synchronizedList(new ArrayList<>());
 
     public StringPrintStream(PrintStream ps, boolean duplicate) {
         super(ps);

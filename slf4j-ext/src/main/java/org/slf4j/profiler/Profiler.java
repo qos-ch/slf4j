@@ -113,7 +113,7 @@ public class Profiler implements TimeInstrument {
     }
 
     TimeInstrument getLastTimeInstrument() {
-        if (childTimeInstrumentList.size() > 0) {
+        if (!childTimeInstrumentList.isEmpty()) {
             return childTimeInstrumentList.get(childTimeInstrumentList.size() - 1);
         } else {
             return null;

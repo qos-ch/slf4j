@@ -181,21 +181,21 @@ public class Level extends Priority implements Serializable {
 
         String s = sArg.toUpperCase();
 
-        if (s.equals("ALL"))
+        if ("ALL".equals(s))
             return Level.ALL;
-        if (s.equals("DEBUG"))
+        if ("DEBUG".equals(s))
             return Level.DEBUG;
-        if (s.equals("INFO"))
+        if ("INFO".equals(s))
             return Level.INFO;
-        if (s.equals("WARN"))
+        if ("WARN".equals(s))
             return Level.WARN;
-        if (s.equals("ERROR"))
+        if ("ERROR".equals(s))
             return Level.ERROR;
-        if (s.equals("FATAL"))
+        if ("FATAL".equals(s))
             return Level.FATAL;
-        if (s.equals("OFF"))
+        if ("OFF".equals(s))
             return Level.OFF;
-        if (s.equals("TRACE"))
+        if ("TRACE".equals(s))
             return Level.TRACE;
         return defaultLevel;
     }

@@ -50,7 +50,7 @@ public class BundleTest extends TestCase {
         mbl.dumpAll();
         // check that the bundle was installed
         assertTrue(mbl.exists("iBundle"));
-        if (fel.errorList.size() != 0) {
+        if (!fel.errorList.isEmpty()) {
             fel.dumpAll();
         }
         // check that no errors occured

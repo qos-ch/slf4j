@@ -323,9 +323,9 @@ public class SimpleLog implements Log, Serializable {
                 shortLogName = logName.substring(logName.lastIndexOf(".") + 1);
                 shortLogName = shortLogName.substring(shortLogName.lastIndexOf("/") + 1);
             }
-            buf.append(String.valueOf(shortLogName)).append(" - ");
+            buf.append(shortLogName).append(" - ");
         } else if (showLogName) {
-            buf.append(String.valueOf(logName)).append(" - ");
+            buf.append(logName).append(" - ");
         }
 
         // Append the message

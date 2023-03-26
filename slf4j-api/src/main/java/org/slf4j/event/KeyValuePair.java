@@ -12,6 +12,6 @@ public class KeyValuePair {
 
     @Override
     public String toString() {
-        return String.valueOf(key) + "=\"" + String.valueOf(value) +"\"";
+        return key + "=\"" + String.valueOf(value) +"\"";
     }
 }
