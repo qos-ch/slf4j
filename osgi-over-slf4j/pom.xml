@@ -10,35 +10,19 @@
     <version>2.0.8-SNAPSHOT</version>
   </parent>
 
-  <artifactId>osgi-over-slf4j</artifactId>
+  <artifactId>osgi-over-slf4j-parent</artifactId>
 
-  <packaging>jar</packaging>
-  <name>OSGi LogService implemented over SLF4J</name>
+  <packaging>pom</packaging>
+  <name>OSGi LogService implemented over SLF4J - parent</name>
 
   <url>http://www.slf4j.org</url>
   <description>
-    OSGi LogService implementation over SLF4J
+    OSGi Log Service implementation over SLF4J Parent POM
   </description>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
-      <version>4.2.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.enterprise</artifactId>
-      <version>4.2.0</version>
-      <scope>provided</scope>
-    </dependency>
+  <modules>
+    <module>implementation</module>
+    <module>integration-test</module>
+  </modules>
 
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>${project.version}</version>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
 </project>

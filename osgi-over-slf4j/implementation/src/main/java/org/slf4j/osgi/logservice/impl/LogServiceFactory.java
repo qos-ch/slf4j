@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004-2005 QOS.ch
+ * Copyright (c) 2004-2015 QOS.ch
  *
  * All rights reserved.
  *
@@ -27,52 +27,50 @@
  * shall not be used in advertising or otherwise to promote the sale, use
  * or other dealings in this Software without prior written authorization
  * of the copyright holder.
- *
  */
 
 package org.slf4j.osgi.logservice.impl;
 
-import java.util.Properties;
-
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceFactory;
-import org.osgi.service.log.LogService;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.framework.Version;
+import org.osgi.service.packageadmin.PackageAdmin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * <code>Activator</code> implements a simple bundle that registers a
- * {@link LogServiceFactory} for the creation of {@link LogService} implementations.
+ * <code>LogServiceFactory</code> creates {@link org.osgi.service.log.LogService} implementations. ServiceFactory
+ * is necessary to capture the bundle that is using the LogService for LogEntry instances.
  *
  * @author John Conlon
  * @author Matt Bishop
- **/
-public class Activator implements BundleActivator {
-    /**
-     *
-     * Implements <code>BundleActivator.start()</code> to register a
-     * LogServiceFactory.
-     *
-     * @param bundleContext the framework context for the bundle
-     * @throws Exception
-     */
-    public void start(BundleContext bundleContext) throws Exception {
+ */
+class LogServiceFactory implements ServiceFactory {
 
-        Properties props = new Properties();
-        props.put("description", "An SLF4J LogService implementation.");
-        ServiceFactory factory = new LogServiceFactory();
-        bundleContext.registerService(LogService.class.getName(), factory, props);
+  private final Log log;
+  private final PackageAdmin packageAdmin;
+
+  LogServiceFactory(Log log, PackageAdmin packageAdmin) {
+    this.log = log;
+    this.packageAdmin = packageAdmin;
+  }
+
+  public Object getService(Bundle bundle, ServiceRegistration registration) {
+    Logger delegate = getDelegate(bundle);
+    return new LogServiceImpl(bundle, log, delegate, packageAdmin);
+  }
+
+  public void ungetService(Bundle bundle, ServiceRegistration registration, Object service) {
+    // nothing to do.
+  }
+
+  private Logger getDelegate(Bundle bundle) {
+    String name = bundle.getSymbolicName();
+    Version version = bundle.getVersion();
+    if (version == null) {
+      version = Version.emptyVersion;
     }
-
-    /**
-     *
-     * Implements <code>BundleActivator.stop()</code>.
-     *
-     * @param bundleContext the framework context for the bundle
-     * @throws Exception
-     */
-    public void stop(BundleContext bundleContext) throws Exception {
-
-        // Note: It is not required that we remove the service here, since
-        // the framework will do it automatically.
-    }
+    return LoggerFactory.getLogger(name + '.' + version);
+  }
 }
