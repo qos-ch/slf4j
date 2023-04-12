@@ -418,7 +418,7 @@ public class SubstituteLogger implements Logger {
 
         SubstituteLogger that = (SubstituteLogger) o;
 
-        return !(!name.equals(that.name));
+        return name.equals(that.name);
     }
 
     @Override
