@@ -9,6 +9,7 @@
     <artifactId>slf4j-parent</artifactId>
     <groupId>org.slf4j</groupId>
     <version>2.0.8-SNAPSHOT</version>
+    <relativePath>../parent-pom.xml</relativePath>    
   </parent>
 
   <artifactId>slf4j-jdk-platform-logging</artifactId>
