@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentMap;
  * 
  * <p>
  * This implementation ignores any configured attributes.
- * </p>
+ * 
  * 
  * @author Rod Waldhoff
  * @author Craig R. McClanahan
@@ -64,7 +64,7 @@ public class SLF4JLogFactory extends LogFactory {
      * Public no-arguments constructor required by the lookup mechanism.
      */
     public SLF4JLogFactory() {
-        loggerMap = new ConcurrentHashMap<String, Log>();
+        loggerMap = new ConcurrentHashMap<>();
     }
 
     // ----------------------------------------------------- Manifest Constants
@@ -105,12 +105,12 @@ public class SLF4JLogFactory extends LogFactory {
     @SuppressWarnings("unchecked")
     public String[] getAttributeNames() {
 
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         Enumeration<String> keys = attributes.keys();
         while (keys.hasMoreElements()) {
             names.add((String) keys.nextElement());
         }
-        String results[] = new String[names.size()];
+        String[] results = new String[names.size()];
         for (int i = 0; i < results.length; i++) {
             results[i] = (String) names.get(i);
         }
@@ -136,7 +136,7 @@ public class SLF4JLogFactory extends LogFactory {
      * <p>
      * Construct (if necessary) and return a <code>Log</code> instance, using
      * the factory's current set of configuration attributes.
-     * </p>
+     * 
      * 
      * @param name
      *          Logical name of the <code>Log</code> instance to be returned
@@ -173,12 +173,10 @@ public class SLF4JLogFactory extends LogFactory {
     public void release() {
         // This method is never called by jcl-over-slf4j classes. However,
         // in certain deployment scenarios, in particular if jcl-over-slf4j.jar
-        // is
-        // in the the web-app class loader and the official commons-logging.jar is
-        // deployed in some parent class loader (e.g. commons/lib), then it is
-        // possible
-        // for the parent class loader to mask the classes shipping in
-        // jcl-over-slf4j.jar.
+        // is in the web-app class loader and the official commons-logging.jar
+        // is deployed in some parent class loader (e.g. commons/lib), then it
+        // is possible for the parent class loader to mask the classes shipping
+        // in jcl-over-slf4j.jar.
         System.err.println("WARN: The method " + SLF4JLogFactory.class + "#release() was invoked.");
         System.err.println("WARN: Please see http://www.slf4j.org/codes.html#release for an explanation.");
         System.err.flush();

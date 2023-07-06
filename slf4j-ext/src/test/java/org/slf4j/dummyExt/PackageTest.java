@@ -24,15 +24,11 @@
  */
 package org.slf4j.dummyExt;
 
-import junit.framework.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-public class PackageTest extends TestCase {
-
-    public static Test suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTestSuite(MDCStrLookupTest.class);
-        suite.addTestSuite(XLoggerTest.class);
-        suite.addTestSuite(EventLoggerTest.class);
-        return suite;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({ XLoggerTest.class })
+public class PackageTest {
 }

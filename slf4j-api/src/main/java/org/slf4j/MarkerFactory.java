@@ -26,7 +26,7 @@ package org.slf4j;
 
 import org.slf4j.helpers.BasicMarkerFactory;
 import org.slf4j.helpers.Util;
-import org.slf4j.impl.StaticMarkerBinder;
+import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
  * MarkerFactory is a utility class producing {@link Marker} instances as
@@ -42,20 +42,20 @@ import org.slf4j.impl.StaticMarkerBinder;
  * @author Ceki G&uuml;lc&uuml;
  */
 public class MarkerFactory {
-    static IMarkerFactory markerFactory;
+    static IMarkerFactory MARKER_FACTORY;
 
     private MarkerFactory() {
     }
 
+    // this is where the binding happens
     static {
-        try {
-            markerFactory = StaticMarkerBinder.SINGLETON.getMarkerFactory();
-        } catch (NoClassDefFoundError e) {
-            markerFactory = new BasicMarkerFactory();
-
-        } catch (Exception e) {
-            // we should never get here
-            Util.report("Unexpected failure while binding MarkerFactory", e);
+        SLF4JServiceProvider provider = LoggerFactory.getProvider();
+        if (provider != null) {
+            MARKER_FACTORY = provider.getMarkerFactory();
+        } else {
+            Util.report("Failed to find provider");
+            Util.report("Defaulting to BasicMarkerFactory.");
+            MARKER_FACTORY = new BasicMarkerFactory();
         }
     }
 
@@ -68,7 +68,7 @@ public class MarkerFactory {
      * @return marker
      */
     public static Marker getMarker(String name) {
-        return markerFactory.getMarker(name);
+        return MARKER_FACTORY.getMarker(name);
     }
 
     /**
@@ -79,7 +79,7 @@ public class MarkerFactory {
      * @since 1.5.1
      */
     public static Marker getDetachedMarker(String name) {
-        return markerFactory.getDetachedMarker(name);
+        return MARKER_FACTORY.getDetachedMarker(name);
     }
 
     /**
@@ -91,6 +91,6 @@ public class MarkerFactory {
      * @return the IMarkerFactory instance in use
      */
     public static IMarkerFactory getIMarkerFactory() {
-        return markerFactory;
+        return MARKER_FACTORY;
     }
 }

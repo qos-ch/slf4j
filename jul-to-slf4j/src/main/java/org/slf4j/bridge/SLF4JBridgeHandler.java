@@ -39,12 +39,12 @@ import org.slf4j.spi.LocationAwareLogger;
 // Based on http://jira.qos.ch/browse/SLF4J-30
 
 /**
- * <p>Bridge/route all JUL log records to the SLF4J API.</p>
+ * <p>Bridge/route all JUL log records to the SLF4J API.
  * <p>Essentially, the idea is to install on the root logger an instance of
  * <code>SLF4JBridgeHandler</code> as the sole JUL handler in the system. Subsequently, the
  * SLF4JBridgeHandler instance will redirect all JUL log records are redirected
  * to the SLF4J API based on the following mapping of levels:
- * </p>
+ * 
  * <pre>
  * FINEST  -&gt; TRACE
  * FINER   -&gt; DEBUG
@@ -52,7 +52,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * INFO    -&gt; INFO
  * WARNING -&gt; WARN
  * SEVERE  -&gt; ERROR</pre>
- * <p><b>Programmatic installation:</b></p>
+ * <p><b>Programmatic installation:</b>
  * <pre>
  * // Optionally remove existing handlers attached to j.u.l root logger
  * SLF4JBridgeHandler.removeHandlersForRootLogger();  // (since SLF4J 1.6.5)
@@ -60,12 +60,12 @@ import org.slf4j.spi.LocationAwareLogger;
  * // add SLF4JBridgeHandler to j.u.l's root logger, should be done once during
  * // the initialization phase of your application
  * SLF4JBridgeHandler.install();</pre>
- * <p><b>Installation via <em>logging.properties</em> configuration file:</b></p>
+ * <p><b>Installation via <em>logging.properties</em> configuration file:</b>
  * <pre>
  * // register SLF4JBridgeHandler as handler for the j.u.l. root logger
  * handlers = org.slf4j.bridge.SLF4JBridgeHandler</pre>
  * <p>Once SLF4JBridgeHandler is installed, logging by j.u.l. loggers will be directed to
- * SLF4J. Example: </p>
+ * SLF4J. Example: 
  * <pre>
  * import  java.util.logging.Logger;
  * ...
@@ -79,17 +79,26 @@ import org.slf4j.spi.LocationAwareLogger;
  * SLF4J translation can seriously increase the cost of disabled logging
  * statements (60 fold or 6000% increase) and measurably impact the performance of enabled log
  * statements (20% overall increase).</b> Please note that as of logback-version 0.9.25,
- * it is possible to completely eliminate the 60 fold translation overhead for disabled
+ * it is possible to completely eliminate the 60-fold translation overhead for disabled
  * log statements with the help of <a href="http://logback.qos.ch/manual/configuration.html#LevelChangePropagator">LevelChangePropagator</a>.
- * </p>
+ * 
  *
  * <p>If you are concerned about application performance, then use of <code>SLF4JBridgeHandler</code>
- * is appropriate only if any one the following two conditions is true:</p>
+ * is appropriate only if any of the following conditions is true:
  * <ol>
  * <li>few j.u.l. logging statements are in play</li>
  * <li>LevelChangePropagator has been installed</li>
  * </ol>
  *
+ * <h2>As a Java 9/Jigsaw module</h2>
+ * 
+ * <p>Given that <b>to</b> is a reserved keyword under Java 9 within module productions, 
+ * the MANIFEST.MF file in <em>jul-to-slf4j.jar</em> declares <b>jul_to_slf4j</b> as
+ * its Automatic Module Name. Thus, if your application is Jigsaw modularized, the requires 
+ * statement in your <em>module-info.java</em> needs to be <b>jul_to_slf4j</b> 
+ * (note the two underscores).
+ *
+ * 
  * @author Christian Stein
  * @author Joern Huxhorn
  * @author Ceki G&uuml;lc&uuml;
@@ -109,9 +118,8 @@ public class SLF4JBridgeHandler extends Handler {
 
     /**
      * Adds a SLF4JBridgeHandler instance to jul's root logger.
-     * <p/>
-     * <p/>
-     * This handler will redirect j.u.l. logging to SLF4J. However, only logs enabled
+     * 
+     * <p>This handler will redirect j.u.l. logging to SLF4J. However, only logs enabled
      * in j.u.l. will be redirected. For example, if a log statement invoking a
      * j.u.l. logger is disabled, then the corresponding non-event will <em>not</em>
      * reach SLF4JBridgeHandler and cannot be redirected.
@@ -135,9 +143,9 @@ public class SLF4JBridgeHandler extends Handler {
     public static void uninstall() throws SecurityException {
         java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            if (handlers[i] instanceof SLF4JBridgeHandler) {
-                rootLogger.removeHandler(handlers[i]);
+        for (Handler handler : handlers) {
+            if (handler instanceof SLF4JBridgeHandler) {
+                rootLogger.removeHandler(handler);
             }
         }
     }
@@ -145,14 +153,14 @@ public class SLF4JBridgeHandler extends Handler {
     /**
      * Returns true if SLF4JBridgeHandler has been previously installed, returns false otherwise.
      *
-     * @return true if SLF4JBridgeHandler is already installed, false other wise
-     * @throws SecurityException
+     * @return true if SLF4JBridgeHandler is already installed, false otherwise
+     *
      */
-    public static boolean isInstalled() throws SecurityException {
+    public static boolean isInstalled() {
         java.util.logging.Logger rootLogger = getRootLogger();
         Handler[] handlers = rootLogger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            if (handlers[i] instanceof SLF4JBridgeHandler) {
+        for (Handler handler : handlers) {
+            if (handler instanceof SLF4JBridgeHandler) {
                 return true;
             }
         }
@@ -166,8 +174,8 @@ public class SLF4JBridgeHandler extends Handler {
     public static void removeHandlersForRootLogger() {
         java.util.logging.Logger rootLogger = getRootLogger();
         java.util.logging.Handler[] handlers = rootLogger.getHandlers();
-        for (int i = 0; i < handlers.length; i++) {
-            rootLogger.removeHandler(handlers[i]);
+        for (Handler handler : handlers) {
+            rootLogger.removeHandler(handler);
         }
     }
 
@@ -193,6 +201,9 @@ public class SLF4JBridgeHandler extends Handler {
 
     /**
      * Return the Logger instance that will be used for logging.
+     * 
+     * @param record a LogRecord
+     * @return an SLF4J logger corresponding to the record parameter's logger name
      */
     protected Logger getSLF4JLogger(LogRecord record) {
         String name = record.getLoggerName();
@@ -261,17 +272,23 @@ public class SLF4JBridgeHandler extends Handler {
         // avoid formatting when there are no or 0 parameters. see also
         // http://jira.qos.ch/browse/SLF4J-203
         if (params != null && params.length > 0) {
-            message = MessageFormat.format(message, params);
+            try {
+                message = MessageFormat.format(message, params);
+            } catch (IllegalArgumentException e) {
+                // default to the same behavior as in java.util.logging.Formatter.formatMessage(LogRecord)
+                // see also http://jira.qos.ch/browse/SLF4J-337
+                return message;
+            }
         }
         return message;
     }
 
     /**
      * Publish a LogRecord.
-     * <p/>
+     * <p>
      * The logging request was made initially to a Logger object, which
      * initialized the LogRecord and forwarded it here.
-     * <p/>
+     * <p>
      * This handler ignores the Level attached to the LogRecord, as SLF4J cares
      * about discarding log statements.
      *
@@ -285,13 +302,12 @@ public class SLF4JBridgeHandler extends Handler {
         }
 
         Logger slf4jLogger = getSLF4JLogger(record);
-        String message = record.getMessage(); // can be null!
         // this is a check to avoid calling the underlying logging system
         // with a null message. While it is legitimate to invoke j.u.l. with
         // a null message, other logging frameworks do not support this.
         // see also http://jira.qos.ch/browse/SLF4J-99
-        if (message == null) {
-            message = "";
+        if (record.getMessage() == null) {
+            record.setMessage("");
         }
         if (slf4jLogger instanceof LocationAwareLogger) {
             callLocationAwareLogger((LocationAwareLogger) slf4jLogger, record);

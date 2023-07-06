@@ -34,16 +34,14 @@ import org.slf4j.instrumentation.LogTransformer;
 
 /**
  * Entry point for slf4j-ext when used as a Java agent.
- * 
+ *
  */
 public class AgentPremain {
 
     /**
      * JavaAgent premain entry point as specified in the MANIFEST.MF file. See
-     * {@link http
-     * ://java.sun.com/javase/6/docs/api/java/lang/instrument/package-
-     * summary.html} for details.
-     * 
+     * <a href="http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html">http://java.sun.com/javase/6/docs/api/java/lang/instrument/package-summary.html</a> for details.
+     *
      * @param agentArgument
      *            string provided after "=" up to first space
      * @param instrumentation
@@ -85,8 +83,8 @@ public class AgentPremain {
      * Consider the argument string to be a property file (by converting the
      * splitter character to line feeds), and then reading it like any other
      * property file.
-     * 
-     * 
+     *
+     *
      * @param agentArgument
      *            string given by instrumentation framework
      * @param separator
@@ -109,20 +107,17 @@ public class AgentPremain {
      * Print the start message to System.err with the time NOW, and register a
      * shutdown hook which will print the stop message to System.err with the
      * time then and the number of milliseconds passed since.
-     * 
+     *
      */
     private static void printStartStopTimes() {
         final long start = System.currentTimeMillis();
 
         System.err.println("Start at " + new Date());
 
-        Thread hook = new Thread() {
-            @Override
-            public void run() {
-                long timePassed = System.currentTimeMillis() - start;
-                System.err.println("Stop at " + new Date() + ", execution time = " + timePassed + " ms");
-            }
-        };
+        Thread hook = new Thread(() -> {
+            long timePassed = System.currentTimeMillis() - start;
+            System.err.println("Stop at " + new Date() + ", execution time = " + timePassed + " ms");
+        });
         Runtime.getRuntime().addShutdownHook(hook);
     }
 }

@@ -32,9 +32,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertNotNull;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,12 +42,12 @@ import org.slf4j.LoggerFactory;
  * See http://jira.qos.ch/browse/SLF4J-252
  * @author Thorbjorn Ravn Andersen
  */
-public class LoggerSerializationTest extends TestCase {
+public class LoggerSerializationTest {
 
     static class LoggerHolder implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private Logger log = LoggerFactory.getLogger(LoggerHolder.class);
+        private final Logger log = LoggerFactory.getLogger(LoggerHolder.class);
 
         public String toString() {
             return "log=" + getLog();
@@ -58,6 +58,7 @@ public class LoggerSerializationTest extends TestCase {
         }
     }
 
+    @Test
     public void testCanLoggerBeSerialized() throws IOException, ClassNotFoundException {
 
         LoggerHolder lh1 = new LoggerHolder();
@@ -75,8 +76,8 @@ public class LoggerSerializationTest extends TestCase {
         ObjectInputStream in = new ObjectInputStream(is);
         LoggerHolder lh2 = (LoggerHolder) in.readObject();
 
-        Assert.assertNotNull(lh2);
-        Assert.assertNotNull(lh2.getLog());
+        assertNotNull(lh2);
+        assertNotNull(lh2.getLog());
         lh2.getLog().info("You must see this message as a log message");
     }
 

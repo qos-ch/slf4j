@@ -54,7 +54,7 @@ public interface Appender {
     /**
      * Release any resources allocated within the appender such as file
      * handles, network connections, etc.
-     * <p/>
+     * 
      * <p>It is a programming error to append to a closed appender.
      *
      * @since 0.8.4
@@ -114,12 +114,12 @@ public interface Appender {
      * Configurators call this method to determine if the appender
      * requires a layout. If this method returns <code>true</code>,
      * meaning that layout is required, then the configurator will
-     * configure an layout using the configuration information at its
+     * configure a layout using the configuration information at its
      * disposal.  If this method returns <code>false</code>, meaning that
      * a layout is not required, then layout configuration will be
      * skipped even if there is available layout configuration
-     * information at the disposal of the configurator..
-     * <p/>
+     * information at the disposal of the configurator.
+     * 
      * <p>In the rather exceptional case, where the appender
      * implementation admits a layout but can also work without it, then
      * the appender should return <code>true</code>.

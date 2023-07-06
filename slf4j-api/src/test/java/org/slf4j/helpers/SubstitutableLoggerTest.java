@@ -24,56 +24,84 @@
  */
 package org.slf4j.helpers;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.slf4j.Logger;
+import org.slf4j.event.EventRecordingLogger;
 
 /**
  * @author Chetan Mehrotra
+ * @author Ceki Gülcü
  */
-public class SubstitutableLoggerTest extends TestCase {
-    private static final Set<String> EXCLUDED_METHODS = new HashSet<String>(Arrays.asList("getName"));
+public class SubstitutableLoggerTest {
 
-    public void testDelegate() throws Exception {
-        SubstituteLogger log = new SubstituteLogger("foo");
-        assertTrue(log.delegate() instanceof NOPLogger);
+    // NOTE: previous implementations of this class performed a handcrafted conversion of
+    // a method to a string. In this implementation we just invoke method.toString().
+    
+    // WARNING: if you need to add an excluded method to have tests pass, ask yourself whether you
+    // forgot to implement the said method with delegation in SubstituteLogger. You probably did.
+    private static final Set<String> EXCLUDED_METHODS = new HashSet<>(
+            Arrays.asList("getName"));
+
+    
+    /**
+     * Test that all SubstituteLogger methods invoke the delegate, except for explicitly excluded  methods.
+     */
+    @Test
+    public void delegateIsInvokedTest() throws Exception {
+        SubstituteLogger substituteLogger = new SubstituteLogger("foo", null, false);
+        assertTrue(substituteLogger.delegate() instanceof EventRecordingLogger);
 
         Set<String> expectedMethodSignatures = determineMethodSignatures(Logger.class);
-        LoggerInvocationHandler ih = new LoggerInvocationHandler();
-        Logger proxyLogger = (Logger) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Logger.class }, ih);
-        log.setDelegate(proxyLogger);
+        LoggerInvocationHandler loggerInvocationHandler = new LoggerInvocationHandler();
+        Logger proxyLogger = (Logger) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Logger.class }, loggerInvocationHandler);
+        substituteLogger.setDelegate(proxyLogger);
 
-        invokeMethods(log);
+        invokeAllMethodsOf(substituteLogger);
 
         // Assert that all methods are delegated
-        expectedMethodSignatures.removeAll(ih.getInvokedMethodSignatures());
+        expectedMethodSignatures.removeAll(loggerInvocationHandler.getInvokedMethodSignatures());
         if (!expectedMethodSignatures.isEmpty()) {
             fail("Following methods are not delegated " + expectedMethodSignatures.toString());
         }
     }
 
-    private void invokeMethods(Logger proxyLogger) throws InvocationTargetException, IllegalAccessException {
+    private void invokeAllMethodsOf(Logger logger) throws InvocationTargetException, IllegalAccessException {
         for (Method m : Logger.class.getDeclaredMethods()) {
             if (!EXCLUDED_METHODS.contains(m.getName())) {
-                m.invoke(proxyLogger, new Object[m.getParameterTypes().length]);
+                m.invoke(logger, new Object[m.getParameterTypes().length]);
             }
         }
     }
 
+    private static Set<String> determineMethodSignatures(Class<Logger> loggerClass) {
+        Set<String> methodSignatures = new HashSet<>();
+        // Note: Class.getDeclaredMethods() does not include inherited methods
+        for (Method m : loggerClass.getDeclaredMethods()) {
+            if (!EXCLUDED_METHODS.contains(m.getName())) {
+                methodSignatures.add(m.toString());
+            }
+        }
+        return methodSignatures;
+    }
+
+    
+    // implements InvocationHandler 
     private class LoggerInvocationHandler implements InvocationHandler {
-        private final Set<String> invokedMethodSignatures = new HashSet<String>();
+        private final Set<String> invokedMethodSignatures = new HashSet<>();
 
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            invokedMethodSignatures.add(getMethodSignature(method));
+            invokedMethodSignatures.add(method.toString());
             if (method.getName().startsWith("is")) {
                 return true;
             }
@@ -83,24 +111,5 @@ public class SubstitutableLoggerTest extends TestCase {
         public Set<String> getInvokedMethodSignatures() {
             return invokedMethodSignatures;
         }
-    }
-
-    private static Set<String> determineMethodSignatures(Class<Logger> loggerClass) {
-        Set<String> methodSignatures = new HashSet<String>();
-        for (Method m : loggerClass.getDeclaredMethods()) {
-            if (!EXCLUDED_METHODS.contains(m.getName())) {
-                methodSignatures.add(getMethodSignature(m));
-            }
-        }
-        return methodSignatures;
-    }
-
-    private static String getMethodSignature(Method m) {
-        List<String> result = new ArrayList<String>();
-        result.add(m.getName());
-        for (Class<?> clazz : m.getParameterTypes()) {
-            result.add(clazz.getSimpleName());
-        }
-        return result.toString();
     }
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>slf4j-parent</artifactId>
+    <groupId>org.slf4j</groupId>
+    <version>2.0.8-SNAPSHOT</version>
+    <relativePath>../parent-pom.xml</relativePath>    
+  </parent>
+
+  <artifactId>slf4j-jdk-platform-logging</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J JDK Platform Logging Integration</name>
+  <description>Integrated SLF4J with the Platform Logging API added by JEP 264 in Java 9</description>
+
+  <url>https://www.slf4j.org</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- target Java 9+ -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <source>9</source>
+              <target>9</target>
+              <release>9</release>
+            </configuration>            
+          </execution>
+          <execution>
+            <id>default-testCompile</id>
+            <goals>
+              <goal>testCompile</goal> 
+            </goals>
+            <configuration>
+              <source>9</source>
+              <target>9</target>
+              <release>9</release>
+            </configuration>            
+          </execution> 
+        </executions>        
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <forkCount>1</forkCount>
+          <reuseForks>false</reuseForks>
+          <reportFormat>plain</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+        </configuration>
+      </plugin>
+
+
+    </plugins>
+  </build>
+
+</project>

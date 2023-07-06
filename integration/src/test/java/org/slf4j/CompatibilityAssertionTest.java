@@ -25,31 +25,33 @@
 
 package org.slf4j;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.PrintStream;
 import java.util.Random;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class CompatibilityAssertionTest extends TestCase {
+public class CompatibilityAssertionTest {
 
     StringPrintStream sps = new StringPrintStream(System.err);
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-    public CompatibilityAssertionTest(String name) {
-        super(name);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         System.setErr(sps);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         System.setErr(old);
     }
 
+    @Test
     public void test() throws Exception {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         String msg = "hello world " + diff;
@@ -57,5 +59,6 @@ public class CompatibilityAssertionTest extends TestCase {
         assertEquals(1, sps.stringList.size());
         String s0 = (String) sps.stringList.get(0);
         assertTrue(s0.contains(msg));
+
     }
 }

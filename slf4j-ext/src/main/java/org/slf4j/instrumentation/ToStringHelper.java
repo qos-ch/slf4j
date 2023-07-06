@@ -53,10 +53,10 @@ public class ToStringHelper {
      * is needed, but unfortunately the runtime library does not contain a
      * WeakHashSet class, so the behavior is emulated with a WeakHashmap with
      * the class as the key, and a Long containing the value of
-     * System.currentTimeMilis when an instance of the class failed to render.
+     * System.currentTimeMillis when an instance of the class failed to render.
      */
 
-    final static Map<Class<?>, Object> unrenderableClasses = new WeakHashMap<Class<?>, Object>();
+    final static Map<Class<?>, Object> unrenderableClasses = new WeakHashMap<>();
 
     /**
      * Returns o.toString() unless it throws an exception (which causes it to be
@@ -84,7 +84,7 @@ public class ToStringHelper {
                     return o.toString();
                 }
             } catch (Exception e) {
-                Long now = new Long(System.currentTimeMillis());
+                Long now = Long.valueOf(System.currentTimeMillis());
 
                 System.err.println("Disabling exception throwing class " + objectClass.getName() + ", " + e.getMessage());
 

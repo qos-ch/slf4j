@@ -24,11 +24,12 @@
  */
 package org.slf4j.migrator.helper;
 
-import org.slf4j.migrator.helper.Abbreviator;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class AbbreviatorTest extends TestCase {
+public class AbbreviatorTest {
 
     static final char FS = '/';
     static final String INPUT_0 = "/abc/123456/ABC";
@@ -36,18 +37,7 @@ public class AbbreviatorTest extends TestCase {
 
     RandomHelper rh = new RandomHelper(FS);
 
-    public AbbreviatorTest(String arg0) {
-        super(arg0);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testSmoke() {
         {
             Abbreviator abb = new Abbreviator(2, 100, FS);
@@ -67,6 +57,7 @@ public class AbbreviatorTest extends TestCase {
         }
     }
 
+    @Test
     public void testImpossibleToAbbreviate() {
         Abbreviator abb = new Abbreviator(2, 20, FS);
         String in = "iczldqwivpgm/mgrmvbjdxrwmqgprdjusth";
@@ -74,6 +65,7 @@ public class AbbreviatorTest extends TestCase {
         assertEquals(in, r);
     }
 
+    @Test
     public void testNoFS() {
         Abbreviator abb = new Abbreviator(2, 100, FS);
         String r = abb.abbreviate("hello");
@@ -81,6 +73,7 @@ public class AbbreviatorTest extends TestCase {
 
     }
 
+    @Test
     public void testZeroPrefix() {
         {
             Abbreviator abb = new Abbreviator(0, 100, FS);
@@ -89,6 +82,7 @@ public class AbbreviatorTest extends TestCase {
         }
     }
 
+    @Test
     public void testTheories() {
         int MAX_RANDOM_FIXED_LEN = 20;
         int MAX_RANDOM_AVG_LEN = 20;

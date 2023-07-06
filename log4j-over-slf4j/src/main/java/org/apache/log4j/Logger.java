@@ -24,7 +24,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * This class is a minimal implementation of the original
  * <code>org.apache.log4j.Logger</code> class (as found in log4j 1.2) 
  * delegating all calls to a {@link org.slf4j.Logger} instance.
- * </p>
+ * 
  *
  * @author Ceki G&uuml;lc&uuml; 
  * */
@@ -52,7 +52,7 @@ public class Logger extends Category {
     /**
      * Does the obvious.
      * 
-     * @return
+     * @return the root logger
      */
     public static Logger getRootLogger() {
         return Log4jLoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
@@ -61,6 +61,8 @@ public class Logger extends Category {
     /**
      * Delegates to {@link org.slf4j.Logger#isTraceEnabled} 
      * method of SLF4J.
+     * 
+     * @return whether this logger is enabled for the level TRACE
      */
     public boolean isTraceEnabled() {
         return slf4jLogger.isTraceEnabled();
@@ -68,6 +70,9 @@ public class Logger extends Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#trace(String)} method in SLF4J.
+     *     
+     * @param message the message to log
+     *      
      */
     public void trace(Object message) {
         differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
@@ -76,9 +81,12 @@ public class Logger extends Category {
     /**
      * Delegates to {@link org.slf4j.Logger#trace(String,Throwable)} 
      * method in SLF4J.
+     * 
+     * @param message the message to log
+     * @param t a Throwable to log
      */
     public void trace(Object message, Throwable t) {
-        differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, null);
+        differentiatedLog(null, LOGGER_FQCN, LocationAwareLogger.TRACE_INT, message, t);
     }
 
 }

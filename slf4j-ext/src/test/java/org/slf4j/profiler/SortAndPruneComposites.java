@@ -50,7 +50,7 @@ public class SortAndPruneComposites {
         int[] sortedArray = sort();
         // start a new stopwatch called PRUNE_COMPOSITES
         sortProfiler.start("PRUNE_COMPOSITES");
-        int result[] = pruneComposites(sortedArray);
+        int[] result = pruneComposites(sortedArray);
 
         return result;
     }
@@ -63,7 +63,7 @@ public class SortAndPruneComposites {
     }
 
     int[] pruneComposites(int[] sortedArray) {
-        ArrayList<Integer> primesArray = new ArrayList<Integer>();
+        ArrayList<Integer> primesArray = new ArrayList<>();
         for (int i = 0; i < originalArrrayLength; i++) {
             int n = sortedArray[i];
             if (isPrime(n)) {

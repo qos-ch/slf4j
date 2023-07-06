@@ -28,38 +28,38 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
-public class MultiBindingAssertionTest extends TestCase {
+public class MultiBindingAssertionTest {
 
     StringPrintStream sps = new StringPrintStream(System.err);
     PrintStream old = System.err;
     int diff = 1024 + new Random().nextInt(10000);
 
-    public MultiBindingAssertionTest(String name) {
-        super(name);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         System.setErr(sps);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         System.setErr(old);
     }
 
+    @Test
     public void test() throws Exception {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         String msg = "hello world " + diff;
         logger.info(msg);
         List<String> list = sps.stringList;
-        assertMsgContains(list, 0, "Class path contains multiple SLF4J bindings.");
-        assertMsgContains(list, 1, "Found binding in");
-        assertMsgContains(list, 2, "Found binding in");
-        assertMsgContains(list, 3, "See http://www.slf4j.org/codes.html");
-        assertMsgContains(list, 4, "Actual binding is of type [");
+        assertMsgContains(list, 0, "Class path contains multiple SLF4J providers.");
+        assertMsgContains(list, 1, "Found provider");
+        assertMsgContains(list, 2, "Found provider");
+        assertMsgContains(list, 3, "See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.");
+        assertMsgContains(list, 4, "Actual provider is of type [");
     }
 
     void assertMsgContains(List<String> strList, int index, String msg) {

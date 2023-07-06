@@ -24,13 +24,15 @@
  */
 package org.slf4j.helpers;
 
-import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.event.SubstituteLoggingEvent;
 
 /**
  * SubstituteLoggerFactory manages instances of {@link SubstituteLogger}.
@@ -40,28 +42,39 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class SubstituteLoggerFactory implements ILoggerFactory {
 
-    final ConcurrentMap<String, SubstituteLogger> loggers = new ConcurrentHashMap<String, SubstituteLogger>();
+    volatile boolean postInitialization = false;
 
-    public Logger getLogger(String name) {
+    final Map<String, SubstituteLogger> loggers = new ConcurrentHashMap<>();
+
+    final LinkedBlockingQueue<SubstituteLoggingEvent> eventQueue = new LinkedBlockingQueue<>();
+
+    synchronized public Logger getLogger(String name) {
         SubstituteLogger logger = loggers.get(name);
         if (logger == null) {
-            logger = new SubstituteLogger(name);
-            SubstituteLogger oldLogger = loggers.putIfAbsent(name, logger);
-            if (oldLogger != null)
-                logger = oldLogger;
+            logger = new SubstituteLogger(name, eventQueue, postInitialization);
+            loggers.put(name, logger);
         }
         return logger;
     }
 
     public List<String> getLoggerNames() {
-        return new ArrayList<String>(loggers.keySet());
+        return new ArrayList<>(loggers.keySet());
     }
 
     public List<SubstituteLogger> getLoggers() {
-        return new ArrayList<SubstituteLogger>(loggers.values());
+        return new ArrayList<>(loggers.values());
+    }
+
+    public LinkedBlockingQueue<SubstituteLoggingEvent> getEventQueue() {
+        return eventQueue;
+    }
+
+    public void postInitialization() {
+        postInitialization = true;
     }
 
     public void clear() {
         loggers.clear();
+        eventQueue.clear();
     }
 }

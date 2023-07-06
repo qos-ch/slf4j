@@ -1,0 +1,13 @@
+
+grant {
+
+  // note that java.lang.RuntimePermission createSecurityManager is NOT granted
+
+  permission java.util.PropertyPermission "user.dir", "read";
+
+  // permissions required for Ant's Junit runner
+  permission java.util.PropertyPermission "*", "read, write";
+  permission java.io.FilePermission "./-", "read";
+  permission java.io.FilePermission "./-", "write";
+  permission java.lang.RuntimePermission "setIO";
+};

@@ -29,14 +29,16 @@ import java.util.Iterator;
 
 /**
  * Markers are named objects used to enrich log statements. Conforming logging
- * system Implementations of SLF4J determine how information conveyed by markers
- * are used, if at all. In particular, many conforming logging systems ignore
- * marker data.
- * 
- * <p>
- * Markers can contain references to other markers, which in turn may contain 
- * references of their own.
- * 
+ * system implementations of SLF4J should determine how information conveyed by
+ * any markers are used, if at all. Many conforming logging systems ignore marker
+ * data entirely.
+ *
+ * <p>Markers can contain references to nested markers, which in turn may
+ * contain references of their own. Note that the fluent API (new in 2.0) allows adding
+ * multiple markers to a logging statement. It is often preferable to use
+ * multiple markers instead of nested markers.
+ * </p>
+ *
  * @author Ceki G&uuml;lc&uuml;
  */
 public interface Marker extends Serializable {
@@ -60,7 +62,11 @@ public interface Marker extends Serializable {
 
     /**
      * Add a reference to another Marker.
-     * 
+     *
+     * <p>Note that the fluent API allows adding multiple markers to a logging statement.
+     * It is often preferable to use multiple markers instead of nested markers.
+     * </p>
+     *
      * @param reference
      *                a reference to another marker
      * @throws IllegalArgumentException
@@ -80,6 +86,7 @@ public interface Marker extends Serializable {
     /**
      * @deprecated Replaced by {@link #hasReferences()}.
      */
+    @Deprecated
     public boolean hasChildren();
 
     /**

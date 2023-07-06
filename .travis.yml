@@ -1,4 +1,21 @@
+dist: trusty
+
 language: java
+
+jdk:
+  - oraclejdk11
+
 notifications:
   email:
-      - slf4j-dev@qos.ch
+      - notification@qos.ch
+
+install: /bin/true
+
+script:
+  - mvn clean
+  - mvn install
+
+cache:
+  directories:
+  - $HOME/.m2
+  

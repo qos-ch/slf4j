@@ -24,19 +24,19 @@
  */
 package org.slf4j.profiler;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProfilerTest extends TestCase {
+public class ProfilerTest {
 
     Logger logger = LoggerFactory.getLogger(ProfilerTest.class);
 
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
+    @Test
     public void testSmoke() {
         Profiler profiler = new Profiler("SMOKE");
         profiler.stop();
@@ -49,6 +49,7 @@ public class ProfilerTest extends TestCase {
         assertNull(profiler.getLastTimeInstrument());
     }
 
+    @Test
     public void testBasicProfiling() {
         Profiler profiler = new Profiler("BAS");
 
@@ -80,6 +81,7 @@ public class ProfilerTest extends TestCase {
     // |-- Total elapsed time [subtask] 7.321 milliseconds.
     // |-- elapsed time [doZ] 3.211 milliseconds.
     // |-- Total elapsed time [BAS] 30.317 milliseconds.
+    @Test
     public void testNestedProfiling() {
 
         Profiler profiler = new Profiler("BAS");

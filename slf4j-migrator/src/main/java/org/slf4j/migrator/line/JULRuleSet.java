@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  */
 public class JULRuleSet implements RuleSet {
 
-    private ArrayList<ConversionRule> conversionRuleList;
+    private final ArrayList<ConversionRule> conversionRuleList;
 
     public JULRuleSet() {
 
@@ -55,7 +55,7 @@ public class JULRuleSet implements RuleSet {
         SingleConversionRule crWarning = new SingleConversionRule(Pattern.compile("\\.warning\\("), ".warn(");
         SingleConversionRule crSevere = new SingleConversionRule(Pattern.compile("\\.severe\\("), ".error(");
 
-        conversionRuleList = new ArrayList<ConversionRule>();
+        conversionRuleList = new ArrayList<>();
         conversionRuleList.add(crImport0);
         conversionRuleList.add(crImport1);
         conversionRuleList.add(crImport2);

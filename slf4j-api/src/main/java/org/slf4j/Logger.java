@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2022 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -25,12 +25,29 @@
 
 package org.slf4j;
 
+import static org.slf4j.event.EventConstants.DEBUG_INT;
+import static org.slf4j.event.EventConstants.ERROR_INT;
+import static org.slf4j.event.EventConstants.INFO_INT;
+import static org.slf4j.event.EventConstants.TRACE_INT;
+import static org.slf4j.event.EventConstants.WARN_INT;
+import static org.slf4j.event.Level.DEBUG;
+import static org.slf4j.event.Level.ERROR;
+import static org.slf4j.event.Level.INFO;
+import static org.slf4j.event.Level.TRACE;
+import static org.slf4j.event.Level.WARN;
+
+import org.slf4j.event.Level;
+import org.slf4j.helpers.CheckReturnValue;
+import org.slf4j.spi.DefaultLoggingEventBuilder;
+import org.slf4j.spi.LoggingEventBuilder;
+import org.slf4j.spi.NOPLoggingEventBuilder;
+
 /**
  * The org.slf4j.Logger interface is the main user entry point of SLF4J API.
  * It is expected that logging takes place through concrete implementations
  * of this interface.
- * <p/>
- * <h3>Typical usage pattern:</h3>
+ * 
+ * <H3>Typical usage pattern:</H3>
  * <pre>
  * import org.slf4j.Logger;
  * import org.slf4j.LoggerFactory;
@@ -45,26 +62,29 @@ package org.slf4j;
  *     oldT = t;
  *     t = temperature;
  *     <span style="color:green">logger.debug("Temperature set to {}. Old temperature was {}.", t, oldT);</span>
- *     if(temperature.intValue() > 50) {
+ *     if (temperature.intValue() &gt; 50) {
  *       <span style="color:green">logger.info("Temperature has risen above 50 degrees.");</span>
  *     }
  *   }
  * }
  * </pre>
  *
- * Be sure to read the FAQ entry relating to <a href="../../../faq.html#logging_performance">parameterized
+ * <p>Note that version 2.0 of the SLF4J API introduces a <a href="../../../manual.html#fluent">fluent api</a>,
+ * the most significant API change to occur in the last 20 years.
+ *
+ * <p>Be sure to read the FAQ entry relating to <a href="../../../faq.html#logging_performance">parameterized
  * logging</a>. Note that logging statements can be parameterized in
  * <a href="../../../faq.html#paramException">presence of an exception/throwable</a>.
  *
  * <p>Once you are comfortable using loggers, i.e. instances of this interface, consider using
- * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.</p>
+ * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.
  *
  * @author Ceki G&uuml;lc&uuml;
  */
 public interface Logger {
 
     /**
-     * Case insensitive String constant used to retrieve the name of the root logger.
+     * Case-insensitive String constant used to retrieve the name of the root logger.
      *
      * @since 1.3
      */
@@ -75,6 +95,70 @@ public interface Logger {
      * @return name of this logger instance 
      */
     public String getName();
+
+    /**
+     * <p>Make a new {@link LoggingEventBuilder} instance as appropriate for this logger implementation.
+     * This default implementation always returns a new instance of {@link DefaultLoggingEventBuilder}.</p>
+     * <p></p>
+     * <p>This method is intended to be used by logging systems implementing the SLF4J API and <b>not</b>
+     * by end users.</p>
+     * <p></p>
+     * <p>Also note that a {@link LoggingEventBuilder} instance should be built for all levels,
+     * independently of the level argument. In other words, this method is an <b>unconditional</b>
+     * constructor for the {@link LoggingEventBuilder} appropriate for this logger implementation.</p>
+     * <p></p>
+     * @param level desired level for the event builder
+     * @return a new {@link LoggingEventBuilder} instance as appropriate for <b>this</b> logger
+     * @since 2.0
+     */
+    default public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+        return new DefaultLoggingEventBuilder(this, level);
+    }
+
+    /**
+     * Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the
+     * desired {@link Level} passed as parameter. If this Logger is disabled for the given Level, then
+     * a {@link  NOPLoggingEventBuilder} is returned.
+     *
+     *
+     * @param level desired level for the event builder
+     * @return a new {@link LoggingEventBuilder} instance as appropriate for this logger
+     * @since 2.0
+     */
+    @CheckReturnValue
+    default public LoggingEventBuilder atLevel(Level level) {
+        if (isEnabledForLevel(level)) {
+            return makeLoggingEventBuilder(level);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
+
+    
+    
+    /**
+     * Returns whether this Logger is enabled for a given {@link Level}. 
+     * 
+     * @param level
+     * @return true if enabled, false otherwise.
+     */
+    default public boolean isEnabledForLevel(Level level) {
+        int levelInt = level.toInt();
+        switch (levelInt) {
+        case (TRACE_INT):
+            return isTraceEnabled();
+        case (DEBUG_INT):
+            return isDebugEnabled();
+        case (INFO_INT):
+            return isInfoEnabled();
+        case (WARN_INT):
+            return isWarnEnabled();
+        case (ERROR_INT):
+            return isErrorEnabled();
+        default:
+            throw new IllegalArgumentException("Level [" + level + "] not recognized.");
+        }
+    }
 
     /**
      * Is the logger instance enabled for the TRACE level?
@@ -96,9 +180,9 @@ public interface Logger {
     /**
      * Log a message at the TRACE level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the TRACE level. </p>
+     * is disabled for the TRACE level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -109,9 +193,9 @@ public interface Logger {
     /**
      * Log a message at the TRACE level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the TRACE level. </p>
+     * is disabled for the TRACE level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -123,12 +207,12 @@ public interface Logger {
     /**
      * Log a message at the TRACE level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the TRACE level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for TRACE. The variants taking {@link #trace(String, Object) one} and
-     * {@link #trace(String, Object, Object) two} arguments exist solely in order to avoid this hidden cost.</p>
+     * {@link #trace(String, Object, Object) two} arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -157,6 +241,21 @@ public interface Logger {
      * @since 1.4
      */
     public boolean isTraceEnabled(Marker marker);
+
+    /**
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#TRACE} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level TRACE
+     * @since 2.0
+     */
+    @CheckReturnValue
+    default public LoggingEventBuilder atTrace() {
+        if (isTraceEnabled()) {
+            return makeLoggingEventBuilder(TRACE);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
 
     /**
      * Log a message with the specific Marker at the TRACE level.
@@ -232,9 +331,9 @@ public interface Logger {
     /**
      * Log a message at the DEBUG level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the DEBUG level. </p>
+     * is disabled for the DEBUG level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -244,9 +343,9 @@ public interface Logger {
     /**
      * Log a message at the DEBUG level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the DEBUG level. </p>
+     * is disabled for the DEBUG level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -257,13 +356,13 @@ public interface Logger {
     /**
      * Log a message at the DEBUG level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the DEBUG level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for DEBUG. The variants taking
      * {@link #debug(String, Object) one} and {@link #debug(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -341,6 +440,21 @@ public interface Logger {
     public void debug(Marker marker, String msg, Throwable t);
 
     /**
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#DEBUG} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level DEBUG
+     * @since 2.0
+     */
+    @CheckReturnValue
+    default public LoggingEventBuilder atDebug() {
+        if (isDebugEnabled()) {
+            return makeLoggingEventBuilder(DEBUG);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
+
+    /**
      * Is the logger instance enabled for the INFO level?
      *
      * @return True if this Logger is enabled for the INFO level,
@@ -358,9 +472,9 @@ public interface Logger {
     /**
      * Log a message at the INFO level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the INFO level. </p>
+     * is disabled for the INFO level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -370,9 +484,9 @@ public interface Logger {
     /**
      * Log a message at the INFO level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the INFO level. </p>
+     * is disabled for the INFO level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -383,13 +497,13 @@ public interface Logger {
     /**
      * Log a message at the INFO level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the INFO level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for INFO. The variants taking
      * {@link #info(String, Object) one} and {@link #info(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -410,7 +524,8 @@ public interface Logger {
      * data is also taken into consideration.
      *
      * @param marker The marker data to take into consideration
-     * @return true if this logger is warn enabled, false otherwise 
+     * @return true if this Logger is enabled for the INFO level,
+     *         false otherwise.
      */
     public boolean isInfoEnabled(Marker marker);
 
@@ -466,6 +581,21 @@ public interface Logger {
     public void info(Marker marker, String msg, Throwable t);
 
     /**
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#INFO} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level INFO
+     * @since 2.0
+     */
+    @CheckReturnValue
+    default public LoggingEventBuilder atInfo() {
+        if (isInfoEnabled()) {
+            return makeLoggingEventBuilder(INFO);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
+
+    /**
      * Is the logger instance enabled for the WARN level?
      *
      * @return True if this Logger is enabled for the WARN level,
@@ -483,9 +613,9 @@ public interface Logger {
     /**
      * Log a message at the WARN level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the WARN level. </p>
+     * is disabled for the WARN level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -495,13 +625,13 @@ public interface Logger {
     /**
      * Log a message at the WARN level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the WARN level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for WARN. The variants taking
      * {@link #warn(String, Object) one} and {@link #warn(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -511,9 +641,9 @@ public interface Logger {
     /**
      * Log a message at the WARN level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the WARN level. </p>
+     * is disabled for the WARN level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -592,6 +722,21 @@ public interface Logger {
     public void warn(Marker marker, String msg, Throwable t);
 
     /**
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#WARN} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level WARN
+     * @since 2.0
+     */
+    @CheckReturnValue
+    default public LoggingEventBuilder atWarn() {
+        if (isWarnEnabled()) {
+            return makeLoggingEventBuilder(WARN);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
+
+    /**
      * Is the logger instance enabled for the ERROR level?
      *
      * @return True if this Logger is enabled for the ERROR level,
@@ -609,9 +754,9 @@ public interface Logger {
     /**
      * Log a message at the ERROR level according to the specified format
      * and argument.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the ERROR level. </p>
+     * is disabled for the ERROR level. 
      *
      * @param format the format string
      * @param arg    the argument
@@ -621,9 +766,9 @@ public interface Logger {
     /**
      * Log a message at the ERROR level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous object creation when the logger
-     * is disabled for the ERROR level. </p>
+     * is disabled for the ERROR level. 
      *
      * @param format the format string
      * @param arg1   the first argument
@@ -634,13 +779,13 @@ public interface Logger {
     /**
      * Log a message at the ERROR level according to the specified format
      * and arguments.
-     * <p/>
+     * 
      * <p>This form avoids superfluous string concatenation when the logger
      * is disabled for the ERROR level. However, this variant incurs the hidden
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for ERROR. The variants taking
      * {@link #error(String, Object) one} and {@link #error(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.</p>
+     * arguments exist solely in order to avoid this hidden cost.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -717,5 +862,20 @@ public interface Logger {
      * @param t      the exception (throwable) to log
      */
     public void error(Marker marker, String msg, Throwable t);
+
+    /**
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#ERROR} level. 
+     *  
+     * @return LoggingEventBuilder instance as appropriate for level ERROR
+     * @since 2.0
+     */
+    @CheckReturnValue
+    default public LoggingEventBuilder atError() {
+        if (isErrorEnabled()) {
+            return makeLoggingEventBuilder(ERROR);
+        } else {
+            return NOPLoggingEventBuilder.singleton();
+        }
+    }
 
 }

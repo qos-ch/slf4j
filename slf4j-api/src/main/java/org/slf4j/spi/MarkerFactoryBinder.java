@@ -31,6 +31,7 @@ import org.slf4j.IMarkerFactory;
  * class bind with the appropriate {@link IMarkerFactory} instance. 
  * 
  * @author Ceki G&uuml;lc&uuml;
+ * @deprecated
  */
 public interface MarkerFactoryBinder {
 
@@ -47,9 +48,9 @@ public interface MarkerFactoryBinder {
      * The String form of the {@link IMarkerFactory} object that this 
      * <code>MarkerFactoryBinder</code> instance is <em>intended</em> to return. 
      * 
-     * <p>This method allows the developer to intterogate this binder's intention 
+     * <p>This method allows the developer to interrogate this binder's intention
      * which may be different from the {@link IMarkerFactory} instance it is able to 
-     * return. Such a discrepency should only occur in case of errors.
+     * return. Such a discrepancy should only occur in case of errors.
      * 
      * @return the class name of the intended {@link IMarkerFactory} instance
      */

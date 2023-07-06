@@ -44,7 +44,7 @@ public class Abbreviator {
 
             int firstIndex = filename.indexOf(folderSeparator, invariantPrefixLength);
             if (firstIndex == -1) {
-                // we cant't process this string
+                // we can't process this string
                 return filename;
             }
             StringBuilder buf = new StringBuilder(desiredLength);

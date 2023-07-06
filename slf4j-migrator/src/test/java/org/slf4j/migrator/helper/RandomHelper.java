@@ -28,7 +28,7 @@ import java.util.Random;
 
 public class RandomHelper {
 
-    private Random random = new Random(100);
+    private final Random random = new Random(100);
     final char folderSeparator;
 
     RandomHelper(char folderSeparator) {

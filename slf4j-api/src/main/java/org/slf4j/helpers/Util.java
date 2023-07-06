@@ -35,6 +35,27 @@ public final class Util {
     private Util() {
     }
 
+    public static String safeGetSystemProperty(String key) {
+        if (key == null)
+            throw new IllegalArgumentException("null input");
+
+        String result = null;
+        try {
+            result = System.getProperty(key);
+        } catch (java.lang.SecurityException sm) {
+            ; // ignore
+        }
+        return result;
+    }
+
+    public static boolean safeGetBooleanSystemProperty(String key) {
+        String value = safeGetSystemProperty(key);
+        if (value == null)
+            return false;
+        else
+            return value.equalsIgnoreCase("true");
+    }
+
     /**
      * In order to call {@link SecurityManager#getClassContext()}, which is a
      * protected method, we add this wrapper which allows the method to be visible
@@ -46,7 +67,28 @@ public final class Util {
         }
     }
 
-    private static final ClassContextSecurityManager SECURITY_MANAGER = new ClassContextSecurityManager();
+    private static ClassContextSecurityManager SECURITY_MANAGER;
+    private static boolean SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED = false;
+
+    private static ClassContextSecurityManager getSecurityManager() {
+        if (SECURITY_MANAGER != null)
+            return SECURITY_MANAGER;
+        else if (SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED)
+            return null;
+        else {
+            SECURITY_MANAGER = safeCreateSecurityManager();
+            SECURITY_MANAGER_CREATION_ALREADY_ATTEMPTED = true;
+            return SECURITY_MANAGER;
+        }
+    }
+
+    private static ClassContextSecurityManager safeCreateSecurityManager() {
+        try {
+            return new ClassContextSecurityManager();
+        } catch (java.lang.SecurityException sm) {
+            return null;
+        }
+    }
 
     /**
      * Returns the name of the class which called the invoking method.
@@ -54,7 +96,10 @@ public final class Util {
      * @return the name of the class which called the invoking method.
      */
     public static Class<?> getCallingClass() {
-        Class<?>[] trace = SECURITY_MANAGER.getClassContext();
+        ClassContextSecurityManager securityManager = getSecurityManager();
+        if (securityManager == null)
+            return null;
+        Class<?>[] trace = securityManager.getClassContext();
         String thisClassName = Util.class.getName();
 
         // Advance until Util is found
@@ -81,4 +126,5 @@ public final class Util {
     static final public void report(String msg) {
         System.err.println("SLF4J: " + msg);
     }
+
 }

@@ -25,13 +25,14 @@
 package org.slf4j;
 
 import java.io.Closeable;
+import java.util.Deque;
 import java.util.Map;
 
-import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.helpers.BasicMDCAdapter;
+import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.helpers.Util;
-import org.slf4j.impl.StaticMDCBinder;
 import org.slf4j.spi.MDCAdapter;
+import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
  * This class hides and serves as a substitute for the underlying logging
@@ -42,7 +43,7 @@ import org.slf4j.spi.MDCAdapter;
  * i.e. this class, will delegate to the underlying system's MDC. Note that at
  * this time, only two logging systems, namely log4j and logback, offer MDC
  * functionality. For java.util.logging which does not support MDC,
- * {@link BasicMDCAdapter} will be used. For other systems, i.e slf4j-simple
+ * {@link BasicMDCAdapter} will be used. For other systems, i.e. slf4j-simple
  * and slf4j-nop, {@link NOPMDCAdapter} will be used.
  *
  * <p>
@@ -64,6 +65,7 @@ import org.slf4j.spi.MDCAdapter;
 public class MDC {
 
     static final String NULL_MDCA_URL = "http://www.slf4j.org/codes.html#null_MDCA";
+    private static final String MDC_APAPTER_CANNOT_BE_NULL_MESSAGE = "MDCAdapter cannot be null. See also " + NULL_MDCA_URL;
     static final String NO_STATIC_MDC_BINDER_URL = "http://www.slf4j.org/codes.html#no_static_mdc_binder";
     static MDCAdapter mdcAdapter;
 
@@ -86,21 +88,13 @@ public class MDC {
     }
 
     static {
-        try {
-            mdcAdapter = StaticMDCBinder.SINGLETON.getMDCA();
-        } catch (NoClassDefFoundError ncde) {
+        SLF4JServiceProvider provider = LoggerFactory.getProvider();
+        if (provider != null) {
+            mdcAdapter = provider.getMDCAdapter();
+        } else {
+            Util.report("Failed to find provider.");
+            Util.report("Defaulting to no-operation MDCAdapter implementation.");
             mdcAdapter = new NOPMDCAdapter();
-            String msg = ncde.getMessage();
-            if (msg != null && msg.contains("StaticMDCBinder")) {
-                Util.report("Failed to load class \"org.slf4j.impl.StaticMDCBinder\".");
-                Util.report("Defaulting to no-operation MDCAdapter implementation.");
-                Util.report("See " + NO_STATIC_MDC_BINDER_URL + " for further details.");
-            } else {
-                throw ncde;
-            }
-        } catch (Exception e) {
-            // we should never get here
-            Util.report("MDC binding unsuccessful.", e);
         }
     }
 
@@ -124,7 +118,7 @@ public class MDC {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
         if (mdcAdapter == null) {
-            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         mdcAdapter.put(key, val);
     }
@@ -169,7 +163,7 @@ public class MDC {
      * <p>
      * This method delegates all work to the MDC of the underlying logging system.
      *
-     * @param key  
+     * @param key a key
      * @return the string value identified by the <code>key</code> parameter.
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
@@ -180,7 +174,7 @@ public class MDC {
         }
 
         if (mdcAdapter == null) {
-            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         return mdcAdapter.get(key);
     }
@@ -191,7 +185,7 @@ public class MDC {
      * cannot be null. This method does nothing if there is no previous value
      * associated with <code>key</code>.
      *
-     * @param key  
+     * @param key  a key
      * @throws IllegalArgumentException
      *           in case the "key" parameter is null
      */
@@ -201,7 +195,7 @@ public class MDC {
         }
 
         if (mdcAdapter == null) {
-            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         mdcAdapter.remove(key);
     }
@@ -211,7 +205,7 @@ public class MDC {
      */
     public static void clear() {
         if (mdcAdapter == null) {
-            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         mdcAdapter.clear();
     }
@@ -225,7 +219,7 @@ public class MDC {
      */
     public static Map<String, String> getCopyOfContextMap() {
         if (mdcAdapter == null) {
-            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         return mdcAdapter.getCopyOfContextMap();
     }
@@ -235,13 +229,15 @@ public class MDC {
      * then copying the map passed as parameter. The context map passed as
      * parameter must only contain keys and values of type String.
      * 
+     * Null valued argument is allowed (since SLF4J version 2.0.0).
+     * 
      * @param contextMap
      *          must contain only keys and values of type String
      * @since 1.5.1
      */
     public static void setContextMap(Map<String, String> contextMap) {
         if (mdcAdapter == null) {
-            throw new IllegalStateException("MDCAdapter cannot be null. See also " + NULL_MDCA_URL);
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         mdcAdapter.setContextMap(contextMap);
     }
@@ -256,4 +252,48 @@ public class MDC {
         return mdcAdapter;
     }
 
+
+
+    /**
+     * Push a value into the deque(stack) referenced by 'key'.
+     *      
+     * @param key identifies the appropriate stack
+     * @param value the value to push into the stack
+     * @since 2.0.0
+     */
+    static public void pushByKey(String key, String value) {
+        if (mdcAdapter == null) {
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
+        }
+        mdcAdapter.pushByKey(key, value);
+    }
+    
+    /**
+     * Pop the stack referenced by 'key' and return the value possibly null.
+     * 
+     * @param key identifies the deque(stack)
+     * @return the value just popped. May be null/
+     * @since 2.0.0
+     */
+    static public String popByKey(String key) {
+        if (mdcAdapter == null) {
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
+        }
+        return mdcAdapter.popByKey(key);
+    }
+
+    /**
+     * Returns a copy of the deque(stack) referenced by 'key'. May be null.
+     * 
+     * @param key identifies the  stack
+     * @return copy of stack referenced by 'key'. May be null.
+     * 
+     * @since 2.0.0
+     */
+    public Deque<String>  getCopyOfDequeByKey(String key) {
+        if (mdcAdapter == null) {
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
+        }
+        return mdcAdapter.getCopyOfDequeByKey(key);
+    }
 }

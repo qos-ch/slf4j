@@ -46,16 +46,6 @@ import javax.swing.WindowConstants;
 import org.slf4j.migrator.Constant;
 import org.slf4j.migrator.helper.SpringLayoutHelper;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 public class MigratorFrame extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
@@ -68,8 +58,8 @@ public class MigratorFrame extends JFrame implements ActionListener {
     static final int X_SIZE = 700;
     static final int Y_SIZE = 400;
 
-    private SpringLayout layoutManager = new SpringLayout();
-    private SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager, BASIC_PADDING);
+    private final SpringLayout layoutManager = new SpringLayout();
+    private final SpringLayoutHelper slh = new SpringLayoutHelper(layoutManager, BASIC_PADDING);
 
     private JLabel migrationLabel;
 
@@ -138,7 +128,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
      */
     private void constrainAll() {
 
-        // contrain migration label
+        // constraints migration label
         layoutManager.putConstraint(SpringLayout.WEST, migrationLabel, BASIC_PADDING, SpringLayout.EAST, this);
 
         layoutManager.putConstraint(SpringLayout.NORTH, migrationLabel, BASIC_PADDING, SpringLayout.NORTH, this);
@@ -239,14 +229,14 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
     private void createAwareLabel() {
         awareLabel = new JLabel();
-        awareLabel.setText("<html>" + "<p>I am aware that this tool will directly modify all Java source files</p>"
-                        + "<p>in the selected folder without creating backup files.</p>" + "</html>");
+        awareLabel.setText("<html>" + "<p>I am aware that this tool will directly modify all Java source files"
+                        + "<p>in the selected folder without creating backup files." + "</html>");
     }
 
     private void createWarningLabel() {
         warningLabel = new JLabel();
-        warningLabel.setText("<html>" + "<p><span color=\"red\">WARNING:</span> This SLF4J migration tool will directly modify all Java source files</p>"
-                        + "<p>in the selected project folder without creating a backup of the original files.</p>" + "</html>");
+        warningLabel.setText("<html>" + "<p><span color=\"red\">WARNING:</span> This SLF4J migration tool will directly modify all Java source files"
+                        + "<p>in the selected project folder without creating a backup of the original files." + "</html>");
     }
 
     private void createMigrateButton() {
@@ -323,7 +313,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
 
     List<String> doSanityAnalysis() {
 
-        List<String> errorList = new ArrayList<String>();
+        List<String> errorList = new ArrayList<>();
         if (!radioJCL.isSelected() && !radioLog4j.isSelected() && !radioJUL.isSelected()) {
             errorList.add("Please select the migration type: JCL, log4j, or JUL to SLF4J.");
         }
@@ -351,7 +341,7 @@ public class MigratorFrame extends JFrame implements ActionListener {
             buf.append(i);
             buf.append(". ");
             buf.append(msg);
-            buf.append("</p>");
+            buf.append("");
             i++;
         }
         buf.append("</html>");

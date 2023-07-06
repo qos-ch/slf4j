@@ -1,8 +1,0 @@
-Implementation-Title: log4j-over-slf4j
-Bundle-ManifestVersion: 2
-Bundle-SymbolicName: log4j.over.slf4j
-Bundle-Name: log4j-over-slf4j
-Bundle-Vendor: SLF4J.ORG
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.apache.log4j;version=${log4j.version},org.apache.log4j.helpers;version=${log4j.version},org.apache.log4j.spi;version=${log4j.version},org.apache.log4j.xml;version=${log4j.version}
-Import-Package: org.slf4j;version=${slf4j.api.minimum.compatible.version}, org.slf4j.helpers;version=${slf4j.api.minimum.compatible.version}, org.slf4j.spi;version=${slf4j.api.minimum.compatible.version}

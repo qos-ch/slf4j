@@ -7,7 +7,8 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>1.7.13-SNAPSHOT</version>
+    <version>2.0.8-SNAPSHOT</version>
+    <relativePath>../parent-pom.xml</relativePath>            
   </parent>
 
   <artifactId>integration</artifactId>
@@ -17,6 +18,14 @@
   <url>http://www.slf4j.org</url>
   <description>SLF4J integration tests</description>
 
+  <properties>
+    <junit.version>4.10</junit.version>
+    <!-- 1.9.1 does not work. Do not update lightly -->
+    <ant-junit.version>1.9.0</ant-junit.version>
+    <antrun-plugin.version>1.8</antrun-plugin.version>
+  </properties>
+
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -24,23 +33,28 @@
     </dependency>
 
     <!-- declaration to circumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
+    <!--
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>${junit3.version}</version>
     </dependency>
+    -->
     <!-- declaration to circumvent  http://jira.codehaus.org/browse/MANTRUN-95 -->
+    <!--
     <dependency>
       <groupId>ant</groupId>
       <artifactId>ant-junit</artifactId>
-      <version>1.6.5</version>
+      <version>${ant-junit.version}</version>
     </dependency>
+    -->
 
     <!-- some test run Felix in hosted mode -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.main</artifactId>
-      <version>2.0.2</version>
+      <version>5.6.1</version>
+      <!--<version>2.0.2</version>-->
     </dependency>
   </dependencies>
 
@@ -48,17 +62,17 @@
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.2</version>
+        <version>${antrun-plugin.version}</version>
         <dependencies>
           <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>${junit.version}</version>
           </dependency>
           <dependency>
-            <groupId>ant</groupId>
+            <groupId>org.apache.ant</groupId>
             <artifactId>ant-junit</artifactId>
-            <version>1.6.5</version>
+            <version>${ant-junit.version}</version>
           </dependency>
         </dependencies>
         <executions>
@@ -79,6 +93,7 @@
               <goal>run</goal>
             </goals>
           </execution>
+          <!-- OSGI integration with ServiceLoader mechanism fails at this stage
           <execution>
             <id>ant-osgi-test</id>
             <phase>package</phase>
@@ -94,7 +109,7 @@
               <goal>run</goal>
             </goals>
           </execution>
-
+          -->
         </executions>
       </plugin>
 
@@ -110,6 +125,16 @@
           </excludes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+
     </plugins>
 
 

@@ -25,7 +25,7 @@ import java.util.Enumeration;
  * <code>Loggers</code>. The relation between loggers in a repository
  * depends on the repository but typically loggers are arranged in a
  * named hierarchy.
- * <p/>
+ * 
  * <p>In addition to the creational methods, a
  * <code>LoggerRepository</code> can be queried for existing loggers,
  * can act as a point of registry for events related to loggers.
@@ -37,6 +37,8 @@ public interface LoggerRepository {
 
     /**
      * Add a {@link HierarchyEventListener} event to the repository.
+     * 
+     * @param listener a listener
      */
     public void addHierarchyEventListener(HierarchyEventListener listener);
 

@@ -24,10 +24,9 @@
  */
 package org.slf4j.helpers;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.slf4j.Marker;
 
@@ -39,10 +38,9 @@ import org.slf4j.Marker;
  */
 public class BasicMarker implements Marker {
 
-    private static final long serialVersionUID = 1803952589649545191L;
-
+    private static final long serialVersionUID = -2849567615646933777L;
     private final String name;
-    private List<Marker> referenceList;
+    private final List<Marker> referenceList = new CopyOnWriteArrayList<>();
 
     BasicMarker(String name) {
         if (name == null) {
@@ -55,7 +53,7 @@ public class BasicMarker implements Marker {
         return name;
     }
 
-    public synchronized void add(Marker reference) {
+    public void add(Marker reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A null value cannot be added to a Marker as reference.");
         }
@@ -65,49 +63,28 @@ public class BasicMarker implements Marker {
             return;
 
         } else if (reference.contains(this)) { // avoid recursion
-            // a potential reference should not its future "parent" as a reference
+            // a potential reference should not hold its future "parent" as a reference
             return;
         } else {
-            // let's add the reference
-            if (referenceList == null) {
-                referenceList = new Vector<Marker>();
-            }
             referenceList.add(reference);
         }
-
     }
 
-    public synchronized boolean hasReferences() {
-        return ((referenceList != null) && (referenceList.size() > 0));
+    public boolean hasReferences() {
+        return (referenceList.size() > 0);
     }
 
+    @Deprecated
     public boolean hasChildren() {
         return hasReferences();
     }
 
-    public synchronized Iterator<Marker> iterator() {
-        if (referenceList != null) {
-            return referenceList.iterator();
-        } else {
-            List<Marker> emptyList = Collections.emptyList();
-            return emptyList.iterator();
-        }
+    public Iterator<Marker> iterator() {
+        return referenceList.iterator();
     }
 
-    public synchronized boolean remove(Marker referenceToRemove) {
-        if (referenceList == null) {
-            return false;
-        }
-
-        int size = referenceList.size();
-        for (int i = 0; i < size; i++) {
-            Marker m = referenceList.get(i);
-            if (referenceToRemove.equals(m)) {
-                referenceList.remove(i);
-                return true;
-            }
-        }
-        return false;
+    public boolean remove(Marker referenceToRemove) {
+        return referenceList.remove(referenceToRemove);
     }
 
     public boolean contains(Marker other) {
@@ -151,9 +128,9 @@ public class BasicMarker implements Marker {
         return false;
     }
 
-    private static String OPEN = "[ ";
-    private static String CLOSE = " ]";
-    private static String SEP = ", ";
+    private static final String OPEN = "[ ";
+    private static final String CLOSE = " ]";
+    private static final String SEP = ", ";
 
     public boolean equals(Object obj) {
         if (this == obj)

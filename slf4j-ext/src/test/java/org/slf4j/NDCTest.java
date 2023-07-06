@@ -24,29 +24,31 @@
  */
 package org.slf4j;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class NDCTest extends TestCase {
+import org.junit.Before;
+import org.junit.Test;
 
-    protected void setUp() throws Exception {
-        super.setUp();
+public class NDCTest {
+
+    @Before
+    public void setUp() throws Exception {
         MDC.clear();
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testEmpty() {
         assertEquals("", NDC.pop());
     }
 
+    @Test
     public void testSmoke() {
         NDC.push("a");
         String result = NDC.pop();
         assertEquals("a", result);
     }
 
+    @Test
     public void testSmoke2() {
         NDC.push("a");
         NDC.push("b");

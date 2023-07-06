@@ -24,26 +24,24 @@
  */
 package org.slf4j.dummyExt;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.LoggingEvent;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
 
-public class XLoggerTest extends TestCase {
+public class XLoggerTest {
 
     ListAppender listAppender;
     org.apache.log4j.Logger log4jRoot;
 
     final static String EXPECTED_FILE_NAME = "XLoggerTest.java";
 
-    public XLoggerTest(String name) {
-        super(name);
-    }
-
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
 
         // start from a clean slate for each test
 
@@ -52,10 +50,6 @@ public class XLoggerTest extends TestCase {
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(listAppender);
         log4jRoot.setLevel(org.apache.log4j.Level.TRACE);
-    }
-
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     void verify(LoggingEvent le, String expectedMsg) {
@@ -74,6 +68,7 @@ public class XLoggerTest extends TestCase {
         assertEquals(le.getLevel().toString(), level.toString());
     }
 
+    @Test
     public void testEntering() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         logger.entry();
@@ -84,11 +79,12 @@ public class XLoggerTest extends TestCase {
         logger.entry("a", "b", "c", "d", "e", "f");
 
         assertEquals(6, listAppender.list.size());
-        verify((LoggingEvent) listAppender.list.get(0), "entry");
-        verify((LoggingEvent) listAppender.list.get(1), "entry with (1)");
-        verify((LoggingEvent) listAppender.list.get(2), "entry with (test)");
+        verify(listAppender.list.get(0), "entry");
+        verify(listAppender.list.get(1), "entry with (1)");
+        verify(listAppender.list.get(2), "entry with (test)");
     }
 
+    @Test
     public void testExiting() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         logger.exit();
@@ -96,22 +92,24 @@ public class XLoggerTest extends TestCase {
         assertEquals(Boolean.FALSE, logger.exit(false));
 
         assertEquals(3, listAppender.list.size());
-        verify((LoggingEvent) listAppender.list.get(0), "exit");
-        verify((LoggingEvent) listAppender.list.get(1), "exit with (0)");
-        verify((LoggingEvent) listAppender.list.get(2), "exit with (false)");
+        verify(listAppender.list.get(0), "exit");
+        verify(listAppender.list.get(1), "exit with (0)");
+        verify(listAppender.list.get(2), "exit with (false)");
     }
 
+    @Test
     public void testThrowing() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         Throwable t = new UnsupportedOperationException("Test");
         assertEquals(t, logger.throwing(t));
         assertEquals(t, logger.throwing(XLogger.Level.DEBUG, t));
         assertEquals(2, listAppender.list.size());
-        verifyWithException((LoggingEvent) listAppender.list.get(0), "throwing", t);
-        LoggingEvent event = (LoggingEvent) listAppender.list.get(1);
+        verifyWithException(listAppender.list.get(0), "throwing", t);
+        LoggingEvent event = listAppender.list.get(1);
         verifyWithLevelAndException(event, XLogger.Level.DEBUG, "throwing", t);
     }
 
+    @Test
     public void testCaught() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         long x = 5;
@@ -124,15 +122,16 @@ public class XLoggerTest extends TestCase {
             logger.catching(ex);
             logger.catching(XLogger.Level.DEBUG, ex);
         }
-        verifyWithException((LoggingEvent) listAppender.list.get(0), "catching", t);
-        verifyWithLevelAndException((LoggingEvent) listAppender.list.get(1), XLogger.Level.DEBUG, "catching", t);
+        verifyWithException(listAppender.list.get(0), "catching", t);
+        verifyWithLevelAndException(listAppender.list.get(1), XLogger.Level.DEBUG, "catching", t);
     }
 
     // See http://jira.qos.ch/browse/SLF4J-105
     // formerly http://bugzilla.slf4j.org/show_bug.cgi?id=114
+    @Test
     public void testLocationExtraction_Bug114() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-        int line = 136; // requires update if line numbers change
+        int line = 135; // requires update if line numbers change
         logger.exit();
         logger.debug("hello");
 
@@ -151,6 +150,17 @@ public class XLoggerTest extends TestCase {
             assertEquals(this.getClass().getName(), li.getClassName());
             assertEquals("" + (line + 1), li.getLineNumber());
         }
-
     }
+    
+    @Test
+    public void testNoDoubleSubstitution_Bug421() {
+        XLogger logger = XLoggerFactory.getXLogger("UnitTest");
+        logger.error("{},{}", "foo", "[{}]");
+        verify(listAppender.list.get(0), "foo,[{}]");
+        
+        logger.error("{},{}", "[{}]", "foo");
+        verify(listAppender.list.get(1), "[{}],foo");
+    }
+    
+    
 }

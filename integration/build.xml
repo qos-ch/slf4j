@@ -13,13 +13,10 @@
 	<echo message="runtime classpath: ${runtime_classpath}" />
 	<echo message="test classpath:    ${test_classpath}" />
 	<echo message="plugin classpath:  ${plugin_classpath}" />
+	<echo message="basedir:  ${basedir}" />
 
 
-	<path id="path142Binding">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-1.4.2.jar" />
-	</path >
+  <!--<property name="path_to_policy" value="file:./integration/src/policy/java-under-ant.policy"/>-->
 
 	<path id="path150Binding">
 		<pathelement location="target/test-classes/" />
@@ -39,25 +36,10 @@
 		<pathelement location="./lib/slf4j-simple-1.5.11.jar" />
 	</path >
 
-  <!--<path id="pathIncompatible">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-INCOMPATIBLE.jar" />
-	</path >
-  -->
-
 	<path id="pathCurrent">
 		<pathelement location="target/test-classes/" />
 		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
 		<pathelement location="../slf4j-simple/target/slf4j-simple-${currentVersion}.jar" />
-	</path >
-
-	
-	<path id="incompatibleMultiBinding">
-		<pathelement location="target/test-classes/" />
-		<pathelement location="../slf4j-api/target/slf4j-api-${currentVersion}.jar" />
-		<pathelement location="./lib/slf4j-simple-1.5.0.jar" />
-		<pathelement location="./lib/slf4j-nop-1.5.6.jar" />
 	</path >
 
   <path id="multiBinding">
@@ -90,54 +72,64 @@
 	<!-- this is really very ugly, but it's the only way to circumvent
   	     http://jira.codehaus.org/browse/MANTRUN-95
 	-->
+  <!--
 	<taskdef name="junit" classpath="${plugin_classpath};${compile_classpath}" 
            classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" />
+  -->
 
 	<target name="init">
 		<mkdir dir="target/unit-reports" />
 	</target>
 
 	<target name="testAll" depends="init, 
-		            testMissingSingletonMethod,
-                testMismatch, 
+		        testNoProvider150,
+                testMismatch,
                 testMatch,
-		            testMultiBinding,
-		            testIncompatibleMultiBinding,
-                testFuture_16Series">
+		        testMultiBinding,                
+                testFuture_16Series,
+                testActiveSecurityManager">
 	</target>
 
 
-	<target name="testMissingSingletonMethod">
+	<target name="testNoProvider150">
 
-    <junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="path142Binding" />
-			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports"
-            outfile="TEST-142BININDING" 
-            name="org.slf4j.MissingSingletonMethodAssertionTest" />
-		</junit>
-
-    <junit printsummary="yes" fork="no" haltonfailure="yes">
+        <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path150Binding" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-150BINDING" 
-            name="org.slf4j.MissingSingletonMethodAssertionTest" />
+            name="org.slf4j.NoProviderAssertionTest" />
 		</junit>
 
   </target>
 
+
+	<target name="testMixed17">
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
+			<classpath refid="pathMixed17" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-MIXED-17" 
+            name="org.slf4j.VersionMismatchAssertionTest" />
+		</junit>
+  </target>
+
+
 	<target name="testMismatch">
+
+    <!--
 
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path1511API" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-MISMATCH-1511API" 
-            name="org.slf4j.VersionMismatchAssertionTest" />
+            name="org.slf4j.OldAPIVersionMismatchAssertionTest" />
 		</junit>
+   -->
 
-
+    <!--
     <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="path1511Binding" />
 			<formatter type="plain" />
@@ -145,6 +137,7 @@
             outfile="TEST-MISMATCH-1511Binding" 
             name="org.slf4j.VersionMismatchAssertionTest" />
 		</junit>
+    -->
 
 	</target>
 
@@ -156,16 +149,7 @@
             outfile="TEST-Match" 
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
-	</target>
 
-	<target name="testIncompatibleMultiBinding">
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
-			<classpath refid="incompatibleMultiBinding" />
-			<formatter type="plain" />
-			<test fork="yes" todir="target/unit-reports" 
-            outfile="TEST-IncompatibleMultiBinding"
-            name="org.slf4j.IncompatibleMultiBindingAssertionTest" />
-		</junit>
 	</target>
 
   <target name="testMultiBinding">
@@ -178,13 +162,17 @@
  		</junit>
  	</target>
 
+
 	<target name="testFuture_16Series">
-		<junit printsummary="yes" fork="no" haltonfailure="yes">
+
+    <!--  1.8 uses providers and no longer supports bindings ==
+
+    <junit printsummary="yes" fork="no" haltonfailure="yes">
 			<classpath refid="binding166" />
 			<formatter type="plain" />
 			<test fork="yes" todir="target/unit-reports" 
             outfile="TEST-binding166"
-            name="org.slf4j.CompatibilityAssertionTest" />
+            name="org.slf4j.NoProviderAssertionTest" />
 		</junit>
 
     
@@ -195,6 +183,36 @@
             outfile="TEST-api166"
             name="org.slf4j.CompatibilityAssertionTest" />
 		</junit>
-
+     -->
 	</target>
+
+
+  <condition property="runFromWithinIntegrationModule">
+    <contains string="${user.dir}" substring="integration" />
+  </condition>
+
+  <target name="setPathToPolicy_FromTop" unless="runFromWithinIntegrationModule">
+    <echo>setPathToPolicy_FromTop</echo>
+    <property name="path_to_policy" value="file:./integration/src/policy/java-under-ant.policy"/>
+  </target>
+
+  <target name="setPathToPolicy_FromIntegration" if="runFromWithinIntegrationModule">
+    <echo>setPathToPolicy_FromInegration </echo>
+    <property name="path_to_policy" value="file:./src/policy/java-under-ant.policy"/>
+  </target>
+
+
+	<target name="testActiveSecurityManager" depends="setPathToPolicy_FromTop, setPathToPolicy_FromIntegration">
+		<junit printsummary="yes" fork="no" haltonfailure="yes">
+      <jvmarg value="-Djava.security.manager"/>
+      <jvmarg value="-Djava.security.policy=${path_to_policy}"/>
+      <jvmarg value="-Dslf4j.detectLoggerNameMismatch=true"/>
+			<classpath refid="pathCurrent" />
+			<formatter type="plain" />
+			<test fork="yes" todir="target/unit-reports" 
+            outfile="TEST-SecurityManager" 
+            name="org.slf4j.issues.Issue324Test" />
+		</junit>
+	</target>
+
 </project>

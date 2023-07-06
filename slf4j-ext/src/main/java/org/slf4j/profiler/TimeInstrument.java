@@ -43,9 +43,9 @@ public interface TimeInstrument {
     TimeInstrumentStatus getStatus();
 
     /**
-     * Start tis time instrument.
+     * Start this time instrument.
      * 
-     * @param name
+     * @param name the name of this instrument
      */
     void start(String name);
 

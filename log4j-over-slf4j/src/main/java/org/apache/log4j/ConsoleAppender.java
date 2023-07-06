@@ -15,6 +15,18 @@
  */
 package org.apache.log4j;
 
+/**
+ * Skeleton implementation of ConsoleAppender
+ */
 public class ConsoleAppender extends WriterAppender {
+
+    public ConsoleAppender() {
+    }
+
+    public ConsoleAppender(Layout layout) {
+    }
+
+    public ConsoleAppender(Layout layout, String target) {
+    }
 
 }

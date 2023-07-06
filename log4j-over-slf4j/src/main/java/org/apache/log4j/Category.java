@@ -29,7 +29,7 @@ import java.util.Enumeration;
  * This class is a minimal implementation of the original
  * <code>org.apache.log4j.Category</code> class (as found in log4j 1.2) by
  * delegation of all calls to a {@link org.slf4j.Logger} instance.
- * </p>
+ * 
  *
  * <p>
  * Log4j's <code>trace</code>, <code>debug()</code>, <code>info()</code>,
@@ -45,12 +45,12 @@ public class Category {
 
     private static final String CATEGORY_FQCN = Category.class.getName();
 
-    private String name;
+    private final String name;
 
     protected org.slf4j.Logger slf4jLogger;
     private org.slf4j.spi.LocationAwareLogger locationAwareLogger;
 
-    private static Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
+    private static final Marker FATAL_MARKER = MarkerFactory.getMarker("FATAL");
 
     Category(String name) {
         this.name = name;
@@ -125,6 +125,7 @@ public class Category {
 
     /**
      * @deprecated Please use {@link #getLevel} instead.
+     * @return a Level
      */
     final public Level getPriority() {
         return null;
@@ -132,6 +133,9 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#isDebugEnabled} method in SLF4J
+     * 
+     * @return true if this logger is enabled for the level DEBUG
+     * 
      */
     public boolean isDebugEnabled() {
         return slf4jLogger.isDebugEnabled();
@@ -139,13 +143,17 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#isInfoEnabled} method in SLF4J
+     * 
+     * @return true if this logger is enabled for the level INFO
      */
     public boolean isInfoEnabled() {
         return slf4jLogger.isInfoEnabled();
     }
 
     /**
-     * Delegates tob {@link org.slf4j.Logger#isWarnEnabled} method in SLF4J
+     * Delegates to {@link org.slf4j.Logger#isWarnEnabled} method in SLF4J
+     * 
+     * @return true if this logger is enabled for the level WARN
      */
     public boolean isWarnEnabled() {
         return slf4jLogger.isWarnEnabled();
@@ -153,6 +161,8 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#isErrorEnabled} method in SLF4J
+     * 
+     * @return true if this logger is enabled for the level ERROR
      */
     public boolean isErrorEnabled() {
         return slf4jLogger.isErrorEnabled();
@@ -160,13 +170,11 @@ public class Category {
 
     /**
      * Determines whether the priority passed as parameter is enabled in the
-     * underlying SLF4J logger. Each log4j priority is mapped directly to its
-     * SLF4J equivalent, except for FATAL which is mapped as ERROR.
+     * underlying SLF4J logger. Each log4j priority is mapped directly to its SLF4J
+     * equivalent, except for FATAL which is mapped as ERROR.
      *
-     * @param p
-     *          the priority to check against
-     * @return true if this logger is enabled for the given level, false
-     *         otherwise.
+     * @param p the priority to check against
+     * @return true if this logger is enabled for the given level, false otherwise.
      */
     public boolean isEnabledFor(Priority p) {
         switch (p.level) {
@@ -194,19 +202,19 @@ public class Category {
         } else {
             switch (level) {
             case LocationAwareLogger.TRACE_INT:
-                slf4jLogger.trace(marker, m);
+                slf4jLogger.trace(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.DEBUG_INT:
-                slf4jLogger.debug(marker, m);
+                slf4jLogger.debug(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.INFO_INT:
-                slf4jLogger.info(marker, m);
+                slf4jLogger.info(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.WARN_INT:
-                slf4jLogger.warn(marker, m);
+                slf4jLogger.warn(marker, m, (Throwable) t);
                 break;
             case LocationAwareLogger.ERROR_INT:
-                slf4jLogger.error(marker, m);
+                slf4jLogger.error(marker, m, (Throwable) t);
                 break;
             }
         }
@@ -214,6 +222,8 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#debug(String)} method of SLF4J.
+     * 
+     * @param message a message to log
      */
     public void debug(Object message) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, null);
@@ -222,6 +232,9 @@ public class Category {
     /**
      * Delegates to {@link org.slf4j.Logger#debug(String,Throwable)} method in
      * SLF4J.
+     * 
+     * @param message a message to log
+     * @param t       a throwable to log
      */
     public void debug(Object message, Throwable t) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.DEBUG_INT, message, t);
@@ -229,14 +242,18 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#info(String)} method in SLF4J.
+     * 
+     * @param message a message to log
      */
     public void info(Object message) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, null);
     }
 
     /**
-     * Delegates to {@link org.slf4j.Logger#info(String,Throwable)} method in
-     * SLF4J.
+     * Delegates to {@link org.slf4j.Logger#info(String,Throwable)} method in SLF4J.
+     *
+     * @param message a message to log
+     * @param t       a throwable to log
      */
     public void info(Object message, Throwable t) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.INFO_INT, message, t);
@@ -244,14 +261,20 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#warn(String)} method in SLF4J.
+     * 
+     * @param message a message to log
+     * 
      */
     public void warn(Object message) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, null);
     }
 
     /**
-     * Delegates to {@link org.slf4j.Logger#warn(String,Throwable)} method in
-     * SLF4J.
+     * Delegates to {@link org.slf4j.Logger#warn(String,Throwable)} method in SLF4J.
+     * 
+     * @param message a message to log
+     * @param t       a throwable to log
+     * 
      */
     public void warn(Object message, Throwable t) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.WARN_INT, message, t);
@@ -259,6 +282,9 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
+     * 
+     * @param message a message to log
+     * 
      */
     public void error(Object message) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
@@ -267,6 +293,10 @@ public class Category {
     /**
      * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} method in
      * SLF4J.
+     * 
+     * @param message a message to log
+     * @param t       a throwable to log
+     * 
      */
     public void error(Object message, Throwable t) {
         differentiatedLog(null, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
@@ -274,6 +304,9 @@ public class Category {
 
     /**
      * Delegates to {@link org.slf4j.Logger#error(String)} method in SLF4J.
+     * 
+     * @param message a message to log
+     * 
      */
     public void fatal(Object message) {
         differentiatedLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, null);
@@ -282,6 +315,10 @@ public class Category {
     /**
      * Delegates to {@link org.slf4j.Logger#error(String,Throwable)} method in
      * SLF4J. In addition, the call is marked with a marker named "FATAL".
+     * 
+     * @param message a message to log
+     * @param t       a throwable to log
+     *
      */
     public void fatal(Object message, Throwable t) {
         differentiatedLog(FATAL_MARKER, CATEGORY_FQCN, LocationAwareLogger.ERROR_INT, message, t);
@@ -346,13 +383,13 @@ public class Category {
     public void setLevel(Level level) {
         // nothing to do
     }
-    
+
     public boolean getAdditivity() {
         return false;
     }
-    
+
     public void assertLog(boolean assertion, String msg) {
-        if(!assertion)
+        if (!assertion)
             error(msg);
     }
 

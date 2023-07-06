@@ -96,8 +96,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Given an underlying logger, construct an XLogger
      * 
-     * @param logger
-     *          underlying logger
+     * @param logger underlying logger
      */
     public XLogger(Logger logger) {
         // If class B extends A, assuming B does not override method x(), the caller
@@ -109,8 +108,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Log method entry.
      * 
-     * @param argArray
-     *          supplied parameters
+     * @param argArray supplied parameters
      */
     public void entry(Object... argArray) {
         if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
@@ -137,8 +135,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Log method exit
      * 
-     * @param result
-     *          The result of the method being exited
+     * @param result The result of the method being exited
      */
     public <T> T exit(T result) {
         if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
@@ -151,8 +148,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Log an exception being thrown. The generated log event uses Level ERROR.
      * 
-     * @param throwable
-     *          the exception being caught.
+     * @param throwable the exception being caught.
      */
     public <T extends Throwable> T throwing(T throwable) {
         if (instanceofLAL) {
@@ -164,10 +160,8 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Log an exception being thrown allowing the log level to be specified.
      * 
-     * @param level
-     *          the logging level to use.
-     * @param throwable
-     *          the exception being caught.
+     * @param level     the logging level to use.
+     * @param throwable the exception being caught.
      */
     public <T extends Throwable> T throwing(Level level, T throwable) {
         if (instanceofLAL) {
@@ -179,8 +173,7 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Log an exception being caught. The generated log event uses Level ERROR.
      * 
-     * @param throwable
-     *          the exception being caught.
+     * @param throwable the exception being caught.
      */
     public void catching(Throwable throwable) {
         if (instanceofLAL) {
@@ -191,10 +184,8 @@ public class XLogger extends LoggerWrapper implements Logger {
     /**
      * Log an exception being caught allowing the log level to be specified.
      * 
-     * @param level
-     *          the logging level to use.
-     * @param throwable
-     *          the exception being caught.
+     * @param level     the logging level to use.
+     * @param throwable the exception being caught.
      */
     public void catching(Level level, Throwable throwable) {
         if (instanceofLAL) {

@@ -27,13 +27,14 @@ package org.slf4j.bridge;
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.PatternLayout;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.slf4j.LoggerFactory;
 
-public class SLF4JBridgeHandlerPerfTest extends TestCase {
+public class SLF4JBridgeHandlerPerfTest {
 
     static String LOGGER_NAME = "yay";
     static int RUN_LENGTH = 100 * 1000;
@@ -50,29 +51,25 @@ public class SLF4JBridgeHandlerPerfTest extends TestCase {
 
     Handler[] existingHandlers;
 
-    public SLF4JBridgeHandlerPerfTest(String arg0) {
-        super(arg0);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
         fileAppender = new FileAppender(new PatternLayout("%r [%t] %p %c %x - %m%n"), "target/test-output/toto.log");
 
         existingHandlers = julRootLogger.getHandlers();
-        for (int i = 0; i < existingHandlers.length; i++) {
-            julRootLogger.removeHandler(existingHandlers[i]);
+        for (Handler existingHandler : existingHandlers) {
+            julRootLogger.removeHandler(existingHandler);
         }
         log4jRoot = org.apache.log4j.Logger.getRootLogger();
         log4jRoot.addAppender(fileAppender);
     }
 
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    @After
+    public void tearDown() throws Exception {
         SLF4JBridgeHandler.uninstall();
         fileAppender.close();
         log4jRoot.getLoggerRepository().resetConfiguration();
-        for (int i = 0; i < existingHandlers.length; i++) {
-            julRootLogger.addHandler(existingHandlers[i]);
+        for (Handler existingHandler : existingHandlers) {
+            julRootLogger.addHandler(existingHandler);
         }
     }
 
@@ -94,6 +91,7 @@ public class SLF4JBridgeHandlerPerfTest extends TestCase {
         return (end - start) * 1.0 / RUN_LENGTH;
     }
 
+    @Test
     public void testPerf() {
         SLF4JBridgeHandler.install();
 

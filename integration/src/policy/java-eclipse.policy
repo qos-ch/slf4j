@@ -1,0 +1,10 @@
+
+grant {
+
+  // note that java.lang.RuntimePermission createSecurityManager is NOT granted
+
+  permission java.util.PropertyPermission "user.dir", "read";
+  permission java.util.PropertyPermission "*", "read";
+  
+  permission java.net.SocketPermission "*", "connect,resolve"; 
+};

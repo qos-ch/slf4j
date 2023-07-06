@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF8"?>
+<toolchains>
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>1.8</version>
+    </provides>
+    <configuration>
+      <jdkHome>${env.JAVA_HOME_8}</jdkHome>
+    </configuration>
+  </toolchain>
+</toolchains>

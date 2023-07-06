@@ -16,7 +16,6 @@
 
 package org.apache.log4j.spi;
 
-import org.apache.log4j.spi.LoggerRepository;
 import java.net.URL;
 
 /**
@@ -41,10 +40,10 @@ public interface Configurator {
 
     /**
        Interpret a resource pointed by a URL and set up log4j accordingly.
-
+    
        The configuration is done relative to the <code>hierarchy</code>
        parameter.
-
+    
        @param url The URL to parse
        @param repository The hierarchy to operation upon.
      */

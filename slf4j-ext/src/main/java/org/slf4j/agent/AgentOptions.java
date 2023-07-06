@@ -28,12 +28,12 @@ package org.slf4j.agent;
  * <p>
  * All recognized options in the string passed to the java agent. For
  * "java -javaagent:foo.jar=OPTIONS HelloWorld" this would be "OPTIONS".
- * </p>
+ * 
  * <p>
  * It is considered to be a list of options separated by (currently) ";", on the
  * form "option=value". The interpretation of "value" is specific to each
  * option.
- * </p>
+ * 
  */
 public class AgentOptions {
 

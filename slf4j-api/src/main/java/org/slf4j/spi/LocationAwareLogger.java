@@ -34,11 +34,13 @@ import org.slf4j.Marker;
  * which need to provide hints so that the underlying logging system can extract
  * the correct location information (method name, line number).
  *
- * @author Ceki Gulcu
+ * @author Ceki G&uuml;lc&uuml;
  * @since 1.3
  */
 public interface LocationAwareLogger extends Logger {
 
+    // these constants should be in EventConstants. However, in order to preserve binary backward compatibility
+    // we keep these constants here. {@link EventConstants} redefines these constants using the values  below.
     final public int TRACE_INT = 00;
     final public int DEBUG_INT = 10;
     final public int INFO_INT = 20;
@@ -49,9 +51,12 @@ public interface LocationAwareLogger extends Logger {
      * Printing method with support for location information. 
      * 
      * @param marker The marker to be used for this event, may be null.
+     * 
      * @param fqcn The fully qualified class name of the <b>logger instance</b>,
      * typically the logger class, logger bridge or a logger wrapper.
+     * 
      * @param level One of the level integers defined in this interface
+     * 
      * @param message The message for the log event
      * @param t Throwable associated with the log event, may be null.
      */

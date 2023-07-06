@@ -1,9 +1,0 @@
-Implementation-Title: jcl-over-slf4j
-Bundle-ManifestVersion: 2
-Bundle-SymbolicName: jcl.over.slf4j
-Bundle-Name: jcl-over-slf4j
-Bundle-Vendor: SLF4J.ORG
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.apache.commons.logging;version=1.1.1, 
-  org.apache.commons.logging.impl;version=1.1.1
-Import-Package: org.slf4j;version=${parsedVersion.osgiVersion}, org.slf4j.spi;version=${parsedVersion.osgiVersion}

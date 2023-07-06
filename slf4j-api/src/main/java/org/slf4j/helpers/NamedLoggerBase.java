@@ -32,9 +32,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Serves as base class for named logger implementation. More significantly, this
- * class establishes deserialization behavior. See @see #readResolve. 
+ * class establishes deserialization behavior.
  * 
  * @author Ceki Gulcu
+ * @see #readResolve
  * @since 1.5.3
  */
 abstract class NamedLoggerBase implements Logger, Serializable {
@@ -54,7 +55,7 @@ abstract class NamedLoggerBase implements Logger, Serializable {
      * 
      * <p>
      * This approach will work well if the desired ILoggerFactory is the one
-     * references by LoggerFactory. However, if the user manages its logger hierarchy
+     * referenced by LoggerFactory. However, if the user manages its logger hierarchy
      * through a different (non-static) mechanism, e.g. dependency injection, then
      * this approach would be mostly counterproductive.
      * 

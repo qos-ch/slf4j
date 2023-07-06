@@ -26,21 +26,21 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 /**
-   Defines the minimum set of levels recognized by the system, that is
-   <code>OFF</code>, <code>FATAL</code>, <code>ERROR</code>,
-   <code>WARN</code>, <code>INFO</code>, <code>DEBUG</code> and
-   <code>ALL</code>.
-
-   <p>The <code>Level</code> class may be subclassed to define a larger
-   level set.
-
-   @author Ceki G&uuml;lc&uuml;
-
+ * Defines the minimum set of levels recognized by the system, that is
+ * <code>OFF</code>, <code>FATAL</code>, <code>ERROR</code>, <code>WARN</code>,
+ * <code>INFO</code>, <code>DEBUG</code> and <code>ALL</code>.
+ * 
+ * <p>
+ * The <code>Level</code> class may be subclassed to define a larger level set.
+ * 
+ * @author Ceki G&uuml;lc&uuml;
+ * 
  */
 public class Level extends Priority implements Serializable {
 
     /**
      * TRACE level integer value.
+     * 
      * @since 1.2.12
      */
     public static final int TRACE_INT = 5000;
@@ -49,48 +49,52 @@ public class Level extends Priority implements Serializable {
     public static final int X_TRACE_INT = DEBUG_INT - 100;
 
     /**
-       The <code>OFF</code> has the highest possible rank and is
-       intended to turn off logging.  */
+     * The <code>OFF</code> has the highest possible rank and is intended to turn
+     * off logging.
+     */
     final static public Level OFF = new Level(OFF_INT, "OFF", 0);
 
     /**
-       The <code>FATAL</code> level designates very severe error
-       events that will presumably lead the application to abort.
+     * The <code>FATAL</code> level designates very severe error events that will
+     * presumably lead the application to abort.
      */
     final static public Level FATAL = new Level(FATAL_INT, "FATAL", 0);
 
     /**
-       The <code>ERROR</code> level designates error events that
-       might still allow the application to continue running.  */
+     * The <code>ERROR</code> level designates error events that might still allow
+     * the application to continue running.
+     */
     final static public Level ERROR = new Level(ERROR_INT, "ERROR", 3);
 
     /**
-       The <code>WARN</code> level designates potentially harmful situations.
-    */
+     * The <code>WARN</code> level designates potentially harmful situations.
+     */
     final static public Level WARN = new Level(WARN_INT, "WARN", 4);
 
     /**
-       The <code>INFO</code> level designates informational messages
-       that highlight the progress of the application at coarse-grained
-       level.  */
+     * The <code>INFO</code> level designates informational messages that highlight
+     * the progress of the application at coarse-grained level.
+     */
     final static public Level INFO = new Level(INFO_INT, "INFO", 6);
 
     /**
-       The <code>DEBUG</code> Level designates fine-grained
-       informational events that are most useful to debug an
-       application.  */
+     * The <code>DEBUG</code> Level designates fine-grained informational events
+     * that are most useful to debug an application.
+     */
     final static public Level DEBUG = new Level(DEBUG_INT, "DEBUG", 7);
 
     /**
-      * The <code>TRACE</code> Level designates finer-grained
-      * informational events than the <code>DEBUG</code level.
-     *  @since 1.2.12
-      */
+     * The <code>TRACE</code> Level designates finer-grained informational events
+     * than the <code>DEBUG</code> level.
+     * 
+     * @since 1.2.12
+     */
     public static final Level TRACE = new Level(TRACE_INT, "TRACE", 7);
 
     /**
-       The <code>ALL</code> has the lowest possible rank and is intended to
-       turn on all logging.  */
+     * The <code>ALL</code> has the lowest possible rank and is intended to turn on
+     * all logging.
+     */
     final static public Level ALL = new Level(ALL_INT, "ALL", 7);
 
     /**
@@ -99,33 +103,47 @@ public class Level extends Priority implements Serializable {
     static final long serialVersionUID = 3491141966387921974L;
 
     /**
-       Instantiate a Level object.
+     * Instantiate a Level object.
+     * 
+     * @param level a level
+     * @param levelStr  a level string
+     * @param syslogEquivalent  the Syslog equivalent
      */
     protected Level(int level, String levelStr, int syslogEquivalent) {
         super(level, levelStr, syslogEquivalent);
     }
 
     /**
-       Convert the string passed as argument to a level. If the
-       conversion fails, then this method returns {@link #DEBUG}. 
-    */
+     * Convert the string passed as argument to a level. If the conversion fails,
+     * then this method returns {@link #DEBUG}.
+     * 
+     * @param sArg a string
+     * @return corresponding Level
+     * 
+     */
     public static Level toLevel(String sArg) {
         return (Level) toLevel(sArg, Level.DEBUG);
     }
 
     /**
-      Convert an integer passed as argument to a level. If the
-      conversion fails, then this method returns {@link #DEBUG}.
-
-    */
+     * Convert an integer passed as argument to a level. If the conversion fails,
+     * then this method returns {@link #DEBUG}.
+     * 
+     * @param val an int
+     * @return a level
+     */
     public static Level toLevel(int val) {
         return (Level) toLevel(val, Level.DEBUG);
     }
 
     /**
-      Convert an integer passed as argument to a level. If the
-      conversion fails, then this method returns the specified default.
-    */
+     * Convert an integer passed as argument to a level. If the conversion fails,
+     * then this method returns the specified default.
+     * 
+     * @param val a value 
+     * @param defaultLevel a defaultLevel
+     * @return corresponding Level
+     */
     public static Level toLevel(int val, Level defaultLevel) {
         switch (val) {
         case ALL_INT:
@@ -150,10 +168,13 @@ public class Level extends Priority implements Serializable {
     }
 
     /**
-       Convert the string passed as argument to a level. If the
-       conversion fails, then this method returns the value of
-       <code>defaultLevel</code>.  
-    */
+     * Convert the string passed as argument to a level. If the conversion fails,
+     * then this method returns the value of <code>defaultLevel</code>.
+     *
+     * @param sArg a string 
+     * @param defaultLevel a default level
+     * @return corresponding level
+     */
     public static Level toLevel(String sArg, Level defaultLevel) {
         if (sArg == null)
             return defaultLevel;
@@ -181,8 +202,9 @@ public class Level extends Priority implements Serializable {
 
     /**
      * Custom deserialization of Level.
+     * 
      * @param s serialization stream.
-     * @throws IOException if IO exception.
+     * @throws IOException            if IO exception.
      * @throws ClassNotFoundException if class not found.
      */
     private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {
@@ -197,6 +219,7 @@ public class Level extends Priority implements Serializable {
 
     /**
      * Serialize level.
+     * 
      * @param s serialization stream.
      * @throws IOException if exception during serialization.
      */
@@ -208,14 +231,15 @@ public class Level extends Priority implements Serializable {
     }
 
     /**
-     * Resolved deserialized level to one of the stock instances.
-     * May be overriden in classes derived from Level.
+     * Resolved deserialized level to one of the stock instances. May be overridden
+     * in classes derived from Level.
+     * 
      * @return resolved object.
      * @throws ObjectStreamException if exception during resolution.
      */
     private Object readResolve() throws ObjectStreamException {
         //
-        // if the deserizalized object is exactly an instance of Level
+        // if the deserialized object is exactly an instance of Level
         //
         if (getClass() == Level.class) {
             return toLevel(level);

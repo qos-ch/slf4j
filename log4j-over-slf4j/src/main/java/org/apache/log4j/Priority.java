@@ -21,8 +21,8 @@ package org.apache.log4j;
 // Contributors:  Kitching Simon <Simon.Kitching@OOOrange.ch>
 
 /**
-   <font color="#AA4444">Refrain from using this class directly, use
-   the {@link Level} class instead</font>.
+   <b>Refrain from using this class directly, use
+   the {@link Level} class instead</b>.
 
    @author Ceki G&uuml;lc&uuml; */
 public class Priority {
@@ -48,21 +48,25 @@ public class Priority {
     /**
      * @deprecated Use {@link Level#ERROR} instead.
      */
+    @Deprecated
     final static public Priority ERROR = new Level(ERROR_INT, "ERROR", 3);
 
     /**
      * @deprecated Use {@link Level#WARN} instead.
      */
+    @Deprecated
     final static public Priority WARN = new Level(WARN_INT, "WARN", 4);
 
     /**
      * @deprecated Use {@link Level#INFO} instead.
      */
+    @Deprecated
     final static public Priority INFO = new Level(INFO_INT, "INFO", 6);
 
     /**
      * @deprecated Use {@link Level#DEBUG} instead.
      */
+    @Deprecated
     final static public Priority DEBUG = new Level(DEBUG_INT, "DEBUG", 7);
 
     /**
@@ -76,6 +80,15 @@ public class Priority {
 
     /**
        Instantiate a level object.
+       @param
+     */
+
+    /**
+     * Instantiate a level object. 
+     * 
+     * @param level a level as in int
+     * @param levelStr  a levelStr
+     * @param syslogEquivalent the syslog equivalent level integer
      */
     protected Priority(int level, String levelStr, int syslogEquivalent) {
         this.level = level;
@@ -98,20 +111,23 @@ public class Priority {
 
     /**
        Return the syslog equivalent of this priority as an integer.
+       @return the Syslog Equivalent of this Priority
      */
     public final int getSyslogEquivalent() {
         return syslogEquivalent;
     }
 
     /**
-       Returns <code>true</code> if this level has a higher or equal
-       level than the level passed as argument, <code>false</code>
-       otherwise.  
-       
-       <p>You should think twice before overriding the default
-       implementation of <code>isGreaterOrEqual</code> method.
-
-    */
+     * Returns <code>true</code> if this level has a higher or equal
+     *  level than the level passed as argument, <code>false</code>
+     *  otherwise.  
+     *  
+     *  <p>You should think twice before overriding the default
+     *  implementation of <code>isGreaterOrEqual</code> method.
+     *
+     * @param r a priority
+     * @return a boolean
+     */
     public boolean isGreaterOrEqual(Priority r) {
         return level >= r.level;
     }
@@ -119,9 +135,11 @@ public class Priority {
     /**
        Return all possible priorities as an array of Level objects in
        descending order.
-
+    
        @deprecated This method will be removed with no replacement.
+       @return array of all possible priorities
     */
+    @Deprecated
     public static Priority[] getAllPossiblePriorities() {
         return new Priority[] { Priority.FATAL, Priority.ERROR, Level.WARN, Priority.INFO, Priority.DEBUG };
     }
@@ -134,7 +152,9 @@ public class Priority {
     }
 
     /**
-       Returns the integer representation of this level.
+     * Returns the integer representation of this level.
+     *
+     * @return integer representation of this level
      */
     public final int toInt() {
         return level;
@@ -142,28 +162,45 @@ public class Priority {
 
     /**
      * @deprecated Please use the {@link Level#toLevel(String)} method instead.
+     * 
+     * @param sArg a string to convert to a Priority 
+     * @return the corresponding Priority 
     */
+    @Deprecated
     public static Priority toPriority(String sArg) {
         return Level.toLevel(sArg);
     }
 
     /**
      * @deprecated Please use the {@link Level#toLevel(int)} method instead.   
+     * 
+     * @param val an integer to convert to a Priority
+     * @return the corresponding Priority
      */
+    @Deprecated
     public static Priority toPriority(int val) {
         return toPriority(val, Priority.DEBUG);
     }
 
     /**
      * @deprecated Please use the {@link Level#toLevel(int, Level)} method instead.   
-    */
+     * 
+     * @param val an integer value
+     * @param defaultPriority a default priority value
+     * @return corresponding Priority value
+     */
+    @Deprecated
     public static Priority toPriority(int val, Priority defaultPriority) {
         return Level.toLevel(val, (Level) defaultPriority);
     }
 
     /**
      * @deprecated Please use the {@link Level#toLevel(String, Level)} method instead.   
+     * @param sArg string value
+     * @param defaultPriority a default Priority
+     * @return a Priority
      */
+    @Deprecated
     public static Priority toPriority(String sArg, Priority defaultPriority) {
         return Level.toLevel(sArg, (Level) defaultPriority);
     }
