@@ -21,12 +21,15 @@
     <plugins>
 
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven-jar-plugin.version}</version>
         <configuration>
-          <instructions>
-            <Main-Class>org.slf4j.migrator.Main</Main-Class>
-          </instructions>
+          <archive>
+            <manifest>
+              <mainClass>org.slf4j.migrator.Main</mainClass>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
 
