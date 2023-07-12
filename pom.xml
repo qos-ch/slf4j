@@ -14,6 +14,7 @@
   <description>SLF4J project BOM</description>
 
   <modules>
+    <module>parent-pom.xml</module>
     <module>slf4j-api</module>
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>
