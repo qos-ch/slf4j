@@ -28,6 +28,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.text.MessageFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.spi.CallerBoundaryAware;
@@ -142,7 +143,7 @@ class SLF4JPlatformLogger implements System.Logger {
                 leb = leb.addArgument(p);
             }
             // The JDK uses a different formatting convention. We must invoke it now.
-            message = String.format(message, params);
+            message = MessageFormat.format(message, params);
         }
         if (leb instanceof CallerBoundaryAware) {
             CallerBoundaryAware cba = (CallerBoundaryAware) leb;
