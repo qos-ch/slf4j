@@ -80,6 +80,8 @@ public final class LoggerFactory {
     static final String SUBSTITUTE_LOGGER_URL = CODES_PREFIX + "#substituteLogger";
     static final String LOGGER_NAME_MISMATCH_URL = CODES_PREFIX + "#loggerNameMismatch";
     static final String REPLAY_URL = CODES_PREFIX + "#replay";
+    
+    public static final String KEY_PREFER_PASSED_IN_CLASS_LOADER = "org.slf4j.LoggerFactory.PREFER_PASSED_IN_CLASS_LOADER";
 
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
     static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory in failed state. Original exception was thrown EARLIER. See also "
@@ -104,16 +106,45 @@ public final class LoggerFactory {
     static volatile SLF4JServiceProvider PROVIDER;
 
     // Package access for tests
-    static List<SLF4JServiceProvider> findServiceProviders() {
+    static List<SLF4JServiceProvider> findServiceProviders(ClassLoader classLoader) {
         // retain behaviour similar to that of 1.7 series and earlier. More specifically, use the class loader that
         // loaded the present class to search for services
-        final ClassLoader classLoaderOfLoggerFactory = LoggerFactory.class.getClassLoader();
-        ServiceLoader<SLF4JServiceProvider> serviceLoader = getServiceLoader(classLoaderOfLoggerFactory);
         List<SLF4JServiceProvider> providerList = new ArrayList<>();
-        Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
-        while (iterator.hasNext()) {
-            safelyInstantiate(providerList, iterator);
+
+        ServiceLoader<SLF4JServiceProvider> serviceLoader;
+
+        if (classLoader != null) {
+            // Load from provided class loader.
+            serviceLoader = getServiceLoader(classLoader);
+            Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
+            while (iterator.hasNext()) {
+                safelyInstantiate(providerList, iterator);
+            }
         }
+
+        // Load from current class'es class loader.
+        ClassLoader localLoader = LoggerFactory.class.getClassLoader();
+        if (classLoader != localLoader) {
+            serviceLoader = getServiceLoader(localLoader);
+            Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
+            while (iterator.hasNext()) {
+                safelyInstantiate(providerList, iterator);
+            }
+        }
+
+        /*
+        // Load from context class loader.
+        ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
+        if ((classLoader != contextLoader) && (localLoader != contextLoader)) {
+            serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class, contextLoader);
+            for (SLF4JServiceProvider provider : serviceLoader) {
+                if (!providerList.contains(provider)) {
+                    providerList.add(provider);
+                }
+            }
+        }
+        */
+
         return providerList;
     }
 
@@ -132,7 +163,9 @@ public final class LoggerFactory {
     private static void safelyInstantiate(List<SLF4JServiceProvider> providerList, Iterator<SLF4JServiceProvider> iterator) {
         try {
             SLF4JServiceProvider provider = iterator.next();
-            providerList.add(provider);
+            if (!providerList.contains(provider)) {
+                providerList.add(provider);
+            }
         } catch (ServiceConfigurationError e) {
             Util.report("A SLF4J service provider failed to instantiate:\n" + e.getMessage());
         }
@@ -166,16 +199,16 @@ public final class LoggerFactory {
         INITIALIZATION_STATE = UNINITIALIZED;
     }
 
-    private final static void performInitialization() {
-        bind();
+    private final static void performInitialization(ClassLoader classLoader) {
+        bind(classLoader);
         if (INITIALIZATION_STATE == SUCCESSFUL_INITIALIZATION) {
             versionSanityCheck();
         }
     }
 
-    private final static void bind() {
+    private final static void bind(ClassLoader classLoader) {
         try {
-            List<SLF4JServiceProvider> providersList = findServiceProviders();
+            List<SLF4JServiceProvider> providersList = findServiceProviders(classLoader);
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
                 PROVIDER = providersList.get(0);
@@ -413,7 +446,13 @@ public final class LoggerFactory {
      *      logger name mismatch</a>
      */
     public static Logger getLogger(Class<?> clazz) {
-        Logger logger = getLogger(clazz.getName());
+        Logger logger;
+        if ( Boolean.parseBoolean( System.getProperty( KEY_PREFER_PASSED_IN_CLASS_LOADER ) ) ) {
+            ILoggerFactory iLoggerFactory = getILoggerFactory(clazz.getClassLoader());
+            logger = iLoggerFactory.getLogger(clazz.getName());
+        } else {
+            logger = getLogger(clazz.getName());
+        }
         if (DETECT_LOGGER_NAME_MISMATCH) {
             Class<?> autoComputedCallingClass = Util.getCallingClass();
             if (autoComputedCallingClass != null && nonMatchingClasses(clazz, autoComputedCallingClass)) {
@@ -442,17 +481,41 @@ public final class LoggerFactory {
     }
 
     /**
+     * Return the {@link ILoggerFactory} instance in use.
+     * <p>
+     * <p>
+     * ILoggerFactory instance is bound with this class at compile time.
+     * 
+     * @param classLoader
+     * 
+     * @return the ILoggerFactory instance in use
+     */
+    public static ILoggerFactory getILoggerFactory(ClassLoader classLoader) {
+        return getProvider(classLoader).getLoggerFactory();
+    }
+
+    /**
      * Return the {@link SLF4JServiceProvider} in use.
     
      * @return provider in use
      * @since 1.8.0
      */
     static SLF4JServiceProvider getProvider() {
+        return getProvider(null);
+    }
+
+    /**
+     * Return the {@link SLF4JServiceProvider} in use.
+    
+     * @return provider in use
+     * @since 1.8.0
+     */
+    private static SLF4JServiceProvider getProvider(ClassLoader classLoader) {
         if (INITIALIZATION_STATE == UNINITIALIZED) {
             synchronized (LoggerFactory.class) {
                 if (INITIALIZATION_STATE == UNINITIALIZED) {
                     INITIALIZATION_STATE = ONGOING_INITIALIZATION;
-                    performInitialization();
+                    performInitialization(classLoader);
                 }
             }
         }
