@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * @author Ceki
  *
  */
-public class SLF4JPlarformLoggerFactory {
+public class SLF4JPlatformLoggerFactory {
     ConcurrentMap<String, SLF4JPlatformLogger> loggerMap = new ConcurrentHashMap<>();
     
     /**
