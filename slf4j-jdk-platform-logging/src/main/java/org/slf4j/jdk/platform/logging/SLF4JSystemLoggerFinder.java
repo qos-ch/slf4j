@@ -25,14 +25,14 @@
 package org.slf4j.jdk.platform.logging;
 
 /**
- * Uses {@link SLF4JPlarformLoggerFactory#getLogger(String)} to get a logger
+ * Uses {@link SLF4JPlatformLoggerFactory#getLogger(String)} to get a logger
  * that is adapted for {@link System.Logger}.
  * 
  * @since 2.0.0
  */
 public class SLF4JSystemLoggerFinder extends System.LoggerFinder {
 
-    final SLF4JPlarformLoggerFactory platformLoggerFactory = new SLF4JPlarformLoggerFactory();
+    final SLF4JPlatformLoggerFactory platformLoggerFactory = new SLF4JPlatformLoggerFactory();
     
     @Override
     public System.Logger getLogger(String name, Module module) {
