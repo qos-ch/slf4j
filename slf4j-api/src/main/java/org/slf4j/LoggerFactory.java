@@ -142,8 +142,6 @@ public final class LoggerFactory {
      * It is LoggerFactory's responsibility to track version changes and manage
      * the compatibility list.
      * <p>
-     * <p>
-     * It is assumed that all versions in the 1.6 are mutually compatible.
      */
     static private final String[] API_COMPATIBILITY_LIST = new String[] { "2.0" };
 
@@ -337,7 +335,7 @@ public final class LoggerFactory {
                 }
             }
             if (!match) {
-                Util.report("The requested version " + requested + " by your slf4j binding is not compatible with "
+                Util.report("The requested version " + requested + " by your slf4j provider is not compatible with "
                                 + Arrays.asList(API_COMPATIBILITY_LIST).toString());
                 Util.report("See " + VERSION_MISMATCH + " for further details.");
             }
@@ -348,7 +346,7 @@ public final class LoggerFactory {
             // emit compatibility warnings.
         } catch (Throwable e) {
             // we should never reach here
-            Util.report("Unexpected problem occured during version sanity check", e);
+            Util.report("Unexpected problem occurred during version sanity check", e);
         }
     }
 
