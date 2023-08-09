@@ -176,7 +176,7 @@ public final class LoggerFactory {
             List<SLF4JServiceProvider> providersList = findServiceProviders();
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
-                PROVIDER = providersList.get(0);
+                PROVIDER = preferProvider(providersList);
                 // SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
                 PROVIDER.initialize();
                 INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
@@ -195,6 +195,29 @@ public final class LoggerFactory {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
         }
+    }
+
+    /**
+     * In case of multiple providers, it picks the one from "slf4j.preferred.provider" system property,
+     * or leave the default one.
+     * @param providersList List<SLF4JServiceProvider> providers
+     * @return SLF4JServiceProvider the found provider, matching class name provided in the system property
+     * if found, default one otherwise
+     */
+    private static SLF4JServiceProvider preferProvider(List<SLF4JServiceProvider> providersList) {
+        final String preferred = System.getProperty("slf4j.preferred.provider", "");
+        SLF4JServiceProvider found = providersList.get(0);
+        if (preferred == null || preferred.isEmpty()) {
+            return found;
+        } else {
+            Util.report("Preferred provider : " + preferred);
+        }
+        return providersList.stream()
+                .filter(provider -> preferred.equalsIgnoreCase(provider.getClass().getName()))
+                .findFirst().orElseGet(() -> {
+                    Util.report("Preferred provider not found in the providers, use " + found);
+                    return found;
+                });
     }
 
     private static void reportIgnoredStaticLoggerBinders(Set<URL> staticLoggerBinderPathSet) {
@@ -372,7 +395,7 @@ public final class LoggerFactory {
     private static void reportActualBinding(List<SLF4JServiceProvider> providerList) {
         // binderPathSet can be null under Android
         if (!providerList.isEmpty() && isAmbiguousProviderList(providerList)) {
-            Util.report("Actual provider is of type [" + providerList.get(0) + "]");
+            Util.report("Actual provider is of type [" + PROVIDER + "]");
         }
     }
 
