@@ -13,8 +13,10 @@
   <name>SLF4J BOM</name>
   <description>SLF4J project BOM</description>
 
+  <!-- Inspired by Improving the Maven Bill of Materials (BOM) Pattern  -->
+  <!-- https://www.garretwilson.com/blog/2023/06/14/improve-maven-bom-pattern -->
   <modules>
-    <module>parent-pom.xml</module>
+    <module>parent</module>
     <module>slf4j-api</module>
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>

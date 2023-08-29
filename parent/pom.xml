@@ -8,13 +8,13 @@
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-bom</artifactId>
     <version>2.0.8</version>
-    <relativePath>pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>slf4j-parent</artifactId>
   <packaging>pom</packaging>
-  <name>SLF4J Parent OM</name>
-  <description>Top SLF4J project parent pom.xml file</description>
+  <name>SLF4J Parent POM</name>
+  <description>SLF4J project parent pom.xml file</description>
   <url>http://www.slf4j.org</url>
 
   <organization>
@@ -38,7 +38,7 @@
 
   <properties>
     <!-- yyyy-MM-dd'T'HH:mm:ss'Z' -->
-    <project.build.outputTimestamp>2023-08-29T20:08:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2023-08-29T21:48:00Z</project.build.outputTimestamp>
     <latest.1.version>1.7.36</latest.1.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
     <jdk.version>8</jdk.version>
@@ -116,7 +116,7 @@
       </resource>
 
       <resource>
-        <directory>.</directory>
+        <directory>..</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>LICENSE.txt</include>
