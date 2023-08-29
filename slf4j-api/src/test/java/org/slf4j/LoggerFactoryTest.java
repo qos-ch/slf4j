@@ -12,12 +12,13 @@ import java.io.PrintStream;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class LoggerFactoryTest {
     private PrintStream rawSyserr;
     private ByteArrayOutputStream mockedSyserr;
+
+    final ClassLoader classLoaderOfLoggerFactory = LoggerFactory.class.getClassLoader();
 
     @Before
     public void setUp() {
@@ -28,32 +29,39 @@ public class LoggerFactoryTest {
 
     @After
     public void cleanUp() {
+        System.clearProperty(LoggerFactory.BINDING_PROP);
         System.setErr(rawSyserr);
     }
 
     @Test
     public void testExplicitlySpecified() {
-        assertThat(LoggerFactory.loadExplicitlySpecified("org.slf4j.LoggerFactoryTest$TestingProvider"),
-                   is(instanceOf(TestingProvider.class)));
+        System.setProperty(LoggerFactory.BINDING_PROP, "org.slf4j.LoggerFactoryTest$TestingProvider");
+        SLF4JServiceProvider provider = LoggerFactory.loadExplicitlySpecified(classLoaderOfLoggerFactory);
+        assertTrue("provider should be instance of TestingProvider class", provider instanceof  TestingProvider);
+        assertTrue(mockedSyserr.toString().contains(" Attempting to load provider \"org.slf4j.LoggerFactoryTest$TestingProvider\" specified via \"slf4j.binding\" system property"));
+        System.out.println(mockedSyserr.toString());
+
+
     }
 
     @Test
     public void testExplicitlySpecifiedNull() {
-        assertNull(LoggerFactory.loadExplicitlySpecified(null));
+        assertNull(LoggerFactory.loadExplicitlySpecified(classLoaderOfLoggerFactory));
     }
 
     @Test
     public void testExplicitlySpecifyMissingServiceProvider() {
-        assertNull(LoggerFactory.loadExplicitlySpecified("com.example.ServiceProvider"));
-        assertThat(mockedSyserr.toString(),
-                   containsString("Failed to instantiate the specified SLF4JServiceProvider (com.example.ServiceProvider)"));
+        System.setProperty(LoggerFactory.BINDING_PROP, "com.example.ServiceProvider");
+        SLF4JServiceProvider provider = LoggerFactory.loadExplicitlySpecified(classLoaderOfLoggerFactory);
+        assertNull(provider);
+        assertTrue(mockedSyserr.toString().contains("Failed to instantiate the specified SLF4JServiceProvider (com.example.ServiceProvider)"));
     }
 
     @Test
     public void testExplicitlySpecifyNonServiceProvider() {
-        assertNull(LoggerFactory.loadExplicitlySpecified("java.lang.String"));
-        assertThat(mockedSyserr.toString(),
-                   containsString("Specified SLF4JServiceProvider (java.lang.String) does not implement SLF4JServiceProvider interface"));
+        System.setProperty(LoggerFactory.BINDING_PROP, "java.lang.String");
+        assertNull(LoggerFactory.loadExplicitlySpecified(classLoaderOfLoggerFactory));
+        assertTrue(mockedSyserr.toString().contains("Specified SLF4JServiceProvider (java.lang.String) does not implement SLF4JServiceProvider interface"));
     }
 
     public static class TestingProvider implements SLF4JServiceProvider {
@@ -73,7 +81,7 @@ public class LoggerFactoryTest {
         }
 
         @Override
-        public String getRequesteApiVersion() {
+        public String getRequestedApiVersion() {
             return null;
         }
 
