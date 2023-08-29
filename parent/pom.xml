@@ -498,30 +498,5 @@
     -->
   </profiles>
 
-  <pluginRepositories>
-    <pluginRepository>
-         <id>apache-snapshot-repo</id>
-         <name>apache-snapshot-repo</name>
-         <url>https://repository.apache.org/content/groups/snapshots/</url>
-         <releases>
-           <enabled>false</enabled>
-         </releases>
-         <snapshots>
-           <enabled>true</enabled>
-         </snapshots>
-
-    </pluginRepository>
-  </pluginRepositories>
-
-  <distributionManagement>
-
-    <repository>
-      <!--<id>pixie</id>-->
-      <!--<url>scp://pixie.qos.ch/var/mvnrepo/</url>-->
-      <id>sonatype-nexus-staging</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-
-  </distributionManagement>
 
 </project>
