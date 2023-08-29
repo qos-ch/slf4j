@@ -9,10 +9,25 @@
   <version>2.0.8</version>
   <packaging>pom</packaging>
 
+  <url>http://www.slf4j.org</url>
   
   <name>SLF4J BOM</name>
   <description>SLF4J project BOM</description>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/qos-ch/slf4j</url>
+    <connection>scm:git:https://github.com/qos-ch/slf4j.git</connection>
+  </scm>  
+
+  
   <!-- Inspired by Improving the Maven Bill of Materials (BOM) Pattern  -->
   <!-- https://www.garretwilson.com/blog/2023/06/14/improve-maven-bom-pattern -->
   <modules>
@@ -122,4 +137,37 @@
 
   </distributionManagement>
 
+  <developers>
+    <developer>
+      <id>ceki</id>
+      <name>Ceki Gulcu</name>
+      <email>ceki@qos.ch</email>
+    </developer>
+  </developers>
+
+  <profiles>
+    
+    <profile>
+      <id>sign-artifacts</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
 </project>
