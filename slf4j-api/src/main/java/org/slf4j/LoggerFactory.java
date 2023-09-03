@@ -32,7 +32,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -48,8 +47,6 @@ import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
-
-import javax.accessibility.AccessibleComponent;
 
 /**
  * The <code>LoggerFactory</code> is a utility class producing Loggers for
@@ -88,9 +85,9 @@ public final class LoggerFactory {
      * System property for explicitly setting the provider class. If set and the provider could be instantiated,
      * then the service loading mechanism will be bypassed.
      *
-     * @since 2.0.8
+     * @since 2.0.9
      */
-    static final public String BINDING_PROP = "slf4j.binding";
+    static final public String PROVIDER_PROPERTY_KEY = "slf4j.provider";
 
     static final int UNINITIALIZED = 0;
     static final int ONGOING_INITIALIZATION = 1;
@@ -215,12 +212,12 @@ public final class LoggerFactory {
     }
 
     static SLF4JServiceProvider loadExplicitlySpecified(ClassLoader classLoader) {
-        String explicitlySpecified = System.getProperty(BINDING_PROP);
+        String explicitlySpecified = System.getProperty(PROVIDER_PROPERTY_KEY);
         if (null == explicitlySpecified || explicitlySpecified.isEmpty()) {
             return null;
         }
         try {
-            String message = String.format("Attempting to load provider \"%s\" specified via \"%s\" system property", explicitlySpecified, BINDING_PROP);
+            String message = String.format("Attempting to load provider \"%s\" specified via \"%s\" system property", explicitlySpecified, PROVIDER_PROPERTY_KEY);
             Util.report(message);
             Class<?> clazz = classLoader.loadClass(explicitlySpecified);
             Constructor<?> constructor = clazz.getConstructor();
