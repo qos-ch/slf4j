@@ -60,11 +60,13 @@
         <configuration>
           <instructions>
             <Import-Package>org.slf4j.spi;version="${range;[===,+);${version_cleanup;${project.version}}}"</Import-Package>
-            <!-- Export the client/user package of slf4j-api version 1 to make the slf4j-api bundle in version 2 usable for bundles that only import slf4j-1.x -->
-            <_exportcontents><![CDATA[
+            <!-- Export the client/user packages of slf4j-api in version 1 to make the slf4j-api bundle in version 2 usable for bundles that only import version ranges not including 2.x -->
+            <!-- Uses directive not automatically added: https://github.com/bndtools/bnd/issues/5789 but in this case not necessary either -->
+            <Export-Package><![CDATA[
               *,\
-              org.slf4j;uses:="org.slf4j.event,org.slf4j.helpers,org.slf4j.spi";version="${latest.1.version}"
-            ]]></_exportcontents>
+              org.slf4j;version="${backwards.compatible.version}",\
+              org.slf4j.helper;version="${backwards.compatible.version}"
+            ]]></Export-Package>
             <Require-Capability><![CDATA[
               osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))",
               osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.spi.SLF4JServiceProvider)";osgi.serviceloader="org.slf4j.spi.SLF4JServiceProvider"
