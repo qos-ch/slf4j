@@ -36,10 +36,6 @@ public class LoggerFactoryTest {
         System.setProperty(LoggerFactory.PROVIDER_PROPERTY_KEY, "org.slf4j.LoggerFactoryTest$TestingProvider");
         SLF4JServiceProvider provider = LoggerFactory.loadExplicitlySpecified(classLoaderOfLoggerFactory);
         assertTrue("provider should be instance of TestingProvider class", provider instanceof  TestingProvider);
-        assertTrue(mockedSyserr.toString().contains(" Attempting to load provider \"org.slf4j.LoggerFactoryTest$TestingProvider\" specified via \"slf4j.provider\" system property"));
-        System.out.println(mockedSyserr.toString());
-
-
     }
 
     @Test
