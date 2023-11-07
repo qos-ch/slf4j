@@ -217,8 +217,6 @@ public final class LoggerFactory {
             return null;
         }
         try {
-            String message = String.format("Attempting to load provider \"%s\" specified via \"%s\" system property", explicitlySpecified, PROVIDER_PROPERTY_KEY);
-            Util.report(message);
             Class<?> clazz = classLoader.loadClass(explicitlySpecified);
             Constructor<?> constructor = clazz.getConstructor();
             Object provider = constructor.newInstance();
