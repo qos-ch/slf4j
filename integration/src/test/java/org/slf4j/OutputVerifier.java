@@ -28,12 +28,12 @@ public class OutputVerifier {
         }
         {
             String s = (String) sps.stringList.get(2);
-            assertTrue(s.contains("SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details."));
+            assertTrue(s.contains("See https://www.slf4j.org/codes.html#noProviders for further details."));
         }
 
         {
             String s = (String) sps.stringList.get(3);
-            assertTrue(s.contains("SLF4J: Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier."));
+            assertTrue(s.contains("Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier."));
         }
 
         {

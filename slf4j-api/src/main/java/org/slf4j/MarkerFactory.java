@@ -25,6 +25,7 @@
 package org.slf4j;
 
 import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.helpers.Reporter;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -53,8 +54,8 @@ public class MarkerFactory {
         if (provider != null) {
             MARKER_FACTORY = provider.getMarkerFactory();
         } else {
-            Util.report("Failed to find provider");
-            Util.report("Defaulting to BasicMarkerFactory.");
+            Reporter.error("Failed to find provider");
+            Reporter.error("Defaulting to BasicMarkerFactory.");
             MARKER_FACTORY = new BasicMarkerFactory();
         }
     }

@@ -117,14 +117,14 @@ public final class Util {
         return trace[i + 2];
     }
 
-    static final public void report(String msg, Throwable t) {
-        System.err.println(msg);
-        System.err.println("Reported exception:");
-        t.printStackTrace();
-    }
-
-    static final public void report(String msg) {
-        System.err.println("SLF4J: " + msg);
-    }
+//    private static final void report(String msg, Throwable t) {
+//        System.err.println(msg);
+//        System.err.println("Reported exception:");
+//        t.printStackTrace();
+//    }
+//
+//    static final private void report(String msg) {
+//        System.err.println("SLF4J: " + msg);
+//    }
 
 }

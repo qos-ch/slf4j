@@ -43,6 +43,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOP_FallbackServiceProvider;
+import org.slf4j.helpers.Reporter;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
@@ -148,7 +149,7 @@ public final class LoggerFactory {
             SLF4JServiceProvider provider = iterator.next();
             providerList.add(provider);
         } catch (ServiceConfigurationError e) {
-            Util.report("A SLF4J service provider failed to instantiate:\n" + e.getMessage());
+            Reporter.error("A service provider failed to instantiate:\n" + e.getMessage());
         }
     }
 
@@ -197,9 +198,9 @@ public final class LoggerFactory {
                 reportActualBinding(providersList);
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
-                Util.report("No SLF4J providers were found.");
-                Util.report("Defaulting to no-operation (NOP) logger implementation");
-                Util.report("See " + NO_PROVIDERS_URL + " for further details.");
+                Reporter.warn("No SLF4J providers were found.");
+                Reporter.warn("Defaulting to no-operation (NOP) logger implementation");
+                Reporter.warn("See " + NO_PROVIDERS_URL + " for further details.");
 
                 Set<URL> staticLoggerBinderPathSet = findPossibleStaticLoggerBinderPathSet();
                 reportIgnoredStaticLoggerBinders(staticLoggerBinderPathSet);
@@ -218,18 +219,18 @@ public final class LoggerFactory {
         }
         try {
             String message = String.format("Attempting to load provider \"%s\" specified via \"%s\" system property", explicitlySpecified, PROVIDER_PROPERTY_KEY);
-            Util.report(message);
+            Reporter.info(message);
             Class<?> clazz = classLoader.loadClass(explicitlySpecified);
             Constructor<?> constructor = clazz.getConstructor();
             Object provider = constructor.newInstance();
             return (SLF4JServiceProvider) provider;
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             String message = String.format("Failed to instantiate the specified SLF4JServiceProvider (%s)", explicitlySpecified);
-            Util.report(message, e);
+            Reporter.error(message, e);
             return null;
         } catch (ClassCastException e) {
             String message = String.format("Specified SLF4JServiceProvider (%s) does not implement SLF4JServiceProvider interface", explicitlySpecified);
-            Util.report(message, e);
+            Reporter.error(message, e);
             return null;
         }
     }
@@ -238,12 +239,12 @@ public final class LoggerFactory {
         if (staticLoggerBinderPathSet.isEmpty()) {
             return;
         }
-        Util.report("Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.");
+        Reporter.warn("Class path contains SLF4J bindings targeting slf4j-api versions 1.7.x or earlier.");
 
         for (URL path : staticLoggerBinderPathSet) {
-            Util.report("Ignoring binding found at [" + path + "]");
+            Reporter.warn("Ignoring binding found at [" + path + "]");
         }
-        Util.report("See " + IGNORED_BINDINGS_URL + " for an explanation.");
+        Reporter.warn("See " + IGNORED_BINDINGS_URL + " for an explanation.");
 
     }
 
@@ -269,7 +270,7 @@ public final class LoggerFactory {
                 staticLoggerBinderPathSet.add(path);
             }
         } catch (IOException ioe) {
-            Util.report("Error getting resources from path", ioe);
+            Reporter.error("Error getting resources from path", ioe);
         }
         return staticLoggerBinderPathSet;
     }
@@ -294,7 +295,7 @@ public final class LoggerFactory {
 
     static void failedBinding(Throwable t) {
         INITIALIZATION_STATE = FAILED_INITIALIZATION;
-        Util.report("Failed to instantiate SLF4J LoggerFactory", t);
+        Reporter.error("Failed to instantiate SLF4J LoggerFactory", t);
     }
 
     private static void replayEvents() {
@@ -343,22 +344,22 @@ public final class LoggerFactory {
                 substLogger.log(event);
             }
         } else {
-            Util.report(loggerName);
+            Reporter.warn(loggerName);
         }
     }
 
     private static void emitSubstitutionWarning() {
-        Util.report("The following set of substitute loggers may have been accessed");
-        Util.report("during the initialization phase. Logging calls during this");
-        Util.report("phase were not honored. However, subsequent logging calls to these");
-        Util.report("loggers will work as normally expected.");
-        Util.report("See also " + SUBSTITUTE_LOGGER_URL);
+        Reporter.warn("The following set of substitute loggers may have been accessed");
+        Reporter.warn("during the initialization phase. Logging calls during this");
+        Reporter.warn("phase were not honored. However, subsequent logging calls to these");
+        Reporter.warn("loggers will work as normally expected.");
+        Reporter.warn("See also " + SUBSTITUTE_LOGGER_URL);
     }
 
     private static void emitReplayWarning(int eventCount) {
-        Util.report("A number (" + eventCount + ") of logging calls during the initialization phase have been intercepted and are");
-        Util.report("now being replayed. These are subject to the filtering rules of the underlying logging system.");
-        Util.report("See also " + REPLAY_URL);
+        Reporter.warn("A number (" + eventCount + ") of logging calls during the initialization phase have been intercepted and are");
+        Reporter.warn("now being replayed. These are subject to the filtering rules of the underlying logging system.");
+        Reporter.warn("See also " + REPLAY_URL);
     }
 
     private final static void versionSanityCheck() {
@@ -372,9 +373,9 @@ public final class LoggerFactory {
                 }
             }
             if (!match) {
-                Util.report("The requested version " + requested + " by your slf4j provider is not compatible with "
+                Reporter.warn("The requested version " + requested + " by your slf4j provider is not compatible with "
                                 + Arrays.asList(API_COMPATIBILITY_LIST).toString());
-                Util.report("See " + VERSION_MISMATCH + " for further details.");
+                Reporter.warn("See " + VERSION_MISMATCH + " for further details.");
             }
         } catch (java.lang.NoSuchFieldError nsfe) {
             // given our large user base and SLF4J's commitment to backward
@@ -383,7 +384,7 @@ public final class LoggerFactory {
             // emit compatibility warnings.
         } catch (Throwable e) {
             // we should never reach here
-            Util.report("Unexpected problem occurred during version sanity check", e);
+            Reporter.error("Unexpected problem occurred during version sanity check", e);
         }
     }
 
@@ -398,18 +399,18 @@ public final class LoggerFactory {
      */
     private static void reportMultipleBindingAmbiguity(List<SLF4JServiceProvider> providerList) {
         if (isAmbiguousProviderList(providerList)) {
-            Util.report("Class path contains multiple SLF4J providers.");
+            Reporter.warn("Class path contains multiple SLF4J providers.");
             for (SLF4JServiceProvider provider : providerList) {
-                Util.report("Found provider [" + provider + "]");
+                Reporter.warn("Found provider [" + provider + "]");
             }
-            Util.report("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
+            Reporter.warn("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
         }
     }
 
     private static void reportActualBinding(List<SLF4JServiceProvider> providerList) {
         // binderPathSet can be null under Android
         if (!providerList.isEmpty() && isAmbiguousProviderList(providerList)) {
-            Util.report("Actual provider is of type [" + providerList.get(0) + "]");
+            Reporter.info("Actual provider is of type [" + providerList.get(0) + "]");
         }
     }
 
@@ -452,9 +453,9 @@ public final class LoggerFactory {
         if (DETECT_LOGGER_NAME_MISMATCH) {
             Class<?> autoComputedCallingClass = Util.getCallingClass();
             if (autoComputedCallingClass != null && nonMatchingClasses(clazz, autoComputedCallingClass)) {
-                Util.report(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".", logger.getName(),
+                Reporter.warn(String.format("Detected logger name mismatch. Given name: \"%s\"; computed name: \"%s\".", logger.getName(),
                                 autoComputedCallingClass.getName()));
-                Util.report("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
+                Reporter.warn("See " + LOGGER_NAME_MISMATCH_URL + " for an explanation");
             }
         }
         return logger;

@@ -31,6 +31,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
+import org.slf4j.helpers.Reporter;
 import org.slf4j.spi.CallerBoundaryAware;
 import org.slf4j.spi.LoggingEventBuilder;
 
@@ -155,7 +156,7 @@ class SLF4JPlatformLogger implements System.Logger {
     private void reportUnknownLevel(Level jplLevel) {
         String message = "Unknown log level [" + jplLevel + "]";
         IllegalArgumentException iae = new IllegalArgumentException(message);
-        org.slf4j.helpers.Util.report("Unsupported log level", iae);
+        Reporter.error("Unsupported log level", iae);
     }
 
     private static String getResourceStringOrMessage(ResourceBundle bundle, String msg) {

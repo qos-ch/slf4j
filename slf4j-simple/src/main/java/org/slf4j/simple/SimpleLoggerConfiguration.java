@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import org.slf4j.helpers.Reporter;
 import org.slf4j.helpers.Util;
 import org.slf4j.simple.OutputChoice.OutputChoiceType;
 
@@ -98,7 +99,7 @@ public class SimpleLoggerConfiguration {
             try {
                 dateFormatter = new SimpleDateFormat(dateTimeFormatStr);
             } catch (IllegalArgumentException e) {
-                Util.report("Bad date format in " + CONFIGURATION_FILE + "; will output relative time", e);
+                Reporter.error("Bad date format in " + CONFIGURATION_FILE + "; will output relative time", e);
             }
         }
     }
@@ -183,7 +184,7 @@ public class SimpleLoggerConfiguration {
                 PrintStream printStream = new PrintStream(fos);
                 return new OutputChoice(printStream);
             } catch (FileNotFoundException e) {
-                Util.report("Could not open [" + logFile + "]. Defaulting to System.err", e);
+                Reporter.error("Could not open [" + logFile + "]. Defaulting to System.err", e);
                 return new OutputChoice(OutputChoiceType.SYS_ERR);
             }
         }

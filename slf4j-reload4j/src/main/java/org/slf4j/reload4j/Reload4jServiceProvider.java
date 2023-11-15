@@ -4,6 +4,7 @@ import org.apache.log4j.Level;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.IMarkerFactory;
 import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.helpers.Reporter;
 import org.slf4j.helpers.Util;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
@@ -26,7 +27,7 @@ public class Reload4jServiceProvider implements SLF4JServiceProvider {
             @SuppressWarnings("unused")
             Level level = Level.TRACE;
         } catch (NoSuchFieldError nsfe) {
-            Util.report("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
+            Reporter.error("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
         }
     }
 

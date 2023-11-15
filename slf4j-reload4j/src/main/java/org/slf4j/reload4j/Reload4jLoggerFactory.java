@@ -30,6 +30,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.log4j.LogManager;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.helpers.Reporter;
 import org.slf4j.helpers.Util;
 
 /**
@@ -49,8 +50,8 @@ public class Reload4jLoggerFactory implements ILoggerFactory {
             String part1 = "Detected both log4j-over-slf4j.jar AND bound slf4j-log4j12.jar on the class path, preempting StackOverflowError. ";
             String part2 = "See also " + LOG4J_DELEGATION_LOOP_URL + " for more details.";
 
-            Util.report(part1);
-            Util.report(part2);
+            Reporter.error(part1);
+            Reporter.error(part2);
             throw new IllegalStateException(part1 + part2);
         } catch (ClassNotFoundException e) {
             // this is the good case
