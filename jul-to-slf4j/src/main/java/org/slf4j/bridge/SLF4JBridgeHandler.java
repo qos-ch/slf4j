@@ -229,7 +229,7 @@ public class SLF4JBridgeHandler extends Handler {
             slf4jLevel = LocationAwareLogger.ERROR_INT;
         }
         String i18nMessage = getMessageI18N(record);
-        lal.log(null, FQCN, slf4jLevel, i18nMessage, null, record.getThrown());
+        lal.log(null, FQCN, slf4jLevel, i18nMessage, record.getParameters(), record.getThrown());
     }
 
     protected void callPlainSLF4JLogger(Logger slf4jLogger, LogRecord record) {
