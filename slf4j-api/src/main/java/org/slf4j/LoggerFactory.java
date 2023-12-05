@@ -377,11 +377,6 @@ public final class LoggerFactory {
                                 + Arrays.asList(API_COMPATIBILITY_LIST).toString());
                 Reporter.warn("See " + VERSION_MISMATCH + " for further details.");
             }
-        } catch (java.lang.NoSuchFieldError nsfe) {
-            // given our large user base and SLF4J's commitment to backward
-            // compatibility, we cannot cry here. Only for implementations
-            // which willingly declare a REQUESTED_API_VERSION field do we
-            // emit compatibility warnings.
         } catch (Throwable e) {
             // we should never reach here
             Reporter.error("Unexpected problem occurred during version sanity check", e);
