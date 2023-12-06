@@ -24,6 +24,8 @@
  */
 package org.slf4j;
 
+import org.slf4j.spi.MDCAdapter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +42,14 @@ public class MDCHelper  {
      */
     Set<String> keySet = new HashSet();
 
+    MDCAdapter mdcAdapter;
+
     public MDCHelper() {
+        mdcAdapter = MDC.getMDCAdapter();
+    }
+
+    MDCHelper(MDCAdapter mdcAdapter) {
+        this.mdcAdapter = mdcAdapter;
     }
 
     /**
@@ -52,7 +61,7 @@ public class MDCHelper  {
      * @return  this instance
      */
     public MDCHelper put(String key, String value) {
-        MDC.put(key, value);
+        mdcAdapter.put(key, value);
         keySet.add(key);
         return this;
     }
@@ -94,7 +103,7 @@ public class MDCHelper  {
      */
     public void removeSet() {
         for(String key: keySet) {
-            MDC.remove(key);
+            mdcAdapter.remove(key);
         }
         keySet.clear();
     }
