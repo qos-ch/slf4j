@@ -9,7 +9,8 @@ import java.io.PrintStream;
  * Internal reporting is performed by calling the {@link #info(String)}, {@link #warn(String)} (String)}
  * {@link #error(String)} (String)}  and {@link  #error(String, Throwable)} methods.
  * </p>
- * <p>
+ * <p>See {@link #SLF4J_INTERNAL_VERBOSITY_KEY} and {@link #SLF4J_INTERNAL_REPORT_STREAM_KEY} for
+ * configuration options.</p>
  * <p>
  * <p>
  * Note that this system is independent of the logging back-end in use.
