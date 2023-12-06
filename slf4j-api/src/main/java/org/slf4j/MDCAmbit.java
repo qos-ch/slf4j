@@ -35,32 +35,32 @@ import java.util.Set;
  * <p>Typical Usage example:</p>
  *
  * <pre>
- *  MDCHelper mdch = new MDCHelper();
+ *  MDCAmbit mdca = new MDCAmbit();
  *  try {
- *    mdch.put("k0", "v0");
+ *    mdca.put("k0", "v0");
  *    throw new RuntimeException();
  *  } catch (RuntimeException e) {
  *    // here MDC.get("k0") would return "v0"
  *  } finally {
  *    // MDC remove "k0"
- *    mdch.removeSet();
+ *    mdca.clear();
  *  }
  * </pre>
  *
  * <p>It is also possible to chain {@link #put} invocations. For example:</p>
  * <pre>
- *   MDCHelper mdch = new MDCHelper();
+ *   MDCAmbit mdca = new MDCAmbit();
  *   try {
  *     // assume "k0" was added to MDC at an earlier stage
- *     mdch.addKey("k0").put("k1", "v1").put("k2, "v2");
+ *     mdca.addKey("k0").put("k1", "v1").put("k2, "v2");
  *   } finally {
- *     // MDC remove "k0", "k1", "k2"
- *     mdch.removeSet();
+ *     // MDC remove "k0", "k1", "k2", clear the set of tracked keys
+ *     mdch.clear();
  *   }
  * </pre>
- * @since 2.0.10
+ * @since 2.1.0
  */
-public class MDCHelper  {
+public class MDCAmbit {
 
 
     /**
@@ -70,44 +70,44 @@ public class MDCHelper  {
 
     MDCAdapter mdcAdapter;
 
-    public MDCHelper() {
+    public MDCAmbit() {
         mdcAdapter = MDC.getMDCAdapter();
     }
 
-    MDCHelper(MDCAdapter mdcAdapter) {
+    MDCAmbit(MDCAdapter mdcAdapter) {
         this.mdcAdapter = mdcAdapter;
     }
 
     /**
      * Put the key/value couple in the MDC and keep track of the key for later
-     *  removal by a call to {@link #removeSet()}.
+     *  removal by a call to {@link #()}.
      *
      * @param key
      * @param value
      * @return  this instance
      */
-    public MDCHelper put(String key, String value) {
+    public MDCAmbit put(String key, String value) {
         mdcAdapter.put(key, value);
         keySet.add(key);
         return this;
     }
 
     /**
-     * Keep track of a key for later removal by a call to {@link #removeSet()}.
+     * Keep track of a key for later removal by a call to {@link #()}.
      * @param key
      * @return this instance
      */
-    public MDCHelper addKey(String key) {
+    public MDCAmbit addKey(String key) {
         keySet.add(key);
         return this;
     }
 
     /**
-     *  Keep track of several keys for later removal by a call to {@link #removeSet()}.
+     *  Keep track of several keys for later removal by a call to {@link #()}.
      * @param keys
      * @return this instance
      */
-    public MDCHelper addKeys(String... keys) {
+    public MDCAmbit addKeys(String... keys) {
         if(keys == null)
             return this;
 
@@ -119,15 +119,15 @@ public class MDCHelper  {
 
 
     /**
-     * Remove tracked keys by calling {@link MDC#remove} on each key.
+     * Clear tracked keys by calling {@link MDC#remove} on each key.
      *
-     * <p>The set of tracked keys is cleared.</p>
+     * <p>In addition, the set of tracked keys is cleared.</p>
      *
      * <p>This method is usually called from within finally statement of a
      * try/catch/finally block</p>
      *
      */
-    public void removeSet() {
+    public void clear() {
         for(String key: keySet) {
             mdcAdapter.remove(key);
         }
