@@ -29,7 +29,6 @@ import org.slf4j.helpers.BasicMDCAdapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 public class MDCHelperTest {
 
@@ -39,6 +38,10 @@ public class MDCHelperTest {
 
     String k0 = "k0";
     String v0 = "v0";
+    String k1 = "k1";
+    String v1 = "v0";
+    String k2 = "k2";
+    String v2 = "v2";
     String kUnused = "kUnused";
 
     void throwRuntimeException() {
@@ -69,4 +72,44 @@ public class MDCHelperTest {
         }
         assertNull(mdcAdapter.get(k0));
     }
+
+    @Test
+    public void addKeyTest() {
+        mdcAdapter.put(k0, v0);
+        try {
+            mdch.addKey(k0);
+            assertEquals(v0, mdcAdapter.get(k0));
+            assertNull(mdcAdapter.get(kUnused));
+            throwRuntimeException();
+        } catch (RuntimeException e) {
+            assertEquals(v0, mdcAdapter.get(k0));
+        } finally {
+            mdch.removeSet();
+        }
+        assertNull(mdcAdapter.get(k0));
+    }
+
+    @Test
+    public void combinedPut_addKeyTest() {
+        mdcAdapter.put(k0, v0);
+        try {
+            mdch.addKey(k0).put(k1, v1).put(k2, v2);
+            assertEquals(v0, mdcAdapter.get(k0));
+            assertEquals(v1, mdcAdapter.get(k1));
+            assertEquals(v2, mdcAdapter.get(k2));
+            assertNull(mdcAdapter.get(kUnused));
+            throwRuntimeException();
+        } catch (RuntimeException e) {
+            assertEquals(v0, mdcAdapter.get(k0));
+            assertEquals(v1, mdcAdapter.get(k1));
+            assertEquals(v2, mdcAdapter.get(k2));
+        } finally {
+            mdch.removeSet();
+        }
+        assertNull(mdcAdapter.get(k0));
+        assertNull(mdcAdapter.get(k1));
+        assertNull(mdcAdapter.get(k2));
+    }
+
+
 }

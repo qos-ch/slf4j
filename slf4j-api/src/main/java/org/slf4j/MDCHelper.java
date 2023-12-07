@@ -32,6 +32,32 @@ import java.util.Set;
 /**
  * This class assists in the creation and removal (aka closing) of MDC entries.
  *
+ * <p>Typical Usage example:</p>
+ *
+ * <pre>
+ *  MDCHelper mdch = new MDCHelper();
+ *  try {
+ *    mdch.put("k0", "v0");
+ *    throw new RuntimeException();
+ *  } catch (RuntimeException e) {
+ *    // here MDC.get("k0") would return "v0"
+ *  } finally {
+ *    // MDC remove "k0"
+ *    mdch.removeSet();
+ *  }
+ * </pre>
+ *
+ * <p>It is also possible to chain {@link #put} invocations. For example:</p>
+ * <pre>
+ *   MDCHelper mdch = new MDCHelper();
+ *   try {
+ *     // assume "k0" was added to MDC at an earlier stage
+ *     mdch.addKey("k0").put("k1", "v1").put("k2, "v2");
+ *   } finally {
+ *     // MDC remove "k0", "k1", "k2"
+ *     mdch.removeSet();
+ *   }
+ * </pre>
  * @since 2.0.10
  */
 public class MDCHelper  {
