@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2016 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -22,38 +22,35 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.dummy;
+package org.slf4j.testing.basic;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
+import org.slf4j.LoggerFactoryFriend;
+import org.slf4j.testing.MultithreadedInitializationTest;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
+/**
+ * Checks that when no binding is present, proper clean up is performed by LoggerFactory.
+ * 
+ *  See SLF4J-469
+ * 
+ * @author David Harsha
+ */
+public class NoBindingMultithreadedInitializationTest extends MultithreadedInitializationTest {
+    final String loggerName = this.getClass().getName();
 
-import org.apache.log4j.Category;
-import org.apache.log4j.Logger;
-import org.junit.Test;
+    @Before
+    public void setup() {
+        LoggerFactoryFriend.reset();
+    }
 
-public class Bug139 {
+    @After
+    public void tearDown() throws Exception {
+        LoggerFactoryFriend.reset();
+    }
 
-    @Test
-    public void test() {
-        ListHandler listHandler = new ListHandler();
-        java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
-        root.addHandler(listHandler);
-        root.setLevel(Level.FINEST);
-        Logger log4jLogger = Logger.getLogger("a");
-        Category log4jCategory = Logger.getLogger("b");
-
-        int n = 0;
-
-        log4jLogger.log(org.apache.log4j.Level.DEBUG, "hello" + (++n));
-        log4jCategory.log(org.apache.log4j.Level.DEBUG, "world" + (++n));
-
-        assertEquals(n, listHandler.list.size());
-
-        for (int i = 0; i < n; i++) {
-            LogRecord logRecord = (LogRecord) listHandler.list.get(i);
-            assertEquals("test", logRecord.getSourceMethodName());
-        }
+    @Override
+    protected long getRecordedEventCount() {
+        return eventCount.get();
     }
 }

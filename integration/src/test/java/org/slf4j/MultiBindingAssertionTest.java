@@ -59,7 +59,7 @@ public class MultiBindingAssertionTest {
         assertMsgContains(list, 1, "Found provider");
         assertMsgContains(list, 2, "Found provider");
         assertMsgContains(list, 3, "See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.");
-        assertMsgContains(list, 4, "Actual provider is of type [");
+        assertMsgContains(list, 4, "SLF4J(I): Connected with provider of type [org.slf4j.simple.SimpleServiceProvider");
     }
 
     void assertMsgContains(List<String> strList, int index, String msg) {

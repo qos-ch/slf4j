@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.dummy;
+package org.apache.log4j.blackbox;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,11 +33,10 @@ import org.apache.log4j.Category;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class Bug131 {
+public class Bug139 {
 
     @Test
-    public void testBug131() {
-
+    public void test() {
         ListHandler listHandler = new ListHandler();
         java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
         root.addHandler(listHandler);
@@ -47,24 +46,14 @@ public class Bug131 {
 
         int n = 0;
 
-        log4jLogger.trace("msg" + (n++));
-        log4jLogger.debug("msg" + (n++));
-        log4jLogger.info("msg" + (n++));
-        log4jLogger.warn("msg" + (n++));
-        log4jLogger.error("msg" + (n++));
-        log4jLogger.fatal("msg" + (n++));
-
-        log4jCategory.debug("msg" + (n++));
-        log4jCategory.info("msg" + (n++));
-        log4jCategory.warn("msg" + (n++));
-        log4jCategory.error("msg" + (n++));
-        log4jCategory.fatal("msg" + (n++));
+        log4jLogger.log(org.apache.log4j.Level.DEBUG, "hello" + (++n));
+        log4jCategory.log(org.apache.log4j.Level.DEBUG, "world" + (++n));
 
         assertEquals(n, listHandler.list.size());
 
         for (int i = 0; i < n; i++) {
             LogRecord logRecord = (LogRecord) listHandler.list.get(i);
-            assertEquals("testBug131", logRecord.getSourceMethodName());
+            assertEquals("test", logRecord.getSourceMethodName());
         }
     }
 }

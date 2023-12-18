@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.apache.commons.logging.test;
+package org.apache.commons.logging.blackbox;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,6 +36,7 @@ import org.apache.commons.logging.impl.SLF4JLocationAwareLog;
 import org.apache.commons.logging.impl.SLF4JLog;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.jul.JDK14LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;

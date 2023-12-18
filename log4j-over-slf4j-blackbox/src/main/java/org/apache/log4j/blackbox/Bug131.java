@@ -22,45 +22,49 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
-package org.slf4j;
+package org.apache.log4j.blackbox;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.io.PrintStream;
-import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
-import org.junit.After;
-import org.junit.Before;
+import org.apache.log4j.Category;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class CompatibilityAssertionTest {
-
-    StringPrintStream sps = new StringPrintStream(System.err);
-    PrintStream old = System.err;
-    int diff = 1024 + new Random().nextInt(10000);
-
-    @Before
-    public void setUp() throws Exception {
-        System.setErr(sps);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        System.setErr(old);
-    }
+public class Bug131 {
 
     @Test
-    public void test() throws Exception {
-        Logger logger = LoggerFactory.getLogger(this.getClass());
-        String msg = "hello world " + diff;
-        logger.info(msg);
-        assertEquals(2, sps.stringList.size());
-        String s0 = (String) sps.stringList.get(0);
-        assertTrue(s0.startsWith("SLF4J(I): Connected with provider of type [org.slf4j.simple.SimpleServiceProvider"));
-        String s1 = (String) sps.stringList.get(1);
-        assertTrue(s1.contains(msg));
+    public void testBug131() {
 
+        ListHandler listHandler = new ListHandler();
+        java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
+        root.addHandler(listHandler);
+        root.setLevel(Level.FINEST);
+        Logger log4jLogger = Logger.getLogger("a");
+        Category log4jCategory = Logger.getLogger("b");
+
+        int n = 0;
+
+        log4jLogger.trace("msg" + (n++));
+        log4jLogger.debug("msg" + (n++));
+        log4jLogger.info("msg" + (n++));
+        log4jLogger.warn("msg" + (n++));
+        log4jLogger.error("msg" + (n++));
+        log4jLogger.fatal("msg" + (n++));
+
+        log4jCategory.debug("msg" + (n++));
+        log4jCategory.info("msg" + (n++));
+        log4jCategory.warn("msg" + (n++));
+        log4jCategory.error("msg" + (n++));
+        log4jCategory.fatal("msg" + (n++));
+
+        assertEquals(n, listHandler.list.size());
+
+        for (int i = 0; i < n; i++) {
+            LogRecord logRecord = (LogRecord) listHandler.list.get(i);
+            assertEquals("testBug131", logRecord.getSourceMethodName());
+        }
     }
 }

@@ -1,4 +1,4 @@
-package org.slf4j.helpers;
+package org.slf4j.testing;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;

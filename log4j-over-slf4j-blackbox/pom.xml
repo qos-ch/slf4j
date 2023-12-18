@@ -2,8 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
@@ -11,16 +9,24 @@
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
-  <artifactId>slf4j-jdk14</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>log4j-over-slf4j-blackbox</artifactId>
   <packaging>jar</packaging>
-  <name>SLF4J JDK14 Provider</name>
-  <description>SLF4J JDK14 Provider</description>
+  <name>log4j-over-slf4j blackbox testing</name>
+  <description>log4j-over-slf4j blackbox testing</description>
   <url>http://www.slf4j.org</url>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
-    <module-name>org.slf4j.jul</module-name>
-    <slf4j.provider.implementation>org.slf4j.jul.JULServiceProvider</slf4j.provider.implementation>
-    <slf4j.provider.type>jul</slf4j.provider.type>
+
   </properties>
 
   <dependencies>
@@ -31,11 +37,20 @@
 
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-testing</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
+      <artifactId>log4j-over-slf4j</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

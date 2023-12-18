@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2021 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -22,28 +22,53 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.dummy;
+package org.slf4j.simple;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
-public class ListHandler extends Handler {
+/**
+ * Copied from org.slfj.helpers.
+ *  
+ * Currently it is not possible to use test-jar from tests running on the module-path.
+ * 
+ * @author ceki
+ */
+public class StringPrintStream extends PrintStream {
 
-    List<LogRecord> list = new ArrayList<>();
+    public static final String LINE_SEP = System.getProperty("line.separator");
+    PrintStream other;
+    boolean duplicate = false;
 
-    public void close() throws SecurityException {
+    public List<String> stringList = Collections.synchronizedList(new ArrayList<>());
 
+    public StringPrintStream(PrintStream ps, boolean duplicate) {
+        super(ps);
+        other = ps;
+        this.duplicate = duplicate;
     }
 
-    public void flush() {
-
+    public StringPrintStream(PrintStream ps) {
+        this(ps, false);
     }
 
-    public void publish(LogRecord logRecord) {
-        logRecord.getSourceClassName();
-        list.add(logRecord);
+    public void print(String s) {
+        if (duplicate)
+            other.print(s);
+        stringList.add(s);
     }
 
+    public void println(String s) {
+        if (duplicate)
+            other.println(s);
+        stringList.add(s);
+    }
+
+    public void println(Object o) {
+        if (duplicate)
+            other.println(o);
+        stringList.add(o.toString());
+    }
 }

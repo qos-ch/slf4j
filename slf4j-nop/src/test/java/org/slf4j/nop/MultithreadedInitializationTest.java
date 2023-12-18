@@ -80,7 +80,8 @@ public class MultithreadedInitializationTest {
         logger.info("hello");
         EVENT_COUNT.getAndIncrement();
 
-        assertEquals(0, sps.stringList.size());
+        // SLF4J(I): Actual provider is of type [org.slf4j.nop.NOPServiceProvider@21b3698b]
+        assertEquals(1, sps.stringList.size());
     }
 
     private static LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {

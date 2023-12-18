@@ -18,6 +18,7 @@ import org.slf4j.event.EventConstants;
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
+import org.slf4j.jul.JDK14LoggerAdapter;
 import org.slf4j.jul.ListHandler;
 
 public class CallerInfoTest {
@@ -103,6 +104,7 @@ public class CallerInfoTest {
 
         substituteLogger.debug("jello");
         Logger logger = LoggerFactory.getLogger(loggerName);
+        assertTrue(logger instanceof JDK14LoggerAdapter);
         substituteLogger.setDelegate(logger);
 
         final LinkedBlockingQueue<SubstituteLoggingEvent> queue = substituteServiceProvider.getSubstituteLoggerFactory().getEventQueue();
