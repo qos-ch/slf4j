@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2004-2011 QOS.ch
+ * Copyright (c) 2004-2016 QOS.ch
  * All rights reserved.
  *
  * Permission is hereby granted, free  of charge, to any person obtaining
@@ -22,32 +22,35 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.bridge;
+package org.slf4j.testing;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.After;
+import org.junit.Before;
+import org.slf4j.LoggerFactoryFriend;
+import org.slf4j.testing.MultithreadedInitializationTest;
 
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.spi.LoggingEvent;
+/**
+ * Checks that when no binding is present, proper clean up is performed by LoggerFactory.
+ * 
+ *  See SLF4J-469
+ * 
+ * @author David Harsha
+ */
+public class NoBindingMultithreadedInitializationTest extends MultithreadedInitializationTest {
+    final String loggerName = this.getClass().getName();
 
-public class ListAppender extends AppenderSkeleton {
-
-    public List<LoggingEvent> list = new ArrayList<>();
-
-    public boolean extractLocationInfo = false;
-
-    protected void append(LoggingEvent event) {
-        list.add(event);
-        if (extractLocationInfo) {
-            event.getLocationInformation();
-        }
+    @Before
+    public void setup() {
+        LoggerFactoryFriend.reset();
     }
 
-    public void close() {
+    @After
+    public void tearDown() throws Exception {
+        LoggerFactoryFriend.reset();
     }
 
-    public boolean requiresLayout() {
-        return false;
+    @Override
+    protected long getRecordedEventCount() {
+        return eventCount.get();
     }
-
 }

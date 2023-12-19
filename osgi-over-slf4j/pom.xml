@@ -53,11 +53,22 @@
             <Bundle-SymbolicName>org.slf4j.osgi-over-slf4j</Bundle-SymbolicName>
             <Bundle-Activator>org.slf4j.osgi.logservice.impl.Activator</Bundle-Activator>
             <Bundle-Category>osgi</Bundle-Category>
-            <_exportcontents combine.self="override" />
+            <_exportcontents combine.self="override"/>
           </instructions>
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>org.slf4j.osgi.logservice</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 

@@ -4,7 +4,7 @@
 #JDK8 - mvn site:site
 #rscpSLF4J apidocs/ 
 
-
+# mvn -Ddoclint=none -Dmaven.javadoc.skippedModules=slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j javadoc:aggregate
 #mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${VERSION_NUMBER} 
 
 MVN='/java/maven-3.5.2//bin/mvn'

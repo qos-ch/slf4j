@@ -22,7 +22,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-package org.slf4j.bridge;
+package org.slf4j.bridge.blackbox;
 
 import java.util.logging.Handler;
 import java.util.logging.LogManager;
@@ -31,8 +31,10 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.PatternLayout;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 public class SLF4JBridgeHandlerPerfTest {
 
