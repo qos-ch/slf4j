@@ -28,9 +28,10 @@ import org.slf4j.spi.MDCAdapter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 /**
- * This class assists in the creation and removal (aka closing) of MDC entries.
+ * <p>This class assists in the creation and removal (aka closing) of {@link org.slf4j.MDC MDC} entries.</p>
  *
  * <p>Typical Usage example:</p>
  *
@@ -38,7 +39,7 @@ import java.util.Set;
  *  MDCAmbit mdca = new MDCAmbit();
  *  try {
  *    mdca.put("k0", "v0");
- *    throw new RuntimeException();
+ *    doSomething();
  *  } catch (RuntimeException e) {
  *    // here MDC.get("k0") would return "v0"
  *  } finally {
@@ -47,21 +48,37 @@ import java.util.Set;
  *  }
  * </pre>
  *
- * <p>It is also possible to chain {@link #put} invocations. For example:</p>
+ * <p>It is also possible to chain {@link #put}, {@link #addKeys(String...)} and {@link #addKey(String)}
+ * invocations.</p>
+ *
+ * <p>For example:</p>
  * <pre>
  *   MDCAmbit mdca = new MDCAmbit();
  *   try {
  *     // assume "k0" was added to MDC at an earlier stage
  *     mdca.addKey("k0").put("k1", "v1").put("k2, "v2");
+ *     doSomething();
  *   } finally {
  *     // MDC remove "k0", "k1", "k2", clear the set of tracked keys
  *     mdch.clear();
  *   }
  * </pre>
+ *
+ * <p>The {@link #run(Runnable)} and {@link #call(Callable)} methods invoke the run/callable methods of
+ * objects passed as parameter in a <code>try/finally</code> block, and afterwards invoking {@link #clear()}
+ * method from within <code>finally</code>.
+ *
+ * </p>
+ *
+ * <pre>
+ *    DCAmbit mdca = new MDCAmbit();
+ *    Runnable runnable = ...;
+ *    mdca.put("k0", "v0").run(runnable);
+ * </pre>
+ *
  * @since 2.1.0
  */
 public class MDCAmbit {
-
 
     /**
      * Set of keys under management of this instance
@@ -80,7 +97,7 @@ public class MDCAmbit {
 
     /**
      * Put the key/value couple in the MDC and keep track of the key for later
-     *  removal by a call to {@link #()}.
+     * removal by a call to {@link #clear()} }.
      *
      * @param key
      * @param value
@@ -93,7 +110,8 @@ public class MDCAmbit {
     }
 
     /**
-     * Keep track of a key for later removal by a call to {@link #()}.
+     * Keep track of a key for later removal by a call to {@link #clear()}.
+     * .
      * @param key
      * @return this instance
      */
@@ -117,6 +135,36 @@ public class MDCAmbit {
         return this;
     }
 
+    /**
+     * Run the runnable object passed as parameter within a try/finally block.
+     *
+     *  <p>Afterwards, the {@link #clear()} method will be called within the `finally` block.
+     *  </p>
+
+     * @param runnable
+     */
+    public void run(Runnable runnable) {
+        try {
+            runnable.run();
+        } finally {
+            clear();
+        }
+    }
+
+    /**
+     * Invoke the {@link Callable#call()}  method of the callable object passed as parameter within a try/finally block.
+     *
+     * <p>Afterwards, the {@link #clear()} method will be invoked within the `finally` block.
+     * </p>
+     * @param callable
+     */
+    public <T> T call(Callable<? extends T> callable) throws Exception {
+        try {
+            return callable.call();
+        } finally {
+            clear();
+        }
+    }
 
     /**
      * Clear tracked keys by calling {@link MDC#remove} on each key.
