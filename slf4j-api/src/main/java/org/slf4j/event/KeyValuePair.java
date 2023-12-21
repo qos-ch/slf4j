@@ -2,6 +2,12 @@ package org.slf4j.event;
 
 import java.util.Objects;
 
+/**
+ * Instances of this class store the key value pair passed to a {@link org.slf4j.Logger logger} via
+ * the {@link org.slf4j.spi.LoggingEventBuilder#addKeyValue(String, Object)} method of the fluent API.
+ *
+ * @since 2.0.0
+ */
 public class KeyValuePair {
 
     public final String key;

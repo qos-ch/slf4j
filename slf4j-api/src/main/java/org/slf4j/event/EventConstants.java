@@ -2,6 +2,11 @@ package org.slf4j.event;
 
 import org.slf4j.spi.LocationAwareLogger;
 
+/**
+ * Various constants used by {@link Level} and {@link org.slf4j.Logger}.
+ *
+ *
+ */
 public class EventConstants {
     public static final int ERROR_INT = LocationAwareLogger.ERROR_INT;
     public static final int WARN_INT = LocationAwareLogger.WARN_INT;

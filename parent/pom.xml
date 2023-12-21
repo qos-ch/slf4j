@@ -48,7 +48,7 @@
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
+    <maven-jxr-plugin.version>3.3.1</maven-jxr-plugin.version>
     <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
   </properties>
 
@@ -139,7 +139,7 @@
             <linksource>true</linksource>
             <additionalOptions>
               <additionalOption>-Xdoclint:none</additionalOption>
-              <additionalOption>doclint:none</additionalOption>
+              <!--              <additionalOption>doclint:none</additionalOption>-->
             </additionalOptions>
           </configuration>
         </plugin>
@@ -257,15 +257,15 @@
         <version>${maven-site-plugin.version}</version>
       </plugin>
 
-<!--      <plugin>-->
-<!--        <groupId>org.apache.maven.plugins</groupId>-->
-<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
-<!--        <configuration>-->
-<!--          <skippedModules>-->
-<!--            :slf4j-ext,:log4j-over-slf4j,:log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,:osgi-over-slf4j-->
-<!--          </skippedModules>-->
-<!--        </configuration>-->
-<!--      </plugin>-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+      <!--        <configuration>-->
+      <!--          <skippedModules>-->
+      <!--            :slf4j-ext,:log4j-over-slf4j,:log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,:osgi-over-slf4j-->
+      <!--          </skippedModules>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -273,7 +273,7 @@
         <version>${maven-jxr-plugin.version}</version>
         <configuration>
           <aggregate>true</aggregate>
-          <javadocDir>target/site/apidocs/</javadocDir>
+          <javadocDir>target/site/apidocs2/</javadocDir>
           <linkJavadoc>true</linkJavadoc>
         </configuration>
       </plugin>
@@ -282,7 +282,37 @@
   </build>
 
   <reporting>
-   </reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <verbose>true</verbose>
+          <skippedModules>
+            slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j
+          </skippedModules>
+          <detectLinks>true</detectLinks>
+          <linksource>true</linksource>
+          <additionalOptions>
+            <additionalOption>-Xdoclint:none</additionalOption>
+            <!--              <additionalOption>doclint:none</additionalOption>-->
+          </additionalOptions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>${maven-jxr-plugin.version}</version>
+        <configuration>
+          <javadocDir>target/site/apidocs/</javadocDir>
+          <linkJavadoc>true</linkJavadoc>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </reporting>
 
   <profiles>
     <profile>

@@ -7,6 +7,13 @@ import java.util.List;
 import org.slf4j.Marker;
 import org.slf4j.helpers.SubstituteLogger;
 
+/**
+ * An implementation of {@link LoggingEvent} used to store logging events generated during logging backend
+ * initialization.
+ *
+ * @author Ceki G&uuml;lc&uuml;
+ * @since 1.7.15
+ */
 public class SubstituteLoggingEvent implements LoggingEvent {
 
     Level level;
