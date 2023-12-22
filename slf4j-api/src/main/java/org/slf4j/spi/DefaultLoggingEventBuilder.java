@@ -34,7 +34,11 @@ import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 
 /**
- * Default implementation of {@link LoggingEventBuilder}
+ * Default implementation of {@link LoggingEventBuilder}.
+ *
+ * <p>It is assumed that when </p>
+ *
+ * @since 2.0.0
  */
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBoundaryAware {
 
@@ -75,6 +79,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         loggingEvent.addArgument(p);
         return this;
     }
+
 
     @Override
     public LoggingEventBuilder addArgument(Supplier<?> objectSupplier) {
