@@ -172,6 +172,40 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>prayer</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.6.3</version>
+            <executions>
+              <execution>
+                <id>default</id>
+                <goals>
+                  <goal>aggregate</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <verbose>true</verbose>
+              <skippedModules>
+                slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j
+              </skippedModules>
+              <detectLinks>true</detectLinks>
+              <doctitle>SLF4J project ${project.version}</doctitle>
+              <windowtitle>SLF4J bla</windowtitle>
+              <linksource>true</linksource>
+              <additionalOptions>
+                <additionalOption>-Xdoclint:none</additionalOption>
+              </additionalOptions>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
   
 </project>
