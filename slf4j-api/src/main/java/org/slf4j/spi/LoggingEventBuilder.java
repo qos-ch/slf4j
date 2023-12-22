@@ -31,9 +31,10 @@ import org.slf4j.Marker;
 import org.slf4j.helpers.CheckReturnValue;
 
 /**
- * This is the main interface in slf4j's fluent API for creating
+ * This is the central interface in slf4j's fluent API for creating
  * {@link org.slf4j.event.LoggingEvent logging events}.
- * 
+ *
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @since 2.0.0
  */
@@ -90,7 +91,8 @@ public interface LoggingEventBuilder {
 
 
     /**
-     * <p>Add an argument supplier to the event being built. Synonymous with {@link #addArgument(Supplier)}.
+     * <p>Add an argument supplier to the event being built.
+     * Synonymous with {@link #addArgument(Supplier)}.
      * </p>
      *
      * @param objectSupplier an Object supplier to add.
@@ -105,7 +107,7 @@ public interface LoggingEventBuilder {
     /**
      * Add a value of type <code>boolean</code> to the event being built.
      *
-     * <p>The default implementation simply casts to <code>Boolean</code>. However, However, the NOP implementation, i.e.
+     * <p>The default implementation simply casts to <code>Boolean</code>. However, the NOP implementation, i.e.
      *  {@link NOPLoggingEventBuilder}, skips the cast.</p>
      *
      * @param b a value of type <code>boolean</code> value to add.
