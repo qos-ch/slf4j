@@ -8,6 +8,11 @@ import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
+/**
+ * As the name indicates, this service provider discards all events.
+ *
+ * @author Ceki G&uuml;lc&uuml;
+ */
 public class NOPServiceProvider implements SLF4JServiceProvider {
 
     /**

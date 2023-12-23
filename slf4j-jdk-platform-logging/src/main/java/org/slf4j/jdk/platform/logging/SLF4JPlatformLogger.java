@@ -36,7 +36,8 @@ import org.slf4j.spi.CallerBoundaryAware;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
- * Adapts {@link Logger} to {@link System.Logger}.
+ * Implements {@link System.Logger} by forwarding logging events to the appropriate {@link org.slf4j.Logger} instance.
+ *
  * @since 2.0.0
  */
 class SLF4JPlatformLogger implements System.Logger {

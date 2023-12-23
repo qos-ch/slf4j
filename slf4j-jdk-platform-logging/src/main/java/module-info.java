@@ -22,7 +22,13 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+/**
+ * Implementation of {@link System.Logger} interface relaying into SLF4J.
+ *
+ * @since 2.0.0
+ */
 module org.slf4j.jdk.platform.logging {
     requires org.slf4j;
+    exports org.slf4j.jdk.platform.logging;
     provides java.lang.System.LoggerFinder with org.slf4j.jdk.platform.logging.SLF4JSystemLoggerFinder;
-} 
+}

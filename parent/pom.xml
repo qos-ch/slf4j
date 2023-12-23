@@ -252,24 +252,37 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-        <configuration combine.self="append">
-          <verbose>true</verbose>
-          <skippedModules>
-            slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j
-          </skippedModules>
-          <detectLinks>true</detectLinks>
-          <doctitle>SLF4J project ${project.version}</doctitle>
-          <linksource>true</linksource>
-          <additionalOptions>
-            <additionalOption>-Xdoclint:none</additionalOption>
-<!--            <additionalOption>doclint:none</additionalOption>-->
-          </additionalOptions>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <version>3.6.3</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>default-cli</id>-->
+<!--            <goals>-->
+<!--              <goal>aggregate</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+
+<!--        <configuration>-->
+<!--          <verbose>true</verbose>-->
+<!--          &lt;!&ndash;          <sourceFileExcludes>&ndash;&gt;-->
+<!--          &lt;!&ndash;            <sourceFileExclude>**/xmodule-info.java</sourceFileExclude>&ndash;&gt;-->
+<!--          &lt;!&ndash;          </sourceFileExcludes>&ndash;&gt;-->
+<!--          <skippedModules>-->
+<!--            slf4j-testing,slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j-->
+<!--          </skippedModules>-->
+<!--          <detectLinks>true</detectLinks>-->
+<!--          <doctitle>SLF4J project modules ${project.version}</doctitle>-->
+<!--          <windowtitle>SLF4J javadoc</windowtitle>-->
+<!--          <linksource>true</linksource>-->
+<!--          <additionalOptions>-->
+<!--            <additionalOption>-Xdoclint:none</additionalOption>-->
+<!--          </additionalOptions>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+
 
     </plugins>
   </build>

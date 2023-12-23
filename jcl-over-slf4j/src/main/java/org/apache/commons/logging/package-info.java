@@ -1,0 +1,151 @@
+/**
+ * <p>Jakarta Commons Logging implemented over SLF4J.</p>
+ *
+ *
+ * <h3>Overview</h3>
+ *
+ * <p>This package contains the same public user interface as <a
+ * href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+ * Logging (JCL)</a>. <b>It is intended as a 100% compatible drop-in
+ * replacement for the original JCL version 1.0.4</b>.
+ * </p>
+ *
+ * <p>As the original JCL version 1.0.4, the present version supports
+ * various logging APIs. It differs from the original in implementation
+ * but not the public API. This implementation uses SLF4J under the
+ * covers. As such, all the logging systems that SLF4J supports,
+ * e.g. NOP, Simple, logback, java.util.logging, log4j 1.x are supported 
+ * indirectly by this version of JCL via SLF4J.
+ * </p>
+ *
+ * <h3>Quick Start Guide</h3>
+ *
+ * <p>For those impatient to just get on with it, the following example
+ * illustrates the typical declaration and use of a logger that is named (by
+ * convention) after the calling class:
+ *
+ * <pre>
+ *  import org.apache.commons.logging.Log;
+ *  import org.apache.commons.logging.LogFactory;
+ *
+ *  public class Foo {
+ *
+ *    static Log log = LogFactory.getLog(Foo.class);
+ *
+ *    public void foo() {
+ *      ...
+ *      try {
+ *        if (log.isDebugEnabled()) {
+ *          log.debug("About to do something to object " + name);
+ *        }
+ *        name.bar();
+ *      } catch (IllegalStateException e) {
+ *        log.error("Something bad happened to " + name, e);
+ *      }
+ *      ...
+ *    }
+ * </pre>
+ *
+ * <h3>Configuring the Commons Logging Package</h3>
+ *
+ * <p>In this version of JCL, the selection of the logging system to use
+ * is chosen by SLF4J at initialization time. Consequently, all JCL-specific
+ * configuration parameters are ignored.
+ * </p>
+ *
+ * <h4>Choosing a <code>LogFactory</code> Implementation</h4>
+ *
+ * <p>From an application perspective, the first requirement is to
+ * retrieve an object reference to the <code>LogFactory</code> instance
+ * that will be used to create <code><a href="Log.html">Log</a></code>
+ * instances for this application.  This is normally accomplished by
+ * calling the static <code>getFactory()</code> method.  This method
+ * always returns the same factory, i.e. a unique instance of the <a
+ * href="impl/SLF4FLogFactory.html">SLF4FLogFactory</a> class.
+ * </p>
+ *
+ *
+ *
+ * <h4>Configuring the Underlying Logging System</h4>
+ *
+ * <p>The basic principle is that the user is totally responsible for the
+ * configuration of the underlying logging system.
+ * Commons-logging should not change the existing configuration.</p>
+ *
+ * <p>Each individual <a href="Log.html">Log</a> implementation may
+ * support its own configuration properties.  These will be documented in the
+ * class descriptions for the corresponding implementation class.</p>
+ *
+ * <p>Finally, some <code>Log</code> implementations (such logback or log4j)
+ * require an external configuration file for the entire logging environment.
+ * This file should be prepared in a manner that is specific to the actual logging
+ * technology being used.</p>
+ *
+ *
+ * <h3>Using the Logging Package APIs</h3>
+ *
+ * <p>Use of the Logging Package APIs, from the perspective of an application
+ * component, consists of the following steps:</p>
+ * <ol>
+ * <li>Acquire a reference to an instance of
+ *     <a href="Log.html">org.apache.commons.logging.Log</a>, by calling the
+ *     factory method
+ *     <a href="LogFactory.html#getInstance(java.lang.String)">
+ *     LogFactory.getInstance(String name)</a>.  Your application can contain
+ *     references to multiple loggers that are used for different
+ *     purposes.  A typical scenario for a server application is to have each
+ *     major component of the server use its own Log instance.</li>
+ * <li>Cause messages to be logged (if the corresponding detail level is enabled)
+ *     by calling appropriate methods (<code>trace()</code>, <code>debug()</code>,
+ *     <code>info()</code>, <code>warn()</code>, <code>error</code>, and
+ *     <code>fatal()</code>).</li>
+ * </ol>
+ *
+ * <p>For convenience, <code>LogFactory</code> also offers a static method
+ * <code>getLog()</code> that combines the typical two-step pattern:</p>
+ * <pre>
+ *   Log log = LogFactory.getFactory().getInstance(Foo.class);
+ * </pre>
+ * <p>into a single method call:</p>
+ * <pre>
+ *   Log log = LogFactory.getLog(Foo.class);
+ * </pre>
+ *
+ * <p>For example, you might use the following technique to initialize and
+ * use a <a href="Log.html">Log</a> instance in an application component:</p>
+ * <pre>
+ * import org.apache.commons.logging.Log;
+ * import org.apache.commons.logging.LogFactory;
+ *
+ * public class MyComponent {
+ *
+ *   protected static Log log =
+ *     LogFactory.getLog(MyComponent.class);
+ *
+ *   // Called once at startup time
+ *   public void start() {
+ *     ...
+ *     log.info("MyComponent started");
+ *     ...
+ *   }
+ *
+ *   // Called once at shutdown time
+ *   public void stop() {
+ *     ...
+ *     log.info("MyComponent stopped");
+ *     ...
+ *   }
+ *
+ *   // Called repeatedly to process a particular argument value
+ *   // which you want logged if debugging is enabled
+ *   public void process(String value) {
+ *     ...
+ *     // Do the string concatenation only if logging is enabled
+ *     if (log.isDebugEnabled())
+ *       log.debug("MyComponent processing " + value);
+ *     ...
+ *   }
+ * }
+ *
+ */
+package org.apache.commons.logging;
