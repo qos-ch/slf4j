@@ -1,5 +1,5 @@
 /**
- *  <p>This module defines the SLF4J API. </p>
+ *  <p>This module defines the client-facing SLF4J API. </p>
  *
  *  <p>More specifically, the {@link org.slf4j} package contains client-facing classes and interfaces.</p>
  *

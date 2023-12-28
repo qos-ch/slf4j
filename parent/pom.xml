@@ -18,7 +18,7 @@
 
 
   <organization>
-    <name>QOS.ch</name>
+    <name>QOS.CH Sarl</name>
     <url>http://www.qos.ch</url>
   </organization>
   <inceptionYear>2005</inceptionYear>
@@ -126,24 +126,6 @@
           <version>${maven-deploy-plugin.version}</version>
         </plugin>
 
-        <!--        <plugin>-->
-        <!--          <groupId>org.apache.maven.plugins</groupId>-->
-        <!--          <artifactId>maven-javadoc-plugin</artifactId>-->
-        <!--          <version>${maven-javadoc-plugin.version}</version>-->
-        <!--          <configuration>-->
-        <!--            <verbose>true</verbose>-->
-        <!--            <skippedModules>-->
-        <!--              slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j-->
-        <!--            </skippedModules>-->
-        <!--            <detectLinks>true</detectLinks>-->
-        <!--            <doctitle>SLF4J project ${project.version}</doctitle>-->
-        <!--            <linksource>true</linksource>-->
-        <!--            <additionalOptions>-->
-        <!--              <additionalOption>-Xdoclint:none</additionalOption>-->
-        <!--              &lt;!&ndash;              <additionalOption>doclint:none</additionalOption>&ndash;&gt;-->
-        <!--            </additionalOptions>-->
-        <!--          </configuration>-->
-        <!--        </plugin>-->
       </plugins>
     </pluginManagement>
 

@@ -9,7 +9,7 @@ import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
- * As the name indicates, this service provider discards all events.
+ * As the name indicates, this {#link SLF4JServiceProvider} implementation git sdiscards all events.
  *
  * @author Ceki G&uuml;lc&uuml;
  */

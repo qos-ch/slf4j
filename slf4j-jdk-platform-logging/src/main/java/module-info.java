@@ -23,7 +23,7 @@
  *
  */
 /**
- * Implementation of {@link System.Logger} interface relaying into SLF4J.
+ * Implementation of {@link System.Logger} interface relaying events to SLF4J.
  *
  * @since 2.0.0
  */

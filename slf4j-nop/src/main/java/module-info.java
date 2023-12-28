@@ -1,5 +1,5 @@
 /**
- * A no-operation logging back-end that drops all events.
+ * A no-operation logging provider, aka back-end, that drops all events.
  */
 module org.slf4j.nop {
   requires org.slf4j;

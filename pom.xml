@@ -33,13 +33,13 @@
   <modules>
     <module>parent</module>
     <module>slf4j-api</module>
-    <module>slf4j-testing</module>    
+    <module>slf4j-testing</module>
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>
     <module>slf4j-jdk14</module>
     <module>slf4j-jdk-platform-logging</module>
     <module>slf4j-log4j12</module>
-    <module>slf4j-reload4j</module>    
+    <module>slf4j-reload4j</module>
     <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
     <module>jcl-over-slf4j-blackbox</module>
@@ -165,15 +165,13 @@
         </executions>
         <configuration>
           <verbose>true</verbose>
-<!--          <sourceFileExcludes>-->
-<!--            <sourceFileExclude>**/xmodule-info.java</sourceFileExclude>-->
-<!--          </sourceFileExcludes>-->
           <skippedModules>
             slf4j-testing,slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j
           </skippedModules>
           <detectLinks>true</detectLinks>
-          <doctitle>SLF4J project modules ${project.version}</doctitle>
+          <doctitle>SLF4J project modules 2.1.0-alpha0</doctitle>
           <windowtitle>SLF4J javadoc</windowtitle>
+          <bottom><![CDATA[Copyright  &copy; 2005-{currentYear} QOS.CH Sarl. All rights reserved]]></bottom>
           <linksource>true</linksource>
           <additionalOptions>
             <additionalOption>-Xdoclint:none</additionalOption>
