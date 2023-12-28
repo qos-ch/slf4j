@@ -157,6 +157,7 @@
           <additionalOptions>
             <additionalOption>-Xdoclint:none</additionalOption>
           </additionalOptions>
+          <legacyMode>true</legacyMode>
           <sourceFileExcludes>
             <sourceFileExclude>**/module-info.java</sourceFileExclude>
           </sourceFileExcludes>
