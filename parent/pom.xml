@@ -294,7 +294,6 @@
           <additionalOptions>
             <additionalOption>-Xdoclint:none</additionalOption>
           </additionalOptions>
-          <excludePackageNames>org.slf4j.migrator:org.slf4j.migrator.*</excludePackageNames>
           <sourceFileExcludes>
             <sourceFileExclude>**/module-info.java</sourceFileExclude>
           </sourceFileExcludes>
