@@ -43,13 +43,13 @@ import org.slf4j.spi.LocationAwareLogger;
  * Simple implementation of {@link Logger} that sends all enabled log messages,
  * for all defined loggers, to the console ({@code System.err}). The following
  * system properties are supported to configure the behavior of this logger:
- * 
+ *
  *
  * <ul>
  * <li><code>org.slf4j.simpleLogger.logFile</code> - The output target which can
  * be the <em>path</em> to a file, or the special values "System.out" and
  * "System.err". Default is "System.err".</li>
- * 
+ *
  * <li><code>org.slf4j.simpleLogger.cacheOutputStream</code> - If the output
  * target is set to "System.out" or "System.err" (see preceding entry), by
  * default, logs will be output to the latest value referenced by
@@ -57,7 +57,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * output stream will be cached, i.e. assigned once at initialization time and
  * re-used independently of the current value referenced by
  * <code>System.out/err</code>.</li>
- * 
+ *
  * <li><code>org.slf4j.simpleLogger.defaultLogLevel</code> - Default log level
  * for all instances of SimpleLogger. Must be one of ("trace", "debug", "info",
  * "warn", "error" or "off"). If not specified, defaults to "info".</li>
@@ -84,11 +84,11 @@ import org.slf4j.spi.LocationAwareLogger;
  * <li><code>org.slf4j.simpleLogger.showThreadName</code> -Set to
  * <code>true</code> if you want to output the current thread name. Defaults to
  * <code>true</code>.</li>
- * 
- * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> - 
+ *
+ * <li>(since version 1.7.33 and 2.0.0-alpha6) <code>org.slf4j.simpleLogger.showThreadId</code> -
  * If you would like to output the current thread id, then set to
  * <code>true</code>. Defaults to <code>false</code>.</li>
- * 
+ *
  * <li><code>org.slf4j.simpleLogger.showLogName</code> - Set to
  * <code>true</code> if you want the Logger instance name to be included in
  * output messages. Defaults to <code>true</code>.</li>
@@ -97,12 +97,16 @@ import org.slf4j.spi.LocationAwareLogger;
  * <code>true</code> if you want the last component of the name to be included
  * in output messages. Defaults to <code>false</code>.</li>
  *
+ * <li>(since version 2.0.10)<code>org.slf4j.simpleLogger.showLogLevel</code> - Set to
+ * <code>true</code> if you want the Logger level to be included in
+ * output messages. Defaults to <code>true</code>.</li>
+ *
  * <li><code>org.slf4j.simpleLogger.levelInBrackets</code> - Should the level
  * string be output in brackets? Defaults to <code>false</code>.</li>
  *
  * <li><code>org.slf4j.simpleLogger.warnLevelString</code> - The string value
  * output for the warn level. Defaults to <code>WARN</code>.</li>
- * 
+ *
  * </ul>
  *
  * <p>
@@ -110,18 +114,18 @@ import org.slf4j.spi.LocationAwareLogger;
  * this implementation also checks for a class loader resource named
  * <code>"simplelogger.properties"</code>, and includes any matching definitions
  * from this resource (if it exists).
- * 
+ *
  *
  * <p>
  * With no configuration, the default output includes the relative time in
  * milliseconds, thread name, the level, logger name, and the message followed
  * by the line separator for the host. In log4j terms it amounts to the "%r [%t]
  * %level %logger - %m%n" pattern.
- * 
+ *
  * <p>
  * Sample output follows.
- * 
- * 
+ *
+ *
  * <pre>
  * 176 [main] INFO examples.Sort - Populating an array of 2 elements in reverse order.
  * 225 [main] INFO examples.SortAlgo - Entered the sort method.
@@ -139,7 +143,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * This implementation is heavily inspired by
  * <a href="http://commons.apache.org/logging/">Apache Commons Logging</a>'s
  * SimpleLog.
- * 
+ *
  *
  * @author Ceki G&uuml;lc&uuml;
  * @author Scott Sanders
@@ -170,7 +174,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     private static boolean INITIALIZED = false;
     static final SimpleLoggerConfiguration CONFIG_PARAMS = new SimpleLoggerConfiguration();
-    
+
     static void lazyInit() {
         if (INITIALIZED) {
             return;
@@ -210,10 +214,12 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     public static final String SHOW_LOG_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogName";
 
+    public static final String SHOW_LOG_LEVEL_KEY = SimpleLogger.SYSTEM_PREFIX + "showLogLevel";
+
     public static final String SHOW_THREAD_NAME_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadName";
 
     public static final String SHOW_THREAD_ID_KEY = SimpleLogger.SYSTEM_PREFIX + "showThreadId";
-    
+
     public static final String DATE_TIME_FORMAT_KEY = SimpleLogger.SYSTEM_PREFIX + "dateTimeFormat";
 
     public static final String SHOW_DATE_TIME_KEY = SimpleLogger.SYSTEM_PREFIX + "showDateTime";
@@ -250,7 +256,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
     /**
      * To avoid intermingling of log messages and associated stack traces, the two
      * operations are done in a synchronized block.
-     * 
+     *
      * @param buf
      * @param t
      */
@@ -261,7 +267,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             targetStream.println(buf.toString());
             writeThrowable(t, targetStream);
             targetStream.flush();
-        } 
+        }
 
     }
 
@@ -398,22 +404,24 @@ public class SimpleLogger extends LegacyAbstractLogger {
             buf.append(Thread.currentThread().getName());
             buf.append("] ");
         }
-        
+
         if (CONFIG_PARAMS.showThreadId) {
             buf.append(TID_PREFIX);
             buf.append(Thread.currentThread().getId());
             buf.append(SP);
         }
 
-        if (CONFIG_PARAMS.levelInBrackets)
-            buf.append('[');
+        if (CONFIG_PARAMS.showLogLevel) {
+            if (CONFIG_PARAMS.levelInBrackets)
+                buf.append('[');
 
-        // Append a readable representation of the log level
-        String levelStr = level.name();
-        buf.append(levelStr);
-        if (CONFIG_PARAMS.levelInBrackets)
-            buf.append(']');
-        buf.append(SP);
+            // Append a readable representation of the log level
+            String levelStr = level.name();
+            buf.append(levelStr);
+            if (CONFIG_PARAMS.levelInBrackets)
+                buf.append(']');
+            buf.append(SP);
+        }
 
         // Append the name of the log instance if so configured
         if (CONFIG_PARAMS.showShortLogName) {

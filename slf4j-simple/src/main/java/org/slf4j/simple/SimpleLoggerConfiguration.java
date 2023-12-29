@@ -18,14 +18,14 @@ import org.slf4j.simple.OutputChoice.OutputChoiceType;
  * This class holds configuration values for {@link SimpleLogger}. The
  * values are computed at runtime. See {@link SimpleLogger} documentation for
  * more information.
- * 
- * 
+ *
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @author Scott Sanders
  * @author Rod Waldhoff
  * @author Robert Burrell Donkin
  * @author C&eacute;drik LIME
- * 
+ *
  * @since 1.7.25
  */
 public class SimpleLoggerConfiguration {
@@ -52,12 +52,15 @@ public class SimpleLoggerConfiguration {
      */
     private static final boolean SHOW_THREAD_ID_DEFAULT = false;
     boolean showThreadId = SHOW_THREAD_ID_DEFAULT;
-    
+
     final static boolean SHOW_LOG_NAME_DEFAULT = true;
     boolean showLogName = SHOW_LOG_NAME_DEFAULT;
 
     private static final boolean SHOW_SHORT_LOG_NAME_DEFAULT = false;
     boolean showShortLogName = SHOW_SHORT_LOG_NAME_DEFAULT;
+
+    final static boolean SHOW_LOG_LEVEL_DEFAULT = true;
+    boolean showLogLevel = SHOW_LOG_LEVEL_DEFAULT;
 
     private static final boolean LEVEL_IN_BRACKETS_DEFAULT = false;
     boolean levelInBrackets = LEVEL_IN_BRACKETS_DEFAULT;
@@ -87,6 +90,7 @@ public class SimpleLoggerConfiguration {
         showThreadName = getBooleanProperty(SimpleLogger.SHOW_THREAD_NAME_KEY, SHOW_THREAD_NAME_DEFAULT);
         showThreadId = getBooleanProperty(SimpleLogger.SHOW_THREAD_ID_KEY, SHOW_THREAD_ID_DEFAULT);
         dateTimeFormatStr = getStringProperty(SimpleLogger.DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR_DEFAULT);
+        showLogLevel = getBooleanProperty(SimpleLogger.SHOW_LOG_LEVEL_KEY, SimpleLoggerConfiguration.SHOW_LOG_LEVEL_DEFAULT);
         levelInBrackets = getBooleanProperty(SimpleLogger.LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS_DEFAULT);
         warnLevelString = getStringProperty(SimpleLogger.WARN_LEVEL_STRING_KEY, WARN_LEVELS_STRING_DEFAULT);
 
