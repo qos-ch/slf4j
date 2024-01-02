@@ -45,11 +45,11 @@
     <module>jcl-over-slf4j-blackbox</module>
     <module>log4j-over-slf4j</module>
     <module>log4j-over-slf4j-blackbox</module>
-<!--    <module>jul-to-slf4j</module>-->
-<!--    <module>jul-to-slf4j-blackbox</module>-->
-<!--    <module>osgi-over-slf4j</module>-->
-<!--    <module>integration</module>-->
-<!--    <module>slf4j-migrator</module>-->
+    <module>jul-to-slf4j</module>
+    <module>jul-to-slf4j-blackbox</module>
+    <module>osgi-over-slf4j</module>
+    <module>integration</module>
+    <module>slf4j-migrator</module>
   </modules>
 
   <dependencyManagement>
