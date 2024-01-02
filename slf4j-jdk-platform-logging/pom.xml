@@ -19,6 +19,10 @@
 
   <url>https://www.slf4j.org</url>
 
+  <properties>
+    <jdk.version>${jdk9.version}</jdk.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -36,35 +40,35 @@
   <build>
     <plugins>
       <!-- target Java 9+ -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <source>9</source>
-              <target>9</target>
-              <release>9</release>
-            </configuration>            
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <goals>
-              <goal>testCompile</goal> 
-            </goals>
-            <configuration>
-              <source>9</source>
-              <target>9</target>
-              <release>9</release>
-            </configuration>            
-          </execution> 
-        </executions>        
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--        <version>${maven-compiler-plugin.version}</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>default-compile</id>-->
+<!--            <goals>-->
+<!--              <goal>compile</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <source>9</source>-->
+<!--              <target>9</target>-->
+<!--              <release>9</release>-->
+<!--            </configuration>            -->
+<!--          </execution>-->
+<!--          <execution>-->
+<!--            <id>default-testCompile</id>-->
+<!--            <goals>-->
+<!--              <goal>testCompile</goal> -->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <source>9</source>-->
+<!--              <target>9</target>-->
+<!--              <release>9</release>-->
+<!--            </configuration>            -->
+<!--          </execution> -->
+<!--        </executions>        -->
+<!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

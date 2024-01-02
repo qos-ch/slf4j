@@ -29,9 +29,12 @@
     <project.build.outputTimestamp>2023-12-28T23:04:51Z</project.build.outputTimestamp>
     <latest.1.version>1.7.36</latest.1.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
-    <jdk.version>11</jdk.version>
+    <jdk.version>8</jdk.version>
+    <!-- used in test modules, unpublished modules or where it does not matter -->
+    <jdk9.version>9</jdk9.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -143,6 +146,31 @@
             </goals>
             <configuration>
               <release>${jdk.version}</release>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>default-testCompile</id>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <release>${jdk.version}</release>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>module-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+              </compileSourceRoots>
+              <multiReleaseOutput>true</multiReleaseOutput>
             </configuration>
           </execution>
         </executions>

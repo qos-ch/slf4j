@@ -11,7 +11,7 @@ import org.slf4j.event.Level;
  * <p></p>
  * <p>As the name indicates, the methods in this class do nothing. In case a return value is expected, a singleton,
  * i.e. the unique instance of this class, is returned.
- * </p
+ * </p>
  * <p></p>
  * <p>Note that the default implementations of {@link Logger#atTrace()}, {@link Logger#atDebug()} , {@link Logger#atInfo()},
  * {@link Logger#atWarn()}  and {@link Logger#atError()}, return an instance of {@link NOPLoggingEventBuilder}

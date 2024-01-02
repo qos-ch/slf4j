@@ -19,6 +19,7 @@
 
   <properties>
     <module-name>org.slf4j.simple</module-name>
+
     <slf4j.provider.implementation>org.slf4j.simple.SimpleServiceProvider</slf4j.provider.implementation>
     <slf4j.provider.type>simple</slf4j.provider.type>
   </properties>
@@ -37,5 +38,33 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <executions>
+
+          <execution>
+            <id>module-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>${jdk9.version}</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+              </compileSourceRoots>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+  </build>
 
 </project>

@@ -14,11 +14,13 @@
   <artifactId>slf4j-testing</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J Common Testing</name>
-  <description>SLF4J Common testing </description>
+  <description>SLF4J Common testing</description>
   <url>http://www.slf4j.org</url>
 
   <properties>
+    <jdk.version>${jdk9.version}</jdk.version>
     <module-name>org.slf4j.testing</module-name>
+    <maven.compiler.release>${jdk9.version}</maven.compiler.release>
   </properties>
 
   <dependencies>
@@ -44,6 +46,24 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--        <version>${maven-compiler-plugin.version}</version>-->
+
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>default-compile</id>-->
+<!--            <goals>-->
+<!--              <goal>compile</goal>-->
+<!--            </goals>-->
+<!--            <configuration combine.self="override">-->
+<!--              <release>${jdk9.version}</release>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 </project>

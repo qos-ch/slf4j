@@ -26,7 +26,7 @@
   </licenses>
 
   <properties>
-
+    <jdk.version>${jdk9.version}</jdk.version>
   </properties>
 
   <dependencies>
