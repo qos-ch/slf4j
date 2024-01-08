@@ -409,7 +409,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             buf.append('[');
 
         // Append a readable representation of the log level
-        String levelStr = level.name();
+        String levelStr = renderLevel(level.toInt());
         buf.append(levelStr);
         if (CONFIG_PARAMS.levelInBrackets)
             buf.append(']');
@@ -437,6 +437,22 @@ public class SimpleLogger extends LegacyAbstractLogger {
         buf.append(formattedMessage);
 
         write(buf, t);
+    }
+
+    protected String renderLevel(int level) {
+        switch (level) {
+            case LOG_LEVEL_TRACE:
+                return "TRACE";
+            case LOG_LEVEL_DEBUG:
+                return("DEBUG");
+            case LOG_LEVEL_INFO:
+                return "INFO";
+            case LOG_LEVEL_WARN:
+                return "WARN";
+            case LOG_LEVEL_ERROR:
+                return "ERROR";
+        }
+        throw new IllegalStateException("Unrecognized level ["+level+"]");
     }
 
     public void log(LoggingEvent event) {
