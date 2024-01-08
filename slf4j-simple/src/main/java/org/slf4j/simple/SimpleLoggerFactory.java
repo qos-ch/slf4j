@@ -49,26 +49,23 @@ public class SimpleLoggerFactory implements ILoggerFactory {
      * Return an appropriate {@link SimpleLogger} instance by name.
      */
     public Logger getLogger(String name) {
-        Logger simpleLogger = loggerMap.get(name);
-        if (simpleLogger != null) {
-            return simpleLogger;
-        } else {
-            Logger newInstance = new SimpleLogger(name);
-            Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
-            return oldInstance == null ? newInstance : oldInstance;
-        }
+        return loggerMap.computeIfAbsent(name, this::createLogger);
+    }
+
+    protected Logger createLogger(String name) {
+        return new SimpleLogger(name);
     }
 
     /**
      * Clear the internal logger cache.
      *
-     * This method is intended to be called by classes (in the same package) for
-     * testing purposes. This method is internal. It can be modified, renamed or
-     * removed at any time without notice.
+     * This method is intended to be called by classes (in the same package or
+     * subclasses) for testing purposes. This method is internal. It can be
+     * modified, renamed or removed at any time without notice.
      *
      * You are strongly discouraged from calling this method in production code.
      */
-    void reset() {
+    protected void reset() {
         loggerMap.clear();
     }
 }
