@@ -224,7 +224,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
      * Package access allows only {@link SimpleLoggerFactory} to instantiate
      * SimpleLogger instances.
      */
-    SimpleLogger(String name) {
+    protected SimpleLogger(String name) {
         this.name = name;
 
         String levelString = recursivelyComputeLevelString();
@@ -439,8 +439,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
         write(buf, t);
     }
 
-    protected String renderLevel(int level) {
-        switch (level) {
+    protected String renderLevel(int levelInt) {
+        switch (levelInt) {
             case LOG_LEVEL_TRACE:
                 return "TRACE";
             case LOG_LEVEL_DEBUG:
@@ -452,7 +452,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             case LOG_LEVEL_ERROR:
                 return "ERROR";
         }
-        throw new IllegalStateException("Unrecognized level ["+level+"]");
+        throw new IllegalStateException("Unrecognized level ["+levelInt+"]");
     }
 
     public void log(LoggingEvent event) {
