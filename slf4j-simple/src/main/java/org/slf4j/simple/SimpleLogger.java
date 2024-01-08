@@ -221,7 +221,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
     public static final String DEFAULT_LOG_LEVEL_KEY = SimpleLogger.SYSTEM_PREFIX + "defaultLogLevel";
 
     /**
-     * Package access allows only {@link SimpleLoggerFactory} to instantiate
+     * Protected access allows only {@link SimpleLoggerFactory} and also derived classes to instantiate
      * SimpleLogger instances.
      */
     protected SimpleLogger(String name) {
