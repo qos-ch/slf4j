@@ -157,7 +157,7 @@
              slf4j-jdk-platform-logging,slf4j-migrator,osgi-over-slf4j
           </skippedModules>
           <detectLinks>true</detectLinks>
-          <doctitle>SLF4J project modules 2.1.0-alpha1</doctitle>
+          <doctitle>SLF4J project modules ${project.version}</doctitle>
           <windowtitle>SLF4J javadoc</windowtitle>
           <bottom><![CDATA[Copyright  &copy; 2005-{currentYear} QOS.CH Sarl. All rights reserved]]></bottom>
           <linksource>true</linksource>
