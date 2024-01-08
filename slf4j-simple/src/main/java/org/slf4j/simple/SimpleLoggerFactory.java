@@ -47,16 +47,19 @@ public class SimpleLoggerFactory implements ILoggerFactory {
 
     /**
      * Return an appropriate {@link SimpleLogger} instance by name.
+     *
+     * This method will call {@link #createLogger(String)} if the logger
+     * has not been created yet.
      */
     public Logger getLogger(String name) {
-        Logger simpleLogger = loggerMap.get(name);
-        if (simpleLogger != null) {
-            return simpleLogger;
-        } else {
-            Logger newInstance = new SimpleLogger(name);
-            Logger oldInstance = loggerMap.putIfAbsent(name, newInstance);
-            return oldInstance == null ? newInstance : oldInstance;
-        }
+        return loggerMap.computeIfAbsent(name, this::createLogger);
+    }
+
+    /**
+     * Actually creates the logger for the given name.
+     */
+    protected Logger createLogger(String name) {
+        return new SimpleLogger(name);
     }
 
     /**
@@ -68,7 +71,7 @@ public class SimpleLoggerFactory implements ILoggerFactory {
      *
      * You are strongly discouraged from calling this method in production code.
      */
-    void reset() {
+    protected void reset() {
         loggerMap.clear();
     }
 }
