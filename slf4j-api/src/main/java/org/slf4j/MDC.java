@@ -91,6 +91,9 @@ public class MDC {
     static {
         SLF4JServiceProvider provider = LoggerFactory.getProvider();
         if (provider != null) {
+            // obtain and attach the MDCAdapter from the provider
+            // If you wish to change the adapter, Setting the MDC.mdcAdapter variable might not be enough as
+            // the provider might perform additional assignments that you would need to replicate/adapt.
             mdcAdapter = provider.getMDCAdapter();
         } else {
             Reporter.error("Failed to find provider.");
