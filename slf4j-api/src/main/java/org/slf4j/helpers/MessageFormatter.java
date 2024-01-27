@@ -152,12 +152,7 @@ final public class MessageFormatter {
     }
 
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray) {
-        Throwable throwableCandidate = MessageFormatter.getThrowableCandidate(argArray);
-        Object[] args = argArray;
-        if (throwableCandidate != null) {
-            args = MessageFormatter.trimmedCopy(argArray);
-        }
-        return arrayFormat(messagePattern, args, throwableCandidate);
+        return arrayFormat(messagePattern, argArray, null);
     }
 
     /**
@@ -166,26 +161,40 @@ final public class MessageFormatter {
      * @param messagePattern
      * @param argArray
      */
+    @Deprecated
     final public static String basicArrayFormat(final String messagePattern, final Object[] argArray) {
         FormattingTuple ft = arrayFormat(messagePattern, argArray, null);
         return ft.getMessage();
     }
 
-    public static String basicArrayFormat(NormalizedParameters np) {
-        return basicArrayFormat(np.getMessage(), np.getArguments());
+    /** Resolves throwable to be used in log message.
+     *
+     * @param index index of first array entry that was not bound to format placeholder
+     */
+    final static Throwable resolveThrowable(final Object[] argArray, final int index, final Throwable throwable) {
+        if (throwable != null) {
+            return throwable;
+        }
+        if(argArray != null && argArray.length > index) {
+            final Object lastEntry = argArray[argArray.length - 1];
+            if (lastEntry instanceof Throwable) {
+                return (Throwable) lastEntry;
+            }
+        }
+        return null;
     }
 
     final public static FormattingTuple arrayFormat(final String messagePattern, final Object[] argArray, Throwable throwable) {
 
         if (messagePattern == null) {
-            return new FormattingTuple(null, argArray, throwable);
+            return new FormattingTuple(null, resolveThrowable(argArray, 0, throwable));
         }
 
         if (argArray == null) {
-            return new FormattingTuple(messagePattern);
+            return new FormattingTuple(messagePattern, throwable);
         }
 
-        int i = 0;
+        int i = 0; // index in the pattern
         int j;
         // use string builder for better multicore performance
         StringBuilder sbuf = new StringBuilder(messagePattern.length() + 50);
@@ -198,11 +207,11 @@ final public class MessageFormatter {
             if (j == -1) {
                 // no more variables
                 if (i == 0) { // this is a simple string
-                    return new FormattingTuple(messagePattern, argArray, throwable);
+                    return new FormattingTuple(messagePattern, resolveThrowable(argArray, L, throwable));
                 } else { // add the tail string which contains no variables and return
                     // the result.
                     sbuf.append(messagePattern, i, messagePattern.length());
-                    return new FormattingTuple(sbuf.toString(), argArray, throwable);
+                    return new FormattingTuple(sbuf.toString(), resolveThrowable(argArray, L, throwable));
                 }
             } else {
                 if (isEscapedDelimeter(messagePattern, j)) {
@@ -229,7 +238,7 @@ final public class MessageFormatter {
         }
         // append the characters following the last {} pair.
         sbuf.append(messagePattern, i, messagePattern.length());
-        return new FormattingTuple(sbuf.toString(), argArray, throwable);
+        return new FormattingTuple(sbuf.toString(), throwable);
     }
 
     final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
@@ -402,29 +411,4 @@ final public class MessageFormatter {
         }
         sbuf.append(']');
     }
-
-    /**
-     * Helper method to determine if an {@link Object} array contains a {@link Throwable} as last element
-     *
-     * @param argArray
-     *          The arguments off which we want to know if it contains a {@link Throwable} as last element
-     * @return if the last {@link Object} in argArray is a {@link Throwable} this method will return it,
-     *          otherwise it returns null
-     */
-    public static Throwable getThrowableCandidate(final Object[] argArray) {
-        return NormalizedParameters.getThrowableCandidate(argArray);
-    }
-
-    /**
-     * Helper method to get all but the last element of an array
-     *
-     * @param argArray
-     *          The arguments from which we want to remove the last element
-     *
-     * @return a copy of the array without the last element
-     */
-    public static Object[] trimmedCopy(final Object[] argArray) {
-        return NormalizedParameters.trimmedCopy(argArray);
-    }
-
 }
