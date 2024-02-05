@@ -117,14 +117,28 @@ public final class Util {
         return trace[i + 2];
     }
 
-//    private static final void report(String msg, Throwable t) {
-//        System.err.println(msg);
-//        System.err.println("Reported exception:");
-//        t.printStackTrace();
-//    }
-//
-//    static final private void report(String msg) {
-//        System.err.println("SLF4J: " + msg);
-//    }
+    /**
+     * See  {@link Reporter#error(String, Throwable)} class for alternative.
+     *
+     * @deprecated replaced by the {@link Reporter#error(String, Throwable)} method.
+     * @param msg message to print
+     * @param t throwable to print
+     */
+    static final public void report(String msg, Throwable t) {
+        System.err.println(msg);
+        System.err.println("Reported exception:");
+        t.printStackTrace();
+    }
+
+    /**
+     * See  {@link Reporter} class for alternatives.
+     *
+     * @deprecated replaced by one of {@link Reporter#info(String)},
+     * {@link Reporter#warn(String)} or {@link Reporter#error(String)} methods.
+     * @param msg message to print
+     */
+    static final public void report(String msg) {
+        System.err.println("SLF4J: " + msg);
+    }
 
 }
