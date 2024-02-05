@@ -4,6 +4,10 @@
 #JDK8 - mvn site:site
 #rscpSLF4J apidocs/ 
 
+# JDK 11+
+# adding the following 
+#mvn -Ddoclint=none -Dadditionalparam=-Xdoclint:none  javadoc:aggregate
+
 
 #mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${VERSION_NUMBER} 
 
