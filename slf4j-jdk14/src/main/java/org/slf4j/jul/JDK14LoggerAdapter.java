@@ -35,7 +35,6 @@ import org.slf4j.helpers.AbstractLogger;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
-import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LocationAwareLogger;
@@ -143,8 +142,8 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
     private void innerNormalizedLoggingCallHandler(String fqcn, org.slf4j.event.Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
         // millis and thread are filled by the constructor
         Level julLevel = slf4jLevelToJULLevel(level);
-        String formattedMessage = MessageFormatter.basicArrayFormat(msg, args);
-        LogRecord record = new LogRecord(julLevel, formattedMessage);
+        FormattingTuple formattedMessage = MessageFormatter.arrayFormat(msg, args, throwable);
+        LogRecord record = new LogRecord(julLevel, formattedMessage.getMessage());
 
         // https://jira.qos.ch/browse/SLF4J-13
         record.setLoggerName(getName());
@@ -168,8 +167,7 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
         Level julLevel = slf4jLevelIntToJULLevel(slf4jLevelInt);
 
         if (logger.isLoggable(julLevel)) {
-            NormalizedParameters np = NormalizedParameters.normalize(message, arguments, throwable);
-            innerNormalizedLoggingCallHandler(callerFQCN, slf4jLevel, marker, np.getMessage(), np.getArguments(), np.getThrowable());
+            innerNormalizedLoggingCallHandler(callerFQCN, slf4jLevel, marker, message, arguments, throwable);
         }
     }
 

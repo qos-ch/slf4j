@@ -395,13 +395,7 @@ public abstract class AbstractLogger implements Logger, Serializable {
     }
 
     private void handleArgArrayCall(Level level, Marker marker, String msg, Object[] args) {
-        Throwable throwableCandidate = MessageFormatter.getThrowableCandidate(args);
-        if (throwableCandidate != null) {
-            Object[] trimmedCopy = MessageFormatter.trimmedCopy(args);
-            handleNormalizedLoggingCall(level, marker, msg, trimmedCopy, throwableCandidate);
-        } else {
-            handleNormalizedLoggingCall(level, marker, msg, args, null);
-        }
+        handleNormalizedLoggingCall(level, marker, msg, args, null);
     }
 
     abstract protected String getFullyQualifiedCallerName();
@@ -411,6 +405,8 @@ public abstract class AbstractLogger implements Logger, Serializable {
      * 
      * <p>This method assumes that the separation of the args array into actual
      * objects and a throwable has been already operated.
+     *
+     * TODO: I think it should accept formatted message rather than pattern and arguments.
      * 
      * @param level the SLF4J level for this event
      * @param marker  The marker to be used for this event, may be null.
