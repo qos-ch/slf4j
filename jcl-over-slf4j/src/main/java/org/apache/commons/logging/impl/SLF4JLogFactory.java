@@ -177,9 +177,9 @@ public class SLF4JLogFactory extends LogFactory {
         // is deployed in some parent class loader (e.g. commons/lib), then it
         // is possible for the parent class loader to mask the classes shipping
         // in jcl-over-slf4j.jar.
-        System.out.println("WARN: The method " + SLF4JLogFactory.class + "#release() was invoked.");
-        System.out.println("WARN: Please see http://www.slf4j.org/codes.html#release for an explanation.");
-        System.out.flush();
+        System.err.println("WARN: The method " + SLF4JLogFactory.class + "#release() was invoked.");
+        System.err.println("WARN: Please see http://www.slf4j.org/codes.html#release for an explanation.");
+        System.err.flush();
     }
 
     /**
