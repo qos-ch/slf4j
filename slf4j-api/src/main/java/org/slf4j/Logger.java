@@ -785,7 +785,25 @@ public interface Logger {
      * (and relatively small) cost of creating an <code>Object[]</code> before invoking the method,
      * even if this logger is disabled for ERROR. The variants taking
      * {@link #error(String, Object) one} and {@link #error(String, Object, Object) two}
-     * arguments exist solely in order to avoid this hidden cost.
+     * arguments exist solely in order to avoid this hidden cost. <br/>
+     * <br/>
+     * At some common implementations, such as {@link org.slf4j.helpers.AbstractLogger#error(String, Object...)},
+     * last argument may be an additional optional {@link Throwable}.
+     * Example usage:
+     * <pre>
+     * {@code
+     * String arg1 = "v1";
+     * String arg2 = "v2";
+     * log.error("arg1: {}, arg2: {}", arg1, arg2, new Exception("error message"));
+     * }
+     * </pre>
+     *
+     * This can output:
+     * <pre>
+     * arg1: v1, arg2: v2
+     * java.lang.Exception: error message
+     *     at ...
+     * </pre>
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
