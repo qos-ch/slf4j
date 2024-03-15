@@ -75,13 +75,19 @@ public class MDC {
      */
     public static class MDCCloseable implements Closeable {
         private final String key;
+        private final String previousValue;
 
-        private MDCCloseable(String key) {
+        private MDCCloseable(String key, String previousValue) {
             this.key = key;
+            this.previousValue = previousValue;
         }
 
         public void close() {
-            MDC.remove(this.key);
+            if (previousValue != null) {
+                MDC.put(key, previousValue);
+            } else {
+                MDC.remove(key);
+            }
         }
     }
 
@@ -156,8 +162,9 @@ public class MDC {
      *           in case the "key" parameter is null
      */
     public static MDCCloseable putCloseable(String key, String val) throws IllegalArgumentException {
+        String prev = get(key);
         put(key, val);
-        return new MDCCloseable(key);
+        return new MDCCloseable(key, prev);
     }
 
     /**

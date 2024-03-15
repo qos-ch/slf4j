@@ -206,4 +206,27 @@ public class InvocationTest {
         assertEquals(this.getClass().getName(), event.getLocationInformation().getClassName());
     }
 
+    @Test
+    public void testMDCCloseable() {
+        MDC.MDCCloseable closeable = MDC.putCloseable("k", "v");
+        assertEquals("v", MDC.get("k"));
+        closeable.close();
+        assertNull(MDC.get("k"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePreExistingKey() {
+        MDC.put("k", "1");
+        MDC.MDCCloseable outerCloseable = MDC.putCloseable("k", "2");
+        assertEquals("2", MDC.get("k"));
+        MDC.MDCCloseable innerCloseable = MDC.putCloseable("k", "3");
+        assertEquals("3", MDC.get("k"));
+        innerCloseable.close();
+        assertEquals("2", MDC.get("k"));
+        outerCloseable.close();
+        assertEquals("1", MDC.get("k"));
+        MDC.clear();
+        assertNull(MDC.get("k"));
+    }
 }
