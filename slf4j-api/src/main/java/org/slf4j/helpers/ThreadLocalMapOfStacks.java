@@ -1,9 +1,7 @@
 package org.slf4j.helpers;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -64,6 +62,13 @@ public class ThreadLocalMapOfStacks {
             return null;
 
         return new ArrayDeque<String>(deque);
+    }
+
+    public Map<String, Deque<String>> getReadOnlyView() {
+        Map<String, Deque<String>> mapOfImmutableDeques = tlMapOfStacks.get().entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> ImmutableDeque.of(entry.getValue())));
+
+        return Collections.unmodifiableMap(mapOfImmutableDeques);
     }
     
     /**
