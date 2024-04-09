@@ -28,6 +28,7 @@ import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
@@ -38,11 +39,11 @@ import org.slf4j.event.LoggingEvent;
  */
 public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBoundaryAware {
 
-    
+
     // The caller boundary when the log() methods are invoked, is this class itself.
-    
+
     static String DLEB_FQCN = DefaultLoggingEventBuilder.class.getName();
-    
+
     protected DefaultLoggingEvent loggingEvent;
     protected Logger logger;
 
@@ -53,7 +54,7 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
 
     /**
      * Add a marker to the current logging event being built.
-     * 
+     *
      * It is possible to add multiple markers to the same logging event.
      *
      * @param marker the marker to add
@@ -140,9 +141,10 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
             log(messageSupplier.get());
         }
     }
-    
+
     protected void log(LoggingEvent aLoggingEvent) {
-        setCallerBoundary(DLEB_FQCN);
+        if (loggingEvent.getCallerBoundary() == null)
+            setCallerBoundary(DLEB_FQCN);
         if (logger instanceof LoggingEventAware) {
             ((LoggingEventAware) logger).log(aLoggingEvent);
         } else {
@@ -170,29 +172,32 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
 
         msg = mergeMarkersAndKeyValuePairs(aLoggingEvent, msg);
 
-        switch (aLoggingEvent.getLevel()) {
-        case TRACE:
-            logger.trace(msg, combinedArguments);
-            break;
-        case DEBUG:
-            logger.debug(msg, combinedArguments);
-            break;
-        case INFO:
-            logger.info(msg, combinedArguments);
-            break;
-        case WARN:
-            logger.warn(msg, combinedArguments);
-            break;
-        case ERROR:
-            logger.error(msg, combinedArguments);
-            break;
+        if(logger instanceof LocationAwareLogger) {
+            ((LocationAwareLogger) logger).log(null, aLoggingEvent.getCallerBoundary(), aLoggingEvent.getLevel().toInt(), msg, combinedArguments, aLoggingEvent.getThrowable());
+        } else {
+            switch (aLoggingEvent.getLevel()) {
+                case TRACE:
+                    logger.trace(msg, combinedArguments);
+                    break;
+                case DEBUG:
+                    logger.debug(msg, combinedArguments);
+                    break;
+                case INFO:
+                    logger.info(msg, combinedArguments);
+                    break;
+                case WARN:
+                    logger.warn(msg, combinedArguments);
+                    break;
+                case ERROR:
+                    logger.error(msg, combinedArguments);
+                    break;
+            }
         }
-
     }
 
     /**
      * Prepend markers and key-value pairs to the message.
-     * 
+     *
      * @param aLoggingEvent
      * @param msg
      * @return
