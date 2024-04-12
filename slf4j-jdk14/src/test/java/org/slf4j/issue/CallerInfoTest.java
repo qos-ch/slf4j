@@ -20,6 +20,8 @@ import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.jul.JDK14LoggerAdapter;
 import org.slf4j.jul.ListHandler;
+import org.slf4j.spi.CallerBoundaryAware;
+import org.slf4j.spi.LoggingEventBuilder;
 
 public class CallerInfoTest {
     Level oldLevel;
@@ -79,6 +81,22 @@ public class CallerInfoTest {
     }
 
     @Test
+    public void testCallerInfoWithFluentAPIAndAWrapper() {
+        Logger logger = LoggerFactory.getLogger("bla");
+        LoggingWrapper wrappedLogger = new LoggingWrapper(logger);
+
+        wrappedLogger.logWithEvent("hello");
+
+        List<LogRecord> recordList = listHandler.recordList;
+
+        assertEquals(1, recordList.size());
+
+        LogRecord logRecod = recordList.get(0);
+        assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
+    }
+
+
+    @Test
     public void testPostInitializationCallerInfoWithSubstituteLogger() {
         Logger logger = LoggerFactory.getLogger("bla");
         SubstituteLogger substituteLogger = new SubstituteLogger("bla", null, false);
@@ -119,6 +137,24 @@ public class CallerInfoTest {
 
         LogRecord logRecod = recordList.get(0);
         assertEquals(EventConstants.NA_SUBST, logRecod.getSourceClassName());
+    }
+
+    static class LoggingWrapper {
+
+        Logger underlyingLogger;
+
+        LoggingWrapper(Logger aLogger) {
+            this.underlyingLogger = aLogger;
+        }
+        public void logWithEvent(String msg) {
+            LoggingEventBuilder lev = underlyingLogger.atInfo();
+            // setting the caller boundary to LoggingWrapper
+            if(lev instanceof CallerBoundaryAware) {
+                // builder is CallerBoundaryAware
+                ((CallerBoundaryAware) lev).setCallerBoundary(LoggingWrapper.class.getName());
+            }
+            lev.log(msg);
+        }
     }
 
 }

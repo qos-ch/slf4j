@@ -23,6 +23,10 @@ public interface LoggingEvent {
 
     Object[] getArgumentArray();
 
+    /**
+     * List of markers in the event, might be null.
+     * @return markers in the event, might be null.
+     */
     List<Marker> getMarkers();
 
     List<KeyValuePair> getKeyValuePairs();
