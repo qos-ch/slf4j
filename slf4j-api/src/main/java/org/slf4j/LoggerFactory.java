@@ -33,13 +33,16 @@ import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
+import java.util.ServiceLoader.Provider;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.NOP_FallbackServiceProvider;
@@ -110,24 +113,32 @@ public final class LoggerFactory {
 
     // Package access for tests
     static List<SLF4JServiceProvider> findServiceProviders() {
-        List<SLF4JServiceProvider> providerList = new ArrayList<>();
 
         // retain behaviour similar to that of 1.7 series and earlier. More specifically, use the class loader that
         // loaded the present class to search for services
         final ClassLoader classLoaderOfLoggerFactory = LoggerFactory.class.getClassLoader();
 
-        SLF4JServiceProvider explicitProvider = loadExplicitlySpecified(classLoaderOfLoggerFactory);
-        if(explicitProvider != null) {
-            providerList.add(explicitProvider);
-            return providerList;
+        
+        ServiceLoader<SLF4JServiceProvider> serviceLoader = getServiceLoader(classLoaderOfLoggerFactory);
+
+        Stream<Provider<SLF4JServiceProvider>> stream = serviceLoader.stream();
+
+        String explicitlySpecified = System.getProperty(PROVIDER_PROPERTY_KEY, "");
+        
+        if (!explicitlySpecified.isEmpty()) {
+            stream = stream.filter(s -> s.type().getName().equals(explicitlySpecified));
         }
-
-
-         ServiceLoader<SLF4JServiceProvider> serviceLoader = getServiceLoader(classLoaderOfLoggerFactory);
-
-        Iterator<SLF4JServiceProvider> iterator = serviceLoader.iterator();
-        while (iterator.hasNext()) {
-            safelyInstantiate(providerList, iterator);
+        
+        List<SLF4JServiceProvider> providerList = stream.map(LoggerFactory::safelyInstantiate)
+                                                        .filter(Objects::nonNull)
+                                                        .collect(Collectors.toList());
+        
+        if(providerList.isEmpty() && !explicitlySpecified.isEmpty())
+        {
+            SLF4JServiceProvider explicitProvider = loadExplicitlySpecified(explicitlySpecified, classLoaderOfLoggerFactory);
+            if(explicitProvider != null) {
+                return Arrays.asList(explicitProvider);
+            }
         }
         return providerList;
     }
@@ -144,13 +155,18 @@ public final class LoggerFactory {
         return serviceLoader;
     }
 
-    private static void safelyInstantiate(List<SLF4JServiceProvider> providerList, Iterator<SLF4JServiceProvider> iterator) {
+    /**
+     * 
+     * @param provider
+     * @return the initiated provider or {@code null} if it fails
+     */
+    private static SLF4JServiceProvider safelyInstantiate(Provider<SLF4JServiceProvider> provider) {
         try {
-            SLF4JServiceProvider provider = iterator.next();
-            providerList.add(provider);
+            return provider.get();
         } catch (ServiceConfigurationError e) {
             Reporter.error("A service provider failed to instantiate:\n" + e.getMessage());
         }
+        return null;
     }
 
     /**
@@ -212,11 +228,13 @@ public final class LoggerFactory {
         }
     }
 
-    static SLF4JServiceProvider loadExplicitlySpecified(ClassLoader classLoader) {
-        String explicitlySpecified = System.getProperty(PROVIDER_PROPERTY_KEY);
-        if (null == explicitlySpecified || explicitlySpecified.isEmpty()) {
-            return null;
-        }
+    /**
+     * 
+     * @param explicitlySpecified the classname of the provider, never {@code null}
+     * @param classLoader the classloader, never {@code null}
+     * @return
+     */
+    static SLF4JServiceProvider loadExplicitlySpecified(String explicitlySpecified, ClassLoader classLoader) {
         try {
             String message = String.format("Attempting to load provider \"%s\" specified via \"%s\" system property", explicitlySpecified, PROVIDER_PROPERTY_KEY);
             Reporter.info(message);
