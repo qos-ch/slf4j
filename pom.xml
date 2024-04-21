@@ -27,6 +27,9 @@
     <connection>scm:git:https://github.com/qos-ch/slf4j.git</connection>
   </scm>
 
+  <properties>
+    <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
+  </properties>
 
   <!-- Inspired by Improving the Maven Bill of Materials (BOM) Pattern  -->
   <!-- https://www.garretwilson.com/blog/2023/06/14/improve-maven-bom-pattern -->
@@ -146,6 +149,18 @@
   </developers>
 
   <build>
+    <pluginManagement>
+
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+      </plugins>
+
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
