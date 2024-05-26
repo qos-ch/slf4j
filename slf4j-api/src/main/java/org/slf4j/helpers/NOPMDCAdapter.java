@@ -47,22 +47,22 @@ public class NOPMDCAdapter implements MDCAdapter {
         return null;
     }
 
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
     }
 
     public void remove(String key) {
     }
 
-    public Map<String, String> getCopyOfContextMap() {
+    public Map<String, Object> getCopyOfContextMap() {
         return null;
     }
 
-    public void setContextMap(Map<String, String> contextMap) {
+    public void setContextMap(Map<String, Object> contextMap) {
         // NOP
     }
 
     @Override
-    public void pushByKey(String key, String value) {
+    public void pushByKey(String key, Object value) {
     }
 
     @Override
@@ -71,7 +71,7 @@ public class NOPMDCAdapter implements MDCAdapter {
     }
 
     @Override
-    public Deque<String> getCopyOfDequeByKey(String key) {
+    public Deque<Object> getCopyOfDequeByKey(String key) {
         return null;
     }
     

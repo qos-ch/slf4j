@@ -45,7 +45,7 @@ public interface MDCAdapter {
      * <p>If the current thread does not have a context map it is created as a side
      * effect of this call.
      */
-    public void put(String key, String val);
+    public void put(String key, Object val);
 
     /**
      * Get the context identified by the <code>key</code> parameter.
@@ -77,7 +77,7 @@ public interface MDCAdapter {
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public Map<String, String> getCopyOfContextMap();
+    public Map<String, Object> getCopyOfContextMap();
 
     /**
      * Set the current thread's context map by first clearing any existing 
@@ -90,7 +90,7 @@ public interface MDCAdapter {
      * 
      * @since 1.5.1
      */
-    public void setContextMap(Map<String, String> contextMap);
+    public void setContextMap(Map<String, Object> contextMap);
     
     /**
      * Push a value into the deque(stack) referenced by 'key'.
@@ -99,7 +99,7 @@ public interface MDCAdapter {
      * @param value the value to push into the stack
      * @since 2.0.0
      */
-    public void pushByKey(String key, String value);
+    public void pushByKey(String key, Object value);
     
     /**
      * Pop the stack referenced by 'key' and return the value possibly null.
@@ -118,7 +118,7 @@ public interface MDCAdapter {
      * 
      * @since 2.0.0
      */
-    public Deque<String>  getCopyOfDequeByKey(String key);
+    public Deque<Object>  getCopyOfDequeByKey(String key);
     
 
     /**

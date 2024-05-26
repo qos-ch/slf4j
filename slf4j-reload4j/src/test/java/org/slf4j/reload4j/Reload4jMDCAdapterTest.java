@@ -26,7 +26,7 @@ public class Reload4jMDCAdapterTest extends MDCAdapterTestBase {
 
     @Test
     public void testSetContextMap() {
-        Map<String, String> map0 = new HashMap<>();
+        Map<String, Object> map0 = new HashMap<>();
         map0.put("key0", "val0");
 
         mdc.setContextMap(map0);

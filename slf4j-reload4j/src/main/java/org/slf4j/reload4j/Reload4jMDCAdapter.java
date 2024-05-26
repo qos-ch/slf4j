@@ -62,7 +62,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
      *             in case the "key" or <b>"val"</b> parameter is null
      */
     @Override
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
         org.apache.log4j.MDC.put(key, val);
     }
 
@@ -83,7 +83,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void setContextMap(Map<String, String> contextMap) {
+    public void setContextMap(Map<String, Object> contextMap) {
         Map old = org.apache.log4j.MDC.getContext();
         
         // we must cater for the case where the contextMap argument is null 
@@ -95,7 +95,7 @@ public class Reload4jMDCAdapter implements MDCAdapter {
         }
         
         if (old == null) {
-            for (Map.Entry<String, String> mapEntry : contextMap.entrySet()) {
+            for (Map.Entry<String, Object> mapEntry : contextMap.entrySet()) {
                 org.apache.log4j.MDC.put(mapEntry.getKey(), mapEntry.getValue());
             }
         } else {
@@ -105,17 +105,17 @@ public class Reload4jMDCAdapter implements MDCAdapter {
     }
 
     @Override
-    public void pushByKey(String key, String value) {
+    public void pushByKey(String key, Object value) {
         threadLocalMapOfDeques.pushByKey(key, value);
     }
 
     @Override
     public String popByKey(String key) {
-        return threadLocalMapOfDeques.popByKey(key);    
+        return threadLocalMapOfDeques.popByKey(key).toString();
      }
 
     @Override
-    public Deque<String> getCopyOfDequeByKey(String key) {
+    public Deque<Object> getCopyOfDequeByKey(String key) {
         return threadLocalMapOfDeques.getCopyOfDequeByKey(key);
     }
 

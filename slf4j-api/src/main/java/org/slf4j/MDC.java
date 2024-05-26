@@ -221,7 +221,7 @@ public class MDC {
      * @return A copy of the current thread's context map. May be null.
      * @since 1.5.1
      */
-    public static Map<String, String> getCopyOfContextMap() {
+    public static Map<String, Object> getCopyOfContextMap() {
         if (mdcAdapter == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
@@ -239,7 +239,7 @@ public class MDC {
      *          must contain only keys and values of type String
      * @since 1.5.1
      */
-    public static void setContextMap(Map<String, String> contextMap) {
+    public static void setContextMap(Map<String, Object> contextMap) {
         if (mdcAdapter == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
@@ -294,7 +294,7 @@ public class MDC {
      * 
      * @since 2.0.0
      */
-    public Deque<String>  getCopyOfDequeByKey(String key) {
+    public Deque<Object>  getCopyOfDequeByKey(String key) {
         if (mdcAdapter == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }

@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * A simple implementation of ThreadLocal backed Map containing values of type 
- * Deque<String>.
+ * Deque<Object>.
  * 
  * @author Ceki Guuml;c&uuml;
  * @since 2.0.0
@@ -18,20 +18,20 @@ public class ThreadLocalMapOfStacks {
     // BEWARE: Keys or values placed in a ThreadLocal should not be of a type/class
     // not included in the JDK. See also https://jira.qos.ch/browse/LOGBACK-450
 
-    final ThreadLocal<Map<String, Deque<String>>> tlMapOfStacks = new ThreadLocal<>();
+    final ThreadLocal<Map<String, Deque<Object>>> tlMapOfStacks = new ThreadLocal<>();
 
-    public void pushByKey(String key, String value) {
+    public void pushByKey(String key, Object value) {
         if (key == null)
             return;
 
-        Map<String, Deque<String>> map = tlMapOfStacks.get();
+        Map<String, Deque<Object>> map = tlMapOfStacks.get();
 
         if (map == null) {
             map = new HashMap<>();
             tlMapOfStacks.set(map);
         }
 
-        Deque<String> deque = map.get(key);
+        Deque<Object> deque = map.get(key);
         if (deque == null) {
             deque = new ArrayDeque<>();
         }
@@ -39,31 +39,31 @@ public class ThreadLocalMapOfStacks {
         map.put(key, deque);
     }
 
-    public String popByKey(String key) {
+    public Object popByKey(String key) {
         if (key == null)
             return null;
 
-        Map<String, Deque<String>> map = tlMapOfStacks.get();
+        Map<String, Deque<Object>> map = tlMapOfStacks.get();
         if (map == null)
             return null;
-        Deque<String> deque = map.get(key);
+        Deque<Object> deque = map.get(key);
         if (deque == null)
             return null;
         return deque.pop();
     }
 
-    public Deque<String> getCopyOfDequeByKey(String key) {
+    public Deque<Object> getCopyOfDequeByKey(String key) {
         if (key == null)
             return null;
 
-        Map<String, Deque<String>> map = tlMapOfStacks.get();
+        Map<String, Deque<Object>> map = tlMapOfStacks.get();
         if (map == null)
             return null;
-        Deque<String> deque = map.get(key);
+        Deque<Object> deque = map.get(key);
         if (deque == null)
             return null;
 
-        return new ArrayDeque<String>(deque);
+        return new ArrayDeque<Object>(deque);
     }
     
     /**
@@ -77,10 +77,10 @@ public class ThreadLocalMapOfStacks {
         if (key == null)
             return;
 
-        Map<String, Deque<String>> map = tlMapOfStacks.get();
+        Map<String, Deque<Object>> map = tlMapOfStacks.get();
         if (map == null)
             return;
-        Deque<String> deque = map.get(key);
+        Deque<Object> deque = map.get(key);
         if (deque == null)
             return;
         deque.clear();

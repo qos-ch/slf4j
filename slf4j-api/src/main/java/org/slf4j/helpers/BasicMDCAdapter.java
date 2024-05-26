@@ -45,9 +45,9 @@ public class BasicMDCAdapter implements MDCAdapter {
 
     private final ThreadLocalMapOfStacks threadLocalMapOfDeques = new ThreadLocalMapOfStacks();
 
-    private final InheritableThreadLocal<Map<String, String>> inheritableThreadLocalMap = new InheritableThreadLocal<Map<String, String>>() {
+    private final InheritableThreadLocal<Map<String, Object>> inheritableThreadLocalMap = new InheritableThreadLocal<Map<String, Object>>() {
         @Override
-        protected Map<String, String> childValue(Map<String, String> parentValue) {
+        protected Map<String, Object> childValue(Map<String, Object> parentValue) {
             if (parentValue == null) {
                 return null;
             }
@@ -67,11 +67,11 @@ public class BasicMDCAdapter implements MDCAdapter {
      * @throws IllegalArgumentException
      *                 in case the "key" parameter is null
      */
-    public void put(String key, String val) {
+    public void put(String key, Object val) {
         if (key == null) {
             throw new IllegalArgumentException("key cannot be null");
         }
-        Map<String, String> map = inheritableThreadLocalMap.get();
+        Map<String, Object> map = inheritableThreadLocalMap.get();
         if (map == null) {
             map = new HashMap<>();
             inheritableThreadLocalMap.set(map);
@@ -83,9 +83,9 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Get the context identified by the <code>key</code> parameter.
      */
     public String get(String key) {
-        Map<String, String> map = inheritableThreadLocalMap.get();
-        if ((map != null) && (key != null)) {
-            return map.get(key);
+        Map<String, Object> map = inheritableThreadLocalMap.get();
+        if ((map != null) && (key != null) && map.get(key) != null) {
+            return map.get(key).toString();
         } else {
             return null;
         }
@@ -95,7 +95,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Remove the context identified by the <code>key</code> parameter.
      */
     public void remove(String key) {
-        Map<String, String> map = inheritableThreadLocalMap.get();
+        Map<String, Object> map = inheritableThreadLocalMap.get();
         if (map != null) {
             map.remove(key);
         }
@@ -105,7 +105,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Clear all entries in the MDC.
      */
     public void clear() {
-        Map<String, String> map = inheritableThreadLocalMap.get();
+        Map<String, Object> map = inheritableThreadLocalMap.get();
         if (map != null) {
             map.clear();
             inheritableThreadLocalMap.remove();
@@ -119,7 +119,7 @@ public class BasicMDCAdapter implements MDCAdapter {
      * @return the keys in the MDC
      */
     public Set<String> getKeys() {
-        Map<String, String> map = inheritableThreadLocalMap.get();
+        Map<String, Object> map = inheritableThreadLocalMap.get();
         if (map != null) {
             return map.keySet();
         } else {
@@ -132,8 +132,8 @@ public class BasicMDCAdapter implements MDCAdapter {
      * Returned value may be null.
      *
      */
-    public Map<String, String> getCopyOfContextMap() {
-        Map<String, String> oldMap = inheritableThreadLocalMap.get();
+    public Map<String, Object> getCopyOfContextMap() {
+        Map<String, Object> oldMap = inheritableThreadLocalMap.get();
         if (oldMap != null) {
             return new HashMap<>(oldMap);
         } else {
@@ -141,8 +141,8 @@ public class BasicMDCAdapter implements MDCAdapter {
         }
     }
 
-    public void setContextMap(Map<String, String> contextMap) {
-        Map<String, String> copy = null;
+    public void setContextMap(Map<String, Object> contextMap) {
+        Map<String, Object> copy = null;
         if (contextMap != null) {
             copy = new HashMap<>(contextMap);
         }
@@ -150,17 +150,17 @@ public class BasicMDCAdapter implements MDCAdapter {
     }
 
     @Override
-    public void pushByKey(String key, String value) {
+    public void pushByKey(String key, Object value) {
         threadLocalMapOfDeques.pushByKey(key, value);
     }
 
     @Override
     public String popByKey(String key) {
-        return threadLocalMapOfDeques.popByKey(key);    
+        return threadLocalMapOfDeques.popByKey(key).toString();
      }
 
     @Override
-    public Deque<String> getCopyOfDequeByKey(String key) {
+    public Deque<Object> getCopyOfDequeByKey(String key) {
         return threadLocalMapOfDeques.getCopyOfDequeByKey(key);
     }
     @Override
