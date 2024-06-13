@@ -227,6 +227,8 @@ public class Profiler implements TimeInstrument {
     private String buildProfilerString(DurationUnit du, String firstPrefix, String label, String indentation) {
         StringBuilder buf = new StringBuilder();
 
+        if (indentation.contains("    "))
+            buf.append(indentation.substring(4));
         buf.append(firstPrefix);
         buf.append(" Profiler [");
         buf.append(name);
