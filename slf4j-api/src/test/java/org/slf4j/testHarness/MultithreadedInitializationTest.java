@@ -41,7 +41,7 @@ abstract public class MultithreadedInitializationTest {
         long expectedEventCount = eventCount.get() + extraLogEvents();
 
         assertTrue(expectedEventCount + " >= " + recordedEventCount, expectedEventCount >= recordedEventCount);
-        assertTrue(expectedEventCount + " < " + recordedEventCount + "+" + LENIENCY_COUNT, expectedEventCount < recordedEventCount + LENIENCY_COUNT);
+        assertTrue(expectedEventCount + " < " + recordedEventCount + "+" + LENIENCY_COUNT, expectedEventCount < (recordedEventCount + LENIENCY_COUNT));
     }
 
     abstract protected long getRecordedEventCount();
