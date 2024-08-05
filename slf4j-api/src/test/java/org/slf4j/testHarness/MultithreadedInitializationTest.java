@@ -40,11 +40,11 @@ abstract public class MultithreadedInitializationTest {
 
         long expectedEventCount = eventCount.get() + extraLogEvents();
 
-        assertTrue(expectedEventCount + " >= " + recordedEventCount, expectedEventCount >= recordedEventCount);
+        assertTrue("unmet condition: " + expectedEventCount + " >= " + recordedEventCount, expectedEventCount >= recordedEventCount);
         assertTrue("unmet condition: " + expectedEventCount + " < " + recordedEventCount + "+" + LENIENCY_COUNT, expectedEventCount < (recordedEventCount + LENIENCY_COUNT));   }
 
     abstract protected long getRecordedEventCount();
-
+    
     protected int extraLogEvents() {
         return 0;
     }

@@ -39,6 +39,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
 /**
  * The present test is fragile in the sense that it sets up SimpleLogger
@@ -108,11 +109,12 @@ public class SLF4JPlatformLoggingTest {
         //INFO throwTest - a problem
         //java.lang.Exception
         //        at org.slf4j.jdk.platform.logging/org.slf4j.jdk.platform.logging.SLF4JPlatformLoggingTest.throwTest(SLF4JPlatformLoggingTest.java:92)
-         
-        assertEquals("INFO throwTest - we have a problem", results.get(0));
-        assertEquals(Exception.class.getName(), results.get(1));
-        assertTrue(results.get(2).contains("at "));
-        assertTrue(results.get(2).contains(this.getClass().getName()));
+
+        assertTrue(results.get(0).startsWith("SLF4J(I): Connected with provider of type ["));
+        assertEquals("INFO throwTest - we have a problem", results.get(1));
+        assertEquals(Exception.class.getName(), results.get(2));
+        assertTrue(results.get(3).contains("at "));
+        assertTrue(results.get(3).contains(this.getClass().getName()));
     }
 
 

@@ -82,6 +82,9 @@ public final class LoggerFactory {
     static final String UNSUCCESSFUL_INIT_URL = CODES_PREFIX + "#unsuccessfulInit";
     static final String UNSUCCESSFUL_INIT_MSG = "org.slf4j.LoggerFactory in failed state. Original exception was thrown EARLIER. See also "
                     + UNSUCCESSFUL_INIT_URL;
+
+    static final String CONNECTED_WITH_MSG = "Connected with provider of type [";
+
     /**
      * System property for explicitly setting the provider class. If set and the provider could be instantiated,
      * then the service loading mechanism will be bypassed.
@@ -403,9 +406,9 @@ public final class LoggerFactory {
     }
 
     private static void reportActualBinding(List<SLF4JServiceProvider> providerList) {
-        // binderPathSet can be null under Android
-        if (!providerList.isEmpty() && isAmbiguousProviderList(providerList)) {
-            Reporter.info("Actual provider is of type [" + providerList.get(0) + "]");
+        if (!providerList.isEmpty()) {
+            SLF4JServiceProvider provider = providerList.get(0);
+            Reporter.info(CONNECTED_WITH_MSG + provider.getClass().getName() + "]");
         }
     }
 

@@ -41,6 +41,8 @@ public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedIn
     //
     // final int diff = new Random().nextInt(10000);
     static int NUM_LINES_IN_SLF4J_REPLAY_WARNING = 3;
+    static int NUM_LINES_IN_SLF4J_CONNECTED_WITH_PROVIDER_INFO = 1;
+
     private final PrintStream oldErr = System.err;
     final String loggerName = this.getClass().getName();
     StringPrintStream sps = new StringPrintStream(oldErr, false);
@@ -67,7 +69,7 @@ public class SimpleLoggerMultithreadedInitializationTest extends MultithreadedIn
 
     @Override
     protected int extraLogEvents() {
-        return NUM_LINES_IN_SLF4J_REPLAY_WARNING;
+        return NUM_LINES_IN_SLF4J_REPLAY_WARNING + NUM_LINES_IN_SLF4J_CONNECTED_WITH_PROVIDER_INFO;
     }
 
 }

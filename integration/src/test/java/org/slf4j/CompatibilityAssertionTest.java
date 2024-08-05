@@ -56,9 +56,13 @@ public class CompatibilityAssertionTest {
         Logger logger = LoggerFactory.getLogger(this.getClass());
         String msg = "hello world " + diff;
         logger.info(msg);
-        assertEquals(1, sps.stringList.size());
+        assertEquals(2, sps.stringList.size());
+
         String s0 = (String) sps.stringList.get(0);
-        assertTrue(s0.contains(msg));
+        assertTrue(s0.startsWith("SLF4J(I): Connected with provider of type [org.slf4j.simple.SimpleServiceProvider]"));
+
+        String s1 = (String) sps.stringList.get(1);
+        assertTrue(s1.contains(msg));
 
     }
 }
