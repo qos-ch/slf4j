@@ -33,9 +33,9 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
-import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
@@ -431,12 +431,12 @@ public class SimpleLogger extends LegacyAbstractLogger {
             }
         }
 
-        String formattedMessage = MessageFormatter.basicArrayFormat(messagePattern, arguments);
+        FormattingTuple formattedMessage = MessageFormatter.arrayFormat(messagePattern, arguments, t);
 
         // Append the message
-        buf.append(formattedMessage);
+        buf.append(formattedMessage.getMessage());
 
-        write(buf, t);
+        write(buf, formattedMessage.getThrowable());
     }
 
     protected String renderLevel(int levelInt) {
@@ -462,9 +462,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             return;
         }
 
-        NormalizedParameters np = NormalizedParameters.normalize(event);
-
-        innerHandleNormalizedLoggingCall(event.getLevel(), event.getMarkers(), np.getMessage(), np.getArguments(), event.getThrowable());
+        innerHandleNormalizedLoggingCall(event.getLevel(), event.getMarkers(), event.getMessage(), event.getArgumentArray(), event.getThrowable());
     }
 
     @Override
