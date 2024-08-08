@@ -46,8 +46,9 @@ echoRunAndCheck "$MVN install"
 
 if [ ! -z "$PASS"  ]
 then
-  export GPG_TTY=$(tty)    
-  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts"
+    # WARNING deploying without cleaning may leave stale MANIFEST files    
+    export GPG_TTY=$(tty)
+    echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts"
 fi
 
 
