@@ -36,9 +36,7 @@ public class Slf4jEnvUtil {
 
 
     /**
-     * <p>Returns the current version of logback, or null if data is not
-     * available.
-     * </p>
+     * Returns the current version of slf4j, or null if data is not available.
      *
      * @return current version or null if missing version data
      * @since 2.0.14
@@ -57,12 +55,11 @@ public class Slf4jEnvUtil {
     }
 
     /**
-     * <p>Returns the current version of logback via class.getModule() or null if data is not
-     * available.
-     * </p>
+     * Returns the current version of slf4j via class.getModule()
+     * or null if data is not available.
      *
-     * @since 2.0.14
      * @return current version or null if missing version data
+     * @since 2.0.14
      */
     static private String slf4jVersionByModule() {
         Module module = Slf4jEnvUtil.class.getModule();
