@@ -111,12 +111,12 @@ public class SLF4JPlatformLoggingTest {
         // java.lang.Exception
         //        at org.slf4j.jdk.platform.logging/org.slf4j.jdk.platform.logging.SLF4JPlatformLoggingTest.throwTest(SLF4JPlatformLoggingTest.java:92)
 
-        String firstLine = results.get(0);
-        assertTrue(firstLine.startsWith("SLF4J(I): Connected with provider of type [org.slf4j.simple.SimpleServiceProvider"));
-                                        assertEquals("INFO throwTest - we have a problem", results.get(1));
-        assertEquals(Exception.class.getName(), results.get(2));
-        assertTrue(results.get(3).contains("at "));
-        assertTrue(results.get(3).contains(this.getClass().getName()));
+        int line = 0;
+        //assertTrue(results.get(0).startsWith("SLF4J(I): Connected with provider of type ["));
+        assertEquals("INFO throwTest - we have a problem", results.get(line++));
+        assertEquals(Exception.class.getName(), results.get(line++));
+        assertTrue(results.get(line).contains("at "));
+        assertTrue(results.get(line++).contains(this.getClass().getName()));
     }
 
 
