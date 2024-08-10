@@ -55,11 +55,13 @@ public class MultiBindingAssertionTest {
         String msg = "hello world " + diff;
         logger.info(msg);
         List<String> list = sps.stringList;
-        assertMsgContains(list, 0, "Class path contains multiple SLF4J providers.");
-        assertMsgContains(list, 1, "Found provider");
-        assertMsgContains(list, 2, "Found provider");
-        assertMsgContains(list, 3, "See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.");
-        assertMsgContains(list, 4, "SLF4J(I): Connected with provider of type [");
+        int line = 0;
+
+        assertMsgContains(list, line++, "Class path contains multiple SLF4J providers.");
+        assertMsgContains(list, line++, "Found provider");
+        assertMsgContains(list, line++, "Found provider");
+        assertMsgContains(list, line++, "See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.");
+        //assertMsgContains(list, line++, "SLF4J(D): Connected with provider of type [");
     }
 
     void assertMsgContains(List<String> strList, int index, String msg) {

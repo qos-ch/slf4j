@@ -27,6 +27,7 @@ package org.slf4j;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.slf4j.helpers.Reporter.SLF4J_INTERNAL_VERBOSITY_KEY;
 
 import java.io.PrintStream;
 import java.util.Random;
@@ -43,11 +44,13 @@ public class CompatibilityAssertionTest {
 
     @Before
     public void setUp() throws Exception {
+        System.setProperty(SLF4J_INTERNAL_VERBOSITY_KEY, "debug");
         System.setErr(sps);
     }
 
     @After
     public void tearDown() throws Exception {
+        System.clearProperty(SLF4J_INTERNAL_VERBOSITY_KEY);
         System.setErr(old);
     }
 
@@ -59,7 +62,7 @@ public class CompatibilityAssertionTest {
         assertEquals(2, sps.stringList.size());
 
         String s0 = (String) sps.stringList.get(0);
-        assertTrue(s0.startsWith("SLF4J(I): Connected with provider of type [org.slf4j.simple.SimpleServiceProvider]"));
+        assertTrue(s0.startsWith("SLF4J(D): Connected with provider of type [org.slf4j.simple.SimpleServiceProvider]"));
 
         String s1 = (String) sps.stringList.get(1);
         assertTrue(s1.contains(msg));

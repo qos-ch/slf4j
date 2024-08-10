@@ -198,7 +198,7 @@ public final class LoggerFactory {
                 // SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
                 PROVIDER.initialize();
                 INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
-                reportActualBinding(PROVIDER);
+                reportActualBinding(providersList);
             } else {
                 INITIALIZATION_STATE = NOP_FALLBACK_INITIALIZATION;
                 Reporter.warn("No SLF4J providers were found.");
@@ -405,8 +405,18 @@ public final class LoggerFactory {
         }
     }
 
-    private static void reportActualBinding(final SLF4JServiceProvider provider) {
-        Reporter.info(CONNECTED_WITH_MSG + provider.getClass().getName() + "]");
+    private static void reportActualBinding(List<SLF4JServiceProvider> providerList) {
+        // impossible since a provider has been found
+        if (providerList.isEmpty()) {
+            throw new IllegalStateException("No providers were found which is impossible after successful initialization.");
+        }
+
+        if (isAmbiguousProviderList(providerList)) {
+            Reporter.info("Actual provider is of type [" + providerList.get(0) + "]");
+        } else {
+            SLF4JServiceProvider provider = providerList.get(0);
+            Reporter.debug(CONNECTED_WITH_MSG + provider.getClass().getName() + "]");
+        }
     }
 
     /**

@@ -25,6 +25,7 @@
 package org.slf4j.nop;
 
 import static org.junit.Assert.assertEquals;
+import static org.slf4j.helpers.Reporter.SLF4J_INTERNAL_VERBOSITY_KEY;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -58,12 +59,14 @@ public class MultithreadedInitializationTest {
 
     @Before
     public void setup() {
+        System.setProperty(SLF4J_INTERNAL_VERBOSITY_KEY, "debug");
         LoggerFactoryFriend.reset();
         System.setErr(sps);
     }
 
     @After
     public void tearDown() throws Exception {
+        System.clearProperty(SLF4J_INTERNAL_VERBOSITY_KEY);
         LoggerFactoryFriend.reset();
         System.setErr(oldErr);
     }
