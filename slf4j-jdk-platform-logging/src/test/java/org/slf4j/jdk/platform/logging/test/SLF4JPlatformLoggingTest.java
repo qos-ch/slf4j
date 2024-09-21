@@ -118,5 +118,18 @@ public class SLF4JPlatformLoggingTest {
         assertTrue(results.get(line++).contains(this.getClass().getName()));
     }
 
+    @Test
+    public void extremeLevels() throws IOException {
+        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
+        Logger systemLogger = finder.getLogger("extremeLevels", null);
+        systemLogger.log(Level.OFF, "hello");
+        systemLogger.log(Level.ALL, "world");
+
+        List<String> results = SPS.stringList;
+        assertEquals(1, results.size());
+        assertEquals("ERROR extremeLevels - hello", results.get(0));
+
+    }
 
 }

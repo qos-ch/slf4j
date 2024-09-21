@@ -115,21 +115,37 @@ class SLF4JPlatformLogger implements System.Logger {
      * @param thrown
      * @param params
      */
-    private void log(Level jplLevel, ResourceBundle bundle, String msg, Throwable thrown, Object... params) {
-        if (jplLevel == Level.OFF)
-            return;
+    private void log(final Level jplLevel, final ResourceBundle bundle, final String msg, final Throwable thrown, final Object... params) {
 
-        if (jplLevel == Level.ALL) {
-            performLog(org.slf4j.event.Level.TRACE, bundle, msg, thrown, params);
-            return;
-        }
+        final Level jplLevelReduced = fixExtremeLevels(jplLevel);
 
-        org.slf4j.event.Level slf4jLevel = jplLevelToSLF4JLevel(jplLevel);
+        org.slf4j.event.Level slf4jLevel = jplLevelToSLF4JLevel(jplLevelReduced);
         boolean isEnabled = slf4jLogger.isEnabledForLevel(slf4jLevel);
 
         if (isEnabled) {
             performLog(slf4jLevel, bundle, msg, thrown, params);
         }
+    }
+
+    /**
+     * <p>Level.OFF and Level.ALL levels are not supposed to be used when calling log printing methods.
+     * </p>
+     *
+     * <p>We compensate for such incorrect usage by transforming Level.OFF as Level.ERROR and
+     * Level.ALL as Level.TRACE.
+     * </p>
+     *
+     * @param jplLevel
+     * @return
+     */
+    private Level fixExtremeLevels(Level jplLevel) {
+        if (jplLevel == Level.OFF)
+            return  Level.ERROR;
+
+        if (jplLevel == Level.ALL)
+            return Level.TRACE;
+
+        return jplLevel;
     }
 
     private void performLog(org.slf4j.event.Level slf4jLevel, ResourceBundle bundle, String msg, Throwable thrown, Object... params) {
