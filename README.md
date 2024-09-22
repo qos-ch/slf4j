@@ -15,8 +15,7 @@ More information can be found on the [SLF4J website](http://www.slf4j.org).
 # In case of problems
 
 In case of problems please do not hesitate to post an e-mail message
-on the <a
-href="https://mailman.qos.ch/cgi-bin/mailman/listinfo/slf4j-user">slf4j-user@qos.ch</a>
+on the [slf4j-user@qos.ch](https://mailman.qos.ch/cgi-bin/mailman/listinfo/slf4j-user)
 mailing list or to start a <a
 href="https://github.com/qos-ch/slf4j/discussions">discussion</a> on
 github.  However, please do not directly e-mail SLF4J developers. The
@@ -46,14 +45,13 @@ process:
 1. Start a discussion on the [slf4j-dev mailing
 list](http://www.slf4j.org/mailing-lists.html) about your proposed
 change. Alternately, file a [bug
-report](http://www.slf4j.org/bug-reporting.html) to initiate the
-discussion. Note that we ask pull requests to be linked to a [Jira
-ticket](https://jira.qos.ch/).
+report](https://github.com/qos-ch/slf4j/issues) on github to initiate the
+discussion. 
 
 2. Fork qos-ch/slf4j. Ideally, create a new branch from your fork for
 your contribution to make it easier to merge your changes back.
 
-3. Make your changes on the branch you hopefully created in Step 2. Be
+3. Make your changes on the branch created in Step 2. Be
 sure that your code passes existing unit tests. Please add unit tests
 for your work if appropriate. It usually is.
 
@@ -64,10 +62,8 @@ will be automatically rejected by the [DCO GitHub
 check](https://probot.github.io/apps/dco/) application.
 
 5. Push your changes to your fork/branch in GitHub. Don't push it to
-your master! If you do it will make it harder to submit new changes
+your master! If you do, it will make it harder to submit new changes
 later.
 
 6. Submit a pull request to SLF4J from your commit page on GitHub.
 
-7. Did we mention that you will be asked to link your pull request
-with a Jira ticket?
