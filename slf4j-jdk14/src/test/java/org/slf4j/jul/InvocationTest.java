@@ -30,6 +30,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -168,6 +170,127 @@ public class InvocationTest {
             fail("null keys are invalid");
         } catch (IllegalArgumentException e) {
         }
+    }
+
+    @Test
+    public void testMDCContextMapValues() {
+        Map<String, String> map = new HashMap<>();
+        map.put("ka", "va");
+        map.put("kb", "vb");
+
+        MDC.put("k", "v");
+        assertEquals("v", MDC.get("k"));
+        MDC.setContextMap(map);
+        assertNull(MDC.get("k"));
+        assertEquals("va", MDC.get("ka"));
+        assertEquals("vb", MDC.get("kb"));
+    }
+
+
+    @Test
+    public void testMDCPutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("k1", "v1");
+        values.put("k2", "v2");
+
+        MDC.put("k", "v");
+        MDC.putAll(values);
+
+        assertNotNull(MDC.get("k"));
+        assertNotNull(MDC.get("k1"));
+        assertNotNull(MDC.get("k2"));
+        MDC.remove("k1");
+        MDC.remove("k2");
+        assertNotNull(MDC.get("k"));
+        assertNull(MDC.get("k1"));
+        assertNull(MDC.get("k2"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseable() {
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putCloseable("try-with", "v")) {
+            assertNotNull(MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNotNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseableOverwrites() {
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putCloseable("pre", "v2")) {
+            assertNotNull(MDC.get("pre"));
+            assertEquals("v2", MDC.get("pre"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNull(MDC.get("pre"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("try-with", "v");
+
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putAllCloseable(values)) {
+            assertNotNull(MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNotNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAllOverwrites() {
+        Map<String, String> values = new HashMap<>();
+        values.put("pre", "v2");
+        values.put("try-with", "v");
+
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putAllCloseable(values)) {
+            assertNotNull(MDC.get("pre"));
+            assertEquals("v2", MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAllImmutable() {
+        Map<String, String> values = new HashMap<>();
+        values.put("try-with", "v");
+
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putAllCloseable(values)) {
+            values.remove("try-with");
+            assertNotNull(MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNotNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
     }
 
     private void assertLogMessage(String expected, int index) {
