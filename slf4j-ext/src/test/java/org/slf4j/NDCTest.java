@@ -24,10 +24,10 @@
  */
 package org.slf4j;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class NDCTest {
 
@@ -56,5 +56,30 @@ public class NDCTest {
         String result0 = NDC.pop();
         assertEquals("b", result1);
         assertEquals("a", result0);
+    }
+
+    @Test
+    public void testContains() {
+        assertFalse("nested context does not contain null value", NDC.contains(null));
+        assertFalse("default nested context does not contain \"a\" value", NDC.contains("a"));
+
+        NDC.push("a");
+
+        assertTrue("nested context contains \"a\" after being pushed", NDC.contains("a"));
+        assertFalse("nested context does not contain \"b\" before being pushed", NDC.contains("b"));
+
+        NDC.push("b");
+
+        assertTrue("nested context still contains \"a\" after \"b\" is pushed", NDC.contains("a"));
+        assertTrue("nested context contains \"b\" after being pushed", NDC.contains("b"));
+
+        NDC.pop();
+
+        assertFalse("nested context no longer contains \"b\" after being popped", NDC.contains("b"));
+        assertTrue("nested context still contains \"a\" after \"b\" is popped", NDC.contains("a"));
+
+        NDC.pop();
+
+        assertFalse("nested context no longer contains \"a\" after being popped", NDC.contains("a"));
     }
 }
