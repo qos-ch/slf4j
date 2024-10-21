@@ -55,6 +55,8 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
 
     transient final java.util.logging.Logger logger;
 
+    static int NOT_FOUND = -1;
+
     // WARN: JDK14LoggerAdapter constructor should have only package access so
     // that only JDK14LoggerFactory be able to create one.
     JDK14LoggerAdapter(java.util.logging.Logger logger) {
@@ -181,26 +183,10 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
     final private void fillCallerData(String callerFQCN, LogRecord record) {
         StackTraceElement[] steArray = new Throwable().getStackTrace();
 
-        int selfIndex = -1;
-        for (int i = 0; i < steArray.length; i++) {
-            final String className = steArray[i].getClassName();
+        int furthestIndex = findFurthestIndex(callerFQCN, steArray);
 
-            if (barrierMatch(callerFQCN, className)) {
-                selfIndex = i;
-                break;
-            }
-        }
-
-        int found = -1;
-        for (int i = selfIndex + 1; i < steArray.length; i++) {
-            final String className = steArray[i].getClassName();
-            if (!(barrierMatch(callerFQCN, className))) {
-                found = i;
-                break;
-            }
-        }
-
-        if (found != -1) {
+        if (furthestIndex != NOT_FOUND) {
+            int found = furthestIndex+1;
             StackTraceElement ste = steArray[found];
             // setting the class name has the side effect of setting
             // the needToInferCaller variable to false.
@@ -209,7 +195,24 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
         }
     }
 
-    static String SELF = JDK14LoggerAdapter.class.getName();
+    // find the furthest index which matches any of the barrier classes
+    // We assume that the actual caller is at most MAX_SEARCH_DEPTH calls away
+    private int findFurthestIndex(String callerFQCN, StackTraceElement[] steArray) {
+
+        final int maxIndex = Math.min(MAX_SEARCH_DEPTH, steArray.length);
+        int furthestIndex = NOT_FOUND;
+
+        for (int i = 0; i < maxIndex; i++) {
+            final String className = steArray[i].getClassName();
+            if (barrierMatch(callerFQCN, className)) {
+                furthestIndex = i;
+            }
+        }
+        return furthestIndex;
+    }
+
+   static final int MAX_SEARCH_DEPTH = 12;
+   static String SELF = JDK14LoggerAdapter.class.getName();
 
     static String SUPER = LegacyAbstractLogger.class.getName();
     static String SUPER_OF_SUPER = AbstractLogger.class.getName();
