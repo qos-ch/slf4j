@@ -60,7 +60,7 @@ import java.util.concurrent.Callable;
  *     doSomething();
  *   } finally {
  *     // MDC remove "k0", "k1", "k2", clear the set of tracked keys
- *     mdch.clear();
+ *     mdca.clear();
  *   }
  * </pre>
  *
@@ -71,7 +71,7 @@ import java.util.concurrent.Callable;
  * </p>
  *
  * <pre>
- *    DCAmbit mdca = new MDCAmbit();
+ *    MDCAmbit mdca = new MDCAmbit();
  *    Runnable runnable = ...;
  *    mdca.put("k0", "v0").run(runnable);
  * </pre>
