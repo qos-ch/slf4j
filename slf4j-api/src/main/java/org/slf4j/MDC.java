@@ -243,6 +243,9 @@ public class MDC {
         if (mdcAdapter == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
+        if (contextMap == null) {
+            contextMap = new HashMap<String, String>();
+        }
         mdcAdapter.setContextMap(contextMap);
     }
 
