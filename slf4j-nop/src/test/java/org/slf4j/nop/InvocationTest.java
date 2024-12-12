@@ -33,6 +33,9 @@ import org.slf4j.MDC;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Test whether invoking the SLF4J API causes problems or not.
  * 
@@ -116,11 +119,40 @@ public class InvocationTest {
     }
 
     @Test
+    public void testMDCPutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("key1", "value1");
+        values.put("key2", "value2");
+        MDC.putAll(values);
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
+        MDC.remove("key1");
+        MDC.remove("key2");
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
+        MDC.clear();
+    }
+
+    @Test
     public void testMDCCloseable() {
         MDC.MDCCloseable closeable = MDC.putCloseable("k", "v");
         assertNull(MDC.get("k"));
         closeable.close();
         assertNull(MDC.get("k"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("key1", "value1");
+        values.put("key2", "value2");
+        MDC.MDCCloseable closeable = MDC.putAllCloseable(values);
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
+        closeable.close();
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
         MDC.clear();
     }
 }

@@ -189,6 +189,112 @@ public class InvocationTest {
     }
 
     @Test
+    public void testMDCPutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("k1", "v1");
+        values.put("k2", "v2");
+
+        MDC.put("k", "v");
+        MDC.putAll(values);
+
+        assertNotNull(MDC.get("k"));
+        assertNotNull(MDC.get("k1"));
+        assertNotNull(MDC.get("k2"));
+        MDC.remove("k1");
+        MDC.remove("k2");
+        assertNotNull(MDC.get("k"));
+        assertNull(MDC.get("k1"));
+        assertNull(MDC.get("k2"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseable() {
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putCloseable("try-with", "v")) {
+            assertNotNull(MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNotNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseableOverwrites() {
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putCloseable("pre", "v2")) {
+            assertNotNull(MDC.get("pre"));
+            assertEquals("v2", MDC.get("pre"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNull(MDC.get("pre"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAllImmutable() {
+        Map<String, String> values = new HashMap<>();
+        values.put("try-with", "v");
+
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putAllCloseable(values)) {
+            values.remove("try-with");
+            assertNotNull(MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNotNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("try-with", "v");
+
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putAllCloseable(values)) {
+            assertNotNull(MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNotNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAllOverwrites() {
+        Map<String, String> values = new HashMap<>();
+        values.put("pre", "v2");
+        values.put("try-with", "v");
+
+        MDC.put("pre", "v");
+        try(MDC.MDCCloseable mdcCloseable = MDC.putAllCloseable(values)) {
+            assertNotNull(MDC.get("pre"));
+            assertEquals("v2", MDC.get("pre"));
+            assertNotNull(MDC.get("try-with"));
+            assertNull(MDC.get("post"));
+        }
+        MDC.put("post", "v");
+        assertNull(MDC.get("pre"));
+        assertNull(MDC.get("try-with"));
+        assertNotNull(MDC.get("post"));
+        MDC.clear();
+    }
+
+    @Test
     public void testCallerInfo() {
         Logger logger = LoggerFactory.getLogger("testMarker");
         listAppender.extractLocationInfo = true;
