@@ -52,7 +52,9 @@ public class DefaultLoggingEvent implements LoggingEvent {
     }
 
     public void addArguments(Object... args) {
-        getNonNullArguments().addAll(Arrays.asList(args));
+        if (args != null) {
+            getNonNullArguments().addAll(Arrays.asList(args));
+        }
     }
 
     private List<Object> getNonNullArguments() {
