@@ -27,13 +27,21 @@ package org.slf4j.reload4j;
 import static org.slf4j.event.EventConstants.NA_SUBST;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Level;
+import org.apache.log4j.MDC;
 import org.apache.log4j.spi.LocationInfo;
 import org.apache.log4j.spi.ThrowableInformation;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.DefaultLoggingEvent;
+import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.LegacyAbstractLogger;
@@ -175,8 +183,25 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
             defaultLoggingEvent.setTimeStamp(System.currentTimeMillis());
         }
 
+        Map<String, Object> properties;
+
+        Hashtable mdcContext = MDC.getContext();
+        if (mdcContext != null) {
+            properties = mdcContext;
+        } else {
+            properties = Collections.emptyMap();
+        }
+
+        List<KeyValuePair> keyValuePairs = event.getKeyValuePairs();
+        if (keyValuePairs != null) {
+            Map<String, Object> newProperties = new HashMap<>(properties);
+            properties = event.getKeyValuePairs().stream().collect(
+                    Collectors.toMap(kvp -> kvp.key, kvp -> kvp.value, (a, b) -> b, () -> newProperties)
+            );
+        }
+
         org.apache.log4j.spi.LoggingEvent log4jEvent = new org.apache.log4j.spi.LoggingEvent(fqcn, logger, event.getTimeStamp(), log4jLevel, formattedMessage,
-                        event.getThreadName(), ti, null, locationInfo, null);
+                        event.getThreadName(), ti, null, locationInfo, properties);
 
         return log4jEvent;
     }
