@@ -28,10 +28,7 @@ import java.io.Closeable;
 import java.util.Deque;
 import java.util.Map;
 
-import org.slf4j.helpers.BasicMDCAdapter;
-import org.slf4j.helpers.NOPMDCAdapter;
-import org.slf4j.helpers.Reporter;
-import org.slf4j.helpers.Util;
+import org.slf4j.helpers.*;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -68,7 +65,7 @@ public class MDC {
     static final String NULL_MDCA_URL = "http://www.slf4j.org/codes.html#null_MDCA";
     private static final String MDC_APAPTER_CANNOT_BE_NULL_MESSAGE = "MDCAdapter cannot be null. See also " + NULL_MDCA_URL;
     static final String NO_STATIC_MDC_BINDER_URL = "http://www.slf4j.org/codes.html#no_static_mdc_binder";
-    static MDCAdapter mdcAdapter;
+    static MDCAdapter MDC_ADAPTER;
 
     /**
      * An adapter to remove the key when done.
@@ -88,17 +85,30 @@ public class MDC {
     private MDC() {
     }
 
-    static {
+    private static MDCAdapter getMDCAdapterGivenByProvider() {
         SLF4JServiceProvider provider = LoggerFactory.getProvider();
-        if (provider != null) {
+        if(provider != null) {
+            // If you wish to change the mdc adapter, setting the MDC.MDCAdapter variable might be insufficient.
+            // Keep in mind that the provider *might* perform additional internal mdcAdapter assignments that
+            // you would also need to replicate/adapt.
+
             // obtain and attach the MDCAdapter from the provider
-            // If you wish to change the adapter, Setting the MDC.mdcAdapter variable might not be enough as
-            // the provider might perform additional assignments that you would need to replicate/adapt.
-            mdcAdapter = provider.getMDCAdapter();
+
+            final MDCAdapter anAdapter = provider.getMDCAdapter();
+            emitTemporaryMDCAdapterWarningIfNeeded(provider);
+            return anAdapter;
         } else {
             Reporter.error("Failed to find provider.");
             Reporter.error("Defaulting to no-operation MDCAdapter implementation.");
-            mdcAdapter = new NOPMDCAdapter();
+            return new NOPMDCAdapter();
+        }
+    }
+
+    private static void emitTemporaryMDCAdapterWarningIfNeeded(SLF4JServiceProvider provider) {
+        boolean isSubstitute = provider instanceof SubstituteServiceProvider;
+        if(isSubstitute) {
+            Reporter.info("Temporary mdcAdapter given by SubstituteServiceProvider.");
+            Reporter.info("This mdcAdapter will be replaced after backend initialization has completed.");
         }
     }
 
@@ -121,10 +131,10 @@ public class MDC {
         if (key == null) {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        mdcAdapter.put(key, val);
+        getMDCAdapter().put(key, val);
     }
 
     /**
@@ -177,10 +187,10 @@ public class MDC {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
 
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        return mdcAdapter.get(key);
+        return getMDCAdapter().get(key);
     }
 
     /**
@@ -198,20 +208,20 @@ public class MDC {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
 
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        mdcAdapter.remove(key);
+        getMDCAdapter().remove(key);
     }
 
     /**
      * Clear all entries in the MDC of the underlying implementation.
      */
     public static void clear() {
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        mdcAdapter.clear();
+        getMDCAdapter().clear();
     }
 
     /**
@@ -222,10 +232,10 @@ public class MDC {
      * @since 1.5.1
      */
     public static Map<String, String> getCopyOfContextMap() {
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        return mdcAdapter.getCopyOfContextMap();
+        return getMDCAdapter().getCopyOfContextMap();
     }
 
     /**
@@ -240,23 +250,40 @@ public class MDC {
      * @since 1.5.1
      */
     public static void setContextMap(Map<String, String> contextMap) {
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        mdcAdapter.setContextMap(contextMap);
+        getMDCAdapter().setContextMap(contextMap);
     }
 
     /**
      * Returns the MDCAdapter instance currently in use.
-     * 
+     *
+     * Since 2.0.17, if the MDCAdapter instance is null, then this method set it to use
+     * the adapter returned by the SLF4JProvider. However, in the vast majority of cases
+     * the MDCAdapter will be set earlier (during initialization) by {@link LoggerFactory}.
+     *
      * @return the MDcAdapter instance currently in use.
      * @since 1.4.2
      */
     public static MDCAdapter getMDCAdapter() {
-        return mdcAdapter;
+        if(MDC_ADAPTER == null) {
+            MDC_ADAPTER = getMDCAdapterGivenByProvider();
+        }
+        return MDC_ADAPTER;
     }
 
-
+    /**
+     * Set MDCAdapter instance to use.
+     *
+     * @since 2.0.17
+     */
+    static void setMDCAdapter(MDCAdapter anMDCAdapter) {
+        if(anMDCAdapter == null) {
+            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
+        }
+        MDC_ADAPTER = anMDCAdapter;
+    }
 
     /**
      * Push a value into the deque(stack) referenced by 'key'.
@@ -266,10 +293,10 @@ public class MDC {
      * @since 2.0.0
      */
     static public void pushByKey(String key, String value) {
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        mdcAdapter.pushByKey(key, value);
+        getMDCAdapter().pushByKey(key, value);
     }
     
     /**
@@ -280,10 +307,10 @@ public class MDC {
      * @since 2.0.0
      */
     static public String popByKey(String key) {
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        return mdcAdapter.popByKey(key);
+        return getMDCAdapter().popByKey(key);
     }
 
     /**
@@ -295,9 +322,9 @@ public class MDC {
      * @since 2.0.0
      */
     public Deque<String>  getCopyOfDequeByKey(String key) {
-        if (mdcAdapter == null) {
+        if (getMDCAdapter() == null) {
             throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
         }
-        return mdcAdapter.getCopyOfDequeByKey(key);
+        return getMDCAdapter().getCopyOfDequeByKey(key);
     }
 }

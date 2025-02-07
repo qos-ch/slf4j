@@ -29,6 +29,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +39,20 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.slf4j.helpers.BasicMarker;
 import org.slf4j.helpers.NOPLogger;
+import org.slf4j.helpers.Reporter;
 
 public class NoBindingTest {
 
     int diff = new Random().nextInt(10000);
+
+    @Before
+    public void setUp() throws Exception {
+        System.setProperty(Reporter.SLF4J_INTERNAL_VERBOSITY_KEY, "debug");
+    }
+    @After
+    public void tearDown() throws Exception {
+        System.clearProperty(Reporter.SLF4J_INTERNAL_VERBOSITY_KEY);
+    }
 
     @Test
     public void testLogger() {
