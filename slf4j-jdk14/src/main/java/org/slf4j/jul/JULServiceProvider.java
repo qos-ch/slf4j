@@ -17,8 +17,16 @@ public class JULServiceProvider implements SLF4JServiceProvider {
     public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
     private ILoggerFactory loggerFactory;
-    private IMarkerFactory markerFactory = new BasicMarkerFactory();
-    private MDCAdapter mdcAdapter = new BasicMDCAdapter();
+    // LoggerFactory expects providers to initialize markerFactory as early as possible.
+    private final IMarkerFactory markerFactory;
+    // LoggerFactory expects providers to initialize their MDCAdapter field
+    // as early as possible, preferably at construction time.
+    private final MDCAdapter mdcAdapter;
+
+    public JULServiceProvider() {
+        markerFactory = new BasicMarkerFactory();
+        mdcAdapter = new BasicMDCAdapter();
+    }
 
     @Override
     public ILoggerFactory getLoggerFactory() {

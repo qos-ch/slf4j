@@ -18,9 +18,18 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
     public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
     private final ILoggerFactory loggerFactory = new NOPLoggerFactory();
-    private final IMarkerFactory markerFactory = new BasicMarkerFactory();
-    private final MDCAdapter mdcAdapter = new NOPMDCAdapter();
 
+    // LoggerFactory expects providers to initialize markerFactory as early as possible.
+    private final IMarkerFactory markerFactory;
+    
+    // LoggerFactory expects providers to initialize their MDCAdapter field
+    // as early as possible, preferably at construction time.
+    private final MDCAdapter mdcAdapter;
+
+    public NOPServiceProvider() {
+        markerFactory = new BasicMarkerFactory();
+        mdcAdapter = new NOPMDCAdapter();
+    }
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
     }
@@ -39,7 +48,6 @@ public class NOPServiceProvider implements SLF4JServiceProvider {
     }
 
     public void initialize() {
-
     }
 
    

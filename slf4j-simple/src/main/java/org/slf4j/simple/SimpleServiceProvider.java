@@ -17,8 +17,16 @@ public class SimpleServiceProvider implements SLF4JServiceProvider {
     public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
     private ILoggerFactory loggerFactory;
-    private IMarkerFactory  = new BasicMarkerFactory();
-    private MDCAdapter mdcAdapter =  new NOPMDCAdapter();
+    // LoggerFactory expects providers to initialize markerFactory as early as possible.
+    private final IMarkerFactory  markerFactory;
+    // LoggerFactory expects providers to initialize their MDCAdapter field
+    // as early as possible, preferably at construction time.
+    private final MDCAdapter mdcAdapter;
+
+    public SimpleServiceProvider() {
+        markerFactory = new BasicMarkerFactory();
+        mdcAdapter =  new NOPMDCAdapter();
+    }
 
     public ILoggerFactory getLoggerFactory() {
         return loggerFactory;
@@ -42,6 +50,7 @@ public class SimpleServiceProvider implements SLF4JServiceProvider {
     @Override
     public void initialize() {
         loggerFactory = new SimpleLoggerFactory();
+
     }
 
 }
