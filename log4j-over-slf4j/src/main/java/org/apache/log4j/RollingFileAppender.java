@@ -24,7 +24,7 @@ import java.io.IOException;
  * 
  * @author Christian Trutz 
  * */
-public class RollingFileAppender {
+public class RollingFileAppender extends FileAppender {
 
     public RollingFileAppender() {
         super();
@@ -43,6 +43,10 @@ public class RollingFileAppender {
     }
 
     public void setMaximumFileSize(long maxFileSize) {
+        // nothing to do
+    }
+
+    public void setMaxFileSize(String value){
         // nothing to do
     }
 
