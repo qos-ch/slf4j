@@ -220,8 +220,8 @@ public final class LoggerFactory {
     /**
      * The value of PROVIDER.getMDCAdapter() can be null while PROVIDER has not yet initialized.
      *
-     * However,
-     *
+     * However, SLF4JServiceProvider implementations are expected to initialize their internal
+     * MDCAdapter field in their constructor or on field declaration.
      */
     private static void earlyBindMDCAdapter() {
         MDCAdapter mdcAdapter = PROVIDER.getMDCAdapter();

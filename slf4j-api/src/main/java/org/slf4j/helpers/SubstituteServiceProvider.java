@@ -7,8 +7,18 @@ import org.slf4j.spi.SLF4JServiceProvider;
 
 public class SubstituteServiceProvider implements SLF4JServiceProvider {
     private final SubstituteLoggerFactory loggerFactory = new SubstituteLoggerFactory();
-    private final IMarkerFactory markerFactory = new BasicMarkerFactory();
-    private final MDCAdapter mdcAdapter = new BasicMDCAdapter();
+
+    // LoggerFactory expects providers to initialize markerFactory as early as possible.
+    private final IMarkerFactory markerFactory;
+
+    // LoggerFactory expects providers to initialize their MDCAdapter field
+    // as early as possible, preferably at construction time.
+    private final MDCAdapter mdcAdapter;
+
+    public SubstituteServiceProvider() {
+        markerFactory = new BasicMarkerFactory();
+        mdcAdapter = new BasicMDCAdapter();
+    }
 
     @Override
     public ILoggerFactory getLoggerFactory() {
@@ -36,6 +46,5 @@ public class SubstituteServiceProvider implements SLF4JServiceProvider {
 
     @Override
     public void initialize() {
-
     }
 }
