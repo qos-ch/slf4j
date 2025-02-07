@@ -19,8 +19,8 @@ public class Reload4jServiceProvider implements SLF4JServiceProvider {
     public static String REQUESTED_API_VERSION = "2.0.99"; // !final
 
     private ILoggerFactory loggerFactory;
-    private IMarkerFactory markerFactory;
-    private MDCAdapter mdcAdapter;
+    private IMarkerFactory markerFactory = new BasicMarkerFactory();
+    private MDCAdapter mdcAdapter = new Reload4jMDCAdapter();
 
     public Reload4jServiceProvider() {
         try {
@@ -34,8 +34,6 @@ public class Reload4jServiceProvider implements SLF4JServiceProvider {
     @Override
     public void initialize() {
         loggerFactory = new Reload4jLoggerFactory();
-        markerFactory = new BasicMarkerFactory();
-        mdcAdapter = new Reload4jMDCAdapter();
     }
 
     @Override

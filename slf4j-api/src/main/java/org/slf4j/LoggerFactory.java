@@ -47,6 +47,7 @@ import org.slf4j.helpers.Reporter;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.helpers.Util;
+import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
 /**
@@ -195,6 +196,7 @@ public final class LoggerFactory {
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
                 PROVIDER = providersList.get(0);
+                earlyBindMDCAdapter();
                 // SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
                 PROVIDER.initialize();
                 INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
@@ -212,6 +214,19 @@ public final class LoggerFactory {
         } catch (Exception e) {
             failedBinding(e);
             throw new IllegalStateException("Unexpected initialization failure", e);
+        }
+    }
+
+    /**
+     * The value of PROVIDER.getMDCAdapter() can be null while PROVIDER has not yet initialized.
+     *
+     * However,
+     *
+     */
+    private static void earlyBindMDCAdapter() {
+        MDCAdapter mdcAdapter = PROVIDER.getMDCAdapter();
+        if(mdcAdapter != null) {
+            MDC.setMDCAdapter(mdcAdapter);
         }
     }
 

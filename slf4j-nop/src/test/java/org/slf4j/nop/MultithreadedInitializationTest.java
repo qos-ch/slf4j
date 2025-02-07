@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2004-2016 QOS.ch
  * All rights reserved.
- *
+ * <p>
  * Permission is hereby granted, free  of charge, to any person obtaining
  * a  copy  of this  software  and  associated  documentation files  (the
  * "Software"), to  deal in  the Software without  restriction, including
@@ -9,10 +9,10 @@
  * distribute,  sublicense, and/or sell  copies of  the Software,  and to
  * permit persons to whom the Software  is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The  above  copyright  notice  and  this permission  notice  shall  be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
  * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
@@ -20,20 +20,8 @@
  * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
  * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
  */
 package org.slf4j.nop;
-
-import static org.junit.Assert.assertEquals;
-import static org.slf4j.helpers.Reporter.SLF4J_INTERNAL_VERBOSITY_KEY;
-
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +30,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.LoggerFactoryFriend;
 import org.slf4j.helpers.StringPrintStream;
+
+import java.io.PrintStream;
+import java.util.Random;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.junit.Assert.assertEquals;
+import static org.slf4j.helpers.Reporter.SLF4J_INTERNAL_VERBOSITY_KEY;
 
 public class MultithreadedInitializationTest {
 
@@ -76,7 +73,7 @@ public class MultithreadedInitializationTest {
         System.out.println("THREAD_COUNT=" + THREAD_COUNT);
         LoggerAccessingThread[] accessors = harness();
 
-        for (LoggerAccessingThread accessor : accessors) {
+        for(LoggerAccessingThread accessor : accessors) {
             EVENT_COUNT.getAndIncrement();
             accessor.logger.info("post harness");
         }
@@ -91,13 +88,13 @@ public class MultithreadedInitializationTest {
     private static LoggerAccessingThread[] harness() throws InterruptedException, BrokenBarrierException {
         LoggerAccessingThread[] threads = new LoggerAccessingThread[THREAD_COUNT];
         final CyclicBarrier barrier = new CyclicBarrier(THREAD_COUNT + 1);
-        for (int i = 0; i < THREAD_COUNT; i++) {
+        for(int i = 0; i < THREAD_COUNT; i++) {
             threads[i] = new LoggerAccessingThread(barrier, i);
             threads[i].start();
         }
 
         barrier.await();
-        for (int i = 0; i < THREAD_COUNT; i++) {
+        for(int i = 0; i < THREAD_COUNT; i++) {
             threads[i].join();
         }
         return threads;
@@ -123,7 +120,9 @@ public class MultithreadedInitializationTest {
             logger.info("in run method");
             EVENT_COUNT.getAndIncrement();
         }
-    };
+    }
+
+    ;
 
 //    public static class StringPrintStream extends PrintStream {
 //
