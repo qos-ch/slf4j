@@ -24,21 +24,22 @@
  */
 package org.slf4j.jul;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.event.EventConstants;
+import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.AbstractLogger;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
 import org.slf4j.helpers.NormalizedParameters;
-import org.slf4j.helpers.SubstituteLogger;
-import org.slf4j.spi.DefaultLoggingEventBuilder;
 import org.slf4j.spi.LocationAwareLogger;
+import org.slf4j.spi.LoggingEventAware;
 
 /**
  * A wrapper over {@link java.util.logging.Logger java.util.logging.Logger} in
@@ -49,7 +50,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * @author Ceki G&uuml;lc&uuml;
  * @author Peter Royal
  */
-public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements LocationAwareLogger {
+public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements LocationAwareLogger, LoggingEventAware {
 
     private static final long serialVersionUID = -8053026990503422791L;
 
@@ -139,7 +140,8 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
      */
     @Override
     protected void handleNormalizedLoggingCall(org.slf4j.event.Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
-        innerNormalizedLoggingCallHandler(getFullyQualifiedCallerName(), level, marker, msg, args, throwable);
+        // AbstractLogger is the entry point of all classic API calls
+        innerNormalizedLoggingCallHandler(SUPER_OF_SUPER, level, marker, msg, args, throwable);
     }
 
     private void innerNormalizedLoggingCallHandler(String fqcn, org.slf4j.event.Level level, Marker marker, String msg, Object[] args, Throwable throwable) {
@@ -180,13 +182,28 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
      * 
      * @param record The record to update
      */
-    final private void fillCallerData(String callerFQCN, LogRecord record) {
+    private void fillCallerData(String callerFQCN, LogRecord record) {
         StackTraceElement[] steArray = new Throwable().getStackTrace();
+        // Find the first stack trace element matching the caller boundary
+        int selfIndex = NOT_FOUND;
+        for (int i = 0; i < steArray.length; i++) {
+            final String className = steArray[i].getClassName();
+            if (className.equals(callerFQCN)) {
+                selfIndex = i;
+                break;
+            }
+        }
+        // Find the first stack trace element after the caller boundary
+        int found = NOT_FOUND;
+        for (int i = selfIndex + 1; i < steArray.length; i++) {
+            final String className = steArray[i].getClassName();
+            if (!(className.equals(callerFQCN))) {
+                found = i;
+                break;
+            }
+        }
 
-        int furthestIndex = findFurthestIndex(callerFQCN, steArray);
-
-        if (furthestIndex != NOT_FOUND) {
-            int found = furthestIndex+1;
+        if (found != NOT_FOUND) {
             StackTraceElement ste = steArray[found];
             // setting the class name has the side effect of setting
             // the needToInferCaller variable to false.
@@ -195,42 +212,9 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
         }
     }
 
-    // find the furthest index which matches any of the barrier classes
-    // We assume that the actual caller is at most MAX_SEARCH_DEPTH calls away
-    private int findFurthestIndex(String callerFQCN, StackTraceElement[] steArray) {
+    static String SELF = JDK14LoggerAdapter.class.getName();
 
-        final int maxIndex = Math.min(MAX_SEARCH_DEPTH, steArray.length);
-        int furthestIndex = NOT_FOUND;
-
-        for (int i = 0; i < maxIndex; i++) {
-            final String className = steArray[i].getClassName();
-            if (barrierMatch(callerFQCN, className)) {
-                furthestIndex = i;
-            }
-        }
-        return furthestIndex;
-    }
-
-   static final int MAX_SEARCH_DEPTH = 12;
-   static String SELF = JDK14LoggerAdapter.class.getName();
-
-    static String SUPER = LegacyAbstractLogger.class.getName();
     static String SUPER_OF_SUPER = AbstractLogger.class.getName();
-    static String SUBSTITUE = SubstituteLogger.class.getName();
-    static String FLUENT = DefaultLoggingEventBuilder.class.getName();
-
-    static String[] BARRIER_CLASSES = new String[] { SUPER_OF_SUPER, SUPER, SELF, SUBSTITUE, FLUENT };
-
-    private boolean barrierMatch(String callerFQCN, String candidateClassName) {
-        if (candidateClassName.equals(callerFQCN))
-            return true;
-        for (String barrierClassName : BARRIER_CLASSES) {
-            if (barrierClassName.equals(candidateClassName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private static Level slf4jLevelIntToJULLevel(int levelInt) {
         org.slf4j.event.Level slf4jLevel = org.slf4j.event.Level.intToLevel(levelInt);
@@ -264,12 +248,15 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
     /**
      * @since 1.7.15
      */
+    @Override
     public void log(LoggingEvent event) {
         // assumes that the invocation is made from a substitute logger
         // this assumption might change in the future with the advent of a fluent API
         Level julLevel = slf4jLevelToJULLevel(event.getLevel());
         if (logger.isLoggable(julLevel)) {
             LogRecord record = eventToRecord(event, julLevel);
+            String callerBoundary = event.getCallerBoundary();
+            fillCallerData(callerBoundary != null ? callerBoundary : SELF, record);
             logger.log(record);
         }
     }
@@ -279,16 +266,18 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
         Object[] arguments = event.getArgumentArray();
         FormattingTuple ft = MessageFormatter.arrayFormat(format, arguments);
         if (ft.getThrowable() != null && event.getThrowable() != null) {
-            throw new IllegalArgumentException("both last element in argument array and last argument are of type Throwable");
+            throw new IllegalArgumentException(
+                    "both last element in argument array and last argument are of type Throwable");
         }
 
         Throwable t = event.getThrowable();
-        if (ft.getThrowable() != null) {
+        if (t == null && ft.getThrowable() != null) {
             t = ft.getThrowable();
-            throw new IllegalStateException("fix above code");
         }
 
-        LogRecord record = new LogRecord(julLevel, ft.getMessage());
+        LogRecord record = new LogRecord(
+                julLevel,
+                prependMarkersAndKeyValuePairs(event.getMarkers(), event.getKeyValuePairs(), ft.getMessage()));
         record.setLoggerName(event.getLoggerName());
         record.setMillis(event.getTimeStamp());
         record.setSourceClassName(EventConstants.NA_SUBST);
@@ -298,4 +287,31 @@ public final class JDK14LoggerAdapter extends LegacyAbstractLogger implements Lo
         return record;
     }
 
+    private String prependMarkersAndKeyValuePairs(
+            List<Marker> markers, List<KeyValuePair> KeyValuePairs, String message) {
+        boolean hasMarkers = isNotEmpty(markers);
+        boolean hasKeyValuePairs = isNotEmpty(KeyValuePairs);
+        if (!hasMarkers && !hasKeyValuePairs) {
+            return message;
+        }
+        StringBuilder sb = new StringBuilder(message.length());
+        if (hasMarkers) {
+            for (Marker marker : markers) {
+                sb.append(marker).append(' ');
+            }
+        }
+        if (hasKeyValuePairs) {
+            for (KeyValuePair keyValuePair : KeyValuePairs) {
+                sb.append(keyValuePair.key)
+                        .append('=')
+                        .append(keyValuePair.value)
+                        .append(' ');
+            }
+        }
+        return sb.append(message).toString();
+    }
+
+    private boolean isNotEmpty(List<?> list) {
+        return list != null && !list.isEmpty();
+    }
 }
