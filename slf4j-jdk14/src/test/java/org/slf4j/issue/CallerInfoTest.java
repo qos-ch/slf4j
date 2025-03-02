@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import org.junit.After;
@@ -15,15 +14,17 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.EventConstants;
+import org.slf4j.event.Level;
 import org.slf4j.event.SubstituteLoggingEvent;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.helpers.SubstituteServiceProvider;
 import org.slf4j.jul.ListHandler;
 import org.slf4j.spi.CallerBoundaryAware;
+import org.slf4j.spi.LocationAwareLogger;
 import org.slf4j.spi.LoggingEventBuilder;
 
 public class CallerInfoTest {
-    Level oldLevel;
+    java.util.logging.Level oldLevel;
     java.util.logging.Logger root = java.util.logging.Logger.getLogger("");
 
     ListHandler listHandler = new ListHandler();
@@ -31,7 +32,7 @@ public class CallerInfoTest {
     @Before
     public void setUp() throws Exception {
         oldLevel = root.getLevel();
-        root.setLevel(Level.FINE);
+        root.setLevel(java.util.logging.Level.FINE);
         // removeAllHandlers(root);
         root.addHandler(listHandler);
     }
@@ -63,6 +64,27 @@ public class CallerInfoTest {
         assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
     }
 
+    /**
+     * Tests a wrapper that uses the {@link LocationAwareLogger} API.
+     *
+     * @see <a href="https://github.com/qos-ch/slf4j/issues/425">#425</a>
+     */
+    @Test
+    public void testCallerInfoWithAWrapper() {
+        Logger logger = LoggerFactory.getLogger("bla");
+        LoggingWrapper wrappedLogger = new LoggingWrapper(logger);
+
+        wrappedLogger.logWithLocationAwareApi("hello");
+
+        List<LogRecord> recordList = listHandler.recordList;
+
+        assertEquals(1, recordList.size());
+
+        LogRecord logRecord = recordList.get(0);
+            assertEquals(this.getClass().getName(), logRecord.getSourceClassName());
+            assertEquals("testCallerInfoWithAWrapper", logRecord.getSourceMethodName());
+        }
+
     // Do we preserve location info using fluent API?
     // See https://jira.qos.ch/browse/SLF4J-511
 
@@ -79,6 +101,9 @@ public class CallerInfoTest {
         assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
     }
 
+    /**
+     * Tests a wrapper that uses the Fluent API.
+     */
     @Test
     public void testCallerInfoWithFluentAPIAndAWrapper() {
         Logger logger = LoggerFactory.getLogger("bla");
@@ -144,15 +169,21 @@ public class CallerInfoTest {
         LoggingWrapper(Logger aLogger) {
             this.underlyingLogger = aLogger;
         }
+
         public void logWithEvent(String msg) {
             LoggingEventBuilder lev = underlyingLogger.atInfo();
             // setting the caller boundary to LoggingWrapper
-            if(lev instanceof CallerBoundaryAware) {
+            if (lev instanceof CallerBoundaryAware) {
                 // builder is CallerBoundaryAware
                 ((CallerBoundaryAware) lev).setCallerBoundary(LoggingWrapper.class.getName());
             }
             lev.log(msg);
         }
-    }
 
+        public void logWithLocationAwareApi(String msg) {
+            assertTrue("Logger is an instance of LocationAwareLogger", underlyingLogger instanceof LocationAwareLogger);
+            ((LocationAwareLogger) underlyingLogger)
+                    .log(null, LoggingWrapper.class.getName(), Level.INFO.toInt(), msg, null, null);
+        }
+    }
 }
