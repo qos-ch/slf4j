@@ -59,6 +59,7 @@ public class Activator implements BundleActivator {
 
         Properties props = new Properties();
         props.put("description", "An SLF4J LogService implementation.");
+        props.put(org.osgi.framework.Constants.SERVICE_RANKING, Integer.MAX_VALUE);
         ServiceFactory factory = new LogServiceFactory();
         bundleContext.registerService(LogService.class.getName(), factory, props);
     }
