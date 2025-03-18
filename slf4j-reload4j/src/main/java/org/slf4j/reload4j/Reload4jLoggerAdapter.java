@@ -67,7 +67,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
     final transient org.apache.log4j.Logger logger;
 
     final static String FQCN_NOMINAL = org.slf4j.helpers.AbstractLogger.class.getName();
-    final static String FQCN_SUBSTITUE = FQCN_NOMINAL;
+    final static String FQCN_SUBSTITUTE = FQCN_NOMINAL;
     final static String FQCN_FLUENT = org.slf4j.spi.DefaultLoggingEventBuilder.class.getName();
 
     // WARN: Reload4jLoggerAdapter constructor should have only package access so
@@ -160,7 +160,7 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
 
         if (event instanceof SubstituteLoggingEvent) {
             locationInfo = new LocationInfo(NA_SUBST, NA_SUBST, NA_SUBST, "0");
-            fqcn = FQCN_SUBSTITUE;
+            fqcn = FQCN_SUBSTITUTE;
         } else {
             fqcn = FQCN_FLUENT;
         }
