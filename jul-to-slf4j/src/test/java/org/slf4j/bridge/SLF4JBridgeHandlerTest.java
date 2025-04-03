@@ -110,7 +110,7 @@ public class SLF4JBridgeHandlerTest {
         assertEquals(6, listAppender.list.size());
         int i = 0;
         assertLevel(i++, org.apache.log4j.Level.TRACE);
-        assertLevel(i++, org.apache.log4j.Level.DEBUG);
+        assertLevel(i++, org.apache.log4j.Level.TRACE);
         assertLevel(i++, org.apache.log4j.Level.DEBUG);
         assertLevel(i++, org.apache.log4j.Level.INFO);
         assertLevel(i++, org.apache.log4j.Level.WARN);

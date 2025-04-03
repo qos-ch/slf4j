@@ -47,7 +47,7 @@ import org.slf4j.spi.LocationAwareLogger;
  * 
  * <pre>
  * FINEST  -&gt; TRACE
- * FINER   -&gt; DEBUG
+ * FINER   -&gt; TRACE
  * FINE    -&gt; DEBUG
  * INFO    -&gt; INFO
  * WARNING -&gt; WARN
@@ -111,7 +111,7 @@ public class SLF4JBridgeHandler extends Handler {
     private static final String FQCN = java.util.logging.Logger.class.getName();
     private static final String UNKNOWN_LOGGER_NAME = "unknown.jul.logger";
 
-    private static final int TRACE_LEVEL_THRESHOLD = Level.FINEST.intValue();
+    private static final int TRACE_LEVEL_THRESHOLD = Level.FINER.intValue();
     private static final int DEBUG_LEVEL_THRESHOLD = Level.FINE.intValue();
     private static final int INFO_LEVEL_THRESHOLD = Level.INFO.intValue();
     private static final int WARN_LEVEL_THRESHOLD = Level.WARNING.intValue();
