@@ -17,24 +17,27 @@ public interface LoggingEvent {
 
     String getLoggerName();
 
+    /** Log message, might be null. */
     String getMessage();
 
+    /** List of arguments in the event, might be null. */
     List<Object> getArguments();
 
+    /** Array of arguments in the event, might be null. */
     Object[] getArgumentArray();
 
-    /**
-     * List of markers in the event, might be null.
-     * @return markers in the event, might be null.
-     */
+    /** List of markers in the event, might be null. */
     List<Marker> getMarkers();
 
+    /** List of key-value pairs in the event, might be null. */
     List<KeyValuePair> getKeyValuePairs();
 
+    /** Cause exception, might be null. */
     Throwable getThrowable();
 
     long getTimeStamp();
 
+    /** Name of thread that made the log, might be null. */
     String getThreadName();
  
     /**
