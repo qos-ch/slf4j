@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * A simple implementation of ThreadLocal backed Map containing values of type 
  * Deque<String>.
- * 
+ *
  * @author Ceki Guuml;c&uuml;
  * @since 2.0.0
  */
@@ -40,49 +40,52 @@ public class ThreadLocalMapOfStacks {
     }
 
     public String popByKey(String key) {
-        if (key == null)
-            return null;
-
-        Map<String, Deque<String>> map = tlMapOfStacks.get();
-        if (map == null)
-            return null;
-        Deque<String> deque = map.get(key);
+        Deque<String> deque = getDeque(key);
         if (deque == null)
             return null;
+
         return deque.pop();
     }
 
-    public Deque<String> getCopyOfDequeByKey(String key) {
-        if (key == null)
+    public String peekByKey(String key) {
+        Deque<String> deque = getDeque(key);
+        if (deque == null)
             return null;
 
-        Map<String, Deque<String>> map = tlMapOfStacks.get();
-        if (map == null)
-            return null;
-        Deque<String> deque = map.get(key);
+        return deque.peek();
+    }
+
+    public Deque<String> getCopyOfDequeByKey(String key) {
+        Deque<String> deque = getDeque(key);
         if (deque == null)
             return null;
 
         return new ArrayDeque<String>(deque);
     }
-    
-    /**
-     * Clear the deque(stack) referenced by 'key'. 
-     * 
-     * @param key identifies the  stack
-     * 
-     * @since 2.0.0
-     */
-    public void clearDequeByKey(String key) {
+
+    private Deque<String> getDeque(String key) {
         if (key == null)
-            return;
+            return null;
 
         Map<String, Deque<String>> map = tlMapOfStacks.get();
         if (map == null)
-            return;
-        Deque<String> deque = map.get(key);
+            return null;
+
+        return map.get(key);
+    }
+
+    /**
+     * Clear the deque(stack) referenced by 'key'.
+     *
+     * @param key identifies the  stack
+     *
+     * @since 2.0.0
+     */
+    public void clearDequeByKey(String key) {
+        Deque<String> deque = getDeque(key);
         if (deque == null)
             return;
+
         deque.clear();
     }
 

@@ -24,17 +24,15 @@
 
 package org.slf4j.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.junit.After;
 import org.junit.Test;
 import org.slf4j.spi.MDCAdapter;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link BasicMDCAdapter}
@@ -62,6 +60,25 @@ public class MDCAdapterTestBase {
         assertNull(mdc.get("testKey"));
         mdc.put("testKey", "testValue");
         assertEquals(mdc.get("testKey"), "testValue");
+    }
+
+    @Test
+    public void testPushingAndPoppingWithMDC() {
+        assertNull(mdc.popByKey("testKey"));
+        mdc.pushByKey("testKey", "testValue");
+        mdc.pushByKey("testKey", "differentTestValue");
+        assertEquals(mdc.popByKey("testKey"), "differentTestValue");
+        assertEquals(mdc.popByKey("testKey"), "testValue");
+        assertThrows(NoSuchElementException.class, () -> mdc.popByKey("testKey"));
+    }
+
+    @Test
+    public void testPushingAndPeekingWithMDC() {
+        assertNull(mdc.peekByKey("testKey"));
+        mdc.pushByKey("testKey", "testValue");
+        mdc.pushByKey("testKey", "differentTestValue");
+        assertEquals(mdc.peekByKey("testKey"), "differentTestValue");
+        assertEquals(mdc.peekByKey("testKey"), "differentTestValue");
     }
 
     @Test

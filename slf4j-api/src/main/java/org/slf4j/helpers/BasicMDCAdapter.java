@@ -38,7 +38,7 @@ import java.util.*;
  * @author Ceki Gulcu
  * @author Maarten Bosteels
  * @author Lukasz Cwik
- * 
+ *
  * @since 1.5.0
  */
 public class BasicMDCAdapter implements MDCAdapter {
@@ -156,8 +156,13 @@ public class BasicMDCAdapter implements MDCAdapter {
 
     @Override
     public String popByKey(String key) {
-        return threadLocalMapOfDeques.popByKey(key);    
+        return threadLocalMapOfDeques.popByKey(key);
      }
+
+    @Override
+    public String peekByKey(String key) {
+        return threadLocalMapOfDeques.peekByKey(key);
+    }
 
     @Override
     public Deque<String> getCopyOfDequeByKey(String key) {
