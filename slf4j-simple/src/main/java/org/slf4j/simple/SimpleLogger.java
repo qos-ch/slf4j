@@ -261,7 +261,12 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
         synchronized (CONFIG_PARAMS) {
             if (CONFIG_PARAMS.cloudwatchNewlineFix) {
-                targetStream.print(buf.toString() + CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT);
+                String message = buf.toString().replace('\n', CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT);
+
+                if (message.charAt(message.length() - 1) != CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT) {
+                    message += CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT;
+                }
+                targetStream.print(message);
             } else {
                 targetStream.println(buf.toString());
             }
