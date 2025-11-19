@@ -9,6 +9,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -48,6 +49,23 @@ public class ConfigParamsTest {
 
         String str0 = outputList.get(0);
         assertTrue(str0.contains(WARN_LEVEL_STRING));
-
+        assertTrue(str0.endsWith(System.lineSeparator()));
+        assertFalse(str0.endsWith("" + SimpleLogger.CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT));
     }
+
+    @Test
+    public void cloudwatchNewlineFixTest(){
+        String WARN_LEVEL_STRING = "QWERTY";
+        ArrayList<String> outputList = new ArrayList<>();
+        SimpleLogger.CONFIG_PARAMS.cloudwatchNewlineFix = true;
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.TRACE,  WARN_LEVEL_STRING);
+
+        configuredLogger.warn("This is a test");
+
+        String str0 = outputList.get(0);
+        assertTrue(str0.contains(WARN_LEVEL_STRING));
+        assertFalse(str0.endsWith(System.lineSeparator()));
+        assertTrue(str0.endsWith("" + SimpleLogger.CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT));
+    }
+
 }

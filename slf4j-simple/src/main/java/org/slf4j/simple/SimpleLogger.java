@@ -220,6 +220,8 @@ public class SimpleLogger extends LegacyAbstractLogger {
 
     public static final String DEFAULT_LOG_LEVEL_KEY = SimpleLogger.SYSTEM_PREFIX + "defaultLogLevel";
 
+    public static final String CLOUDWATCH_NEWLINE_FIX = SimpleLogger.SYSTEM_PREFIX + "cloudwatchNewlineFix";
+
     /**
      * Protected access allows only {@link SimpleLoggerFactory} and also derived classes to instantiate
      * SimpleLogger instances.
@@ -258,7 +260,11 @@ public class SimpleLogger extends LegacyAbstractLogger {
         PrintStream targetStream = CONFIG_PARAMS.outputChoice.getTargetPrintStream();
 
         synchronized (CONFIG_PARAMS) {
-            targetStream.println(buf.toString());
+            if (CONFIG_PARAMS.cloudwatchNewlineFix) {
+                targetStream.print(buf.toString() + CONFIG_PARAMS.CLOUDWATCH_NEWLINE_REPLACEMENT);
+            } else {
+                targetStream.println(buf.toString());
+            }
             writeThrowable(t, targetStream);
             targetStream.flush();
         } 

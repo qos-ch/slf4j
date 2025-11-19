@@ -72,6 +72,10 @@ public class SimpleLoggerConfiguration {
     private static final String WARN_LEVELS_STRING_DEFAULT = "WARN";
     String warnLevelString = WARN_LEVELS_STRING_DEFAULT;
 
+    private static final boolean CLOUDWATCH_NEWLINE_FIX_DEFAULT = false;
+    boolean cloudwatchNewlineFix = CLOUDWATCH_NEWLINE_FIX_DEFAULT;
+    char CLOUDWATCH_NEWLINE_REPLACEMENT = '\r';
+
     private final Properties properties = new Properties();
 
     void init() {
@@ -89,6 +93,7 @@ public class SimpleLoggerConfiguration {
         dateTimeFormatStr = getStringProperty(SimpleLogger.DATE_TIME_FORMAT_KEY, DATE_TIME_FORMAT_STR_DEFAULT);
         levelInBrackets = getBooleanProperty(SimpleLogger.LEVEL_IN_BRACKETS_KEY, LEVEL_IN_BRACKETS_DEFAULT);
         warnLevelString = getStringProperty(SimpleLogger.WARN_LEVEL_STRING_KEY, WARN_LEVELS_STRING_DEFAULT);
+        cloudwatchNewlineFix = getBooleanProperty(SimpleLogger.CLOUDWATCH_NEWLINE_FIX, CLOUDWATCH_NEWLINE_FIX_DEFAULT);
 
         logFile = getStringProperty(SimpleLogger.LOG_FILE_KEY, logFile);
 
