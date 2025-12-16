@@ -5,17 +5,122 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public abstract class LoggerTestSuite {
+/**
+ * Acceptance tests for the slf4j-simple SimpleLogger implementation.
+ *
+ * <p>This concrete JUnit test class exercises logging at different levels
+ * (TRACE, DEBUG, INFO, WARN, ERROR), verifies message formatting, and
+ * checks exception logging behavior. The class contains helper methods to
+ * create a logger that writes into a supplied {@link ListAppendingOutputStream}
+ * and to extract message and exception details from produced log lines.</p>
+ *
+ * <p>Important: these tests are predicated on the fact that {@code SimpleLogger}
+ * invokes {@code flush()} on the provided output stream after writing each
+ * log entry and that each logging event is accumulated into a single entry of
+ * the backing {@code List<String>} fiels in {@link ListAppendingOutputStream}.
+ * </p>
+ *
+ * <p>Each logging event — including events that contain a {@code Throwable}
+ * and produce stacktrace lines — is accumulated into the {@code targetList}
+ * field of {@link ListAppendingOutputStream} as a single entry representing
+ * the entire event. Tests expect one list element per logging event.</p>
+ *
+ */
+public class SimpleLoggerAcceptanceTest {
 
+    /**
+     * Create a {@link ListAppendingOutputStream} backed by the supplied list.
+     *
+     * <p>This helper returns an output stream that accumulates written text
+     * lines into the provided list. Tests rely on the {@code SimpleLogger}
+     * implementation to invoke {@code flush()} on the provided stream after
+     * writing each log entry so that bytes are converted into list entries and
+     * visible to assertions. </p>
+     *
+     * <p>Each logging event (including a {@code Throwable} and its stacktrace)
+     * is collected by {@code ListAppendingOutputStream} into a single element
+     * in its {@code targetList} field; tests expect one string element per event.</p>
+     *
+     * @param outputList the list which will receive captured log lines
+     * @return a new ListAppendingOutputStream writing into the supplied list
+     */
     private ListAppendingOutputStream prepareSink(List<String> outputList) {
         return new ListAppendingOutputStream(outputList);
+    }
+
+    /**
+     * Extracts only the part of the log string that should represent the `message` string.
+     *
+     * @param message the full log message
+     * @return only the supplied message
+     */
+    public String extractMessage(String message) {
+        // Example log line:
+        // [main] INFO TestSuiteLogger - An exception occurred: 99
+        return message
+                .split("\n")[0]
+                .split("- ")[1];
+    }
+
+    /**
+     * Extracts only the part of the log string that should represent the supplied exception message, if any.
+     *
+     * @param message the full log message
+     * @return only the supplied exception message
+     */
+    public String extractExceptionMessage(String message) {
+        // Example log lines:
+        // [main] INFO TestSuiteLogger - An exception occurred: 99
+        // java.lang.IllegalArgumentException: Invalid argument
+        //  at org.slf4j.simple.SimpleLoggerAcceptanceTest.testExceptionParameterFormatting(SimpleLoggerAcceptanceTest.java:274)
+
+        String[] logLines = message.split("\n");
+
+        if(logLines.length < 2) {
+            return null;
+        }
+        String exceptionLine = logLines[1];
+        return exceptionLine.split(": ")[1];
+    }
+
+    /**
+     * Extracts only the part of the log string that should represent the supplied exception type.
+     *
+     * @param message the full log message
+     * @return only the supplied exception type name
+     */
+    public String extractExceptionType(String message) {
+        String[] logLines = message.split("\n");
+
+        if(logLines.length < 2) {
+            return null;
+        }
+        String exceptionLine = logLines[1];
+        return exceptionLine.split(": ")[0];
+    }
+
+    /**
+     * Configures the logger for running the tests.
+     *
+     * @param outputStream The output stream for logs to be written to
+     * @param level        The expected level the tests will run for this logger
+     * @return a configured logger able to run the tests
+     */
+    public Logger createLogger(ListAppendingOutputStream outputStream, Level level) {
+        SimpleLogger.CONFIG_PARAMS.outputChoice = new OutputChoice(new PrintStream(outputStream));
+
+        SimpleLogger logger = new SimpleLogger("TestSuiteLogger");
+        logger.currentLogLevel = SimpleLoggerConfiguration.stringToLevel(level.toString());
+        return logger;
     }
 
     @Test
@@ -168,9 +273,38 @@ public abstract class LoggerTestSuite {
     }
 
 
+    @Test
+    public void testExceptionParameterFormatting() {
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.INFO);
+
+        Exception exception = new IllegalArgumentException("Invalid argument");
+
+        configuredLogger.info("An exception occurred: {}", 99, exception);
+        assertEquals("The formatted message should've been captured", 1, outputList.size());
+        assertEquals("Message should've been formatted",
+                     "An exception occurred: 99",
+                     extractMessage(outputList.get(0)));
+
+        assertEquals("Exception type should've been captured",
+                     "java.lang.IllegalArgumentException",
+                     extractExceptionType(outputList.get(0)));
+
+
+        configuredLogger.info("Another exception occurred: {} {}", exception, 99);
+        assertEquals("The formatted message should've been captured", 2, outputList.size());
+        assertEquals("Message should've been formatted",
+                     "Another exception occurred: java.lang.IllegalArgumentException: Invalid argument 99",
+                     extractMessage(outputList.get(1)));
+
+        AtomicInteger atomicInteger = new AtomicInteger();
+        outputList.forEach(s -> System.out.println("x Log line " + (atomicInteger.getAndIncrement()) + ": " + s));
+    }
+
     /**
      * Allows tests to check whether the log message contains a trace message.
      * Override if needed.
+     *
      * @param message String containing the full log message
      * @return whether it is a trace message or not
      */
@@ -181,6 +315,7 @@ public abstract class LoggerTestSuite {
     /**
      * Allows tests to check whether the log message contains a debug message.
      * Override if needed.
+     *
      * @param message String containing the full log message
      * @return whether it is a debug message or not
      */
@@ -191,6 +326,7 @@ public abstract class LoggerTestSuite {
     /**
      * Allows tests to check whether the log message contains an info message.
      * Override if needed.
+     *
      * @param message String containing the full log message
      * @return whether it is an info message or not
      */
@@ -201,6 +337,7 @@ public abstract class LoggerTestSuite {
     /**
      * Allows tests to check whether the log message contains a warn message.
      * Override if needed.
+     *
      * @param message String containing the full log message
      * @return whether it is a warn message or not
      */
@@ -211,40 +348,12 @@ public abstract class LoggerTestSuite {
     /**
      * Allows tests to check whether the log message contains an error message.
      * Override if needed.
+     *
      * @param message String containing the full log message
      * @return whether it is an error message or not
      */
     protected boolean isErrorMessage(String message) {
         return message.toLowerCase().contains("error");
     }
-
-    /**
-     * Extracts only the part of the log string that should represent the `message` string.
-     * @param message the full log message
-     * @return only the supplied message
-     */
-    public abstract String extractMessage(String message);
-
-    /**
-     * Extracts only the part of the log string that should represent the supplied exception message, if any.
-     * @param message the full log message
-     * @return only the supplied exception message
-     */
-    public abstract String extractExceptionMessage(String message);
-
-    /**
-     * Extracts only the part of the log string that should represent the supplied exception type.
-     * @param message the full log message
-     * @return only the supplied exception type name
-     */
-    public abstract String extractExceptionType(String message);
-
-    /**
-     * Configures the logger for running the tests.
-     * @param outputStream The output stream for logs to be written to
-     * @param level The expected level the tests will run for this logger
-     * @return a configured logger able to run the tests
-     */
-    public abstract Logger createLogger(ListAppendingOutputStream outputStream, Level level);
 
 }
