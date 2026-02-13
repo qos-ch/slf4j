@@ -16,7 +16,7 @@
   <packaging>jar</packaging>
   <name>SLF4J NOP Provider</name>
   <description>SLF4J NOP Provider</description>
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
 
   <properties>
     <module-name>org.slf4j.nop</module-name>

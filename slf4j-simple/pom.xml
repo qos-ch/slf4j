@@ -15,7 +15,7 @@
   <packaging>jar</packaging>
   <name>SLF4J Simple Provider</name>
   <description>SLF4J Simple Provider</description>
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
 
   <properties>
     <module-name>org.slf4j.simple</module-name>

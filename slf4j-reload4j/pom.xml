@@ -17,7 +17,7 @@
   <packaging>jar</packaging>
   <name>SLF4J Reload4j Provider</name>
   <description>SLF4J Reload4j Provider</description>
-  <url>http://reload4j.qos.ch</url>
+  <url>https://reload4j.qos.ch</url>
 
   <properties>
     <slf4j.provider.implementation>org.slf4j.reload4j.Reload4jServiceProvider</slf4j.provider.implementation>

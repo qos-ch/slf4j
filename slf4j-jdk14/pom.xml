@@ -15,7 +15,7 @@
   <packaging>jar</packaging>
   <name>SLF4J JDK14 Provider</name>
   <description>SLF4J JDK14 Provider</description>
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
 
   <properties>
     <module-name>org.slf4j.jul</module-name>
