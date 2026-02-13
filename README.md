@@ -6,7 +6,7 @@ logback, reload4j, log4j 2.x, logevents, penna, rainbowgum, tinylog)
 allowing the end user to plug in the desired logging framework at
 deployment time.
 
-More information can be found on the [SLF4J website](http://www.slf4j.org).
+More information can be found on the [SLF4J website](https://www.slf4j.org).
 
 # Search org.slf4j artifacts on Maven Central
 [![Maven Central](https://img.shields.io/badge/Search%20org%2Eslf4j%20artifacts%20on%20Maven%20Central-2.0.x-green)](https://central.sonatype.com/search?namespace=org.slf4j) 
@@ -43,7 +43,7 @@ community looks forward to your contribution. Please follow this
 process:
 
 1. Start a discussion on the [slf4j-dev mailing
-list](http://www.slf4j.org/mailing-lists.html) about your proposed
+list](https://www.slf4j.org/mailing-lists.html) about your proposed
 change. Alternately, file a [bug
 report](https://github.com/qos-ch/slf4j/issues) on github to initiate the
 discussion. 

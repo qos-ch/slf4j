@@ -36,7 +36,7 @@ import org.apache.commons.logging.impl.SLF4JLogFactory;
 @SuppressWarnings("rawtypes")
 public abstract class LogFactory {
 
-    static String UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J = "http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j";
+    static String UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J = "https://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j";
 
     static LogFactory logFactory = new SLF4JLogFactory();
 
