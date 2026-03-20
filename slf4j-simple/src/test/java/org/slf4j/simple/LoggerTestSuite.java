@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,179 +14,157 @@ import static org.junit.Assert.assertTrue;
 
 public abstract class LoggerTestSuite {
 
-    public static class ListAppendingOutputStream extends OutputStream {
-        private final StringBuilder word = new StringBuilder();
-        private int index = 0;
-        private final List<String> list;
-
-        private ListAppendingOutputStream(List<String> list) {this.list = list;}
-
-
-        @Override
-        public void write(int b) throws IOException {
-            word.append((char) b);
-        }
-
-        @Override
-        public void flush() {
-            list.add(word.toString());
-            word.delete(0, word.length());
-            index++;
-        }
-    }
-
-    private ListAppendingOutputStream prepareSink(List<String> source) {
-        return new ListAppendingOutputStream(source);
-
+    private ListAppendingOutputStream prepareSink(List<String> outputList) {
+        return new ListAppendingOutputStream(outputList);
     }
 
     @Test
     public void testTrace() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.TRACE);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.TRACE);
 
         assertTrue("Trace level should be enabled for this test", configuredLogger.isTraceEnabled());
         configuredLogger.trace("Simple trace message");
 
-        assertEquals("Trace message should've been captured", 1, loggingEvents.size());
-        assertTrue("Message should be logged in trace level", isTraceMessage(loggingEvents.get(0)));
+        assertEquals("Trace message should've been captured", 1, outputList.size());
+        assertTrue("Message should be logged in trace level", isTraceMessage(outputList.get(0)));
         assertEquals("Supplied trace message wasn't found in the log",
                      "Simple trace message",
-                     extractMessage(loggingEvents.get(0)));
+                     extractMessage(outputList.get(0)));
 
-        loggingEvents.clear();
+        outputList.clear();
 
         configuredLogger.debug("Simple debug message");
         configuredLogger.info("Simple info message");
         configuredLogger.warn("Simple warn message");
         configuredLogger.error("Simple error message");
-        assertEquals("The other levels should have been captured", 4, loggingEvents.size());
+        assertEquals("The other levels should have been captured", 4, outputList.size());
 
     }
 
     @Test
     public void testDebug() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.DEBUG);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.DEBUG);
 
         configuredLogger.trace("Simple trace message");
-        assertEquals("Lower levels should have been ignored", 0, loggingEvents.size());
+        assertEquals("Lower levels should have been ignored", 0, outputList.size());
 
         assertTrue("Debug level should be enabled for this test", configuredLogger.isDebugEnabled());
         configuredLogger.debug("Simple debug message");
 
-        assertEquals("Debug message should've been captured", 1, loggingEvents.size());
-        assertTrue("Message should be logged in debug level", isDebugMessage(loggingEvents.get(0)));
+        assertEquals("Debug message should've been captured", 1, outputList.size());
+        assertTrue("Message should be logged in debug level", isDebugMessage(outputList.get(0)));
         assertEquals("Supplied debug message wasn't found in the log",
                      "Simple debug message",
-                     extractMessage(loggingEvents.get(0)));
+                     extractMessage(outputList.get(0)));
 
-        loggingEvents.clear();
+        outputList.clear();
 
         configuredLogger.info("Simple info message");
         configuredLogger.warn("Simple warn message");
         configuredLogger.error("Simple error message");
-        assertEquals("The other levels should have been captured", 3, loggingEvents.size());
+        assertEquals("The other levels should have been captured", 3, outputList.size());
     }
 
 
     @Test
     public void testInfo() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.INFO);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.INFO);
 
         configuredLogger.trace("Simple trace message");
         configuredLogger.debug("Simple debug message");
-        assertEquals("Lower levels should have been ignored", 0, loggingEvents.size());
+        assertEquals("Lower levels should have been ignored", 0, outputList.size());
 
         assertTrue("Info level should be enabled for this test", configuredLogger.isInfoEnabled());
         configuredLogger.info("Simple info message");
 
-        assertEquals("Info message should've been captured", 1, loggingEvents.size());
-        assertTrue("Message should be logged in debug level", isInfoMessage(loggingEvents.get(0)));
+        assertEquals("Info message should've been captured", 1, outputList.size());
+        assertTrue("Message should be logged in debug level", isInfoMessage(outputList.get(0)));
         assertEquals("Supplied info message wasn't found in the log",
                      "Simple info message",
-                     extractMessage(loggingEvents.get(0)));
+                     extractMessage(outputList.get(0)));
 
-        loggingEvents.clear();
+        outputList.clear();
 
         configuredLogger.warn("Simple warn message");
         configuredLogger.error("Simple error message");
-        assertEquals("The other levels should have been captured", 2, loggingEvents.size());
+        assertEquals("The other levels should have been captured", 2, outputList.size());
     }
 
     @Test
     public void testWarn() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.WARN);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.WARN);
 
         configuredLogger.trace("Simple trace message");
         configuredLogger.debug("Simple debug message");
         configuredLogger.info("Simple info message");
-        assertEquals("Lower levels should have been ignored", 0, loggingEvents.size());
+        assertEquals("Lower levels should have been ignored", 0, outputList.size());
 
         assertTrue("Warn level should be enabled for this test", configuredLogger.isWarnEnabled());
         configuredLogger.warn("Simple warn message");
 
-        assertEquals("Warn message should've been captured", 1, loggingEvents.size());
-        assertTrue("Message should be logged in warn level", isWarnMessage(loggingEvents.get(0)));
+        assertEquals("Warn message should've been captured", 1, outputList.size());
+        assertTrue("Message should be logged in warn level", isWarnMessage(outputList.get(0)));
         assertEquals("Supplied warn message wasn't found in the log",
                      "Simple warn message",
-                     extractMessage(loggingEvents.get(0)));
+                     extractMessage(outputList.get(0)));
 
-        loggingEvents.clear();
+        outputList.clear();
 
         configuredLogger.error("Simple error message");
-        assertEquals("The other levels should have been captured", 1, loggingEvents.size());
+        assertEquals("The other levels should have been captured", 1, outputList.size());
     }
 
     @Test
     public void testError() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.ERROR);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.ERROR);
 
         configuredLogger.trace("Simple trace message");
         configuredLogger.debug("Simple debug message");
         configuredLogger.info("Simple info message");
         configuredLogger.warn("Simple warn message");
-        assertEquals("Lower levels should have been ignored", 0, loggingEvents.size());
+        assertEquals("Lower levels should have been ignored", 0, outputList.size());
 
         assertTrue("Error level should be enabled for this test", configuredLogger.isErrorEnabled());
         configuredLogger.error("Simple error message");
 
-        assertEquals("Error message should've been captured", 1, loggingEvents.size());
-        assertTrue("Message should be logged in error level", isErrorMessage(loggingEvents.get(0)));
+        assertEquals("Error message should've been captured", 1, outputList.size());
+        assertTrue("Message should be logged in error level", isErrorMessage(outputList.get(0)));
         assertEquals("Supplied error message wasn't found in the log",
                      "Simple error message",
-                     extractMessage(loggingEvents.get(0)));
+                     extractMessage(outputList.get(0)));
     }
 
     @Test
     public void testFormatting() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.INFO);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.INFO);
 
         configuredLogger.info("Some {} string", "formatted");
-        assertEquals("The formatted message should've been captured", 1, loggingEvents.size());
-        assertEquals("Message should've been formatted", "Some formatted string", extractMessage(loggingEvents.get(0)));
+        assertEquals("The formatted message should've been captured", 1, outputList.size());
+        assertEquals("Message should've been formatted", "Some formatted string", extractMessage(outputList.get(0)));
     }
 
     @Test
     public void testException() {
-        ArrayList<String> loggingEvents = new ArrayList<>();
-        Logger configuredLogger = createLogger(prepareSink(loggingEvents), Level.INFO);
+        ArrayList<String> outputList = new ArrayList<>();
+        Logger configuredLogger = createLogger(prepareSink(outputList), Level.INFO);
 
         Exception exception = new RuntimeException("My error");
 
         configuredLogger.info("Logging with an exception", exception);
-        assertEquals("The formatted message should've been captured", 1, loggingEvents.size());
+        assertEquals("The formatted message should've been captured", 1, outputList.size());
         assertEquals("Message should've been formatted",
                      "My error",
-                     extractExceptionMessage(loggingEvents.get(0)));
+                     extractExceptionMessage(outputList.get(0)));
 
         assertEquals("Message should've been formatted",
                      "java.lang.RuntimeException",
-                     extractExceptionType(loggingEvents.get(0)));
+                     extractExceptionType(outputList.get(0)));
     }
 
 

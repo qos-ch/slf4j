@@ -82,12 +82,12 @@
 	</target>
 
 	<target name="testAll" depends="init, 
-		        testNoProvider150,
+		            testNoProvider150,
                 testMismatch,
                 testMatch,
-		        testMultiBinding,                
-                testFuture_16Series,
-                testActiveSecurityManager">
+		            testMultiBinding,
+                testFuture_16Series"
+                >
 	</target>
 
 
@@ -201,7 +201,7 @@
     <property name="path_to_policy" value="file:./src/policy/java-under-ant.policy"/>
   </target>
 
-
+  <!-- no longer supported in JDK 24 and later -->
 	<target name="testActiveSecurityManager" depends="setPathToPolicy_FromTop, setPathToPolicy_FromIntegration">
 		<junit printsummary="yes" fork="no" haltonfailure="yes">
       <jvmarg value="-Djava.security.manager"/>

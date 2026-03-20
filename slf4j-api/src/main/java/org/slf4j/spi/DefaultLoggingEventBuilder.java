@@ -169,10 +169,10 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     }
 
     private void logViaLocationAwareLoggerAPI(LocationAwareLogger locationAwareLogger, LoggingEvent aLoggingEvent) {
-        String msg = aLoggingEvent.getMessage();
         List<Marker> markerList = aLoggingEvent.getMarkers();
+        Marker firstMarker = (markerList != null && !markerList.isEmpty()) ? markerList.get(0) : null;
         String mergedMessage = mergeMarkersAndKeyValuePairsAndMessage(aLoggingEvent);
-        locationAwareLogger.log(null, aLoggingEvent.getCallerBoundary(), aLoggingEvent.getLevel().toInt(),
+        locationAwareLogger.log(firstMarker, aLoggingEvent.getCallerBoundary(), aLoggingEvent.getLevel().toInt(),
                                 mergedMessage,
                                 aLoggingEvent.getArgumentArray(), aLoggingEvent.getThrowable());
     }

@@ -448,7 +448,7 @@ public class SimpleLogger extends LegacyAbstractLogger {
             case LOG_LEVEL_INFO:
                 return "INFO";
             case LOG_LEVEL_WARN:
-                return "WARN";
+                return CONFIG_PARAMS.warnLevelString;
             case LOG_LEVEL_ERROR:
                 return "ERROR";
         }

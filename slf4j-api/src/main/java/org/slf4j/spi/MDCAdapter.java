@@ -93,7 +93,7 @@ public interface MDCAdapter {
     public void setContextMap(Map<String, String> contextMap);
     
     /**
-     * Push a value into the deque(stack) referenced by 'key'.
+     * Push a value into the <b>deque(stack)</b> referenced by 'key'.
      *      
      * @param key identifies the appropriate stack
      * @param value the value to push into the stack
@@ -102,7 +102,7 @@ public interface MDCAdapter {
     public void pushByKey(String key, String value);
     
     /**
-     * Pop the stack referenced by 'key' and return the value possibly null.
+     * Pop the <b>stack</b> referenced by 'key' and return the value possibly null.
      * 
      * @param key identifies the deque(stack)
      * @return the value just popped. May be null/
@@ -124,7 +124,7 @@ public interface MDCAdapter {
         return deque.peek();
     }
     /**
-     * Returns a copy of the deque(stack) referenced by 'key'. May be null.
+     * Returns a copy of the <b>deque(stack)</b> referenced by 'key'. May be null.
      * 
      * @param key identifies the  stack
      * @return copy of stack referenced by 'key'. May be null.
@@ -135,7 +135,7 @@ public interface MDCAdapter {
     
 
     /**
-     * Clear the deque(stack) referenced by 'key'. 
+     * Clear the <b>deque(stack)</b> referenced by 'key'.
      * 
      * @param key identifies the  stack
      * 

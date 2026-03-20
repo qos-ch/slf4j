@@ -63,7 +63,7 @@ import org.slf4j.spi.SLF4JServiceProvider;
 public class MDC {
 
     static final String NULL_MDCA_URL = "http://www.slf4j.org/codes.html#null_MDCA";
-    private static final String MDC_APAPTER_CANNOT_BE_NULL_MESSAGE = "MDCAdapter cannot be null. See also " + NULL_MDCA_URL;
+    private static final String MDC_ADAPTER_CANNOT_BE_NULL_MESSAGE = "MDCAdapter cannot be null. See also " + NULL_MDCA_URL;
     static final String NO_STATIC_MDC_BINDER_URL = "http://www.slf4j.org/codes.html#no_static_mdc_binder";
     static MDCAdapter MDC_ADAPTER;
 
@@ -132,7 +132,7 @@ public class MDC {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
         if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
+            throw new IllegalStateException(MDC_ADAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         getMDCAdapter().put(key, val);
     }
@@ -187,9 +187,7 @@ public class MDC {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
 
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         return getMDCAdapter().get(key);
     }
 
@@ -208,9 +206,7 @@ public class MDC {
             throw new IllegalArgumentException("key parameter cannot be null");
         }
 
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         getMDCAdapter().remove(key);
     }
 
@@ -218,9 +214,7 @@ public class MDC {
      * Clear all entries in the MDC of the underlying implementation.
      */
     public static void clear() {
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         getMDCAdapter().clear();
     }
 
@@ -232,9 +226,7 @@ public class MDC {
      * @since 1.5.1
      */
     public static Map<String, String> getCopyOfContextMap() {
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         return getMDCAdapter().getCopyOfContextMap();
     }
 
@@ -250,9 +242,7 @@ public class MDC {
      * @since 1.5.1
      */
     public static void setContextMap(Map<String, String> contextMap) {
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         getMDCAdapter().setContextMap(contextMap);
     }
 
@@ -280,7 +270,7 @@ public class MDC {
      */
     static void setMDCAdapter(MDCAdapter anMDCAdapter) {
         if(anMDCAdapter == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
+            throw new IllegalStateException(MDC_ADAPTER_CANNOT_BE_NULL_MESSAGE);
         }
         MDC_ADAPTER = anMDCAdapter;
     }
@@ -293,28 +283,24 @@ public class MDC {
      * @since 2.0.0
      */
     static public void pushByKey(String key, String value) {
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         getMDCAdapter().pushByKey(key, value);
     }
     
     /**
-     * Pop the stack referenced by 'key' and return the value possibly null.
+     * Pop the <b>stack</b> referenced by 'key' and return the value possibly null.
      * 
      * @param key identifies the deque(stack)
      * @return the value just popped. May be null/
      * @since 2.0.0
      */
     static public String popByKey(String key) {
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         return getMDCAdapter().popByKey(key);
     }
 
     /**
-     * Returns a copy of the deque(stack) referenced by 'key'. May be null.
+     * Returns a copy of the <b>deque(stack)</b> referenced by 'key'. May be null.
      * 
      * @param key identifies the  stack
      * @return copy of stack referenced by 'key'. May be null.
@@ -322,9 +308,13 @@ public class MDC {
      * @since 2.0.0
      */
     public Deque<String>  getCopyOfDequeByKey(String key) {
-        if (getMDCAdapter() == null) {
-            throw new IllegalStateException(MDC_APAPTER_CANNOT_BE_NULL_MESSAGE);
-        }
+        mdcAdapterNullCheck();
         return getMDCAdapter().getCopyOfDequeByKey(key);
+    }
+
+    private static void mdcAdapterNullCheck() {
+        if (getMDCAdapter() == null) {
+            throw new IllegalStateException(MDC_ADAPTER_CANNOT_BE_NULL_MESSAGE);
+        }
     }
 }
