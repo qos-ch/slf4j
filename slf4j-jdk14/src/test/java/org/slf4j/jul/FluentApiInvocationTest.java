@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MarkerFactory;
 
 public class FluentApiInvocationTest {
 
@@ -128,6 +129,16 @@ public class FluentApiInvocationTest {
         logger.atDebug().addKeyValue("oldT", oldT).addKeyValue("newT", newT).log("Temperature changed.");
         assertLogMessage("oldT=15 newT=16 Temperature changed.", 1);
 
+    }
+
+    @Test
+    public void messageWithMarkers() {
+        String msg = "Hello world.";
+        logger.atDebug()
+                .addMarker(MarkerFactory.getMarker("A"))
+                .addMarker(MarkerFactory.getMarker("B"))
+                .log(msg);
+        assertLogMessage("A B Hello world.", 0);
     }
 
     private void assertLogMessage(String expected, int index) {
