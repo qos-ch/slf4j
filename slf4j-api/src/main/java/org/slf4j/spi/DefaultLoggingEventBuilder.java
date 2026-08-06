@@ -32,6 +32,7 @@ import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
+import org.slf4j.helpers.Reporter;
 
 /**
  * Default implementation of {@link LoggingEventBuilder}
@@ -254,10 +255,31 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         for(KeyValuePair kvp : keyValuePairList) {
             sb.append(kvp.key);
             sb.append('=');
-            sb.append(kvp.value);
+            // Same protection as MessageFormatter.safeObjectAppend: a failing
+            // toString() (including StackOverflowError) must not abort logging.
+            // See https://github.com/qos-ch/slf4j/issues/448
+            safeObjectAppend(sb, kvp.value);
             sb.append(' ');
         }
         return sb;
+    }
+
+    /**
+     * Append {@code o} to {@code sb}, catching any {@link Throwable} thrown by
+     * {@link Object#toString()} and substituting {@code [FAILED toString()]}.
+     * Mirrors {@code MessageFormatter.safeObjectAppend}.
+     */
+    private static void safeObjectAppend(StringBuilder sb, Object o) {
+        if (o == null) {
+            sb.append("null");
+            return;
+        }
+        try {
+            sb.append(o.toString());
+        } catch (Throwable t) {
+            Reporter.error("Failed toString() invocation on an object of type [" + o.getClass().getName() + "]", t);
+            sb.append("[FAILED toString()]");
+        }
     }
 
     private String mergeMessage(String msg, StringBuilder sb) {
