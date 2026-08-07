@@ -14,7 +14,7 @@ public class Slf4jVersionTest {
 
         String version = Slf4jEnvUtil.slf4jVersion();
         assertNotNull(version);
-        assertTrue(version.startsWith("2"));
+        assertTrue(version.startsWith("3"));
 
     }
 
