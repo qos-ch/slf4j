@@ -36,9 +36,9 @@
       <optional>true</optional>
     </dependency>		
     <dependency>
-      <groupId>javassist</groupId>
+      <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>
-      <version>3.4.GA</version>
+      <version>3.30.2-GA</version>
       <optional>true</optional>
     </dependency>
   </dependencies>

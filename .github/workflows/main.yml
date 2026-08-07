@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - '*'
+      - 'origin/*'
   pull_request:
     branches:
       - '*'
@@ -26,7 +27,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        jdk: [11, 17, 19]
+        jdk: [11, 17, 19, 21, 25]
         os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: true
       max-parallel: 4

@@ -37,10 +37,10 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- used in integration testing -->
     <cal10n.version>0.8.1</cal10n.version>
-    <reload4j.version>1.2.22</reload4j.version>
+    <reload4j.version>1.2.26</reload4j.version>
     <logback.version>1.2.10</logback.version>
     <jcl.version>1.2</jcl.version>
-    <junit.version>4.13.1</junit.version>
+    <junit.version>4.13.2</junit.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>

@@ -32,7 +32,7 @@
 
 package org.slf4j.osgi.logservice.impl;
 
-import java.util.Properties;
+import java.util.Hashtable;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -57,7 +57,7 @@ public class Activator implements BundleActivator {
      */
     public void start(BundleContext bundleContext) throws Exception {
 
-        Properties props = new Properties();
+        Hashtable<String, String> props = new Hashtable<>();
         props.put("description", "An SLF4J LogService implementation.");
         ServiceFactory factory = new LogServiceFactory();
         bundleContext.registerService(LogService.class.getName(), factory, props);
