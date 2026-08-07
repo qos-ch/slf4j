@@ -36,9 +36,9 @@ import org.slf4j.Marker;
 import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.LegacyAbstractLogger;
 import org.slf4j.helpers.MessageFormatter;
-import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.helpers.SubstituteLogger;
 import org.slf4j.spi.LocationAwareLogger;
 import org.slf4j.spi.LoggingEventAware;
@@ -125,16 +125,15 @@ public final class Reload4jLoggerAdapter extends LegacyAbstractLogger implements
     @Override
     public void log(Marker marker, String callerFQCN, int level, String msg, Object[] arguments, Throwable t) {
         Level log4jLevel = toLog4jLevel(level);
-        NormalizedParameters np = NormalizedParameters.normalize(msg, arguments, t);
-        String formattedMessage = MessageFormatter.basicArrayFormat(np.getMessage(), np.getArguments());
-        logger.log(callerFQCN, log4jLevel, formattedMessage, np.getThrowable());
+        FormattingTuple formattedMessage = MessageFormatter.arrayFormat(msg, arguments, t);
+        logger.log(callerFQCN, log4jLevel, formattedMessage.getMessage(), formattedMessage.getThrowable());
     }
 
     @Override
     protected void handleNormalizedLoggingCall(org.slf4j.event.Level level, Marker marker, String msg, Object[] arguments, Throwable throwable) {
         Level log4jLevel = toLog4jLevel(level.toInt());
-        String formattedMessage = MessageFormatter.basicArrayFormat(msg, arguments);
-        logger.log(getFullyQualifiedCallerName(), log4jLevel, formattedMessage, throwable);
+        FormattingTuple formattedMessage = MessageFormatter.arrayFormat(msg, arguments, throwable);
+        logger.log(getFullyQualifiedCallerName(), log4jLevel, formattedMessage.getMessage(), formattedMessage.getThrowable());
     }
 
     /**
