@@ -34,19 +34,23 @@ import org.slf4j.event.EventRecordingLogger;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.event.SubstituteLoggingEvent;
+import org.slf4j.spi.CallerBoundaryAware;
+import org.slf4j.spi.LocationAwareLogger;
 import org.slf4j.spi.LoggingEventBuilder;
 
 /**
  * A logger implementation which logs via a delegate logger. By default, the delegate is a
  * {@link NOPLogger}. However, a different delegate can be set at any time.
- * 
+ *
  * <p>See also the <a href="http://www.slf4j.org/codes.html#substituteLogger">relevant
  * error code</a> documentation.
  *
  * @author Chetan Mehrotra
  * @author Ceki Gulcu
  */
-public class SubstituteLogger implements Logger {
+public class SubstituteLogger implements LocationAwareLogger {
+
+    private static final String SELF = SubstituteLogger.class.getName();
 
     private final String name;
     private volatile Logger _delegate;
@@ -90,27 +94,27 @@ public class SubstituteLogger implements Logger {
     
     @Override
     public void trace(String msg) {
-        delegate().trace(msg);
+        internalEventBuilder(Level.TRACE).log(msg);
     }
     
     @Override
     public void trace(String format, Object arg) {
-        delegate().trace(format, arg);
+        internalEventBuilder(Level.TRACE).log(format, arg);
     }
     
     @Override
     public void trace(String format, Object arg1, Object arg2) {
-        delegate().trace(format, arg1, arg2);
+        internalEventBuilder(Level.TRACE).log(format, arg1, arg2);
     }
     
     @Override
     public void trace(String format, Object... arguments) {
-        delegate().trace(format, arguments);
-    } 
-    
+        internalEventBuilder(Level.TRACE).log(format, arguments);
+    }
+
     @Override
     public void trace(String msg, Throwable t) {
-        delegate().trace(msg, t);
+        internalEventBuilder(Level.TRACE).setCause(t).log(msg);
     }
     
     @Override
@@ -120,25 +124,25 @@ public class SubstituteLogger implements Logger {
     
     @Override
     public void trace(Marker marker, String msg) {
-        delegate().trace(marker, msg);
+        internalEventBuilder(marker, Level.TRACE).log(msg);
     }
     
     @Override
     public void trace(Marker marker, String format, Object arg) {
-        delegate().trace(marker, format, arg);
+        internalEventBuilder(marker, Level.TRACE).log(format, arg);
     }
     
     @Override
     public void trace(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().trace(marker, format, arg1, arg2);
+        internalEventBuilder(marker, Level.TRACE).log(format, arg1, arg2);
     }
     @Override
     public void trace(Marker marker, String format, Object... arguments) {
-        delegate().trace(marker, format, arguments);
+        internalEventBuilder(marker, Level.TRACE).log(format, arguments);
     }
     @Override
     public void trace(Marker marker, String msg, Throwable t) {
-        delegate().trace(marker, msg, t);
+        internalEventBuilder(marker, Level.TRACE).setCause(t).log(msg);
     }
     
     @Override
@@ -153,27 +157,27 @@ public class SubstituteLogger implements Logger {
     
     @Override
     public void debug(String msg) {
-        delegate().debug(msg);
+        internalEventBuilder(Level.DEBUG).log(msg);
     }
     
     @Override
     public void debug(String format, Object arg) {
-        delegate().debug(format, arg);
+        internalEventBuilder(Level.DEBUG).log(format, arg);
     }
     
     @Override
     public void debug(String format, Object arg1, Object arg2) {
-        delegate().debug(format, arg1, arg2);
+        internalEventBuilder(Level.DEBUG).log(format, arg1, arg2);
     }
     
     @Override
     public void debug(String format, Object... arguments) {
-        delegate().debug(format, arguments);
+        internalEventBuilder(Level.DEBUG).log(format, arguments);
     }
     
     @Override
     public void debug(String msg, Throwable t) {
-        delegate().debug(msg, t);
+        internalEventBuilder(Level.DEBUG).setCause(t).log(msg);
     }
     
     @Override
@@ -183,232 +187,232 @@ public class SubstituteLogger implements Logger {
     
     @Override
     public void debug(Marker marker, String msg) {
-        delegate().debug(marker, msg);
+        internalEventBuilder(marker, Level.DEBUG).log(msg);
     }
     
     @Override
     public void debug(Marker marker, String format, Object arg) {
-        delegate().debug(marker, format, arg);
+        internalEventBuilder(marker, Level.DEBUG).log(format, arg);
     }
     
     @Override
     public void debug(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().debug(marker, format, arg1, arg2);
+        internalEventBuilder(marker, Level.DEBUG).log(format, arg1, arg2);
     }
     
     @Override
     public void debug(Marker marker, String format, Object... arguments) {
-        delegate().debug(marker, format, arguments);
+        internalEventBuilder(marker, Level.DEBUG).log(format, arguments);
     }
     
     @Override
     public void debug(Marker marker, String msg, Throwable t) {
-        delegate().debug(marker, msg, t);
+        internalEventBuilder(marker, Level.DEBUG).setCause(t).log(msg);
     }
     
     @Override
     public LoggingEventBuilder atDebug() {
         return delegate().atDebug();
     }
-    
+
     @Override
     public boolean isInfoEnabled() {
         return delegate().isInfoEnabled();
     }
 
-    
+
     @Override
     public void info(String msg) {
-        delegate().info(msg);
+        internalEventBuilder(Level.INFO).log(msg);
     }
-    
+
     @Override
     public void info(String format, Object arg) {
-        delegate().info(format, arg);
+        internalEventBuilder(Level.INFO).log(format, arg);
     }
-    
+
     @Override
     public void info(String format, Object arg1, Object arg2) {
-        delegate().info(format, arg1, arg2);
+        internalEventBuilder(Level.INFO).log(format, arg1, arg2);
     }
-    
+
     @Override
     public void info(String format, Object... arguments) {
-        delegate().info(format, arguments);
+        internalEventBuilder(Level.INFO).log(format, arguments);
     }
-    
+
     @Override
     public void info(String msg, Throwable t) {
-        delegate().info(msg, t);
+        internalEventBuilder(Level.INFO).setCause(t).log(msg);
     }
-    
+
     @Override
     public boolean isInfoEnabled(Marker marker) {
         return delegate().isInfoEnabled(marker);
     }
-    
+
     @Override
     public void info(Marker marker, String msg) {
-        delegate().info(marker, msg);
+        internalEventBuilder(marker, Level.INFO).log(msg);
     }
-    
+
     @Override
     public void info(Marker marker, String format, Object arg) {
-        delegate().info(marker, format, arg);
+        internalEventBuilder(marker, Level.INFO).log(format, arg);
     }
-    
+
     @Override
     public void info(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().info(marker, format, arg1, arg2);
+        internalEventBuilder(marker, Level.INFO).log(format, arg1, arg2);
     }
-    
+
     @Override
     public void info(Marker marker, String format, Object... arguments) {
-        delegate().info(marker, format, arguments);
+        internalEventBuilder(marker, Level.INFO).log(format, arguments);
     }
-    
+
     @Override
     public void info(Marker marker, String msg, Throwable t) {
-        delegate().info(marker, msg, t);
+        internalEventBuilder(marker, Level.INFO).setCause(t).log(msg);
     }
-    
+
     @Override
     public LoggingEventBuilder atInfo() {
         return delegate().atInfo();
     }
 
-    
+
     @Override
     public boolean isWarnEnabled() {
         return delegate().isWarnEnabled();
     }
-    
+
     @Override
     public void warn(String msg) {
-        delegate().warn(msg);
+        internalEventBuilder(Level.WARN).log(msg);
     }
-    
+
     @Override
     public void warn(String format, Object arg) {
-        delegate().warn(format, arg);
+        internalEventBuilder(Level.WARN).log(format, arg);
     }
-    
+
     @Override
     public void warn(String format, Object arg1, Object arg2) {
-        delegate().warn(format, arg1, arg2);
+        internalEventBuilder(Level.WARN).log(format, arg1, arg2);
     }
-    
+
     @Override
     public void warn(String format, Object... arguments) {
-        delegate().warn(format, arguments);
+        internalEventBuilder(Level.WARN).log(format, arguments);
     }
-    
+
     @Override
     public void warn(String msg, Throwable t) {
-        delegate().warn(msg, t);
+        internalEventBuilder(Level.WARN).setCause(t).log(msg);
     }
 
     public boolean isWarnEnabled(Marker marker) {
         return delegate().isWarnEnabled(marker);
     }
-    
+
     @Override
     public void warn(Marker marker, String msg) {
-        delegate().warn(marker, msg);
+        internalEventBuilder(marker, Level.WARN).log(msg);
     }
-    
+
     @Override
     public void warn(Marker marker, String format, Object arg) {
-        delegate().warn(marker, format, arg);
+        internalEventBuilder(marker, Level.WARN).log(format, arg);
     }
-    
+
     @Override
     public void warn(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().warn(marker, format, arg1, arg2);
+        internalEventBuilder(marker, Level.WARN).log(format, arg1, arg2);
     }
-    
+
     @Override
     public void warn(Marker marker, String format, Object... arguments) {
-        delegate().warn(marker, format, arguments);
+        internalEventBuilder(marker, Level.WARN).log(format, arguments);
     }
-    
+
     @Override
     public void warn(Marker marker, String msg, Throwable t) {
-        delegate().warn(marker, msg, t);
+        internalEventBuilder(marker, Level.WARN).setCause(t).log(msg);
     }
-    
+
     @Override
     public LoggingEventBuilder atWarn() {
         return delegate().atWarn();
     }
 
-    
-    
+
+
     @Override
     public boolean isErrorEnabled() {
         return delegate().isErrorEnabled();
     }
-    
+
     @Override
     public void error(String msg) {
-        delegate().error(msg);
+        internalEventBuilder(Level.ERROR).log(msg);
     }
-    
+
     @Override
     public void error(String format, Object arg) {
-        delegate().error(format, arg);
+        internalEventBuilder(Level.ERROR).log(format, arg);
     }
-    
+
     @Override
     public void error(String format, Object arg1, Object arg2) {
-        delegate().error(format, arg1, arg2);
+        internalEventBuilder(Level.ERROR).log(format, arg1, arg2);
     }
-    
+
     @Override
     public void error(String format, Object... arguments) {
-        delegate().error(format, arguments);
+        internalEventBuilder(Level.ERROR).log(format, arguments);
     }
-    
+
     @Override
     public void error(String msg, Throwable t) {
-        delegate().error(msg, t);
+        internalEventBuilder(Level.ERROR).setCause(t).log(msg);
     }
-    
+
     @Override
     public boolean isErrorEnabled(Marker marker) {
         return delegate().isErrorEnabled(marker);
     }
-    
+
     @Override
     public void error(Marker marker, String msg) {
-        delegate().error(marker, msg);
+        internalEventBuilder(marker, Level.ERROR).log(msg);
     }
-    
+
     @Override
     public void error(Marker marker, String format, Object arg) {
-        delegate().error(marker, format, arg);
+        internalEventBuilder(marker, Level.ERROR).log(format, arg);
     }
-    
+
     @Override
     public void error(Marker marker, String format, Object arg1, Object arg2) {
-        delegate().error(marker, format, arg1, arg2);
+        internalEventBuilder(marker, Level.ERROR).log(format, arg1, arg2);
     }
-    
+
     @Override
     public void error(Marker marker, String format, Object... arguments) {
-        delegate().error(marker, format, arguments);
+        internalEventBuilder(marker, Level.ERROR).log(format, arguments);
     }
-    
+
     @Override
     public void error(Marker marker, String msg, Throwable t) {
-        delegate().error(marker, msg, t);
+        internalEventBuilder(marker, Level.ERROR).setCause(t).log(msg);
     }
 
     @Override
     public LoggingEventBuilder atError() {
         return delegate().atError();
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -471,7 +475,7 @@ public class SubstituteLogger implements Logger {
         }
         return delegateEventAware;
     }
-    
+
     public void log(LoggingEvent event) {
         if (isDelegateEventAware()) {
             try {
@@ -490,4 +494,44 @@ public class SubstituteLogger implements Logger {
     public boolean isDelegateNOP() {
         return _delegate instanceof NOPLogger;
     }
+
+    @Override
+    public void log(Marker marker, String fqcn, int level, String message, Object[] argArray, Throwable t) {
+        Logger delegate = delegate();
+        if (delegate instanceof LocationAwareLogger) {
+            ((LocationAwareLogger) delegate).log(marker, fqcn, level, message, argArray, t);
+        } else {
+            // Unless the delegate implements `LoggingEventAware` the caller boundary information will be lost,
+            // but this spares us the trouble of calling the class API.
+            LoggingEventBuilder builder =
+                    delegate.atLevel(Level.intToLevel(level)).addMarker(marker).setCause(t);
+            if (builder instanceof CallerBoundaryAware) {
+                ((CallerBoundaryAware) builder).setCallerBoundary(fqcn);
+            }
+            builder.log(message, argArray);
+        }
+    }
+
+    /**
+     * Creates a {@link LoggingEventBuilder} used within a method of this class.
+     */
+    private LoggingEventBuilder internalEventBuilder(Level level) {
+        LoggingEventBuilder builder = delegate().makeLoggingEventBuilder(level);
+        if (builder instanceof CallerBoundaryAware) {
+            ((CallerBoundaryAware) builder).setCallerBoundary(SELF);
+        }
+        return builder;
+    }
+
+    /**
+     * Creates a {@link LoggingEventBuilder} used within a method of this class.
+     */
+    private LoggingEventBuilder internalEventBuilder(Marker marker, Level level) {
+        LoggingEventBuilder builder = delegate().makeLoggingEventBuilder(level).addMarker(marker);
+        if (builder instanceof CallerBoundaryAware) {
+            ((CallerBoundaryAware) builder).setCallerBoundary(SELF);
+        }
+        return builder;
+    }
+
 }
