@@ -34,7 +34,7 @@ public class Reload4jServiceProvider implements SLF4JServiceProvider {
             @SuppressWarnings("unused")
             Level level = Level.TRACE;
         } catch (NoSuchFieldError nsfe) {
-            Reporter.error("This version of SLF4J requires log4j version 1.2.12 or later. See also http://www.slf4j.org/codes.html#log4j_version");
+            Reporter.error("This version of SLF4J requires log4j version 1.2.12 or later. See also https://www.slf4j.org/codes.html#log4j_version");
         }
     }
 

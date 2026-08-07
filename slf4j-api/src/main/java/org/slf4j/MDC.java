@@ -62,9 +62,9 @@ import org.slf4j.spi.SLF4JServiceProvider;
  */
 public class MDC {
 
-    static final String NULL_MDCA_URL = "http://www.slf4j.org/codes.html#null_MDCA";
+    static final String NULL_MDCA_URL = "https://www.slf4j.org/codes.html#null_MDCA";
     private static final String MDC_ADAPTER_CANNOT_BE_NULL_MESSAGE = "MDCAdapter cannot be null. See also " + NULL_MDCA_URL;
-    static final String NO_STATIC_MDC_BINDER_URL = "http://www.slf4j.org/codes.html#no_static_mdc_binder";
+    static final String NO_STATIC_MDC_BINDER_URL = "https://www.slf4j.org/codes.html#no_static_mdc_binder";
     static MDCAdapter MDC_ADAPTER;
 
     /**

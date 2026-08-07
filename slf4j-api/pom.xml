@@ -17,7 +17,7 @@
   <name>SLF4J API Module</name>
   <description>The slf4j API</description>
 
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
 
   <properties>
     <module-name>org.slf4j</module-name>

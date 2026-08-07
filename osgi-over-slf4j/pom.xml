@@ -16,7 +16,7 @@
   <packaging>jar</packaging>
   <name>OSGi LogService implemented over SLF4J</name>
 
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
   <description>
     OSGi LogService implementation over SLF4J
   </description>

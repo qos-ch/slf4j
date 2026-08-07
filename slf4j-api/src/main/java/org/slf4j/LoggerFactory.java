@@ -465,7 +465,7 @@ public final class LoggerFactory {
      *
      *
      * @see <a
-     *      href="http://www.slf4j.org/codes.html#loggerNameMismatch">Detected
+     *      href="https://www.slf4j.org/codes.html#loggerNameMismatch">Detected
      *      logger name mismatch</a>
      */
     public static Logger getLogger(Class<?> clazz) {

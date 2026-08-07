@@ -17,7 +17,7 @@
   <name>Log4j Implemented Over SLF4J</name>
   <description>Log4j implemented over SLF4J</description>
 
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
 
   <licenses>
     <license>

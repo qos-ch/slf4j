@@ -9,7 +9,7 @@
   <version>2.0.19-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <url>http://www.slf4j.org</url>
+  <url>https://www.slf4j.org</url>
 
   <name>SLF4J BOM</name>
   <description>SLF4J project BOM</description>
