@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2004-2021 QOS.ch
  * All rights reserved.
- *
+ * <p>
  * Permission is hereby granted, free  of charge, to any person obtaining
  * a  copy  of this  software  and  associated  documentation files  (the
  * "Software"), to  deal in  the Software without  restriction, including
@@ -9,10 +9,10 @@
  * distribute,  sublicense, and/or sell  copies of  the Software,  and to
  * permit persons to whom the Software  is furnished to do so, subject to
  * the following conditions:
- *
+ * <p>
  * The  above  copyright  notice  and  this permission  notice  shall  be
  * included in all copies or substantial portions of the Software.
- *
+ * <p>
  * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
  * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
  * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
@@ -42,7 +42,7 @@ import org.slf4j.spi.LoggingEventBuilder;
 class SLF4JPlatformLogger implements System.Logger {
 
     static private final String PRESUMED_CALLER_BOUNDARY = System.Logger.class.getName();
-                    
+
     private final Logger slf4jLogger;
 
     public SLF4JPlatformLogger(Logger logger) {
@@ -59,12 +59,12 @@ class SLF4JPlatformLogger implements System.Logger {
 
     @Override
     public boolean isLoggable(Level jplLevel) {
-        if (jplLevel == Level.ALL)
-            return true;
-        if (jplLevel == Level.OFF)
-            return true;
+        // If called via log method, fixExtremeLevels has been called. System.Logger.Level.ALL and Level.OFF have
+        // been respectively mapped to Level.TRACE and Level.ERROR.
+        // However, if  isLoggable is called directly, we must fix the extreme levels here as well.
+        final Level jplLevelReduced = fixExtremeLevels(jplLevel);
 
-        org.slf4j.event.Level slf4jLevel = jplLevelToSLF4JLevel(jplLevel);
+        org.slf4j.event.Level slf4jLevel = jplLevelToSLF4JLevel(jplLevelReduced);
 
         return slf4jLogger.isEnabledForLevel(slf4jLevel);
     }
@@ -72,27 +72,27 @@ class SLF4JPlatformLogger implements System.Logger {
 
     /**
      * Transform a {@link Level} to {@link org.slf4j.event.Level}.
-     * 
+     *
      * This method assumes that Level.ALL or Level.OFF never reach this method.
-     * 
+     *
      * @param jplLevel
      * @return
      */
     private org.slf4j.event.Level jplLevelToSLF4JLevel(Level jplLevel) {
-        switch (jplLevel) {
-        case TRACE:
-            return org.slf4j.event.Level.TRACE;
-        case DEBUG:
-            return org.slf4j.event.Level.DEBUG;
-        case INFO:
-            return org.slf4j.event.Level.INFO;
-        case WARNING:
-            return org.slf4j.event.Level.WARN;
-        case ERROR:
-            return org.slf4j.event.Level.ERROR;
-        default:
-            reportUnknownLevel(jplLevel);
-            return null;
+        switch(jplLevel) {
+            case TRACE:
+                return org.slf4j.event.Level.TRACE;
+            case DEBUG:
+                return org.slf4j.event.Level.DEBUG;
+            case INFO:
+                return org.slf4j.event.Level.INFO;
+            case WARNING:
+                return org.slf4j.event.Level.WARN;
+            case ERROR:
+                return org.slf4j.event.Level.ERROR;
+            default:
+                reportUnknownLevel(jplLevel);
+                return null;
         }
     }
 
@@ -108,8 +108,8 @@ class SLF4JPlatformLogger implements System.Logger {
 
     /**
      * Single point of processing taking all possible parameters.
-     * 
-     * @param jplLevel 
+     *
+     * @param jplLevel
      * @param bundle
      * @param msg
      * @param thrown
@@ -122,7 +122,7 @@ class SLF4JPlatformLogger implements System.Logger {
         org.slf4j.event.Level slf4jLevel = jplLevelToSLF4JLevel(jplLevelReduced);
         boolean isEnabled = slf4jLogger.isEnabledForLevel(slf4jLevel);
 
-        if (isEnabled) {
+        if(isEnabled) {
             performLog(slf4jLevel, bundle, msg, thrown, params);
         }
     }
@@ -139,10 +139,10 @@ class SLF4JPlatformLogger implements System.Logger {
      * @return
      */
     private Level fixExtremeLevels(Level jplLevel) {
-        if (jplLevel == Level.OFF)
-            return  Level.ERROR;
+        if(jplLevel == Level.OFF)
+            return Level.ERROR;
 
-        if (jplLevel == Level.ALL)
+        if(jplLevel == Level.ALL)
             return Level.TRACE;
 
         return jplLevel;
@@ -151,18 +151,18 @@ class SLF4JPlatformLogger implements System.Logger {
     private void performLog(org.slf4j.event.Level slf4jLevel, ResourceBundle bundle, String msg, Throwable thrown, Object... params) {
         String message = getResourceStringOrMessage(bundle, msg);
         LoggingEventBuilder leb = slf4jLogger.makeLoggingEventBuilder(slf4jLevel);
-        if (thrown != null) {
+        if(thrown != null) {
             leb = leb.setCause(thrown);
         }
-        if (params != null && params.length > 0) {
+        if(params != null && params.length > 0) {
             // add the arguments to the logging event for possible processing by the backend
-            for (Object p : params) {
+            for(Object p : params) {
                 leb = leb.addArgument(p);
             }
             // The JDK uses a different formatting convention. We must invoke it now.
             message = MessageFormat.format(message, params);
         }
-        if (leb instanceof CallerBoundaryAware) {
+        if(leb instanceof CallerBoundaryAware) {
             CallerBoundaryAware cba = (CallerBoundaryAware) leb;
             cba.setCallerBoundary(PRESUMED_CALLER_BOUNDARY);
         }
@@ -176,7 +176,7 @@ class SLF4JPlatformLogger implements System.Logger {
     }
 
     private static String getResourceStringOrMessage(ResourceBundle bundle, String msg) {
-        if (bundle == null || msg == null)
+        if(bundle == null || msg == null)
             return msg;
         // ResourceBundle::getString throws:
         //
