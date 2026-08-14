@@ -78,6 +78,7 @@ public class CallerInfoTest {
 
         LogRecord logRecod = recordList.get(0);
         assertEquals(this.getClass().getName(), logRecod.getSourceClassName());
+        assertEquals("testCallerInfoWithFluentAPI", logRecod.getSourceMethodName());
     }
 
     @Test
