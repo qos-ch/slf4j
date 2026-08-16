@@ -53,7 +53,11 @@ public interface SLF4JServiceProvider {
      * Initialize the logging back-end.
      * 
      * <p><b>WARNING:</b> This method is intended to be called once by 
-     * {@link LoggerFactory} class and from nowhere else. 
+     * {@link LoggerFactory} class and from nowhere else.
+     *
+     * <p>{@link LoggerFactory} invokes this method before calling
+     * {@link #getLoggerFactory()}, {@link #getMarkerFactory()} or
+     * {@link #getMDCAdapter()}.
      * 
      */
     public void initialize();
