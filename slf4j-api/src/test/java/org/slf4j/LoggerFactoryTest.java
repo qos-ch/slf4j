@@ -66,7 +66,7 @@ public class LoggerFactoryTest {
     }
 
     @Test
-    public void initializeIsInvokedBeforeGetMDCAdapter() {
+    public void testInitializeIsInvokedBeforeGetMDCAdapter() {
         DelayedMdcInitProvider.reset();
         System.setProperty(LoggerFactory.PROVIDER_PROPERTY_KEY, DelayedMdcInitProvider.class.getName());
         LoggerFactory.reset();
@@ -76,7 +76,10 @@ public class LoggerFactoryTest {
             assertTrue(loggerFactory instanceof NOPLoggerFactory);
             assertTrue(DelayedMdcInitProvider.initialized);
             assertFalse(DelayedMdcInitProvider.getMdcAdapterCalledBeforeInitialize);
-            assertSame(DelayedMdcInitProvider.mdcAdapter, MDC.getMDCAdapter());
+            assertNotNull(DelayedMdcInitProvider.substituteAdapterSeenDuringInit);
+            MDCAdapter boundAdapter = MDC.getMDCAdapter();
+            assertSame(DelayedMdcInitProvider.mdcAdapter, boundAdapter);
+            assertNotSame(DelayedMdcInitProvider.substituteAdapterSeenDuringInit, boundAdapter);
         } finally {
             LoggerFactory.reset();
             MDC.MDC_ADAPTER = null;
@@ -119,11 +122,13 @@ public class LoggerFactoryTest {
         static volatile boolean initialized;
         static volatile boolean getMdcAdapterCalledBeforeInitialize;
         static volatile MDCAdapter mdcAdapter;
+        static volatile MDCAdapter substituteAdapterSeenDuringInit;
 
         static void reset() {
             initialized = false;
             getMdcAdapterCalledBeforeInitialize = false;
             mdcAdapter = null;
+            substituteAdapterSeenDuringInit = null;
         }
 
         private ILoggerFactory loggerFactory;
@@ -157,6 +162,10 @@ public class LoggerFactoryTest {
         public void initialize() {
             loggerFactory = new NOPLoggerFactory();
             markerFactory = new BasicMarkerFactory();
+            // Mimic real providers that touch MDC during initialize() while LoggerFactory
+            // is still ONGOING_INITIALIZATION — returns SUBST_PROVIDER's BasicMDCAdapter.
+            substituteAdapterSeenDuringInit = MDC.getMDCAdapter();
+            MDC.put("delayed-init-key", "delayed-init-value");
             mdcAdapter = new NOPMDCAdapter();
             initialized = true;
         }
