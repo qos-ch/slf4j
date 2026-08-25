@@ -14,14 +14,9 @@ More information can be found on the [SLF4J website](http://www.slf4j.org).
 
 # In case of problems
 
-In case of problems please do not hesitate to post an e-mail message
-on the [slf4j-user@qos.ch](https://mailman.qos.ch/cgi-bin/mailman/listinfo/slf4j-user)
-mailing list or to start a <a
+In case of problems please do not hesitate to post to start a <a
 href="https://github.com/qos-ch/slf4j/discussions">discussion</a> on
-github.  However, please do not directly e-mail SLF4J developers. The
-answer to your question might be useful to other users. Moreover,
-there are many knowledgeable users on the slf4j-user mailing lists who
-can quickly answer your questions.
+github.  Please do not directly e-mail SLF4J developers. 
 
 # Urgent issues
 
@@ -42,9 +37,7 @@ If you are interested in improving SLF4J, that is great! The SLF4J
 community looks forward to your contribution. Please follow this
 process:
 
-1. Start a discussion on the [slf4j-dev mailing
-list](http://www.slf4j.org/mailing-lists.html) about your proposed
-change. Alternately, file a [bug
+1. File a [bug
 report](https://github.com/qos-ch/slf4j/issues) on github to initiate the
 discussion. 
 
