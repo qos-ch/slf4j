@@ -196,9 +196,9 @@ public final class LoggerFactory {
             reportMultipleBindingAmbiguity(providersList);
             if (providersList != null && !providersList.isEmpty()) {
                 PROVIDER = providersList.get(0);
-                earlyBindMDCAdapter();
                 // SLF4JServiceProvider.initialize() is intended to be called here and nowhere else.
                 PROVIDER.initialize();
+                bindMDCAdapter();
                 INITIALIZATION_STATE = SUCCESSFUL_INITIALIZATION;
                 reportActualBinding(providersList);
             } else {
@@ -218,12 +218,10 @@ public final class LoggerFactory {
     }
 
     /**
-     * The value of PROVIDER.getMDCAdapter() can be null while PROVIDER has not yet initialized.
-     *
-     * However, SLF4JServiceProvider implementations are expected to initialize their internal
-     * MDCAdapter field in their constructor or on field declaration.
+     * Bind the provider MDC adapter after {@link SLF4JServiceProvider#initialize()}.
+     * Providers that create their adapter in {@code initialize()} must not be queried beforehand.
      */
-    private static void earlyBindMDCAdapter() {
+    private static void bindMDCAdapter() {
         MDCAdapter mdcAdapter = PROVIDER.getMDCAdapter();
         if(mdcAdapter != null) {
             MDC.setMDCAdapter(mdcAdapter);

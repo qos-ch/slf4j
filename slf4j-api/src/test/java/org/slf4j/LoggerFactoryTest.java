@@ -3,6 +3,9 @@ package org.slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.helpers.BasicMarkerFactory;
+import org.slf4j.helpers.NOPLoggerFactory;
+import org.slf4j.helpers.NOPMDCAdapter;
 import org.slf4j.spi.MDCAdapter;
 import org.slf4j.spi.SLF4JServiceProvider;
 
@@ -62,6 +65,28 @@ public class LoggerFactoryTest {
         assertTrue(mockedSyserr.toString().contains("Specified SLF4JServiceProvider (java.lang.String) does not implement SLF4JServiceProvider interface"));
     }
 
+    @Test
+    public void testInitializeIsInvokedBeforeGetMDCAdapter() {
+        DelayedMdcInitProvider.reset();
+        System.setProperty(LoggerFactory.PROVIDER_PROPERTY_KEY, DelayedMdcInitProvider.class.getName());
+        LoggerFactory.reset();
+        MDC.MDC_ADAPTER = null;
+        try {
+            ILoggerFactory loggerFactory = LoggerFactory.getILoggerFactory();
+            assertTrue(loggerFactory instanceof NOPLoggerFactory);
+            assertTrue(DelayedMdcInitProvider.initialized);
+            assertFalse(DelayedMdcInitProvider.getMdcAdapterCalledBeforeInitialize);
+            assertNotNull(DelayedMdcInitProvider.substituteAdapterSeenDuringInit);
+            MDCAdapter boundAdapter = MDC.getMDCAdapter();
+            assertSame(DelayedMdcInitProvider.mdcAdapter, boundAdapter);
+            assertNotSame(DelayedMdcInitProvider.substituteAdapterSeenDuringInit, boundAdapter);
+        } finally {
+            LoggerFactory.reset();
+            MDC.MDC_ADAPTER = null;
+            DelayedMdcInitProvider.reset();
+        }
+    }
+
     public static class TestingProvider implements SLF4JServiceProvider {
         @Override
         public ILoggerFactory getLoggerFactory() {
@@ -86,6 +111,63 @@ public class LoggerFactoryTest {
         @Override
         public void initialize() {
 
+        }
+    }
+
+    /**
+     * Provider that creates its MDC adapter in {@code initialize()}, matching
+     * implementations that throw if {@code getMDCAdapter()} is called first.
+     */
+    public static class DelayedMdcInitProvider implements SLF4JServiceProvider {
+        static volatile boolean initialized;
+        static volatile boolean getMdcAdapterCalledBeforeInitialize;
+        static volatile MDCAdapter mdcAdapter;
+        static volatile MDCAdapter substituteAdapterSeenDuringInit;
+
+        static void reset() {
+            initialized = false;
+            getMdcAdapterCalledBeforeInitialize = false;
+            mdcAdapter = null;
+            substituteAdapterSeenDuringInit = null;
+        }
+
+        private ILoggerFactory loggerFactory;
+        private IMarkerFactory markerFactory;
+
+        @Override
+        public ILoggerFactory getLoggerFactory() {
+            return loggerFactory;
+        }
+
+        @Override
+        public IMarkerFactory getMarkerFactory() {
+            return markerFactory;
+        }
+
+        @Override
+        public MDCAdapter getMDCAdapter() {
+            if (!initialized) {
+                getMdcAdapterCalledBeforeInitialize = true;
+                throw new IllegalStateException("getMDCAdapter() called before initialize()");
+            }
+            return mdcAdapter;
+        }
+
+        @Override
+        public String getRequestedApiVersion() {
+            return "2.0.99";
+        }
+
+        @Override
+        public void initialize() {
+            loggerFactory = new NOPLoggerFactory();
+            markerFactory = new BasicMarkerFactory();
+            // Mimic real providers that touch MDC during initialize() while LoggerFactory
+            // is still ONGOING_INITIALIZATION — returns SUBST_PROVIDER's BasicMDCAdapter.
+            substituteAdapterSeenDuringInit = MDC.getMDCAdapter();
+            MDC.put("delayed-init-key", "delayed-init-value");
+            mdcAdapter = new NOPMDCAdapter();
+            initialized = true;
         }
     }
 }
