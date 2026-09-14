@@ -52,6 +52,24 @@ public class ThreadLocalMapOfStacks {
         return deque.pop();
     }
 
+    /**
+     * Returns the top value without removing it, or null for a missing or empty stack.
+     *
+     * @param key identifies the stack
+     * @return the top value, or null for a missing or empty stack
+     * @since 3.0.0
+     */
+    public String peekByKey(String key) {
+        if (key == null)
+            return null;
+
+        Map<String, Deque<String>> map = tlMapOfStacks.get();
+        if (map == null)
+            return null;
+        Deque<String> deque = map.get(key);
+        return deque == null ? null : deque.peek();
+    }
+
     public Deque<String> getCopyOfDequeByKey(String key) {
         if (key == null)
             return null;
