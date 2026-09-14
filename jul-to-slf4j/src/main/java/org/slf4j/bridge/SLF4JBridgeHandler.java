@@ -41,8 +41,8 @@ import org.slf4j.spi.LocationAwareLogger;
 /**
  * <p>Bridge/route all JUL log records to the SLF4J API.
  * <p>Essentially, the idea is to install on the root logger an instance of
- * <code>SLF4JBridgeHandler</code> as the sole JUL handler in the system. Subsequently, the
- * SLF4JBridgeHandler instance will redirect all JUL log records are redirected
+ * {@link SLF4JBridgeHandler} as the sole JUL handler in the system. Subsequently, the
+ * <code>SLF4JBridgeHandler</code> instance will redirect all JUL log records are redirected
  * to the SLF4J API based on the following mapping of levels:
  * 
  * <pre>
@@ -92,13 +92,10 @@ import org.slf4j.spi.LocationAwareLogger;
  *
  * <h2>As a Java 9/Jigsaw module</h2>
  * 
- * <p>Given that <b>to</b> is a reserved keyword under Java 9 within module productions, 
- * the MANIFEST.MF file in <em>jul-to-slf4j.jar</em> declares <b>jul_to_slf4j</b> as
- * its Automatic Module Name. Thus, if your application is Jigsaw modularized, the requires 
- * statement in your <em>module-info.java</em> needs to be <b>jul_to_slf4j</b> 
- * (note the two underscores).
+ * <p>As of SLF4J 2.0x, the module name for <em>jul-to-slf4j.jar</em> is
+ *  <b>jul.to.slf4j</b>. In SLF4J 1.7.x it was declared via an Automatic-Module-Name statement
+ *  as <b>jul_to_slf4j</b> (note the two underscores).
  *
- * 
  * @author Christian Stein
  * @author Joern Huxhorn
  * @author Ceki G&uuml;lc&uuml;

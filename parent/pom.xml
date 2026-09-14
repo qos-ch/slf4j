@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-bom</artifactId>
-    <version>2.0.18-SNAPSHOT</version>
+    <version>3.0.0-alpha0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -18,7 +18,7 @@
 
 
   <organization>
-    <name>QOS.ch</name>
+    <name>QOS.CH Sarl</name>
     <url>http://www.qos.ch</url>
   </organization>
   <inceptionYear>2005</inceptionYear>
@@ -26,29 +26,30 @@
 
   <properties>
     <!-- yyyy-MM-dd'T'HH:mm:ss'Z' -->
-    <project.build.outputTimestamp>2025-02-25T17:40:06Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-08-07T12:57:07Z</project.build.outputTimestamp>
     <latest.1.version>1.7.36</latest.1.version>
     <!-- java.util.ServiceLoader requires Java 6 -->
-    <jdk.version>8</jdk.version>
+    <jdk.version>11</jdk.version>
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <maven.compiler.target>${jdk.version}</maven.compiler.target>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- used in integration testing -->
     <cal10n.version>0.8.1</cal10n.version>
-    <reload4j.version>1.2.22</reload4j.version>
+    <reload4j.version>1.2.25</reload4j.version>
     <logback.version>1.2.10</logback.version>
     <jcl.version>1.2</jcl.version>
     <junit.version>4.13.1</junit.version>
-    <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+    <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
     <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
+    <maven-jxr-plugin.version>3.3.1</maven-jxr-plugin.version>
     <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
   </properties>
 
@@ -95,8 +96,10 @@
         <filtering>true</filtering>
       </resource>
 
+      <!-- Use each module's own LICENSE.txt (e.g. Apache-2.0 for jcl-over-slf4j
+           and log4j-over-slf4j) rather than the repo-root MIT LICENSE. -->
       <resource>
-        <directory>..</directory>
+        <directory>${project.basedir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>LICENSE.txt</include>
@@ -142,27 +145,9 @@
               <goal>compile</goal>
             </goals>
             <configuration>
-              <source>${jdk.version}</source>
-              <target>${jdk.version}</target>
+              <release>${jdk.version}</release>
             </configuration>
           </execution>
-
-          <execution>
-            <id>module-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <release>9</release>
-              <compileSourceRoots>
-                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
-              </compileSourceRoots>
-              <multiReleaseOutput>true</multiReleaseOutput>
-            </configuration>
-          </execution>
-
-
         </executions>
 
       </plugin>
@@ -252,20 +237,43 @@
         </executions>
       </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>${maven-site-plugin.version}</version>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <version>3.6.3</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>default-cli</id>-->
+<!--            <goals>-->
+<!--              <goal>aggregate</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.0.0</version>
-      </plugin>
+<!--        <configuration>-->
+<!--          <verbose>true</verbose>-->
+<!--          &lt;!&ndash;          <sourceFileExcludes>&ndash;&gt;-->
+<!--          &lt;!&ndash;            <sourceFileExclude>**/xmodule-info.java</sourceFileExclude>&ndash;&gt;-->
+<!--          &lt;!&ndash;          </sourceFileExcludes>&ndash;&gt;-->
+<!--          <skippedModules>-->
+<!--            slf4j-testing,slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j-->
+<!--          </skippedModules>-->
+<!--          <detectLinks>true</detectLinks>-->
+<!--          <doctitle>SLF4J project modules ${project.version}</doctitle>-->
+<!--          <windowtitle>SLF4J javadoc</windowtitle>-->
+<!--          <linksource>true</linksource>-->
+<!--          <additionalOptions>-->
+<!--            <additionalOption>-Xdoclint:none</additionalOption>-->
+<!--          </additionalOptions>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+
+
     </plugins>
-
   </build>
+
+  <reporting>
+  </reporting>
 
   <profiles>
     <profile>
@@ -302,6 +310,8 @@
         </plugins>
       </build>
     </profile>
+
+
 
     <profile>
       <id>license</id>
@@ -365,32 +375,6 @@
       </build>
     </profile>
 
-    <!--
-    <profile>
-      <id>travis</id>
-      <activation>
-        <property>
-          <name>env.TRAVIS</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-toolchains-plugin</artifactId>
-            <version>1.1</version>
-            <executions>
-              <execution>
-                <id>toolchain</id>
-                <phase>none</phase>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    -->
   </profiles>
 
 

@@ -1,7 +1,7 @@
 package org.slf4j.reload4j;
 
 import org.junit.Test;
-import org.slf4j.helpers.MDCAdapterTestBase;
+import org.slf4j.testing.MDCAdapterTestBase;
 import org.slf4j.spi.MDCAdapter;
 
 import java.util.HashMap;

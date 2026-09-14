@@ -31,9 +31,10 @@ import org.slf4j.Marker;
 import org.slf4j.helpers.CheckReturnValue;
 
 /**
- * This is the main interface in slf4j's fluent API for creating
+ * This is the central interface in slf4j's fluent API for creating
  * {@link org.slf4j.event.LoggingEvent logging events}.
- * 
+ *
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @since 2.0.0
  */
@@ -42,7 +43,7 @@ public interface LoggingEventBuilder {
     /**
      * Set the cause for the logging event being built.
      * @param cause a throwable
-     * @return a LoggingEventBuilder, usually <b>this</b>.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      */
     @CheckReturnValue
     LoggingEventBuilder setCause(Throwable cause);
@@ -51,28 +52,169 @@ public interface LoggingEventBuilder {
      * A {@link Marker marker} to the event being built.
      *
      * @param marker a Marker instance to add.
-     * @return a LoggingEventBuilder, usually <b>this</b>.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      */
     @CheckReturnValue
     LoggingEventBuilder addMarker(Marker marker);
 
     /**
      * Add an argument to the event being built.
+     * Synonymous with {@link #arg(Object)} method.
      *
      * @param p an Object to add.
-     * @return a LoggingEventBuilder, usually <b>this</b>.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      */
     @CheckReturnValue
     LoggingEventBuilder addArgument(Object p);
 
     /**
-     * Add an argument supplier to the event being built.
+     * Add an argument to the event being built.
+     * Synonymous with {@link #addArgument(Object)} method.
      *
+     * @param p an Object to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    @CheckReturnValue
+    default LoggingEventBuilder arg(Object p) {
+        return addArgument(p);
+    }
+
+    /**
+     * <p>Add an argument supplier to the event being built.
+     * Synonymous with {@link #arg(Supplier)} method.
+     *  </p>
      * @param objectSupplier an Object supplier to add.
-     * @return a LoggingEventBuilder, usually <b>this</b>.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      */
     @CheckReturnValue
     LoggingEventBuilder addArgument(Supplier<?> objectSupplier);
+
+
+    /**
+     * <p>Add an argument supplier to the event being built.
+     * Synonymous with {@link #addArgument(Supplier)} method.
+     * </p>
+     *
+     * @param objectSupplier an Object supplier to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since 2.1.0
+     */
+    @CheckReturnValue
+    default LoggingEventBuilder arg(Supplier<?> objectSupplier) {
+        return addArgument(objectSupplier);
+    }
+
+    /**
+     * Add a value of type <code>boolean</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Boolean</code>. However, the NOP implementation, i.e.
+     *  {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param b a value of type <code>boolean</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(boolean b) {
+        return addArgument((Boolean) b);
+    }
+
+    /**
+     * Add a value of type <code>char</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Character</code>. However, the NOP implementation, i.e.
+     * {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param c a value of type <code>char</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(char c) {
+        return addArgument((Character) c);
+    }
+
+    /**
+     * Add a value of type <code>byte</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Byte</code>. However, the NOP implementation, i.e.
+     *  {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param b a value of type <code>byte</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(byte b) {
+        return addArgument((Byte) b);
+    }
+
+    /**
+     * Add a value of type <code>short</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Short</code>. However, the NOP implementation, i.e.
+     *  {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param s a value of type <code>short</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(short s) {
+        return addArgument((Short) s);
+    }
+
+    /**
+     * Add a value of type <code>int</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Integer</code>. However, the NOP implementation, i.e.
+     * {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param i a value of type <code>int</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(int i) {
+        return addArgument((Integer) i);
+    }
+
+    /**
+     * Add a value of type <code>long</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Long</code>. However, the NOP implementation, i.e.
+     *  {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param l a value of type <code>long</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(long l) {
+        return addArgument((Long) l);
+    }
+
+    /**
+     * Add a value of type <code>float</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Float</code>. However, the NOP implementation, i.e.
+     * {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param f a value of type <code>float</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default public LoggingEventBuilder arg(float f) {
+        return addArgument((Float) f);
+    }
+
+    /**
+     * Add a value of type <code>double</code> to the event being built.
+     *
+     * <p>The default implementation simply casts to <code>Double</code>. However, the NOP implementation skips the cast.</p>
+     *
+     * @param d a value of type  <code>double</code> value to add.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since  2.1.0
+     */
+    default LoggingEventBuilder arg(double d) {
+        return arg((Double) d);
+    }
 
 
     /**
@@ -80,25 +222,213 @@ public interface LoggingEventBuilder {
      *
      * @param key the key of the key value pair.
      * @param value the value of the key value pair.
-     * @return a LoggingEventBuilder, usually <b>this</b>.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      */
     @CheckReturnValue
     LoggingEventBuilder addKeyValue(String key, Object value);
 
     /**
      * Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built.
+     * Synonymous with {@link #addKeyValue(String, Object)}  method.
+     *
+     * @param key the key of the key value pair.
+     * @param value the value of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    @CheckReturnValue
+    default LoggingEventBuilder kv(String key, Object value) {
+        return addKeyValue(key,value);
+    }
+
+
+    /**
+     * Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built.
      *
      * @param key the key of the key value pair.
      * @param valueSupplier a supplier of a value for the key value pair.
-     * @return a LoggingEventBuilder, usually <b>this</b>.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      */
     @CheckReturnValue
     LoggingEventBuilder addKeyValue(String key, Supplier<Object> valueSupplier);
 
     /**
+     * Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built.
+     * Synonymous with {@link #addKeyValue(String, Supplier)} method.
+     *
+     * @param key the key of the key value pair.
+     * @param valueSupplier a supplier of a value for the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    @CheckReturnValue
+    default LoggingEventBuilder kv(String key, Supplier<Object> valueSupplier) {
+        return addKeyValue(key, valueSupplier);
+    }
+
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>boolean</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Boolean</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param  b the value of type <code>boolean</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, boolean b) {
+        return addKeyValue(key, (Boolean) b);
+    }
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>char</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Character</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param c the value of type <code>char</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, char c) {
+        return addKeyValue(key, (Character) c);
+    }
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>byte</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Byte</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param b the value of type <code>byte</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, byte b) {
+        return addKeyValue(key, (Byte) b);
+    }
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>short</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Short</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param s the value of type <code>short</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, short s) {
+        return addKeyValue(key, (Short) s);
+    }
+
+
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>int</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Integer</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param i the value of type <code>int</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, int i) {
+        return addKeyValue(key, (Integer) i);
+    }
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>long</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Integer</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param l the value of type <code>long</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, long l) {
+        return addKeyValue(key, (Long) l);
+    }
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>float</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Float</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param f the value of type <code>float</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, float f) {
+        return addKeyValue(key, (Float) f);
+    }
+
+    /**
+     * <p>Add a {@link org.slf4j.event.KeyValuePair key value pair} to the event being built, with the value part being
+     * of type <code>double</code>.
+     * </p>
+     * <p></p>
+     * <p>The default implementation simply casts to value part to <code>Double</code> before calling
+     * {@link #addKeyValue(String, Object)}. However, the
+     * NOP implementation, i.e {@link NOPLoggingEventBuilder}, skips the cast.</p>
+     *
+     * @param key the key of the key value pair.
+     * @param f the value of type <code>double</code> of the key value pair.
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 2.1.0
+     */
+    default public LoggingEventBuilder kv(String key, double f) {
+        return addKeyValue(key, (Double) f);
+    }
+
+    /**
      *  Sets the message of the logging event.
      *
-     *  @since 2.0.0-beta0
+     * @param message the message of the event
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     * @since 2.0.0
      */
     @CheckReturnValue
     LoggingEventBuilder setMessage(String message);
@@ -107,6 +437,7 @@ public interface LoggingEventBuilder {
      * Sets the message of the event via a message supplier.
      *
      * @param messageSupplier supplies a String to be used as the message for the event
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
      * @since 2.0.0-beta0
      */
     @CheckReturnValue

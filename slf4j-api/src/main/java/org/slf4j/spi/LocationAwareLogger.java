@@ -34,6 +34,18 @@ import org.slf4j.Marker;
  * which need to provide hints so that the underlying logging system can extract
  * the correct location information (method name, line number).
  *
+ *  <p></p>
+ *
+ * <p>In response to <a href="https://jira.qos.ch/browse/SLF4J-118">SLF4J-118</a>,
+ * the {@link #log(Marker, String, int, String, Object[], Throwable) log()}  method was modified to accept
+ * an additional <code>Object[]</code> parameter.
+ * This Object[] represents arguments of the log request. Due to this modification, slf4j-api
+ * version 1.6.x no longer work with bindings shipping with SLF4J 1.5.x, instead
+ * bindings shipping with 1.6.x or later are required. See also
+ * <a href="https://github.com/qos-ch/slf4j/commit/6dd2bd58cff">commit 6dd2</a> dated
+ * April 9th, 2010.
+ * </p>
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.3
  */

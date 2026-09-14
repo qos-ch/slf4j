@@ -24,9 +24,6 @@
  */
 package org.slf4j.jdk.platform.logging.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.System.Logger;
@@ -40,6 +37,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.Assert.*;
 
 /**
  * The present test is fragile in the sense that it sets up SimpleLogger
@@ -106,8 +105,9 @@ public class SLF4JPlatformLoggingTest {
         systemLogger.log(Level.INFO, "we have a problem", new Exception());
         
         List<String> results = SPS.stringList;
-        //INFO throwTest - a problem
-        //java.lang.Exception
+        // SLF4J(I): Actual provider is of type [org.slf4j.simple.SimpleServiceProvider@67c27493]
+        // INFO throwTest - a problem
+        // java.lang.Exception
         //        at org.slf4j.jdk.platform.logging/org.slf4j.jdk.platform.logging.SLF4JPlatformLoggingTest.throwTest(SLF4JPlatformLoggingTest.java:92)
 
         int line = 0;
@@ -129,7 +129,19 @@ public class SLF4JPlatformLoggingTest {
         List<String> results = SPS.stringList;
         assertEquals(1, results.size());
         assertEquals("ERROR extremeLevels - hello", results.get(0));
-
     }
 
+    @Test
+    public void extremeLevels_isLoggableTest() throws IOException {
+        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
+        Logger systemLogger = finder.getLogger("extremeLevels", null);
+
+        boolean offResult = systemLogger.isLoggable(Level.OFF);
+        assertTrue(offResult);
+
+
+        boolean allResult = systemLogger.isLoggable(Level.ALL);
+        assertFalse(allResult);
+    }
 }

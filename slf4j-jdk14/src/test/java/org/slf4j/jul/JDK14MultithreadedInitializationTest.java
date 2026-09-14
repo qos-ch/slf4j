@@ -30,7 +30,7 @@ import java.util.logging.Handler;
 
 import org.junit.After;
 import org.junit.Before;
-import org.slf4j.testHarness.MultithreadedInitializationTest;
+import org.slf4j.testing.MultithreadedInitializationTest;
 
 public class JDK14MultithreadedInitializationTest extends MultithreadedInitializationTest {
 

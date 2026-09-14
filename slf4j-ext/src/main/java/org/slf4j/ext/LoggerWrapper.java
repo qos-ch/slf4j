@@ -28,7 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 //import org.slf4j.helpers.FormattingTuple;
 //import org.slf4j.helpers.MessageFormatter;
+import org.slf4j.event.Level;
 import org.slf4j.spi.LocationAwareLogger;
+import org.slf4j.spi.LoggingEventBuilder;
 
 /**
  * A helper class wrapping an {@link org.slf4j.Logger} instance preserving
@@ -59,6 +61,16 @@ public class LoggerWrapper implements Logger {
         } else {
             instanceofLAL = false;
         }
+    }
+
+    /**
+     * Delegate fluent-API builder creation to the wrapped logger so that caller
+     * location is extracted correctly. See also
+     * https://github.com/qos-ch/slf4j/issues/464
+     */
+    @Override
+    public LoggingEventBuilder makeLoggingEventBuilder(Level level) {
+        return logger.makeLoggingEventBuilder(level);
     }
 
     /**

@@ -4,11 +4,9 @@
 #JDK8 - mvn site:site
 #rscpSLF4J apidocs/ 
 
-# JDK 11+
-# adding the following 
-#mvn -Ddoclint=none -Dadditionalparam=-Xdoclint:none  javadoc:aggregate
+# mvn -Ddoclint=none -Dmaven.javadoc.skippedModules=slf4j-ext,log4j-over-slf4j,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j javadoc:aggregate
 
-
+#mvn -Ddoclint=none  -DXXadditionalparam=-Xdoclint:none -Dmaven.javadoc.skippedModules=osgi-over-slf4j,slf4j-ext,log4j-over-slf4j-blackbox,log4j-over-slf4j javadoc:aggregate
 #mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${VERSION_NUMBER} 
 
 MVN='/java/maven-3.5.2//bin/mvn'
@@ -46,9 +44,8 @@ echoRunAndCheck "$MVN install"
 
 if [ ! -z "$PASS"  ]
 then
-    # WARNING deploying without cleaning may leave stale MANIFEST files    
-    export GPG_TTY=$(tty)
-    echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts"
+  export GPG_TTY=$(tty)    
+  echoRunAndCheck "$MVN deploy -P javadocjar,sign-artifacts"
 fi
 
 

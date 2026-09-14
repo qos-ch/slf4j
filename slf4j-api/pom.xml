@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-parent</artifactId>
-    <version>2.0.18-SNAPSHOT</version>
+    <version>3.0.0-alpha0-SNAPSHOT</version>
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
 
@@ -59,7 +59,8 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Import-Package>org.slf4j.spi;version="${range;[===,+);${version_cleanup;${project.version}}}"</Import-Package>
+            <Import-Package>org.slf4j.spi;version="${range;[===,+);${version_cleanup;${project.version}}}"
+            </Import-Package>
             <!-- Export the client/user package of slf4j-api version 1 to make the slf4j-api bundle in version 2 usable for bundles that only import slf4j-1.x -->
             <_exportcontents><![CDATA[
               *,\
@@ -75,7 +76,6 @@
       </plugin>
 
     </plugins>
-
   </build>
 
 </project>

@@ -130,6 +130,35 @@ public class FluentApiInvocationTest {
 
     }
 
+    /**
+     * Regression for https://github.com/qos-ch/slf4j/issues/448:
+     * a toString() that throws (including StackOverflowError) on an
+     * addKeyValue value must not abort logging; same as message args.
+     */
+    @Test
+    public void keyValuePairWithFailingToString() {
+        Object bad = new Object() {
+            @Override
+            public String toString() {
+                throw new IllegalStateException("boom");
+            }
+        };
+        logger.atDebug().addKeyValue("key", bad).log("msg with key/value");
+        assertLogMessage("key=[FAILED toString()] msg with key/value", 0);
+    }
+
+    @Test
+    public void keyValuePairWithStackOverflowInToString() {
+        Object overflow = new Object() {
+            @Override
+            public String toString() {
+                return super.toString() + this.toString();
+            }
+        };
+        logger.atDebug().addKeyValue("key", overflow).log("msg with key/value");
+        assertLogMessage("key=[FAILED toString()] msg with key/value", 0);
+    }
+
     private void assertLogMessage(String expected, int index) {
         LogRecord logRecord = listHandler.recordList.get(index);
         Assert.assertNotNull(logRecord);

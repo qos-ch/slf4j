@@ -116,9 +116,9 @@ public interface Logger {
     }
 
     /**
-     * Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the
+     * <p>Make a new {@link LoggingEventBuilder} instance as appropriate for this logger and the
      * desired {@link Level} passed as parameter. If this Logger is disabled for the given Level, then
-     * a {@link  NOPLoggingEventBuilder} is returned.
+     * a {@link  NOPLoggingEventBuilder} is returned.  This is the main optimization in the fluent API.</p>
      *
      *
      * @param level desired level for the event builder
@@ -243,8 +243,11 @@ public interface Logger {
     public boolean isTraceEnabled(Marker marker);
 
     /**
-     * Entry point for fluent-logging for {@link org.slf4j.event.Level#TRACE} level. 
-     *  
+     * Entry point for fluent-logging for {@link org.slf4j.event.Level#TRACE} level.
+     *
+     * <p>If this logger is disabled for the TRACE level, then a {@link NOPLoggingEventBuilder} instance is returned.
+     * As the name indicates, this builder does not perform any operations. This is the main optimization in the fluent API.</p>
+     *
      * @return LoggingEventBuilder instance as appropriate for level TRACE
      * @since 2.0
      */
@@ -441,7 +444,10 @@ public interface Logger {
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#DEBUG} level. 
-     *  
+     *
+     * <p>If this logger is disabled for the DEBUG level, then a {@link NOPLoggingEventBuilder} instance is returned.
+     * As the name indicates, this builder does not perform any operations. This is the main optimization in the fluent API.</p>
+     *
      * @return LoggingEventBuilder instance as appropriate for level DEBUG
      * @since 2.0
      */
@@ -582,7 +588,10 @@ public interface Logger {
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#INFO} level. 
-     *  
+     *
+     * <p>If this logger is disabled for the INFO level, then a {@link NOPLoggingEventBuilder} instance is returned.
+     * As the name indicates, this builder does not perform any operations.  This is the main optimization in the fluent API.</p>
+
      * @return LoggingEventBuilder instance as appropriate for level INFO
      * @since 2.0
      */
@@ -723,7 +732,10 @@ public interface Logger {
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#WARN} level. 
-     *  
+     *
+     * <p>If this logger is disabled for the WARN level, then a {@link NOPLoggingEventBuilder} instance is returned.
+     * As the name indicates, this builder does not perform any operations.  This is the main optimization in the fluent API.</p>
+     *
      * @return LoggingEventBuilder instance as appropriate for level WARN
      * @since 2.0
      */
@@ -865,7 +877,10 @@ public interface Logger {
 
     /**
      * Entry point for fluent-logging for {@link org.slf4j.event.Level#ERROR} level. 
-     *  
+     *
+     * <p>If this logger is disabled for the ERROR level, then a {@link NOPLoggingEventBuilder} instance is returned.
+     * As the name indicates, this builder does not perform any operations.</p>
+     *
      * @return LoggingEventBuilder instance as appropriate for level ERROR
      * @since 2.0
      */

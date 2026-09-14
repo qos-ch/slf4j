@@ -6,11 +6,11 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-bom</artifactId>
-  <version>2.0.18-SNAPSHOT</version>
+  <version>3.0.0-alpha0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <url>http://www.slf4j.org</url>
-
+  
   <name>SLF4J BOM</name>
   <description>SLF4J project BOM</description>
 
@@ -25,14 +25,15 @@
   <scm>
     <url>https://github.com/qos-ch/slf4j</url>
     <connection>scm:git:https://github.com/qos-ch/slf4j.git</connection>
-  </scm>
+  </scm>  
 
-
+  
   <!-- Inspired by Improving the Maven Bill of Materials (BOM) Pattern  -->
   <!-- https://www.garretwilson.com/blog/2023/06/14/improve-maven-bom-pattern -->
   <modules>
     <module>parent</module>
     <module>slf4j-api</module>
+    <module>slf4j-testing</module>
     <module>slf4j-simple</module>
     <module>slf4j-nop</module>
     <module>slf4j-jdk14</module>
@@ -41,8 +42,11 @@
     <module>slf4j-reload4j</module>
     <module>slf4j-ext</module>
     <module>jcl-over-slf4j</module>
+    <module>jcl-over-slf4j-blackbox</module>
     <module>log4j-over-slf4j</module>
+    <module>log4j-over-slf4j-blackbox</module>
     <module>jul-to-slf4j</module>
+    <module>jul-to-slf4j-blackbox</module>
     <module>osgi-over-slf4j</module>
     <module>integration</module>
     <module>slf4j-migrator</module>
@@ -68,7 +72,7 @@
         <artifactId>slf4j-nop</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-jdk14</artifactId>
@@ -81,49 +85,49 @@
         <artifactId>slf4j-jdk-platform-logging</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-reload4j</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-ext</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>log4j-over-slf4j</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jul-to-slf4j</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>osgi-over-slf4j</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      
 
     </dependencies>
   </dependencyManagement>
@@ -151,13 +155,21 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.6.3</version>
+        <executions>
+          <execution>
+            <id>default-cli</id>
+            <goals>
+              <goal>aggregate</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <verbose>true</verbose>
           <skippedModules>
-             slf4j-jdk-platform-logging,slf4j-migrator,osgi-over-slf4j
+            slf4j-testing,slf4j-jdk-platform-logging,jcl-over-slf4j-blackbox,log4j-over-slf4j-blackbox,jul-to-slf4j-blackbox,slf4j-migrator,osgi-over-slf4j
           </skippedModules>
           <detectLinks>true</detectLinks>
-          <doctitle>SLF4J project modules ${project.version}</doctitle>
+          <doctitle>SLF4J project modules 2.1.0-alpha1</doctitle>
           <windowtitle>SLF4J javadoc</windowtitle>
           <bottom><![CDATA[Copyright  &copy; 2005-{currentYear} QOS.CH Sarl. All rights reserved]]></bottom>
           <linksource>true</linksource>
@@ -219,10 +231,11 @@
         </configuration>
       </plugin>
     </plugins>
+
   </build>
 
   <profiles>
-
+    
     <profile>
       <id>sign-artifacts</id>
       <build>
@@ -244,6 +257,7 @@
         </plugins>
       </build>
     </profile>
-  </profiles>
 
+  </profiles>
+  
 </project>

@@ -7,9 +7,8 @@ import static org.slf4j.event.EventConstants.TRACE_INT;
 import static org.slf4j.event.EventConstants.WARN_INT;
 
 /**
- * SLF4J's internal representation of Level.
- * 
- * 
+ * SLF4J's internal representation of a level.
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @since 1.7.15
  */
