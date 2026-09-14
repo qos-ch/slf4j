@@ -112,6 +112,20 @@ public interface MDCAdapter {
 
     /**
      * Returns a copy of the <b>deque(stack)</b> referenced by 'key'. May be null.
+     * peek the stack referenced by 'key' and return the value possibly null.
+     *
+     * @param key identifies the deque(stack)
+     * @return the value just peeked. May be null/
+     * @since 2.0.18
+     */
+    default  public String peekByKey(String key){
+        Deque<String>  deque = getCopyOfDequeByKey(key);
+        if(deque == null)
+            return  null;
+        return deque.peek();
+    }
+    /**
+     * Returns a copy of the deque(stack) referenced by 'key'. May be null.
      * 
      * @param key identifies the  stack
      * @return copy of stack referenced by 'key'. May be null.
