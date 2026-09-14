@@ -111,6 +111,23 @@ public interface MDCAdapter {
     public String popByKey(String key);
 
     /**
+     * Returns the top value of the <b>deque(stack)</b> referenced by 'key'
+     * without removing it. Returns null if the deque does not exist or is empty.
+     *
+     * <p>The default implementation inspects a copy returned by
+     * {@link #getCopyOfDequeByKey(String)}. Implementations may override this
+     * method to avoid copying the deque.
+     *
+     * @param key identifies the deque(stack)
+     * @return the top value, or null if the deque does not exist or is empty
+     * @since 3.0.0
+     */
+    default public String peekByKey(String key) {
+        Deque<String> deque = getCopyOfDequeByKey(key);
+        return deque == null ? null : deque.peek();
+    }
+
+    /**
      * Returns a copy of the <b>deque(stack)</b> referenced by 'key'. May be null.
      * 
      * @param key identifies the  stack
