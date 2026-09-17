@@ -32,6 +32,7 @@ import org.slf4j.event.DefaultLoggingEvent;
 import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
+import org.slf4j.helpers.CallerData;
 import org.slf4j.helpers.Reporter;
 
 /**
@@ -296,9 +297,14 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         }
     }
 
-
-
-
-
-
+    @Override
+    public LoggingEventBuilder withCallerData(int depth) {
+        String fqnOfInvokingClass = loggingEvent.getCallerBoundary();
+        if (fqnOfInvokingClass == null) {
+            fqnOfInvokingClass = DLEB_FQCN;
+        }
+        StackTraceElement[] callerData = CallerData.extract(new Throwable(), fqnOfInvokingClass, depth, null);
+        loggingEvent.setCallerData(callerData);
+        return this;
+    }
 }
