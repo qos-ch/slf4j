@@ -6,7 +6,7 @@
 
   <groupId>org.slf4j</groupId>
   <artifactId>slf4j-bom</artifactId>
-  <version>3.0.0-alpha0-SNAPSHOT</version>
+  <version>3.0.0-rc0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <url>http://www.slf4j.org</url>
