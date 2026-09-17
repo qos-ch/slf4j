@@ -41,6 +41,13 @@ import org.slf4j.helpers.CheckReturnValue;
 public interface LoggingEventBuilder {
 
     /**
+     * The default depth of caller data to be captured when {@link #withCallerData()} is called.
+     *
+     * @since 3.0.0
+     */
+    int DEFAULT_CALLER_DATA_DEPTH = 8;
+
+    /**
      * Set the cause for the logging event being built.
      * @param cause a throwable
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
@@ -98,7 +105,7 @@ public interface LoggingEventBuilder {
      *
      * @param objectSupplier an Object supplier to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since 2.1.0
+     * @since 3.0.0
      */
     @CheckReturnValue
     default LoggingEventBuilder arg(Supplier<?> objectSupplier) {
@@ -113,7 +120,7 @@ public interface LoggingEventBuilder {
      *
      * @param b a value of type <code>boolean</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(boolean b) {
         return addArgument((Boolean) b);
@@ -127,7 +134,7 @@ public interface LoggingEventBuilder {
      *
      * @param c a value of type <code>char</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(char c) {
         return addArgument((Character) c);
@@ -141,7 +148,7 @@ public interface LoggingEventBuilder {
      *
      * @param b a value of type <code>byte</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(byte b) {
         return addArgument((Byte) b);
@@ -155,7 +162,7 @@ public interface LoggingEventBuilder {
      *
      * @param s a value of type <code>short</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(short s) {
         return addArgument((Short) s);
@@ -169,7 +176,7 @@ public interface LoggingEventBuilder {
      *
      * @param i a value of type <code>int</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(int i) {
         return addArgument((Integer) i);
@@ -183,7 +190,7 @@ public interface LoggingEventBuilder {
      *
      * @param l a value of type <code>long</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(long l) {
         return addArgument((Long) l);
@@ -197,7 +204,7 @@ public interface LoggingEventBuilder {
      *
      * @param f a value of type <code>float</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since  3.0
      */
     default public LoggingEventBuilder arg(float f) {
         return addArgument((Float) f);
@@ -210,7 +217,7 @@ public interface LoggingEventBuilder {
      *
      * @param d a value of type  <code>double</code> value to add.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
-     * @since  2.1.0
+     * @since 3.0.0
      */
     default LoggingEventBuilder arg(double d) {
         return arg((Double) d);
@@ -235,7 +242,7 @@ public interface LoggingEventBuilder {
      * @param value the value of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     @CheckReturnValue
     default LoggingEventBuilder kv(String key, Object value) {
@@ -261,7 +268,7 @@ public interface LoggingEventBuilder {
      * @param valueSupplier a supplier of a value for the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     @CheckReturnValue
     default LoggingEventBuilder kv(String key, Supplier<Object> valueSupplier) {
@@ -282,7 +289,7 @@ public interface LoggingEventBuilder {
      * @param  b the value of type <code>boolean</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, boolean b) {
         return addKeyValue(key, (Boolean) b);
@@ -301,7 +308,7 @@ public interface LoggingEventBuilder {
      * @param c the value of type <code>char</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, char c) {
         return addKeyValue(key, (Character) c);
@@ -320,7 +327,7 @@ public interface LoggingEventBuilder {
      * @param b the value of type <code>byte</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, byte b) {
         return addKeyValue(key, (Byte) b);
@@ -339,7 +346,7 @@ public interface LoggingEventBuilder {
      * @param s the value of type <code>short</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, short s) {
         return addKeyValue(key, (Short) s);
@@ -360,7 +367,7 @@ public interface LoggingEventBuilder {
      * @param i the value of type <code>int</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, int i) {
         return addKeyValue(key, (Integer) i);
@@ -379,7 +386,7 @@ public interface LoggingEventBuilder {
      * @param l the value of type <code>long</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, long l) {
         return addKeyValue(key, (Long) l);
@@ -398,7 +405,7 @@ public interface LoggingEventBuilder {
      * @param f the value of type <code>float</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, float f) {
         return addKeyValue(key, (Float) f);
@@ -417,11 +424,41 @@ public interface LoggingEventBuilder {
      * @param f the value of type <code>double</code> of the key value pair.
      * @return a LoggingEventBuilder instance, usually <b>this</b>.
      *
-     * @since 2.1.0
+     * @since 3.0.0
      */
     default public LoggingEventBuilder kv(String key, double f) {
         return addKeyValue(key, (Double) f);
     }
+
+    /**
+     * <p>Capture caller data for the logging event being built.</p>
+     *
+     * <p>The default implementation does nothing. Implementations that support caller data should override this method.</p>
+     *
+     * @param depth the depth of caller data to capture
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 3.0.0
+     */
+    default public LoggingEventBuilder withCallerData(int depth) {
+        return this;
+    }
+
+    /**
+     * <p>Capture caller data for the logging event being built. Uses the default depth of caller data.
+     * The default depth is defined by {@link #DEFAULT_CALLER_DATA_DEPTH}</p>
+     *
+     * <p>The default implementation does nothing. Implementations that support caller data should override
+     * this method.</p>
+     *
+     * @return a LoggingEventBuilder instance, usually <b>this</b>.
+     *
+     * @since 3.0.0
+     */
+    default public LoggingEventBuilder withCallerData() {
+        return withCallerData(DEFAULT_CALLER_DATA_DEPTH);
+    }
+
 
     /**
      *  Sets the message of the logging event.
