@@ -46,4 +46,16 @@ public interface LoggingEvent {
     default String getCallerBoundary() {
         return null;
     }
+
+
+    /**
+     * Returns the caller data associated with this event. Note that calling this event
+     * may trigger the computation of caller data.
+     *
+     * @return the caller data associated with this event, null by default.
+     * @since 3.0.0
+     */
+    default StackTraceElement[] getCallerData() {
+        return null;
+    }
 }

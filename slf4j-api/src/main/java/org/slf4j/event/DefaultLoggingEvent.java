@@ -30,6 +30,8 @@ public class DefaultLoggingEvent implements LoggingEvent {
     
     String callerBoundary;
 
+    StackTraceElement[] callerData;
+
     public DefaultLoggingEvent(Level level, Logger logger) {
         this.logger = logger;
         this.level = level;
@@ -73,6 +75,7 @@ public class DefaultLoggingEvent implements LoggingEvent {
             return null;
         return arguments.toArray();
     }
+
 
     public void addKeyValue(String key, Object value) {
         getNonnullKeyValuePairs().add(new KeyValuePair(key, value));
@@ -136,5 +139,26 @@ public class DefaultLoggingEvent implements LoggingEvent {
     
     public String getCallerBoundary() {
         return callerBoundary;
+    }
+
+    /**
+     * Returns the caller data associated with this event.
+     *
+     * @return the caller data associated with this event, null by default.
+     * @since 3.0.0
+     */
+    @Override
+    public StackTraceElement[] getCallerData() {
+        return callerData;
+    }
+
+    /**
+     * Sets the caller data associated with this event.
+     *
+     * @param callerData the caller data to set
+     * @since 3.0.0
+     */
+    public void setCallerData(StackTraceElement[] callerData) {
+        this.callerData = callerData;
     }
 }
