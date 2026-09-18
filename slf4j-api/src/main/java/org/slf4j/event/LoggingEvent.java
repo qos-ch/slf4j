@@ -73,13 +73,19 @@ public interface LoggingEvent {
 
 
     /**
-     * Returns the caller data associated with this event. Note that calling this event
-     * may trigger the computation of caller data.
+     * Returns the caller data associated with this event without triggering the computation of caller data.
      *
-     * @return the caller data associated with this event, null by default.
+     * <p>>Note that calling this event should return existing data without triggering the
+     * computation of caller data. Note that this is a departure from the behavior of
+     * event classes in logging-backends where getCallerData() which usually triggers the computation
+     * of caller data.
+     * </p>
+     *
+     * @return the caller data associated with this event without triggering the computation of caller data, null by default.
      * @since 3.0.0
      */
     default StackTraceElement[] getCallerData() {
         return null;
     }
+
 }
