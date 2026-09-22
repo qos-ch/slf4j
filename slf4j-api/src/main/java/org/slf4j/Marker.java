@@ -71,6 +71,8 @@ public interface Marker extends Serializable {
      *                a reference to another marker
      * @throws IllegalArgumentException
      *                 if 'reference' is null
+     *
+     * @deprecated Markers are now immutable and no longer support children.
      */
     public void add(Marker reference);
 
@@ -80,11 +82,13 @@ public interface Marker extends Serializable {
      * @param reference
      *                the marker reference to remove
      * @return true if reference could be found and removed, false otherwise.
+     *
+     * @deprecated Markers are now immutable and no longer support children.
      */
     public boolean remove(Marker reference);
 
     /**
-     * @deprecated Replaced by {@link #hasReferences()}.
+     * @deprecated Markers are now immutable and no longer support children.
      */
     @Deprecated
     public boolean hasChildren();
@@ -93,6 +97,7 @@ public interface Marker extends Serializable {
      * Does this marker have any references?
      * 
      * @return true if this marker has one or more references, false otherwise.
+     * @deprecated Markers are now immutable and no longer support children.
      */
     public boolean hasReferences();
 
@@ -101,6 +106,7 @@ public interface Marker extends Serializable {
      * marker. An empty iterator is returned when this marker has no references.
      * 
      * @return Iterator over the references of this marker
+     * @deprecated Markers are now immutable and no longer support children.
      */
     public Iterator<Marker> iterator();
 
@@ -114,6 +120,7 @@ public interface Marker extends Serializable {
      * @throws IllegalArgumentException
      *                 if 'other' is null
      * @return Whether this marker contains the other marker.
+     * @deprecated Markers are now immutable and no longer support children.
      */
     public boolean contains(Marker other);
 
@@ -124,6 +131,7 @@ public interface Marker extends Serializable {
      * 
      * @param name The marker name to test for inclusion.
      * @return Whether this marker contains the other marker.
+     * @deprecated Markers are now immutable and no longer support children.
      */
     public boolean contains(String name);
 

@@ -53,6 +53,11 @@ public class BasicMarker implements Marker {
         return name;
     }
 
+    /**
+     * @deprecated Markers are now immutable and no longer support children.
+     */
+    @Override
+    @Deprecated
     public void add(Marker reference) {
         if (reference == null) {
             throw new IllegalArgumentException("A null value cannot be added to a Marker as reference.");
@@ -70,23 +75,48 @@ public class BasicMarker implements Marker {
         }
     }
 
+    /**
+     * @deprecated Markers are now immutable and no longer support children.
+     */
+    @Override
+    @Deprecated
     public boolean hasReferences() {
         return (referenceList.size() > 0);
     }
 
+    /**
+     * @deprecated Markers are now immutable and no longer support children.
+     */
+    @Override
     @Deprecated
     public boolean hasChildren() {
         return hasReferences();
     }
 
+    /**
+     * @deprecated Markers are now immutable and no longer support children.
+     */
+    @Override
+    @Deprecated
     public Iterator<Marker> iterator() {
         return referenceList.iterator();
     }
 
+
+    /**
+     * @deprecated Markers are now immutable and no longer support children.
+     */
+    @Override
+    @Deprecated
     public boolean remove(Marker referenceToRemove) {
         return referenceList.remove(referenceToRemove);
     }
 
+    /**
+     * @deprecated Markers are now immutable and no longer support children.
+     */
+    @Override
+    @Deprecated
     public boolean contains(Marker other) {
         if (other == null) {
             throw new IllegalArgumentException("Other cannot be null");
