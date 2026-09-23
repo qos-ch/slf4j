@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
@@ -18,14 +16,12 @@ import org.slf4j.simple.OutputChoice.OutputChoiceType;
  * This class holds configuration values for {@link SimpleLogger}. The
  * values are computed at runtime. See {@link SimpleLogger} documentation for
  * more information.
- * 
- * 
+ *
  * @author Ceki G&uuml;lc&uuml;
  * @author Scott Sanders
  * @author Rod Waldhoff
  * @author Robert Burrell Donkin
  * @author C&eacute;drik LIME
- * 
  * @since 1.7.25
  */
 public class SimpleLoggerConfiguration {
@@ -48,11 +44,12 @@ public class SimpleLoggerConfiguration {
 
     /**
      * See https://jira.qos.ch/browse/SLF4J-499
+     *
      * @since 1.7.33 and 2.0.0-alpha6
      */
     private static final boolean SHOW_THREAD_ID_DEFAULT = false;
     boolean showThreadId = SHOW_THREAD_ID_DEFAULT;
-    
+
     final static boolean SHOW_LOG_NAME_DEFAULT = true;
     boolean showLogName = SHOW_LOG_NAME_DEFAULT;
 
@@ -106,14 +103,14 @@ public class SimpleLoggerConfiguration {
 
     private void loadProperties() {
         // Add props from the resource simplelogger.properties
-        InputStream in = AccessController.doPrivileged((PrivilegedAction<InputStream>) () -> {
-            ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
-            if (threadCL != null) {
-                return threadCL.getResourceAsStream(CONFIGURATION_FILE);
-            } else {
-                return ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
-            }
-        });
+        InputStream in;
+        ClassLoader threadCL = Thread.currentThread().getContextClassLoader();
+        if (threadCL != null) {
+            in = threadCL.getResourceAsStream(CONFIGURATION_FILE);
+        } else {
+            in = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
+        }
+
         if (null != in) {
             try {
                 properties.load(in);
