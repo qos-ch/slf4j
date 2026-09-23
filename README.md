@@ -31,6 +31,8 @@ SLF4J uses Maven as its build tool.
 
 SLF4J version 2.0.x will run under Java 8 but requires Java 9 or later to build.
 
+The `slf4j-scoped-mdc` module requires JDK 25 or later (`java.lang.ScopedValue`). It is part of the reactor only when the build runs on JDK 25+.
+
 # How to contribute pull requests
 
 If you are interested in improving SLF4J, that is great! The SLF4J

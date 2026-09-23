@@ -1,0 +1,2 @@
+# Built-in ScopedValue adapter. Ignored when another provider is present.
+org.slf4j.scoped.DefaultScopedMDCAdapter

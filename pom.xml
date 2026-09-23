@@ -151,7 +151,12 @@
         <artifactId>osgi-over-slf4j</artifactId>
         <version>${project.version}</version>
       </dependency>
-      
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-scoped-mdc</artifactId>
+        <version>${project.version}</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
@@ -259,7 +264,21 @@
   </build>
 
   <profiles>
-    
+
+    <!--
+      slf4j-scoped-mdc requires java.lang.ScopedValue, which is final as of
+      Java 25. Keep it out of the reactor on older build JDKs.
+    -->
+    <profile>
+      <id>slf4j-scoped-mdc</id>
+      <activation>
+        <jdk>[25,)</jdk>
+      </activation>
+      <modules>
+        <module>slf4j-scoped-mdc</module>
+      </modules>
+    </profile>
+
     <profile>
       <id>sign-artifacts</id>
       <build>

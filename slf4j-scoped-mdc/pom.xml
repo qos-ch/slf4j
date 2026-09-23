@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2004-2026, QOS.ch (Switzerland)
+  ~ All rights reserved.
+  ~
+  ~  Permission is hereby granted, free  of charge, to any person obtaining
+  ~  a  copy  of this  software  and  associated  documentation files  (the
+  ~  "Software"), to  deal in  the Software without  restriction, including
+  ~  without limitation  the rights to  use, copy, modify,  merge, publish,
+  ~  distribute,  sublicense, and/or sell  copies of  the Software,  and to
+  ~  permit persons to whom the Software  is furnished to do so, subject to
+  ~  the following conditions:
+  ~
+  ~  The  above  copyright  notice  and  this permission  notice  shall  be
+  ~  included in all copies or substantial portions of the Software.
+  ~
+  ~  THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+  ~  EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+  ~  MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+  ~  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+  ~  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+  ~  OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+  ~  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-parent</artifactId>
+    <version>3.0.0-rc0-SNAPSHOT</version>
+    <relativePath>../parent/pom.xml</relativePath>
+  </parent>
+
+  <artifactId>slf4j-scoped-mdc</artifactId>
+  <packaging>jar</packaging>
+  <name>SLF4J Scoped MDC</name>
+  <description>ScopedValue-based MDC for virtual threads, pluggable via ServiceLoader</description>
+  <url>http://www.slf4j.org</url>
+
+  <properties>
+    <!-- java.lang.ScopedValue is final as of Java 25. -->
+    <jdk.version>25</jdk.version>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
+    <maven.compiler.release>25</maven.compiler.release>
+    <module-name>org.slf4j.scoped.mdc</module-name>
+    <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <release>25</release>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-testCompile</id>
+            <configuration>
+              <release>25</release>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <source>25</source>
+          <target>25</target>
+          <compilerArgs>--enable-preview</compilerArgs>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <forkCount>1</forkCount>
+          <reuseForks>false</reuseForks>
+          <!-- StructuredTaskScope is preview. The inheritance test loads it by reflection. -->
+          <argLine>--enable-preview</argLine>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <!-- Parent's replacestring leaves Bundle-SymbolicName empty on Maven 4. -->
+            <Bundle-SymbolicName>org.slf4j.scoped.mdc</Bundle-SymbolicName>
+            <!-- bnd 6.3.1 does not recognize Java 25 class files and would emit osgi.ee=UNKNOWN. -->
+            <_noee>true</_noee>
+            <Provide-Capability><![CDATA[
+              osgi.service;objectClass:List<String>="org.slf4j.scoped.spi.ScopedMDCAdapter";effective:=active,
+              osgi.serviceloader;osgi.serviceloader="org.slf4j.scoped.spi.ScopedMDCAdapter";register:="org.slf4j.scoped.DefaultScopedMDCAdapter"
+            ]]></Provide-Capability>
+            <Require-Capability><![CDATA[
+              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))",
+              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.registrar)(version>=1.0.0)(!(version>=2.0.0)))",
+              osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.scoped.spi.ScopedMDCAdapter)";osgi.serviceloader="org.slf4j.scoped.spi.ScopedMDCAdapter",
+              osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=25))"
+            ]]></Require-Capability>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
