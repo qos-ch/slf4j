@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -137,13 +135,7 @@ public final class LoggerFactory {
 
     private static ServiceLoader<SLF4JServiceProvider> getServiceLoader(final ClassLoader classLoaderOfLoggerFactory) {
         ServiceLoader<SLF4JServiceProvider> serviceLoader;
-        SecurityManager securityManager = System.getSecurityManager();
-        if(securityManager == null) {
-            serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
-        } else {
-            final PrivilegedAction<ServiceLoader<SLF4JServiceProvider>> action = () -> ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
-            serviceLoader = AccessController.doPrivileged(action);
-        }
+        serviceLoader = ServiceLoader.load(SLF4JServiceProvider.class, classLoaderOfLoggerFactory);
         return serviceLoader;
     }
 
