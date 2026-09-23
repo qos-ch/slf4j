@@ -56,8 +56,7 @@ import org.slf4j.scoped.spi.ScopedMDCAdapter.Binding;
  * provider by listing the implementation in
  * {@code META-INF/services/org.slf4j.scoped.spi.ScopedMDCAdapter}.
  * There is no dependency on a logging implementation. The built-in
- * {@link DefaultScopedMDCAdapter} is used when no other provider is present,
- * and it is ignored when another provider is present.
+ * {@link DefaultScopedMDCAdapter} is used when no provider is found.
  *
  * <p>Set the {@value #ADAPTER_PROPERTY_KEY} system property to a provider
  * class name to select that provider and skip {@code ServiceLoader}.

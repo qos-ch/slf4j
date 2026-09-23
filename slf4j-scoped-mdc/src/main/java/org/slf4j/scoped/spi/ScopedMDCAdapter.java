@@ -33,11 +33,11 @@ import java.util.Map;
  * {@code META-INF/services/org.slf4j.scoped.spi.ScopedMDCAdapter}.
  * The class must be public and must have a public no-argument constructor.
  *
- * <p>The built-in {@link org.slf4j.scoped.DefaultScopedMDCAdapter} is ignored
- * when any other provider is present. If several other providers are present,
- * the first one returned by {@code ServiceLoader} is used and a warning is
- * reported. Set the {@code slf4j.scopedMDCAdapter} system property to the
- * fully qualified class name of a provider to bypass {@code ServiceLoader}.
+ * <p>The built-in {@link org.slf4j.scoped.DefaultScopedMDCAdapter} is not
+ * registered as a service. It is used when {@code ServiceLoader} finds no
+ * provider. If several providers are present, the first one is used and a
+ * warning is reported. Set the {@code slf4j.scopedMDCAdapter} system property
+ * to the fully qualified class name of a provider to bypass {@code ServiceLoader}.
  *
  * <p>{@link #put(String, String)} and {@link #putAll(Map)} return a
  * {@link Binding}. Further keys are added with {@link Binding#put(String, String)}

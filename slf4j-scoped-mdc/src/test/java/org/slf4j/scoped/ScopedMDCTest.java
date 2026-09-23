@@ -43,11 +43,10 @@ import static org.junit.Assert.assertTrue;
 public class ScopedMDCTest {
 
     @Test
-    public void serviceLoaderFindsOnlyTheBuiltInAdapter() {
+    public void noServiceLoaderProviderUsesTheBuiltInAdapter() {
         List<ScopedMDCAdapter> found = new ArrayList<>();
         ServiceLoader.load(ScopedMDCAdapter.class).forEach(found::add);
-        assertEquals(1, found.size());
-        assertTrue(found.get(0) instanceof DefaultScopedMDCAdapter);
+        assertTrue(found.isEmpty());
         assertTrue(ScopedMDC.getAdapter() instanceof DefaultScopedMDCAdapter);
     }
 

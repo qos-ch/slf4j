@@ -35,31 +35,10 @@ import static org.junit.Assert.assertTrue;
 public class ScopedMDCAdapterLoaderTest {
 
     @Test
-    public void builtInAdapterIsUsedWhenItIsTheOnlyProvider() {
-        ScopedMDCAdapter builtIn = new DefaultScopedMDCAdapter();
-        assertSame(builtIn, ScopedMDCAdapterLoader.select(List.of(builtIn)));
-    }
-
-    @Test
-    public void nonDefaultProviderIsPreferredOverTheBuiltInAdapter() {
-        ScopedMDCAdapter custom = new RecordingScopedMDCAdapter();
-        ScopedMDCAdapter selected = ScopedMDCAdapterLoader.select(List.of(new DefaultScopedMDCAdapter(), custom));
-        assertSame(custom, selected);
-    }
-
-    @Test
-    public void builtInAdapterIsIgnoredWhereverItAppears() {
-        ScopedMDCAdapter custom = new RecordingScopedMDCAdapter();
-        ScopedMDCAdapter selected = ScopedMDCAdapterLoader.select(List.of(custom, new DefaultScopedMDCAdapter()));
-        assertSame(custom, selected);
-    }
-
-    @Test
-    public void firstNonDefaultProviderWins() {
+    public void firstProviderWins() {
         ScopedMDCAdapter first = new RecordingScopedMDCAdapter();
         ScopedMDCAdapter second = new RecordingScopedMDCAdapter();
-        ScopedMDCAdapter selected = ScopedMDCAdapterLoader.select(List.of(new DefaultScopedMDCAdapter(), first, second));
-        assertSame(first, selected);
+        assertSame(first, ScopedMDCAdapterLoader.select(List.of(first, second)));
     }
 
     @Test

@@ -36,9 +36,8 @@ import org.slf4j.scoped.spi.ScopedMDCAdapter;
  * forked from {@link java.util.concurrent.StructuredTaskScope} and are not
  * inherited by threads started with the {@link Thread} API.
  *
- * <p>This class is registered as a {@link java.util.ServiceLoader} provider.
- * It is a fallback: when another provider is on the class path,
- * {@link org.slf4j.scoped.ScopedMDC} uses that provider instead.
+ * <p>This class is not a {@link java.util.ServiceLoader} provider. It is used
+ * when no provider is found.
  *
  * @since 3.0.0
  */

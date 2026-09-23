@@ -79,7 +79,8 @@ final class ScopedMDCAdapterLoader {
         if (explicit != null && !explicit.isBlank()) {
             return instantiate(explicit.trim(), classLoader);
         }
-        return select(loadFromServiceLoader(classLoader));
+        List<ScopedMDCAdapter> found = loadFromServiceLoader(classLoader);
+        return select(found);
     }
 
     /**
@@ -89,25 +90,16 @@ final class ScopedMDCAdapterLoader {
      */
     static ScopedMDCAdapter select(List<ScopedMDCAdapter> found) {
         if (found == null || found.isEmpty()) {
-            Reporter.warn("No ScopedMDCAdapter providers were found. Using " + DefaultScopedMDCAdapter.class.getName() + ".");
             return new DefaultScopedMDCAdapter();
         }
-
-        List<ScopedMDCAdapter> preferred = new ArrayList<>();
-        for (ScopedMDCAdapter adapter : found) {
-            if (!(adapter instanceof DefaultScopedMDCAdapter)) {
-                preferred.add(adapter);
-            }
-        }
-        List<ScopedMDCAdapter> candidates = preferred.isEmpty() ? found : preferred;
-        if (candidates.size() > 1) {
+        if (found.size() > 1) {
             Reporter.warn("Class path contains multiple ScopedMDCAdapter providers.");
-            for (ScopedMDCAdapter adapter : candidates) {
+            for (ScopedMDCAdapter adapter : found) {
                 Reporter.warn("Found provider [" + adapter.getClass().getName() + "]");
             }
-            Reporter.warn("Actual provider is of type [" + candidates.get(0).getClass().getName() + "]");
+            Reporter.warn("Actual provider is of type [" + found.get(0).getClass().getName() + "]");
         }
-        return candidates.get(0);
+        return found.get(0);
     }
 
     private static List<ScopedMDCAdapter> loadFromServiceLoader(ClassLoader classLoader) {

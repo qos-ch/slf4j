@@ -105,14 +105,9 @@
             <Bundle-SymbolicName>org.slf4j.scoped.mdc</Bundle-SymbolicName>
             <!-- bnd 6.3.1 does not recognize Java 25 class files and would emit osgi.ee=UNKNOWN. -->
             <_noee>true</_noee>
-            <Provide-Capability><![CDATA[
-              osgi.service;objectClass:List<String>="org.slf4j.scoped.spi.ScopedMDCAdapter";effective:=active,
-              osgi.serviceloader;osgi.serviceloader="org.slf4j.scoped.spi.ScopedMDCAdapter";register:="org.slf4j.scoped.DefaultScopedMDCAdapter"
-            ]]></Provide-Capability>
             <Require-Capability><![CDATA[
-              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))",
-              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.registrar)(version>=1.0.0)(!(version>=2.0.0)))",
-              osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.scoped.spi.ScopedMDCAdapter)";osgi.serviceloader="org.slf4j.scoped.spi.ScopedMDCAdapter",
+              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))";resolution:=optional,
+              osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.scoped.spi.ScopedMDCAdapter)";osgi.serviceloader="org.slf4j.scoped.spi.ScopedMDCAdapter";cardinality:=multiple;resolution:=optional,
               osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=25))"
             ]]></Require-Capability>
           </instructions>
