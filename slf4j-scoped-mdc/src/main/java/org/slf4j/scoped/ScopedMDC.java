@@ -23,24 +23,21 @@
  */
 package org.slf4j.scoped;
 
+import java.lang.ScopedValue.CallableOp;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.scoped.spi.ScopedMDCAdapter;
-import org.slf4j.scoped.spi.ScopedMDCAdapter.Binding;
-
 /**
- * <p>A scoped diagnostic context for virtual threads and structured concurrency.
- * </p>
+ * A scoped diagnostic context for virtual threads and structured concurrency.
  *
- * <p>The built-in provider stores the context in a {@link java.lang.ScopedValue}.
- * Unlike {@link org.slf4j.MDC}, values are inherited by tasks forked from
+ * <p>Values are stored in a {@link ScopedValue}. Unlike {@code org.slf4j.MDC},
+ * they are inherited by tasks forked from
  * {@link java.util.concurrent.StructuredTaskScope} and are not inherited by
  * threads created with the {@link Thread} API. Nested scopes inherit entries
  * from the enclosing scope and may override them. The enclosing scope is
  * restored when the nested scope exits, including when the nested operation
  * throws.
- * </p>
  *
  * <p>Usage example:</p>
  * <pre>
@@ -51,43 +48,13 @@ import org.slf4j.scoped.spi.ScopedMDCAdapter.Binding;
  *          });
  * </pre>
  *
- * <p>The storage behind this class is a {@link ScopedMDCAdapter} loaded with
- * {@link java.util.ServiceLoader}. A logging backend can supply its own
- * provider by listing the implementation in
- * {@code META-INF/services/org.slf4j.scoped.spi.ScopedMDCAdapter}.
- * There is no dependency on a logging implementation. The built-in
- * {@link DefaultScopedMDCAdapter} is used when no provider is found.
- *
- * <p>Set the {@value #ADAPTER_PROPERTY_KEY} system property to a provider
- * class name to select that provider and skip {@code ServiceLoader}.
- * The class must be public and must have a public no-argument constructor.
- *
- * <p>Backends that need to read the context, for example a pattern converter,
- * must call {@link #get(String)} or {@link #getPropertyMap()}. The built-in
- * scoped slot is not part of the API.
- *
  * @since 3.0.0
  */
 public final class ScopedMDC {
 
-    /**
-     * System property for naming the {@link ScopedMDCAdapter} class to use.
-     * When set, service loading is skipped.
-     *
-     * @since 3.0.0
-     */
-    public static final String ADAPTER_PROPERTY_KEY = ScopedMDCAdapterLoader.ADAPTER_PROPERTY_KEY;
+    private static final ScopedValue<Map<String, String>> SCOPED_MDC = ScopedValue.newInstance();
 
     private ScopedMDC() {
-    }
-
-    /**
-     * Returns the adapter currently in use, loading it on the first call.
-     *
-     * @return the adapter, never {@code null}
-     */
-    public static ScopedMDCAdapter getAdapter() {
-        return ScopedMDCAdapterLoader.getAdapter();
     }
 
     /**
@@ -102,18 +69,13 @@ public final class ScopedMDC {
     }
 
     /**
-     * Returns the current scoped map. The result is empty when no scope is
-     * bound, and is never {@code null}. The built-in provider returns an
-     * unmodifiable map.
+     * Returns an unmodifiable view of the current scope. The result is empty
+     * when no scope is bound, and is never {@code null}.
      *
      * @return the current scoped map, never {@code null}
      */
     public static Map<String, String> getPropertyMap() {
-        Map<String, String> map = getAdapter().getPropertyMap();
-        if (map == null) {
-            return Collections.emptyMap();
-        }
-        return map;
+        return SCOPED_MDC.orElse(Collections.emptyMap());
     }
 
     /**
@@ -126,7 +88,9 @@ public final class ScopedMDC {
      * @return a binding that runs code in the new scope
      */
     public static Binding put(String key, String value) {
-        return getAdapter().put(key, value);
+        Map<String, String> merged = new HashMap<>(getPropertyMap());
+        merged.put(key, value);
+        return new Binding(merged);
     }
 
     /**
@@ -138,6 +102,59 @@ public final class ScopedMDC {
      * @return a binding that runs code in the new scope
      */
     public static Binding putAll(Map<String, String> entries) {
-        return getAdapter().putAll(entries);
+        Map<String, String> merged = new HashMap<>(getPropertyMap());
+        merged.putAll(entries);
+        return new Binding(merged);
+    }
+
+    /**
+     * A scope that can be entered with {@link #run(Runnable)} or
+     * {@link #call(CallableOp)}. Further entries can be added with
+     * {@link #put(String, String)} before the scope is entered. A binding
+     * does not modify the scope that created it.
+     */
+    public static final class Binding {
+
+        private final Map<String, String> map;
+
+        Binding(Map<String, String> map) {
+            this.map = Collections.unmodifiableMap(new HashMap<>(map));
+        }
+
+        /**
+         * Returns a new binding with {@code key} and {@code value} added.
+         * This binding is unchanged.
+         *
+         * @param key the key
+         * @param value the value
+         * @return a new binding
+         */
+        public Binding put(String key, String value) {
+            Map<String, String> merged = new HashMap<>(map);
+            merged.put(key, value);
+            return new Binding(merged);
+        }
+
+        /**
+         * Runs {@code op} in this scope.
+         *
+         * @param op the operation to run
+         */
+        public void run(Runnable op) {
+            ScopedValue.where(SCOPED_MDC, map).run(op);
+        }
+
+        /**
+         * Calls {@code op} in this scope and returns its result.
+         *
+         * @param op the operation to call
+         * @param <R> the result type
+         * @param <X> the exception type
+         * @return the result of {@code op}
+         * @throws X if {@code op} throws
+         */
+        public <R, X extends Throwable> R call(CallableOp<R, X> op) throws X {
+            return ScopedValue.where(SCOPED_MDC, map).call(op);
+        }
     }
 }

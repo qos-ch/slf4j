@@ -38,7 +38,7 @@
   <artifactId>slf4j-scoped-mdc</artifactId>
   <packaging>jar</packaging>
   <name>SLF4J Scoped MDC</name>
-  <description>ScopedValue-based MDC for virtual threads, pluggable via ServiceLoader</description>
+  <description>ScopedValue-based MDC for virtual threads</description>
   <url>http://www.slf4j.org</url>
 
   <properties>
@@ -50,13 +50,6 @@
     <module-name>org.slf4j.scoped.mdc</module-name>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>
@@ -104,11 +97,7 @@
             <Bundle-SymbolicName>org.slf4j.scoped.mdc</Bundle-SymbolicName>
             <!-- bnd 6.3.1 does not recognize Java 25 class files and would emit osgi.ee=UNKNOWN. -->
             <_noee>true</_noee>
-            <Require-Capability><![CDATA[
-              osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))";resolution:=optional,
-              osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.scoped.spi.ScopedMDCAdapter)";osgi.serviceloader="org.slf4j.scoped.spi.ScopedMDCAdapter";cardinality:=multiple;resolution:=optional,
-              osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=25))"
-            ]]></Require-Capability>
+            <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=25))"</Require-Capability>
           </instructions>
         </configuration>
       </plugin>

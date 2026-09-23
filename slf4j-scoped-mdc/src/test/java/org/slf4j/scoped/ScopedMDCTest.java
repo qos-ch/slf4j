@@ -24,31 +24,18 @@
 package org.slf4j.scoped;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.Test;
-import org.slf4j.scoped.spi.ScopedMDCAdapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 public class ScopedMDCTest {
-
-    @Test
-    public void noServiceLoaderProviderUsesTheBuiltInAdapter() {
-        List<ScopedMDCAdapter> found = new ArrayList<>();
-        ServiceLoader.load(ScopedMDCAdapter.class).forEach(found::add);
-        assertTrue(found.isEmpty());
-        assertTrue(ScopedMDC.getAdapter() instanceof DefaultScopedMDCAdapter);
-    }
 
     @Test
     public void unboundReturnsNullAndEmptyMap() {
@@ -201,7 +188,7 @@ public class ScopedMDCTest {
 
     @Test
     public void bindingCanBeEnteredMoreThanOnce() {
-        ScopedMDCAdapter.Binding binding = ScopedMDC.put("key", "value");
+        ScopedMDC.Binding binding = ScopedMDC.put("key", "value");
         binding.run(() -> assertEquals("value", ScopedMDC.get("key")));
         assertNull(ScopedMDC.get("key"));
         binding.run(() -> assertEquals("value", ScopedMDC.get("key")));
@@ -255,10 +242,5 @@ public class ScopedMDCTest {
         } finally {
             ((AutoCloseable) scope).close();
         }
-    }
-
-    @Test
-    public void getAdapterReturnsTheSameInstance() {
-        assertSame(ScopedMDC.getAdapter(), ScopedMDC.getAdapter());
     }
 }
