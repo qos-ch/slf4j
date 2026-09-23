@@ -44,9 +44,6 @@
   <properties>
     <!-- java.lang.ScopedValue is final as of Java 25. -->
     <jdk.version>25</jdk.version>
-    <maven.compiler.source>25</maven.compiler.source>
-    <maven.compiler.target>25</maven.compiler.target>
-    <maven.compiler.release>25</maven.compiler.release>
     <module-name>org.slf4j.scoped.mdc</module-name>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
   </properties>
@@ -60,20 +57,16 @@
           <execution>
             <id>default-compile</id>
             <configuration>
-              <release>25</release>
+              <release>${jdk.version}</release>
             </configuration>
           </execution>
           <execution>
             <id>default-testCompile</id>
             <configuration>
-              <release>25</release>
+              <release>${jdk.version}</release>
             </configuration>
           </execution>
         </executions>
-        <configuration>
-          <source>25</source>
-          <target>25</target>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -83,8 +76,6 @@
         <configuration>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
-          <!-- StructuredTaskScope is preview. The inheritance test loads it by reflection. -->
-          <argLine>--enable-preview</argLine>
         </configuration>
       </plugin>
 
