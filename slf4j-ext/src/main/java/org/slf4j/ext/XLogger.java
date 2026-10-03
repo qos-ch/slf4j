@@ -126,7 +126,7 @@ public class XLogger extends LoggerWrapper implements Logger {
      * Log method exit
      */
     public void exit() {
-        if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
+        if (instanceofLAL && logger.isTraceEnabled(EXIT_MARKER)) {
             ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN, LocationAwareLogger.TRACE_INT, EXIT_MESSAGE_0, null, null);
         }
     }
@@ -137,7 +137,7 @@ public class XLogger extends LoggerWrapper implements Logger {
      * @param result The result of the method being exited
      */
     public <T> T exit(T result) {
-        if (instanceofLAL && logger.isTraceEnabled(ENTRY_MARKER)) {
+        if (instanceofLAL && logger.isTraceEnabled(EXIT_MARKER)) {
             FormattingTuple tp = MessageFormatter.format(EXIT_MESSAGE_1, result);
             ((LocationAwareLogger) logger).log(EXIT_MARKER, FQCN, LocationAwareLogger.TRACE_INT, tp.getMessage(), new Object[] { result }, tp.getThrowable());
         }
@@ -150,7 +150,7 @@ public class XLogger extends LoggerWrapper implements Logger {
      * @param throwable the exception being caught.
      */
     public <T extends Throwable> T throwing(T throwable) {
-        if (instanceofLAL) {
+        if (instanceofLAL && logger.isTraceEnabled(THROWING_MARKER)) {
             ((LocationAwareLogger) logger).log(THROWING_MARKER, FQCN, LocationAwareLogger.ERROR_INT, "throwing", null, throwable);
         }
         return throwable;
@@ -163,7 +163,7 @@ public class XLogger extends LoggerWrapper implements Logger {
      * @param throwable the exception being caught.
      */
     public <T extends Throwable> T throwing(Level level, T throwable) {
-        if (instanceofLAL) {
+        if (instanceofLAL && logger.isTraceEnabled(THROWING_MARKER)) {
             ((LocationAwareLogger) logger).log(THROWING_MARKER, FQCN, level.level, "throwing", null, throwable);
         }
         return throwable;
@@ -175,7 +175,7 @@ public class XLogger extends LoggerWrapper implements Logger {
      * @param throwable the exception being caught.
      */
     public void catching(Throwable throwable) {
-        if (instanceofLAL) {
+        if (instanceofLAL && logger.isTraceEnabled(CATCHING_MARKER)) {
             ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN, LocationAwareLogger.ERROR_INT, "catching", null, throwable);
         }
     }
@@ -187,7 +187,7 @@ public class XLogger extends LoggerWrapper implements Logger {
      * @param throwable the exception being caught.
      */
     public void catching(Level level, Throwable throwable) {
-        if (instanceofLAL) {
+        if (instanceofLAL && logger.isTraceEnabled(CATCHING_MARKER)) {
             ((LocationAwareLogger) logger).log(CATCHING_MARKER, FQCN, level.level, "catching", null, throwable);
         }
     }
