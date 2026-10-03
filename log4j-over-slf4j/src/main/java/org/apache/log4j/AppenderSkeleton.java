@@ -19,6 +19,8 @@ import org.apache.log4j.spi.OptionHandler;
 
 public class AppenderSkeleton implements OptionHandler {
 
+    protected String name; 
+    
     public void setLayout(Layout layout) {
     }
 
