@@ -69,15 +69,15 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  * }
  * </pre>
  *
- * <p>Note that version 2.0 of the SLF4J API introduces a <a href="../../../manual.html#fluent">fluent api</a>,
- * the most significant API change to occur in the last 20 years.
+ * <p>Note that version 2.0 of the SLF4J API introduces a <a href="https://www.slf4j.org/manual.html#fluent">fluent api</a>,
+ * the most significant API change to occur in a long time.
  *
- * <p>Be sure to read the FAQ entry relating to <a href="../../../faq.html#logging_performance">parameterized
- * logging</a>. Note that logging statements can be parameterized in
- * <a href="../../../faq.html#paramException">presence of an exception/throwable</a>.
+ * <p>Be sure to read the FAQ entry relating to <a href="https://www.slf4j.org/faq.html#logging_performance">parameterized
+ * logging</a>. Note that if the last argument in a parameterized log statement is a throwable,
+ * it will be <a href="https://www.slf4j.org/faq.html#paramException">interpreted as such</a>.
  *
  * <p>Once you are comfortable using loggers, i.e. instances of this interface, consider using
- * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.
+ * {@link MDC} as well as {@link Marker}.
  *
  * @author Ceki G&uuml;lc&uuml;
  */

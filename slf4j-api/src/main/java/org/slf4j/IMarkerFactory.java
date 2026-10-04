@@ -28,7 +28,7 @@ package org.slf4j;
  * Implementations of this interface are used to manufacture {@link Marker}
  * instances.
  * 
- * <p>See the section <a href="http://slf4j.org/faq.html#3">Implementing 
+ * <p>See the section <a href="https://www.slf4j.org/faq.html#slf4j_compatible">Implementing
  * the SLF4J API</a> in the FAQ for details on how to make your logging 
  * system conform to SLF4J.
  * 
