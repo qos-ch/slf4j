@@ -115,6 +115,45 @@ public class MDCAdapterTestBase {
         assertEquals("parentValue", mdc.get("sharedKey"));
     }
 
+    @Test
+    public void testPeekingMissingKey() {
+        assertNull(mdc.peekByKey(null));
+        assertNull(mdc.peekByKey("missing"));
+        mdc.pushByKey("other", "value");
+        assertNull(mdc.peekByKey("missing"));
+    }
+
+    @Test
+    public void testPeekingDoesNotRemoveValues() {
+        mdc.pushByKey("stack", "first");
+        mdc.pushByKey("stack", "second");
+        assertEquals("second", mdc.peekByKey("stack"));
+        assertEquals("second", mdc.peekByKey("stack"));
+        assertEquals(2, mdc.getCopyOfDequeByKey("stack").size());
+        assertEquals("second", mdc.popByKey("stack"));
+        assertEquals("first", mdc.peekByKey("stack"));
+        assertEquals("first", mdc.popByKey("stack"));
+        assertNull(mdc.peekByKey("stack"));
+    }
+
+    @Test
+    public void testPeekingClearedStack() {
+        mdc.pushByKey("stack", "value");
+        mdc.clearDequeByKey("stack");
+        assertNull(mdc.peekByKey("stack"));
+    }
+
+    @Test
+    public void testPeekingIsThreadLocal() {
+        mdc.pushByKey("stack", "parent");
+        runAndWait(() -> {
+            assertNull(mdc.peekByKey("stack"));
+            mdc.pushByKey("stack", "child");
+            assertEquals("child", mdc.peekByKey("stack"));
+        });
+        assertEquals("parent", mdc.peekByKey("stack"));
+    }
+
     private void runAndWait(Runnable runnable) {
         RecordingExceptionHandler handler = new RecordingExceptionHandler();
         Thread thread = new Thread(runnable);

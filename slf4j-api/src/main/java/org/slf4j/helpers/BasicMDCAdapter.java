@@ -159,6 +159,11 @@ public class BasicMDCAdapter implements MDCAdapter {
      }
 
     @Override
+    public String peekByKey(String key) {
+        return threadLocalMapOfDeques.peekByKey(key);
+    }
+
+    @Override
     public Deque<String> getCopyOfDequeByKey(String key) {
         return threadLocalMapOfDeques.getCopyOfDequeByKey(key);
     }
