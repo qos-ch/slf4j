@@ -155,18 +155,25 @@ class SLF4JPlatformLogger implements System.Logger {
             leb = leb.setCause(thrown);
         }
         if(params != null && params.length > 0) {
-            // add the arguments to the logging event for possible processing by the backend
-            for(Object p : params) {
-                leb = leb.addArgument(p);
-            }
             // The JDK uses a different formatting convention. We must invoke it now.
-            message = MessageFormat.format(message, params);
+            // The parameters are consumed here. They are not added as SLF4J arguments,
+            // otherwise the backend would substitute any "{}" found in the formatted text.
+            message = formatMessage(message, params);
         }
         if(leb instanceof CallerBoundaryAware) {
             CallerBoundaryAware cba = (CallerBoundaryAware) leb;
             cba.setCallerBoundary(PRESUMED_CALLER_BOUNDARY);
         }
         leb.log(message);
+    }
+
+    private static String formatMessage(String message, Object[] params) {
+        try {
+            return MessageFormat.format(message, params);
+        } catch (IllegalArgumentException e) {
+            // default to the same behavior as in java.util.logging.Formatter.formatMessage(LogRecord)
+            return message;
+        }
     }
 
     private void reportUnknownLevel(Level jplLevel) {

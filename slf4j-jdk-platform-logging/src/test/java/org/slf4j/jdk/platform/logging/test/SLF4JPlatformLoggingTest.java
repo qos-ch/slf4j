@@ -118,6 +118,34 @@ public class SLF4JPlatformLoggingTest {
     }
 
     @Test
+    public void paramsContainingSLF4JAnchors() throws IOException {
+        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
+        Logger systemLogger = finder.getLogger("anchors", null);
+        // "{}" in a parameter must not be substituted a second time by the backend
+        systemLogger.log(Level.INFO, "user={0}", "{} {}", "unreferenced");
+        systemLogger.log(Level.INFO, "a={0} b={1}", "X", "{}");
+
+        List<String> results = SPS.stringList;
+        assertEquals(2, results.size());
+        assertEquals("INFO anchors - user={} {}", results.get(0));
+        assertEquals("INFO anchors - a=X b={}", results.get(1));
+    }
+
+    @Test
+    public void malformedPattern() throws IOException {
+        LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
+        assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
+        Logger systemLogger = finder.getLogger("malformedPattern", null);
+        // java.util.logging falls back to the unformatted message, so should we
+        systemLogger.log(Level.INFO, "unmatched {", "x");
+
+        List<String> results = SPS.stringList;
+        assertEquals(1, results.size());
+        assertEquals("INFO malformedPattern - unmatched {", results.get(0));
+    }
+
+    @Test
     public void extremeLevels() throws IOException {
         LoggerFinder finder = System.LoggerFinder.getLoggerFinder();
         assertEquals(EXPECTED_FINDER_CLASS, finder.getClass().getName());
