@@ -213,6 +213,13 @@ public interface Logger {
      * even if this logger is disabled for TRACE. The variants taking {@link #trace(String, Object) one} and
      * {@link #trace(String, Object, Object) two} arguments exist solely in order to avoid this hidden cost.
      *
+     * <p>If the last element of {@code arguments} is a {@link Throwable}, it is
+     * logged as the exception associated with the event and removed from the
+     * argument list, regardless of how many placeholders {@code format} contains.
+     * A placeholder that was meant to consume the throwable is therefore written
+     * out literally. To log a throwable as a message argument, pass it before the
+     * last argument, or pass its {@link Throwable#toString() string form}.
+     *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      * @since 1.4
@@ -366,6 +373,13 @@ public interface Logger {
      * {@link #debug(String, Object) one} and {@link #debug(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.
      *
+     * <p>If the last element of {@code arguments} is a {@link Throwable}, it is
+     * logged as the exception associated with the event and removed from the
+     * argument list, regardless of how many placeholders {@code format} contains.
+     * A placeholder that was meant to consume the throwable is therefore written
+     * out literally. To log a throwable as a message argument, pass it before the
+     * last argument, or pass its {@link Throwable#toString() string form}.
+     *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
@@ -510,6 +524,13 @@ public interface Logger {
      * {@link #info(String, Object) one} and {@link #info(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.
      *
+     * <p>If the last element of {@code arguments} is a {@link Throwable}, it is
+     * logged as the exception associated with the event and removed from the
+     * argument list, regardless of how many placeholders {@code format} contains.
+     * A placeholder that was meant to consume the throwable is therefore written
+     * out literally. To log a throwable as a message argument, pass it before the
+     * last argument, or pass its {@link Throwable#toString() string form}.
+     *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
      */
@@ -640,6 +661,13 @@ public interface Logger {
      * even if this logger is disabled for WARN. The variants taking
      * {@link #warn(String, Object) one} and {@link #warn(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.
+     *
+     * <p>If the last element of {@code arguments} is a {@link Throwable}, it is
+     * logged as the exception associated with the event and removed from the
+     * argument list, regardless of how many placeholders {@code format} contains.
+     * A placeholder that was meant to consume the throwable is therefore written
+     * out literally. To log a throwable as a message argument, pass it before the
+     * last argument, or pass its {@link Throwable#toString() string form}.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
@@ -797,6 +825,13 @@ public interface Logger {
      * even if this logger is disabled for ERROR. The variants taking
      * {@link #error(String, Object) one} and {@link #error(String, Object, Object) two}
      * arguments exist solely in order to avoid this hidden cost.
+     *
+     * <p>If the last element of {@code arguments} is a {@link Throwable}, it is
+     * logged as the exception associated with the event and removed from the
+     * argument list, regardless of how many placeholders {@code format} contains.
+     * A placeholder that was meant to consume the throwable is therefore written
+     * out literally. To log a throwable as a message argument, pass it before the
+     * last argument, or pass its {@link Throwable#toString() string form}.
      *
      * @param format    the format string
      * @param arguments a list of 3 or more arguments
