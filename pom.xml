@@ -46,7 +46,7 @@
     </license>
   </licenses>
 
-  <scm>
+  <scm child.scm.connection.inherit.append.path="false" child.scm.url.inherit.append.path="false">
     <url>https://github.com/qos-ch/slf4j</url>
     <connection>scm:git:https://github.com/qos-ch/slf4j.git</connection>
   </scm>  
