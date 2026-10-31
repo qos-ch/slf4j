@@ -67,7 +67,7 @@ public class SimpleLoggerAcceptanceTest {
         // Example log line:
         // [main] INFO TestSuiteLogger - An exception occurred: 99
         return message
-                .split("\n")[0]
+                .split("\r?\n")[0]
                 .split("- ")[1];
     }
 
@@ -83,7 +83,7 @@ public class SimpleLoggerAcceptanceTest {
         // java.lang.IllegalArgumentException: Invalid argument
         //  at org.slf4j.simple.SimpleLoggerAcceptanceTest.testExceptionParameterFormatting(SimpleLoggerAcceptanceTest.java:274)
 
-        String[] logLines = message.split("\n");
+        String[] logLines = message.split("\r?\n");
 
         if(logLines.length < 2) {
             return null;
@@ -161,8 +161,7 @@ public class SimpleLoggerAcceptanceTest {
         assertEquals("Debug message should've been captured", 1, outputList.size());
         assertTrue("Message should be logged in debug level", isDebugMessage(outputList.get(0)));
         assertEquals("Supplied debug message wasn't found in the log",
-                     "Simple debug message",
-                     extractMessage(outputList.get(0)));
+                     "Simple debug message",  extractMessage(outputList.get(0)));
 
         outputList.clear();
 

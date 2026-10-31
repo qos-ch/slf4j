@@ -1,26 +1,25 @@
-/**
- * Copyright (c) 2004-2022 QOS.ch
+/*
+ * Copyright (C) 2004-2026, QOS.ch (Switzerland)
  * All rights reserved.
  *
- * Permission is hereby granted, free  of charge, to any person obtaining
- * a  copy  of this  software  and  associated  documentation files  (the
- * "Software"), to  deal in  the Software without  restriction, including
- * without limitation  the rights to  use, copy, modify,  merge, publish,
- * distribute,  sublicense, and/or sell  copies of  the Software,  and to
- * permit persons to whom the Software  is furnished to do so, subject to
- * the following conditions:
+ *  Permission is hereby granted, free  of charge, to any person obtaining
+ *  a  copy  of this  software  and  associated  documentation files  (the
+ *  "Software"), to  deal in  the Software without  restriction, including
+ *  without limitation  the rights to  use, copy, modify,  merge, publish,
+ *  distribute,  sublicense, and/or sell  copies of  the Software,  and to
+ *  permit persons to whom the Software  is furnished to do so, subject to
+ *  the following conditions:
  *
- * The  above  copyright  notice  and  this permission  notice  shall  be
- * included in all copies or substantial portions of the Software.
+ *  The  above  copyright  notice  and  this permission  notice  shall  be
+ *  included in all copies or substantial portions of the Software.
  *
- * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
- * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
- * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ *  THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ *  EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ *  MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+ *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ *  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ *  OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+ *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 package org.slf4j;
@@ -69,15 +68,15 @@ import org.slf4j.spi.NOPLoggingEventBuilder;
  * }
  * </pre>
  *
- * <p>Note that version 2.0 of the SLF4J API introduces a <a href="../../../manual.html#fluent">fluent api</a>,
- * the most significant API change to occur in the last 20 years.
+ * <p>Note that version 2.0 of the SLF4J API introduces a <a href="https://www.slf4j.org/manual.html#fluent">fluent api</a>,
+ * the most significant API change to occur in a long time.
  *
- * <p>Be sure to read the FAQ entry relating to <a href="../../../faq.html#logging_performance">parameterized
- * logging</a>. Note that logging statements can be parameterized in
- * <a href="../../../faq.html#paramException">presence of an exception/throwable</a>.
+ * <p>Be sure to read the FAQ entry relating to <a href="https://www.slf4j.org/faq.html#logging_performance">parameterized
+ * logging</a>. Note that if the last argument in a parameterized log statement is a throwable,
+ * it will be <a href="https://www.slf4j.org/faq.html#paramException">interpreted as such</a>.
  *
  * <p>Once you are comfortable using loggers, i.e. instances of this interface, consider using
- * <a href="MDC.html">MDC</a> as well as <a href="Marker.html">Markers</a>.
+ * {@link MDC} as well as {@link Marker}.
  *
  * @author Ceki G&uuml;lc&uuml;
  */

@@ -1,26 +1,25 @@
-/**
- * Copyright (c) 2004-2011 QOS.ch
+/*
+ * Copyright (C) 2004-2026, QOS.ch (Switzerland)
  * All rights reserved.
  *
- * Permission is hereby granted, free  of charge, to any person obtaining
- * a  copy  of this  software  and  associated  documentation files  (the
- * "Software"), to  deal in  the Software without  restriction, including
- * without limitation  the rights to  use, copy, modify,  merge, publish,
- * distribute,  sublicense, and/or sell  copies of  the Software,  and to
- * permit persons to whom the Software  is furnished to do so, subject to
- * the following conditions:
+ *  Permission is hereby granted, free  of charge, to any person obtaining
+ *  a  copy  of this  software  and  associated  documentation files  (the
+ *  "Software"), to  deal in  the Software without  restriction, including
+ *  without limitation  the rights to  use, copy, modify,  merge, publish,
+ *  distribute,  sublicense, and/or sell  copies of  the Software,  and to
+ *  permit persons to whom the Software  is furnished to do so, subject to
+ *  the following conditions:
  *
- * The  above  copyright  notice  and  this permission  notice  shall  be
- * included in all copies or substantial portions of the Software.
+ *  The  above  copyright  notice  and  this permission  notice  shall  be
+ *  included in all copies or substantial portions of the Software.
  *
- * THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
- * EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
- * MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ *  THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+ *  EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+ *  MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+ *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ *  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ *  OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+ *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package org.slf4j.dummyExt;
 
@@ -131,7 +130,7 @@ public class XLoggerTest {
     @Test
     public void testLocationExtraction_Bug114() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
-        int line = 135; // requires update if line numbers change
+        int line = 134; // requires update if line numbers change
         logger.exit();
         logger.debug("hello");
 
@@ -151,16 +150,29 @@ public class XLoggerTest {
             assertEquals("" + (line + 1), li.getLineNumber());
         }
     }
-    
+
     @Test
     public void testNoDoubleSubstitution_Bug421() {
         XLogger logger = XLoggerFactory.getXLogger("UnitTest");
         logger.error("{},{}", "foo", "[{}]");
         verify(listAppender.list.get(0), "foo,[{}]");
-        
+
         logger.error("{},{}", "[{}]", "foo");
         verify(listAppender.list.get(1), "[{}],foo");
     }
-    
-    
+
+    @Test
+    public void callerExtraction_issue464() {
+        XLogger logger = XLoggerFactory.getXLogger("com.foo.callerExtraction_issue464");
+        logger.atInfo().log("hello");
+        assertEquals(1, listAppender.list.size());
+
+
+        LoggingEvent e = listAppender.list.get(0);
+        LocationInfo li = e.getLocationInformation();
+        assertEquals(this.getClass().getName(), li.getClassName());
+        assertEquals("callerExtraction_issue464", li.getMethodName());
+
+    }
+
 }
