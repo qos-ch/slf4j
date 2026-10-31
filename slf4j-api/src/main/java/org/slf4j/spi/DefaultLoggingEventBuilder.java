@@ -33,6 +33,7 @@ import org.slf4j.event.KeyValuePair;
 import org.slf4j.event.Level;
 import org.slf4j.event.LoggingEvent;
 import org.slf4j.helpers.CallerData;
+import org.slf4j.helpers.NormalizedParameters;
 import org.slf4j.helpers.Reporter;
 
 /**
@@ -48,6 +49,8 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     // The caller boundary when the log() methods are invoked, is this class itself.
 
     static String DLEB_FQCN = DefaultLoggingEventBuilder.class.getName();
+
+    private static final String ANCHOR = "{}";
 
     protected DefaultLoggingEvent loggingEvent;
     protected Logger logger;
@@ -178,14 +181,16 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     private void logViaLocationAwareLoggerAPI(LocationAwareLogger locationAwareLogger, LoggingEvent aLoggingEvent) {
         List<Marker> markerList = aLoggingEvent.getMarkers();
         Marker firstMarker = (markerList != null && !markerList.isEmpty()) ? markerList.get(0) : null;
-        String mergedMessage = mergeMarkersAndKeyValuePairsAndMessage(aLoggingEvent);
+        NormalizedParameters merged = mergeMarkersAndKeyValuePairsAndMessage(aLoggingEvent);
         locationAwareLogger.log(firstMarker, aLoggingEvent.getCallerBoundary(), aLoggingEvent.getLevel().toInt(),
-                                mergedMessage,
-                                aLoggingEvent.getArgumentArray(), aLoggingEvent.getThrowable());
+                                merged.getMessage(),
+                                merged.getArguments(), aLoggingEvent.getThrowable());
     }
 
     private void logViaPublicSLF4JLoggerAPI(LoggingEvent aLoggingEvent) {
-        Object[] argArray = aLoggingEvent.getArgumentArray();
+        NormalizedParameters merged = mergeMarkersAndKeyValuePairsAndMessage(aLoggingEvent);
+        String mergedMessage = merged.getMessage();
+        Object[] argArray = merged.getArguments();
         int argLen = argArray == null ? 0 : argArray.length;
 
         Throwable t = aLoggingEvent.getThrowable();
@@ -199,9 +204,6 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
         if(t != null) {
             combinedArguments[argLen] = t;
         }
-
-        String mergedMessage = mergeMarkersAndKeyValuePairsAndMessage(aLoggingEvent);
-
 
         switch(aLoggingEvent.getLevel()) {
             case TRACE:
@@ -226,15 +228,30 @@ public class DefaultLoggingEventBuilder implements LoggingEventBuilder, CallerBo
     /**
      * Prepend markers and key-value pairs to the message.
      *
+     * <p>The merged message is scanned for anchors when the event has arguments.
+     * Prepended text containing an anchor, e.g. a key-value pair with the value
+     * "{}", would consume arguments meant for the message. Such text is passed
+     * as an additional first argument instead, which renders it verbatim and
+     * leaves the event's arguments in place.</p>
+     *
      * @param aLoggingEvent
      *
-     * @return
+     * @return the merged message and the arguments to format it with
      */
-    private String mergeMarkersAndKeyValuePairsAndMessage(LoggingEvent aLoggingEvent) {
+    private NormalizedParameters mergeMarkersAndKeyValuePairsAndMessage(LoggingEvent aLoggingEvent) {
         StringBuilder sb = mergeMarkers(aLoggingEvent.getMarkers(), null);
         sb = mergeKeyValuePairs(aLoggingEvent.getKeyValuePairs(), sb);
+        final Object[] argArray = aLoggingEvent.getArgumentArray();
+
+        if(sb != null && sb.indexOf(ANCHOR) != -1 && argArray != null && argArray.length > 0) {
+            Object[] shiftedArguments = new Object[argArray.length + 1];
+            shiftedArguments[0] = sb.toString();
+            System.arraycopy(argArray, 0, shiftedArguments, 1, argArray.length);
+            return new NormalizedParameters(mergeMessage(aLoggingEvent.getMessage(), new StringBuilder(ANCHOR)), shiftedArguments);
+        }
+
         final String mergedMessage = mergeMessage(aLoggingEvent.getMessage(), sb);
-        return mergedMessage;
+        return new NormalizedParameters(mergedMessage, argArray);
     }
 
     private StringBuilder mergeMarkers(List<Marker> markerList, StringBuilder sb) {

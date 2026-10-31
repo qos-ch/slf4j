@@ -111,6 +111,17 @@ public class SimpleLoggerTest {
     }
 
     @Test
+    public void anchorInKeyValuePairDoesNotConsumeArguments() {
+        SimpleLogger.init();
+        SimpleLogger simpleLogger = new SimpleLogger(this.getClass().getName());
+
+        System.setErr(replacement);
+        simpleLogger.atInfo().addKeyValue("k", "{}").log("a={} b={}", "x", "y");
+        replacement.flush();
+        assertTrue(bout.toString().contains(" - k={} a=x b=y"));
+    }
+
+    @Test
     public void checkUseOfCachedOutputStream() {
         System.setErr(replacement);
         System.setProperty(SimpleLogger.CACHE_OUTPUT_STREAM_STRING_KEY, "true");
