@@ -183,6 +183,24 @@ public class FluentApiInvocationTest {
         assertLogMessage("key=[FAILED toString()] msg with key/value", 0);
     }
 
+    @Test
+    public void anchorInKeyValuePairDoesNotConsumeArguments() {
+        logger.atDebug().addKeyValue("k", "{}").log("a={} b={}", "x", "y");
+        assertLogMessage("k={} a=x b=y", 0);
+
+        logger.atDebug().addKeyValue("k", "\\{}").log("a={}", "x");
+        assertLogMessage("k=\\{} a=x", 1);
+
+        logger.atDebug().addKeyValue("k", "\\\\{}").log("a={}", "x");
+        assertLogMessage("k=\\\\{} a=x", 2);
+    }
+
+    @Test
+    public void anchorInKeyValuePairWithoutArgumentsIsLeftAsIs() {
+        logger.atDebug().addKeyValue("k", "{}").log("Hello world.");
+        assertLogMessage("k={} Hello world.", 0);
+    }
+
     private void assertLogMessage(String expected, int index) {
         LogRecord logRecord = listHandler.recordList.get(index);
         Assert.assertNotNull(logRecord);
