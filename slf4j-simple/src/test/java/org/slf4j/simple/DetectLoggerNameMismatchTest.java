@@ -116,7 +116,7 @@ public class DetectLoggerNameMismatchTest {
     }
 
     @Test
-    public void verifyLoggerDefinedInBaseWithOverridenGetClassMethod() {
+    public void verifyLoggerDefinedInBaseWithOverriddenGetClassMethod() {
         setTrialEnabled(true);
         Square square = new Square();
         assertEquals(Square.class.getName(), square.logger.getName());
