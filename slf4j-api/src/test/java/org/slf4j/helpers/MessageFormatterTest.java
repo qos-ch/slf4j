@@ -49,7 +49,7 @@ public class MessageFormatterTest {
     }
 
     @Test
-    public void testParamaterContainingAnAnchor() {
+    public void testParameterContainingAnAnchor() {
         result = MessageFormatter.format("Value is {}.", "[{}]").getMessage();
         assertEquals("Value is [{}].", result);
 
