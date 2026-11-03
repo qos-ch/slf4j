@@ -27,6 +27,8 @@ package org.slf4j.simple;
 import static org.junit.Assert.assertNull;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -138,6 +140,44 @@ public class InvocationTest {
         assertNull(MDC.get("k"));
         MDC.remove("k");
         assertNull(MDC.get("k"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCPutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("key1", "value1");
+        values.put("key2", "value2");
+        MDC.putAll(values);
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
+        MDC.remove("key1");
+        MDC.remove("key2");
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseable() {
+        MDC.MDCCloseable closeable = MDC.putCloseable("k", "v");
+        assertNull(MDC.get("k"));
+        closeable.close();
+        assertNull(MDC.get("k"));
+        MDC.clear();
+    }
+
+    @Test
+    public void testMDCCloseablePutAll() {
+        Map<String, String> values = new HashMap<>();
+        values.put("key1", "value1");
+        values.put("key2", "value2");
+        MDC.MDCCloseable closeable = MDC.putAllCloseable(values);
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
+        closeable.close();
+        assertNull(MDC.get("key1"));
+        assertNull(MDC.get("key2"));
         MDC.clear();
     }
 }
